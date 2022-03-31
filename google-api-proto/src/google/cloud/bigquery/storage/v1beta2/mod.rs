@@ -1,3 +1,58 @@
+/// Arrow schema as specified in
+/// <https://arrow.apache.org/docs/python/api/datatypes.html>
+/// and serialized to bytes using IPC:
+/// <https://arrow.apache.org/docs/format/Columnar.html#serialization-and-interprocess-communication-ipc>
+///
+/// See code samples on how this message can be deserialized.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ArrowSchema {
+    /// IPC serialized Arrow schema.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub serialized_schema: ::prost::bytes::Bytes,
+}
+/// Arrow RecordBatch.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ArrowRecordBatch {
+    /// IPC-serialized Arrow RecordBatch.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub serialized_record_batch: ::prost::bytes::Bytes,
+}
+/// Contains options specific to Arrow Serialization.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ArrowSerializationOptions {
+    /// The Arrow IPC format to use.
+    #[prost(enumeration = "arrow_serialization_options::Format", tag = "1")]
+    pub format: i32,
+}
+/// Nested message and enum types in `ArrowSerializationOptions`.
+pub mod arrow_serialization_options {
+    /// The IPC format to use when serializing Arrow streams.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Format {
+        /// If unspecied the IPC format as of 0.15 release will be used.
+        Unspecified = 0,
+        /// Use the legacy IPC message format as of Apache Arrow Release 0.14.
+        Arrow014 = 1,
+        /// Use the message format as of Apache Arrow Release 0.15.
+        Arrow015 = 2,
+    }
+}
+/// Avro schema.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AvroSchema {
+    /// Json serialized schema, as described at
+    /// <https://avro.apache.org/docs/1.8.1/spec.html.>
+    #[prost(string, tag = "1")]
+    pub schema: ::prost::alloc::string::String,
+}
+/// Avro rows.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AvroRows {
+    /// Binary serialized rows in a block.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub serialized_binary_rows: ::prost::bytes::Bytes,
+}
 /// Schema of a table
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TableSchema {
@@ -72,61 +127,6 @@ pub mod table_field_schema {
         Nullable = 1,
         Required = 2,
         Repeated = 3,
-    }
-}
-/// Avro schema.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AvroSchema {
-    /// Json serialized schema, as described at
-    /// <https://avro.apache.org/docs/1.8.1/spec.html.>
-    #[prost(string, tag = "1")]
-    pub schema: ::prost::alloc::string::String,
-}
-/// Avro rows.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AvroRows {
-    /// Binary serialized rows in a block.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub serialized_binary_rows: ::prost::bytes::Bytes,
-}
-/// Arrow schema as specified in
-/// <https://arrow.apache.org/docs/python/api/datatypes.html>
-/// and serialized to bytes using IPC:
-/// <https://arrow.apache.org/docs/format/Columnar.html#serialization-and-interprocess-communication-ipc>
-///
-/// See code samples on how this message can be deserialized.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ArrowSchema {
-    /// IPC serialized Arrow schema.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub serialized_schema: ::prost::bytes::Bytes,
-}
-/// Arrow RecordBatch.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ArrowRecordBatch {
-    /// IPC-serialized Arrow RecordBatch.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub serialized_record_batch: ::prost::bytes::Bytes,
-}
-/// Contains options specific to Arrow Serialization.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ArrowSerializationOptions {
-    /// The Arrow IPC format to use.
-    #[prost(enumeration = "arrow_serialization_options::Format", tag = "1")]
-    pub format: i32,
-}
-/// Nested message and enum types in `ArrowSerializationOptions`.
-pub mod arrow_serialization_options {
-    /// The IPC format to use when serializing Arrow streams.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Format {
-        /// If unspecied the IPC format as of 0.15 release will be used.
-        Unspecified = 0,
-        /// Use the legacy IPC message format as of Apache Arrow Release 0.14.
-        Arrow014 = 1,
-        /// Use the message format as of Apache Arrow Release 0.15.
-        Arrow015 = 2,
     }
 }
 /// Information about the ReadSession.

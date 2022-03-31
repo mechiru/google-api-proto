@@ -1,3 +1,208 @@
+/// Defines a status condition for a resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Condition {
+    /// type is used to communicate the status of the reconciliation process.
+    /// See also:
+    /// <https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting>
+    /// Types common to all resources include:
+    /// * "Ready": True when the Resource is ready.
+    #[prost(string, tag = "1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// State of the condition.
+    #[prost(enumeration = "condition::State", tag = "2")]
+    pub state: i32,
+    /// Human readable message indicating details about the current status.
+    #[prost(string, tag = "3")]
+    pub message: ::prost::alloc::string::String,
+    /// Last time the condition transitioned from one status to another.
+    #[prost(message, optional, tag = "4")]
+    pub last_transition_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// How to interpret failures of this condition, one of Error, Warning, Info
+    #[prost(enumeration = "condition::Severity", tag = "5")]
+    pub severity: i32,
+    /// The reason for this condition. Depending on the condition type,
+    /// it will populate one of these fields.
+    /// Successful conditions may not have a reason.
+    #[prost(oneof = "condition::Reasons", tags = "6, 7, 8, 9, 11")]
+    pub reasons: ::core::option::Option<condition::Reasons>,
+}
+/// Nested message and enum types in `Condition`.
+pub mod condition {
+    /// Represents the possible Condition states.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// The default value. This value is used if the state is omitted.
+        Unspecified = 0,
+        /// Transient state: Reconciliation has not started yet.
+        ConditionPending = 1,
+        /// Transient state: reconciliation is still in progress.
+        ConditionReconciling = 2,
+        /// Terminal state: Reconciliation did not succeed.
+        ConditionFailed = 3,
+        /// Terminal state: Reconciliation completed successfully.
+        ConditionSucceeded = 4,
+    }
+    /// Represents the severity of the condition failures.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Severity {
+        /// Unspecified severity
+        Unspecified = 0,
+        /// Error severity.
+        Error = 1,
+        /// Warning severity.
+        Warning = 2,
+        /// Info severity.
+        Info = 3,
+    }
+    /// Reasons common to all types of conditions.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum CommonReason {
+        /// Default value.
+        Undefined = 0,
+        /// Reason unknown. Further details will be in message.
+        Unknown = 1,
+        /// The internal route is missing.
+        RouteMissing = 2,
+        /// Revision creation process failed.
+        RevisionFailed = 3,
+        /// Timed out waiting for completion.
+        ProgressDeadlineExceeded = 4,
+        /// There was a build error.
+        BuildStepFailed = 5,
+        /// The container image path is incorrect.
+        ContainerMissing = 6,
+        /// Insufficient permissions on the container image.
+        ContainerPermissionDenied = 7,
+        /// Container image is not authorized by policy.
+        ContainerImageUnauthorized = 8,
+        /// Container image policy authorization check failed.
+        ContainerImageAuthorizationCheckFailed = 9,
+        /// Insufficient permissions on encryption key.
+        EncryptionKeyPermissionDenied = 10,
+        /// Permission check on encryption key failed.
+        EncryptionKeyCheckFailed = 11,
+        /// At least one Access check on secrets failed.
+        SecretsAccessCheckFailed = 12,
+        /// Waiting for operation to complete.
+        WaitingForOperation = 13,
+        /// System will retry immediately.
+        ImmediateRetry = 14,
+        /// System will retry later; current attempt failed.
+        PostponedRetry = 15,
+    }
+    /// Reasons applicable to internal resources not exposed to users. These will
+    /// surface in Service.conditions, and could be useful for further diagnosis.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum InternalReason {
+        /// Default value.
+        Undefined = 0,
+        /// The revision name provided conflicts with an existing one.
+        ConflictingRevisionName = 1,
+        /// Revision is missing; this is usually a transient reason.
+        RevisionMissing = 2,
+        /// Internal configuration is missing; this is usually a transient reason.
+        ConfigurationMissing = 3,
+        /// Assigning traffic; this is a transient reason.
+        AssigningTraffic = 4,
+        /// Updating ingress traffic settings; this is a transient reason.
+        UpdatingIngressTrafficAllowed = 5,
+        /// The revision can't be created because it violates an org policy setting.
+        RevisionOrgPolicyViolation = 6,
+        /// Enabling GCFv2 URI support; this is a transient reason.
+        EnablingGcfv2UriSupport = 7,
+    }
+    /// Reasons specific to DomainMapping resource.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum DomainMappingReason {
+        /// Default value.
+        Undefined = 0,
+        /// Internal route is not yet ready.
+        RouteNotReady = 1,
+        /// Insufficient permissions.
+        PermissionDenied = 2,
+        /// Certificate already exists.
+        CertificateAlreadyExists = 3,
+        /// Mapping already exists.
+        MappingAlreadyExists = 4,
+        /// Certificate issuance pending.
+        CertificatePending = 5,
+        /// Certificate issuance failed.
+        CertificateFailed = 6,
+    }
+    /// Reasons specific to Revision resource.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RevisionReason {
+        /// Default value.
+        Undefined = 0,
+        /// Revision in Pending state.
+        Pending = 1,
+        /// Revision is in Reserve state.
+        Reserve = 2,
+        /// Revision is Retired.
+        Retired = 3,
+        /// Revision is being retired.
+        Retiring = 4,
+        /// Revision is being recreated.
+        Recreating = 5,
+        /// There was a health check error.
+        HealthCheckContainerError = 6,
+        /// Health check failed due to user error from customized path of the
+        /// container. System will retry.
+        CustomizedPathResponsePending = 7,
+        /// A revision with min_instance_count > 0 was created and is reserved, but
+        /// it was not configured to serve traffic, so it's not live. This can also
+        /// happen momentarily during traffic migration.
+        MinInstancesNotProvisioned = 8,
+        /// The maximum allowed number of active revisions has been reached.
+        ActiveRevisionLimitReached = 9,
+        /// There was no deployment defined.
+        /// This value is no longer used, but Services created in older versions of
+        /// the API might contain this value.
+        NoDeployment = 10,
+        /// A revision's container has no port specified since the revision is of a
+        /// manually scaled service with 0 instance count
+        HealthCheckSkipped = 11,
+    }
+    /// Reasons specific to Execution resource.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ExecutionReason {
+        /// Default value.
+        Undefined = 0,
+        /// Internal system error getting execution status. System will retry.
+        JobStatusServicePollingError = 1,
+        /// A task reached its retry limit and the last attempt failed due to the
+        /// user container exiting with a non-zero exit code.
+        NonZeroExitCode = 2,
+    }
+    /// The reason for this condition. Depending on the condition type,
+    /// it will populate one of these fields.
+    /// Successful conditions may not have a reason.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Reasons {
+        /// A common (service-level) reason for this condition.
+        #[prost(enumeration = "CommonReason", tag = "6")]
+        Reason(i32),
+        /// A reason for the internal condition.
+        #[prost(enumeration = "InternalReason", tag = "7")]
+        InternalReason(i32),
+        /// A reason for the domain mapping condition.
+        #[prost(enumeration = "DomainMappingReason", tag = "8")]
+        DomainMappingReason(i32),
+        /// A reason for the revision condition.
+        #[prost(enumeration = "RevisionReason", tag = "9")]
+        RevisionReason(i32),
+        /// A reason for the execution condition.
+        #[prost(enumeration = "ExecutionReason", tag = "11")]
+        ExecutionReason(i32),
+    }
+}
 /// A single application container.
 /// This specifies both the container to run, the command to run in the container
 /// and the arguments to supply to it.
@@ -249,211 +454,6 @@ pub struct CloudSqlInstance {
     /// {project}:{location}:{instance}
     #[prost(string, repeated, tag = "1")]
     pub connections: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Defines a status condition for a resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Condition {
-    /// type is used to communicate the status of the reconciliation process.
-    /// See also:
-    /// <https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting>
-    /// Types common to all resources include:
-    /// * "Ready": True when the Resource is ready.
-    #[prost(string, tag = "1")]
-    pub r#type: ::prost::alloc::string::String,
-    /// State of the condition.
-    #[prost(enumeration = "condition::State", tag = "2")]
-    pub state: i32,
-    /// Human readable message indicating details about the current status.
-    #[prost(string, tag = "3")]
-    pub message: ::prost::alloc::string::String,
-    /// Last time the condition transitioned from one status to another.
-    #[prost(message, optional, tag = "4")]
-    pub last_transition_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// How to interpret failures of this condition, one of Error, Warning, Info
-    #[prost(enumeration = "condition::Severity", tag = "5")]
-    pub severity: i32,
-    /// The reason for this condition. Depending on the condition type,
-    /// it will populate one of these fields.
-    /// Successful conditions may not have a reason.
-    #[prost(oneof = "condition::Reasons", tags = "6, 7, 8, 9, 11")]
-    pub reasons: ::core::option::Option<condition::Reasons>,
-}
-/// Nested message and enum types in `Condition`.
-pub mod condition {
-    /// Represents the possible Condition states.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// The default value. This value is used if the state is omitted.
-        Unspecified = 0,
-        /// Transient state: Reconciliation has not started yet.
-        ConditionPending = 1,
-        /// Transient state: reconciliation is still in progress.
-        ConditionReconciling = 2,
-        /// Terminal state: Reconciliation did not succeed.
-        ConditionFailed = 3,
-        /// Terminal state: Reconciliation completed successfully.
-        ConditionSucceeded = 4,
-    }
-    /// Represents the severity of the condition failures.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Severity {
-        /// Unspecified severity
-        Unspecified = 0,
-        /// Error severity.
-        Error = 1,
-        /// Warning severity.
-        Warning = 2,
-        /// Info severity.
-        Info = 3,
-    }
-    /// Reasons common to all types of conditions.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum CommonReason {
-        /// Default value.
-        Undefined = 0,
-        /// Reason unknown. Further details will be in message.
-        Unknown = 1,
-        /// The internal route is missing.
-        RouteMissing = 2,
-        /// Revision creation process failed.
-        RevisionFailed = 3,
-        /// Timed out waiting for completion.
-        ProgressDeadlineExceeded = 4,
-        /// There was a build error.
-        BuildStepFailed = 5,
-        /// The container image path is incorrect.
-        ContainerMissing = 6,
-        /// Insufficient permissions on the container image.
-        ContainerPermissionDenied = 7,
-        /// Container image is not authorized by policy.
-        ContainerImageUnauthorized = 8,
-        /// Container image policy authorization check failed.
-        ContainerImageAuthorizationCheckFailed = 9,
-        /// Insufficient permissions on encryption key.
-        EncryptionKeyPermissionDenied = 10,
-        /// Permission check on encryption key failed.
-        EncryptionKeyCheckFailed = 11,
-        /// At least one Access check on secrets failed.
-        SecretsAccessCheckFailed = 12,
-        /// Waiting for operation to complete.
-        WaitingForOperation = 13,
-        /// System will retry immediately.
-        ImmediateRetry = 14,
-        /// System will retry later; current attempt failed.
-        PostponedRetry = 15,
-    }
-    /// Reasons applicable to internal resources not exposed to users. These will
-    /// surface in Service.conditions, and could be useful for further diagnosis.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum InternalReason {
-        /// Default value.
-        Undefined = 0,
-        /// The revision name provided conflicts with an existing one.
-        ConflictingRevisionName = 1,
-        /// Revision is missing; this is usually a transient reason.
-        RevisionMissing = 2,
-        /// Internal configuration is missing; this is usually a transient reason.
-        ConfigurationMissing = 3,
-        /// Assigning traffic; this is a transient reason.
-        AssigningTraffic = 4,
-        /// Updating ingress traffic settings; this is a transient reason.
-        UpdatingIngressTrafficAllowed = 5,
-        /// The revision can't be created because it violates an org policy setting.
-        RevisionOrgPolicyViolation = 6,
-        /// Enabling GCFv2 URI support; this is a transient reason.
-        EnablingGcfv2UriSupport = 7,
-    }
-    /// Reasons specific to DomainMapping resource.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum DomainMappingReason {
-        /// Default value.
-        Undefined = 0,
-        /// Internal route is not yet ready.
-        RouteNotReady = 1,
-        /// Insufficient permissions.
-        PermissionDenied = 2,
-        /// Certificate already exists.
-        CertificateAlreadyExists = 3,
-        /// Mapping already exists.
-        MappingAlreadyExists = 4,
-        /// Certificate issuance pending.
-        CertificatePending = 5,
-        /// Certificate issuance failed.
-        CertificateFailed = 6,
-    }
-    /// Reasons specific to Revision resource.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RevisionReason {
-        /// Default value.
-        Undefined = 0,
-        /// Revision in Pending state.
-        Pending = 1,
-        /// Revision is in Reserve state.
-        Reserve = 2,
-        /// Revision is Retired.
-        Retired = 3,
-        /// Revision is being retired.
-        Retiring = 4,
-        /// Revision is being recreated.
-        Recreating = 5,
-        /// There was a health check error.
-        HealthCheckContainerError = 6,
-        /// Health check failed due to user error from customized path of the
-        /// container. System will retry.
-        CustomizedPathResponsePending = 7,
-        /// A revision with min_instance_count > 0 was created and is reserved, but
-        /// it was not configured to serve traffic, so it's not live. This can also
-        /// happen momentarily during traffic migration.
-        MinInstancesNotProvisioned = 8,
-        /// The maximum allowed number of active revisions has been reached.
-        ActiveRevisionLimitReached = 9,
-        /// There was no deployment defined.
-        /// This value is no longer used, but Services created in older versions of
-        /// the API might contain this value.
-        NoDeployment = 10,
-        /// A revision's container has no port specified since the revision is of a
-        /// manually scaled service with 0 instance count
-        HealthCheckSkipped = 11,
-    }
-    /// Reasons specific to Execution resource.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ExecutionReason {
-        /// Default value.
-        Undefined = 0,
-        /// Internal system error getting execution status. System will retry.
-        JobStatusServicePollingError = 1,
-        /// A task reached its retry limit and the last attempt failed due to the
-        /// user container exiting with a non-zero exit code.
-        NonZeroExitCode = 2,
-    }
-    /// The reason for this condition. Depending on the condition type,
-    /// it will populate one of these fields.
-    /// Successful conditions may not have a reason.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Reasons {
-        /// A common (service-level) reason for this condition.
-        #[prost(enumeration = "CommonReason", tag = "6")]
-        Reason(i32),
-        /// A reason for the internal condition.
-        #[prost(enumeration = "InternalReason", tag = "7")]
-        InternalReason(i32),
-        /// A reason for the domain mapping condition.
-        #[prost(enumeration = "DomainMappingReason", tag = "8")]
-        DomainMappingReason(i32),
-        /// A reason for the revision condition.
-        #[prost(enumeration = "RevisionReason", tag = "9")]
-        RevisionReason(i32),
-        /// A reason for the execution condition.
-        #[prost(enumeration = "ExecutionReason", tag = "11")]
-        ExecutionReason(i32),
-    }
 }
 /// VPC Access settings. For more information on creating a VPC Connector, visit
 /// <https://cloud.google.com/vpc/docs/configure-serverless-vpc-access> For

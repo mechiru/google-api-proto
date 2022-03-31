@@ -1,3 +1,72 @@
+/// Arrow schema as specified in
+/// <https://arrow.apache.org/docs/python/api/datatypes.html>
+/// and serialized to bytes using IPC:
+/// <https://arrow.apache.org/docs/format/Columnar.html#serialization-and-interprocess-communication-ipc>
+///
+/// See code samples on how this message can be deserialized.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ArrowSchema {
+    /// IPC serialized Arrow schema.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub serialized_schema: ::prost::bytes::Bytes,
+}
+/// Arrow RecordBatch.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ArrowRecordBatch {
+    /// IPC-serialized Arrow RecordBatch.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub serialized_record_batch: ::prost::bytes::Bytes,
+    /// \[Deprecated\] The count of rows in `serialized_record_batch`.
+    /// Please use the format-independent ReadRowsResponse.row_count instead.
+    #[deprecated]
+    #[prost(int64, tag = "2")]
+    pub row_count: i64,
+}
+/// Contains options specific to Arrow Serialization.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ArrowSerializationOptions {
+    /// The compression codec to use for Arrow buffers in serialized record
+    /// batches.
+    #[prost(
+        enumeration = "arrow_serialization_options::CompressionCodec",
+        tag = "2"
+    )]
+    pub buffer_compression: i32,
+}
+/// Nested message and enum types in `ArrowSerializationOptions`.
+pub mod arrow_serialization_options {
+    /// Compression codec's supported by Arrow.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum CompressionCodec {
+        /// If unspecified no compression will be used.
+        CompressionUnspecified = 0,
+        /// LZ4 Frame (<https://github.com/lz4/lz4/blob/dev/doc/lz4_Frame_format.md>)
+        Lz4Frame = 1,
+        /// Zstandard compression.
+        Zstd = 2,
+    }
+}
+/// Avro schema.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AvroSchema {
+    /// Json serialized schema, as described at
+    /// <https://avro.apache.org/docs/1.8.1/spec.html.>
+    #[prost(string, tag = "1")]
+    pub schema: ::prost::alloc::string::String,
+}
+/// Avro rows.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AvroRows {
+    /// Binary serialized rows in a block.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub serialized_binary_rows: ::prost::bytes::Bytes,
+    /// \[Deprecated\] The count of rows in the returning block.
+    /// Please use the format-independent ReadRowsResponse.row_count instead.
+    #[deprecated]
+    #[prost(int64, tag = "2")]
+    pub row_count: i64,
+}
 /// Schema of a table.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TableSchema {
@@ -123,75 +192,6 @@ pub mod table_field_schema {
         Nullable = 1,
         Required = 2,
         Repeated = 3,
-    }
-}
-/// Avro schema.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AvroSchema {
-    /// Json serialized schema, as described at
-    /// <https://avro.apache.org/docs/1.8.1/spec.html.>
-    #[prost(string, tag = "1")]
-    pub schema: ::prost::alloc::string::String,
-}
-/// Avro rows.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AvroRows {
-    /// Binary serialized rows in a block.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub serialized_binary_rows: ::prost::bytes::Bytes,
-    /// \[Deprecated\] The count of rows in the returning block.
-    /// Please use the format-independent ReadRowsResponse.row_count instead.
-    #[deprecated]
-    #[prost(int64, tag = "2")]
-    pub row_count: i64,
-}
-/// Arrow schema as specified in
-/// <https://arrow.apache.org/docs/python/api/datatypes.html>
-/// and serialized to bytes using IPC:
-/// <https://arrow.apache.org/docs/format/Columnar.html#serialization-and-interprocess-communication-ipc>
-///
-/// See code samples on how this message can be deserialized.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ArrowSchema {
-    /// IPC serialized Arrow schema.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub serialized_schema: ::prost::bytes::Bytes,
-}
-/// Arrow RecordBatch.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ArrowRecordBatch {
-    /// IPC-serialized Arrow RecordBatch.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub serialized_record_batch: ::prost::bytes::Bytes,
-    /// \[Deprecated\] The count of rows in `serialized_record_batch`.
-    /// Please use the format-independent ReadRowsResponse.row_count instead.
-    #[deprecated]
-    #[prost(int64, tag = "2")]
-    pub row_count: i64,
-}
-/// Contains options specific to Arrow Serialization.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ArrowSerializationOptions {
-    /// The compression codec to use for Arrow buffers in serialized record
-    /// batches.
-    #[prost(
-        enumeration = "arrow_serialization_options::CompressionCodec",
-        tag = "2"
-    )]
-    pub buffer_compression: i32,
-}
-/// Nested message and enum types in `ArrowSerializationOptions`.
-pub mod arrow_serialization_options {
-    /// Compression codec's supported by Arrow.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum CompressionCodec {
-        /// If unspecified no compression will be used.
-        CompressionUnspecified = 0,
-        /// LZ4 Frame (<https://github.com/lz4/lz4/blob/dev/doc/lz4_Frame_format.md>)
-        Lz4Frame = 1,
-        /// Zstandard compression.
-        Zstd = 2,
     }
 }
 /// Information about the ReadSession.

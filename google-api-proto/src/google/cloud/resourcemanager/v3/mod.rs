@@ -1,1618 +1,3 @@
-/// A folder in an organization's resource hierarchy, used to
-/// organize that organization's resources.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Folder {
-    /// Output only. The resource name of the folder.
-    /// Its format is `folders/{folder_id}`, for example: "folders/1234".
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The folder's parent's resource name.
-    /// Updates to the folder's parent must be performed using
-    /// \[MoveFolder][google.cloud.resourcemanager.v3.Folders.MoveFolder\].
-    #[prost(string, tag = "2")]
-    pub parent: ::prost::alloc::string::String,
-    /// The folder's display name.
-    /// A folder's display name must be unique amongst its siblings. For example,
-    /// no two folders with the same parent can share the same display name.
-    /// The display name must start and end with a letter or digit, may contain
-    /// letters, digits, spaces, hyphens and underscores and can be no longer
-    /// than 30 characters. This is captured by the regular expression:
-    /// `\[\p{L}\p{N}\]([\p{L}\p{N}_- ]{0,28}\[\p{L}\p{N}\])?`.
-    #[prost(string, tag = "3")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Output only. The lifecycle state of the folder.
-    /// Updates to the state must be performed using
-    /// \[DeleteFolder][google.cloud.resourcemanager.v3.Folders.DeleteFolder\] and
-    /// \[UndeleteFolder][google.cloud.resourcemanager.v3.Folders.UndeleteFolder\].
-    #[prost(enumeration = "folder::State", tag = "4")]
-    pub state: i32,
-    /// Output only. Timestamp when the folder was created.
-    #[prost(message, optional, tag = "5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Timestamp when the folder was last modified.
-    #[prost(message, optional, tag = "6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Timestamp when the folder was requested to be deleted.
-    #[prost(message, optional, tag = "7")]
-    pub delete_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. A checksum computed by the server based on the current value of the folder
-    /// resource. This may be sent on update and delete requests to ensure the
-    /// client has an up-to-date value before proceeding.
-    #[prost(string, tag = "8")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `Folder`.
-pub mod folder {
-    /// Folder lifecycle states.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Unspecified state.
-        Unspecified = 0,
-        /// The normal and active state.
-        Active = 1,
-        /// The folder has been marked for deletion by the user.
-        DeleteRequested = 2,
-    }
-}
-/// The GetFolder request message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetFolderRequest {
-    /// Required. The resource name of the folder to retrieve.
-    /// Must be of the form `folders/{folder_id}`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The ListFolders request message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListFoldersRequest {
-    /// Required. The resource name of the organization or folder whose folders are
-    /// being listed.
-    /// Must be of the form `folders/{folder_id}` or `organizations/{org_id}`.
-    /// Access to this method is controlled by checking the
-    /// `resourcemanager.folders.list` permission on the `parent`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of folders to return in the response.
-    /// If unspecified, server picks an appropriate default.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// Optional. A pagination token returned from a previous call to `ListFolders`
-    /// that indicates where this listing should continue from.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Optional. Controls whether folders in the
-    /// \[DELETE_REQUESTED][google.cloud.resourcemanager.v3.Folder.State.DELETE_REQUESTED\]
-    /// state should be returned. Defaults to false.
-    #[prost(bool, tag = "4")]
-    pub show_deleted: bool,
-}
-/// The ListFolders response message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListFoldersResponse {
-    /// A possibly paginated list of folders that are direct descendants of
-    /// the specified parent resource.
-    #[prost(message, repeated, tag = "1")]
-    pub folders: ::prost::alloc::vec::Vec<Folder>,
-    /// A pagination token returned from a previous call to `ListFolders`
-    /// that indicates from where listing should continue.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request message for searching folders.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchFoldersRequest {
-    /// Optional. The maximum number of folders to return in the response.
-    /// If unspecified, server picks an appropriate default.
-    #[prost(int32, tag = "1")]
-    pub page_size: i32,
-    /// Optional. A pagination token returned from a previous call to `SearchFolders`
-    /// that indicates from where search should continue.
-    #[prost(string, tag = "2")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Optional. Search criteria used to select the folders to return.
-    /// If no search criteria is specified then all accessible folders will be
-    /// returned.
-    ///
-    /// Query expressions can be used to restrict results based upon displayName,
-    /// state and parent, where the operators `=` (`:`) `NOT`, `AND` and `OR`
-    /// can be used along with the suffix wildcard symbol `*`.
-    ///
-    /// The `displayName` field in a query expression should use escaped quotes
-    /// for values that include whitespace to prevent unexpected behavior.
-    ///
-    /// ```
-    /// | Field                   | Description                            |
-    /// |-------------------------|----------------------------------------|
-    /// | displayName             | Filters by displayName.                |
-    /// | parent                  | Filters by parent (for example: folders/123). |
-    /// | state, lifecycleState   | Filters by state.                      |
-    /// ```
-    ///
-    /// Some example queries are:
-    ///
-    /// * Query `displayName=Test*` returns Folder resources whose display name
-    /// starts with "Test".
-    /// * Query `state=ACTIVE` returns Folder resources with
-    /// `state` set to `ACTIVE`.
-    /// * Query `parent=folders/123` returns Folder resources that have
-    /// `folders/123` as a parent resource.
-    /// * Query `parent=folders/123 AND state=ACTIVE` returns active
-    /// Folder resources that have `folders/123` as a parent resource.
-    /// * Query `displayName=\\"Test String\\"` returns Folder resources with
-    /// display names that include both "Test" and "String".
-    #[prost(string, tag = "3")]
-    pub query: ::prost::alloc::string::String,
-}
-/// The response message for searching folders.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchFoldersResponse {
-    /// A possibly paginated folder search results.
-    /// the specified parent resource.
-    #[prost(message, repeated, tag = "1")]
-    pub folders: ::prost::alloc::vec::Vec<Folder>,
-    /// A pagination token returned from a previous call to `SearchFolders`
-    /// that indicates from where searching should continue.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The CreateFolder request message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateFolderRequest {
-    /// Required. The folder being created, only the display name and parent will be
-    /// consulted. All other fields will be ignored.
-    #[prost(message, optional, tag = "2")]
-    pub folder: ::core::option::Option<Folder>,
-}
-/// Metadata pertaining to the Folder creation process.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateFolderMetadata {
-    /// The display name of the folder.
-    #[prost(string, tag = "1")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The resource name of the folder or organization we are creating the folder
-    /// under.
-    #[prost(string, tag = "2")]
-    pub parent: ::prost::alloc::string::String,
-}
-/// The request sent to the
-/// \[UpdateFolder][google.cloud.resourcemanager.v3.Folder.UpdateFolder\]
-/// method.
-///
-/// Only the `display_name` field can be changed. All other fields will be
-/// ignored. Use the
-/// \[MoveFolder][google.cloud.resourcemanager.v3.Folders.MoveFolder\] method to
-/// change the `parent` field.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateFolderRequest {
-    /// Required. The new definition of the Folder. It must include the `name` field, which
-    /// cannot be changed.
-    #[prost(message, optional, tag = "1")]
-    pub folder: ::core::option::Option<Folder>,
-    /// Required. Fields to be updated.
-    /// Only the `display_name` can be updated.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// A status object which is used as the `metadata` field for the Operation
-/// returned by UpdateFolder.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateFolderMetadata {}
-/// The MoveFolder request message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MoveFolderRequest {
-    /// Required. The resource name of the Folder to move.
-    /// Must be of the form folders/{folder_id}
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The resource name of the folder or organization which should be the
-    /// folder's new parent.
-    /// Must be of the form `folders/{folder_id}` or `organizations/{org_id}`.
-    #[prost(string, tag = "2")]
-    pub destination_parent: ::prost::alloc::string::String,
-}
-/// Metadata pertaining to the folder move process.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MoveFolderMetadata {
-    /// The display name of the folder.
-    #[prost(string, tag = "1")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The resource name of the folder's parent.
-    #[prost(string, tag = "2")]
-    pub source_parent: ::prost::alloc::string::String,
-    /// The resource name of the folder or organization to move the folder to.
-    #[prost(string, tag = "3")]
-    pub destination_parent: ::prost::alloc::string::String,
-}
-/// The DeleteFolder request message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteFolderRequest {
-    /// Required. The resource name of the folder to be deleted.
-    /// Must be of the form `folders/{folder_id}`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// A status object which is used as the `metadata` field for the `Operation`
-/// returned by `DeleteFolder`.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteFolderMetadata {}
-/// The UndeleteFolder request message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UndeleteFolderRequest {
-    /// Required. The resource name of the folder to undelete.
-    /// Must be of the form `folders/{folder_id}`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// A status object which is used as the `metadata` field for the `Operation`
-/// returned by `UndeleteFolder`.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UndeleteFolderMetadata {}
-#[doc = r" Generated client implementations."]
-pub mod folders_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Manages Cloud Platform folder resources."]
-    #[doc = " Folders can be used to organize the resources under an"]
-    #[doc = " organization and to control the policies applied to groups of resources."]
-    #[derive(Debug, Clone)]
-    pub struct FoldersClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> FoldersClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> FoldersClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            FoldersClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Retrieves a folder identified by the supplied resource name."]
-        #[doc = " Valid folder resource names have the format `folders/{folder_id}`"]
-        #[doc = " (for example, `folders/1234`)."]
-        #[doc = " The caller must have `resourcemanager.folders.get` permission on the"]
-        #[doc = " identified folder."]
-        pub async fn get_folder(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetFolderRequest>,
-        ) -> Result<tonic::Response<super::Folder>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Folders/GetFolder",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Lists the folders that are direct descendants of supplied parent resource."]
-        #[doc = " `list()` provides a strongly consistent view of the folders underneath"]
-        #[doc = " the specified parent resource."]
-        #[doc = " `list()` returns folders sorted based upon the (ascending) lexical ordering"]
-        #[doc = " of their display_name."]
-        #[doc = " The caller must have `resourcemanager.folders.list` permission on the"]
-        #[doc = " identified parent."]
-        pub async fn list_folders(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListFoldersRequest>,
-        ) -> Result<tonic::Response<super::ListFoldersResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Folders/ListFolders",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Search for folders that match specific filter criteria."]
-        #[doc = " `search()` provides an eventually consistent view of the folders a user has"]
-        #[doc = " access to which meet the specified filter criteria."]
-        #[doc = ""]
-        #[doc = " This will only return folders on which the caller has the"]
-        #[doc = " permission `resourcemanager.folders.get`."]
-        pub async fn search_folders(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SearchFoldersRequest>,
-        ) -> Result<tonic::Response<super::SearchFoldersResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Folders/SearchFolders",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates a folder in the resource hierarchy."]
-        #[doc = " Returns an `Operation` which can be used to track the progress of the"]
-        #[doc = " folder creation workflow."]
-        #[doc = " Upon success, the `Operation.response` field will be populated with the"]
-        #[doc = " created Folder."]
-        #[doc = ""]
-        #[doc = " In order to succeed, the addition of this new folder must not violate"]
-        #[doc = " the folder naming, height, or fanout constraints."]
-        #[doc = ""]
-        #[doc = " + The folder's `display_name` must be distinct from all other folders that"]
-        #[doc = " share its parent."]
-        #[doc = " + The addition of the folder must not cause the active folder hierarchy"]
-        #[doc = " to exceed a height of 10. Note, the full active + deleted folder hierarchy"]
-        #[doc = " is allowed to reach a height of 20; this provides additional headroom when"]
-        #[doc = " moving folders that contain deleted folders."]
-        #[doc = " + The addition of the folder must not cause the total number of folders"]
-        #[doc = " under its parent to exceed 300."]
-        #[doc = ""]
-        #[doc = " If the operation fails due to a folder constraint violation, some errors"]
-        #[doc = " may be returned by the `CreateFolder` request, with status code"]
-        #[doc = " `FAILED_PRECONDITION` and an error description. Other folder constraint"]
-        #[doc = " violations will be communicated in the `Operation`, with the specific"]
-        #[doc = " `PreconditionFailure` returned in the details list in the `Operation.error`"]
-        #[doc = " field."]
-        #[doc = ""]
-        #[doc = " The caller must have `resourcemanager.folders.create` permission on the"]
-        #[doc = " identified parent."]
-        pub async fn create_folder(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateFolderRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Folders/CreateFolder",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates a folder, changing its `display_name`."]
-        #[doc = " Changes to the folder `display_name` will be rejected if they violate"]
-        #[doc = " either the `display_name` formatting rules or the naming constraints"]
-        #[doc = " described in the [CreateFolder][google.cloud.resourcemanager.v3.Folders.CreateFolder] documentation."]
-        #[doc = ""]
-        #[doc = " The folder's `display_name` must start and end with a letter or digit,"]
-        #[doc = " may contain letters, digits, spaces, hyphens and underscores and can be"]
-        #[doc = " between 3 and 30 characters. This is captured by the regular expression:"]
-        #[doc = " `[\\p{L}\\p{N}][\\p{L}\\p{N}_- ]{1,28}[\\p{L}\\p{N}]`."]
-        #[doc = " The caller must have `resourcemanager.folders.update` permission on the"]
-        #[doc = " identified folder."]
-        #[doc = ""]
-        #[doc = " If the update fails due to the unique name constraint then a"]
-        #[doc = " `PreconditionFailure` explaining this violation will be returned"]
-        #[doc = " in the Status.details field."]
-        pub async fn update_folder(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateFolderRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Folders/UpdateFolder",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Moves a folder under a new resource parent."]
-        #[doc = " Returns an `Operation` which can be used to track the progress of the"]
-        #[doc = " folder move workflow."]
-        #[doc = " Upon success, the `Operation.response` field will be populated with the"]
-        #[doc = " moved folder."]
-        #[doc = " Upon failure, a `FolderOperationError` categorizing the failure cause will"]
-        #[doc = " be returned - if the failure occurs synchronously then the"]
-        #[doc = " `FolderOperationError` will be returned in the `Status.details` field."]
-        #[doc = " If it occurs asynchronously, then the FolderOperation will be returned"]
-        #[doc = " in the `Operation.error` field."]
-        #[doc = " In addition, the `Operation.metadata` field will be populated with a"]
-        #[doc = " `FolderOperation` message as an aid to stateless clients."]
-        #[doc = " Folder moves will be rejected if they violate either the naming, height,"]
-        #[doc = " or fanout constraints described in the"]
-        #[doc = " [CreateFolder][google.cloud.resourcemanager.v3.Folders.CreateFolder] documentation."]
-        #[doc = " The caller must have `resourcemanager.folders.move` permission on the"]
-        #[doc = " folder's current and proposed new parent."]
-        pub async fn move_folder(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MoveFolderRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Folders/MoveFolder",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Requests deletion of a folder. The folder is moved into the"]
-        #[doc = " [DELETE_REQUESTED][google.cloud.resourcemanager.v3.Folder.State.DELETE_REQUESTED] state"]
-        #[doc = " immediately, and is deleted approximately 30 days later. This method may"]
-        #[doc = " only be called on an empty folder, where a folder is empty if it doesn't"]
-        #[doc = " contain any folders or projects in the [ACTIVE][google.cloud.resourcemanager.v3.Folder.State.ACTIVE] state."]
-        #[doc = " If called on a folder in [DELETE_REQUESTED][google.cloud.resourcemanager.v3.Folder.State.DELETE_REQUESTED]"]
-        #[doc = " state the operation will result in a no-op success."]
-        #[doc = " The caller must have `resourcemanager.folders.delete` permission on the"]
-        #[doc = " identified folder."]
-        pub async fn delete_folder(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteFolderRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Folders/DeleteFolder",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Cancels the deletion request for a folder. This method may be called on a"]
-        #[doc = " folder in any state. If the folder is in the [ACTIVE][google.cloud.resourcemanager.v3.Folder.State.ACTIVE]"]
-        #[doc = " state the result will be a no-op success. In order to succeed, the folder's"]
-        #[doc = " parent must be in the [ACTIVE][google.cloud.resourcemanager.v3.Folder.State.ACTIVE] state. In addition,"]
-        #[doc = " reintroducing the folder into the tree must not violate folder naming,"]
-        #[doc = " height, and fanout constraints described in the"]
-        #[doc = " [CreateFolder][google.cloud.resourcemanager.v3.Folders.CreateFolder] documentation."]
-        #[doc = " The caller must have `resourcemanager.folders.undelete` permission on the"]
-        #[doc = " identified folder."]
-        pub async fn undelete_folder(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UndeleteFolderRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Folders/UndeleteFolder",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Gets the access control policy for a folder. The returned policy may be"]
-        #[doc = " empty if no such policy or resource exists. The `resource` field should"]
-        #[doc = " be the folder's resource name, for example: \"folders/1234\"."]
-        #[doc = " The caller must have `resourcemanager.folders.getIamPolicy` permission"]
-        #[doc = " on the identified folder."]
-        pub async fn get_iam_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::GetIamPolicyRequest>,
-        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Folders/GetIamPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Sets the access control policy on a folder, replacing any existing policy."]
-        #[doc = " The `resource` field should be the folder's resource name, for example:"]
-        #[doc = " \"folders/1234\"."]
-        #[doc = " The caller must have `resourcemanager.folders.setIamPolicy` permission"]
-        #[doc = " on the identified folder."]
-        pub async fn set_iam_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::SetIamPolicyRequest>,
-        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Folders/SetIamPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Returns permissions that a caller has on the specified folder."]
-        #[doc = " The `resource` field should be the folder's resource name,"]
-        #[doc = " for example: \"folders/1234\"."]
-        #[doc = ""]
-        #[doc = " There are no permissions required for making this API call."]
-        pub async fn test_iam_permissions(
-            &mut self,
-            request: impl tonic::IntoRequest<
-                super::super::super::super::iam::v1::TestIamPermissionsRequest,
-            >,
-        ) -> Result<
-            tonic::Response<super::super::super::super::iam::v1::TestIamPermissionsResponse>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Folders/TestIamPermissions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// The root node in the resource hierarchy to which a particular entity's
-/// (a company, for example) resources belong.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Organization {
-    /// Output only. The resource name of the organization. This is the
-    /// organization's relative path in the API. Its format is
-    /// "organizations/\[organization_id\]". For example, "organizations/1234".
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. A human-readable string that refers to the organization in the
-    /// Google Cloud Console. This string is set by the server and cannot be
-    /// changed. The string will be set to the primary domain (for example,
-    /// "google.com") of the Google Workspace customer that owns the organization.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Output only. The organization's current lifecycle state.
-    #[prost(enumeration = "organization::State", tag = "4")]
-    pub state: i32,
-    /// Output only. Timestamp when the Organization was created.
-    #[prost(message, optional, tag = "5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Timestamp when the Organization was last modified.
-    #[prost(message, optional, tag = "6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Timestamp when the Organization was requested for deletion.
-    #[prost(message, optional, tag = "7")]
-    pub delete_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. A checksum computed by the server based on the current value of the
-    /// Organization resource. This may be sent on update and delete requests to
-    /// ensure the client has an up-to-date value before proceeding.
-    #[prost(string, tag = "8")]
-    pub etag: ::prost::alloc::string::String,
-    /// The owner of this organization. The owner should be specified on
-    /// creation. Once set, it cannot be changed.
-    ///
-    /// The lifetime of the organization and all of its descendants are bound to
-    /// the owner. If the owner is deleted, the organization and all its
-    /// descendants will be deleted.
-    #[prost(oneof = "organization::Owner", tags = "3")]
-    pub owner: ::core::option::Option<organization::Owner>,
-}
-/// Nested message and enum types in `Organization`.
-pub mod organization {
-    /// Organization lifecycle states.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Unspecified state.  This is only useful for distinguishing unset values.
-        Unspecified = 0,
-        /// The normal and active state.
-        Active = 1,
-        /// The organization has been marked for deletion by the user.
-        DeleteRequested = 2,
-    }
-    /// The owner of this organization. The owner should be specified on
-    /// creation. Once set, it cannot be changed.
-    ///
-    /// The lifetime of the organization and all of its descendants are bound to
-    /// the owner. If the owner is deleted, the organization and all its
-    /// descendants will be deleted.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Owner {
-        /// Immutable. The G Suite / Workspace customer id used in the Directory API.
-        #[prost(string, tag = "3")]
-        DirectoryCustomerId(::prost::alloc::string::String),
-    }
-}
-/// The request sent to the `GetOrganization` method. The `name` field is
-/// required. `organization_id` is no longer accepted.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetOrganizationRequest {
-    /// Required. The resource name of the Organization to fetch. This is the organization's
-    /// relative path in the API, formatted as "organizations/\[organizationId\]".
-    /// For example, "organizations/1234".
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request sent to the `SearchOrganizations` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchOrganizationsRequest {
-    /// Optional. The maximum number of organizations to return in the response.
-    /// If unspecified, server picks an appropriate default.
-    #[prost(int32, tag = "1")]
-    pub page_size: i32,
-    /// Optional. A pagination token returned from a previous call to `SearchOrganizations`
-    /// that indicates from where listing should continue.
-    #[prost(string, tag = "2")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Optional. An optional query string used to filter the Organizations to return in
-    /// the response. Query rules are case-insensitive.
-    ///
-    /// ```
-    /// | Field            | Description                                |
-    /// |------------------|--------------------------------------------|
-    /// | directoryCustomerId, owner.directoryCustomerId | Filters by directory
-    /// customer id. |
-    /// | domain           | Filters by domain.                         |
-    /// ```
-    ///
-    /// Organizations may be queried by `directoryCustomerId` or by
-    /// `domain`, where the domain is a G Suite domain, for example:
-    ///
-    /// * Query `directorycustomerid:123456789` returns Organization
-    /// resources with `owner.directory_customer_id` equal to `123456789`.
-    /// * Query `domain:google.com` returns Organization resources corresponding
-    /// to the domain `google.com`.
-    #[prost(string, tag = "3")]
-    pub query: ::prost::alloc::string::String,
-}
-/// The response returned from the `SearchOrganizations` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchOrganizationsResponse {
-    /// The list of Organizations that matched the search query, possibly
-    /// paginated.
-    #[prost(message, repeated, tag = "1")]
-    pub organizations: ::prost::alloc::vec::Vec<Organization>,
-    /// A pagination token to be used to retrieve the next page of results. If the
-    /// result is too large to fit within the page size specified in the request,
-    /// this field will be set with a token that can be used to fetch the next page
-    /// of results. If this field is empty, it indicates that this response
-    /// contains the last page of results.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// A status object which is used as the `metadata` field for the operation
-/// returned by DeleteOrganization.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteOrganizationMetadata {}
-/// A status object which is used as the `metadata` field for the Operation
-/// returned by UndeleteOrganization.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UndeleteOrganizationMetadata {}
-#[doc = r" Generated client implementations."]
-pub mod organizations_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Allows users to manage their organization resources."]
-    #[derive(Debug, Clone)]
-    pub struct OrganizationsClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> OrganizationsClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> OrganizationsClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            OrganizationsClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Fetches an organization resource identified by the specified resource name."]
-        pub async fn get_organization(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetOrganizationRequest>,
-        ) -> Result<tonic::Response<super::Organization>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Organizations/GetOrganization",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Searches organization resources that are visible to the user and satisfy"]
-        #[doc = " the specified filter. This method returns organizations in an unspecified"]
-        #[doc = " order. New organizations do not necessarily appear at the end of the"]
-        #[doc = " results, and may take a small amount of time to appear."]
-        #[doc = ""]
-        #[doc = " Search will only return organizations on which the user has the permission"]
-        #[doc = " `resourcemanager.organizations.get`"]
-        pub async fn search_organizations(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SearchOrganizationsRequest>,
-        ) -> Result<tonic::Response<super::SearchOrganizationsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Organizations/SearchOrganizations",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Gets the access control policy for an organization resource. The policy may"]
-        #[doc = " be empty if no such policy or resource exists. The `resource` field should"]
-        #[doc = " be the organization's resource name, for example: \"organizations/123\"."]
-        #[doc = ""]
-        #[doc = " Authorization requires the IAM permission"]
-        #[doc = " `resourcemanager.organizations.getIamPolicy` on the specified organization."]
-        pub async fn get_iam_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::GetIamPolicyRequest>,
-        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Organizations/GetIamPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Sets the access control policy on an organization resource. Replaces any"]
-        #[doc = " existing policy. The `resource` field should be the organization's resource"]
-        #[doc = " name, for example: \"organizations/123\"."]
-        #[doc = ""]
-        #[doc = " Authorization requires the IAM permission"]
-        #[doc = " `resourcemanager.organizations.setIamPolicy` on the specified organization."]
-        pub async fn set_iam_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::SetIamPolicyRequest>,
-        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Organizations/SetIamPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Returns the permissions that a caller has on the specified organization."]
-        #[doc = " The `resource` field should be the organization's resource name,"]
-        #[doc = " for example: \"organizations/123\"."]
-        #[doc = ""]
-        #[doc = " There are no permissions required for making this API call."]
-        pub async fn test_iam_permissions(
-            &mut self,
-            request: impl tonic::IntoRequest<
-                super::super::super::super::iam::v1::TestIamPermissionsRequest,
-            >,
-        ) -> Result<
-            tonic::Response<super::super::super::super::iam::v1::TestIamPermissionsResponse>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.Organizations/TestIamPermissions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// A TagValue is a child of a particular TagKey. This is used to group
-/// cloud resources for the purpose of controlling them using policies.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TagValue {
-    /// Immutable. Resource name for TagValue in the format `tagValues/456`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Immutable. The resource name of the new TagValue's parent TagKey.
-    /// Must be of the form `tagKeys/{tag_key_id}`.
-    #[prost(string, tag = "2")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Immutable. User-assigned short name for TagValue. The short name should be
-    /// unique for TagValues within the same parent TagKey.
-    ///
-    /// The short name must be 63 characters or less, beginning and ending with
-    /// an alphanumeric character (\[a-z0-9A-Z\]) with dashes (-), underscores (_),
-    /// dots (.), and alphanumerics between.
-    #[prost(string, tag = "3")]
-    pub short_name: ::prost::alloc::string::String,
-    /// Output only. Namespaced name of the TagValue. Must be in the format
-    /// `{organization_id}/{tag_key_short_name}/{short_name}`.
-    #[prost(string, tag = "4")]
-    pub namespaced_name: ::prost::alloc::string::String,
-    /// Optional. User-assigned description of the TagValue.
-    /// Must not exceed 256 characters.
-    ///
-    /// Read-write.
-    #[prost(string, tag = "5")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. Creation time.
-    #[prost(message, optional, tag = "6")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Update time.
-    #[prost(message, optional, tag = "7")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. Entity tag which users can pass to prevent race conditions. This field is
-    /// always set in server responses. See UpdateTagValueRequest for details.
-    #[prost(string, tag = "8")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// The request message for listing TagValues for the specified TagKey.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTagValuesRequest {
-    /// Required. Resource name for TagKey, parent of the TagValues to be listed,
-    /// in the format `tagKeys/123`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of TagValues to return in the response. The server
-    /// allows a maximum of 300 TagValues to return. If unspecified, the server
-    /// will use 100 as the default.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// Optional. A pagination token returned from a previous call to `ListTagValues`
-    /// that indicates where this listing should continue from.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The ListTagValues response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTagValuesResponse {
-    /// A possibly paginated list of TagValues that are direct descendants of
-    /// the specified parent TagKey.
-    #[prost(message, repeated, tag = "1")]
-    pub tag_values: ::prost::alloc::vec::Vec<TagValue>,
-    /// A pagination token returned from a previous call to `ListTagValues`
-    /// that indicates from where listing should continue. This is currently not
-    /// used, but the server may at any point start supplying a valid token.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request message for getting a TagValue.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetTagValueRequest {
-    /// Required. Resource name for TagValue to be fetched in the format `tagValues/456`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request message for creating a TagValue.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateTagValueRequest {
-    /// Required. The TagValue to be created. Only fields `short_name`, `description`,
-    /// and `parent` are considered during the creation request.
-    #[prost(message, optional, tag = "1")]
-    pub tag_value: ::core::option::Option<TagValue>,
-    /// Optional. Set as true to perform the validations necessary for creating the resource,
-    /// but not actually perform the action.
-    #[prost(bool, tag = "2")]
-    pub validate_only: bool,
-}
-/// Runtime operation information for creating a TagValue.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateTagValueMetadata {}
-/// The request message for updating a TagValue.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateTagValueRequest {
-    /// Required. The new definition of the TagValue. Only fields `description` and `etag`
-    /// fields can be updated by this request. If the `etag` field is nonempty, it
-    /// must match the `etag` field of the existing ControlGroup. Otherwise,
-    /// `FAILED_PRECONDITION` will be returned.
-    #[prost(message, optional, tag = "1")]
-    pub tag_value: ::core::option::Option<TagValue>,
-    /// Optional. Fields to be updated.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-    /// Optional. True to perform validations necessary for updating the resource, but not
-    /// actually perform the action.
-    #[prost(bool, tag = "3")]
-    pub validate_only: bool,
-}
-/// Runtime operation information for updating a TagValue.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateTagValueMetadata {}
-/// The request message for deleting a TagValue.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteTagValueRequest {
-    /// Required. Resource name for TagValue to be deleted in the format tagValues/456.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. Set as true to perform the validations necessary for deletion, but not
-    /// actually perform the action.
-    #[prost(bool, tag = "2")]
-    pub validate_only: bool,
-    /// Optional. The etag known to the client for the expected state of the TagValue. This
-    /// is to be used for optimistic concurrency.
-    #[prost(string, tag = "3")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// Runtime operation information for deleting a TagValue.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteTagValueMetadata {}
-#[doc = r" Generated client implementations."]
-pub mod tag_values_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Allow users to create and manage tag values."]
-    #[derive(Debug, Clone)]
-    pub struct TagValuesClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> TagValuesClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> TagValuesClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            TagValuesClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Lists all TagValues for a specific TagKey."]
-        pub async fn list_tag_values(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListTagValuesRequest>,
-        ) -> Result<tonic::Response<super::ListTagValuesResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagValues/ListTagValues",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves TagValue. If the TagValue or namespaced name does not exist, or"]
-        #[doc = " if the user does not have permission to view it, this method will return"]
-        #[doc = " `PERMISSION_DENIED`."]
-        pub async fn get_tag_value(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetTagValueRequest>,
-        ) -> Result<tonic::Response<super::TagValue>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagValues/GetTagValue",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates a TagValue as a child of the specified TagKey. If a another"]
-        #[doc = " request with the same parameters is sent while the original request is in"]
-        #[doc = " process the second request will receive an error. A maximum of 300"]
-        #[doc = " TagValues can exist under a TagKey at any given time."]
-        pub async fn create_tag_value(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateTagValueRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagValues/CreateTagValue",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates the attributes of the TagValue resource."]
-        pub async fn update_tag_value(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateTagValueRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagValues/UpdateTagValue",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes a TagValue. The TagValue cannot have any bindings when it is"]
-        #[doc = " deleted."]
-        pub async fn delete_tag_value(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteTagValueRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagValues/DeleteTagValue",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Gets the access control policy for a TagValue. The returned policy may be"]
-        #[doc = " empty if no such policy or resource exists. The `resource` field should"]
-        #[doc = " be the TagValue's resource name. For example: `tagValues/1234`."]
-        #[doc = " The caller must have the"]
-        #[doc = " `cloudresourcemanager.googleapis.com/tagValues.getIamPolicy` permission on"]
-        #[doc = " the identified TagValue to get the access control policy."]
-        pub async fn get_iam_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::GetIamPolicyRequest>,
-        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagValues/GetIamPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Sets the access control policy on a TagValue, replacing any existing"]
-        #[doc = " policy. The `resource` field should be the TagValue's resource name."]
-        #[doc = " For example: `tagValues/1234`."]
-        #[doc = " The caller must have `resourcemanager.tagValues.setIamPolicy` permission"]
-        #[doc = " on the identified tagValue."]
-        pub async fn set_iam_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::SetIamPolicyRequest>,
-        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagValues/SetIamPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Returns permissions that a caller has on the specified TagValue."]
-        #[doc = " The `resource` field should be the TagValue's resource name. For example:"]
-        #[doc = " `tagValues/1234`."]
-        #[doc = ""]
-        #[doc = " There are no permissions required for making this API call."]
-        pub async fn test_iam_permissions(
-            &mut self,
-            request: impl tonic::IntoRequest<
-                super::super::super::super::iam::v1::TestIamPermissionsRequest,
-            >,
-        ) -> Result<
-            tonic::Response<super::super::super::super::iam::v1::TestIamPermissionsResponse>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagValues/TestIamPermissions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// A TagKey, used to group a set of TagValues.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TagKey {
-    /// Immutable. The resource name for a TagKey. Must be in the format
-    /// `tagKeys/{tag_key_id}`, where `tag_key_id` is the generated numeric id for
-    /// the TagKey.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Immutable. The resource name of the new TagKey's parent.
-    /// Must be of the form `organizations/{org_id}`.
-    #[prost(string, tag = "2")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Immutable. The user friendly name for a TagKey. The short name should be
-    /// unique for TagKeys within the same tag namespace.
-    ///
-    /// The short name must be 1-63 characters, beginning and ending with
-    /// an alphanumeric character (\[a-z0-9A-Z\]) with dashes (-), underscores (_),
-    /// dots (.), and alphanumerics between.
-    #[prost(string, tag = "3")]
-    pub short_name: ::prost::alloc::string::String,
-    /// Output only. Immutable. Namespaced name of the TagKey.
-    #[prost(string, tag = "4")]
-    pub namespaced_name: ::prost::alloc::string::String,
-    /// Optional. User-assigned description of the TagKey. Must not exceed 256 characters.
-    ///
-    /// Read-write.
-    #[prost(string, tag = "5")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. Creation time.
-    #[prost(message, optional, tag = "6")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Update time.
-    #[prost(message, optional, tag = "7")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. Entity tag which users can pass to prevent race conditions. This field is
-    /// always set in server responses. See UpdateTagKeyRequest for details.
-    #[prost(string, tag = "8")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// The request message for listing all TagKeys under a parent resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTagKeysRequest {
-    /// Required. The resource name of the new TagKey's parent.
-    /// Must be of the form `folders/{folder_id}` or `organizations/{org_id}`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of TagKeys to return in the response. The server allows
-    /// a maximum of 300 TagKeys to return. If unspecified, the server will use 100
-    /// as the default.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// Optional. A pagination token returned from a previous call to `ListTagKey`
-    /// that indicates where this listing should continue from.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The ListTagKeys response message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTagKeysResponse {
-    /// List of TagKeys that live under the specified parent in the request.
-    #[prost(message, repeated, tag = "1")]
-    pub tag_keys: ::prost::alloc::vec::Vec<TagKey>,
-    /// A pagination token returned from a previous call to `ListTagKeys`
-    /// that indicates from where listing should continue.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request message for getting a TagKey.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetTagKeyRequest {
-    /// Required. A resource name in the format `tagKeys/{id}`, such as
-    /// `tagKeys/123`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request message for creating a TagKey.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateTagKeyRequest {
-    /// Required. The TagKey to be created. Only fields `short_name`, `description`,
-    /// and `parent` are considered during the creation request.
-    #[prost(message, optional, tag = "1")]
-    pub tag_key: ::core::option::Option<TagKey>,
-    /// Optional. Set to true to perform validations necessary for creating the resource, but
-    /// not actually perform the action.
-    #[prost(bool, tag = "2")]
-    pub validate_only: bool,
-}
-/// Runtime operation information for creating a TagKey.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateTagKeyMetadata {}
-/// The request message for updating a TagKey.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateTagKeyRequest {
-    /// Required. The new definition of the TagKey. Only the `description` and `etag` fields
-    /// can be updated by this request. If the `etag` field is not empty, it
-    /// must match the `etag` field of the existing tag key. Otherwise,
-    /// `FAILED_PRECONDITION` will be returned.
-    #[prost(message, optional, tag = "1")]
-    pub tag_key: ::core::option::Option<TagKey>,
-    /// Fields to be updated. The mask may only contain `description` or
-    /// `etag`. If omitted entirely, both `description` and `etag` are assumed to
-    /// be significant.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-    /// Set as true to perform validations necessary for updating the resource, but
-    /// not actually perform the action.
-    #[prost(bool, tag = "3")]
-    pub validate_only: bool,
-}
-/// Runtime operation information for updating a TagKey.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateTagKeyMetadata {}
-/// The request message for deleting a TagKey.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteTagKeyRequest {
-    /// Required. The resource name of a TagKey to be deleted in the format `tagKeys/123`.
-    /// The TagKey cannot be a parent of any existing TagValues or it will not be
-    /// deleted successfully.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. Set as true to perform validations necessary for deletion, but not actually
-    /// perform the action.
-    #[prost(bool, tag = "2")]
-    pub validate_only: bool,
-    /// Optional. The etag known to the client for the expected state of the TagKey. This is
-    /// to be used for optimistic concurrency.
-    #[prost(string, tag = "3")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// Runtime operation information for deleting a TagKey.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteTagKeyMetadata {}
-#[doc = r" Generated client implementations."]
-pub mod tag_keys_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Allow users to create and manage tag keys."]
-    #[derive(Debug, Clone)]
-    pub struct TagKeysClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> TagKeysClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> TagKeysClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            TagKeysClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Lists all TagKeys for a parent resource."]
-        pub async fn list_tag_keys(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListTagKeysRequest>,
-        ) -> Result<tonic::Response<super::ListTagKeysResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagKeys/ListTagKeys",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves a TagKey. This method will return `PERMISSION_DENIED` if the"]
-        #[doc = " key does not exist or the user does not have permission to view it."]
-        pub async fn get_tag_key(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetTagKeyRequest>,
-        ) -> Result<tonic::Response<super::TagKey>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagKeys/GetTagKey",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates a new TagKey. If another request with the same parameters is"]
-        #[doc = " sent while the original request is in process, the second request"]
-        #[doc = " will receive an error. A maximum of 300 TagKeys can exist under a parent at"]
-        #[doc = " any given time."]
-        pub async fn create_tag_key(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateTagKeyRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagKeys/CreateTagKey",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates the attributes of the TagKey resource."]
-        pub async fn update_tag_key(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateTagKeyRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagKeys/UpdateTagKey",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes a TagKey. The TagKey cannot be deleted if it has any child"]
-        #[doc = " TagValues."]
-        pub async fn delete_tag_key(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteTagKeyRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagKeys/DeleteTagKey",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Gets the access control policy for a TagKey. The returned policy may be"]
-        #[doc = " empty if no such policy or resource exists. The `resource` field should"]
-        #[doc = " be the TagKey's resource name. For example, \"tagKeys/1234\"."]
-        #[doc = " The caller must have"]
-        #[doc = " `cloudresourcemanager.googleapis.com/tagKeys.getIamPolicy` permission on"]
-        #[doc = " the specified TagKey."]
-        pub async fn get_iam_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::GetIamPolicyRequest>,
-        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagKeys/GetIamPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Sets the access control policy on a TagKey, replacing any existing"]
-        #[doc = " policy. The `resource` field should be the TagKey's resource name."]
-        #[doc = " For example, \"tagKeys/1234\"."]
-        #[doc = " The caller must have `resourcemanager.tagKeys.setIamPolicy` permission"]
-        #[doc = " on the identified tagValue."]
-        pub async fn set_iam_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::SetIamPolicyRequest>,
-        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagKeys/SetIamPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Returns permissions that a caller has on the specified TagKey."]
-        #[doc = " The `resource` field should be the TagKey's resource name."]
-        #[doc = " For example, \"tagKeys/1234\"."]
-        #[doc = ""]
-        #[doc = " There are no permissions required for making this API call."]
-        pub async fn test_iam_permissions(
-            &mut self,
-            request: impl tonic::IntoRequest<
-                super::super::super::super::iam::v1::TestIamPermissionsRequest,
-            >,
-        ) -> Result<
-            tonic::Response<super::super::super::super::iam::v1::TestIamPermissionsResponse>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.resourcemanager.v3.TagKeys/TestIamPermissions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// A project is a high-level Google Cloud entity. It is a
 /// container for ACLs, APIs, App Engine Apps, VMs, and other
 /// Google Cloud Platform resources.
@@ -2329,6 +714,618 @@ pub mod projects_client {
         }
     }
 }
+/// A folder in an organization's resource hierarchy, used to
+/// organize that organization's resources.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Folder {
+    /// Output only. The resource name of the folder.
+    /// Its format is `folders/{folder_id}`, for example: "folders/1234".
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The folder's parent's resource name.
+    /// Updates to the folder's parent must be performed using
+    /// \[MoveFolder][google.cloud.resourcemanager.v3.Folders.MoveFolder\].
+    #[prost(string, tag = "2")]
+    pub parent: ::prost::alloc::string::String,
+    /// The folder's display name.
+    /// A folder's display name must be unique amongst its siblings. For example,
+    /// no two folders with the same parent can share the same display name.
+    /// The display name must start and end with a letter or digit, may contain
+    /// letters, digits, spaces, hyphens and underscores and can be no longer
+    /// than 30 characters. This is captured by the regular expression:
+    /// `\[\p{L}\p{N}\]([\p{L}\p{N}_- ]{0,28}\[\p{L}\p{N}\])?`.
+    #[prost(string, tag = "3")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Output only. The lifecycle state of the folder.
+    /// Updates to the state must be performed using
+    /// \[DeleteFolder][google.cloud.resourcemanager.v3.Folders.DeleteFolder\] and
+    /// \[UndeleteFolder][google.cloud.resourcemanager.v3.Folders.UndeleteFolder\].
+    #[prost(enumeration = "folder::State", tag = "4")]
+    pub state: i32,
+    /// Output only. Timestamp when the folder was created.
+    #[prost(message, optional, tag = "5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Timestamp when the folder was last modified.
+    #[prost(message, optional, tag = "6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Timestamp when the folder was requested to be deleted.
+    #[prost(message, optional, tag = "7")]
+    pub delete_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. A checksum computed by the server based on the current value of the folder
+    /// resource. This may be sent on update and delete requests to ensure the
+    /// client has an up-to-date value before proceeding.
+    #[prost(string, tag = "8")]
+    pub etag: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `Folder`.
+pub mod folder {
+    /// Folder lifecycle states.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Unspecified state.
+        Unspecified = 0,
+        /// The normal and active state.
+        Active = 1,
+        /// The folder has been marked for deletion by the user.
+        DeleteRequested = 2,
+    }
+}
+/// The GetFolder request message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetFolderRequest {
+    /// Required. The resource name of the folder to retrieve.
+    /// Must be of the form `folders/{folder_id}`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The ListFolders request message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListFoldersRequest {
+    /// Required. The resource name of the organization or folder whose folders are
+    /// being listed.
+    /// Must be of the form `folders/{folder_id}` or `organizations/{org_id}`.
+    /// Access to this method is controlled by checking the
+    /// `resourcemanager.folders.list` permission on the `parent`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The maximum number of folders to return in the response.
+    /// If unspecified, server picks an appropriate default.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. A pagination token returned from a previous call to `ListFolders`
+    /// that indicates where this listing should continue from.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. Controls whether folders in the
+    /// \[DELETE_REQUESTED][google.cloud.resourcemanager.v3.Folder.State.DELETE_REQUESTED\]
+    /// state should be returned. Defaults to false.
+    #[prost(bool, tag = "4")]
+    pub show_deleted: bool,
+}
+/// The ListFolders response message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListFoldersResponse {
+    /// A possibly paginated list of folders that are direct descendants of
+    /// the specified parent resource.
+    #[prost(message, repeated, tag = "1")]
+    pub folders: ::prost::alloc::vec::Vec<Folder>,
+    /// A pagination token returned from a previous call to `ListFolders`
+    /// that indicates from where listing should continue.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request message for searching folders.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchFoldersRequest {
+    /// Optional. The maximum number of folders to return in the response.
+    /// If unspecified, server picks an appropriate default.
+    #[prost(int32, tag = "1")]
+    pub page_size: i32,
+    /// Optional. A pagination token returned from a previous call to `SearchFolders`
+    /// that indicates from where search should continue.
+    #[prost(string, tag = "2")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. Search criteria used to select the folders to return.
+    /// If no search criteria is specified then all accessible folders will be
+    /// returned.
+    ///
+    /// Query expressions can be used to restrict results based upon displayName,
+    /// state and parent, where the operators `=` (`:`) `NOT`, `AND` and `OR`
+    /// can be used along with the suffix wildcard symbol `*`.
+    ///
+    /// The `displayName` field in a query expression should use escaped quotes
+    /// for values that include whitespace to prevent unexpected behavior.
+    ///
+    /// ```
+    /// | Field                   | Description                            |
+    /// |-------------------------|----------------------------------------|
+    /// | displayName             | Filters by displayName.                |
+    /// | parent                  | Filters by parent (for example: folders/123). |
+    /// | state, lifecycleState   | Filters by state.                      |
+    /// ```
+    ///
+    /// Some example queries are:
+    ///
+    /// * Query `displayName=Test*` returns Folder resources whose display name
+    /// starts with "Test".
+    /// * Query `state=ACTIVE` returns Folder resources with
+    /// `state` set to `ACTIVE`.
+    /// * Query `parent=folders/123` returns Folder resources that have
+    /// `folders/123` as a parent resource.
+    /// * Query `parent=folders/123 AND state=ACTIVE` returns active
+    /// Folder resources that have `folders/123` as a parent resource.
+    /// * Query `displayName=\\"Test String\\"` returns Folder resources with
+    /// display names that include both "Test" and "String".
+    #[prost(string, tag = "3")]
+    pub query: ::prost::alloc::string::String,
+}
+/// The response message for searching folders.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchFoldersResponse {
+    /// A possibly paginated folder search results.
+    /// the specified parent resource.
+    #[prost(message, repeated, tag = "1")]
+    pub folders: ::prost::alloc::vec::Vec<Folder>,
+    /// A pagination token returned from a previous call to `SearchFolders`
+    /// that indicates from where searching should continue.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The CreateFolder request message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateFolderRequest {
+    /// Required. The folder being created, only the display name and parent will be
+    /// consulted. All other fields will be ignored.
+    #[prost(message, optional, tag = "2")]
+    pub folder: ::core::option::Option<Folder>,
+}
+/// Metadata pertaining to the Folder creation process.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateFolderMetadata {
+    /// The display name of the folder.
+    #[prost(string, tag = "1")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The resource name of the folder or organization we are creating the folder
+    /// under.
+    #[prost(string, tag = "2")]
+    pub parent: ::prost::alloc::string::String,
+}
+/// The request sent to the
+/// \[UpdateFolder][google.cloud.resourcemanager.v3.Folder.UpdateFolder\]
+/// method.
+///
+/// Only the `display_name` field can be changed. All other fields will be
+/// ignored. Use the
+/// \[MoveFolder][google.cloud.resourcemanager.v3.Folders.MoveFolder\] method to
+/// change the `parent` field.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateFolderRequest {
+    /// Required. The new definition of the Folder. It must include the `name` field, which
+    /// cannot be changed.
+    #[prost(message, optional, tag = "1")]
+    pub folder: ::core::option::Option<Folder>,
+    /// Required. Fields to be updated.
+    /// Only the `display_name` can be updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// A status object which is used as the `metadata` field for the Operation
+/// returned by UpdateFolder.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateFolderMetadata {}
+/// The MoveFolder request message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MoveFolderRequest {
+    /// Required. The resource name of the Folder to move.
+    /// Must be of the form folders/{folder_id}
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The resource name of the folder or organization which should be the
+    /// folder's new parent.
+    /// Must be of the form `folders/{folder_id}` or `organizations/{org_id}`.
+    #[prost(string, tag = "2")]
+    pub destination_parent: ::prost::alloc::string::String,
+}
+/// Metadata pertaining to the folder move process.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MoveFolderMetadata {
+    /// The display name of the folder.
+    #[prost(string, tag = "1")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The resource name of the folder's parent.
+    #[prost(string, tag = "2")]
+    pub source_parent: ::prost::alloc::string::String,
+    /// The resource name of the folder or organization to move the folder to.
+    #[prost(string, tag = "3")]
+    pub destination_parent: ::prost::alloc::string::String,
+}
+/// The DeleteFolder request message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteFolderRequest {
+    /// Required. The resource name of the folder to be deleted.
+    /// Must be of the form `folders/{folder_id}`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// A status object which is used as the `metadata` field for the `Operation`
+/// returned by `DeleteFolder`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteFolderMetadata {}
+/// The UndeleteFolder request message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UndeleteFolderRequest {
+    /// Required. The resource name of the folder to undelete.
+    /// Must be of the form `folders/{folder_id}`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// A status object which is used as the `metadata` field for the `Operation`
+/// returned by `UndeleteFolder`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UndeleteFolderMetadata {}
+#[doc = r" Generated client implementations."]
+pub mod folders_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Manages Cloud Platform folder resources."]
+    #[doc = " Folders can be used to organize the resources under an"]
+    #[doc = " organization and to control the policies applied to groups of resources."]
+    #[derive(Debug, Clone)]
+    pub struct FoldersClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> FoldersClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> FoldersClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            FoldersClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Retrieves a folder identified by the supplied resource name."]
+        #[doc = " Valid folder resource names have the format `folders/{folder_id}`"]
+        #[doc = " (for example, `folders/1234`)."]
+        #[doc = " The caller must have `resourcemanager.folders.get` permission on the"]
+        #[doc = " identified folder."]
+        pub async fn get_folder(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetFolderRequest>,
+        ) -> Result<tonic::Response<super::Folder>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Folders/GetFolder",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Lists the folders that are direct descendants of supplied parent resource."]
+        #[doc = " `list()` provides a strongly consistent view of the folders underneath"]
+        #[doc = " the specified parent resource."]
+        #[doc = " `list()` returns folders sorted based upon the (ascending) lexical ordering"]
+        #[doc = " of their display_name."]
+        #[doc = " The caller must have `resourcemanager.folders.list` permission on the"]
+        #[doc = " identified parent."]
+        pub async fn list_folders(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListFoldersRequest>,
+        ) -> Result<tonic::Response<super::ListFoldersResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Folders/ListFolders",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Search for folders that match specific filter criteria."]
+        #[doc = " `search()` provides an eventually consistent view of the folders a user has"]
+        #[doc = " access to which meet the specified filter criteria."]
+        #[doc = ""]
+        #[doc = " This will only return folders on which the caller has the"]
+        #[doc = " permission `resourcemanager.folders.get`."]
+        pub async fn search_folders(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SearchFoldersRequest>,
+        ) -> Result<tonic::Response<super::SearchFoldersResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Folders/SearchFolders",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a folder in the resource hierarchy."]
+        #[doc = " Returns an `Operation` which can be used to track the progress of the"]
+        #[doc = " folder creation workflow."]
+        #[doc = " Upon success, the `Operation.response` field will be populated with the"]
+        #[doc = " created Folder."]
+        #[doc = ""]
+        #[doc = " In order to succeed, the addition of this new folder must not violate"]
+        #[doc = " the folder naming, height, or fanout constraints."]
+        #[doc = ""]
+        #[doc = " + The folder's `display_name` must be distinct from all other folders that"]
+        #[doc = " share its parent."]
+        #[doc = " + The addition of the folder must not cause the active folder hierarchy"]
+        #[doc = " to exceed a height of 10. Note, the full active + deleted folder hierarchy"]
+        #[doc = " is allowed to reach a height of 20; this provides additional headroom when"]
+        #[doc = " moving folders that contain deleted folders."]
+        #[doc = " + The addition of the folder must not cause the total number of folders"]
+        #[doc = " under its parent to exceed 300."]
+        #[doc = ""]
+        #[doc = " If the operation fails due to a folder constraint violation, some errors"]
+        #[doc = " may be returned by the `CreateFolder` request, with status code"]
+        #[doc = " `FAILED_PRECONDITION` and an error description. Other folder constraint"]
+        #[doc = " violations will be communicated in the `Operation`, with the specific"]
+        #[doc = " `PreconditionFailure` returned in the details list in the `Operation.error`"]
+        #[doc = " field."]
+        #[doc = ""]
+        #[doc = " The caller must have `resourcemanager.folders.create` permission on the"]
+        #[doc = " identified parent."]
+        pub async fn create_folder(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateFolderRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Folders/CreateFolder",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates a folder, changing its `display_name`."]
+        #[doc = " Changes to the folder `display_name` will be rejected if they violate"]
+        #[doc = " either the `display_name` formatting rules or the naming constraints"]
+        #[doc = " described in the [CreateFolder][google.cloud.resourcemanager.v3.Folders.CreateFolder] documentation."]
+        #[doc = ""]
+        #[doc = " The folder's `display_name` must start and end with a letter or digit,"]
+        #[doc = " may contain letters, digits, spaces, hyphens and underscores and can be"]
+        #[doc = " between 3 and 30 characters. This is captured by the regular expression:"]
+        #[doc = " `[\\p{L}\\p{N}][\\p{L}\\p{N}_- ]{1,28}[\\p{L}\\p{N}]`."]
+        #[doc = " The caller must have `resourcemanager.folders.update` permission on the"]
+        #[doc = " identified folder."]
+        #[doc = ""]
+        #[doc = " If the update fails due to the unique name constraint then a"]
+        #[doc = " `PreconditionFailure` explaining this violation will be returned"]
+        #[doc = " in the Status.details field."]
+        pub async fn update_folder(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateFolderRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Folders/UpdateFolder",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Moves a folder under a new resource parent."]
+        #[doc = " Returns an `Operation` which can be used to track the progress of the"]
+        #[doc = " folder move workflow."]
+        #[doc = " Upon success, the `Operation.response` field will be populated with the"]
+        #[doc = " moved folder."]
+        #[doc = " Upon failure, a `FolderOperationError` categorizing the failure cause will"]
+        #[doc = " be returned - if the failure occurs synchronously then the"]
+        #[doc = " `FolderOperationError` will be returned in the `Status.details` field."]
+        #[doc = " If it occurs asynchronously, then the FolderOperation will be returned"]
+        #[doc = " in the `Operation.error` field."]
+        #[doc = " In addition, the `Operation.metadata` field will be populated with a"]
+        #[doc = " `FolderOperation` message as an aid to stateless clients."]
+        #[doc = " Folder moves will be rejected if they violate either the naming, height,"]
+        #[doc = " or fanout constraints described in the"]
+        #[doc = " [CreateFolder][google.cloud.resourcemanager.v3.Folders.CreateFolder] documentation."]
+        #[doc = " The caller must have `resourcemanager.folders.move` permission on the"]
+        #[doc = " folder's current and proposed new parent."]
+        pub async fn move_folder(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MoveFolderRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Folders/MoveFolder",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Requests deletion of a folder. The folder is moved into the"]
+        #[doc = " [DELETE_REQUESTED][google.cloud.resourcemanager.v3.Folder.State.DELETE_REQUESTED] state"]
+        #[doc = " immediately, and is deleted approximately 30 days later. This method may"]
+        #[doc = " only be called on an empty folder, where a folder is empty if it doesn't"]
+        #[doc = " contain any folders or projects in the [ACTIVE][google.cloud.resourcemanager.v3.Folder.State.ACTIVE] state."]
+        #[doc = " If called on a folder in [DELETE_REQUESTED][google.cloud.resourcemanager.v3.Folder.State.DELETE_REQUESTED]"]
+        #[doc = " state the operation will result in a no-op success."]
+        #[doc = " The caller must have `resourcemanager.folders.delete` permission on the"]
+        #[doc = " identified folder."]
+        pub async fn delete_folder(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteFolderRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Folders/DeleteFolder",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Cancels the deletion request for a folder. This method may be called on a"]
+        #[doc = " folder in any state. If the folder is in the [ACTIVE][google.cloud.resourcemanager.v3.Folder.State.ACTIVE]"]
+        #[doc = " state the result will be a no-op success. In order to succeed, the folder's"]
+        #[doc = " parent must be in the [ACTIVE][google.cloud.resourcemanager.v3.Folder.State.ACTIVE] state. In addition,"]
+        #[doc = " reintroducing the folder into the tree must not violate folder naming,"]
+        #[doc = " height, and fanout constraints described in the"]
+        #[doc = " [CreateFolder][google.cloud.resourcemanager.v3.Folders.CreateFolder] documentation."]
+        #[doc = " The caller must have `resourcemanager.folders.undelete` permission on the"]
+        #[doc = " identified folder."]
+        pub async fn undelete_folder(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UndeleteFolderRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Folders/UndeleteFolder",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets the access control policy for a folder. The returned policy may be"]
+        #[doc = " empty if no such policy or resource exists. The `resource` field should"]
+        #[doc = " be the folder's resource name, for example: \"folders/1234\"."]
+        #[doc = " The caller must have `resourcemanager.folders.getIamPolicy` permission"]
+        #[doc = " on the identified folder."]
+        pub async fn get_iam_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::GetIamPolicyRequest>,
+        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Folders/GetIamPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Sets the access control policy on a folder, replacing any existing policy."]
+        #[doc = " The `resource` field should be the folder's resource name, for example:"]
+        #[doc = " \"folders/1234\"."]
+        #[doc = " The caller must have `resourcemanager.folders.setIamPolicy` permission"]
+        #[doc = " on the identified folder."]
+        pub async fn set_iam_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::SetIamPolicyRequest>,
+        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Folders/SetIamPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Returns permissions that a caller has on the specified folder."]
+        #[doc = " The `resource` field should be the folder's resource name,"]
+        #[doc = " for example: \"folders/1234\"."]
+        #[doc = ""]
+        #[doc = " There are no permissions required for making this API call."]
+        pub async fn test_iam_permissions(
+            &mut self,
+            request: impl tonic::IntoRequest<
+                super::super::super::super::iam::v1::TestIamPermissionsRequest,
+            >,
+        ) -> Result<
+            tonic::Response<super::super::super::super::iam::v1::TestIamPermissionsResponse>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Folders/TestIamPermissions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// A TagBinding represents a connection between a TagValue and a cloud
 /// resource (currently project, folder, or organization). Once a TagBinding is
 /// created, the TagValue is applied to all the descendants of the cloud
@@ -2524,6 +1521,1009 @@ pub mod tag_bindings_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.resourcemanager.v3.TagBindings/DeleteTagBinding",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// A TagValue is a child of a particular TagKey. This is used to group
+/// cloud resources for the purpose of controlling them using policies.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TagValue {
+    /// Immutable. Resource name for TagValue in the format `tagValues/456`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Immutable. The resource name of the new TagValue's parent TagKey.
+    /// Must be of the form `tagKeys/{tag_key_id}`.
+    #[prost(string, tag = "2")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Immutable. User-assigned short name for TagValue. The short name should be
+    /// unique for TagValues within the same parent TagKey.
+    ///
+    /// The short name must be 63 characters or less, beginning and ending with
+    /// an alphanumeric character (\[a-z0-9A-Z\]) with dashes (-), underscores (_),
+    /// dots (.), and alphanumerics between.
+    #[prost(string, tag = "3")]
+    pub short_name: ::prost::alloc::string::String,
+    /// Output only. Namespaced name of the TagValue. Must be in the format
+    /// `{organization_id}/{tag_key_short_name}/{short_name}`.
+    #[prost(string, tag = "4")]
+    pub namespaced_name: ::prost::alloc::string::String,
+    /// Optional. User-assigned description of the TagValue.
+    /// Must not exceed 256 characters.
+    ///
+    /// Read-write.
+    #[prost(string, tag = "5")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. Creation time.
+    #[prost(message, optional, tag = "6")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Update time.
+    #[prost(message, optional, tag = "7")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. Entity tag which users can pass to prevent race conditions. This field is
+    /// always set in server responses. See UpdateTagValueRequest for details.
+    #[prost(string, tag = "8")]
+    pub etag: ::prost::alloc::string::String,
+}
+/// The request message for listing TagValues for the specified TagKey.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTagValuesRequest {
+    /// Required. Resource name for TagKey, parent of the TagValues to be listed,
+    /// in the format `tagKeys/123`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The maximum number of TagValues to return in the response. The server
+    /// allows a maximum of 300 TagValues to return. If unspecified, the server
+    /// will use 100 as the default.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. A pagination token returned from a previous call to `ListTagValues`
+    /// that indicates where this listing should continue from.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The ListTagValues response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTagValuesResponse {
+    /// A possibly paginated list of TagValues that are direct descendants of
+    /// the specified parent TagKey.
+    #[prost(message, repeated, tag = "1")]
+    pub tag_values: ::prost::alloc::vec::Vec<TagValue>,
+    /// A pagination token returned from a previous call to `ListTagValues`
+    /// that indicates from where listing should continue. This is currently not
+    /// used, but the server may at any point start supplying a valid token.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request message for getting a TagValue.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetTagValueRequest {
+    /// Required. Resource name for TagValue to be fetched in the format `tagValues/456`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request message for creating a TagValue.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateTagValueRequest {
+    /// Required. The TagValue to be created. Only fields `short_name`, `description`,
+    /// and `parent` are considered during the creation request.
+    #[prost(message, optional, tag = "1")]
+    pub tag_value: ::core::option::Option<TagValue>,
+    /// Optional. Set as true to perform the validations necessary for creating the resource,
+    /// but not actually perform the action.
+    #[prost(bool, tag = "2")]
+    pub validate_only: bool,
+}
+/// Runtime operation information for creating a TagValue.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateTagValueMetadata {}
+/// The request message for updating a TagValue.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateTagValueRequest {
+    /// Required. The new definition of the TagValue. Only fields `description` and `etag`
+    /// fields can be updated by this request. If the `etag` field is nonempty, it
+    /// must match the `etag` field of the existing ControlGroup. Otherwise,
+    /// `FAILED_PRECONDITION` will be returned.
+    #[prost(message, optional, tag = "1")]
+    pub tag_value: ::core::option::Option<TagValue>,
+    /// Optional. Fields to be updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// Optional. True to perform validations necessary for updating the resource, but not
+    /// actually perform the action.
+    #[prost(bool, tag = "3")]
+    pub validate_only: bool,
+}
+/// Runtime operation information for updating a TagValue.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateTagValueMetadata {}
+/// The request message for deleting a TagValue.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteTagValueRequest {
+    /// Required. Resource name for TagValue to be deleted in the format tagValues/456.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Set as true to perform the validations necessary for deletion, but not
+    /// actually perform the action.
+    #[prost(bool, tag = "2")]
+    pub validate_only: bool,
+    /// Optional. The etag known to the client for the expected state of the TagValue. This
+    /// is to be used for optimistic concurrency.
+    #[prost(string, tag = "3")]
+    pub etag: ::prost::alloc::string::String,
+}
+/// Runtime operation information for deleting a TagValue.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteTagValueMetadata {}
+#[doc = r" Generated client implementations."]
+pub mod tag_values_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Allow users to create and manage tag values."]
+    #[derive(Debug, Clone)]
+    pub struct TagValuesClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> TagValuesClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> TagValuesClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            TagValuesClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Lists all TagValues for a specific TagKey."]
+        pub async fn list_tag_values(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListTagValuesRequest>,
+        ) -> Result<tonic::Response<super::ListTagValuesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagValues/ListTagValues",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves TagValue. If the TagValue or namespaced name does not exist, or"]
+        #[doc = " if the user does not have permission to view it, this method will return"]
+        #[doc = " `PERMISSION_DENIED`."]
+        pub async fn get_tag_value(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetTagValueRequest>,
+        ) -> Result<tonic::Response<super::TagValue>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagValues/GetTagValue",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a TagValue as a child of the specified TagKey. If a another"]
+        #[doc = " request with the same parameters is sent while the original request is in"]
+        #[doc = " process the second request will receive an error. A maximum of 300"]
+        #[doc = " TagValues can exist under a TagKey at any given time."]
+        pub async fn create_tag_value(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateTagValueRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagValues/CreateTagValue",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates the attributes of the TagValue resource."]
+        pub async fn update_tag_value(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateTagValueRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagValues/UpdateTagValue",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes a TagValue. The TagValue cannot have any bindings when it is"]
+        #[doc = " deleted."]
+        pub async fn delete_tag_value(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteTagValueRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagValues/DeleteTagValue",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets the access control policy for a TagValue. The returned policy may be"]
+        #[doc = " empty if no such policy or resource exists. The `resource` field should"]
+        #[doc = " be the TagValue's resource name. For example: `tagValues/1234`."]
+        #[doc = " The caller must have the"]
+        #[doc = " `cloudresourcemanager.googleapis.com/tagValues.getIamPolicy` permission on"]
+        #[doc = " the identified TagValue to get the access control policy."]
+        pub async fn get_iam_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::GetIamPolicyRequest>,
+        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagValues/GetIamPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Sets the access control policy on a TagValue, replacing any existing"]
+        #[doc = " policy. The `resource` field should be the TagValue's resource name."]
+        #[doc = " For example: `tagValues/1234`."]
+        #[doc = " The caller must have `resourcemanager.tagValues.setIamPolicy` permission"]
+        #[doc = " on the identified tagValue."]
+        pub async fn set_iam_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::SetIamPolicyRequest>,
+        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagValues/SetIamPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Returns permissions that a caller has on the specified TagValue."]
+        #[doc = " The `resource` field should be the TagValue's resource name. For example:"]
+        #[doc = " `tagValues/1234`."]
+        #[doc = ""]
+        #[doc = " There are no permissions required for making this API call."]
+        pub async fn test_iam_permissions(
+            &mut self,
+            request: impl tonic::IntoRequest<
+                super::super::super::super::iam::v1::TestIamPermissionsRequest,
+            >,
+        ) -> Result<
+            tonic::Response<super::super::super::super::iam::v1::TestIamPermissionsResponse>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagValues/TestIamPermissions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// A TagKey, used to group a set of TagValues.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TagKey {
+    /// Immutable. The resource name for a TagKey. Must be in the format
+    /// `tagKeys/{tag_key_id}`, where `tag_key_id` is the generated numeric id for
+    /// the TagKey.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Immutable. The resource name of the new TagKey's parent.
+    /// Must be of the form `organizations/{org_id}`.
+    #[prost(string, tag = "2")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Immutable. The user friendly name for a TagKey. The short name should be
+    /// unique for TagKeys within the same tag namespace.
+    ///
+    /// The short name must be 1-63 characters, beginning and ending with
+    /// an alphanumeric character (\[a-z0-9A-Z\]) with dashes (-), underscores (_),
+    /// dots (.), and alphanumerics between.
+    #[prost(string, tag = "3")]
+    pub short_name: ::prost::alloc::string::String,
+    /// Output only. Immutable. Namespaced name of the TagKey.
+    #[prost(string, tag = "4")]
+    pub namespaced_name: ::prost::alloc::string::String,
+    /// Optional. User-assigned description of the TagKey. Must not exceed 256 characters.
+    ///
+    /// Read-write.
+    #[prost(string, tag = "5")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. Creation time.
+    #[prost(message, optional, tag = "6")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Update time.
+    #[prost(message, optional, tag = "7")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. Entity tag which users can pass to prevent race conditions. This field is
+    /// always set in server responses. See UpdateTagKeyRequest for details.
+    #[prost(string, tag = "8")]
+    pub etag: ::prost::alloc::string::String,
+}
+/// The request message for listing all TagKeys under a parent resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTagKeysRequest {
+    /// Required. The resource name of the new TagKey's parent.
+    /// Must be of the form `folders/{folder_id}` or `organizations/{org_id}`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The maximum number of TagKeys to return in the response. The server allows
+    /// a maximum of 300 TagKeys to return. If unspecified, the server will use 100
+    /// as the default.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. A pagination token returned from a previous call to `ListTagKey`
+    /// that indicates where this listing should continue from.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The ListTagKeys response message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTagKeysResponse {
+    /// List of TagKeys that live under the specified parent in the request.
+    #[prost(message, repeated, tag = "1")]
+    pub tag_keys: ::prost::alloc::vec::Vec<TagKey>,
+    /// A pagination token returned from a previous call to `ListTagKeys`
+    /// that indicates from where listing should continue.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request message for getting a TagKey.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetTagKeyRequest {
+    /// Required. A resource name in the format `tagKeys/{id}`, such as
+    /// `tagKeys/123`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request message for creating a TagKey.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateTagKeyRequest {
+    /// Required. The TagKey to be created. Only fields `short_name`, `description`,
+    /// and `parent` are considered during the creation request.
+    #[prost(message, optional, tag = "1")]
+    pub tag_key: ::core::option::Option<TagKey>,
+    /// Optional. Set to true to perform validations necessary for creating the resource, but
+    /// not actually perform the action.
+    #[prost(bool, tag = "2")]
+    pub validate_only: bool,
+}
+/// Runtime operation information for creating a TagKey.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateTagKeyMetadata {}
+/// The request message for updating a TagKey.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateTagKeyRequest {
+    /// Required. The new definition of the TagKey. Only the `description` and `etag` fields
+    /// can be updated by this request. If the `etag` field is not empty, it
+    /// must match the `etag` field of the existing tag key. Otherwise,
+    /// `FAILED_PRECONDITION` will be returned.
+    #[prost(message, optional, tag = "1")]
+    pub tag_key: ::core::option::Option<TagKey>,
+    /// Fields to be updated. The mask may only contain `description` or
+    /// `etag`. If omitted entirely, both `description` and `etag` are assumed to
+    /// be significant.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// Set as true to perform validations necessary for updating the resource, but
+    /// not actually perform the action.
+    #[prost(bool, tag = "3")]
+    pub validate_only: bool,
+}
+/// Runtime operation information for updating a TagKey.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateTagKeyMetadata {}
+/// The request message for deleting a TagKey.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteTagKeyRequest {
+    /// Required. The resource name of a TagKey to be deleted in the format `tagKeys/123`.
+    /// The TagKey cannot be a parent of any existing TagValues or it will not be
+    /// deleted successfully.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Set as true to perform validations necessary for deletion, but not actually
+    /// perform the action.
+    #[prost(bool, tag = "2")]
+    pub validate_only: bool,
+    /// Optional. The etag known to the client for the expected state of the TagKey. This is
+    /// to be used for optimistic concurrency.
+    #[prost(string, tag = "3")]
+    pub etag: ::prost::alloc::string::String,
+}
+/// Runtime operation information for deleting a TagKey.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteTagKeyMetadata {}
+#[doc = r" Generated client implementations."]
+pub mod tag_keys_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Allow users to create and manage tag keys."]
+    #[derive(Debug, Clone)]
+    pub struct TagKeysClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> TagKeysClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> TagKeysClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            TagKeysClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Lists all TagKeys for a parent resource."]
+        pub async fn list_tag_keys(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListTagKeysRequest>,
+        ) -> Result<tonic::Response<super::ListTagKeysResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagKeys/ListTagKeys",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves a TagKey. This method will return `PERMISSION_DENIED` if the"]
+        #[doc = " key does not exist or the user does not have permission to view it."]
+        pub async fn get_tag_key(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetTagKeyRequest>,
+        ) -> Result<tonic::Response<super::TagKey>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagKeys/GetTagKey",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a new TagKey. If another request with the same parameters is"]
+        #[doc = " sent while the original request is in process, the second request"]
+        #[doc = " will receive an error. A maximum of 300 TagKeys can exist under a parent at"]
+        #[doc = " any given time."]
+        pub async fn create_tag_key(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateTagKeyRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagKeys/CreateTagKey",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates the attributes of the TagKey resource."]
+        pub async fn update_tag_key(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateTagKeyRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagKeys/UpdateTagKey",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes a TagKey. The TagKey cannot be deleted if it has any child"]
+        #[doc = " TagValues."]
+        pub async fn delete_tag_key(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteTagKeyRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagKeys/DeleteTagKey",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets the access control policy for a TagKey. The returned policy may be"]
+        #[doc = " empty if no such policy or resource exists. The `resource` field should"]
+        #[doc = " be the TagKey's resource name. For example, \"tagKeys/1234\"."]
+        #[doc = " The caller must have"]
+        #[doc = " `cloudresourcemanager.googleapis.com/tagKeys.getIamPolicy` permission on"]
+        #[doc = " the specified TagKey."]
+        pub async fn get_iam_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::GetIamPolicyRequest>,
+        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagKeys/GetIamPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Sets the access control policy on a TagKey, replacing any existing"]
+        #[doc = " policy. The `resource` field should be the TagKey's resource name."]
+        #[doc = " For example, \"tagKeys/1234\"."]
+        #[doc = " The caller must have `resourcemanager.tagKeys.setIamPolicy` permission"]
+        #[doc = " on the identified tagValue."]
+        pub async fn set_iam_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::SetIamPolicyRequest>,
+        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagKeys/SetIamPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Returns permissions that a caller has on the specified TagKey."]
+        #[doc = " The `resource` field should be the TagKey's resource name."]
+        #[doc = " For example, \"tagKeys/1234\"."]
+        #[doc = ""]
+        #[doc = " There are no permissions required for making this API call."]
+        pub async fn test_iam_permissions(
+            &mut self,
+            request: impl tonic::IntoRequest<
+                super::super::super::super::iam::v1::TestIamPermissionsRequest,
+            >,
+        ) -> Result<
+            tonic::Response<super::super::super::super::iam::v1::TestIamPermissionsResponse>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.TagKeys/TestIamPermissions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// The root node in the resource hierarchy to which a particular entity's
+/// (a company, for example) resources belong.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Organization {
+    /// Output only. The resource name of the organization. This is the
+    /// organization's relative path in the API. Its format is
+    /// "organizations/\[organization_id\]". For example, "organizations/1234".
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. A human-readable string that refers to the organization in the
+    /// Google Cloud Console. This string is set by the server and cannot be
+    /// changed. The string will be set to the primary domain (for example,
+    /// "google.com") of the Google Workspace customer that owns the organization.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Output only. The organization's current lifecycle state.
+    #[prost(enumeration = "organization::State", tag = "4")]
+    pub state: i32,
+    /// Output only. Timestamp when the Organization was created.
+    #[prost(message, optional, tag = "5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Timestamp when the Organization was last modified.
+    #[prost(message, optional, tag = "6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Timestamp when the Organization was requested for deletion.
+    #[prost(message, optional, tag = "7")]
+    pub delete_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. A checksum computed by the server based on the current value of the
+    /// Organization resource. This may be sent on update and delete requests to
+    /// ensure the client has an up-to-date value before proceeding.
+    #[prost(string, tag = "8")]
+    pub etag: ::prost::alloc::string::String,
+    /// The owner of this organization. The owner should be specified on
+    /// creation. Once set, it cannot be changed.
+    ///
+    /// The lifetime of the organization and all of its descendants are bound to
+    /// the owner. If the owner is deleted, the organization and all its
+    /// descendants will be deleted.
+    #[prost(oneof = "organization::Owner", tags = "3")]
+    pub owner: ::core::option::Option<organization::Owner>,
+}
+/// Nested message and enum types in `Organization`.
+pub mod organization {
+    /// Organization lifecycle states.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Unspecified state.  This is only useful for distinguishing unset values.
+        Unspecified = 0,
+        /// The normal and active state.
+        Active = 1,
+        /// The organization has been marked for deletion by the user.
+        DeleteRequested = 2,
+    }
+    /// The owner of this organization. The owner should be specified on
+    /// creation. Once set, it cannot be changed.
+    ///
+    /// The lifetime of the organization and all of its descendants are bound to
+    /// the owner. If the owner is deleted, the organization and all its
+    /// descendants will be deleted.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Owner {
+        /// Immutable. The G Suite / Workspace customer id used in the Directory API.
+        #[prost(string, tag = "3")]
+        DirectoryCustomerId(::prost::alloc::string::String),
+    }
+}
+/// The request sent to the `GetOrganization` method. The `name` field is
+/// required. `organization_id` is no longer accepted.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetOrganizationRequest {
+    /// Required. The resource name of the Organization to fetch. This is the organization's
+    /// relative path in the API, formatted as "organizations/\[organizationId\]".
+    /// For example, "organizations/1234".
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request sent to the `SearchOrganizations` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchOrganizationsRequest {
+    /// Optional. The maximum number of organizations to return in the response.
+    /// If unspecified, server picks an appropriate default.
+    #[prost(int32, tag = "1")]
+    pub page_size: i32,
+    /// Optional. A pagination token returned from a previous call to `SearchOrganizations`
+    /// that indicates from where listing should continue.
+    #[prost(string, tag = "2")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. An optional query string used to filter the Organizations to return in
+    /// the response. Query rules are case-insensitive.
+    ///
+    /// ```
+    /// | Field            | Description                                |
+    /// |------------------|--------------------------------------------|
+    /// | directoryCustomerId, owner.directoryCustomerId | Filters by directory
+    /// customer id. |
+    /// | domain           | Filters by domain.                         |
+    /// ```
+    ///
+    /// Organizations may be queried by `directoryCustomerId` or by
+    /// `domain`, where the domain is a G Suite domain, for example:
+    ///
+    /// * Query `directorycustomerid:123456789` returns Organization
+    /// resources with `owner.directory_customer_id` equal to `123456789`.
+    /// * Query `domain:google.com` returns Organization resources corresponding
+    /// to the domain `google.com`.
+    #[prost(string, tag = "3")]
+    pub query: ::prost::alloc::string::String,
+}
+/// The response returned from the `SearchOrganizations` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchOrganizationsResponse {
+    /// The list of Organizations that matched the search query, possibly
+    /// paginated.
+    #[prost(message, repeated, tag = "1")]
+    pub organizations: ::prost::alloc::vec::Vec<Organization>,
+    /// A pagination token to be used to retrieve the next page of results. If the
+    /// result is too large to fit within the page size specified in the request,
+    /// this field will be set with a token that can be used to fetch the next page
+    /// of results. If this field is empty, it indicates that this response
+    /// contains the last page of results.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// A status object which is used as the `metadata` field for the operation
+/// returned by DeleteOrganization.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteOrganizationMetadata {}
+/// A status object which is used as the `metadata` field for the Operation
+/// returned by UndeleteOrganization.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UndeleteOrganizationMetadata {}
+#[doc = r" Generated client implementations."]
+pub mod organizations_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Allows users to manage their organization resources."]
+    #[derive(Debug, Clone)]
+    pub struct OrganizationsClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> OrganizationsClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> OrganizationsClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            OrganizationsClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Fetches an organization resource identified by the specified resource name."]
+        pub async fn get_organization(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetOrganizationRequest>,
+        ) -> Result<tonic::Response<super::Organization>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Organizations/GetOrganization",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Searches organization resources that are visible to the user and satisfy"]
+        #[doc = " the specified filter. This method returns organizations in an unspecified"]
+        #[doc = " order. New organizations do not necessarily appear at the end of the"]
+        #[doc = " results, and may take a small amount of time to appear."]
+        #[doc = ""]
+        #[doc = " Search will only return organizations on which the user has the permission"]
+        #[doc = " `resourcemanager.organizations.get`"]
+        pub async fn search_organizations(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SearchOrganizationsRequest>,
+        ) -> Result<tonic::Response<super::SearchOrganizationsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Organizations/SearchOrganizations",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets the access control policy for an organization resource. The policy may"]
+        #[doc = " be empty if no such policy or resource exists. The `resource` field should"]
+        #[doc = " be the organization's resource name, for example: \"organizations/123\"."]
+        #[doc = ""]
+        #[doc = " Authorization requires the IAM permission"]
+        #[doc = " `resourcemanager.organizations.getIamPolicy` on the specified organization."]
+        pub async fn get_iam_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::GetIamPolicyRequest>,
+        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Organizations/GetIamPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Sets the access control policy on an organization resource. Replaces any"]
+        #[doc = " existing policy. The `resource` field should be the organization's resource"]
+        #[doc = " name, for example: \"organizations/123\"."]
+        #[doc = ""]
+        #[doc = " Authorization requires the IAM permission"]
+        #[doc = " `resourcemanager.organizations.setIamPolicy` on the specified organization."]
+        pub async fn set_iam_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::super::super::super::iam::v1::SetIamPolicyRequest>,
+        ) -> Result<tonic::Response<super::super::super::super::iam::v1::Policy>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Organizations/SetIamPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Returns the permissions that a caller has on the specified organization."]
+        #[doc = " The `resource` field should be the organization's resource name,"]
+        #[doc = " for example: \"organizations/123\"."]
+        #[doc = ""]
+        #[doc = " There are no permissions required for making this API call."]
+        pub async fn test_iam_permissions(
+            &mut self,
+            request: impl tonic::IntoRequest<
+                super::super::super::super::iam::v1::TestIamPermissionsRequest,
+            >,
+        ) -> Result<
+            tonic::Response<super::super::super::super::iam::v1::TestIamPermissionsResponse>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.resourcemanager.v3.Organizations/TestIamPermissions",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

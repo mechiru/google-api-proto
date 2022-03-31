@@ -96,6 +96,7 @@ pub mod ccc;
     feature = "google-cloud-bigquery-dataexchange-v1beta1",
     feature = "google-cloud-bigquery-datatransfer-v1",
     feature = "google-cloud-bigquery-logging-v1",
+    feature = "google-cloud-bigquery-migration-v2",
     feature = "google-cloud-bigquery-migration-v2alpha",
     feature = "google-cloud-bigquery-reservation-v1",
     feature = "google-cloud-bigquery-reservation-v1beta1",

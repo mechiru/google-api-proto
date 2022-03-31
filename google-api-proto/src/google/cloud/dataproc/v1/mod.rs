@@ -1,401 +1,3 @@
-/// Describes an autoscaling policy for Dataproc cluster autoscaler.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoscalingPolicy {
-    /// Required. The policy id.
-    ///
-    /// The id must contain only letters (a-z, A-Z), numbers (0-9),
-    /// underscores (_), and hyphens (-). Cannot begin or end with underscore
-    /// or hyphen. Must consist of between 3 and 50 characters.
-    ///
-    #[prost(string, tag = "1")]
-    pub id: ::prost::alloc::string::String,
-    /// Output only. The "resource name" of the autoscaling policy, as described
-    /// in <https://cloud.google.com/apis/design/resource_names.>
-    ///
-    /// * For `projects.regions.autoscalingPolicies`, the resource name of the
-    ///   policy has the following format:
-    ///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`
-    ///
-    /// * For `projects.locations.autoscalingPolicies`, the resource name of the
-    ///   policy has the following format:
-    ///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`
-    #[prost(string, tag = "2")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. Describes how the autoscaler will operate for primary workers.
-    #[prost(message, optional, tag = "4")]
-    pub worker_config: ::core::option::Option<InstanceGroupAutoscalingPolicyConfig>,
-    /// Optional. Describes how the autoscaler will operate for secondary workers.
-    #[prost(message, optional, tag = "5")]
-    pub secondary_worker_config: ::core::option::Option<InstanceGroupAutoscalingPolicyConfig>,
-    /// Optional. The labels to associate with this autoscaling policy.
-    /// Label **keys** must contain 1 to 63 characters, and must conform to
-    /// [RFC 1035](<https://www.ietf.org/rfc/rfc1035.txt>).
-    /// Label **values** may be empty, but, if present, must contain 1 to 63
-    /// characters, and must conform to [RFC
-    /// 1035](<https://www.ietf.org/rfc/rfc1035.txt>). No more than 32 labels can be
-    /// associated with an autoscaling policy.
-    #[prost(btree_map = "string, string", tag = "6")]
-    pub labels: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-    /// Autoscaling algorithm for policy.
-    #[prost(oneof = "autoscaling_policy::Algorithm", tags = "3")]
-    pub algorithm: ::core::option::Option<autoscaling_policy::Algorithm>,
-}
-/// Nested message and enum types in `AutoscalingPolicy`.
-pub mod autoscaling_policy {
-    /// Autoscaling algorithm for policy.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Algorithm {
-        #[prost(message, tag = "3")]
-        BasicAlgorithm(super::BasicAutoscalingAlgorithm),
-    }
-}
-/// Basic algorithm for autoscaling.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BasicAutoscalingAlgorithm {
-    /// Required. YARN autoscaling configuration.
-    #[prost(message, optional, tag = "1")]
-    pub yarn_config: ::core::option::Option<BasicYarnAutoscalingConfig>,
-    /// Optional. Duration between scaling events. A scaling period starts after
-    /// the update operation from the previous event has completed.
-    ///
-    /// Bounds: [2m, 1d]. Default: 2m.
-    #[prost(message, optional, tag = "2")]
-    pub cooldown_period: ::core::option::Option<::prost_types::Duration>,
-}
-/// Basic autoscaling configurations for YARN.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BasicYarnAutoscalingConfig {
-    /// Required. Timeout for YARN graceful decommissioning of Node Managers.
-    /// Specifies the duration to wait for jobs to complete before forcefully
-    /// removing workers (and potentially interrupting jobs). Only applicable to
-    /// downscaling operations.
-    ///
-    /// Bounds: [0s, 1d].
-    #[prost(message, optional, tag = "5")]
-    pub graceful_decommission_timeout: ::core::option::Option<::prost_types::Duration>,
-    /// Required. Fraction of average YARN pending memory in the last cooldown period
-    /// for which to add workers. A scale-up factor of 1.0 will result in scaling
-    /// up so that there is no pending memory remaining after the update (more
-    /// aggressive scaling). A scale-up factor closer to 0 will result in a smaller
-    /// magnitude of scaling up (less aggressive scaling).
-    /// See [How autoscaling
-    /// works](<https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works>)
-    /// for more information.
-    ///
-    /// Bounds: [0.0, 1.0].
-    #[prost(double, tag = "1")]
-    pub scale_up_factor: f64,
-    /// Required. Fraction of average YARN pending memory in the last cooldown period
-    /// for which to remove workers. A scale-down factor of 1 will result in
-    /// scaling down so that there is no available memory remaining after the
-    /// update (more aggressive scaling). A scale-down factor of 0 disables
-    /// removing workers, which can be beneficial for autoscaling a single job.
-    /// See [How autoscaling
-    /// works](<https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works>)
-    /// for more information.
-    ///
-    /// Bounds: [0.0, 1.0].
-    #[prost(double, tag = "2")]
-    pub scale_down_factor: f64,
-    /// Optional. Minimum scale-up threshold as a fraction of total cluster size
-    /// before scaling occurs. For example, in a 20-worker cluster, a threshold of
-    /// 0.1 means the autoscaler must recommend at least a 2-worker scale-up for
-    /// the cluster to scale. A threshold of 0 means the autoscaler will scale up
-    /// on any recommended change.
-    ///
-    /// Bounds: [0.0, 1.0]. Default: 0.0.
-    #[prost(double, tag = "3")]
-    pub scale_up_min_worker_fraction: f64,
-    /// Optional. Minimum scale-down threshold as a fraction of total cluster size
-    /// before scaling occurs. For example, in a 20-worker cluster, a threshold of
-    /// 0.1 means the autoscaler must recommend at least a 2 worker scale-down for
-    /// the cluster to scale. A threshold of 0 means the autoscaler will scale down
-    /// on any recommended change.
-    ///
-    /// Bounds: [0.0, 1.0]. Default: 0.0.
-    #[prost(double, tag = "4")]
-    pub scale_down_min_worker_fraction: f64,
-}
-/// Configuration for the size bounds of an instance group, including its
-/// proportional size to other groups.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InstanceGroupAutoscalingPolicyConfig {
-    /// Optional. Minimum number of instances for this group.
-    ///
-    /// Primary workers - Bounds: [2, max_instances]. Default: 2.
-    /// Secondary workers - Bounds: [0, max_instances]. Default: 0.
-    #[prost(int32, tag = "1")]
-    pub min_instances: i32,
-    /// Required. Maximum number of instances for this group. Required for primary
-    /// workers. Note that by default, clusters will not use secondary workers.
-    /// Required for secondary workers if the minimum secondary instances is set.
-    ///
-    /// Primary workers - Bounds: [min_instances, ).
-    /// Secondary workers - Bounds: [min_instances, ). Default: 0.
-    #[prost(int32, tag = "2")]
-    pub max_instances: i32,
-    /// Optional. Weight for the instance group, which is used to determine the
-    /// fraction of total workers in the cluster from this instance group.
-    /// For example, if primary workers have weight 2, and secondary workers have
-    /// weight 1, the cluster will have approximately 2 primary workers for each
-    /// secondary worker.
-    ///
-    /// The cluster may not reach the specified balance if constrained
-    /// by min/max bounds or other autoscaling settings. For example, if
-    /// `max_instances` for secondary workers is 0, then only primary workers will
-    /// be added. The cluster can also be out of balance when created.
-    ///
-    /// If weight is not set on any instance group, the cluster will default to
-    /// equal weight for all groups: the cluster will attempt to maintain an equal
-    /// number of workers in each group within the configured size bounds for each
-    /// group. If weight is set for one group only, the cluster will default to
-    /// zero weight on the unset group. For example if weight is set only on
-    /// primary workers, the cluster will use primary workers only and no
-    /// secondary workers.
-    #[prost(int32, tag = "3")]
-    pub weight: i32,
-}
-/// A request to create an autoscaling policy.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateAutoscalingPolicyRequest {
-    /// Required. The "resource name" of the region or location, as described
-    /// in <https://cloud.google.com/apis/design/resource_names.>
-    ///
-    /// * For `projects.regions.autoscalingPolicies.create`, the resource name
-    ///   of the region has the following format:
-    ///   `projects/{project_id}/regions/{region}`
-    ///
-    /// * For `projects.locations.autoscalingPolicies.create`, the resource name
-    ///   of the location has the following format:
-    ///   `projects/{project_id}/locations/{location}`
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The autoscaling policy to create.
-    #[prost(message, optional, tag = "2")]
-    pub policy: ::core::option::Option<AutoscalingPolicy>,
-}
-/// A request to fetch an autoscaling policy.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetAutoscalingPolicyRequest {
-    /// Required. The "resource name" of the autoscaling policy, as described
-    /// in <https://cloud.google.com/apis/design/resource_names.>
-    ///
-    /// * For `projects.regions.autoscalingPolicies.get`, the resource name
-    ///   of the policy has the following format:
-    ///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`
-    ///
-    /// * For `projects.locations.autoscalingPolicies.get`, the resource name
-    ///   of the policy has the following format:
-    ///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// A request to update an autoscaling policy.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateAutoscalingPolicyRequest {
-    /// Required. The updated autoscaling policy.
-    #[prost(message, optional, tag = "1")]
-    pub policy: ::core::option::Option<AutoscalingPolicy>,
-}
-/// A request to delete an autoscaling policy.
-///
-/// Autoscaling policies in use by one or more clusters will not be deleted.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteAutoscalingPolicyRequest {
-    /// Required. The "resource name" of the autoscaling policy, as described
-    /// in <https://cloud.google.com/apis/design/resource_names.>
-    ///
-    /// * For `projects.regions.autoscalingPolicies.delete`, the resource name
-    ///   of the policy has the following format:
-    ///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`
-    ///
-    /// * For `projects.locations.autoscalingPolicies.delete`, the resource name
-    ///   of the policy has the following format:
-    ///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// A request to list autoscaling policies in a project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListAutoscalingPoliciesRequest {
-    /// Required. The "resource name" of the region or location, as described
-    /// in <https://cloud.google.com/apis/design/resource_names.>
-    ///
-    /// * For `projects.regions.autoscalingPolicies.list`, the resource name
-    ///   of the region has the following format:
-    ///   `projects/{project_id}/regions/{region}`
-    ///
-    /// * For `projects.locations.autoscalingPolicies.list`, the resource name
-    ///   of the location has the following format:
-    ///   `projects/{project_id}/locations/{location}`
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of results to return in each response.
-    /// Must be less than or equal to 1000. Defaults to 100.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// Optional. The page token, returned by a previous call, to request the
-    /// next page of results.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// A response to a request to list autoscaling policies in a project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListAutoscalingPoliciesResponse {
-    /// Output only. Autoscaling policies list.
-    #[prost(message, repeated, tag = "1")]
-    pub policies: ::prost::alloc::vec::Vec<AutoscalingPolicy>,
-    /// Output only. This token is included in the response if there are more
-    /// results to fetch.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-#[doc = r" Generated client implementations."]
-pub mod autoscaling_policy_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " The API interface for managing autoscaling policies in the"]
-    #[doc = " Dataproc API."]
-    #[derive(Debug, Clone)]
-    pub struct AutoscalingPolicyServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> AutoscalingPolicyServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> AutoscalingPolicyServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            AutoscalingPolicyServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Creates new autoscaling policy."]
-        pub async fn create_autoscaling_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateAutoscalingPolicyRequest>,
-        ) -> Result<tonic::Response<super::AutoscalingPolicy>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.AutoscalingPolicyService/CreateAutoscalingPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Updates (replaces) autoscaling policy."]
-        #[doc = ""]
-        #[doc = " Disabled check for update_mask, because all updates will be full"]
-        #[doc = " replacements."]
-        pub async fn update_autoscaling_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateAutoscalingPolicyRequest>,
-        ) -> Result<tonic::Response<super::AutoscalingPolicy>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.AutoscalingPolicyService/UpdateAutoscalingPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Retrieves autoscaling policy."]
-        pub async fn get_autoscaling_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetAutoscalingPolicyRequest>,
-        ) -> Result<tonic::Response<super::AutoscalingPolicy>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.AutoscalingPolicyService/GetAutoscalingPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Lists autoscaling policies in the project."]
-        pub async fn list_autoscaling_policies(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListAutoscalingPoliciesRequest>,
-        ) -> Result<tonic::Response<super::ListAutoscalingPoliciesResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.AutoscalingPolicyService/ListAutoscalingPolicies",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes an autoscaling policy. It is an error to delete an autoscaling"]
-        #[doc = " policy that is in use by one or more clusters."]
-        pub async fn delete_autoscaling_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteAutoscalingPolicyRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.AutoscalingPolicyService/DeleteAutoscalingPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// Runtime configuration for a workload.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RuntimeConfig {
@@ -3692,115 +3294,6 @@ pub mod job_controller_client {
         }
     }
 }
-/// Metadata describing the Batch operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchOperationMetadata {
-    /// Name of the batch for the operation.
-    #[prost(string, tag = "1")]
-    pub batch: ::prost::alloc::string::String,
-    /// Batch UUID for the operation.
-    #[prost(string, tag = "2")]
-    pub batch_uuid: ::prost::alloc::string::String,
-    /// The time when the operation was created.
-    #[prost(message, optional, tag = "3")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time when the operation finished.
-    #[prost(message, optional, tag = "4")]
-    pub done_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The operation type.
-    #[prost(
-        enumeration = "batch_operation_metadata::BatchOperationType",
-        tag = "6"
-    )]
-    pub operation_type: i32,
-    /// Short description of the operation.
-    #[prost(string, tag = "7")]
-    pub description: ::prost::alloc::string::String,
-    /// Labels associated with the operation.
-    #[prost(btree_map = "string, string", tag = "8")]
-    pub labels: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-    /// Warnings encountered during operation execution.
-    #[prost(string, repeated, tag = "9")]
-    pub warnings: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Nested message and enum types in `BatchOperationMetadata`.
-pub mod batch_operation_metadata {
-    /// Operation type for Batch resources
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum BatchOperationType {
-        /// Batch operation type is unknown.
-        Unspecified = 0,
-        /// Batch operation type.
-        Batch = 1,
-    }
-}
-/// The status of the operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ClusterOperationStatus {
-    /// Output only. A message containing the operation state.
-    #[prost(enumeration = "cluster_operation_status::State", tag = "1")]
-    pub state: i32,
-    /// Output only. A message containing the detailed operation state.
-    #[prost(string, tag = "2")]
-    pub inner_state: ::prost::alloc::string::String,
-    /// Output only. A message containing any operation metadata details.
-    #[prost(string, tag = "3")]
-    pub details: ::prost::alloc::string::String,
-    /// Output only. The time this state was entered.
-    #[prost(message, optional, tag = "4")]
-    pub state_start_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `ClusterOperationStatus`.
-pub mod cluster_operation_status {
-    /// The operation state.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Unused.
-        Unknown = 0,
-        /// The operation has been created.
-        Pending = 1,
-        /// The operation is running.
-        Running = 2,
-        /// The operation is done; either cancelled or completed.
-        Done = 3,
-    }
-}
-/// Metadata describing the operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ClusterOperationMetadata {
-    /// Output only. Name of the cluster for the operation.
-    #[prost(string, tag = "7")]
-    pub cluster_name: ::prost::alloc::string::String,
-    /// Output only. Cluster UUID for the operation.
-    #[prost(string, tag = "8")]
-    pub cluster_uuid: ::prost::alloc::string::String,
-    /// Output only. Current operation status.
-    #[prost(message, optional, tag = "9")]
-    pub status: ::core::option::Option<ClusterOperationStatus>,
-    /// Output only. The previous operation status.
-    #[prost(message, repeated, tag = "10")]
-    pub status_history: ::prost::alloc::vec::Vec<ClusterOperationStatus>,
-    /// Output only. The operation type.
-    #[prost(string, tag = "11")]
-    pub operation_type: ::prost::alloc::string::String,
-    /// Output only. Short description of operation.
-    #[prost(string, tag = "12")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. Labels associated with the operation
-    #[prost(btree_map = "string, string", tag = "13")]
-    pub labels: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-    /// Output only. Errors encountered during operation execution.
-    #[prost(string, repeated, tag = "14")]
-    pub warnings: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
 /// A Dataproc workflow template resource.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct WorkflowTemplate {
@@ -4669,6 +4162,513 @@ pub mod workflow_template_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.dataproc.v1.WorkflowTemplateService/DeleteWorkflowTemplate",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Metadata describing the Batch operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchOperationMetadata {
+    /// Name of the batch for the operation.
+    #[prost(string, tag = "1")]
+    pub batch: ::prost::alloc::string::String,
+    /// Batch UUID for the operation.
+    #[prost(string, tag = "2")]
+    pub batch_uuid: ::prost::alloc::string::String,
+    /// The time when the operation was created.
+    #[prost(message, optional, tag = "3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time when the operation finished.
+    #[prost(message, optional, tag = "4")]
+    pub done_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The operation type.
+    #[prost(
+        enumeration = "batch_operation_metadata::BatchOperationType",
+        tag = "6"
+    )]
+    pub operation_type: i32,
+    /// Short description of the operation.
+    #[prost(string, tag = "7")]
+    pub description: ::prost::alloc::string::String,
+    /// Labels associated with the operation.
+    #[prost(btree_map = "string, string", tag = "8")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// Warnings encountered during operation execution.
+    #[prost(string, repeated, tag = "9")]
+    pub warnings: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `BatchOperationMetadata`.
+pub mod batch_operation_metadata {
+    /// Operation type for Batch resources
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum BatchOperationType {
+        /// Batch operation type is unknown.
+        Unspecified = 0,
+        /// Batch operation type.
+        Batch = 1,
+    }
+}
+/// The status of the operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ClusterOperationStatus {
+    /// Output only. A message containing the operation state.
+    #[prost(enumeration = "cluster_operation_status::State", tag = "1")]
+    pub state: i32,
+    /// Output only. A message containing the detailed operation state.
+    #[prost(string, tag = "2")]
+    pub inner_state: ::prost::alloc::string::String,
+    /// Output only. A message containing any operation metadata details.
+    #[prost(string, tag = "3")]
+    pub details: ::prost::alloc::string::String,
+    /// Output only. The time this state was entered.
+    #[prost(message, optional, tag = "4")]
+    pub state_start_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `ClusterOperationStatus`.
+pub mod cluster_operation_status {
+    /// The operation state.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Unused.
+        Unknown = 0,
+        /// The operation has been created.
+        Pending = 1,
+        /// The operation is running.
+        Running = 2,
+        /// The operation is done; either cancelled or completed.
+        Done = 3,
+    }
+}
+/// Metadata describing the operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ClusterOperationMetadata {
+    /// Output only. Name of the cluster for the operation.
+    #[prost(string, tag = "7")]
+    pub cluster_name: ::prost::alloc::string::String,
+    /// Output only. Cluster UUID for the operation.
+    #[prost(string, tag = "8")]
+    pub cluster_uuid: ::prost::alloc::string::String,
+    /// Output only. Current operation status.
+    #[prost(message, optional, tag = "9")]
+    pub status: ::core::option::Option<ClusterOperationStatus>,
+    /// Output only. The previous operation status.
+    #[prost(message, repeated, tag = "10")]
+    pub status_history: ::prost::alloc::vec::Vec<ClusterOperationStatus>,
+    /// Output only. The operation type.
+    #[prost(string, tag = "11")]
+    pub operation_type: ::prost::alloc::string::String,
+    /// Output only. Short description of operation.
+    #[prost(string, tag = "12")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. Labels associated with the operation
+    #[prost(btree_map = "string, string", tag = "13")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// Output only. Errors encountered during operation execution.
+    #[prost(string, repeated, tag = "14")]
+    pub warnings: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Describes an autoscaling policy for Dataproc cluster autoscaler.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoscalingPolicy {
+    /// Required. The policy id.
+    ///
+    /// The id must contain only letters (a-z, A-Z), numbers (0-9),
+    /// underscores (_), and hyphens (-). Cannot begin or end with underscore
+    /// or hyphen. Must consist of between 3 and 50 characters.
+    ///
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    /// Output only. The "resource name" of the autoscaling policy, as described
+    /// in <https://cloud.google.com/apis/design/resource_names.>
+    ///
+    /// * For `projects.regions.autoscalingPolicies`, the resource name of the
+    ///   policy has the following format:
+    ///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`
+    ///
+    /// * For `projects.locations.autoscalingPolicies`, the resource name of the
+    ///   policy has the following format:
+    ///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`
+    #[prost(string, tag = "2")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. Describes how the autoscaler will operate for primary workers.
+    #[prost(message, optional, tag = "4")]
+    pub worker_config: ::core::option::Option<InstanceGroupAutoscalingPolicyConfig>,
+    /// Optional. Describes how the autoscaler will operate for secondary workers.
+    #[prost(message, optional, tag = "5")]
+    pub secondary_worker_config: ::core::option::Option<InstanceGroupAutoscalingPolicyConfig>,
+    /// Optional. The labels to associate with this autoscaling policy.
+    /// Label **keys** must contain 1 to 63 characters, and must conform to
+    /// [RFC 1035](<https://www.ietf.org/rfc/rfc1035.txt>).
+    /// Label **values** may be empty, but, if present, must contain 1 to 63
+    /// characters, and must conform to [RFC
+    /// 1035](<https://www.ietf.org/rfc/rfc1035.txt>). No more than 32 labels can be
+    /// associated with an autoscaling policy.
+    #[prost(btree_map = "string, string", tag = "6")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// Autoscaling algorithm for policy.
+    #[prost(oneof = "autoscaling_policy::Algorithm", tags = "3")]
+    pub algorithm: ::core::option::Option<autoscaling_policy::Algorithm>,
+}
+/// Nested message and enum types in `AutoscalingPolicy`.
+pub mod autoscaling_policy {
+    /// Autoscaling algorithm for policy.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Algorithm {
+        #[prost(message, tag = "3")]
+        BasicAlgorithm(super::BasicAutoscalingAlgorithm),
+    }
+}
+/// Basic algorithm for autoscaling.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BasicAutoscalingAlgorithm {
+    /// Required. YARN autoscaling configuration.
+    #[prost(message, optional, tag = "1")]
+    pub yarn_config: ::core::option::Option<BasicYarnAutoscalingConfig>,
+    /// Optional. Duration between scaling events. A scaling period starts after
+    /// the update operation from the previous event has completed.
+    ///
+    /// Bounds: [2m, 1d]. Default: 2m.
+    #[prost(message, optional, tag = "2")]
+    pub cooldown_period: ::core::option::Option<::prost_types::Duration>,
+}
+/// Basic autoscaling configurations for YARN.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BasicYarnAutoscalingConfig {
+    /// Required. Timeout for YARN graceful decommissioning of Node Managers.
+    /// Specifies the duration to wait for jobs to complete before forcefully
+    /// removing workers (and potentially interrupting jobs). Only applicable to
+    /// downscaling operations.
+    ///
+    /// Bounds: [0s, 1d].
+    #[prost(message, optional, tag = "5")]
+    pub graceful_decommission_timeout: ::core::option::Option<::prost_types::Duration>,
+    /// Required. Fraction of average YARN pending memory in the last cooldown period
+    /// for which to add workers. A scale-up factor of 1.0 will result in scaling
+    /// up so that there is no pending memory remaining after the update (more
+    /// aggressive scaling). A scale-up factor closer to 0 will result in a smaller
+    /// magnitude of scaling up (less aggressive scaling).
+    /// See [How autoscaling
+    /// works](<https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works>)
+    /// for more information.
+    ///
+    /// Bounds: [0.0, 1.0].
+    #[prost(double, tag = "1")]
+    pub scale_up_factor: f64,
+    /// Required. Fraction of average YARN pending memory in the last cooldown period
+    /// for which to remove workers. A scale-down factor of 1 will result in
+    /// scaling down so that there is no available memory remaining after the
+    /// update (more aggressive scaling). A scale-down factor of 0 disables
+    /// removing workers, which can be beneficial for autoscaling a single job.
+    /// See [How autoscaling
+    /// works](<https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works>)
+    /// for more information.
+    ///
+    /// Bounds: [0.0, 1.0].
+    #[prost(double, tag = "2")]
+    pub scale_down_factor: f64,
+    /// Optional. Minimum scale-up threshold as a fraction of total cluster size
+    /// before scaling occurs. For example, in a 20-worker cluster, a threshold of
+    /// 0.1 means the autoscaler must recommend at least a 2-worker scale-up for
+    /// the cluster to scale. A threshold of 0 means the autoscaler will scale up
+    /// on any recommended change.
+    ///
+    /// Bounds: [0.0, 1.0]. Default: 0.0.
+    #[prost(double, tag = "3")]
+    pub scale_up_min_worker_fraction: f64,
+    /// Optional. Minimum scale-down threshold as a fraction of total cluster size
+    /// before scaling occurs. For example, in a 20-worker cluster, a threshold of
+    /// 0.1 means the autoscaler must recommend at least a 2 worker scale-down for
+    /// the cluster to scale. A threshold of 0 means the autoscaler will scale down
+    /// on any recommended change.
+    ///
+    /// Bounds: [0.0, 1.0]. Default: 0.0.
+    #[prost(double, tag = "4")]
+    pub scale_down_min_worker_fraction: f64,
+}
+/// Configuration for the size bounds of an instance group, including its
+/// proportional size to other groups.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InstanceGroupAutoscalingPolicyConfig {
+    /// Optional. Minimum number of instances for this group.
+    ///
+    /// Primary workers - Bounds: [2, max_instances]. Default: 2.
+    /// Secondary workers - Bounds: [0, max_instances]. Default: 0.
+    #[prost(int32, tag = "1")]
+    pub min_instances: i32,
+    /// Required. Maximum number of instances for this group. Required for primary
+    /// workers. Note that by default, clusters will not use secondary workers.
+    /// Required for secondary workers if the minimum secondary instances is set.
+    ///
+    /// Primary workers - Bounds: [min_instances, ).
+    /// Secondary workers - Bounds: [min_instances, ). Default: 0.
+    #[prost(int32, tag = "2")]
+    pub max_instances: i32,
+    /// Optional. Weight for the instance group, which is used to determine the
+    /// fraction of total workers in the cluster from this instance group.
+    /// For example, if primary workers have weight 2, and secondary workers have
+    /// weight 1, the cluster will have approximately 2 primary workers for each
+    /// secondary worker.
+    ///
+    /// The cluster may not reach the specified balance if constrained
+    /// by min/max bounds or other autoscaling settings. For example, if
+    /// `max_instances` for secondary workers is 0, then only primary workers will
+    /// be added. The cluster can also be out of balance when created.
+    ///
+    /// If weight is not set on any instance group, the cluster will default to
+    /// equal weight for all groups: the cluster will attempt to maintain an equal
+    /// number of workers in each group within the configured size bounds for each
+    /// group. If weight is set for one group only, the cluster will default to
+    /// zero weight on the unset group. For example if weight is set only on
+    /// primary workers, the cluster will use primary workers only and no
+    /// secondary workers.
+    #[prost(int32, tag = "3")]
+    pub weight: i32,
+}
+/// A request to create an autoscaling policy.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateAutoscalingPolicyRequest {
+    /// Required. The "resource name" of the region or location, as described
+    /// in <https://cloud.google.com/apis/design/resource_names.>
+    ///
+    /// * For `projects.regions.autoscalingPolicies.create`, the resource name
+    ///   of the region has the following format:
+    ///   `projects/{project_id}/regions/{region}`
+    ///
+    /// * For `projects.locations.autoscalingPolicies.create`, the resource name
+    ///   of the location has the following format:
+    ///   `projects/{project_id}/locations/{location}`
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The autoscaling policy to create.
+    #[prost(message, optional, tag = "2")]
+    pub policy: ::core::option::Option<AutoscalingPolicy>,
+}
+/// A request to fetch an autoscaling policy.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetAutoscalingPolicyRequest {
+    /// Required. The "resource name" of the autoscaling policy, as described
+    /// in <https://cloud.google.com/apis/design/resource_names.>
+    ///
+    /// * For `projects.regions.autoscalingPolicies.get`, the resource name
+    ///   of the policy has the following format:
+    ///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`
+    ///
+    /// * For `projects.locations.autoscalingPolicies.get`, the resource name
+    ///   of the policy has the following format:
+    ///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// A request to update an autoscaling policy.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateAutoscalingPolicyRequest {
+    /// Required. The updated autoscaling policy.
+    #[prost(message, optional, tag = "1")]
+    pub policy: ::core::option::Option<AutoscalingPolicy>,
+}
+/// A request to delete an autoscaling policy.
+///
+/// Autoscaling policies in use by one or more clusters will not be deleted.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteAutoscalingPolicyRequest {
+    /// Required. The "resource name" of the autoscaling policy, as described
+    /// in <https://cloud.google.com/apis/design/resource_names.>
+    ///
+    /// * For `projects.regions.autoscalingPolicies.delete`, the resource name
+    ///   of the policy has the following format:
+    ///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`
+    ///
+    /// * For `projects.locations.autoscalingPolicies.delete`, the resource name
+    ///   of the policy has the following format:
+    ///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// A request to list autoscaling policies in a project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListAutoscalingPoliciesRequest {
+    /// Required. The "resource name" of the region or location, as described
+    /// in <https://cloud.google.com/apis/design/resource_names.>
+    ///
+    /// * For `projects.regions.autoscalingPolicies.list`, the resource name
+    ///   of the region has the following format:
+    ///   `projects/{project_id}/regions/{region}`
+    ///
+    /// * For `projects.locations.autoscalingPolicies.list`, the resource name
+    ///   of the location has the following format:
+    ///   `projects/{project_id}/locations/{location}`
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The maximum number of results to return in each response.
+    /// Must be less than or equal to 1000. Defaults to 100.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. The page token, returned by a previous call, to request the
+    /// next page of results.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// A response to a request to list autoscaling policies in a project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListAutoscalingPoliciesResponse {
+    /// Output only. Autoscaling policies list.
+    #[prost(message, repeated, tag = "1")]
+    pub policies: ::prost::alloc::vec::Vec<AutoscalingPolicy>,
+    /// Output only. This token is included in the response if there are more
+    /// results to fetch.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+#[doc = r" Generated client implementations."]
+pub mod autoscaling_policy_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " The API interface for managing autoscaling policies in the"]
+    #[doc = " Dataproc API."]
+    #[derive(Debug, Clone)]
+    pub struct AutoscalingPolicyServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> AutoscalingPolicyServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> AutoscalingPolicyServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            AutoscalingPolicyServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Creates new autoscaling policy."]
+        pub async fn create_autoscaling_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateAutoscalingPolicyRequest>,
+        ) -> Result<tonic::Response<super::AutoscalingPolicy>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataproc.v1.AutoscalingPolicyService/CreateAutoscalingPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates (replaces) autoscaling policy."]
+        #[doc = ""]
+        #[doc = " Disabled check for update_mask, because all updates will be full"]
+        #[doc = " replacements."]
+        pub async fn update_autoscaling_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateAutoscalingPolicyRequest>,
+        ) -> Result<tonic::Response<super::AutoscalingPolicy>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataproc.v1.AutoscalingPolicyService/UpdateAutoscalingPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Retrieves autoscaling policy."]
+        pub async fn get_autoscaling_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetAutoscalingPolicyRequest>,
+        ) -> Result<tonic::Response<super::AutoscalingPolicy>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataproc.v1.AutoscalingPolicyService/GetAutoscalingPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Lists autoscaling policies in the project."]
+        pub async fn list_autoscaling_policies(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListAutoscalingPoliciesRequest>,
+        ) -> Result<tonic::Response<super::ListAutoscalingPoliciesResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataproc.v1.AutoscalingPolicyService/ListAutoscalingPolicies",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes an autoscaling policy. It is an error to delete an autoscaling"]
+        #[doc = " policy that is in use by one or more clusters."]
+        pub async fn delete_autoscaling_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteAutoscalingPolicyRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataproc.v1.AutoscalingPolicyService/DeleteAutoscalingPolicy",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

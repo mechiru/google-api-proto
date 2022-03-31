@@ -16,7 +16,10 @@ pub mod datatransfer;
 #[cfg(any(feature = "google-cloud-bigquery-logging-v1",))]
 pub mod logging;
 
-#[cfg(any(feature = "google-cloud-bigquery-migration-v2alpha",))]
+#[cfg(any(
+    feature = "google-cloud-bigquery-migration-v2",
+    feature = "google-cloud-bigquery-migration-v2alpha",
+))]
 pub mod migration;
 
 #[cfg(any(

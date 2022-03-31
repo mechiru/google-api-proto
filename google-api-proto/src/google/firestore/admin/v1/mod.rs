@@ -133,6 +133,9 @@ pub mod index {
         NeedsRepair = 3,
     }
 }
+/// The metadata message for \[google.cloud.location.Location.metadata][google.cloud.location.Location.metadata\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LocationMetadata {}
 /// Represents a single field in the database.
 ///
 /// Fields are grouped by their "Collection Group", which represent all
@@ -444,9 +447,6 @@ pub enum OperationState {
     /// google.longrunning.Operations.CancelOperation.
     Cancelled = 7,
 }
-/// The metadata message for \[google.cloud.location.Location.metadata][google.cloud.location.Location.metadata\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LocationMetadata {}
 /// A request to list the Firestore Databases in all locations for a project.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListDatabasesRequest {

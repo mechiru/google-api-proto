@@ -8,6 +8,339 @@ pub mod conversation;
 ))]
 pub mod interactionmodel;
 
+/// Wrapper for repeated data file. Repeated fields cannot exist in a oneof.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataFiles {
+    /// Multiple data files.
+    #[prost(message, repeated, tag = "1")]
+    pub data_files: ::prost::alloc::vec::Vec<DataFile>,
+}
+/// Represents a single file which contains unstructured data. Examples include
+/// image files, audio files, and cloud function source code.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataFile {
+    /// Relative path of the data file from the project root in the SDK file
+    /// structure.
+    /// Allowed file paths:
+    ///     - Images: `resources/images/{multiple
+    ///     directories}?/{ImageName}.{extension}`
+    ///     - Audio: `resources/audio/{multiple
+    ///     directories}?/{AudioFileName}.{extension}`
+    ///     - Inline Cloud Function Code: `webhooks/{WebhookName}.zip`
+    /// Allowed extensions:
+    ///     - Images: `png`, `jpg`, `jpeg`
+    ///     - Audio: `mp3`, `mpeg`
+    ///     - Inline Cloud Functions: `zip`
+    #[prost(string, tag = "1")]
+    pub file_path: ::prost::alloc::string::String,
+    /// Required. The content type of this asset. Example: `text/html`. The content
+    /// type must comply with the specification
+    /// (<http://www.w3.org/Protocols/rfc1341/4_Content-Type.html>).
+    /// Cloud functions must be in zip format and the content type should
+    /// be `application/zip;zip_type=cloud_function`. The zip_type parameter
+    /// indicates that the zip is for a cloud function.
+    #[prost(string, tag = "2")]
+    pub content_type: ::prost::alloc::string::String,
+    /// Content of the data file. Examples would be raw bytes of images, audio
+    /// files, or cloud function zip format.
+    /// There is 10 MB strict limit on the payload size.
+    #[prost(bytes = "bytes", tag = "3")]
+    pub payload: ::prost::bytes::Bytes,
+}
+/// Information about the encrypted OAuth client secret used in account linking
+/// flows (for AUTH_CODE grant type).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AccountLinkingSecret {
+    /// Encrypted account linking client secret ciphertext.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub encrypted_client_secret: ::prost::bytes::Bytes,
+    /// The version of the crypto key used to encrypt the account linking client
+    /// secret.
+    /// Note that this field is ignored in push, preview, and version creation
+    /// flows.
+    #[prost(string, tag = "2")]
+    pub encryption_key_version: ::prost::alloc::string::String,
+}
+/// Wrapper for repeated validation result.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ValidationResults {
+    /// Multiple validation results.
+    #[prost(message, repeated, tag = "1")]
+    pub results: ::prost::alloc::vec::Vec<ValidationResult>,
+}
+/// Represents a validation result associated with the app content.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ValidationResult {
+    /// Holds the validation message.
+    #[prost(string, tag = "1")]
+    pub validation_message: ::prost::alloc::string::String,
+    /// Context to identify the resource the validation message relates to.
+    #[prost(message, optional, tag = "2")]
+    pub validation_context: ::core::option::Option<validation_result::ValidationContext>,
+}
+/// Nested message and enum types in `ValidationResult`.
+pub mod validation_result {
+    /// Context to identify the resource the validation message relates to.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ValidationContext {
+        /// Language code of the lozalized resource.
+        /// Empty if the error is for non-localized resource.
+        /// See the list of supported languages in
+        /// <https://developers.google.com/assistant/console/languages-locales>
+        #[prost(string, tag = "1")]
+        pub language_code: ::prost::alloc::string::String,
+    }
+}
+/// Contains information about execution event which happened during processing
+/// Actions Builder conversation request. For an overview of the stages involved
+/// in a conversation request, see
+/// <https://developers.google.com/assistant/conversational/actions.>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExecutionEvent {
+    /// Timestamp when the event happened.
+    #[prost(message, optional, tag = "1")]
+    pub event_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// State of the execution during this event.
+    #[prost(message, optional, tag = "2")]
+    pub execution_state: ::core::option::Option<ExecutionState>,
+    /// Resulting status of particular execution step.
+    #[prost(message, optional, tag = "3")]
+    pub status: ::core::option::Option<super::super::super::rpc::Status>,
+    /// List of warnings generated during execution of this Event. Warnings are
+    /// tips for the developer discovered during the conversation request. These
+    /// are usually non-critical and do not halt the execution of the request. For
+    /// example, a warnings might be generated when webhook tries to override a
+    /// custom Type which does not exist. Errors are reported as a failed status
+    /// code, but warnings can be present even when the status is OK.
+    #[prost(string, repeated, tag = "17")]
+    pub warning_messages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Detailed information specific to different of events that may be involved
+    /// in processing a conversation round. The field set here defines the type of
+    /// this event.
+    #[prost(
+        oneof = "execution_event::EventData",
+        tags = "4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16"
+    )]
+    pub event_data: ::core::option::Option<execution_event::EventData>,
+}
+/// Nested message and enum types in `ExecutionEvent`.
+pub mod execution_event {
+    /// Detailed information specific to different of events that may be involved
+    /// in processing a conversation round. The field set here defines the type of
+    /// this event.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum EventData {
+        /// User input handling event.
+        #[prost(message, tag = "4")]
+        UserInput(super::UserConversationInput),
+        /// Intent matching event.
+        #[prost(message, tag = "5")]
+        IntentMatch(super::IntentMatch),
+        /// Condition evaluation event.
+        #[prost(message, tag = "6")]
+        ConditionsEvaluated(super::ConditionsEvaluated),
+        /// OnSceneEnter execution event.
+        #[prost(message, tag = "7")]
+        OnSceneEnter(super::OnSceneEnter),
+        /// Webhook request dispatch event.
+        #[prost(message, tag = "8")]
+        WebhookRequest(super::WebhookRequest),
+        /// Webhook response receipt event.
+        #[prost(message, tag = "9")]
+        WebhookResponse(super::WebhookResponse),
+        /// Webhook-initiated transition event.
+        #[prost(message, tag = "10")]
+        WebhookInitiatedTransition(super::WebhookInitiatedTransition),
+        /// Slot matching event.
+        #[prost(message, tag = "11")]
+        SlotMatch(super::SlotMatch),
+        /// Slot requesting event.
+        #[prost(message, tag = "12")]
+        SlotRequested(super::SlotRequested),
+        /// Slot validation event.
+        #[prost(message, tag = "13")]
+        SlotValidated(super::SlotValidated),
+        /// Form filling event.
+        #[prost(message, tag = "14")]
+        FormFilled(super::FormFilled),
+        /// Waiting-for-user-input event.
+        #[prost(message, tag = "15")]
+        WaitingUserInput(super::WaitingForUserInput),
+        /// End-of-conversation event.
+        #[prost(message, tag = "16")]
+        EndConversation(super::EndConversation),
+    }
+}
+/// Current state of the execution.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExecutionState {
+    /// ID of the scene which is currently  active.
+    #[prost(string, tag = "1")]
+    pub current_scene_id: ::prost::alloc::string::String,
+    /// State of the session storage:
+    /// <https://developers.google.com/assistant/conversational/storage-session>
+    #[prost(message, optional, tag = "2")]
+    pub session_storage: ::core::option::Option<::prost_types::Struct>,
+    /// State of the slots filling, if applicable:
+    /// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
+    #[prost(message, optional, tag = "5")]
+    pub slots: ::core::option::Option<Slots>,
+    /// Prompt queue:
+    /// <https://developers.google.com/assistant/conversational/prompts>
+    #[prost(message, repeated, tag = "7")]
+    pub prompt_queue: ::prost::alloc::vec::Vec<conversation::Prompt>,
+    /// State of the user storage:
+    /// <https://developers.google.com/assistant/conversational/storage-user>
+    #[prost(message, optional, tag = "6")]
+    pub user_storage: ::core::option::Option<::prost_types::Struct>,
+    /// State of the home storage:
+    /// <https://developers.google.com/assistant/conversational/storage-home>
+    #[prost(message, optional, tag = "8")]
+    pub household_storage: ::core::option::Option<::prost_types::Struct>,
+}
+/// Represents the current state of a the scene's slots.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Slots {
+    /// The current status of slot filling.
+    #[prost(enumeration = "conversation::SlotFillingStatus", tag = "2")]
+    pub status: i32,
+    /// The slots associated with the current scene.
+    #[prost(btree_map = "string, message", tag = "3")]
+    pub slots:
+        ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, conversation::Slot>,
+}
+/// Information related to user input.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UserConversationInput {
+    /// Type of user input. E.g. keyboard, voice, touch, etc.
+    #[prost(string, tag = "1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// Original text input from the user.
+    #[prost(string, tag = "2")]
+    pub original_query: ::prost::alloc::string::String,
+}
+/// Information about triggered intent match (global or within a scene):
+/// <https://developers.google.com/assistant/conversational/intents>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct IntentMatch {
+    /// Intent id which triggered this interaction.
+    #[prost(string, tag = "1")]
+    pub intent_id: ::prost::alloc::string::String,
+    /// Parameters of intent which triggered this interaction.
+    #[prost(btree_map = "string, message", tag = "5")]
+    pub intent_parameters: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        conversation::IntentParameterValue,
+    >,
+    /// Name of the handler attached to this interaction.
+    #[prost(string, tag = "3")]
+    pub handler: ::prost::alloc::string::String,
+    /// Scene to which this interaction leads to.
+    #[prost(string, tag = "4")]
+    pub next_scene_id: ::prost::alloc::string::String,
+}
+/// Results of conditions evaluation:
+/// <https://developers.google.com/assistant/conversational/scenes#conditions>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ConditionsEvaluated {
+    /// List of conditions which were evaluated to 'false'.
+    #[prost(message, repeated, tag = "1")]
+    pub failed_conditions: ::prost::alloc::vec::Vec<Condition>,
+    /// The first condition which was evaluated to 'true', if any.
+    #[prost(message, optional, tag = "2")]
+    pub success_condition: ::core::option::Option<Condition>,
+}
+/// Evaluated condition.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Condition {
+    /// Expression specified in this condition.
+    #[prost(string, tag = "1")]
+    pub expression: ::prost::alloc::string::String,
+    /// Handler name specified in evaluated condition.
+    #[prost(string, tag = "2")]
+    pub handler: ::prost::alloc::string::String,
+    /// Destination scene specified in evaluated condition.
+    #[prost(string, tag = "3")]
+    pub next_scene_id: ::prost::alloc::string::String,
+}
+/// Information about execution of onSceneEnter stage:
+/// <https://developers.google.com/assistant/conversational/scenes#on_enter>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OnSceneEnter {
+    /// Handler name specified in onSceneEnter event.
+    #[prost(string, tag = "1")]
+    pub handler: ::prost::alloc::string::String,
+}
+/// Event triggered by destination scene returned from webhook:
+/// <https://developers.google.com/assistant/conversational/webhooks#transition_scenes>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WebhookInitiatedTransition {
+    /// ID of the scene the transition is leading to.
+    #[prost(string, tag = "1")]
+    pub next_scene_id: ::prost::alloc::string::String,
+}
+/// Information about a request dispatched to the Action webhook:
+/// <https://developers.google.com/assistant/conversational/webhooks#payloads>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WebhookRequest {
+    /// Payload of the webhook request.
+    #[prost(string, tag = "1")]
+    pub request_json: ::prost::alloc::string::String,
+}
+/// Information about a response received from the Action webhook:
+/// <https://developers.google.com/assistant/conversational/webhooks#payloads>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WebhookResponse {
+    /// Payload of the webhook response.
+    #[prost(string, tag = "1")]
+    pub response_json: ::prost::alloc::string::String,
+}
+/// Information about matched slot(s):
+/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SlotMatch {
+    /// Parameters extracted by NLU from user input.
+    #[prost(btree_map = "string, message", tag = "2")]
+    pub nlu_parameters: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        conversation::IntentParameterValue,
+    >,
+}
+/// Information about currently requested slot:
+/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SlotRequested {
+    /// Name of the requested slot.
+    #[prost(string, tag = "1")]
+    pub slot: ::prost::alloc::string::String,
+    /// Slot prompt.
+    #[prost(message, optional, tag = "3")]
+    pub prompt: ::core::option::Option<conversation::Prompt>,
+}
+/// Event which happens after webhook validation was finished for slot(s):
+/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SlotValidated {}
+/// Event which happens when form is fully filled:
+/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FormFilled {}
+/// Event which happens when system needs user input:
+/// <https://developers.google.com/assistant/conversational/scenes#input>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WaitingForUserInput {}
+/// Event which informs that conversation with agent was ended.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EndConversation {}
+/// Contains information that's "transportable" i.e. not specific to any given
+/// project and can be moved between projects.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Manifest {
+    /// Version of the file format. The current file format version is 1.0
+    /// Example: "1.0"
+    #[prost(string, tag = "1")]
+    pub version: ::prost::alloc::string::String,
+}
 /// AccountLinking allows Google to guide the user to sign-in to the App's web
 /// services.
 ///
@@ -445,435 +778,6 @@ pub struct ReleaseChannel {
     #[prost(string, tag = "3")]
     pub pending_version: ::prost::alloc::string::String,
 }
-/// Contains information that's "transportable" i.e. not specific to any given
-/// project and can be moved between projects.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Manifest {
-    /// Version of the file format. The current file format version is 1.0
-    /// Example: "1.0"
-    #[prost(string, tag = "1")]
-    pub version: ::prost::alloc::string::String,
-}
-/// Wrapper for repeated validation result.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ValidationResults {
-    /// Multiple validation results.
-    #[prost(message, repeated, tag = "1")]
-    pub results: ::prost::alloc::vec::Vec<ValidationResult>,
-}
-/// Represents a validation result associated with the app content.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ValidationResult {
-    /// Holds the validation message.
-    #[prost(string, tag = "1")]
-    pub validation_message: ::prost::alloc::string::String,
-    /// Context to identify the resource the validation message relates to.
-    #[prost(message, optional, tag = "2")]
-    pub validation_context: ::core::option::Option<validation_result::ValidationContext>,
-}
-/// Nested message and enum types in `ValidationResult`.
-pub mod validation_result {
-    /// Context to identify the resource the validation message relates to.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ValidationContext {
-        /// Language code of the lozalized resource.
-        /// Empty if the error is for non-localized resource.
-        /// See the list of supported languages in
-        /// <https://developers.google.com/assistant/console/languages-locales>
-        #[prost(string, tag = "1")]
-        pub language_code: ::prost::alloc::string::String,
-    }
-}
-/// Definition of version resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Version {
-    /// The unique identifier of the version in the following format.
-    /// `projects/{project}/versions/{version}`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The current state of the version.
-    #[prost(message, optional, tag = "2")]
-    pub version_state: ::core::option::Option<version::VersionState>,
-    /// Email of the user who created this version.
-    #[prost(string, tag = "3")]
-    pub creator: ::prost::alloc::string::String,
-    /// Timestamp of the last change to this version.
-    #[prost(message, optional, tag = "4")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `Version`.
-pub mod version {
-    /// Represents the current state of the version.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct VersionState {
-        /// The current state of the version.
-        #[prost(enumeration = "version_state::State", tag = "1")]
-        pub state: i32,
-        /// User-friendly message for the current state of the version.
-        #[prost(string, tag = "2")]
-        pub message: ::prost::alloc::string::String,
-    }
-    /// Nested message and enum types in `VersionState`.
-    pub mod version_state {
-        /// Enum indicating the states that a Version can take. This enum is not yet
-        /// frozen and values maybe added later.
-        #[derive(
-            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
-        )]
-        #[repr(i32)]
-        pub enum State {
-            /// Default value of State.
-            Unspecified = 0,
-            /// The version creation is in progress.
-            CreationInProgress = 1,
-            /// The version creation failed.
-            CreationFailed = 2,
-            /// The version has been successfully created.
-            Created = 3,
-            /// The version is under policy review (aka Approval).
-            ReviewInProgress = 4,
-            /// The version has been approved for policy review and can be deployed.
-            Approved = 5,
-            /// The version has been conditionally approved but is pending final
-            /// review. It may be rolled back if final review is denied.
-            ConditionallyApproved = 6,
-            /// The version has been denied for policy review.
-            Denied = 7,
-            /// The version is taken down as entire agent and all versions are taken
-            /// down.
-            UnderTakedown = 8,
-            /// The version has been deleted.
-            Deleted = 9,
-        }
-    }
-}
-/// Contains information about execution event which happened during processing
-/// Actions Builder conversation request. For an overview of the stages involved
-/// in a conversation request, see
-/// <https://developers.google.com/assistant/conversational/actions.>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExecutionEvent {
-    /// Timestamp when the event happened.
-    #[prost(message, optional, tag = "1")]
-    pub event_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// State of the execution during this event.
-    #[prost(message, optional, tag = "2")]
-    pub execution_state: ::core::option::Option<ExecutionState>,
-    /// Resulting status of particular execution step.
-    #[prost(message, optional, tag = "3")]
-    pub status: ::core::option::Option<super::super::super::rpc::Status>,
-    /// List of warnings generated during execution of this Event. Warnings are
-    /// tips for the developer discovered during the conversation request. These
-    /// are usually non-critical and do not halt the execution of the request. For
-    /// example, a warnings might be generated when webhook tries to override a
-    /// custom Type which does not exist. Errors are reported as a failed status
-    /// code, but warnings can be present even when the status is OK.
-    #[prost(string, repeated, tag = "17")]
-    pub warning_messages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Detailed information specific to different of events that may be involved
-    /// in processing a conversation round. The field set here defines the type of
-    /// this event.
-    #[prost(
-        oneof = "execution_event::EventData",
-        tags = "4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16"
-    )]
-    pub event_data: ::core::option::Option<execution_event::EventData>,
-}
-/// Nested message and enum types in `ExecutionEvent`.
-pub mod execution_event {
-    /// Detailed information specific to different of events that may be involved
-    /// in processing a conversation round. The field set here defines the type of
-    /// this event.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum EventData {
-        /// User input handling event.
-        #[prost(message, tag = "4")]
-        UserInput(super::UserConversationInput),
-        /// Intent matching event.
-        #[prost(message, tag = "5")]
-        IntentMatch(super::IntentMatch),
-        /// Condition evaluation event.
-        #[prost(message, tag = "6")]
-        ConditionsEvaluated(super::ConditionsEvaluated),
-        /// OnSceneEnter execution event.
-        #[prost(message, tag = "7")]
-        OnSceneEnter(super::OnSceneEnter),
-        /// Webhook request dispatch event.
-        #[prost(message, tag = "8")]
-        WebhookRequest(super::WebhookRequest),
-        /// Webhook response receipt event.
-        #[prost(message, tag = "9")]
-        WebhookResponse(super::WebhookResponse),
-        /// Webhook-initiated transition event.
-        #[prost(message, tag = "10")]
-        WebhookInitiatedTransition(super::WebhookInitiatedTransition),
-        /// Slot matching event.
-        #[prost(message, tag = "11")]
-        SlotMatch(super::SlotMatch),
-        /// Slot requesting event.
-        #[prost(message, tag = "12")]
-        SlotRequested(super::SlotRequested),
-        /// Slot validation event.
-        #[prost(message, tag = "13")]
-        SlotValidated(super::SlotValidated),
-        /// Form filling event.
-        #[prost(message, tag = "14")]
-        FormFilled(super::FormFilled),
-        /// Waiting-for-user-input event.
-        #[prost(message, tag = "15")]
-        WaitingUserInput(super::WaitingForUserInput),
-        /// End-of-conversation event.
-        #[prost(message, tag = "16")]
-        EndConversation(super::EndConversation),
-    }
-}
-/// Current state of the execution.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExecutionState {
-    /// ID of the scene which is currently  active.
-    #[prost(string, tag = "1")]
-    pub current_scene_id: ::prost::alloc::string::String,
-    /// State of the session storage:
-    /// <https://developers.google.com/assistant/conversational/storage-session>
-    #[prost(message, optional, tag = "2")]
-    pub session_storage: ::core::option::Option<::prost_types::Struct>,
-    /// State of the slots filling, if applicable:
-    /// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
-    #[prost(message, optional, tag = "5")]
-    pub slots: ::core::option::Option<Slots>,
-    /// Prompt queue:
-    /// <https://developers.google.com/assistant/conversational/prompts>
-    #[prost(message, repeated, tag = "7")]
-    pub prompt_queue: ::prost::alloc::vec::Vec<conversation::Prompt>,
-    /// State of the user storage:
-    /// <https://developers.google.com/assistant/conversational/storage-user>
-    #[prost(message, optional, tag = "6")]
-    pub user_storage: ::core::option::Option<::prost_types::Struct>,
-    /// State of the home storage:
-    /// <https://developers.google.com/assistant/conversational/storage-home>
-    #[prost(message, optional, tag = "8")]
-    pub household_storage: ::core::option::Option<::prost_types::Struct>,
-}
-/// Represents the current state of a the scene's slots.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Slots {
-    /// The current status of slot filling.
-    #[prost(enumeration = "conversation::SlotFillingStatus", tag = "2")]
-    pub status: i32,
-    /// The slots associated with the current scene.
-    #[prost(btree_map = "string, message", tag = "3")]
-    pub slots:
-        ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, conversation::Slot>,
-}
-/// Information related to user input.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UserConversationInput {
-    /// Type of user input. E.g. keyboard, voice, touch, etc.
-    #[prost(string, tag = "1")]
-    pub r#type: ::prost::alloc::string::String,
-    /// Original text input from the user.
-    #[prost(string, tag = "2")]
-    pub original_query: ::prost::alloc::string::String,
-}
-/// Information about triggered intent match (global or within a scene):
-/// <https://developers.google.com/assistant/conversational/intents>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct IntentMatch {
-    /// Intent id which triggered this interaction.
-    #[prost(string, tag = "1")]
-    pub intent_id: ::prost::alloc::string::String,
-    /// Parameters of intent which triggered this interaction.
-    #[prost(btree_map = "string, message", tag = "5")]
-    pub intent_parameters: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        conversation::IntentParameterValue,
-    >,
-    /// Name of the handler attached to this interaction.
-    #[prost(string, tag = "3")]
-    pub handler: ::prost::alloc::string::String,
-    /// Scene to which this interaction leads to.
-    #[prost(string, tag = "4")]
-    pub next_scene_id: ::prost::alloc::string::String,
-}
-/// Results of conditions evaluation:
-/// <https://developers.google.com/assistant/conversational/scenes#conditions>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConditionsEvaluated {
-    /// List of conditions which were evaluated to 'false'.
-    #[prost(message, repeated, tag = "1")]
-    pub failed_conditions: ::prost::alloc::vec::Vec<Condition>,
-    /// The first condition which was evaluated to 'true', if any.
-    #[prost(message, optional, tag = "2")]
-    pub success_condition: ::core::option::Option<Condition>,
-}
-/// Evaluated condition.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Condition {
-    /// Expression specified in this condition.
-    #[prost(string, tag = "1")]
-    pub expression: ::prost::alloc::string::String,
-    /// Handler name specified in evaluated condition.
-    #[prost(string, tag = "2")]
-    pub handler: ::prost::alloc::string::String,
-    /// Destination scene specified in evaluated condition.
-    #[prost(string, tag = "3")]
-    pub next_scene_id: ::prost::alloc::string::String,
-}
-/// Information about execution of onSceneEnter stage:
-/// <https://developers.google.com/assistant/conversational/scenes#on_enter>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OnSceneEnter {
-    /// Handler name specified in onSceneEnter event.
-    #[prost(string, tag = "1")]
-    pub handler: ::prost::alloc::string::String,
-}
-/// Event triggered by destination scene returned from webhook:
-/// <https://developers.google.com/assistant/conversational/webhooks#transition_scenes>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WebhookInitiatedTransition {
-    /// ID of the scene the transition is leading to.
-    #[prost(string, tag = "1")]
-    pub next_scene_id: ::prost::alloc::string::String,
-}
-/// Information about a request dispatched to the Action webhook:
-/// <https://developers.google.com/assistant/conversational/webhooks#payloads>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WebhookRequest {
-    /// Payload of the webhook request.
-    #[prost(string, tag = "1")]
-    pub request_json: ::prost::alloc::string::String,
-}
-/// Information about a response received from the Action webhook:
-/// <https://developers.google.com/assistant/conversational/webhooks#payloads>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WebhookResponse {
-    /// Payload of the webhook response.
-    #[prost(string, tag = "1")]
-    pub response_json: ::prost::alloc::string::String,
-}
-/// Information about matched slot(s):
-/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SlotMatch {
-    /// Parameters extracted by NLU from user input.
-    #[prost(btree_map = "string, message", tag = "2")]
-    pub nlu_parameters: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        conversation::IntentParameterValue,
-    >,
-}
-/// Information about currently requested slot:
-/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SlotRequested {
-    /// Name of the requested slot.
-    #[prost(string, tag = "1")]
-    pub slot: ::prost::alloc::string::String,
-    /// Slot prompt.
-    #[prost(message, optional, tag = "3")]
-    pub prompt: ::core::option::Option<conversation::Prompt>,
-}
-/// Event which happens after webhook validation was finished for slot(s):
-/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SlotValidated {}
-/// Event which happens when form is fully filled:
-/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FormFilled {}
-/// Event which happens when system needs user input:
-/// <https://developers.google.com/assistant/conversational/scenes#input>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WaitingForUserInput {}
-/// Event which informs that conversation with agent was ended.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EndConversation {}
-/// Metadata for different types of webhooks. If you're using
-/// `inlineCloudFunction`, your source code must be in a directory with the same
-/// name as the value for the `executeFunction` key.
-/// For example, a value of `my_webhook` for the`executeFunction` key would have
-/// a code structure like this:
-///  - `/webhooks/my_webhook.yaml`
-///  - `/webhooks/my_webhook/index.js`
-///  - `/webhooks/my_webhook/package.json`
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Webhook {
-    /// List of handlers for this webhook.
-    #[prost(message, repeated, tag = "1")]
-    pub handlers: ::prost::alloc::vec::Vec<webhook::Handler>,
-    /// Only one webhook type is supported.
-    #[prost(oneof = "webhook::WebhookType", tags = "2, 3")]
-    pub webhook_type: ::core::option::Option<webhook::WebhookType>,
-}
-/// Nested message and enum types in `Webhook`.
-pub mod webhook {
-    /// Declares the name of the webhoook handler. A webhook can have
-    /// multiple handlers registered. These handlers can be called from multiple
-    /// places in your Actions project.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Handler {
-        /// Required. Name of the handler. Must be unique across all handlers the Actions
-        /// project. You can check the name of this handler to invoke the correct
-        /// function in your fulfillment source code.
-        #[prost(string, tag = "1")]
-        pub name: ::prost::alloc::string::String,
-    }
-    /// REST endpoint to notify if you're not using the inline editor.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct HttpsEndpoint {
-        /// The HTTPS base URL for your fulfillment endpoint (HTTP is not supported).
-        /// Handler names are appended to the base URL path after a colon
-        /// (following the style guide in
-        /// <https://cloud.google.com/apis/design/custom_methods>).
-        /// For example a base URL of '<https://gactions.service.com/api'> would
-        /// receive requests with URL '<https://gactions.service.com/api:{method}'.>
-        #[prost(string, tag = "1")]
-        pub base_url: ::prost::alloc::string::String,
-        /// Map of HTTP parameters to be included in the POST request.
-        #[prost(btree_map = "string, string", tag = "2")]
-        pub http_headers: ::prost::alloc::collections::BTreeMap<
-            ::prost::alloc::string::String,
-            ::prost::alloc::string::String,
-        >,
-        /// Version of the protocol used by the endpoint. This is the protocol shared
-        /// by all fulfillment types and not specific to Google fulfillment type.
-        #[prost(int32, tag = "3")]
-        pub endpoint_api_version: i32,
-    }
-    /// Holds the metadata of an inline Cloud Function deployed from the
-    /// webhooks folder.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct InlineCloudFunction {
-        /// The name of the Cloud Function entry point. The value of this field
-        /// should match the name of the method exported from the source code.
-        #[prost(string, tag = "1")]
-        pub execute_function: ::prost::alloc::string::String,
-    }
-    /// Only one webhook type is supported.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum WebhookType {
-        /// Custom webhook HTTPS endpoint.
-        #[prost(message, tag = "2")]
-        HttpsEndpoint(HttpsEndpoint),
-        /// Metadata for cloud function deployed from code in the webhooks folder.
-        #[prost(message, tag = "3")]
-        InlineCloudFunction(InlineCloudFunction),
-    }
-}
-/// Information about the encrypted OAuth client secret used in account linking
-/// flows (for AUTH_CODE grant type).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AccountLinkingSecret {
-    /// Encrypted account linking client secret ciphertext.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub encrypted_client_secret: ::prost::bytes::Bytes,
-    /// The version of the crypto key used to encrypt the account linking client
-    /// secret.
-    /// Note that this field is ignored in push, preview, and version creation
-    /// flows.
-    #[prost(string, tag = "2")]
-    pub encryption_key_version: ::prost::alloc::string::String,
-}
 /// Represents the list of Actions defined in a project.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Actions {
@@ -968,6 +872,78 @@ pub mod actions {
         pub engagement: ::core::option::Option<Engagement>,
     }
 }
+/// Metadata for different types of webhooks. If you're using
+/// `inlineCloudFunction`, your source code must be in a directory with the same
+/// name as the value for the `executeFunction` key.
+/// For example, a value of `my_webhook` for the`executeFunction` key would have
+/// a code structure like this:
+///  - `/webhooks/my_webhook.yaml`
+///  - `/webhooks/my_webhook/index.js`
+///  - `/webhooks/my_webhook/package.json`
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Webhook {
+    /// List of handlers for this webhook.
+    #[prost(message, repeated, tag = "1")]
+    pub handlers: ::prost::alloc::vec::Vec<webhook::Handler>,
+    /// Only one webhook type is supported.
+    #[prost(oneof = "webhook::WebhookType", tags = "2, 3")]
+    pub webhook_type: ::core::option::Option<webhook::WebhookType>,
+}
+/// Nested message and enum types in `Webhook`.
+pub mod webhook {
+    /// Declares the name of the webhoook handler. A webhook can have
+    /// multiple handlers registered. These handlers can be called from multiple
+    /// places in your Actions project.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Handler {
+        /// Required. Name of the handler. Must be unique across all handlers the Actions
+        /// project. You can check the name of this handler to invoke the correct
+        /// function in your fulfillment source code.
+        #[prost(string, tag = "1")]
+        pub name: ::prost::alloc::string::String,
+    }
+    /// REST endpoint to notify if you're not using the inline editor.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct HttpsEndpoint {
+        /// The HTTPS base URL for your fulfillment endpoint (HTTP is not supported).
+        /// Handler names are appended to the base URL path after a colon
+        /// (following the style guide in
+        /// <https://cloud.google.com/apis/design/custom_methods>).
+        /// For example a base URL of '<https://gactions.service.com/api'> would
+        /// receive requests with URL '<https://gactions.service.com/api:{method}'.>
+        #[prost(string, tag = "1")]
+        pub base_url: ::prost::alloc::string::String,
+        /// Map of HTTP parameters to be included in the POST request.
+        #[prost(btree_map = "string, string", tag = "2")]
+        pub http_headers: ::prost::alloc::collections::BTreeMap<
+            ::prost::alloc::string::String,
+            ::prost::alloc::string::String,
+        >,
+        /// Version of the protocol used by the endpoint. This is the protocol shared
+        /// by all fulfillment types and not specific to Google fulfillment type.
+        #[prost(int32, tag = "3")]
+        pub endpoint_api_version: i32,
+    }
+    /// Holds the metadata of an inline Cloud Function deployed from the
+    /// webhooks folder.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct InlineCloudFunction {
+        /// The name of the Cloud Function entry point. The value of this field
+        /// should match the name of the method exported from the source code.
+        #[prost(string, tag = "1")]
+        pub execute_function: ::prost::alloc::string::String,
+    }
+    /// Only one webhook type is supported.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum WebhookType {
+        /// Custom webhook HTTPS endpoint.
+        #[prost(message, tag = "2")]
+        HttpsEndpoint(HttpsEndpoint),
+        /// Metadata for cloud function deployed from code in the webhooks folder.
+        #[prost(message, tag = "3")]
+        InlineCloudFunction(InlineCloudFunction),
+    }
+}
 /// Wrapper for repeated config files. Repeated fields cannot exist in a oneof.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ConfigFiles {
@@ -1057,45 +1033,6 @@ pub mod config_file {
         ResourceBundle(::prost_types::Struct),
     }
 }
-/// Wrapper for repeated data file. Repeated fields cannot exist in a oneof.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataFiles {
-    /// Multiple data files.
-    #[prost(message, repeated, tag = "1")]
-    pub data_files: ::prost::alloc::vec::Vec<DataFile>,
-}
-/// Represents a single file which contains unstructured data. Examples include
-/// image files, audio files, and cloud function source code.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataFile {
-    /// Relative path of the data file from the project root in the SDK file
-    /// structure.
-    /// Allowed file paths:
-    ///     - Images: `resources/images/{multiple
-    ///     directories}?/{ImageName}.{extension}`
-    ///     - Audio: `resources/audio/{multiple
-    ///     directories}?/{AudioFileName}.{extension}`
-    ///     - Inline Cloud Function Code: `webhooks/{WebhookName}.zip`
-    /// Allowed extensions:
-    ///     - Images: `png`, `jpg`, `jpeg`
-    ///     - Audio: `mp3`, `mpeg`
-    ///     - Inline Cloud Functions: `zip`
-    #[prost(string, tag = "1")]
-    pub file_path: ::prost::alloc::string::String,
-    /// Required. The content type of this asset. Example: `text/html`. The content
-    /// type must comply with the specification
-    /// (<http://www.w3.org/Protocols/rfc1341/4_Content-Type.html>).
-    /// Cloud functions must be in zip format and the content type should
-    /// be `application/zip;zip_type=cloud_function`. The zip_type parameter
-    /// indicates that the zip is for a cloud function.
-    #[prost(string, tag = "2")]
-    pub content_type: ::prost::alloc::string::String,
-    /// Content of the data file. Examples would be raw bytes of images, audio
-    /// files, or cloud function zip format.
-    /// There is 10 MB strict limit on the payload size.
-    #[prost(bytes = "bytes", tag = "3")]
-    pub payload: ::prost::bytes::Bytes,
-}
 /// Wrapper for a list of files.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Files {
@@ -1118,6 +1055,69 @@ pub mod files {
         /// source code.
         #[prost(message, tag = "2")]
         DataFiles(super::DataFiles),
+    }
+}
+/// Definition of version resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Version {
+    /// The unique identifier of the version in the following format.
+    /// `projects/{project}/versions/{version}`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The current state of the version.
+    #[prost(message, optional, tag = "2")]
+    pub version_state: ::core::option::Option<version::VersionState>,
+    /// Email of the user who created this version.
+    #[prost(string, tag = "3")]
+    pub creator: ::prost::alloc::string::String,
+    /// Timestamp of the last change to this version.
+    #[prost(message, optional, tag = "4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `Version`.
+pub mod version {
+    /// Represents the current state of the version.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct VersionState {
+        /// The current state of the version.
+        #[prost(enumeration = "version_state::State", tag = "1")]
+        pub state: i32,
+        /// User-friendly message for the current state of the version.
+        #[prost(string, tag = "2")]
+        pub message: ::prost::alloc::string::String,
+    }
+    /// Nested message and enum types in `VersionState`.
+    pub mod version_state {
+        /// Enum indicating the states that a Version can take. This enum is not yet
+        /// frozen and values maybe added later.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum State {
+            /// Default value of State.
+            Unspecified = 0,
+            /// The version creation is in progress.
+            CreationInProgress = 1,
+            /// The version creation failed.
+            CreationFailed = 2,
+            /// The version has been successfully created.
+            Created = 3,
+            /// The version is under policy review (aka Approval).
+            ReviewInProgress = 4,
+            /// The version has been approved for policy review and can be deployed.
+            Approved = 5,
+            /// The version has been conditionally approved but is pending final
+            /// review. It may be rolled back if final review is denied.
+            ConditionallyApproved = 6,
+            /// The version has been denied for policy review.
+            Denied = 7,
+            /// The version is taken down as entire agent and all versions are taken
+            /// down.
+            UnderTakedown = 8,
+            /// The version has been deleted.
+            Deleted = 9,
+        }
     }
 }
 /// Streaming RPC request for WriteDraft.

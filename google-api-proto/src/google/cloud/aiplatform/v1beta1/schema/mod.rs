@@ -24,6 +24,49 @@ pub struct AnnotationSpecColor {
     #[prost(string, tag = "3")]
     pub id: ::prost::alloc::string::String,
 }
+/// Payload of Image DataItem.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImageDataItem {
+    /// Required. Google Cloud Storage URI points to the original image in user's bucket.
+    /// The image is up to 30MB in size.
+    #[prost(string, tag = "1")]
+    pub gcs_uri: ::prost::alloc::string::String,
+    /// Output only. The mime type of the content of the image. Only the images in below listed
+    /// mime types are supported.
+    /// - image/jpeg
+    /// - image/gif
+    /// - image/png
+    /// - image/webp
+    /// - image/bmp
+    /// - image/tiff
+    /// - image/vnd.microsoft.icon
+    #[prost(string, tag = "2")]
+    pub mime_type: ::prost::alloc::string::String,
+}
+/// Payload of Video DataItem.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoDataItem {
+    /// Required. Google Cloud Storage URI points to the original video in user's bucket.
+    /// The video is up to 50 GB in size and up to 3 hour in duration.
+    #[prost(string, tag = "1")]
+    pub gcs_uri: ::prost::alloc::string::String,
+    /// Output only. The mime type of the content of the video. Only the videos in below listed
+    /// mime types are supported.
+    /// Supported mime_type:
+    /// - video/mp4
+    /// - video/avi
+    /// - video/quicktime
+    #[prost(string, tag = "2")]
+    pub mime_type: ::prost::alloc::string::String,
+}
+/// Payload of Text DataItem.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextDataItem {
+    /// Output only. Google Cloud Storage URI points to the original text in user's bucket.
+    /// The text file is up to 10MB in size.
+    #[prost(string, tag = "1")]
+    pub gcs_uri: ::prost::alloc::string::String,
+}
 /// A vertex represents a 2D point in the image.
 /// NOTE: the normalized vertex coordinates are relative to the original image
 /// and range from 0 to 1.
@@ -304,49 +347,6 @@ pub mod prediction_result {
         #[prost(string, tag = "2")]
         Key(::prost::alloc::string::String),
     }
-}
-/// Payload of Image DataItem.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageDataItem {
-    /// Required. Google Cloud Storage URI points to the original image in user's bucket.
-    /// The image is up to 30MB in size.
-    #[prost(string, tag = "1")]
-    pub gcs_uri: ::prost::alloc::string::String,
-    /// Output only. The mime type of the content of the image. Only the images in below listed
-    /// mime types are supported.
-    /// - image/jpeg
-    /// - image/gif
-    /// - image/png
-    /// - image/webp
-    /// - image/bmp
-    /// - image/tiff
-    /// - image/vnd.microsoft.icon
-    #[prost(string, tag = "2")]
-    pub mime_type: ::prost::alloc::string::String,
-}
-/// Payload of Video DataItem.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoDataItem {
-    /// Required. Google Cloud Storage URI points to the original video in user's bucket.
-    /// The video is up to 50 GB in size and up to 3 hour in duration.
-    #[prost(string, tag = "1")]
-    pub gcs_uri: ::prost::alloc::string::String,
-    /// Output only. The mime type of the content of the video. Only the videos in below listed
-    /// mime types are supported.
-    /// Supported mime_type:
-    /// - video/mp4
-    /// - video/avi
-    /// - video/quicktime
-    #[prost(string, tag = "2")]
-    pub mime_type: ::prost::alloc::string::String,
-}
-/// Payload of Text DataItem.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextDataItem {
-    /// Output only. Google Cloud Storage URI points to the original text in user's bucket.
-    /// The text file is up to 10MB in size.
-    #[prost(string, tag = "1")]
-    pub gcs_uri: ::prost::alloc::string::String,
 }
 /// The metadata of Datasets that contain Image DataItems.
 #[derive(Clone, PartialEq, ::prost::Message)]

@@ -65,6 +65,33 @@ pub struct BooleanParameterArray {
     #[prost(bool, repeated, tag = "1")]
     pub boolean_values: ::prost::alloc::vec::Vec<bool>,
 }
+/// This message is used for processing and persisting (when applicable) key
+/// value pair parameters for each event in the event bus.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventParameter {
+    /// Key is used to retrieve the corresponding parameter value. This should be
+    /// unique for a given fired event. These parameters must be predefined in the
+    /// integration definition.
+    #[prost(string, tag = "1")]
+    pub key: ::prost::alloc::string::String,
+    /// Values for the defined keys. Each value can either be string, int, double
+    /// or any proto message.
+    #[prost(message, optional, tag = "2")]
+    pub value: ::core::option::Option<ValueType>,
+}
+/// Enum Product.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum Product {
+    /// Default value.
+    Unspecified = 0,
+    /// Integration Platform.
+    Ip = 1,
+    /// Apigee.
+    Apigee = 2,
+    /// Security Command Center.
+    Security = 3,
+}
 /// Options for how to validate json schemas.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -82,33 +109,6 @@ pub enum JsonValidationOption {
     PostExecution = 3,
     /// Perform both PRE_EXECUTION and POST_EXECUTION validations.
     PrePostExecution = 4,
-}
-/// Enum Product.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum Product {
-    /// Default value.
-    Unspecified = 0,
-    /// Integration Platform.
-    Ip = 1,
-    /// Apigee.
-    Apigee = 2,
-    /// Security Command Center.
-    Security = 3,
-}
-/// This message is used for processing and persisting (when applicable) key
-/// value pair parameters for each event in the event bus.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventParameter {
-    /// Key is used to retrieve the corresponding parameter value. This should be
-    /// unique for a given fired event. These parameters must be predefined in the
-    /// integration definition.
-    #[prost(string, tag = "1")]
-    pub key: ::prost::alloc::string::String,
-    /// Values for the defined keys. Each value can either be string, int, double
-    /// or any proto message.
-    #[prost(message, optional, tag = "2")]
-    pub value: ::core::option::Option<ValueType>,
 }
 /// The task configuration details. This is not the implementation of Task.
 /// There might be multiple TaskConfigs for the same Task.
