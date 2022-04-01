@@ -34,6 +34,7 @@ pub mod apigeeconnect;
 pub mod asset;
 
 #[cfg(any(
+    feature = "google-cloud-assuredworkloads-regulatoryintercept-logging-v1",
     feature = "google-cloud-assuredworkloads-v1",
     feature = "google-cloud-assuredworkloads-v1beta1",
 ))]
