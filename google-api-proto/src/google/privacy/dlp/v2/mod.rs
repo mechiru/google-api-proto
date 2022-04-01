@@ -3980,6 +3980,153 @@ pub struct InspectJobConfig {
     #[prost(message, repeated, tag = "4")]
     pub actions: ::prost::alloc::vec::Vec<Action>,
 }
+/// A task to execute when a data profile has been generated.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataProfileAction {
+    #[prost(oneof = "data_profile_action::Action", tags = "1, 2")]
+    pub action: ::core::option::Option<data_profile_action::Action>,
+}
+/// Nested message and enum types in `DataProfileAction`.
+pub mod data_profile_action {
+    /// If set, the detailed data profiles will be persisted to the location
+    /// of your choice whenever updated.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Export {
+        /// Store all table and column profiles in an existing table or a new table
+        /// in an existing dataset. Each re-generation will result in a new row in
+        /// BigQuery.
+        #[prost(message, optional, tag = "1")]
+        pub profile_table: ::core::option::Option<super::BigQueryTable>,
+    }
+    /// Send a Pub/Sub message into the given Pub/Sub topic to connect other
+    /// systems to data profile generation. The message payload data will
+    /// be the byte serialization of `DataProfilePubSubMessage`.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct PubSubNotification {
+        /// Cloud Pub/Sub topic to send notifications to.
+        /// Format is projects/{project}/topics/{topic}.
+        #[prost(string, tag = "1")]
+        pub topic: ::prost::alloc::string::String,
+        /// The type of event that triggers a Pub/Sub. At most one
+        /// `PubSubNotification` per EventType is permitted.
+        #[prost(enumeration = "EventType", tag = "2")]
+        pub event: i32,
+        /// Conditions (e.g., data risk or sensitivity level) for triggering a
+        /// Pub/Sub.
+        #[prost(message, optional, tag = "3")]
+        pub pubsub_condition: ::core::option::Option<super::DataProfilePubSubCondition>,
+        /// How much data to include in the Pub/Sub message. If the user wishes to
+        /// limit the size of the message, they can use resource_name and fetch the
+        /// profile fields they wish to. Per table profile (not per column).
+        #[prost(enumeration = "pub_sub_notification::DetailLevel", tag = "4")]
+        pub detail_of_message: i32,
+    }
+    /// Nested message and enum types in `PubSubNotification`.
+    pub mod pub_sub_notification {
+        /// The levels of detail that can be included in the Pub/Sub message.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum DetailLevel {
+            /// Unused.
+            Unspecified = 0,
+            /// The full table data profile.
+            TableProfile = 1,
+            /// The resource name of the table.
+            ResourceName = 2,
+        }
+    }
+    /// Types of event that can trigger an action.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EventType {
+        /// Unused.
+        Unspecified = 0,
+        /// New profile (not a re-profile).
+        NewProfile = 1,
+        /// Changed one of the following profile metrics:
+        /// * Table data risk score
+        /// * Table sensitivity score
+        /// * Table resource visibility
+        /// * Table encryption type
+        /// * Table predicted infoTypes
+        /// * Table other infoTypes
+        ChangedProfile = 2,
+        /// Table data risk score or sensitivity score increased.
+        ScoreIncreased = 3,
+        /// A user (non-internal) error occurred.
+        ErrorChanged = 4,
+    }
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Action {
+        /// Export data profiles into a provided location.
+        #[prost(message, tag = "1")]
+        ExportData(Export),
+        /// Publish a message into the Pub/Sub topic.
+        #[prost(message, tag = "2")]
+        PubSubNotification(PubSubNotification),
+    }
+}
+/// Configuration for setting up a job to scan resources for profile generation.
+/// Only one data profile configuration may exist per organization, folder,
+/// or project.
+///
+/// The generated data profiles are retained according to the
+/// [data retention policy]
+/// (<https://cloud.google.com/dlp/docs/data-profiles#retention>).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataProfileJobConfig {
+    /// The data to scan.
+    #[prost(message, optional, tag = "1")]
+    pub location: ::core::option::Option<DataProfileLocation>,
+    /// The project that will run the scan. The DLP service
+    /// account that exists within this project must have access to all resources
+    /// that are profiled, and the Cloud DLP API must be enabled.
+    #[prost(string, tag = "5")]
+    pub project_id: ::prost::alloc::string::String,
+    /// Detection logic for profile generation.
+    ///
+    /// Not all template features are used by profiles. FindingLimits,
+    /// include_quote and exclude_info_types have no impact on
+    /// data profiling.
+    ///
+    /// Multiple templates may be provided if there is data in multiple regions.
+    /// At most one template must be specified per-region (including "global").
+    /// Each region is scanned using the applicable template. If no region-specific
+    /// template is specified, but a "global" template is specified, it will be
+    /// copied to that region and used instead. If no global or region-specific
+    /// template is provided for a region with data, that region's data will not be
+    /// scanned.
+    ///
+    /// For more information, see
+    /// <https://cloud.google.com/dlp/docs/data-profiles#data_residency.>
+    #[prost(string, repeated, tag = "7")]
+    pub inspect_templates: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Actions to execute at the completion of the job.
+    #[prost(message, repeated, tag = "6")]
+    pub data_profile_actions: ::prost::alloc::vec::Vec<DataProfileAction>,
+}
+/// The data that will be profiled.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataProfileLocation {
+    /// The location to be scanned.
+    #[prost(oneof = "data_profile_location::Location", tags = "1, 2")]
+    pub location: ::core::option::Option<data_profile_location::Location>,
+}
+/// Nested message and enum types in `DataProfileLocation`.
+pub mod data_profile_location {
+    /// The location to be scanned.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Location {
+        /// The ID of an organization to scan.
+        #[prost(int64, tag = "1")]
+        OrganizationId(i64),
+        /// The ID of the Folder within an organization to scan.
+        #[prost(int64, tag = "2")]
+        FolderId(i64),
+    }
+}
 /// Combines all of the information about a DLP job.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DlpJob {
@@ -4650,6 +4797,283 @@ pub struct HybridFindingDetails {
 /// Quota exceeded errors will be thrown once quota has been met.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct HybridInspectResponse {}
+/// Score is a summary of all elements in the data profile.
+/// A higher number means more sensitive.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SensitivityScore {
+    /// The score applied to the resource.
+    #[prost(enumeration = "sensitivity_score::SensitivityScoreLevel", tag = "1")]
+    pub score: i32,
+}
+/// Nested message and enum types in `SensitivityScore`.
+pub mod sensitivity_score {
+    /// Various score levels for resources.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SensitivityScoreLevel {
+        /// Unused.
+        SensitivityScoreUnspecified = 0,
+        /// No sensitive information detected. Limited access.
+        SensitivityLow = 10,
+        /// Medium risk - PII, potentially sensitive data, or fields with free-text
+        /// data that are at higher risk of having intermittent sensitive data.
+        /// Consider limiting access.
+        SensitivityModerate = 20,
+        /// High risk – SPII may be present. Exfiltration of data may lead to user
+        /// data loss. Re-identification of users may be possible. Consider limiting
+        /// usage and or removing SPII.
+        SensitivityHigh = 30,
+    }
+}
+/// Score is a summary of all elements in the data profile.
+/// A higher number means more risky.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataRiskLevel {
+    /// The score applied to the resource.
+    #[prost(enumeration = "data_risk_level::DataRiskLevelScore", tag = "1")]
+    pub score: i32,
+}
+/// Nested message and enum types in `DataRiskLevel`.
+pub mod data_risk_level {
+    /// Various score levels for resources.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum DataRiskLevelScore {
+        /// Unused.
+        RiskScoreUnspecified = 0,
+        /// Low risk - Lower indication of sensitive data that appears to have
+        /// additional access restrictions in place or no indication of sensitive
+        /// data found.
+        RiskLow = 10,
+        /// Medium risk - Sensitive data may be present but additional access or fine
+        /// grain access restrictions appears to be present.  Consider limiting
+        /// access even further or transforming data to mask.
+        RiskModerate = 20,
+        /// High risk – SPII may be present. Access controls may include public
+        /// ACLs. Exfiltration of data may lead to user data loss. Re-identification
+        /// of users may be possible. Consider limiting usage and or removing SPII.
+        RiskHigh = 30,
+    }
+}
+/// Snapshot of the configurations used to generate the profile.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataProfileConfigSnapshot {
+    /// A copy of the inspection config used to generate this profile. This
+    /// is a copy of the inspect_template specified in `DataProfileJobConfig`.
+    #[prost(message, optional, tag = "2")]
+    pub inspect_config: ::core::option::Option<InspectConfig>,
+    /// A copy of the configuration used to generate this profile.
+    #[prost(message, optional, tag = "3")]
+    pub data_profile_job: ::core::option::Option<DataProfileJobConfig>,
+}
+/// The profile for a scanned table.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TableDataProfile {
+    /// The name of the profile.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The resource name to the project data profile for this table.
+    #[prost(string, tag = "2")]
+    pub project_data_profile: ::prost::alloc::string::String,
+    /// The GCP project ID that owns the BigQuery dataset.
+    #[prost(string, tag = "24")]
+    pub dataset_project_id: ::prost::alloc::string::String,
+    /// The BigQuery location where the dataset's data is stored.
+    /// See <https://cloud.google.com/bigquery/docs/locations> for supported
+    /// locations.
+    #[prost(string, tag = "29")]
+    pub dataset_location: ::prost::alloc::string::String,
+    /// The BigQuery dataset ID.
+    #[prost(string, tag = "25")]
+    pub dataset_id: ::prost::alloc::string::String,
+    /// The BigQuery table ID.
+    #[prost(string, tag = "26")]
+    pub table_id: ::prost::alloc::string::String,
+    /// The resource name of the table.
+    /// <https://cloud.google.com/apis/design/resource_names#full_resource_name>
+    #[prost(string, tag = "3")]
+    pub full_resource: ::prost::alloc::string::String,
+    /// Success or error status from the most recent profile generation attempt.
+    /// May be empty if the profile is still being generated.
+    #[prost(message, optional, tag = "21")]
+    pub profile_status: ::core::option::Option<ProfileStatus>,
+    /// State of a profile.
+    #[prost(enumeration = "table_data_profile::State", tag = "22")]
+    pub state: i32,
+    /// The sensitivity score of this table.
+    #[prost(message, optional, tag = "5")]
+    pub sensitivity_score: ::core::option::Option<SensitivityScore>,
+    /// The data risk level of this table.
+    #[prost(message, optional, tag = "6")]
+    pub data_risk_level: ::core::option::Option<DataRiskLevel>,
+    /// The infoTypes predicted from this table's data.
+    #[prost(message, repeated, tag = "27")]
+    pub predicted_info_types: ::prost::alloc::vec::Vec<InfoTypeSummary>,
+    /// Other infoTypes found in this table's data.
+    #[prost(message, repeated, tag = "28")]
+    pub other_info_types: ::prost::alloc::vec::Vec<OtherInfoTypeSummary>,
+    /// The snapshot of the configurations used to generate the profile.
+    #[prost(message, optional, tag = "7")]
+    pub config_snapshot: ::core::option::Option<DataProfileConfigSnapshot>,
+    /// The time when this table was last modified
+    #[prost(message, optional, tag = "8")]
+    pub last_modified_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. The time when this table expires.
+    #[prost(message, optional, tag = "9")]
+    pub expiration_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The number of columns profiled in the table.
+    #[prost(int64, tag = "10")]
+    pub scanned_column_count: i64,
+    /// The number of columns skipped in the table because of an error.
+    #[prost(int64, tag = "11")]
+    pub failed_column_count: i64,
+    /// The size of the table when the profile was generated.
+    #[prost(int64, tag = "12")]
+    pub table_size_bytes: i64,
+    /// Number of rows in the table when the profile was generated.
+    #[prost(int64, tag = "13")]
+    pub row_count: i64,
+    /// How the table is encrypted.
+    #[prost(enumeration = "EncryptionStatus", tag = "14")]
+    pub encryption_status: i32,
+    /// How broadly a resource has been shared.
+    #[prost(enumeration = "ResourceVisibility", tag = "15")]
+    pub resource_visibility: i32,
+    /// The last time the profile was generated.
+    #[prost(message, optional, tag = "16")]
+    pub profile_last_generated: ::core::option::Option<::prost_types::Timestamp>,
+    /// The labels applied to the resource at the time the profile was generated.
+    #[prost(btree_map = "string, string", tag = "17")]
+    pub resource_labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// The time at which the table was created.
+    #[prost(message, optional, tag = "23")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `TableDataProfile`.
+pub mod table_data_profile {
+    /// Possible states of a profile. New items may be added.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Unused.
+        Unspecified = 0,
+        /// The profile is currently running. Once a profile has finished it will
+        /// transition to DONE.
+        Running = 1,
+        /// The profile is no longer generating.
+        /// If profile_status.status.code is 0, the profile succeeded, otherwise, it
+        /// failed.
+        Done = 2,
+    }
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProfileStatus {
+    /// Profiling status code and optional message
+    #[prost(message, optional, tag = "1")]
+    pub status: ::core::option::Option<super::super::super::rpc::Status>,
+    /// Time when the profile generation status was updated
+    #[prost(message, optional, tag = "3")]
+    pub timestamp: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// The infoType details for this column.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InfoTypeSummary {
+    /// The infoType.
+    #[prost(message, optional, tag = "1")]
+    pub info_type: ::core::option::Option<InfoType>,
+}
+/// Infotype details for other infoTypes found within a column.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OtherInfoTypeSummary {
+    /// The other infoType.
+    #[prost(message, optional, tag = "1")]
+    pub info_type: ::core::option::Option<InfoType>,
+}
+/// A condition for determining whether a PubSub should be triggered.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataProfilePubSubCondition {
+    /// An expression.
+    #[prost(message, optional, tag = "1")]
+    pub expressions: ::core::option::Option<data_profile_pub_sub_condition::PubSubExpressions>,
+}
+/// Nested message and enum types in `DataProfilePubSubCondition`.
+pub mod data_profile_pub_sub_condition {
+    /// A condition consisting of a value.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct PubSubCondition {
+        /// The value for the condition to trigger.
+        #[prost(oneof = "pub_sub_condition::Value", tags = "1, 2")]
+        pub value: ::core::option::Option<pub_sub_condition::Value>,
+    }
+    /// Nested message and enum types in `PubSubCondition`.
+    pub mod pub_sub_condition {
+        /// The value for the condition to trigger.
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Value {
+            /// The minimum data risk score that triggers the condition.
+            #[prost(enumeration = "super::ProfileScoreBucket", tag = "1")]
+            MinimumRiskScore(i32),
+            /// The minimum sensitivity level that triggers the condition.
+            #[prost(enumeration = "super::ProfileScoreBucket", tag = "2")]
+            MinimumSensitivityScore(i32),
+        }
+    }
+    /// An expression, consisting of an operator and conditions.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct PubSubExpressions {
+        /// The operator to apply to the collection of conditions.
+        #[prost(enumeration = "pub_sub_expressions::PubSubLogicalOperator", tag = "1")]
+        pub logical_operator: i32,
+        /// Conditions to apply to the expression.
+        #[prost(message, repeated, tag = "2")]
+        pub conditions: ::prost::alloc::vec::Vec<PubSubCondition>,
+    }
+    /// Nested message and enum types in `PubSubExpressions`.
+    pub mod pub_sub_expressions {
+        /// Logical operators for conditional checks.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum PubSubLogicalOperator {
+            /// Unused.
+            LogicalOperatorUnspecified = 0,
+            /// Conditional OR.
+            Or = 1,
+            /// Conditional AND.
+            And = 2,
+        }
+    }
+    /// Various score levels for resources.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ProfileScoreBucket {
+        /// Unused.
+        Unspecified = 0,
+        /// High risk/sensitivity detected.
+        High = 1,
+        /// Medium or high risk/sensitivity detected.
+        MediumOrHigh = 2,
+    }
+}
+/// The message that will be published to a Pub/Sub topic.
+/// To receive a message of protocol buffer schema type, convert the message data
+/// to an object of this proto class.
+/// <https://cloud.google.com/pubsub/docs/samples/pubsub-subscribe-proto-messages>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataProfilePubSubMessage {
+    /// If `DetailLevel` is `TABLE_PROFILE` this will be fully populated.
+    /// Otherwise, if `DetailLevel` is `RESOURCE_NAME`, then only `name` and
+    /// `full_resource` will be populated.
+    #[prost(message, optional, tag = "1")]
+    pub profile: ::core::option::Option<TableDataProfile>,
+    /// The event that caused the Pub/Sub message to be sent.
+    #[prost(enumeration = "data_profile_action::EventType", tag = "2")]
+    pub event: i32,
+}
 /// Operators available for comparing the value of fields.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -4757,6 +5181,29 @@ pub enum StoredInfoTypeState {
     /// user-controlled storage were modified. To fix an invalid StoredInfoType,
     /// use the `UpdateStoredInfoType` method to create a new version.
     Invalid = 4,
+}
+/// How broadly a resource has been shared. New items may be added over time.
+/// A higher number means more restricted.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ResourceVisibility {
+    /// Unused.
+    Unspecified = 0,
+    /// Visible to any user.
+    Public = 10,
+    /// Visible only to specific users.
+    Restricted = 20,
+}
+/// How a resource is encrypted.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EncryptionStatus {
+    /// Unused.
+    Unspecified = 0,
+    /// Google manages server-side encryption keys on your behalf.
+    EncryptionGoogleManaged = 1,
+    /// Customer provides the key.
+    EncryptionCustomerManaged = 2,
 }
 #[doc = r" Generated client implementations."]
 pub mod dlp_service_client {

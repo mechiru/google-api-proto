@@ -7,21 +7,24 @@ pub struct DataExchange {
     /// e.g. `projects/myproject/locations/US/dataExchanges/123`.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// Required. Human-readable display name of the data exchange. The display
-    /// name must contain only Unicode letters, numbers (0-9), underscores (_),
-    /// dashes (-), spaces ( ), and can't start or end with spaces. Default value
-    /// is an empty string. Max length: 63 bytes.
+    /// Required. Human-readable display name of the data exchange. The display name must
+    /// contain only Unicode letters, numbers (0-9), underscores (_), dashes (-),
+    /// spaces ( ), and can't start or end with spaces.
+    /// Default value is an empty string.
+    /// Max length: 63 bytes.
     #[prost(string, tag = "2")]
     pub display_name: ::prost::alloc::string::String,
-    /// Optional. Short description of the data exchange that can consist of
-    /// sentences or paragraphs. The description must not contain Unicode
-    /// non-characters as well as C0 and C1 control codes except tabs (HT), new
-    /// lines (LF), carriage returns (CR), and page breaks (FF). Default value is
-    /// an empty string. Max length: 2000 bytes.
+    /// Optional. Short description of the data exchange that can consist of sentences
+    /// or paragraphs. The description must not contain Unicode non-characters as
+    /// well as C0 and C1 control codes except tabs (HT), new lines (LF), carriage
+    /// returns (CR), and page breaks (FF).
+    /// Default value is an empty string.
+    /// Max length: 2000 bytes.
     #[prost(string, tag = "3")]
     pub description: ::prost::alloc::string::String,
-    /// Optional. Email, URL or other reference of the primary point of contact of
-    /// the data exchange Max Length: 1000 bytes.
+    /// Optional. Email, URL or other reference of the primary point of contact of the data
+    /// exchange
+    /// Max Length: 1000 bytes.
     #[prost(string, tag = "4")]
     pub primary_contact: ::prost::alloc::string::String,
     /// Optional. Documentation describing the data exchange.
@@ -30,11 +33,11 @@ pub struct DataExchange {
     /// Output only. Number of listings contained in the data exchange.
     #[prost(int32, tag = "6")]
     pub listing_count: i32,
-    /// Optional. Base64 encoded image representing the data exchange. Max
-    /// Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API
-    /// only performs validation on size of the encoded data. Note: For byte
-    /// fields, the contents of the field are base64-encoded (which increases the
-    /// size of the data by 33-36%) when using JSON on the wire.
+    /// Optional. Base64 encoded image representing the data exchange. Max Size: 3.0MiB
+    /// Expected image dimensions are 512x512 pixels, however the API only
+    /// performs validation on size of the encoded data.
+    /// Note: For byte fields, the contents of the field are base64-encoded (which
+    /// increases the size of the data by 33-36%) when using JSON on the wire.
     #[prost(bytes = "bytes", tag = "7")]
     pub icon: ::prost::bytes::Bytes,
 }
@@ -110,10 +113,11 @@ pub struct Listing {
     /// e.g. `projects/myproject/locations/US/dataExchanges/123/listings/456`
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// Required. Human-readable display name of the listing. The display name must
-    /// contain only Unicode letters, numbers (0-9), underscores (_), dashes (-),
-    /// spaces ( ), and can't start or end with spaces. Default value is an empty
-    /// string. Max length: 63 bytes.
+    /// Required. Human-readable display name of the listing. The display name must contain
+    /// only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces
+    /// ( ), and can't start or end with spaces.
+    /// Default value is an empty string.
+    /// Max length: 63 bytes.
     #[prost(string, tag = "2")]
     pub display_name: ::prost::alloc::string::String,
     /// Optional. Short description of the listing that can consist of sentences or
@@ -152,8 +156,8 @@ pub struct Listing {
         tag = "10"
     )]
     pub categories: ::prost::alloc::vec::Vec<i32>,
-    /// Optional. The details of the Publisher who owns the listing and has rights
-    /// to share the source data.
+    /// Optional. The details of the Publisher who owns the listing and has rights to share
+    /// the source data.
     #[prost(message, optional, tag = "11")]
     pub publisher: ::core::option::Option<Publisher>,
     /// Optional. Email or URL of the request access of the listing.
@@ -228,8 +232,8 @@ pub struct ListDataExchangesResponse {
 /// and location.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListOrgDataExchangesRequest {
-    /// Required. The organization resource path of the projects containing
-    /// DataExchanges. e.g. `organizations/myorg/locations/US`.
+    /// Required. The organization resource path of the projects containing DataExchanges.
+    /// e.g. `organizations/myorg/locations/US`.
     #[prost(string, tag = "1")]
     pub organization: ::prost::alloc::string::String,
     /// The maximum number of results to return in a single response page. Leverage
