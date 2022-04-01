@@ -721,6 +721,10 @@
 <span id="719">719</span>
 <span id="720">720</span>
 <span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A data exchange is a container that enables data sharing.</span>
 <span class="doccomment">/// It contains a set of listings of the data sources along with descriptive</span>
 <span class="doccomment">/// information of the data exchange.</span>
@@ -730,21 +734,24 @@
     <span class="doccomment">/// e.g. `projects/myproject/locations/US/dataExchanges/123`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Human-readable display name of the data exchange. The display</span>
-    <span class="doccomment">/// name must contain only Unicode letters, numbers (0-9), underscores (_),</span>
-    <span class="doccomment">/// dashes (-), spaces ( ), and can&#39;t start or end with spaces. Default value</span>
-    <span class="doccomment">/// is an empty string. Max length: 63 bytes.</span>
+    <span class="doccomment">/// Required. Human-readable display name of the data exchange. The display name must</span>
+    <span class="doccomment">/// contain only Unicode letters, numbers (0-9), underscores (_), dashes (-),</span>
+    <span class="doccomment">/// spaces ( ), and can&#39;t start or end with spaces.</span>
+    <span class="doccomment">/// Default value is an empty string.</span>
+    <span class="doccomment">/// Max length: 63 bytes.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Short description of the data exchange that can consist of</span>
-    <span class="doccomment">/// sentences or paragraphs. The description must not contain Unicode</span>
-    <span class="doccomment">/// non-characters as well as C0 and C1 control codes except tabs (HT), new</span>
-    <span class="doccomment">/// lines (LF), carriage returns (CR), and page breaks (FF). Default value is</span>
-    <span class="doccomment">/// an empty string. Max length: 2000 bytes.</span>
+    <span class="doccomment">/// Optional. Short description of the data exchange that can consist of sentences</span>
+    <span class="doccomment">/// or paragraphs. The description must not contain Unicode non-characters as</span>
+    <span class="doccomment">/// well as C0 and C1 control codes except tabs (HT), new lines (LF), carriage</span>
+    <span class="doccomment">/// returns (CR), and page breaks (FF).</span>
+    <span class="doccomment">/// Default value is an empty string.</span>
+    <span class="doccomment">/// Max length: 2000 bytes.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Email, URL or other reference of the primary point of contact of</span>
-    <span class="doccomment">/// the data exchange Max Length: 1000 bytes.</span>
+    <span class="doccomment">/// Optional. Email, URL or other reference of the primary point of contact of the data</span>
+    <span class="doccomment">/// exchange</span>
+    <span class="doccomment">/// Max Length: 1000 bytes.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">primary_contact</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Optional. Documentation describing the data exchange.</span>
@@ -753,11 +760,11 @@
     <span class="doccomment">/// Output only. Number of listings contained in the data exchange.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">listing_count</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Optional. Base64 encoded image representing the data exchange. Max</span>
-    <span class="doccomment">/// Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API</span>
-    <span class="doccomment">/// only performs validation on size of the encoded data. Note: For byte</span>
-    <span class="doccomment">/// fields, the contents of the field are base64-encoded (which increases the</span>
-    <span class="doccomment">/// size of the data by 33-36%) when using JSON on the wire.</span>
+    <span class="doccomment">/// Optional. Base64 encoded image representing the data exchange. Max Size: 3.0MiB</span>
+    <span class="doccomment">/// Expected image dimensions are 512x512 pixels, however the API only</span>
+    <span class="doccomment">/// performs validation on size of the encoded data.</span>
+    <span class="doccomment">/// Note: For byte fields, the contents of the field are base64-encoded (which</span>
+    <span class="doccomment">/// increases the size of the data by 33-36%) when using JSON on the wire.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">icon</span>: <span class="ident">::prost::bytes::Bytes</span>,
 }
@@ -833,10 +840,11 @@
     <span class="doccomment">/// e.g. `projects/myproject/locations/US/dataExchanges/123/listings/456`</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Human-readable display name of the listing. The display name must</span>
-    <span class="doccomment">/// contain only Unicode letters, numbers (0-9), underscores (_), dashes (-),</span>
-    <span class="doccomment">/// spaces ( ), and can&#39;t start or end with spaces. Default value is an empty</span>
-    <span class="doccomment">/// string. Max length: 63 bytes.</span>
+    <span class="doccomment">/// Required. Human-readable display name of the listing. The display name must contain</span>
+    <span class="doccomment">/// only Unicode letters, numbers (0-9), underscores (_), dashes (-), spaces</span>
+    <span class="doccomment">/// ( ), and can&#39;t start or end with spaces.</span>
+    <span class="doccomment">/// Default value is an empty string.</span>
+    <span class="doccomment">/// Max length: 63 bytes.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Optional. Short description of the listing that can consist of sentences or</span>
@@ -875,8 +883,8 @@
         <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>
     )]</span>
     <span class="kw">pub</span> <span class="ident">categories</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Optional. The details of the Publisher who owns the listing and has rights</span>
-    <span class="doccomment">/// to share the source data.</span>
+    <span class="doccomment">/// Optional. The details of the Publisher who owns the listing and has rights to share</span>
+    <span class="doccomment">/// the source data.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">publisher</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Publisher</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Optional. Email or URL of the request access of the listing.</span>
@@ -951,8 +959,8 @@
 <span class="doccomment">/// and location.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListOrgDataExchangesRequest</span> {
-    <span class="doccomment">/// Required. The organization resource path of the projects containing</span>
-    <span class="doccomment">/// DataExchanges. e.g. `organizations/myorg/locations/US`.</span>
+    <span class="doccomment">/// Required. The organization resource path of the projects containing DataExchanges.</span>
+    <span class="doccomment">/// e.g. `organizations/myorg/locations/US`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">organization</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The maximum number of results to return in a single response page. Leverage</span>

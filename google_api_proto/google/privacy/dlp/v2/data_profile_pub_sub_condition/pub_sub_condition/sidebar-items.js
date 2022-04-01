@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Value","The value for the condition to trigger."]]});

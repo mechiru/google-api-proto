@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["DataRiskLevelScore","Various score levels for resources."]]});

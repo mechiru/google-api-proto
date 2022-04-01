@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["SensitivityScoreLevel","Various score levels for resources."]]});
