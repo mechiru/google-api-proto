@@ -43,6 +43,19 @@ pub struct Secret {
     /// rotation policy.
     #[prost(message, optional, tag = "9")]
     pub rotation: ::core::option::Option<Rotation>,
+    /// Optional. Mapping from version alias to version name.
+    ///
+    /// A version alias is a string with a maximum length of 63 characters and can
+    /// contain uppercase and lowercase letters, numerals, and the hyphen (`-`)
+    /// and underscore ('_') characters. An alias string must start with a
+    /// letter and cannot be the string 'latest' or 'NEW'.
+    /// No more than 50 aliases can be assigned to a given secret.
+    ///
+    /// Version-Alias pairs will be viewable via GetSecret and modifiable via
+    /// UpdateSecret. At launch access by alias will only be supported on
+    /// GetSecretVersion and AccessSecretVersion.
+    #[prost(btree_map = "string, int64", tag = "11")]
+    pub version_aliases: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, i64>,
     /// Expiration policy attached to the \[Secret][google.cloud.secretmanager.v1.Secret\]. If specified the \[Secret][google.cloud.secretmanager.v1.Secret\]
     /// and all \[SecretVersions][google.cloud.secretmanager.v1.SecretVersion\] will be automatically deleted at
     /// expiration. Expired secrets are irreversibly deleted.
