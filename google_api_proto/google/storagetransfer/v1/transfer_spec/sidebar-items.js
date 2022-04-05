@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["DataSink","The write sink for the data."],["DataSource","The read source of the data."]]});
+initSidebarItems({"enum":[["DataSink","The write sink for the data."],["DataSource","The read source of the data."],["IntermediateDataLocation","Represents a supported data container type which is required for transfer jobs which needs a data source, a data sink and an intermediate location to transfer data through. This is validated on TransferJob creation."]]});

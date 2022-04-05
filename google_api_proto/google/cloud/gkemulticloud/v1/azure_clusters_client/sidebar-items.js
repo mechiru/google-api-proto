@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["AzureClustersClient","The AzureClusters API provides a single centrally managed service to create and manage Anthos clusters that run on Azure infrastructure."]]});

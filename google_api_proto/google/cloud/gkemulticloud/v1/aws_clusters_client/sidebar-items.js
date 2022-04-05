@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["AwsClustersClient","The AwsClusters API provides a single centrally managed service to create and manage Anthos clusters that run on AWS infrastructure."]]});

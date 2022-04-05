@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["State","The lifecycle state of the node pool."]]});

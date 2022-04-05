@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Tenancy","Tenancy defines how EC2 instances are distributed across physical hardware."]]});
