@@ -196,6 +196,7 @@ google-cloud-gkehub-v1alpha = ["google-api", "google-cloud", "google-cloud-gkehu
 google-cloud-gkehub-v1alpha2 = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-gkehub-v1beta = ["google-api", "google-cloud", "google-cloud-gkehub-configmanagement-v1beta", "google-cloud-gkehub-metering-v1beta", "google-cloud-gkehub-multiclusteringress-v1beta", "google-longrunning"]
 google-cloud-gkehub-v1beta1 = ["google-api", "google-cloud", "google-longrunning", "google-rpc"]
+google-cloud-gkemulticloud-v1 = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-gsuiteaddons-logging-v1 = ["google-cloud", "google-rpc"]
 google-cloud-gsuiteaddons-v1 = ["google-api", "google-apps-script-type", "google-apps-script-type-calendar", "google-apps-script-type-docs", "google-apps-script-type-drive", "google-apps-script-type-gmail", "google-apps-script-type-sheets", "google-apps-script-type-slides", "google-cloud"]
 google-cloud-iap-v1 = ["google-api", "google-cloud", "google-iam-v1"]

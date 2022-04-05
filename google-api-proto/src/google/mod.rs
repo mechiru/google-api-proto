@@ -202,6 +202,7 @@ pub mod chromeos;
     feature = "google-cloud-gkehub-v1alpha2",
     feature = "google-cloud-gkehub-v1beta",
     feature = "google-cloud-gkehub-v1beta1",
+    feature = "google-cloud-gkemulticloud-v1",
     feature = "google-cloud-gsuiteaddons-logging-v1",
     feature = "google-cloud-gsuiteaddons-v1",
     feature = "google-cloud-iap-v1",

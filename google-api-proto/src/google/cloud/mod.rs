@@ -222,6 +222,9 @@ pub mod gkeconnect;
 ))]
 pub mod gkehub;
 
+#[cfg(any(feature = "google-cloud-gkemulticloud-v1",))]
+pub mod gkemulticloud;
+
 #[cfg(any(
     feature = "google-cloud-gsuiteaddons-logging-v1",
     feature = "google-cloud-gsuiteaddons-v1",
