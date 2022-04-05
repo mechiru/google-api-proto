@@ -1509,7 +1509,269 @@
 <span id="1507">1507</span>
 <span id="1508">1508</span>
 <span id="1509">1509</span>
-</pre><pre class="rust"><code><span class="doccomment">/// A `DeliveryPipeline` resource in the Google Cloud Deploy API.</span>
+<span id="1510">1510</span>
+<span id="1511">1511</span>
+<span id="1512">1512</span>
+<span id="1513">1513</span>
+<span id="1514">1514</span>
+<span id="1515">1515</span>
+<span id="1516">1516</span>
+<span id="1517">1517</span>
+<span id="1518">1518</span>
+<span id="1519">1519</span>
+<span id="1520">1520</span>
+<span id="1521">1521</span>
+<span id="1522">1522</span>
+<span id="1523">1523</span>
+<span id="1524">1524</span>
+<span id="1525">1525</span>
+<span id="1526">1526</span>
+<span id="1527">1527</span>
+<span id="1528">1528</span>
+<span id="1529">1529</span>
+<span id="1530">1530</span>
+<span id="1531">1531</span>
+<span id="1532">1532</span>
+<span id="1533">1533</span>
+<span id="1534">1534</span>
+<span id="1535">1535</span>
+<span id="1536">1536</span>
+<span id="1537">1537</span>
+<span id="1538">1538</span>
+<span id="1539">1539</span>
+<span id="1540">1540</span>
+<span id="1541">1541</span>
+<span id="1542">1542</span>
+<span id="1543">1543</span>
+<span id="1544">1544</span>
+<span id="1545">1545</span>
+<span id="1546">1546</span>
+<span id="1547">1547</span>
+<span id="1548">1548</span>
+<span id="1549">1549</span>
+<span id="1550">1550</span>
+<span id="1551">1551</span>
+<span id="1552">1552</span>
+<span id="1553">1553</span>
+<span id="1554">1554</span>
+<span id="1555">1555</span>
+<span id="1556">1556</span>
+<span id="1557">1557</span>
+<span id="1558">1558</span>
+<span id="1559">1559</span>
+<span id="1560">1560</span>
+<span id="1561">1561</span>
+<span id="1562">1562</span>
+<span id="1563">1563</span>
+<span id="1564">1564</span>
+<span id="1565">1565</span>
+<span id="1566">1566</span>
+<span id="1567">1567</span>
+<span id="1568">1568</span>
+<span id="1569">1569</span>
+<span id="1570">1570</span>
+<span id="1571">1571</span>
+<span id="1572">1572</span>
+<span id="1573">1573</span>
+<span id="1574">1574</span>
+<span id="1575">1575</span>
+<span id="1576">1576</span>
+<span id="1577">1577</span>
+<span id="1578">1578</span>
+<span id="1579">1579</span>
+<span id="1580">1580</span>
+<span id="1581">1581</span>
+<span id="1582">1582</span>
+<span id="1583">1583</span>
+<span id="1584">1584</span>
+<span id="1585">1585</span>
+<span id="1586">1586</span>
+<span id="1587">1587</span>
+<span id="1588">1588</span>
+<span id="1589">1589</span>
+<span id="1590">1590</span>
+<span id="1591">1591</span>
+<span id="1592">1592</span>
+<span id="1593">1593</span>
+<span id="1594">1594</span>
+<span id="1595">1595</span>
+<span id="1596">1596</span>
+<span id="1597">1597</span>
+<span id="1598">1598</span>
+<span id="1599">1599</span>
+<span id="1600">1600</span>
+<span id="1601">1601</span>
+<span id="1602">1602</span>
+<span id="1603">1603</span>
+<span id="1604">1604</span>
+<span id="1605">1605</span>
+<span id="1606">1606</span>
+<span id="1607">1607</span>
+<span id="1608">1608</span>
+<span id="1609">1609</span>
+<span id="1610">1610</span>
+<span id="1611">1611</span>
+<span id="1612">1612</span>
+<span id="1613">1613</span>
+<span id="1614">1614</span>
+<span id="1615">1615</span>
+<span id="1616">1616</span>
+<span id="1617">1617</span>
+<span id="1618">1618</span>
+<span id="1619">1619</span>
+<span id="1620">1620</span>
+<span id="1621">1621</span>
+<span id="1622">1622</span>
+<span id="1623">1623</span>
+<span id="1624">1624</span>
+<span id="1625">1625</span>
+<span id="1626">1626</span>
+<span id="1627">1627</span>
+<span id="1628">1628</span>
+<span id="1629">1629</span>
+<span id="1630">1630</span>
+<span id="1631">1631</span>
+<span id="1632">1632</span>
+<span id="1633">1633</span>
+<span id="1634">1634</span>
+<span id="1635">1635</span>
+<span id="1636">1636</span>
+<span id="1637">1637</span>
+<span id="1638">1638</span>
+<span id="1639">1639</span>
+<span id="1640">1640</span>
+<span id="1641">1641</span>
+<span id="1642">1642</span>
+<span id="1643">1643</span>
+<span id="1644">1644</span>
+<span id="1645">1645</span>
+<span id="1646">1646</span>
+<span id="1647">1647</span>
+<span id="1648">1648</span>
+<span id="1649">1649</span>
+<span id="1650">1650</span>
+<span id="1651">1651</span>
+<span id="1652">1652</span>
+<span id="1653">1653</span>
+<span id="1654">1654</span>
+<span id="1655">1655</span>
+<span id="1656">1656</span>
+<span id="1657">1657</span>
+<span id="1658">1658</span>
+<span id="1659">1659</span>
+<span id="1660">1660</span>
+<span id="1661">1661</span>
+<span id="1662">1662</span>
+<span id="1663">1663</span>
+<span id="1664">1664</span>
+<span id="1665">1665</span>
+<span id="1666">1666</span>
+<span id="1667">1667</span>
+<span id="1668">1668</span>
+<span id="1669">1669</span>
+<span id="1670">1670</span>
+<span id="1671">1671</span>
+<span id="1672">1672</span>
+<span id="1673">1673</span>
+<span id="1674">1674</span>
+<span id="1675">1675</span>
+<span id="1676">1676</span>
+<span id="1677">1677</span>
+<span id="1678">1678</span>
+<span id="1679">1679</span>
+<span id="1680">1680</span>
+<span id="1681">1681</span>
+<span id="1682">1682</span>
+<span id="1683">1683</span>
+<span id="1684">1684</span>
+<span id="1685">1685</span>
+<span id="1686">1686</span>
+<span id="1687">1687</span>
+<span id="1688">1688</span>
+<span id="1689">1689</span>
+<span id="1690">1690</span>
+<span id="1691">1691</span>
+<span id="1692">1692</span>
+<span id="1693">1693</span>
+<span id="1694">1694</span>
+<span id="1695">1695</span>
+<span id="1696">1696</span>
+<span id="1697">1697</span>
+<span id="1698">1698</span>
+<span id="1699">1699</span>
+<span id="1700">1700</span>
+<span id="1701">1701</span>
+<span id="1702">1702</span>
+<span id="1703">1703</span>
+<span id="1704">1704</span>
+<span id="1705">1705</span>
+<span id="1706">1706</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Type indicates the type of the log entry and can be used as a filter.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
+    <span class="doccomment">/// Type is unspecified.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// A Pub/Sub notification failed to be sent.</span>
+    <span class="ident">PubsubNotificationFailure</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Release render status changed notification.</span>
+    <span class="ident">RenderStatuesChange</span> <span class="op">=</span> <span class="number">2</span>,
+}
+<span class="doccomment">/// Payload proto for &quot;clouddeploy.googleapis.com/target_notification&quot;</span>
+<span class="doccomment">/// Platform Log event that describes the failure to send target status change</span>
+<span class="doccomment">/// Pub/Sub notification.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TargetNotificationEvent</span> {
+    <span class="doccomment">/// Debug message for when a notification fails to send.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The name of the `Target`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">target</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Payload proto for &quot;clouddeploy.googleapis.com/release_notification&quot;</span>
+<span class="doccomment">/// Platform Log event that describes the failure to send release status change</span>
+<span class="doccomment">/// Pub/Sub notification.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReleaseNotificationEvent</span> {
+    <span class="doccomment">/// Debug message for when a notification fails to send.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The name of the `Release`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">release</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Payload proto for &quot;clouddeploy.googleapis.com/rollout_notification&quot;</span>
+<span class="doccomment">/// Platform Log event that describes the failure to send rollout status change</span>
+<span class="doccomment">/// Pub/Sub notification.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RolloutNotificationEvent</span> {
+    <span class="doccomment">/// Debug message for when a notification fails to send.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Unique identifier of the `DeliveryPipeline`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">pipeline_uid</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Unique identifier of the `Release`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">release_uid</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The name of the `Rollout`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">rollout</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// ID of the `Target` that the rollout is deployed to.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">target_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A `DeliveryPipeline` resource in the Google Cloud Deploy API.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// A `DeliveryPipeline` defines a pipeline through which a Skaffold</span>
 <span class="doccomment">/// configuration can progress.</span>
@@ -1536,10 +1798,16 @@
     <span class="op">&gt;</span>,
     <span class="doccomment">/// Labels are attributes that can be set and used by both the</span>
     <span class="doccomment">/// user and by Google Cloud Deploy. Labels must meet the following</span>
-    <span class="doccomment">/// constraints: Each resource is limited to 64 labels. Keys must conform to</span>
-    <span class="doccomment">/// the regexp: `\[a-zA-Z][a-zA-Z0-9_-\]{0,62}`. Values must conform to the</span>
-    <span class="doccomment">/// regexp: `\[a-zA-Z0-9_-\]{0,63}`. Both keys and values are additionally</span>
-    <span class="doccomment">/// constrained to be &lt;= 128 bytes in size.</span>
+    <span class="doccomment">/// constraints:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * Keys and values can contain only lowercase letters, numeric characters,</span>
+    <span class="doccomment">/// underscores, and dashes.</span>
+    <span class="doccomment">/// * All characters must use UTF-8 encoding, and international characters are</span>
+    <span class="doccomment">/// allowed.</span>
+    <span class="doccomment">/// * Keys must start with a lowercase letter or international character.</span>
+    <span class="doccomment">/// * Each resource is limited to a maximum of 64 labels.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Both keys and values are additionally constrained to be &lt;= 128 bytes.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
         <span class="ident">::prost::alloc::string::String</span>,
@@ -1588,9 +1856,9 @@
     <span class="doccomment">/// The target_id to which this stage points. This field refers exclusively to</span>
     <span class="doccomment">/// the last segment of a target name. For example, this field would just be</span>
     <span class="doccomment">/// `my-target` (rather than</span>
-    <span class="doccomment">/// `projects/project/deliveryPipelines/pipeline/targets/my-target`). The</span>
-    <span class="doccomment">/// parent `DeliveryPipeline` of the `Target` is inferred to be the parent</span>
-    <span class="doccomment">/// `DeliveryPipeline` of the `Release` in which this `Stage` lives.</span>
+    <span class="doccomment">/// `projects/project/locations/location/targets/my-target`). The location of</span>
+    <span class="doccomment">/// the `Target` is inferred to be the same as the location of the</span>
+    <span class="doccomment">/// `DeliveryPipeline` that contains this `Stage`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">target_id</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Skaffold profiles to use when rendering the manifest for this stage&#39;s</span>
@@ -1657,7 +1925,7 @@
     <span class="doccomment">/// the call that provided the page token.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Filter builds to be returned. See &lt;https://google.aip.dev/160&gt; for more</span>
+    <span class="doccomment">/// Filter pipelines to be returned. See &lt;https://google.aip.dev/160&gt; for more</span>
     <span class="doccomment">/// details.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -1804,8 +2072,8 @@
 <span class="doccomment">/// can be deployed.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Target</span> {
-    <span class="doccomment">/// Optional. Name of the `Target`. Format is projects/{project}/locations/{location}/</span>
-    <span class="doccomment">/// deliveryPipelines/{deliveryPipeline}/targets/\[a-z][a-z0-9\-\]{0,62}.</span>
+    <span class="doccomment">/// Optional. Name of the `Target`. Format is</span>
+    <span class="doccomment">/// projects/{project}/locations/{location}/targets/\[a-z][a-z0-9\-\]{0,62}.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Output only. Resource id of the `Target`.</span>
@@ -1828,10 +2096,16 @@
     <span class="op">&gt;</span>,
     <span class="doccomment">/// Optional. Labels are attributes that can be set and used by both the</span>
     <span class="doccomment">/// user and by Google Cloud Deploy. Labels must meet the following</span>
-    <span class="doccomment">/// constraints: Each resource is limited to 64 labels. Keys must conform to</span>
-    <span class="doccomment">/// the regexp: `\[a-zA-Z][a-zA-Z0-9_-\]{0,62}`. Values must conform to the</span>
-    <span class="doccomment">/// regexp: `\[a-zA-Z0-9_-\]{0,63}`. Both keys and values are additionally</span>
-    <span class="doccomment">/// constrained to be &lt;= 128 bytes in size.</span>
+    <span class="doccomment">/// constraints:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * Keys and values can contain only lowercase letters, numeric characters,</span>
+    <span class="doccomment">/// underscores, and dashes.</span>
+    <span class="doccomment">/// * All characters must use UTF-8 encoding, and international characters are</span>
+    <span class="doccomment">/// allowed.</span>
+    <span class="doccomment">/// * Keys must start with a lowercase letter or international character.</span>
+    <span class="doccomment">/// * Each resource is limited to a maximum of 64 labels.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Both keys and values are additionally constrained to be &lt;= 128 bytes.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
         <span class="ident">::prost::alloc::string::String</span>,
@@ -1862,7 +2136,7 @@
     <span class="kw">pub</span> <span class="ident">execution_configs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ExecutionConfig</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Destination to which the Skaffold configuration is applied during a</span>
     <span class="doccomment">/// rollout.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;target::DeploymentTarget&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;target::DeploymentTarget&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;15, 17&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">deployment_target</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">target::DeploymentTarget</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Target`.</span>
@@ -1874,6 +2148,9 @@
         <span class="doccomment">/// Information specifying a GKE Cluster.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
         <span class="ident">Gke</span>(<span class="ident"><span class="kw">super</span>::GkeCluster</span>),
+        <span class="doccomment">/// Information specifying an Anthos Cluster.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;17&quot;</span>)]</span>
+        <span class="ident">AnthosCluster</span>(<span class="ident"><span class="kw">super</span>::AnthosCluster</span>),
     }
 }
 <span class="doccomment">/// Configuration of the environment to use when calling Skaffold.</span>
@@ -1887,6 +2164,23 @@
         <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
     )]</span>
     <span class="kw">pub</span> <span class="ident">usages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Optional. The resource name of the `WorkerPool`, with the format</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/workerPools/{worker_pool}`.</span>
+    <span class="doccomment">/// If this optional field is unspecified, the default Cloud Build pool will be</span>
+    <span class="doccomment">/// used.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">worker_pool</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Google service account to use for execution. If unspecified,</span>
+    <span class="doccomment">/// the project execution service account</span>
+    <span class="doccomment">/// (&lt;PROJECT_NUMBER&gt;-compute@developer.gserviceaccount.com) is used.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">service_account</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Cloud Storage location in which to store execution outputs. This can</span>
+    <span class="doccomment">/// either be a bucket (&quot;gs://my-bucket&quot;) or a path within a bucket</span>
+    <span class="doccomment">/// (&quot;gs://my-bucket/my-dir&quot;).</span>
+    <span class="doccomment">/// If unspecified, a default bucket located in the same region will be used.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">artifact_storage</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Details of the environment.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;execution_config::ExecutionEnvironment&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">execution_environment</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">execution_config::ExecutionEnvironment</span><span class="op">&gt;</span>,
@@ -1956,6 +2250,25 @@
     <span class="doccomment">/// `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">cluster</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. If true, `cluster` is accessed using the private IP address of the control</span>
+    <span class="doccomment">/// plane endpoint. Otherwise, the default IP address of the control plane</span>
+    <span class="doccomment">/// endpoint is used. The default IP address is the private IP address for</span>
+    <span class="doccomment">/// clusters with private control-plane endpoints and the public IP address</span>
+    <span class="doccomment">/// otherwise.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Only specify this option when `cluster` is a [private GKE</span>
+    <span class="doccomment">/// cluster](&lt;https://cloud.google.com/kubernetes-engine/docs/concepts/private-cluster-concept&gt;).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">internal_ip</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// Information specifying an Anthos Cluster.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AnthosCluster</span> {
+    <span class="doccomment">/// Membership of the GKE Hub-registered cluster to which to apply the Skaffold</span>
+    <span class="doccomment">/// configuration. Format is</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/memberships/{membership_name}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">membership</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// The request object for `ListTargets`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1976,7 +2289,7 @@
     <span class="doccomment">/// the call that provided the page token.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Filter builds to be returned. See &lt;https://google.aip.dev/160&gt; for more</span>
+    <span class="doccomment">/// Optional. Filter targets to be returned. See &lt;https://google.aip.dev/160&gt; for more</span>
     <span class="doccomment">/// details.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -2141,10 +2454,16 @@
     <span class="op">&gt;</span>,
     <span class="doccomment">/// Labels are attributes that can be set and used by both the</span>
     <span class="doccomment">/// user and by Google Cloud Deploy. Labels must meet the following</span>
-    <span class="doccomment">/// constraints: Each resource is limited to 64 labels. Keys must conform to</span>
-    <span class="doccomment">/// the regexp: `\[a-zA-Z][a-zA-Z0-9_-\]{0,62}`. Values must conform to the</span>
-    <span class="doccomment">/// regexp: `\[a-zA-Z0-9_-\]{0,63}`. Both keys and values are additionally</span>
-    <span class="doccomment">/// constrained to be &lt;= 128 bytes in size.</span>
+    <span class="doccomment">/// constraints:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * Keys and values can contain only lowercase letters, numeric characters,</span>
+    <span class="doccomment">/// underscores, and dashes.</span>
+    <span class="doccomment">/// * All characters must use UTF-8 encoding, and international characters are</span>
+    <span class="doccomment">/// allowed.</span>
+    <span class="doccomment">/// * Keys must start with a lowercase letter or international character.</span>
+    <span class="doccomment">/// * Each resource is limited to a maximum of 64 labels.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Both keys and values are additionally constrained to be &lt;= 128 bytes.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
         <span class="ident">::prost::alloc::string::String</span>,
@@ -2171,7 +2490,7 @@
     <span class="doccomment">/// Output only. Snapshot of the parent pipeline taken at release creation time.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">delivery_pipeline_snapshot</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">DeliveryPipeline</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Snapshot of the parent pipeline&#39;s targets taken at release creation time.</span>
+    <span class="doccomment">/// Output only. Snapshot of the targets taken at release creation time.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">target_snapshots</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Target</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Output only. Current state of the render operation.</span>
@@ -2214,6 +2533,10 @@
         <span class="doccomment">/// Output only. Current state of the render operation for this Target.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;target_render::TargetRenderState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">rendering_state</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// Output only. Reason this render failed. This will always be unspecified while the</span>
+        <span class="doccomment">/// render in progress.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;target_render::FailureCause&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">failure_cause</span>: <span class="ident">i32</span>,
     }
     <span class="doccomment">/// Nested message and enum types in `TargetRender`.</span>
     <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">target_render</span> {
@@ -2231,6 +2554,22 @@
             <span class="ident">Failed</span> <span class="op">=</span> <span class="number">2</span>,
             <span class="doccomment">/// The render operation is in progress.</span>
             <span class="ident">InProgress</span> <span class="op">=</span> <span class="number">3</span>,
+        }
+        <span class="doccomment">/// Well-known rendering failures.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(
+            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
+        )]</span>
+        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FailureCause</span> {
+            <span class="doccomment">/// No reason for failure is specified.</span>
+            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+            <span class="doccomment">/// Cloud Build is not available, either because it is not enabled or</span>
+            <span class="doccomment">/// because Cloud Deploy has insufficient permissions. See [required</span>
+            <span class="doccomment">/// permission](/deploy/docs/cloud-deploy-service-account#required_permissions).</span>
+            <span class="ident">CloudBuildUnavailable</span> <span class="op">=</span> <span class="number">1</span>,
+            <span class="doccomment">/// The render operation did not complete successfully; check Cloud Build</span>
+            <span class="doccomment">/// logs.</span>
+            <span class="ident">ExecutionFailed</span> <span class="op">=</span> <span class="number">2</span>,
         }
     }
     <span class="doccomment">/// Valid states of the render operation.</span>
@@ -2300,7 +2639,7 @@
     <span class="doccomment">/// the call that provided the page token.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Filter builds to be returned. See &lt;https://google.aip.dev/160&gt; for more</span>
+    <span class="doccomment">/// Optional. Filter releases to be returned. See &lt;https://google.aip.dev/160&gt; for more</span>
     <span class="doccomment">/// details.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -2392,10 +2731,16 @@
     <span class="op">&gt;</span>,
     <span class="doccomment">/// Labels are attributes that can be set and used by both the</span>
     <span class="doccomment">/// user and by Google Cloud Deploy. Labels must meet the following</span>
-    <span class="doccomment">/// constraints: Each resource is limited to 64 labels. Keys must conform to</span>
-    <span class="doccomment">/// the regexp: `\[a-zA-Z][a-zA-Z0-9_-\]{0,62}`. Values must conform to the</span>
-    <span class="doccomment">/// regexp: `\[a-zA-Z0-9_-\]{0,63}`. Both keys and values are additionally</span>
-    <span class="doccomment">/// constrained to be &lt;= 128 bytes in size.</span>
+    <span class="doccomment">/// constraints:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * Keys and values can contain only lowercase letters, numeric characters,</span>
+    <span class="doccomment">/// underscores, and dashes.</span>
+    <span class="doccomment">/// * All characters must use UTF-8 encoding, and international characters are</span>
+    <span class="doccomment">/// allowed.</span>
+    <span class="doccomment">/// * Keys must start with a lowercase letter or international character.</span>
+    <span class="doccomment">/// * Each resource is limited to a maximum of 64 labels.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Both keys and values are additionally constrained to be &lt;= 128 bytes.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
         <span class="ident">::prost::alloc::string::String</span>,
@@ -2438,6 +2783,10 @@
     <span class="doccomment">/// client has an up-to-date value before proceeding.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">etag</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The reason this deploy failed. This will always be unspecified while the</span>
+    <span class="doccomment">/// deploy in progress.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;rollout::FailureCause&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;19&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">deploy_failure_cause</span>: <span class="ident">i32</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Rollout`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">rollout</span> {
@@ -2478,6 +2827,24 @@
         <span class="doccomment">/// The `Rollout` is waiting for the `Release` to be fully rendered.</span>
         <span class="ident">PendingRelease</span> <span class="op">=</span> <span class="number">7</span>,
     }
+    <span class="doccomment">/// Well-known deployment failures.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FailureCause</span> {
+        <span class="doccomment">/// No reason for failure is specified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Cloud Build is not available, either because it is not enabled or because</span>
+        <span class="doccomment">/// Cloud Deploy has insufficient permissions. See [required</span>
+        <span class="doccomment">/// permission](/deploy/docs/cloud-deploy-service-account#required_permissions).</span>
+        <span class="ident">CloudBuildUnavailable</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The deploy operation did not complete successfully; check Cloud Build</span>
+        <span class="doccomment">/// logs.</span>
+        <span class="ident">ExecutionFailed</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Deployment did not complete within the alloted time.</span>
+        <span class="ident">DeadlineExceeded</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Release is in a failed state.</span>
+        <span class="ident">ReleaseFailed</span> <span class="op">=</span> <span class="number">4</span>,
+    }
 }
 <span class="doccomment">/// ListRolloutsRequest is the request object used by `ListRollouts`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -2497,7 +2864,7 @@
     <span class="doccomment">/// the call that provided the page token.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Filter builds to be returned. See &lt;https://google.aip.dev/160&gt; for more</span>
+    <span class="doccomment">/// Optional. Filter rollouts to be returned. See &lt;https://google.aip.dev/160&gt; for more</span>
     <span class="doccomment">/// details.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -3017,6 +3384,33 @@
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
     }
+}
+<span class="doccomment">/// Payload proto for &quot;clouddeploy.googleapis.com/deliverypipeline_notification&quot;</span>
+<span class="doccomment">/// Platform Log event that describes the failure to send delivery pipeline</span>
+<span class="doccomment">/// status change Pub/Sub notification.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeliveryPipelineNotificationEvent</span> {
+    <span class="doccomment">/// Debug message for when a notification fails to send.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The name of the `Delivery Pipeline`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">delivery_pipeline</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Payload proto for &quot;clouddeploy.googleapis.com/release_render&quot;</span>
+<span class="doccomment">/// Platform Log event that describes the render status change.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReleaseRenderEvent</span> {
+    <span class="doccomment">/// Debug message for when a render transition occurs. Provides further</span>
+    <span class="doccomment">/// details as rendering progresses through render states.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The name of the `Release`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">release</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../../../" data-current-crate="google_api_proto" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0 (9d1b2106e 2022-02-23)" ></div>

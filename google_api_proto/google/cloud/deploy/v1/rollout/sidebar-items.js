@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["ApprovalState","Valid approval states of a `Rollout`."],["State","Valid states of a `Rollout`."]]});
+initSidebarItems({"enum":[["ApprovalState","Valid approval states of a `Rollout`."],["FailureCause","Well-known deployment failures."],["State","Valid states of a `Rollout`."]]});

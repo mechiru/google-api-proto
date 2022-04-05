@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["TargetRenderState","Valid states of the render operation."]]});
+initSidebarItems({"enum":[["FailureCause","Well-known rendering failures."],["TargetRenderState","Valid states of the render operation."]]});
