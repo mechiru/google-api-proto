@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ReservationServiceClient","This API allows users to manage their flat-rate BigQuery reservations."]]});
+initSidebarItems({"struct":[["ReservationServiceClient","Deprecated: Please use the v1 api instead. This API allows users to manage their flat-rate BigQuery reservations."]]});

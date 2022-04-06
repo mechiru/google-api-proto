@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["State","[Output Only] State of the secure tag, either `EFFECTIVE` or `INEFFECTIVE`. A secure tag is `INEFFECTIVE` when it is deleted or its network is deleted."]]});

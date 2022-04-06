@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["NetworkFirewallPoliciesClient","The NetworkFirewallPolicies API."]]});

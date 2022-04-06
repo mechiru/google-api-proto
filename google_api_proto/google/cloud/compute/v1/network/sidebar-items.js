@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["NetworkFirewallPolicyEnforcementOrder","The network firewall policy enforcement order. Can be either AFTER_CLASSIC_FIREWALL or BEFORE_CLASSIC_FIREWALL. Defaults to AFTER_CLASSIC_FIREWALL if the field is not specified."]]});

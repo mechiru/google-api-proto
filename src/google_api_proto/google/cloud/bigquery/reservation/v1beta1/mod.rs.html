@@ -990,6 +990,7 @@
 <span id="988">988</span>
 <span id="989">989</span>
 <span id="990">990</span>
+<span id="991">991</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A reservation is a mechanism used to guarantee slots to users.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Reservation</span> {
@@ -1488,6 +1489,7 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">reservation_service_client</span> {
     <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unused_variables</span>, <span class="ident">dead_code</span>, <span class="ident">missing_docs</span>, <span class="ident">clippy::let_unit_value</span>)]</span>
     <span class="kw">use</span> <span class="ident">tonic::codegen</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deprecated: Please use the v1 api instead.&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This API allows users to manage their flat-rate BigQuery reservations.&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; A reservation provides computational resource guarantees, in the form of&quot;</span>]</span>
