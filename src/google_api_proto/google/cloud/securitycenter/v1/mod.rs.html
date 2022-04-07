@@ -3069,6 +3069,43 @@
 <span id="3067">3067</span>
 <span id="3068">3068</span>
 <span id="3069">3069</span>
+<span id="3070">3070</span>
+<span id="3071">3071</span>
+<span id="3072">3072</span>
+<span id="3073">3073</span>
+<span id="3074">3074</span>
+<span id="3075">3075</span>
+<span id="3076">3076</span>
+<span id="3077">3077</span>
+<span id="3078">3078</span>
+<span id="3079">3079</span>
+<span id="3080">3080</span>
+<span id="3081">3081</span>
+<span id="3082">3082</span>
+<span id="3083">3083</span>
+<span id="3084">3084</span>
+<span id="3085">3085</span>
+<span id="3086">3086</span>
+<span id="3087">3087</span>
+<span id="3088">3088</span>
+<span id="3089">3089</span>
+<span id="3090">3090</span>
+<span id="3091">3091</span>
+<span id="3092">3092</span>
+<span id="3093">3093</span>
+<span id="3094">3094</span>
+<span id="3095">3095</span>
+<span id="3096">3096</span>
+<span id="3097">3097</span>
+<span id="3098">3098</span>
+<span id="3099">3099</span>
+<span id="3100">3100</span>
+<span id="3101">3101</span>
+<span id="3102">3102</span>
+<span id="3103">3103</span>
+<span id="3104">3104</span>
+<span id="3105">3105</span>
+<span id="3106">3106</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Cloud Security Command Center (Cloud SCC) notification configs.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// A notification config is a Cloud SCC resource that contains the configuration</span>
@@ -3188,13 +3225,13 @@
     <span class="doccomment">/// creation or update.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Email address of the user who last edited the big query</span>
-    <span class="doccomment">/// export. This field is set by the server and will be ignored if provided on</span>
-    <span class="doccomment">/// export creation or update.</span>
+    <span class="doccomment">/// Output only. Email address of the user who last edited the big query export.</span>
+    <span class="doccomment">/// This field is set by the server and will be ignored if provided on export</span>
+    <span class="doccomment">/// creation or update.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">most_recent_editor</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The service account that needs permission to create table,</span>
-    <span class="doccomment">/// upload data to the big query dataset.</span>
+    <span class="doccomment">/// Output only. The service account that needs permission to create table, upload data to</span>
+    <span class="doccomment">/// the big query dataset.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">principal</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
@@ -3217,10 +3254,16 @@
     <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The human readable name of the resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The full resource type of the resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The full resource name of project that the resource belongs to.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">project</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The project id that the resource belongs to.</span>
+    <span class="doccomment">/// The project ID that the resource belongs to.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">project_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The full resource name of resource&#39;s parent.</span>
@@ -3229,17 +3272,11 @@
     <span class="doccomment">/// The human readable name of resource&#39;s parent.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The full resource type of the resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Output only. Contains a Folder message for each folder in the assets ancestry.</span>
     <span class="doccomment">/// The first folder is the deepest nested folder, and the last folder is the</span>
     <span class="doccomment">/// folder directly under the Organization.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">folders</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Folder</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The human readable name of the resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// User specified settings that are attached to the Security Command</span>
 <span class="doccomment">/// Center organization.</span>
@@ -3445,11 +3482,42 @@
         <span class="kw">pub</span> <span class="ident">policy_blob</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
 }
+<span class="doccomment">/// Represents a particular IAM binding, which captures a member&#39;s role addition,</span>
+<span class="doccomment">/// removal, or state.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IamBinding</span> {
+    <span class="doccomment">/// The action that was performed on a Binding.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;iam_binding::Action&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">action</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Role that is assigned to &quot;members&quot;.</span>
+    <span class="doccomment">/// For example, &quot;roles/viewer&quot;, &quot;roles/editor&quot;, or &quot;roles/owner&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">role</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A single identity requesting access for a Cloud Platform resource,</span>
+    <span class="doccomment">/// e.g. &quot;foo@google.com&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">member</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `IamBinding`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">iam_binding</span> {
+    <span class="doccomment">/// The type of action performed on a Binding in a policy.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Action</span> {
+        <span class="doccomment">/// Unspecified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Addition of a Binding.</span>
+        <span class="ident">Add</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Removal of a Binding.</span>
+        <span class="ident">Remove</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
 <span class="doccomment">/// Representation of third party SIEM/SOAR fields within SCC.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExternalSystem</span> {
     <span class="doccomment">/// External System Name e.g. jira, demisto, etc.</span>
-    <span class="doccomment">///  e.g.: `organizations/1234/sources/5678/findings/123456/externalSystems/jira`</span>
+    <span class="doccomment">///  e.g.:</span>
+    <span class="doccomment">///  `organizations/1234/sources/5678/findings/123456/externalSystems/jira`</span>
     <span class="doccomment">/// `folders/1234/sources/5678/findings/123456/externalSystems/jira`</span>
     <span class="doccomment">/// `projects/1234/sources/5678/findings/123456/externalSystems/jira`</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
@@ -3791,6 +3859,7 @@
     }
     <span class="doccomment">/// MITRE ATT&amp;CK techniques that can be referenced by SCC findings.</span>
     <span class="doccomment">/// See: &lt;https://attack.mitre.org/techniques/enterprise/&gt;</span>
+    <span class="doccomment">/// Next ID: 30</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
     <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Technique</span> {
@@ -3852,6 +3921,8 @@
         <span class="ident">ExploitPublicFacingApplication</span> <span class="op">=</span> <span class="number">27</span>,
         <span class="doccomment">/// T1556</span>
         <span class="ident">ModifyAuthenticationProcess</span> <span class="op">=</span> <span class="number">28</span>,
+        <span class="doccomment">/// T1485</span>
+        <span class="ident">DataDestruction</span> <span class="op">=</span> <span class="number">29</span>,
     }
 }
 <span class="doccomment">/// Represents what&#39;s commonly known as an Indicator of compromise (IoC) in</span>
@@ -3946,7 +4017,7 @@
     <span class="doccomment">/// finding.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">canonical_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Indicates the mute state of a finding (either unspecified, muted, unmuted</span>
+    <span class="doccomment">/// Indicates the mute state of a finding (either muted, unmuted</span>
     <span class="doccomment">/// or undefined). Unlike other attributes of a finding, a finding provider</span>
     <span class="doccomment">/// shouldn&#39;t set the value of mute.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;finding::Mute&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
@@ -3969,8 +4040,8 @@
     <span class="doccomment">/// Output only. The most recent time this finding was muted or unmuted.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;21&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">mute_update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Third party SIEM/SOAR fields within SCC, contains external</span>
-    <span class="doccomment">/// system information and external system finding fields.</span>
+    <span class="doccomment">/// Output only. Third party SIEM/SOAR fields within SCC, contains external system</span>
+    <span class="doccomment">/// information and external system finding fields.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;22&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">external_systems</span>:
         <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">ExternalSystem</span><span class="op">&gt;</span>,
@@ -3988,6 +4059,9 @@
     <span class="doccomment">/// shouldn&#39;t set the value of mute.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;28&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">mute_initiator</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Represents IAM bindings associated with the Finding.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;39&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">iam_bindings</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">IamBinding</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Finding`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">finding</span> {
@@ -4049,7 +4123,7 @@
         <span class="doccomment">/// access data or execute unauthorized code.</span>
         <span class="ident">Medium</span> <span class="op">=</span> <span class="number">3</span>,
         <span class="doccomment">/// Vulnerability:</span>
-        <span class="doccomment">/// A low risk vulnerability hampers a security organization’s ability to</span>
+        <span class="doccomment">/// A low risk vulnerability hampers a security organization&#39;s ability to</span>
         <span class="doccomment">/// detect vulnerabilities or active threats in their deployment, or prevents</span>
         <span class="doccomment">/// the root cause investigation of security issues. An example is monitoring</span>
         <span class="doccomment">/// and logs being disabled for resource configurations and access.</span>
@@ -5171,10 +5245,16 @@
             <span class="doccomment">/// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;</span>
             <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
             <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// The human readable name of the resource.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// The full resource type of the resource.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
             <span class="doccomment">/// The full resource name of project that the resource belongs to.</span>
             <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
             <span class="kw">pub</span> <span class="ident">project_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// The project id that the resource belongs to.</span>
+            <span class="doccomment">/// The project ID that the resource belongs to.</span>
             <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
             <span class="kw">pub</span> <span class="ident">project_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
             <span class="doccomment">/// The full resource name of resource&#39;s parent.</span>
@@ -5183,17 +5263,11 @@
             <span class="doccomment">/// The human readable name of resource&#39;s parent.</span>
             <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
             <span class="kw">pub</span> <span class="ident">parent_display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// The full resource type of the resource.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
             <span class="doccomment">/// Contains a Folder message for each folder in the assets ancestry.</span>
             <span class="doccomment">/// The first folder is the deepest nested folder, and the last folder is</span>
             <span class="doccomment">/// the folder directly under the Organization.</span>
             <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
             <span class="kw">pub</span> <span class="ident">folders</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::Folder</span><span class="op">&gt;</span>,
-            <span class="doccomment">/// The human readable name of the resource.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
         }
         <span class="doccomment">/// The change in state of the finding.</span>
         <span class="doccomment">///</span>
@@ -5359,7 +5433,7 @@
     <span class="doccomment">/// The time at which the updated SecurityMarks take effect.</span>
     <span class="doccomment">/// If not set uses current server time.  Updates will be applied to the</span>
     <span class="doccomment">/// SecurityMarks that are active immediately preceding this time. Must be</span>
-    <span class="doccomment">/// smaller or equal to the server time.</span>
+    <span class="doccomment">/// earlier or equal to the server time.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
 }
