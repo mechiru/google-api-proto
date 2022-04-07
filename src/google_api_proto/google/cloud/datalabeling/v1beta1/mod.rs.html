@@ -3169,7 +3169,48 @@
 <span id="3167">3167</span>
 <span id="3168">3168</span>
 <span id="3169">3169</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Container of information about an image.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// An AnnotationSpecSet is a collection of label definitions. For example, in</span>
+<span class="doccomment">/// image classification tasks, you define a set of possible labels for images as</span>
+<span class="doccomment">/// an AnnotationSpecSet. An AnnotationSpecSet is immutable upon creation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AnnotationSpecSet</span> {
+    <span class="doccomment">/// Output only. The AnnotationSpecSet resource name in the following format:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// &quot;projects/&lt;var&gt;{project_id}&lt;/var&gt;/annotationSpecSets/&lt;var&gt;{annotation_spec_set_id}&lt;/var&gt;&quot;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The display name for AnnotationSpecSet that you define when you</span>
+    <span class="doccomment">/// create it. Maximum of 64 characters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. User-provided description of the annotation specification set.</span>
+    <span class="doccomment">/// The description can be up to 10,000 characters long.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The array of AnnotationSpecs that you define when you create the</span>
+    <span class="doccomment">/// AnnotationSpecSet. These are the possible labels for the labeling task.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">annotation_specs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">AnnotationSpec</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The names of any related resources that are blocking changes</span>
+    <span class="doccomment">/// to the annotation spec set.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">blocking_resources</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Container of information related to one possible annotation that can be used</span>
+<span class="doccomment">/// in a labeling task. For example, an image classification task where images</span>
+<span class="doccomment">/// are labeled as `dog` or `cat` must reference an AnnotationSpec for `dog` and</span>
+<span class="doccomment">/// an AnnotationSpec for `cat`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AnnotationSpec</span> {
+    <span class="doccomment">/// Required. The display name of the AnnotationSpec. Maximum of 64 characters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. User-provided description of the annotation specification.</span>
+    <span class="doccomment">/// The description can be up to 10,000 characters long.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Container of information about an image.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImagePayload</span> {
     <span class="doccomment">/// Image format.</span>
@@ -3221,47 +3262,6 @@
     <span class="doccomment">/// Signed uri of the video file in the service bucket.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">signed_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// An AnnotationSpecSet is a collection of label definitions. For example, in</span>
-<span class="doccomment">/// image classification tasks, you define a set of possible labels for images as</span>
-<span class="doccomment">/// an AnnotationSpecSet. An AnnotationSpecSet is immutable upon creation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AnnotationSpecSet</span> {
-    <span class="doccomment">/// Output only. The AnnotationSpecSet resource name in the following format:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// &quot;projects/&lt;var&gt;{project_id}&lt;/var&gt;/annotationSpecSets/&lt;var&gt;{annotation_spec_set_id}&lt;/var&gt;&quot;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The display name for AnnotationSpecSet that you define when you</span>
-    <span class="doccomment">/// create it. Maximum of 64 characters.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. User-provided description of the annotation specification set.</span>
-    <span class="doccomment">/// The description can be up to 10,000 characters long.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The array of AnnotationSpecs that you define when you create the</span>
-    <span class="doccomment">/// AnnotationSpecSet. These are the possible labels for the labeling task.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">annotation_specs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">AnnotationSpec</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The names of any related resources that are blocking changes</span>
-    <span class="doccomment">/// to the annotation spec set.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">blocking_resources</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Container of information related to one possible annotation that can be used</span>
-<span class="doccomment">/// in a labeling task. For example, an image classification task where images</span>
-<span class="doccomment">/// are labeled as `dog` or `cat` must reference an AnnotationSpec for `dog` and</span>
-<span class="doccomment">/// an AnnotationSpec for `cat`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AnnotationSpec</span> {
-    <span class="doccomment">/// Required. The display name of the AnnotationSpec. Maximum of 64 characters.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. User-provided description of the annotation specification.</span>
-    <span class="doccomment">/// The description can be up to 10,000 characters long.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Annotation for Example. Each example may have one or more annotations. For</span>
 <span class="doccomment">/// example in image classification problem, each image might have one or more</span>
@@ -4167,6 +4167,63 @@
     <span class="doccomment">/// Allowed for continuous evaluation.</span>
     <span class="ident">GeneralData</span> <span class="op">=</span> <span class="number">6</span>,
 }
+<span class="doccomment">/// Instruction of how to perform the labeling task for human operators.</span>
+<span class="doccomment">/// Currently only PDF instruction is supported.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Instruction</span> {
+    <span class="doccomment">/// Output only. Instruction resource name, format:</span>
+    <span class="doccomment">/// projects/{project_id}/instructions/{instruction_id}</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The display name of the instruction. Maximum of 64 characters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. User-provided description of the instruction.</span>
+    <span class="doccomment">/// The description can be up to 10000 characters long.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Creation time of instruction.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Last update time of instruction.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Required. The data type of this instruction.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;DataType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">data_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Deprecated: this instruction format is not supported any more.</span>
+    <span class="doccomment">/// Instruction from a CSV file, such as for classification task.</span>
+    <span class="doccomment">/// The CSV file should have exact two columns, in the following format:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * The first column is labeled data, such as an image reference, text.</span>
+    <span class="doccomment">/// * The second column is comma separated labels associated with data.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">csv_instruction</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CsvInstruction</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Instruction from a PDF document. The PDF should be in a Cloud Storage</span>
+    <span class="doccomment">/// bucket.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">pdf_instruction</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PdfInstruction</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The names of any related resources that are blocking changes</span>
+    <span class="doccomment">/// to the instruction.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">blocking_resources</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Deprecated: this instruction format is not supported any more.</span>
+<span class="doccomment">/// Instruction from a CSV file.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CsvInstruction</span> {
+    <span class="doccomment">/// CSV file for the instruction. Only gcs path is allowed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gcs_file_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Instruction from a PDF file.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PdfInstruction</span> {
+    <span class="doccomment">/// PDF file for the instruction. Only gcs path is allowed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gcs_file_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
 <span class="doccomment">/// Describes an evaluation between a machine learning model&#39;s predictions and</span>
 <span class="doccomment">/// ground truth labels. Created when an \[EvaluationJob][google.cloud.datalabeling.v1beta1.EvaluationJob\] runs successfully.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -4625,63 +4682,6 @@
     <span class="doccomment">/// Details of errors that occurred.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">partial_failures</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Instruction of how to perform the labeling task for human operators.</span>
-<span class="doccomment">/// Currently only PDF instruction is supported.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Instruction</span> {
-    <span class="doccomment">/// Output only. Instruction resource name, format:</span>
-    <span class="doccomment">/// projects/{project_id}/instructions/{instruction_id}</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The display name of the instruction. Maximum of 64 characters.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. User-provided description of the instruction.</span>
-    <span class="doccomment">/// The description can be up to 10000 characters long.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Creation time of instruction.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Last update time of instruction.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Required. The data type of this instruction.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;DataType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">data_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Deprecated: this instruction format is not supported any more.</span>
-    <span class="doccomment">/// Instruction from a CSV file, such as for classification task.</span>
-    <span class="doccomment">/// The CSV file should have exact two columns, in the following format:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * The first column is labeled data, such as an image reference, text.</span>
-    <span class="doccomment">/// * The second column is comma separated labels associated with data.</span>
-    <span class="attribute">#[<span class="ident">deprecated</span>]</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">csv_instruction</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CsvInstruction</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Instruction from a PDF document. The PDF should be in a Cloud Storage</span>
-    <span class="doccomment">/// bucket.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">pdf_instruction</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PdfInstruction</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The names of any related resources that are blocking changes</span>
-    <span class="doccomment">/// to the instruction.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">blocking_resources</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Deprecated: this instruction format is not supported any more.</span>
-<span class="doccomment">/// Instruction from a CSV file.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CsvInstruction</span> {
-    <span class="doccomment">/// CSV file for the instruction. Only gcs path is allowed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gcs_file_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Instruction from a PDF file.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PdfInstruction</span> {
-    <span class="doccomment">/// PDF file for the instruction. Only gcs path is allowed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gcs_file_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Request message for CreateDataset.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

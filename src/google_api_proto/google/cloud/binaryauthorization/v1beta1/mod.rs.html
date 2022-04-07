@@ -751,7 +751,99 @@
 <span id="749">749</span>
 <span id="750">750</span>
 <span id="751">751</span>
-</pre><pre class="rust"><code><span class="doccomment">/// A \[policy][google.cloud.binaryauthorization.v1beta1.Policy\] for Binary Authorization.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Represents an auditing event from Continuous Validation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ContinuousValidationEvent</span> {
+    <span class="doccomment">/// Type of CV event.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;continuous_validation_event::EventType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">event_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">continuous_validation_event::EventType</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ContinuousValidationEvent`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">continuous_validation_event</span> {
+    <span class="doccomment">/// An auditing event for one Pod.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ContinuousValidationPodEvent</span> {
+        <span class="doccomment">/// The name of the Pod.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">pod</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Deploy time of the Pod from k8s.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">deploy_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Termination time of the Pod from k8s, or nothing if still running.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+        <span class="doccomment">/// Auditing verdict for this Pod.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(
+            <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;continuous_validation_pod_event::PolicyConformanceVerdict&quot;</span>,
+            <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>
+        )]</span>
+        <span class="kw">pub</span> <span class="ident">verdict</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// List of images with auditing details.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">images</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">continuous_validation_pod_event::ImageDetails</span><span class="op">&gt;</span>,
+    }
+    <span class="doccomment">/// Nested message and enum types in `ContinuousValidationPodEvent`.</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">continuous_validation_pod_event</span> {
+        <span class="doccomment">/// Container image with auditing details.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageDetails</span> {
+            <span class="doccomment">/// The name of the image.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">image</span>: <span class="ident">::prost::alloc::string::String</span>,
+            <span class="doccomment">/// The result of the audit for this image.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;image_details::AuditResult&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">result</span>: <span class="ident">i32</span>,
+            <span class="doccomment">/// Description of the above result.</span>
+            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+            <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+        }
+        <span class="doccomment">/// Nested message and enum types in `ImageDetails`.</span>
+        <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">image_details</span> {
+            <span class="doccomment">/// Result of the audit.</span>
+            <span class="attribute">#[<span class="ident">derive</span>(
+                <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
+            )]</span>
+            <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+            <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AuditResult</span> {
+                <span class="doccomment">/// Unspecified result. This is an error.</span>
+                <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+                <span class="doccomment">/// Image is allowed.</span>
+                <span class="ident">Allow</span> <span class="op">=</span> <span class="number">1</span>,
+                <span class="doccomment">/// Image is denied.</span>
+                <span class="ident">Deny</span> <span class="op">=</span> <span class="number">2</span>,
+            }
+        }
+        <span class="doccomment">/// Audit time policy conformance verdict.</span>
+        <span class="attribute">#[<span class="ident">derive</span>(
+            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
+        )]</span>
+        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PolicyConformanceVerdict</span> {
+            <span class="doccomment">/// We should always have a verdict. This is an error.</span>
+            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+            <span class="doccomment">/// The pod violates the policy.</span>
+            <span class="ident">ViolatesPolicy</span> <span class="op">=</span> <span class="number">1</span>,
+        }
+    }
+    <span class="doccomment">/// An event describing that the project policy is unsupported by CV.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UnsupportedPolicyEvent</span> {
+        <span class="doccomment">/// A description of the unsupported policy.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Type of CV event.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventType</span> {
+        <span class="doccomment">/// Pod event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">PodEvent</span>(<span class="ident">ContinuousValidationPodEvent</span>),
+        <span class="doccomment">/// Unsupported policy event.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">UnsupportedPolicyEvent</span>(<span class="ident">UnsupportedPolicyEvent</span>),
+    }
+}
+<span class="doccomment">/// A \[policy][google.cloud.binaryauthorization.v1beta1.Policy\] for Binary Authorization.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Policy</span> {
     <span class="doccomment">/// Output only. The resource name, in the format `projects/*/policy`. There is</span>
@@ -1408,98 +1500,6 @@
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
-    }
-}
-<span class="doccomment">/// Represents an auditing event from Continuous Validation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ContinuousValidationEvent</span> {
-    <span class="doccomment">/// Type of CV event.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;continuous_validation_event::EventType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">event_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">continuous_validation_event::EventType</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ContinuousValidationEvent`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">continuous_validation_event</span> {
-    <span class="doccomment">/// An auditing event for one Pod.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ContinuousValidationPodEvent</span> {
-        <span class="doccomment">/// The name of the Pod.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">pod</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Deploy time of the Pod from k8s.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">deploy_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Termination time of the Pod from k8s, or nothing if still running.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// Auditing verdict for this Pod.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(
-            <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;continuous_validation_pod_event::PolicyConformanceVerdict&quot;</span>,
-            <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>
-        )]</span>
-        <span class="kw">pub</span> <span class="ident">verdict</span>: <span class="ident">i32</span>,
-        <span class="doccomment">/// List of images with auditing details.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">images</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">continuous_validation_pod_event::ImageDetails</span><span class="op">&gt;</span>,
-    }
-    <span class="doccomment">/// Nested message and enum types in `ContinuousValidationPodEvent`.</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">continuous_validation_pod_event</span> {
-        <span class="doccomment">/// Container image with auditing details.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageDetails</span> {
-            <span class="doccomment">/// The name of the image.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">image</span>: <span class="ident">::prost::alloc::string::String</span>,
-            <span class="doccomment">/// The result of the audit for this image.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;image_details::AuditResult&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">result</span>: <span class="ident">i32</span>,
-            <span class="doccomment">/// Description of the above result.</span>
-            <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-            <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-        }
-        <span class="doccomment">/// Nested message and enum types in `ImageDetails`.</span>
-        <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">image_details</span> {
-            <span class="doccomment">/// Result of the audit.</span>
-            <span class="attribute">#[<span class="ident">derive</span>(
-                <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
-            )]</span>
-            <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-            <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AuditResult</span> {
-                <span class="doccomment">/// Unspecified result. This is an error.</span>
-                <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-                <span class="doccomment">/// Image is allowed.</span>
-                <span class="ident">Allow</span> <span class="op">=</span> <span class="number">1</span>,
-                <span class="doccomment">/// Image is denied.</span>
-                <span class="ident">Deny</span> <span class="op">=</span> <span class="number">2</span>,
-            }
-        }
-        <span class="doccomment">/// Audit time policy conformance verdict.</span>
-        <span class="attribute">#[<span class="ident">derive</span>(
-            <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>,
-        )]</span>
-        <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PolicyConformanceVerdict</span> {
-            <span class="doccomment">/// We should always have a verdict. This is an error.</span>
-            <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-            <span class="doccomment">/// The pod violates the policy.</span>
-            <span class="ident">ViolatesPolicy</span> <span class="op">=</span> <span class="number">1</span>,
-        }
-    }
-    <span class="doccomment">/// An event describing that the project policy is unsupported by CV.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UnsupportedPolicyEvent</span> {
-        <span class="doccomment">/// A description of the unsupported policy.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    }
-    <span class="doccomment">/// Type of CV event.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EventType</span> {
-        <span class="doccomment">/// Pod event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">PodEvent</span>(<span class="ident">ContinuousValidationPodEvent</span>),
-        <span class="doccomment">/// Unsupported policy event.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">UnsupportedPolicyEvent</span>(<span class="ident">UnsupportedPolicyEvent</span>),
     }
 }
 </code></pre></div>

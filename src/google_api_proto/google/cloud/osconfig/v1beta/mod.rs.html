@@ -2158,7 +2158,718 @@
 <span id="2156">2156</span>
 <span id="2157">2157</span>
 <span id="2158">2158</span>
-</pre><pre class="rust"><code><span class="doccomment">/// An OS Config resource representing a guest configuration policy. These</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Message encapsulating a value that can be either absolute (&quot;fixed&quot;) or</span>
+<span class="doccomment">/// relative (&quot;percent&quot;) to a value.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FixedOrPercent</span> {
+    <span class="doccomment">/// Type of the value.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;fixed_or_percent::Mode&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mode</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">fixed_or_percent::Mode</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `FixedOrPercent`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">fixed_or_percent</span> {
+    <span class="doccomment">/// Type of the value.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Mode</span> {
+        <span class="doccomment">/// Specifies a fixed value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">Fixed</span>(<span class="ident">i32</span>),
+        <span class="doccomment">/// Specifies the relative value defined as a percentage, which will be</span>
+        <span class="doccomment">/// multiplied by a reference value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">Percent</span>(<span class="ident">i32</span>),
+    }
+}
+<span class="doccomment">/// A request message to initiate patching across Compute Engine instances.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecutePatchJobRequest</span> {
+    <span class="doccomment">/// Required. The project in which to run this patch in the form `projects/*`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Description of the patch job. Length of the description is limited</span>
+    <span class="doccomment">/// to 1024 characters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Instances to patch, either explicitly or filtered by some criteria such</span>
+    <span class="doccomment">/// as zone or labels.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instance_filter</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PatchInstanceFilter</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Patch configuration being applied. If omitted, instances are</span>
+    <span class="doccomment">/// patched using the default configurations.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">patch_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PatchConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Duration of the patch job. After the duration ends, the patch job</span>
+    <span class="doccomment">/// times out.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// If this patch is a dry-run only, instances are contacted but</span>
+    <span class="doccomment">/// will do nothing.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dry_run</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Display name for this patch job. This does not have to be unique.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Rollout strategy of the patch job.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">rollout</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PatchRollout</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Request to get an active or completed patch job.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetPatchJobRequest</span> {
+    <span class="doccomment">/// Required. Name of the patch in the form `projects/*/patchJobs/*`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Request to list details for all instances that are part of a patch job.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListPatchJobInstanceDetailsRequest</span> {
+    <span class="doccomment">/// Required. The parent for the instances are in the form of `projects/*/patchJobs/*`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The maximum number of instance details records to return.  Default is 100.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// A pagination token returned from a previous call</span>
+    <span class="doccomment">/// that indicates where this listing should continue from.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// A filter expression that filters results listed in the response. This</span>
+    <span class="doccomment">/// field supports filtering results by instance zone, name, state, or</span>
+    <span class="doccomment">/// `failure_reason`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A response message for listing the instances details for a patch job.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListPatchJobInstanceDetailsResponse</span> {
+    <span class="doccomment">/// A list of instance status.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">patch_job_instance_details</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">PatchJobInstanceDetails</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A pagination token that can be used to get the next page of results.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Patch details for a VM instance. For more information about reviewing VM</span>
+<span class="doccomment">/// instance details, see</span>
+<span class="doccomment">/// [Listing all VM instance details for a specific patch</span>
+<span class="doccomment">/// job](&lt;https://cloud.google.com/compute/docs/os-patch-management/manage-patch-jobs#list-instance-details&gt;).</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PatchJobInstanceDetails</span> {
+    <span class="doccomment">/// The instance name in the form `projects/*/zones/*/instances/*`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The unique identifier for the instance. This identifier is</span>
+    <span class="doccomment">/// defined by the server.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instance_system_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Current state of instance patch.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;instance::PatchState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// If the patch fails, this field provides the reason.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">failure_reason</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The number of times the agent that the agent attempts to apply the patch.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">attempt_count</span>: <span class="ident">i64</span>,
+}
+<span class="doccomment">/// A request message for listing patch jobs.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListPatchJobsRequest</span> {
+    <span class="doccomment">/// Required. In the form of `projects/*`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The maximum number of instance status to return.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// A pagination token returned from a previous call</span>
+    <span class="doccomment">/// that indicates where this listing should continue from.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// If provided, this field specifies the criteria that must be met by patch</span>
+    <span class="doccomment">/// jobs to be included in the response.</span>
+    <span class="doccomment">/// Currently, filtering is only available on the patch_deployment field.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A response message for listing patch jobs.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListPatchJobsResponse</span> {
+    <span class="doccomment">/// The list of patch jobs.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">patch_jobs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">PatchJob</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A pagination token that can be used to get the next page of results.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A high level representation of a patch job that is either in progress</span>
+<span class="doccomment">/// or has completed.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Instance details are not included in the job. To paginate through instance</span>
+<span class="doccomment">/// details, use `ListPatchJobInstanceDetails`.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For more information about patch jobs, see</span>
+<span class="doccomment">/// [Creating patch</span>
+<span class="doccomment">/// jobs](&lt;https://cloud.google.com/compute/docs/os-patch-management/create-patch-job&gt;).</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PatchJob</span> {
+    <span class="doccomment">/// Unique identifier for this patch job in the form</span>
+    <span class="doccomment">/// `projects/*/patchJobs/*`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Display name for this patch job. This is not a unique identifier.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Description of the patch job. Length of the description is limited</span>
+    <span class="doccomment">/// to 1024 characters.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Time this patch job was created.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Last time this patch job was updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The current state of the PatchJob.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;patch_job::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Instances to patch.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instance_filter</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PatchInstanceFilter</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Patch configuration being applied.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">patch_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PatchConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Duration of the patch job. After the duration ends, the</span>
+    <span class="doccomment">/// patch job times out.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Summary of instance details.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instance_details_summary</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">patch_job::InstanceDetailsSummary</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// If this patch job is a dry run, the agent reports that it has</span>
+    <span class="doccomment">/// finished without running any updates on the VM instance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dry_run</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// If this patch job failed, this message provides information about the</span>
+    <span class="doccomment">/// failure.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">error_message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Reflects the overall progress of the patch job in the range of</span>
+    <span class="doccomment">/// 0.0 being no progress to 100.0 being complete.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">percent_complete</span>: <span class="ident">f64</span>,
+    <span class="doccomment">/// Output only. Name of the patch deployment that created this patch job.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">patch_deployment</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Rollout strategy being applied.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">rollout</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PatchRollout</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `PatchJob`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">patch_job</span> {
+    <span class="doccomment">/// A summary of the current patch state across all instances that this patch</span>
+    <span class="doccomment">/// job affects. Contains counts of instances in different states. These states</span>
+    <span class="doccomment">/// map to `InstancePatchState`. List patch job instance details to see the</span>
+    <span class="doccomment">/// specific states of each instance.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceDetailsSummary</span> {
+        <span class="doccomment">/// Number of instances pending patch job.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">pending_instance_count</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Number of instances that are inactive.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">inactive_instance_count</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Number of instances notified about patch job.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">notified_instance_count</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Number of instances that have started.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">started_instance_count</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Number of instances that are downloading patches.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">downloading_patches_instance_count</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Number of instances that are applying patches.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">applying_patches_instance_count</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Number of instances rebooting.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">rebooting_instance_count</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Number of instances that have completed successfully.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">succeeded_instance_count</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Number of instances that require reboot.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">succeeded_reboot_required_instance_count</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Number of instances that failed.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">failed_instance_count</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Number of instances that have acked and will start shortly.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">acked_instance_count</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Number of instances that exceeded the time out while applying the patch.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">timed_out_instance_count</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Number of instances that are running the pre-patch step.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">pre_patch_step_instance_count</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Number of instances that are running the post-patch step.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">post_patch_step_instance_count</span>: <span class="ident">i64</span>,
+        <span class="doccomment">/// Number of instances that do not appear to be running the agent. Check to</span>
+        <span class="doccomment">/// ensure that the agent is installed, running, and able to communicate with</span>
+        <span class="doccomment">/// the service.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">no_agent_detected_instance_count</span>: <span class="ident">i64</span>,
+    }
+    <span class="doccomment">/// Enumeration of the various states a patch job passes through as it</span>
+    <span class="doccomment">/// executes.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
+        <span class="doccomment">/// State must be specified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The patch job was successfully initiated.</span>
+        <span class="ident">Started</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The patch job is looking up instances to run the patch on.</span>
+        <span class="ident">InstanceLookup</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Instances are being patched.</span>
+        <span class="ident">Patching</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Patch job completed successfully.</span>
+        <span class="ident">Succeeded</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// Patch job completed but there were errors.</span>
+        <span class="ident">CompletedWithErrors</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// The patch job was canceled.</span>
+        <span class="ident">Canceled</span> <span class="op">=</span> <span class="number">6</span>,
+        <span class="doccomment">/// The patch job timed out.</span>
+        <span class="ident">TimedOut</span> <span class="op">=</span> <span class="number">7</span>,
+    }
+}
+<span class="doccomment">/// Patch configuration specifications. Contains details on how to apply the</span>
+<span class="doccomment">/// patch(es) to a VM instance.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PatchConfig</span> {
+    <span class="doccomment">/// Post-patch reboot settings.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;patch_config::RebootConfig&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">reboot_config</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Apt update settings. Use this setting to override the default `apt` patch</span>
+    <span class="doccomment">/// rules.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">apt</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AptSettings</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Yum update settings. Use this setting to override the default `yum` patch</span>
+    <span class="doccomment">/// rules.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">yum</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">YumSettings</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Goo update settings. Use this setting to override the default `goo` patch</span>
+    <span class="doccomment">/// rules.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">goo</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">GooSettings</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Zypper update settings. Use this setting to override the default `zypper`</span>
+    <span class="doccomment">/// patch rules.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">zypper</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ZypperSettings</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Windows update settings. Use this override the default windows patch rules.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">windows_update</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">WindowsUpdateSettings</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The `ExecStep` to run before the patch update.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">pre_step</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExecStep</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The `ExecStep` to run after the patch update.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">post_step</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExecStep</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Allows the patch job to run on Managed instance groups (MIGs).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mig_instances_allowed</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `PatchConfig`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">patch_config</span> {
+    <span class="doccomment">/// Post-patch reboot settings.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RebootConfig</span> {
+        <span class="doccomment">/// The default behavior is DEFAULT.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The agent decides if a reboot is necessary by checking signals such as</span>
+        <span class="doccomment">/// registry keys on Windows or `/var/run/reboot-required` on APT based</span>
+        <span class="doccomment">/// systems. On RPM based systems, a set of core system package install times</span>
+        <span class="doccomment">/// are compared with system boot time.</span>
+        <span class="ident">Default</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Always reboot the machine after the update completes.</span>
+        <span class="ident">Always</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Never reboot the machine after the update completes.</span>
+        <span class="ident">Never</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// Namespace for instance state enums.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Instance</span> {}
+<span class="doccomment">/// Nested message and enum types in `Instance`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">instance</span> {
+    <span class="doccomment">/// Patch state of an instance.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PatchState</span> {
+        <span class="doccomment">/// Unspecified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The instance is not yet notified.</span>
+        <span class="ident">Pending</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Instance is inactive and cannot be patched.</span>
+        <span class="ident">Inactive</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// The instance is notified that it should be patched.</span>
+        <span class="ident">Notified</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// The instance has started the patching process.</span>
+        <span class="ident">Started</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// The instance is downloading patches.</span>
+        <span class="ident">DownloadingPatches</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// The instance is applying patches.</span>
+        <span class="ident">ApplyingPatches</span> <span class="op">=</span> <span class="number">6</span>,
+        <span class="doccomment">/// The instance is rebooting.</span>
+        <span class="ident">Rebooting</span> <span class="op">=</span> <span class="number">7</span>,
+        <span class="doccomment">/// The instance has completed applying patches.</span>
+        <span class="ident">Succeeded</span> <span class="op">=</span> <span class="number">8</span>,
+        <span class="doccomment">/// The instance has completed applying patches but a reboot is required.</span>
+        <span class="ident">SucceededRebootRequired</span> <span class="op">=</span> <span class="number">9</span>,
+        <span class="doccomment">/// The instance has failed to apply the patch.</span>
+        <span class="ident">Failed</span> <span class="op">=</span> <span class="number">10</span>,
+        <span class="doccomment">/// The instance acked the notification and will start shortly.</span>
+        <span class="ident">Acked</span> <span class="op">=</span> <span class="number">11</span>,
+        <span class="doccomment">/// The instance exceeded the time out while applying the patch.</span>
+        <span class="ident">TimedOut</span> <span class="op">=</span> <span class="number">12</span>,
+        <span class="doccomment">/// The instance is running the pre-patch step.</span>
+        <span class="ident">RunningPrePatchStep</span> <span class="op">=</span> <span class="number">13</span>,
+        <span class="doccomment">/// The instance is running the post-patch step.</span>
+        <span class="ident">RunningPostPatchStep</span> <span class="op">=</span> <span class="number">14</span>,
+        <span class="doccomment">/// The service could not detect the presence of the agent. Check to ensure</span>
+        <span class="doccomment">/// that the agent is installed, running, and able to communicate with the</span>
+        <span class="doccomment">/// service.</span>
+        <span class="ident">NoAgentDetected</span> <span class="op">=</span> <span class="number">15</span>,
+    }
+}
+<span class="doccomment">/// Message for canceling a patch job.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CancelPatchJobRequest</span> {
+    <span class="doccomment">/// Required. Name of the patch in the form `projects/*/patchJobs/*`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Apt patching is completed by executing `apt-get update &amp;&amp; apt-get</span>
+<span class="doccomment">/// upgrade`. Additional options can be set to control how this is executed.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AptSettings</span> {
+    <span class="doccomment">/// By changing the type to DIST, the patching is performed</span>
+    <span class="doccomment">/// using `apt-get dist-upgrade` instead.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;apt_settings::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// List of packages to exclude from update. These packages will be excluded</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">excludes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// An exclusive list of packages to be updated. These are the only packages</span>
+    <span class="doccomment">/// that will be updated. If these packages are not installed, they will be</span>
+    <span class="doccomment">/// ignored. This field cannot be specified with any other patch configuration</span>
+    <span class="doccomment">/// fields.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">exclusive_packages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `AptSettings`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">apt_settings</span> {
+    <span class="doccomment">/// Apt patch type.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
+        <span class="doccomment">/// By default, upgrade will be performed.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Runs `apt-get dist-upgrade`.</span>
+        <span class="ident">Dist</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Runs `apt-get upgrade`.</span>
+        <span class="ident">Upgrade</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// Yum patching is performed by executing `yum update`. Additional options</span>
+<span class="doccomment">/// can be set to control how this is executed.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Note that not all settings are supported on all platforms.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">YumSettings</span> {
+    <span class="doccomment">/// Adds the `--security` flag to `yum update`. Not supported on</span>
+    <span class="doccomment">/// all platforms.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">security</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Will cause patch to run `yum update-minimal` instead.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">minimal</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// List of packages to exclude from update. These packages are excluded by</span>
+    <span class="doccomment">/// using the yum `--exclude` flag.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">excludes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// An exclusive list of packages to be updated. These are the only packages</span>
+    <span class="doccomment">/// that will be updated. If these packages are not installed, they will be</span>
+    <span class="doccomment">/// ignored. This field must not be specified with any other patch</span>
+    <span class="doccomment">/// configuration fields.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">exclusive_packages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Googet patching is performed by running `googet update`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GooSettings</span> {}
+<span class="doccomment">/// Zypper patching is performed by running `zypper patch`.</span>
+<span class="doccomment">/// See also &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ZypperSettings</span> {
+    <span class="doccomment">/// Adds the `--with-optional` flag to `zypper patch`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">with_optional</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Adds the `--with-update` flag, to `zypper patch`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">with_update</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Install only patches with these categories.</span>
+    <span class="doccomment">/// Common categories include security, recommended, and feature.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">categories</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Install only patches with these severities.</span>
+    <span class="doccomment">/// Common severities include critical, important, moderate, and low.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">severities</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// List of patches to exclude from update.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">excludes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// An exclusive list of patches to be updated. These are the only patches</span>
+    <span class="doccomment">/// that will be installed using &#39;zypper patch patch:&lt;patch_name&gt;&#39; command.</span>
+    <span class="doccomment">/// This field must not be used with any other patch configuration fields.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">exclusive_patches</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Windows patching is performed using the Windows Update Agent.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsUpdateSettings</span> {
+    <span class="doccomment">/// Only apply updates of these windows update classifications. If empty, all</span>
+    <span class="doccomment">/// updates are applied.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;windows_update_settings::Classification&quot;</span>,
+        <span class="ident">repeated</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">classifications</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// List of KBs to exclude from update.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">excludes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// An exclusive list of kbs to be updated. These are the only patches</span>
+    <span class="doccomment">/// that will be updated. This field must not be used with other</span>
+    <span class="doccomment">/// patch configurations.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">exclusive_patches</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `WindowsUpdateSettings`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">windows_update_settings</span> {
+    <span class="doccomment">/// Microsoft Windows update classifications as defined in</span>
+    <span class="doccomment">/// \[1\]</span>
+    <span class="doccomment">/// &lt;https://support.microsoft.com/en-us/help/824684/description-of-the-standard-terminology-that-is-used-to-describe-micro&gt;</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Classification</span> {
+        <span class="doccomment">/// Invalid. If classifications are included, they must be specified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// &quot;A widely released fix for a specific problem that addresses a critical,</span>
+        <span class="doccomment">/// non-security-related bug.&quot; \[1\]</span>
+        <span class="ident">Critical</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// &quot;A widely released fix for a product-specific, security-related</span>
+        <span class="doccomment">/// vulnerability. Security vulnerabilities are rated by their severity. The</span>
+        <span class="doccomment">/// severity rating is indicated in the Microsoft security bulletin as</span>
+        <span class="doccomment">/// critical, important, moderate, or low.&quot; \[1\]</span>
+        <span class="ident">Security</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// &quot;A widely released and frequent software update that contains additions</span>
+        <span class="doccomment">/// to a product&#39;s definition database. Definition databases are often used</span>
+        <span class="doccomment">/// to detect objects that have specific attributes, such as malicious code,</span>
+        <span class="doccomment">/// phishing websites, or junk mail.&quot; \[1\]</span>
+        <span class="ident">Definition</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// &quot;Software that controls the input and output of a device.&quot; \[1\]</span>
+        <span class="ident">Driver</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// &quot;New product functionality that is first distributed outside the context</span>
+        <span class="doccomment">/// of a product release and that is typically included in the next full</span>
+        <span class="doccomment">/// product release.&quot; \[1\]</span>
+        <span class="ident">FeaturePack</span> <span class="op">=</span> <span class="number">5</span>,
+        <span class="doccomment">/// &quot;A tested, cumulative set of all hotfixes, security updates, critical</span>
+        <span class="doccomment">/// updates, and updates. Additionally, service packs may contain additional</span>
+        <span class="doccomment">/// fixes for problems that are found internally since the release of the</span>
+        <span class="doccomment">/// product. Service packs my also contain a limited number of</span>
+        <span class="doccomment">/// customer-requested design changes or features.&quot; \[1\]</span>
+        <span class="ident">ServicePack</span> <span class="op">=</span> <span class="number">6</span>,
+        <span class="doccomment">/// &quot;A utility or feature that helps complete a task or set of tasks.&quot; \[1\]</span>
+        <span class="ident">Tool</span> <span class="op">=</span> <span class="number">7</span>,
+        <span class="doccomment">/// &quot;A tested, cumulative set of hotfixes, security updates, critical</span>
+        <span class="doccomment">/// updates, and updates that are packaged together for easy deployment. A</span>
+        <span class="doccomment">/// rollup generally targets a specific area, such as security, or a</span>
+        <span class="doccomment">/// component of a product, such as Internet Information Services (IIS).&quot; \[1\]</span>
+        <span class="ident">UpdateRollup</span> <span class="op">=</span> <span class="number">8</span>,
+        <span class="doccomment">/// &quot;A widely released fix for a specific problem. An update addresses a</span>
+        <span class="doccomment">/// noncritical, non-security-related bug.&quot; \[1\]</span>
+        <span class="ident">Update</span> <span class="op">=</span> <span class="number">9</span>,
+    }
+}
+<span class="doccomment">/// A step that runs an executable for a PatchJob.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecStep</span> {
+    <span class="doccomment">/// The ExecStepConfig for all Linux VMs targeted by the PatchJob.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">linux_exec_step_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExecStepConfig</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The ExecStepConfig for all Windows VMs targeted by the PatchJob.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">windows_exec_step_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExecStepConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Common configurations for an ExecStep.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecStepConfig</span> {
+    <span class="doccomment">/// Defaults to \[0\]. A list of possible return values that the</span>
+    <span class="doccomment">/// execution can return to indicate a success.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">allowed_success_codes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The script interpreter to use to run the script. If no interpreter is</span>
+    <span class="doccomment">/// specified the script will be executed directly, which will likely</span>
+    <span class="doccomment">/// only succeed for scripts with [shebang lines]</span>
+    <span class="doccomment">/// (&lt;https://en.wikipedia.org/wiki/Shebang_\(Unix\&gt;)).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;exec_step_config::Interpreter&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">interpreter</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Location of the executable.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;exec_step_config::Executable&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">executable</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">exec_step_config::Executable</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `ExecStepConfig`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">exec_step_config</span> {
+    <span class="doccomment">/// The interpreter used to execute the a file.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Interpreter</span> {
+        <span class="doccomment">/// Invalid for a Windows ExecStepConfig. For a Linux ExecStepConfig, the</span>
+        <span class="doccomment">/// interpreter will be parsed from the shebang line of the script if</span>
+        <span class="doccomment">/// unspecified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Indicates that the script is run with `/bin/sh` on Linux and `cmd`</span>
+        <span class="doccomment">/// on Windows.</span>
+        <span class="ident">Shell</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Indicates that the file is run with PowerShell flags</span>
+        <span class="doccomment">/// `-NonInteractive`, `-NoProfile`, and `-ExecutionPolicy Bypass`.</span>
+        <span class="ident">Powershell</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="doccomment">/// Location of the executable.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Executable</span> {
+        <span class="doccomment">/// An absolute path to the executable on the VM.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">LocalPath</span>(<span class="ident">::prost::alloc::string::String</span>),
+        <span class="doccomment">/// A Google Cloud Storage object containing the executable.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">GcsObject</span>(<span class="ident"><span class="kw">super</span>::GcsObject</span>),
+    }
+}
+<span class="doccomment">/// Google Cloud Storage object representation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsObject</span> {
+    <span class="doccomment">/// Required. Bucket of the Google Cloud Storage object.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Name of the Google Cloud Storage object.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">object</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Generation number of the Google Cloud Storage object. This is used to</span>
+    <span class="doccomment">/// ensure that the ExecStep specified by this PatchJob does not change.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">generation_number</span>: <span class="ident">i64</span>,
+}
+<span class="doccomment">/// A filter to target VM instances for patching. The targeted</span>
+<span class="doccomment">/// VMs must meet all criteria specified. So if both labels and zones are</span>
+<span class="doccomment">/// specified, the patch job targets only VMs with those labels and in those</span>
+<span class="doccomment">/// zones.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PatchInstanceFilter</span> {
+    <span class="doccomment">/// Target all VM instances in the project. If true, no other criteria is</span>
+    <span class="doccomment">/// permitted.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">all</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Targets VM instances matching at least one of these label sets. This allows</span>
+    <span class="doccomment">/// targeting of disparate groups, for example &quot;env=prod or env=staging&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">group_labels</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">patch_instance_filter::GroupLabel</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Targets VM instances in ANY of these zones. Leave empty to target VM</span>
+    <span class="doccomment">/// instances in any zone.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">zones</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Targets any of the VM instances specified. Instances are specified by their</span>
+    <span class="doccomment">/// URI in the form `zones/\[ZONE]/instances/[INSTANCE_NAME\]`,</span>
+    <span class="doccomment">/// `projects/\[PROJECT_ID]/zones/[ZONE]/instances/[INSTANCE_NAME\]`, or</span>
+    <span class="doccomment">/// `&lt;https://www.googleapis.com/compute/v1/projects/\[PROJECT_ID]/zones/[ZONE]/instances/[INSTANCE_NAME\]`&gt;</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instances</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Targets VMs whose name starts with one of these prefixes. Similar to</span>
+    <span class="doccomment">/// labels, this is another way to group VMs when targeting configs, for</span>
+    <span class="doccomment">/// example prefix=&quot;prod-&quot;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instance_name_prefixes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `PatchInstanceFilter`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">patch_instance_filter</span> {
+    <span class="doccomment">/// Represents a group of VMs that can be identified as having all these</span>
+    <span class="doccomment">/// labels, for example &quot;env=prod and app=web&quot;.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GroupLabel</span> {
+        <span class="doccomment">/// Compute Engine instance labels that must be present for a VM instance to</span>
+        <span class="doccomment">/// be targeted by this filter.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
+            <span class="ident">::prost::alloc::string::String</span>,
+            <span class="ident">::prost::alloc::string::String</span>,
+        <span class="op">&gt;</span>,
+    }
+}
+<span class="doccomment">/// Patch rollout configuration specifications. Contains details on the</span>
+<span class="doccomment">/// concurrency control when applying patch(es) to all targeted VMs.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PatchRollout</span> {
+    <span class="doccomment">/// Mode of the patch rollout.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;patch_rollout::Mode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mode</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The maximum number (or percentage) of VMs per zone to disrupt at any given</span>
+    <span class="doccomment">/// moment. The number of VMs calculated from multiplying the percentage by the</span>
+    <span class="doccomment">/// total number of VMs in a zone is rounded up.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// During patching, a VM is considered disrupted from the time the agent is</span>
+    <span class="doccomment">/// notified to begin until patching has completed. This disruption time</span>
+    <span class="doccomment">/// includes the time to complete reboot and any post-patch steps.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// A VM contributes to the disruption budget if its patching operation fails</span>
+    <span class="doccomment">/// either when applying the patches, running pre or post patch steps, or if it</span>
+    <span class="doccomment">/// fails to respond with a success notification before timing out. VMs that</span>
+    <span class="doccomment">/// are not running or do not have an active agent do not count toward this</span>
+    <span class="doccomment">/// disruption budget.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For zone-by-zone rollouts, if the disruption budget in a zone is exceeded,</span>
+    <span class="doccomment">/// the patch job stops, because continuing to the next zone requires</span>
+    <span class="doccomment">/// completion of the patch process in the previous zone.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For example, if the disruption budget has a fixed value of `10`, and 8 VMs</span>
+    <span class="doccomment">/// fail to patch in the current zone, the patch job continues to patch 2 VMs</span>
+    <span class="doccomment">/// at a time until the zone is completed. When that zone is completed</span>
+    <span class="doccomment">/// successfully, patching begins with 10 VMs at a time in the next zone. If 10</span>
+    <span class="doccomment">/// VMs in the next zone fail to patch, the patch job stops.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">disruption_budget</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FixedOrPercent</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `PatchRollout`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">patch_rollout</span> {
+    <span class="doccomment">/// Type of the rollout.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Mode</span> {
+        <span class="doccomment">/// Mode must be specified.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Patches are applied one zone at a time. The patch job begins in the</span>
+        <span class="doccomment">/// region with the lowest number of targeted VMs. Within the region,</span>
+        <span class="doccomment">/// patching begins in the zone with the lowest number of targeted VMs. If</span>
+        <span class="doccomment">/// multiple regions (or zones within a region) have the same number of</span>
+        <span class="doccomment">/// targeted VMs, a tie-breaker is achieved by sorting the regions or zones</span>
+        <span class="doccomment">/// in alphabetical order.</span>
+        <span class="ident">ZoneByZone</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Patches are applied to VMs in all zones at the same time.</span>
+        <span class="ident">ConcurrentZones</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// An OS Config resource representing a guest configuration policy. These</span>
 <span class="doccomment">/// policies represent the desired state for VM instance guest environments</span>
 <span class="doccomment">/// including packages to install or remove, package repository configurations,</span>
 <span class="doccomment">/// and software to install.</span>
@@ -2955,717 +3666,6 @@
     <span class="doccomment">/// The agent ensures that the package is not installed and uninstall it</span>
     <span class="doccomment">/// if detected.</span>
     <span class="ident">Removed</span> <span class="op">=</span> <span class="number">3</span>,
-}
-<span class="doccomment">/// Message encapsulating a value that can be either absolute (&quot;fixed&quot;) or</span>
-<span class="doccomment">/// relative (&quot;percent&quot;) to a value.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FixedOrPercent</span> {
-    <span class="doccomment">/// Type of the value.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;fixed_or_percent::Mode&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mode</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">fixed_or_percent::Mode</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `FixedOrPercent`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">fixed_or_percent</span> {
-    <span class="doccomment">/// Type of the value.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Mode</span> {
-        <span class="doccomment">/// Specifies a fixed value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">Fixed</span>(<span class="ident">i32</span>),
-        <span class="doccomment">/// Specifies the relative value defined as a percentage, which will be</span>
-        <span class="doccomment">/// multiplied by a reference value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">Percent</span>(<span class="ident">i32</span>),
-    }
-}
-<span class="doccomment">/// A request message to initiate patching across Compute Engine instances.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecutePatchJobRequest</span> {
-    <span class="doccomment">/// Required. The project in which to run this patch in the form `projects/*`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Description of the patch job. Length of the description is limited</span>
-    <span class="doccomment">/// to 1024 characters.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Instances to patch, either explicitly or filtered by some criteria such</span>
-    <span class="doccomment">/// as zone or labels.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instance_filter</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PatchInstanceFilter</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Patch configuration being applied. If omitted, instances are</span>
-    <span class="doccomment">/// patched using the default configurations.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">patch_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PatchConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Duration of the patch job. After the duration ends, the patch job</span>
-    <span class="doccomment">/// times out.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// If this patch is a dry-run only, instances are contacted but</span>
-    <span class="doccomment">/// will do nothing.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dry_run</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Display name for this patch job. This does not have to be unique.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Rollout strategy of the patch job.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">rollout</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PatchRollout</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Request to get an active or completed patch job.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetPatchJobRequest</span> {
-    <span class="doccomment">/// Required. Name of the patch in the form `projects/*/patchJobs/*`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Request to list details for all instances that are part of a patch job.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListPatchJobInstanceDetailsRequest</span> {
-    <span class="doccomment">/// Required. The parent for the instances are in the form of `projects/*/patchJobs/*`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The maximum number of instance details records to return.  Default is 100.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// A pagination token returned from a previous call</span>
-    <span class="doccomment">/// that indicates where this listing should continue from.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// A filter expression that filters results listed in the response. This</span>
-    <span class="doccomment">/// field supports filtering results by instance zone, name, state, or</span>
-    <span class="doccomment">/// `failure_reason`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A response message for listing the instances details for a patch job.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListPatchJobInstanceDetailsResponse</span> {
-    <span class="doccomment">/// A list of instance status.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">patch_job_instance_details</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">PatchJobInstanceDetails</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A pagination token that can be used to get the next page of results.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Patch details for a VM instance. For more information about reviewing VM</span>
-<span class="doccomment">/// instance details, see</span>
-<span class="doccomment">/// [Listing all VM instance details for a specific patch</span>
-<span class="doccomment">/// job](&lt;https://cloud.google.com/compute/docs/os-patch-management/manage-patch-jobs#list-instance-details&gt;).</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PatchJobInstanceDetails</span> {
-    <span class="doccomment">/// The instance name in the form `projects/*/zones/*/instances/*`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The unique identifier for the instance. This identifier is</span>
-    <span class="doccomment">/// defined by the server.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instance_system_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Current state of instance patch.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;instance::PatchState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// If the patch fails, this field provides the reason.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">failure_reason</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The number of times the agent that the agent attempts to apply the patch.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">attempt_count</span>: <span class="ident">i64</span>,
-}
-<span class="doccomment">/// A request message for listing patch jobs.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListPatchJobsRequest</span> {
-    <span class="doccomment">/// Required. In the form of `projects/*`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The maximum number of instance status to return.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// A pagination token returned from a previous call</span>
-    <span class="doccomment">/// that indicates where this listing should continue from.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// If provided, this field specifies the criteria that must be met by patch</span>
-    <span class="doccomment">/// jobs to be included in the response.</span>
-    <span class="doccomment">/// Currently, filtering is only available on the patch_deployment field.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A response message for listing patch jobs.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListPatchJobsResponse</span> {
-    <span class="doccomment">/// The list of patch jobs.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">patch_jobs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">PatchJob</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A pagination token that can be used to get the next page of results.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A high level representation of a patch job that is either in progress</span>
-<span class="doccomment">/// or has completed.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Instance details are not included in the job. To paginate through instance</span>
-<span class="doccomment">/// details, use `ListPatchJobInstanceDetails`.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// For more information about patch jobs, see</span>
-<span class="doccomment">/// [Creating patch</span>
-<span class="doccomment">/// jobs](&lt;https://cloud.google.com/compute/docs/os-patch-management/create-patch-job&gt;).</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PatchJob</span> {
-    <span class="doccomment">/// Unique identifier for this patch job in the form</span>
-    <span class="doccomment">/// `projects/*/patchJobs/*`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Display name for this patch job. This is not a unique identifier.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Description of the patch job. Length of the description is limited</span>
-    <span class="doccomment">/// to 1024 characters.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Time this patch job was created.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">create_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Last time this patch job was updated.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The current state of the PatchJob.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;patch_job::State&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Instances to patch.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instance_filter</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PatchInstanceFilter</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Patch configuration being applied.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">patch_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PatchConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Duration of the patch job. After the duration ends, the</span>
-    <span class="doccomment">/// patch job times out.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">duration</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Summary of instance details.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instance_details_summary</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">patch_job::InstanceDetailsSummary</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// If this patch job is a dry run, the agent reports that it has</span>
-    <span class="doccomment">/// finished without running any updates on the VM instance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dry_run</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// If this patch job failed, this message provides information about the</span>
-    <span class="doccomment">/// failure.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">error_message</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Reflects the overall progress of the patch job in the range of</span>
-    <span class="doccomment">/// 0.0 being no progress to 100.0 being complete.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">double</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">percent_complete</span>: <span class="ident">f64</span>,
-    <span class="doccomment">/// Output only. Name of the patch deployment that created this patch job.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">patch_deployment</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Rollout strategy being applied.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">rollout</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PatchRollout</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `PatchJob`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">patch_job</span> {
-    <span class="doccomment">/// A summary of the current patch state across all instances that this patch</span>
-    <span class="doccomment">/// job affects. Contains counts of instances in different states. These states</span>
-    <span class="doccomment">/// map to `InstancePatchState`. List patch job instance details to see the</span>
-    <span class="doccomment">/// specific states of each instance.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceDetailsSummary</span> {
-        <span class="doccomment">/// Number of instances pending patch job.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">pending_instance_count</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Number of instances that are inactive.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">inactive_instance_count</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Number of instances notified about patch job.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">notified_instance_count</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Number of instances that have started.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">started_instance_count</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Number of instances that are downloading patches.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">downloading_patches_instance_count</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Number of instances that are applying patches.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">applying_patches_instance_count</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Number of instances rebooting.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">rebooting_instance_count</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Number of instances that have completed successfully.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">succeeded_instance_count</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Number of instances that require reboot.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">succeeded_reboot_required_instance_count</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Number of instances that failed.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">failed_instance_count</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Number of instances that have acked and will start shortly.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">acked_instance_count</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Number of instances that exceeded the time out while applying the patch.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">timed_out_instance_count</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Number of instances that are running the pre-patch step.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">pre_patch_step_instance_count</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Number of instances that are running the post-patch step.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">post_patch_step_instance_count</span>: <span class="ident">i64</span>,
-        <span class="doccomment">/// Number of instances that do not appear to be running the agent. Check to</span>
-        <span class="doccomment">/// ensure that the agent is installed, running, and able to communicate with</span>
-        <span class="doccomment">/// the service.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;15&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">no_agent_detected_instance_count</span>: <span class="ident">i64</span>,
-    }
-    <span class="doccomment">/// Enumeration of the various states a patch job passes through as it</span>
-    <span class="doccomment">/// executes.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">State</span> {
-        <span class="doccomment">/// State must be specified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The patch job was successfully initiated.</span>
-        <span class="ident">Started</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The patch job is looking up instances to run the patch on.</span>
-        <span class="ident">InstanceLookup</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Instances are being patched.</span>
-        <span class="ident">Patching</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Patch job completed successfully.</span>
-        <span class="ident">Succeeded</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// Patch job completed but there were errors.</span>
-        <span class="ident">CompletedWithErrors</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// The patch job was canceled.</span>
-        <span class="ident">Canceled</span> <span class="op">=</span> <span class="number">6</span>,
-        <span class="doccomment">/// The patch job timed out.</span>
-        <span class="ident">TimedOut</span> <span class="op">=</span> <span class="number">7</span>,
-    }
-}
-<span class="doccomment">/// Patch configuration specifications. Contains details on how to apply the</span>
-<span class="doccomment">/// patch(es) to a VM instance.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PatchConfig</span> {
-    <span class="doccomment">/// Post-patch reboot settings.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;patch_config::RebootConfig&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">reboot_config</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Apt update settings. Use this setting to override the default `apt` patch</span>
-    <span class="doccomment">/// rules.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">apt</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AptSettings</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Yum update settings. Use this setting to override the default `yum` patch</span>
-    <span class="doccomment">/// rules.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">yum</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">YumSettings</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Goo update settings. Use this setting to override the default `goo` patch</span>
-    <span class="doccomment">/// rules.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">goo</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">GooSettings</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Zypper update settings. Use this setting to override the default `zypper`</span>
-    <span class="doccomment">/// patch rules.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">zypper</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ZypperSettings</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Windows update settings. Use this override the default windows patch rules.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">windows_update</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">WindowsUpdateSettings</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The `ExecStep` to run before the patch update.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">pre_step</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExecStep</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The `ExecStep` to run after the patch update.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">post_step</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExecStep</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Allows the patch job to run on Managed instance groups (MIGs).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mig_instances_allowed</span>: <span class="ident">bool</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `PatchConfig`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">patch_config</span> {
-    <span class="doccomment">/// Post-patch reboot settings.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RebootConfig</span> {
-        <span class="doccomment">/// The default behavior is DEFAULT.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The agent decides if a reboot is necessary by checking signals such as</span>
-        <span class="doccomment">/// registry keys on Windows or `/var/run/reboot-required` on APT based</span>
-        <span class="doccomment">/// systems. On RPM based systems, a set of core system package install times</span>
-        <span class="doccomment">/// are compared with system boot time.</span>
-        <span class="ident">Default</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Always reboot the machine after the update completes.</span>
-        <span class="ident">Always</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Never reboot the machine after the update completes.</span>
-        <span class="ident">Never</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// Namespace for instance state enums.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Instance</span> {}
-<span class="doccomment">/// Nested message and enum types in `Instance`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">instance</span> {
-    <span class="doccomment">/// Patch state of an instance.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PatchState</span> {
-        <span class="doccomment">/// Unspecified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The instance is not yet notified.</span>
-        <span class="ident">Pending</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Instance is inactive and cannot be patched.</span>
-        <span class="ident">Inactive</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// The instance is notified that it should be patched.</span>
-        <span class="ident">Notified</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// The instance has started the patching process.</span>
-        <span class="ident">Started</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// The instance is downloading patches.</span>
-        <span class="ident">DownloadingPatches</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// The instance is applying patches.</span>
-        <span class="ident">ApplyingPatches</span> <span class="op">=</span> <span class="number">6</span>,
-        <span class="doccomment">/// The instance is rebooting.</span>
-        <span class="ident">Rebooting</span> <span class="op">=</span> <span class="number">7</span>,
-        <span class="doccomment">/// The instance has completed applying patches.</span>
-        <span class="ident">Succeeded</span> <span class="op">=</span> <span class="number">8</span>,
-        <span class="doccomment">/// The instance has completed applying patches but a reboot is required.</span>
-        <span class="ident">SucceededRebootRequired</span> <span class="op">=</span> <span class="number">9</span>,
-        <span class="doccomment">/// The instance has failed to apply the patch.</span>
-        <span class="ident">Failed</span> <span class="op">=</span> <span class="number">10</span>,
-        <span class="doccomment">/// The instance acked the notification and will start shortly.</span>
-        <span class="ident">Acked</span> <span class="op">=</span> <span class="number">11</span>,
-        <span class="doccomment">/// The instance exceeded the time out while applying the patch.</span>
-        <span class="ident">TimedOut</span> <span class="op">=</span> <span class="number">12</span>,
-        <span class="doccomment">/// The instance is running the pre-patch step.</span>
-        <span class="ident">RunningPrePatchStep</span> <span class="op">=</span> <span class="number">13</span>,
-        <span class="doccomment">/// The instance is running the post-patch step.</span>
-        <span class="ident">RunningPostPatchStep</span> <span class="op">=</span> <span class="number">14</span>,
-        <span class="doccomment">/// The service could not detect the presence of the agent. Check to ensure</span>
-        <span class="doccomment">/// that the agent is installed, running, and able to communicate with the</span>
-        <span class="doccomment">/// service.</span>
-        <span class="ident">NoAgentDetected</span> <span class="op">=</span> <span class="number">15</span>,
-    }
-}
-<span class="doccomment">/// Message for canceling a patch job.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CancelPatchJobRequest</span> {
-    <span class="doccomment">/// Required. Name of the patch in the form `projects/*/patchJobs/*`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Apt patching is completed by executing `apt-get update &amp;&amp; apt-get</span>
-<span class="doccomment">/// upgrade`. Additional options can be set to control how this is executed.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AptSettings</span> {
-    <span class="doccomment">/// By changing the type to DIST, the patching is performed</span>
-    <span class="doccomment">/// using `apt-get dist-upgrade` instead.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;apt_settings::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// List of packages to exclude from update. These packages will be excluded</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">excludes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// An exclusive list of packages to be updated. These are the only packages</span>
-    <span class="doccomment">/// that will be updated. If these packages are not installed, they will be</span>
-    <span class="doccomment">/// ignored. This field cannot be specified with any other patch configuration</span>
-    <span class="doccomment">/// fields.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">exclusive_packages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `AptSettings`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">apt_settings</span> {
-    <span class="doccomment">/// Apt patch type.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
-        <span class="doccomment">/// By default, upgrade will be performed.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Runs `apt-get dist-upgrade`.</span>
-        <span class="ident">Dist</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Runs `apt-get upgrade`.</span>
-        <span class="ident">Upgrade</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
-<span class="doccomment">/// Yum patching is performed by executing `yum update`. Additional options</span>
-<span class="doccomment">/// can be set to control how this is executed.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Note that not all settings are supported on all platforms.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">YumSettings</span> {
-    <span class="doccomment">/// Adds the `--security` flag to `yum update`. Not supported on</span>
-    <span class="doccomment">/// all platforms.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">security</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Will cause patch to run `yum update-minimal` instead.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">minimal</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// List of packages to exclude from update. These packages are excluded by</span>
-    <span class="doccomment">/// using the yum `--exclude` flag.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">excludes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// An exclusive list of packages to be updated. These are the only packages</span>
-    <span class="doccomment">/// that will be updated. If these packages are not installed, they will be</span>
-    <span class="doccomment">/// ignored. This field must not be specified with any other patch</span>
-    <span class="doccomment">/// configuration fields.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">exclusive_packages</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Googet patching is performed by running `googet update`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GooSettings</span> {}
-<span class="doccomment">/// Zypper patching is performed by running `zypper patch`.</span>
-<span class="doccomment">/// See also &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ZypperSettings</span> {
-    <span class="doccomment">/// Adds the `--with-optional` flag to `zypper patch`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">with_optional</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Adds the `--with-update` flag, to `zypper patch`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">with_update</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Install only patches with these categories.</span>
-    <span class="doccomment">/// Common categories include security, recommended, and feature.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">categories</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Install only patches with these severities.</span>
-    <span class="doccomment">/// Common severities include critical, important, moderate, and low.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">severities</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// List of patches to exclude from update.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">excludes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// An exclusive list of patches to be updated. These are the only patches</span>
-    <span class="doccomment">/// that will be installed using &#39;zypper patch patch:&lt;patch_name&gt;&#39; command.</span>
-    <span class="doccomment">/// This field must not be used with any other patch configuration fields.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">exclusive_patches</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Windows patching is performed using the Windows Update Agent.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WindowsUpdateSettings</span> {
-    <span class="doccomment">/// Only apply updates of these windows update classifications. If empty, all</span>
-    <span class="doccomment">/// updates are applied.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;windows_update_settings::Classification&quot;</span>,
-        <span class="ident">repeated</span>,
-        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">classifications</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// List of KBs to exclude from update.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">excludes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// An exclusive list of kbs to be updated. These are the only patches</span>
-    <span class="doccomment">/// that will be updated. This field must not be used with other</span>
-    <span class="doccomment">/// patch configurations.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">exclusive_patches</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `WindowsUpdateSettings`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">windows_update_settings</span> {
-    <span class="doccomment">/// Microsoft Windows update classifications as defined in</span>
-    <span class="doccomment">/// \[1\]</span>
-    <span class="doccomment">/// &lt;https://support.microsoft.com/en-us/help/824684/description-of-the-standard-terminology-that-is-used-to-describe-micro&gt;</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Classification</span> {
-        <span class="doccomment">/// Invalid. If classifications are included, they must be specified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// &quot;A widely released fix for a specific problem that addresses a critical,</span>
-        <span class="doccomment">/// non-security-related bug.&quot; \[1\]</span>
-        <span class="ident">Critical</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// &quot;A widely released fix for a product-specific, security-related</span>
-        <span class="doccomment">/// vulnerability. Security vulnerabilities are rated by their severity. The</span>
-        <span class="doccomment">/// severity rating is indicated in the Microsoft security bulletin as</span>
-        <span class="doccomment">/// critical, important, moderate, or low.&quot; \[1\]</span>
-        <span class="ident">Security</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// &quot;A widely released and frequent software update that contains additions</span>
-        <span class="doccomment">/// to a product&#39;s definition database. Definition databases are often used</span>
-        <span class="doccomment">/// to detect objects that have specific attributes, such as malicious code,</span>
-        <span class="doccomment">/// phishing websites, or junk mail.&quot; \[1\]</span>
-        <span class="ident">Definition</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// &quot;Software that controls the input and output of a device.&quot; \[1\]</span>
-        <span class="ident">Driver</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// &quot;New product functionality that is first distributed outside the context</span>
-        <span class="doccomment">/// of a product release and that is typically included in the next full</span>
-        <span class="doccomment">/// product release.&quot; \[1\]</span>
-        <span class="ident">FeaturePack</span> <span class="op">=</span> <span class="number">5</span>,
-        <span class="doccomment">/// &quot;A tested, cumulative set of all hotfixes, security updates, critical</span>
-        <span class="doccomment">/// updates, and updates. Additionally, service packs may contain additional</span>
-        <span class="doccomment">/// fixes for problems that are found internally since the release of the</span>
-        <span class="doccomment">/// product. Service packs my also contain a limited number of</span>
-        <span class="doccomment">/// customer-requested design changes or features.&quot; \[1\]</span>
-        <span class="ident">ServicePack</span> <span class="op">=</span> <span class="number">6</span>,
-        <span class="doccomment">/// &quot;A utility or feature that helps complete a task or set of tasks.&quot; \[1\]</span>
-        <span class="ident">Tool</span> <span class="op">=</span> <span class="number">7</span>,
-        <span class="doccomment">/// &quot;A tested, cumulative set of hotfixes, security updates, critical</span>
-        <span class="doccomment">/// updates, and updates that are packaged together for easy deployment. A</span>
-        <span class="doccomment">/// rollup generally targets a specific area, such as security, or a</span>
-        <span class="doccomment">/// component of a product, such as Internet Information Services (IIS).&quot; \[1\]</span>
-        <span class="ident">UpdateRollup</span> <span class="op">=</span> <span class="number">8</span>,
-        <span class="doccomment">/// &quot;A widely released fix for a specific problem. An update addresses a</span>
-        <span class="doccomment">/// noncritical, non-security-related bug.&quot; \[1\]</span>
-        <span class="ident">Update</span> <span class="op">=</span> <span class="number">9</span>,
-    }
-}
-<span class="doccomment">/// A step that runs an executable for a PatchJob.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecStep</span> {
-    <span class="doccomment">/// The ExecStepConfig for all Linux VMs targeted by the PatchJob.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">linux_exec_step_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExecStepConfig</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The ExecStepConfig for all Windows VMs targeted by the PatchJob.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">windows_exec_step_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">ExecStepConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Common configurations for an ExecStep.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecStepConfig</span> {
-    <span class="doccomment">/// Defaults to \[0\]. A list of possible return values that the</span>
-    <span class="doccomment">/// execution can return to indicate a success.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">allowed_success_codes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The script interpreter to use to run the script. If no interpreter is</span>
-    <span class="doccomment">/// specified the script will be executed directly, which will likely</span>
-    <span class="doccomment">/// only succeed for scripts with [shebang lines]</span>
-    <span class="doccomment">/// (&lt;https://en.wikipedia.org/wiki/Shebang_\(Unix\&gt;)).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;exec_step_config::Interpreter&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">interpreter</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Location of the executable.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;exec_step_config::Executable&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">executable</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">exec_step_config::Executable</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `ExecStepConfig`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">exec_step_config</span> {
-    <span class="doccomment">/// The interpreter used to execute the a file.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Interpreter</span> {
-        <span class="doccomment">/// Invalid for a Windows ExecStepConfig. For a Linux ExecStepConfig, the</span>
-        <span class="doccomment">/// interpreter will be parsed from the shebang line of the script if</span>
-        <span class="doccomment">/// unspecified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Indicates that the script is run with `/bin/sh` on Linux and `cmd`</span>
-        <span class="doccomment">/// on Windows.</span>
-        <span class="ident">Shell</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Indicates that the file is run with PowerShell flags</span>
-        <span class="doccomment">/// `-NonInteractive`, `-NoProfile`, and `-ExecutionPolicy Bypass`.</span>
-        <span class="ident">Powershell</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="doccomment">/// Location of the executable.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Executable</span> {
-        <span class="doccomment">/// An absolute path to the executable on the VM.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">LocalPath</span>(<span class="ident">::prost::alloc::string::String</span>),
-        <span class="doccomment">/// A Google Cloud Storage object containing the executable.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">GcsObject</span>(<span class="ident"><span class="kw">super</span>::GcsObject</span>),
-    }
-}
-<span class="doccomment">/// Google Cloud Storage object representation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsObject</span> {
-    <span class="doccomment">/// Required. Bucket of the Google Cloud Storage object.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Name of the Google Cloud Storage object.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">object</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Generation number of the Google Cloud Storage object. This is used to</span>
-    <span class="doccomment">/// ensure that the ExecStep specified by this PatchJob does not change.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">generation_number</span>: <span class="ident">i64</span>,
-}
-<span class="doccomment">/// A filter to target VM instances for patching. The targeted</span>
-<span class="doccomment">/// VMs must meet all criteria specified. So if both labels and zones are</span>
-<span class="doccomment">/// specified, the patch job targets only VMs with those labels and in those</span>
-<span class="doccomment">/// zones.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PatchInstanceFilter</span> {
-    <span class="doccomment">/// Target all VM instances in the project. If true, no other criteria is</span>
-    <span class="doccomment">/// permitted.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">all</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Targets VM instances matching at least one of these label sets. This allows</span>
-    <span class="doccomment">/// targeting of disparate groups, for example &quot;env=prod or env=staging&quot;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">group_labels</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">patch_instance_filter::GroupLabel</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Targets VM instances in ANY of these zones. Leave empty to target VM</span>
-    <span class="doccomment">/// instances in any zone.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">zones</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Targets any of the VM instances specified. Instances are specified by their</span>
-    <span class="doccomment">/// URI in the form `zones/\[ZONE]/instances/[INSTANCE_NAME\]`,</span>
-    <span class="doccomment">/// `projects/\[PROJECT_ID]/zones/[ZONE]/instances/[INSTANCE_NAME\]`, or</span>
-    <span class="doccomment">/// `&lt;https://www.googleapis.com/compute/v1/projects/\[PROJECT_ID]/zones/[ZONE]/instances/[INSTANCE_NAME\]`&gt;</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instances</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Targets VMs whose name starts with one of these prefixes. Similar to</span>
-    <span class="doccomment">/// labels, this is another way to group VMs when targeting configs, for</span>
-    <span class="doccomment">/// example prefix=&quot;prod-&quot;.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instance_name_prefixes</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `PatchInstanceFilter`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">patch_instance_filter</span> {
-    <span class="doccomment">/// Represents a group of VMs that can be identified as having all these</span>
-    <span class="doccomment">/// labels, for example &quot;env=prod and app=web&quot;.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GroupLabel</span> {
-        <span class="doccomment">/// Compute Engine instance labels that must be present for a VM instance to</span>
-        <span class="doccomment">/// be targeted by this filter.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, string&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">labels</span>: <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span>
-            <span class="ident">::prost::alloc::string::String</span>,
-            <span class="ident">::prost::alloc::string::String</span>,
-        <span class="op">&gt;</span>,
-    }
-}
-<span class="doccomment">/// Patch rollout configuration specifications. Contains details on the</span>
-<span class="doccomment">/// concurrency control when applying patch(es) to all targeted VMs.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PatchRollout</span> {
-    <span class="doccomment">/// Mode of the patch rollout.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;patch_rollout::Mode&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mode</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The maximum number (or percentage) of VMs per zone to disrupt at any given</span>
-    <span class="doccomment">/// moment. The number of VMs calculated from multiplying the percentage by the</span>
-    <span class="doccomment">/// total number of VMs in a zone is rounded up.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// During patching, a VM is considered disrupted from the time the agent is</span>
-    <span class="doccomment">/// notified to begin until patching has completed. This disruption time</span>
-    <span class="doccomment">/// includes the time to complete reboot and any post-patch steps.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// A VM contributes to the disruption budget if its patching operation fails</span>
-    <span class="doccomment">/// either when applying the patches, running pre or post patch steps, or if it</span>
-    <span class="doccomment">/// fails to respond with a success notification before timing out. VMs that</span>
-    <span class="doccomment">/// are not running or do not have an active agent do not count toward this</span>
-    <span class="doccomment">/// disruption budget.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For zone-by-zone rollouts, if the disruption budget in a zone is exceeded,</span>
-    <span class="doccomment">/// the patch job stops, because continuing to the next zone requires</span>
-    <span class="doccomment">/// completion of the patch process in the previous zone.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For example, if the disruption budget has a fixed value of `10`, and 8 VMs</span>
-    <span class="doccomment">/// fail to patch in the current zone, the patch job continues to patch 2 VMs</span>
-    <span class="doccomment">/// at a time until the zone is completed. When that zone is completed</span>
-    <span class="doccomment">/// successfully, patching begins with 10 VMs at a time in the next zone. If 10</span>
-    <span class="doccomment">/// VMs in the next zone fail to patch, the patch job stops.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">disruption_budget</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">FixedOrPercent</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `PatchRollout`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">patch_rollout</span> {
-    <span class="doccomment">/// Type of the rollout.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Mode</span> {
-        <span class="doccomment">/// Mode must be specified.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Patches are applied one zone at a time. The patch job begins in the</span>
-        <span class="doccomment">/// region with the lowest number of targeted VMs. Within the region,</span>
-        <span class="doccomment">/// patching begins in the zone with the lowest number of targeted VMs. If</span>
-        <span class="doccomment">/// multiple regions (or zones within a region) have the same number of</span>
-        <span class="doccomment">/// targeted VMs, a tie-breaker is achieved by sorting the regions or zones</span>
-        <span class="doccomment">/// in alphabetical order.</span>
-        <span class="ident">ZoneByZone</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Patches are applied to VMs in all zones at the same time.</span>
-        <span class="ident">ConcurrentZones</span> <span class="op">=</span> <span class="number">2</span>,
-    }
 }
 <span class="doccomment">/// Patch deployments are configurations that individual patch jobs use to</span>
 <span class="doccomment">/// complete a patch. These configurations include instance filter, package</span>

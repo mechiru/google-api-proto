@@ -1717,36 +1717,6 @@
     <span class="doccomment">/// Release render status changed notification.</span>
     <span class="ident">RenderStatuesChange</span> <span class="op">=</span> <span class="number">2</span>,
 }
-<span class="doccomment">/// Payload proto for &quot;clouddeploy.googleapis.com/target_notification&quot;</span>
-<span class="doccomment">/// Platform Log event that describes the failure to send target status change</span>
-<span class="doccomment">/// Pub/Sub notification.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TargetNotificationEvent</span> {
-    <span class="doccomment">/// Debug message for when a notification fails to send.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The name of the `Target`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">target</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Payload proto for &quot;clouddeploy.googleapis.com/release_notification&quot;</span>
-<span class="doccomment">/// Platform Log event that describes the failure to send release status change</span>
-<span class="doccomment">/// Pub/Sub notification.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReleaseNotificationEvent</span> {
-    <span class="doccomment">/// Debug message for when a notification fails to send.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The name of the `Release`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">release</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-}
 <span class="doccomment">/// Payload proto for &quot;clouddeploy.googleapis.com/rollout_notification&quot;</span>
 <span class="doccomment">/// Platform Log event that describes the failure to send rollout status change</span>
 <span class="doccomment">/// Pub/Sub notification.</span>
@@ -1770,6 +1740,21 @@
     <span class="doccomment">/// ID of the `Target` that the rollout is deployed to.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">target_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Payload proto for &quot;clouddeploy.googleapis.com/deliverypipeline_notification&quot;</span>
+<span class="doccomment">/// Platform Log event that describes the failure to send delivery pipeline</span>
+<span class="doccomment">/// status change Pub/Sub notification.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeliveryPipelineNotificationEvent</span> {
+    <span class="doccomment">/// Debug message for when a notification fails to send.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The name of the `Delivery Pipeline`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">delivery_pipeline</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
 }
 <span class="doccomment">/// A `DeliveryPipeline` resource in the Google Cloud Deploy API.</span>
 <span class="doccomment">///</span>
@@ -3385,17 +3370,32 @@
         }
     }
 }
-<span class="doccomment">/// Payload proto for &quot;clouddeploy.googleapis.com/deliverypipeline_notification&quot;</span>
-<span class="doccomment">/// Platform Log event that describes the failure to send delivery pipeline</span>
-<span class="doccomment">/// status change Pub/Sub notification.</span>
+<span class="doccomment">/// Payload proto for &quot;clouddeploy.googleapis.com/target_notification&quot;</span>
+<span class="doccomment">/// Platform Log event that describes the failure to send target status change</span>
+<span class="doccomment">/// Pub/Sub notification.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeliveryPipelineNotificationEvent</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TargetNotificationEvent</span> {
     <span class="doccomment">/// Debug message for when a notification fails to send.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The name of the `Delivery Pipeline`.</span>
+    <span class="doccomment">/// The name of the `Target`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">delivery_pipeline</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="kw">pub</span> <span class="ident">target</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Payload proto for &quot;clouddeploy.googleapis.com/release_notification&quot;</span>
+<span class="doccomment">/// Platform Log event that describes the failure to send release status change</span>
+<span class="doccomment">/// Pub/Sub notification.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReleaseNotificationEvent</span> {
+    <span class="doccomment">/// Debug message for when a notification fails to send.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The name of the `Release`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">release</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,

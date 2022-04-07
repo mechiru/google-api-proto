@@ -4282,261 +4282,6 @@
         }
     }
 }
-<span class="doccomment">/// Entry metadata relevant only to the user and private to them.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PersonalDetails</span> {
-    <span class="doccomment">/// True if the entry is starred by the user; false otherwise.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">starred</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Set if the entry is starred; unset otherwise.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">star_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// This enum lists all the systems that Data Catalog integrates with.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">IntegratedSystem</span> {
-    <span class="doccomment">/// Default unknown system.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// BigQuery.</span>
-    <span class="ident">Bigquery</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Cloud Pub/Sub.</span>
-    <span class="ident">CloudPubsub</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Dataproc Metastore.</span>
-    <span class="ident">DataprocMetastore</span> <span class="op">=</span> <span class="number">3</span>,
-}
-<span class="doccomment">/// Result in the response to a search request.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Each result captures details of one entry that matches the search.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SearchCatalogResult</span> {
-    <span class="doccomment">/// Type of the search result.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// You can use this field to determine which get method to call to fetch the</span>
-    <span class="doccomment">/// full resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;SearchResultType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">search_result_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Sub-type of the search result.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// A dot-delimited full type of the resource. The same type you</span>
-    <span class="doccomment">/// specify in the `type` search predicate.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Examples: `entry.table`, `entry.dataStream`, `tagTemplate`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">search_result_subtype</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The relative name of the resource in URL format.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Examples:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///  * `projects/{PROJECT_ID}/locations/{LOCATION_ID}/entryGroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`</span>
-    <span class="doccomment">///  * `projects/{PROJECT_ID}/tagTemplates/{TAG_TEMPLATE_ID}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">relative_resource_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The full name of the Google Cloud resource the entry belongs to.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For more information, see [Full Resource Name]</span>
-    <span class="doccomment">/// (/apis/design/resource_names#full_resource_name).</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `//bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">linked_resource</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The last modification timestamp of the entry in the source system.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">modify_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Fully qualified name (FQN) of the resource.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// FQNs take two forms:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * For non-regionalized resources:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///   `{SYSTEM}:{PROJECT}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * For regionalized resources:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///   `{SYSTEM}:{PROJECT}.{LOCATION_ID}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Example for a DPMS table:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `dataproc_metastore:PROJECT_ID.LOCATION_ID.INSTANCE_ID.DATABASE_ID.TABLE_ID`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">fully_qualified_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The display name of the result.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Entry description that can consist of several sentences or paragraphs that</span>
-    <span class="doccomment">/// describe entry contents.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The source system of the entry. Applicable only when the</span>
-    <span class="doccomment">/// `search_result_type` is `ENTRY`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;search_catalog_result::System&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;8, 9&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">system</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">search_catalog_result::System</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `SearchCatalogResult`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">search_catalog_result</span> {
-    <span class="doccomment">/// The source system of the entry. Applicable only when the</span>
-    <span class="doccomment">/// `search_result_type` is `ENTRY`.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">System</span> {
-        <span class="doccomment">/// Output only. The source system that Data Catalog automatically integrates  with, such</span>
-        <span class="doccomment">/// as BigQuery, Cloud Pub/Sub, or Dataproc Metastore.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::IntegratedSystem&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-        <span class="ident">IntegratedSystem</span>(<span class="ident">i32</span>),
-        <span class="doccomment">/// Custom source system that you can manually integrate Data Catalog with.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
-        <span class="ident">UserSpecifiedSystem</span>(<span class="ident">::prost::alloc::string::String</span>),
-    }
-}
-<span class="doccomment">/// The resource types that can be returned in search results.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SearchResultType</span> {
-    <span class="doccomment">/// Default unknown type.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// An \[Entry][google.cloud.datacatalog.v1.Entry\].</span>
-    <span class="ident">Entry</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// A \[TagTemplate][google.cloud.datacatalog.v1.TagTemplate\].</span>
-    <span class="ident">TagTemplate</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// An \[EntryGroup][google.cloud.datacatalog.v1.EntryGroup\].</span>
-    <span class="ident">EntryGroup</span> <span class="op">=</span> <span class="number">3</span>,
-}
-<span class="doccomment">/// Describes a Cloud Storage fileset entry.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsFilesetSpec</span> {
-    <span class="doccomment">/// Required. Patterns to identify a set of files in Google Cloud Storage.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For more information, see [Wildcard Names]</span>
-    <span class="doccomment">/// (&lt;https://cloud.google.com/storage/docs/gsutil/addlhelp/WildcardNames&gt;).</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note: Currently, bucket wildcards are not supported.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Examples of valid `file_patterns`:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///  * `gs://bucket_name/dir/*`: matches all files in `bucket_name/dir`</span>
-    <span class="doccomment">///                              directory</span>
-    <span class="doccomment">///  * `gs://bucket_name/dir/**`: matches all files in `bucket_name/dir`</span>
-    <span class="doccomment">///                               and all subdirectories</span>
-    <span class="doccomment">///  * `gs://bucket_name/file*`: matches files prefixed by `file` in</span>
-    <span class="doccomment">///                              `bucket_name`</span>
-    <span class="doccomment">///  * `gs://bucket_name/??.txt`: matches files with two characters followed by</span>
-    <span class="doccomment">///                               `.txt` in `bucket_name`</span>
-    <span class="doccomment">///  * `gs://bucket_name/\[aeiou\].txt`: matches files that contain a single</span>
-    <span class="doccomment">///                                    vowel character followed by `.txt` in</span>
-    <span class="doccomment">///                                    `bucket_name`</span>
-    <span class="doccomment">///  * `gs://bucket_name/\[a-m\].txt`: matches files that contain `a`, `b`, ...</span>
-    <span class="doccomment">///                                  or `m` followed by `.txt` in `bucket_name`</span>
-    <span class="doccomment">///  * `gs://bucket_name/a/*/b`: matches all files in `bucket_name` that match</span>
-    <span class="doccomment">///                              the `a/*/b` pattern, such as `a/c/b`, `a/d/b`</span>
-    <span class="doccomment">///  * `gs://another_bucket/a.txt`: matches `gs://another_bucket/a.txt`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// You can combine wildcards to match complex sets of files, for example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `gs://bucket_name/\[a-m\]??.j*g`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">file_patterns</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Sample files contained in this fileset, not all files</span>
-    <span class="doccomment">/// contained in this fileset are represented here.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">sample_gcs_file_specs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">GcsFileSpec</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Specification of a single file in Cloud Storage.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsFileSpec</span> {
-    <span class="doccomment">/// Required. Full file path. Example: `gs://bucket_name/a/b.txt`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">file_path</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Creation, modification, and expiration timestamps of a Cloud Storage file.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">gcs_timestamps</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">SystemTimestamps</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. File size in bytes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">size_bytes</span>: <span class="ident">i64</span>,
-}
-<span class="doccomment">/// Detailed statistics on the entry&#39;s usage.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Usage statistics have the following limitations:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// - Only BigQuery tables have them.</span>
-<span class="doccomment">/// - They only include BigQuery query jobs.</span>
-<span class="doccomment">/// - They might be underestimated because wildcard table references</span>
-<span class="doccomment">///   are not yet counted. For more information, see</span>
-<span class="doccomment">///   [Querying multiple tables using a wildcard table]</span>
-<span class="doccomment">///   (&lt;https://cloud.google.com/bigquery/docs/querying-wildcard-tables&gt;)</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UsageStats</span> {
-    <span class="doccomment">/// The number of successful uses of the underlying entry.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">total_completions</span>: <span class="ident">f32</span>,
-    <span class="doccomment">/// The number of failed attempts to use the underlying entry.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">total_failures</span>: <span class="ident">f32</span>,
-    <span class="doccomment">/// The number of cancelled attempts to use the underlying entry.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">total_cancellations</span>: <span class="ident">f32</span>,
-    <span class="doccomment">/// Total time spent only on successful uses, in milliseconds.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">total_execution_time_for_completions_millis</span>: <span class="ident">f32</span>,
-}
-<span class="doccomment">/// The set of all usage signals that Data Catalog stores.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Note: Usually, these signals are updated daily. In rare cases, an update may</span>
-<span class="doccomment">/// fail but will be performed again on the next day.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UsageSignal</span> {
-    <span class="doccomment">/// The end timestamp of the duration of usage statistics.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Usage statistics over each of the predefined time ranges.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Supported time ranges are `{&quot;24H&quot;, &quot;7D&quot;, &quot;30D&quot;}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">usage_within_time_range</span>:
-        <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">UsageStats</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Represents a schema, for example, a BigQuery, GoogleSQL, or Avro schema.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Schema</span> {
-    <span class="doccomment">/// The unified GoogleSQL-like schema of columns.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The overall maximum number of columns and nested columns is 10,000.</span>
-    <span class="doccomment">/// The maximum nested depth is 15 levels.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">columns</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ColumnSchema</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// A column within a schema. Columns can be nested inside</span>
-<span class="doccomment">/// other columns.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ColumnSchema</span> {
-    <span class="doccomment">/// Required. Name of the column.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Must be a UTF-8 string without dots (.).</span>
-    <span class="doccomment">/// The maximum size is 64 bytes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">column</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Type of the column.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Must be a UTF-8 string with the maximum size of 128 bytes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Description of the column. Default value is an empty string.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The description must be a UTF-8 string with the maximum size of 2000</span>
-    <span class="doccomment">/// bytes.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. A column&#39;s mode indicates whether values in this column are required,</span>
-    <span class="doccomment">/// nullable, or repeated.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Only `NULLABLE`, `REQUIRED`, and `REPEATED` values are supported.</span>
-    <span class="doccomment">/// Default mode is `NULLABLE`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mode</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. Schema of sub-columns. A column can have zero or more sub-columns.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">subcolumns</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ColumnSchema</span><span class="op">&gt;</span>,
-}
 <span class="doccomment">/// Physical location of an entry.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DataSource</span> {
@@ -4562,159 +4307,6 @@
         <span class="doccomment">/// BigQuery service.</span>
         <span class="ident">Bigquery</span> <span class="op">=</span> <span class="number">2</span>,
     }
-}
-<span class="doccomment">/// Describes a BigQuery table.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BigQueryTableSpec</span> {
-    <span class="doccomment">/// Output only. The table source type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;TableSourceType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">table_source_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;big_query_table_spec::TypeSpec&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">type_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">big_query_table_spec::TypeSpec</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `BigQueryTableSpec`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">big_query_table_spec</span> {
-    <span class="doccomment">/// Output only.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TypeSpec</span> {
-        <span class="doccomment">/// Table view specification. Populated only if</span>
-        <span class="doccomment">/// the `table_source_type` is `BIGQUERY_VIEW`.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">ViewSpec</span>(<span class="ident"><span class="kw">super</span>::ViewSpec</span>),
-        <span class="doccomment">/// Specification of a BigQuery table. Populated only if</span>
-        <span class="doccomment">/// the `table_source_type` is `BIGQUERY_TABLE`.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-        <span class="ident">TableSpec</span>(<span class="ident"><span class="kw">super</span>::TableSpec</span>),
-    }
-}
-<span class="doccomment">/// Table view specification.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ViewSpec</span> {
-    <span class="doccomment">/// Output only. The query that defines the table view.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">view_query</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Normal BigQuery table specification.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableSpec</span> {
-    <span class="doccomment">/// Output only. If the table is date-sharded, that is, it matches the `\[prefix\]YYYYMMDD`</span>
-    <span class="doccomment">/// name pattern, this field is the Data Catalog resource name of the</span>
-    <span class="doccomment">/// date-sharded grouped entry. For example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `projects/{PROJECT_ID}/locations/{LOCATION}/entrygroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Otherwise, `grouped_entry` is empty.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">grouped_entry</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Specification for a group of BigQuery tables with the `\[prefix\]YYYYMMDD` name</span>
-<span class="doccomment">/// pattern.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// For more information, see [Introduction to partitioned tables]</span>
-<span class="doccomment">/// (&lt;https://cloud.google.com/bigquery/docs/partitioned-tables#partitioning_versus_sharding&gt;).</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BigQueryDateShardedSpec</span> {
-    <span class="doccomment">/// Output only. The Data Catalog resource name of the dataset entry the current table</span>
-    <span class="doccomment">/// belongs to. For example:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `projects/{PROJECT_ID}/locations/{LOCATION}/entrygroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">dataset</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The table name prefix of the shards.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The name of any given shard is `\[table_prefix\]YYYYMMDD`.</span>
-    <span class="doccomment">/// For example, for the `MyTable20180101` shard, the</span>
-    <span class="doccomment">/// `table_prefix` is `MyTable`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">table_prefix</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Total number of shards.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">shard_count</span>: <span class="ident">i64</span>,
-    <span class="doccomment">/// Output only. BigQuery resource name of the latest shard.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">latest_shard_resource</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Table source type.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TableSourceType</span> {
-    <span class="doccomment">/// Default unknown type.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Table view.</span>
-    <span class="ident">BigqueryView</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// BigQuery native table.</span>
-    <span class="ident">BigqueryTable</span> <span class="op">=</span> <span class="number">5</span>,
-    <span class="doccomment">/// BigQuery materialized view.</span>
-    <span class="ident">BigqueryMaterializedView</span> <span class="op">=</span> <span class="number">7</span>,
-}
-<span class="doccomment">/// Specification for the BigQuery connection.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BigQueryConnectionSpec</span> {
-    <span class="doccomment">/// The type of the BigQuery connection.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;big_query_connection_spec::ConnectionType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">connection_type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// True if there are credentials attached to the BigQuery connection; false</span>
-    <span class="doccomment">/// otherwise.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">has_credential</span>: <span class="ident">bool</span>,
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;big_query_connection_spec::ConnectionSpec&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">connection_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">big_query_connection_spec::ConnectionSpec</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `BigQueryConnectionSpec`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">big_query_connection_spec</span> {
-    <span class="doccomment">/// The type of the BigQuery connection.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ConnectionType</span> {
-        <span class="doccomment">/// Unspecified type.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Cloud SQL connection.</span>
-        <span class="ident">CloudSql</span> <span class="op">=</span> <span class="number">1</span>,
-    }
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ConnectionSpec</span> {
-        <span class="doccomment">/// Specification for the BigQuery connection to a Cloud SQL instance.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">CloudSql</span>(<span class="ident"><span class="kw">super</span>::CloudSqlBigQueryConnectionSpec</span>),
-    }
-}
-<span class="doccomment">/// Specification for the BigQuery connection to a Cloud SQL instance.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CloudSqlBigQueryConnectionSpec</span> {
-    <span class="doccomment">/// Cloud SQL instance ID in the format of `project:location:instance`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instance_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Database name.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">database</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Type of the Cloud SQL database.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(
-        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cloud_sql_big_query_connection_spec::DatabaseType&quot;</span>,
-        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>
-    )]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `CloudSqlBigQueryConnectionSpec`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cloud_sql_big_query_connection_spec</span> {
-    <span class="doccomment">/// Supported Cloud SQL database types.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DatabaseType</span> {
-        <span class="doccomment">/// Unspecified database type.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Cloud SQL for PostgreSQL.</span>
-        <span class="ident">Postgres</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Cloud SQL for MySQL.</span>
-        <span class="ident">Mysql</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
-<span class="doccomment">/// Fields specific for BigQuery routines.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BigQueryRoutineSpec</span> {
-    <span class="doccomment">/// Paths of the imported libraries.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">imported_libraries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Tags contain custom metadata and are attached to Data Catalog resources. Tags</span>
 <span class="doccomment">/// conform with the specification of their tag template.</span>
@@ -4985,6 +4577,414 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">EnumType</span>(<span class="ident">EnumType</span>),
     }
+}
+<span class="doccomment">/// Detailed statistics on the entry&#39;s usage.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Usage statistics have the following limitations:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - Only BigQuery tables have them.</span>
+<span class="doccomment">/// - They only include BigQuery query jobs.</span>
+<span class="doccomment">/// - They might be underestimated because wildcard table references</span>
+<span class="doccomment">///   are not yet counted. For more information, see</span>
+<span class="doccomment">///   [Querying multiple tables using a wildcard table]</span>
+<span class="doccomment">///   (&lt;https://cloud.google.com/bigquery/docs/querying-wildcard-tables&gt;)</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UsageStats</span> {
+    <span class="doccomment">/// The number of successful uses of the underlying entry.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">total_completions</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// The number of failed attempts to use the underlying entry.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">total_failures</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// The number of cancelled attempts to use the underlying entry.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">total_cancellations</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// Total time spent only on successful uses, in milliseconds.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">float</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">total_execution_time_for_completions_millis</span>: <span class="ident">f32</span>,
+}
+<span class="doccomment">/// The set of all usage signals that Data Catalog stores.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Note: Usually, these signals are updated daily. In rare cases, an update may</span>
+<span class="doccomment">/// fail but will be performed again on the next day.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UsageSignal</span> {
+    <span class="doccomment">/// The end timestamp of the duration of usage statistics.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Usage statistics over each of the predefined time ranges.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Supported time ranges are `{&quot;24H&quot;, &quot;7D&quot;, &quot;30D&quot;}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">btree_map</span> <span class="op">=</span> <span class="string">&quot;string, message&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">usage_within_time_range</span>:
+        <span class="ident">::prost::alloc::collections::BTreeMap</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span>, <span class="ident">UsageStats</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Describes a Cloud Storage fileset entry.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsFilesetSpec</span> {
+    <span class="doccomment">/// Required. Patterns to identify a set of files in Google Cloud Storage.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For more information, see [Wildcard Names]</span>
+    <span class="doccomment">/// (&lt;https://cloud.google.com/storage/docs/gsutil/addlhelp/WildcardNames&gt;).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note: Currently, bucket wildcards are not supported.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Examples of valid `file_patterns`:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  * `gs://bucket_name/dir/*`: matches all files in `bucket_name/dir`</span>
+    <span class="doccomment">///                              directory</span>
+    <span class="doccomment">///  * `gs://bucket_name/dir/**`: matches all files in `bucket_name/dir`</span>
+    <span class="doccomment">///                               and all subdirectories</span>
+    <span class="doccomment">///  * `gs://bucket_name/file*`: matches files prefixed by `file` in</span>
+    <span class="doccomment">///                              `bucket_name`</span>
+    <span class="doccomment">///  * `gs://bucket_name/??.txt`: matches files with two characters followed by</span>
+    <span class="doccomment">///                               `.txt` in `bucket_name`</span>
+    <span class="doccomment">///  * `gs://bucket_name/\[aeiou\].txt`: matches files that contain a single</span>
+    <span class="doccomment">///                                    vowel character followed by `.txt` in</span>
+    <span class="doccomment">///                                    `bucket_name`</span>
+    <span class="doccomment">///  * `gs://bucket_name/\[a-m\].txt`: matches files that contain `a`, `b`, ...</span>
+    <span class="doccomment">///                                  or `m` followed by `.txt` in `bucket_name`</span>
+    <span class="doccomment">///  * `gs://bucket_name/a/*/b`: matches all files in `bucket_name` that match</span>
+    <span class="doccomment">///                              the `a/*/b` pattern, such as `a/c/b`, `a/d/b`</span>
+    <span class="doccomment">///  * `gs://another_bucket/a.txt`: matches `gs://another_bucket/a.txt`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// You can combine wildcards to match complex sets of files, for example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `gs://bucket_name/\[a-m\]??.j*g`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">file_patterns</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Sample files contained in this fileset, not all files</span>
+    <span class="doccomment">/// contained in this fileset are represented here.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">sample_gcs_file_specs</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">GcsFileSpec</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Specification of a single file in Cloud Storage.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GcsFileSpec</span> {
+    <span class="doccomment">/// Required. Full file path. Example: `gs://bucket_name/a/b.txt`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">file_path</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Creation, modification, and expiration timestamps of a Cloud Storage file.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">gcs_timestamps</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">SystemTimestamps</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. File size in bytes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">size_bytes</span>: <span class="ident">i64</span>,
+}
+<span class="doccomment">/// Describes a BigQuery table.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BigQueryTableSpec</span> {
+    <span class="doccomment">/// Output only. The table source type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;TableSourceType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">table_source_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;big_query_table_spec::TypeSpec&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2, 3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">type_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">big_query_table_spec::TypeSpec</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `BigQueryTableSpec`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">big_query_table_spec</span> {
+    <span class="doccomment">/// Output only.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TypeSpec</span> {
+        <span class="doccomment">/// Table view specification. Populated only if</span>
+        <span class="doccomment">/// the `table_source_type` is `BIGQUERY_VIEW`.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">ViewSpec</span>(<span class="ident"><span class="kw">super</span>::ViewSpec</span>),
+        <span class="doccomment">/// Specification of a BigQuery table. Populated only if</span>
+        <span class="doccomment">/// the `table_source_type` is `BIGQUERY_TABLE`.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">TableSpec</span>(<span class="ident"><span class="kw">super</span>::TableSpec</span>),
+    }
+}
+<span class="doccomment">/// Table view specification.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ViewSpec</span> {
+    <span class="doccomment">/// Output only. The query that defines the table view.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">view_query</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Normal BigQuery table specification.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableSpec</span> {
+    <span class="doccomment">/// Output only. If the table is date-sharded, that is, it matches the `\[prefix\]YYYYMMDD`</span>
+    <span class="doccomment">/// name pattern, this field is the Data Catalog resource name of the</span>
+    <span class="doccomment">/// date-sharded grouped entry. For example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `projects/{PROJECT_ID}/locations/{LOCATION}/entrygroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Otherwise, `grouped_entry` is empty.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">grouped_entry</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Specification for a group of BigQuery tables with the `\[prefix\]YYYYMMDD` name</span>
+<span class="doccomment">/// pattern.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For more information, see [Introduction to partitioned tables]</span>
+<span class="doccomment">/// (&lt;https://cloud.google.com/bigquery/docs/partitioned-tables#partitioning_versus_sharding&gt;).</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BigQueryDateShardedSpec</span> {
+    <span class="doccomment">/// Output only. The Data Catalog resource name of the dataset entry the current table</span>
+    <span class="doccomment">/// belongs to. For example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `projects/{PROJECT_ID}/locations/{LOCATION}/entrygroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataset</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The table name prefix of the shards.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The name of any given shard is `\[table_prefix\]YYYYMMDD`.</span>
+    <span class="doccomment">/// For example, for the `MyTable20180101` shard, the</span>
+    <span class="doccomment">/// `table_prefix` is `MyTable`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">table_prefix</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Total number of shards.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">shard_count</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// Output only. BigQuery resource name of the latest shard.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">latest_shard_resource</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Table source type.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TableSourceType</span> {
+    <span class="doccomment">/// Default unknown type.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Table view.</span>
+    <span class="ident">BigqueryView</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// BigQuery native table.</span>
+    <span class="ident">BigqueryTable</span> <span class="op">=</span> <span class="number">5</span>,
+    <span class="doccomment">/// BigQuery materialized view.</span>
+    <span class="ident">BigqueryMaterializedView</span> <span class="op">=</span> <span class="number">7</span>,
+}
+<span class="doccomment">/// Specification for the BigQuery connection.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BigQueryConnectionSpec</span> {
+    <span class="doccomment">/// The type of the BigQuery connection.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;big_query_connection_spec::ConnectionType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">connection_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// True if there are credentials attached to the BigQuery connection; false</span>
+    <span class="doccomment">/// otherwise.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">has_credential</span>: <span class="ident">bool</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;big_query_connection_spec::ConnectionSpec&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">connection_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">big_query_connection_spec::ConnectionSpec</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `BigQueryConnectionSpec`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">big_query_connection_spec</span> {
+    <span class="doccomment">/// The type of the BigQuery connection.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ConnectionType</span> {
+        <span class="doccomment">/// Unspecified type.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Cloud SQL connection.</span>
+        <span class="ident">CloudSql</span> <span class="op">=</span> <span class="number">1</span>,
+    }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ConnectionSpec</span> {
+        <span class="doccomment">/// Specification for the BigQuery connection to a Cloud SQL instance.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">CloudSql</span>(<span class="ident"><span class="kw">super</span>::CloudSqlBigQueryConnectionSpec</span>),
+    }
+}
+<span class="doccomment">/// Specification for the BigQuery connection to a Cloud SQL instance.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CloudSqlBigQueryConnectionSpec</span> {
+    <span class="doccomment">/// Cloud SQL instance ID in the format of `project:location:instance`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instance_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Database name.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">database</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Type of the Cloud SQL database.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(
+        <span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;cloud_sql_big_query_connection_spec::DatabaseType&quot;</span>,
+        <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>
+    )]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `CloudSqlBigQueryConnectionSpec`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cloud_sql_big_query_connection_spec</span> {
+    <span class="doccomment">/// Supported Cloud SQL database types.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DatabaseType</span> {
+        <span class="doccomment">/// Unspecified database type.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Cloud SQL for PostgreSQL.</span>
+        <span class="ident">Postgres</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Cloud SQL for MySQL.</span>
+        <span class="ident">Mysql</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// Fields specific for BigQuery routines.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BigQueryRoutineSpec</span> {
+    <span class="doccomment">/// Paths of the imported libraries.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">imported_libraries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Entry metadata relevant only to the user and private to them.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PersonalDetails</span> {
+    <span class="doccomment">/// True if the entry is starred by the user; false otherwise.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">starred</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Set if the entry is starred; unset otherwise.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">star_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// This enum lists all the systems that Data Catalog integrates with.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">IntegratedSystem</span> {
+    <span class="doccomment">/// Default unknown system.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// BigQuery.</span>
+    <span class="ident">Bigquery</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Cloud Pub/Sub.</span>
+    <span class="ident">CloudPubsub</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Dataproc Metastore.</span>
+    <span class="ident">DataprocMetastore</span> <span class="op">=</span> <span class="number">3</span>,
+}
+<span class="doccomment">/// Result in the response to a search request.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Each result captures details of one entry that matches the search.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SearchCatalogResult</span> {
+    <span class="doccomment">/// Type of the search result.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// You can use this field to determine which get method to call to fetch the</span>
+    <span class="doccomment">/// full resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;SearchResultType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">search_result_type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Sub-type of the search result.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// A dot-delimited full type of the resource. The same type you</span>
+    <span class="doccomment">/// specify in the `type` search predicate.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Examples: `entry.table`, `entry.dataStream`, `tagTemplate`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">search_result_subtype</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The relative name of the resource in URL format.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Examples:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  * `projects/{PROJECT_ID}/locations/{LOCATION_ID}/entryGroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`</span>
+    <span class="doccomment">///  * `projects/{PROJECT_ID}/tagTemplates/{TAG_TEMPLATE_ID}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">relative_resource_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The full name of the Google Cloud resource the entry belongs to.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For more information, see [Full Resource Name]</span>
+    <span class="doccomment">/// (/apis/design/resource_names#full_resource_name).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Example:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `//bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">linked_resource</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The last modification timestamp of the entry in the source system.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">modify_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Fully qualified name (FQN) of the resource.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// FQNs take two forms:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * For non-regionalized resources:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///   `{SYSTEM}:{PROJECT}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * For regionalized resources:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///   `{SYSTEM}:{PROJECT}.{LOCATION_ID}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Example for a DPMS table:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `dataproc_metastore:PROJECT_ID.LOCATION_ID.INSTANCE_ID.DATABASE_ID.TABLE_ID`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">fully_qualified_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The display name of the result.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;12&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Entry description that can consist of several sentences or paragraphs that</span>
+    <span class="doccomment">/// describe entry contents.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;13&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The source system of the entry. Applicable only when the</span>
+    <span class="doccomment">/// `search_result_type` is `ENTRY`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;search_catalog_result::System&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;8, 9&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">system</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">search_catalog_result::System</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `SearchCatalogResult`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">search_catalog_result</span> {
+    <span class="doccomment">/// The source system of the entry. Applicable only when the</span>
+    <span class="doccomment">/// `search_result_type` is `ENTRY`.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">System</span> {
+        <span class="doccomment">/// Output only. The source system that Data Catalog automatically integrates  with, such</span>
+        <span class="doccomment">/// as BigQuery, Cloud Pub/Sub, or Dataproc Metastore.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::IntegratedSystem&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+        <span class="ident">IntegratedSystem</span>(<span class="ident">i32</span>),
+        <span class="doccomment">/// Custom source system that you can manually integrate Data Catalog with.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
+        <span class="ident">UserSpecifiedSystem</span>(<span class="ident">::prost::alloc::string::String</span>),
+    }
+}
+<span class="doccomment">/// The resource types that can be returned in search results.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SearchResultType</span> {
+    <span class="doccomment">/// Default unknown type.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// An \[Entry][google.cloud.datacatalog.v1.Entry\].</span>
+    <span class="ident">Entry</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// A \[TagTemplate][google.cloud.datacatalog.v1.TagTemplate\].</span>
+    <span class="ident">TagTemplate</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// An \[EntryGroup][google.cloud.datacatalog.v1.EntryGroup\].</span>
+    <span class="ident">EntryGroup</span> <span class="op">=</span> <span class="number">3</span>,
+}
+<span class="doccomment">/// Represents a schema, for example, a BigQuery, GoogleSQL, or Avro schema.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Schema</span> {
+    <span class="doccomment">/// The unified GoogleSQL-like schema of columns.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The overall maximum number of columns and nested columns is 10,000.</span>
+    <span class="doccomment">/// The maximum nested depth is 15 levels.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">columns</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ColumnSchema</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// A column within a schema. Columns can be nested inside</span>
+<span class="doccomment">/// other columns.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ColumnSchema</span> {
+    <span class="doccomment">/// Required. Name of the column.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Must be a UTF-8 string without dots (.).</span>
+    <span class="doccomment">/// The maximum size is 64 bytes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">column</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Type of the column.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Must be a UTF-8 string with the maximum size of 128 bytes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Description of the column. Default value is an empty string.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The description must be a UTF-8 string with the maximum size of 2000</span>
+    <span class="doccomment">/// bytes.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. A column&#39;s mode indicates whether values in this column are required,</span>
+    <span class="doccomment">/// nullable, or repeated.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Only `NULLABLE`, `REQUIRED`, and `REPEATED` values are supported.</span>
+    <span class="doccomment">/// Default mode is `NULLABLE`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mode</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Schema of sub-columns. A column can have zero or more sub-columns.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">subcolumns</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">ColumnSchema</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Request message for</span>
 <span class="doccomment">/// \[SearchCatalog][google.cloud.datacatalog.v1.DataCatalog.SearchCatalog\].</span>

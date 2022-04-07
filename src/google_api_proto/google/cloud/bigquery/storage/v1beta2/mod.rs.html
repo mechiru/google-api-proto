@@ -1069,6 +1069,24 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">serialized_binary_rows</span>: <span class="ident">::prost::bytes::Bytes</span>,
 }
+<span class="doccomment">/// ProtoSchema describes the schema of the serialized protocol buffer data rows.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProtoSchema</span> {
+    <span class="doccomment">/// Descriptor for input message. The descriptor has to be self contained,</span>
+    <span class="doccomment">/// including all the nested types, excepted for proto buffer well known types</span>
+    <span class="doccomment">/// (&lt;https://developers.google.com/protocol-buffers/docs/reference/google.protobuf&gt;).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">proto_descriptor</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::DescriptorProto</span><span class="op">&gt;</span>,
+}
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProtoRows</span> {
+    <span class="doccomment">/// A sequence of rows serialized as a Protocol Buffer.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See &lt;https://developers.google.com/protocol-buffers/docs/overview&gt; for more</span>
+    <span class="doccomment">/// information on deserializing this field.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">serialized_rows</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::bytes::Bytes</span><span class="op">&gt;</span>,
+}
 <span class="doccomment">/// Schema of a table</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableSchema</span> {
@@ -1296,24 +1314,6 @@
     <span class="doccomment">/// Arrow is a standard open source column-based message format.</span>
     <span class="doccomment">/// See &lt;https://arrow.apache.org/&gt; for more details.</span>
     <span class="ident">Arrow</span> <span class="op">=</span> <span class="number">2</span>,
-}
-<span class="doccomment">/// ProtoSchema describes the schema of the serialized protocol buffer data rows.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProtoSchema</span> {
-    <span class="doccomment">/// Descriptor for input message. The descriptor has to be self contained,</span>
-    <span class="doccomment">/// including all the nested types, excepted for proto buffer well known types</span>
-    <span class="doccomment">/// (&lt;https://developers.google.com/protocol-buffers/docs/reference/google.protobuf&gt;).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">proto_descriptor</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::DescriptorProto</span><span class="op">&gt;</span>,
-}
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProtoRows</span> {
-    <span class="doccomment">/// A sequence of rows serialized as a Protocol Buffer.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See &lt;https://developers.google.com/protocol-buffers/docs/overview&gt; for more</span>
-    <span class="doccomment">/// information on deserializing this field.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">serialized_rows</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::bytes::Bytes</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Request message for `CreateReadSession`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

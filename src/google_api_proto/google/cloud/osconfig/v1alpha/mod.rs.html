@@ -2548,7 +2548,130 @@
 <span id="2546">2546</span>
 <span id="2547">2547</span>
 <span id="2548">2548</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Get a report of the OS policy assignment for a VM instance.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Message encapsulating a value that can be either absolute (&quot;fixed&quot;) or</span>
+<span class="doccomment">/// relative (&quot;percent&quot;) to a value.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FixedOrPercent</span> {
+    <span class="doccomment">/// Type of the value.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;fixed_or_percent::Mode&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">mode</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">fixed_or_percent::Mode</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `FixedOrPercent`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">fixed_or_percent</span> {
+    <span class="doccomment">/// Type of the value.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Mode</span> {
+        <span class="doccomment">/// Specifies a fixed value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">Fixed</span>(<span class="ident">i32</span>),
+        <span class="doccomment">/// Specifies the relative value defined as a percentage, which will be</span>
+        <span class="doccomment">/// multiplied by a reference value.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">Percent</span>(<span class="ident">i32</span>),
+    }
+}
+<span class="doccomment">/// Step performed by the OS Config agent for configuring an `OSPolicyResource`</span>
+<span class="doccomment">/// to its desired state.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsPolicyResourceConfigStep</span> {
+    <span class="doccomment">/// Configuration step type.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;os_policy_resource_config_step::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Outcome of the configuration step.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;os_policy_resource_config_step::Outcome&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">outcome</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// An error message recorded during the execution of this step.</span>
+    <span class="doccomment">/// Only populated when outcome is FAILED.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">error_message</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `OSPolicyResourceConfigStep`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">os_policy_resource_config_step</span> {
+    <span class="doccomment">/// Supported configuration step types</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
+        <span class="doccomment">/// Default value. This value is unused.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Validation to detect resource conflicts, schema errors, etc.</span>
+        <span class="ident">Validation</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Check the current desired state status of the resource.</span>
+        <span class="ident">DesiredStateCheck</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Enforce the desired state for a resource that is not in desired state.</span>
+        <span class="ident">DesiredStateEnforcement</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Re-check desired state status for a resource after enforcement of all</span>
+        <span class="doccomment">/// resources in the current configuration run.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// This step is used to determine the final desired state status for the</span>
+        <span class="doccomment">/// resource. It accounts for any resources that might have drifted from</span>
+        <span class="doccomment">/// their desired state due to side effects from configuring other resources</span>
+        <span class="doccomment">/// during the current configuration run.</span>
+        <span class="ident">DesiredStateCheckPostEnforcement</span> <span class="op">=</span> <span class="number">4</span>,
+    }
+    <span class="doccomment">/// Supported outcomes for a configuration step.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Outcome</span> {
+        <span class="doccomment">/// Default value. This value is unused.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The step succeeded.</span>
+        <span class="ident">Succeeded</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The step failed.</span>
+        <span class="ident">Failed</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+}
+<span class="doccomment">/// Compliance data for an OS policy resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsPolicyResourceCompliance</span> {
+    <span class="doccomment">/// The id of the OS policy resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">os_policy_resource_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Ordered list of configuration steps taken by the agent for the OS policy</span>
+    <span class="doccomment">/// resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">config_steps</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">OsPolicyResourceConfigStep</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Compliance state of the OS policy resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OsPolicyComplianceState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Resource specific output.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;os_policy_resource_compliance::Output&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">output</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">os_policy_resource_compliance::Output</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `OSPolicyResourceCompliance`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">os_policy_resource_compliance</span> {
+    <span class="doccomment">/// ExecResource specific output.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecResourceOutput</span> {
+        <span class="doccomment">/// Output from Enforcement phase output file (if run).</span>
+        <span class="doccomment">/// Output size is limited to 100K bytes.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">enforcement_output</span>: <span class="ident">::prost::bytes::Bytes</span>,
+    }
+    <span class="doccomment">/// Resource specific output.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Output</span> {
+        <span class="doccomment">/// ExecResource specific output.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">ExecResourceOutput</span>(<span class="ident">ExecResourceOutput</span>),
+    }
+}
+<span class="doccomment">/// Supported OSPolicy compliance states.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OsPolicyComplianceState</span> {
+    <span class="doccomment">/// Default value. This value is unused.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Compliant state.</span>
+    <span class="ident">Compliant</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Non-compliant state</span>
+    <span class="ident">NonCompliant</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Unknown compliance state.</span>
+    <span class="ident">Unknown</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// No applicable OS policies were found for the instance.</span>
+    <span class="doccomment">/// This state is only applicable to the instance.</span>
+    <span class="ident">NoOsPoliciesApplicable</span> <span class="op">=</span> <span class="number">4</span>,
+}
+<span class="doccomment">/// Get a report of the OS policy assignment for a VM instance.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetOsPolicyAssignmentReportRequest</span> {
     <span class="doccomment">/// Required. API resource name for OS policy assignment report.</span>
@@ -2824,6 +2947,142 @@
             <span class="ident">NonCompliant</span> <span class="op">=</span> <span class="number">2</span>,
         }
     }
+}
+<span class="doccomment">/// This API resource represents the OS policies compliance data for a Compute</span>
+<span class="doccomment">/// Engine virtual machine (VM) instance at a given point in time.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A Compute Engine VM can have multiple OS policy assignments, and each</span>
+<span class="doccomment">/// assignment can have multiple OS policies. As a result, multiple OS policies</span>
+<span class="doccomment">/// could be applied to a single VM.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// You can use this API resource to determine both the compliance state of your</span>
+<span class="doccomment">/// VM as well as the compliance state of an individual OS policy.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// For more information, see [View</span>
+<span class="doccomment">/// compliance](&lt;https://cloud.google.com/compute/docs/os-configuration-management/view-compliance&gt;).</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceOsPoliciesCompliance</span> {
+    <span class="doccomment">/// Output only. The `InstanceOSPoliciesCompliance` API resource name.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Format:</span>
+    <span class="doccomment">/// `projects/{project_number}/locations/{location}/instanceOSPoliciesCompliances/{instance_id}`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The Compute Engine VM instance name.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instance</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Compliance state of the VM.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OsPolicyComplianceState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Output only. Detailed compliance state of the VM.</span>
+    <span class="doccomment">/// This field is populated only when compliance state is `UNKNOWN`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// It may contain one of the following values:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// * `no-compliance-data`: Compliance data is not available for this VM.</span>
+    <span class="doccomment">/// * `no-agent-detected`: OS Config agent is not detected for this VM.</span>
+    <span class="doccomment">/// * `config-not-supported-by-agent`: The version of the OS Config agent</span>
+    <span class="doccomment">/// running on this VM does not support configuration management.</span>
+    <span class="doccomment">/// * `inactive`: VM is not running.</span>
+    <span class="doccomment">/// * `internal-service-errors`: There were internal service errors encountered</span>
+    <span class="doccomment">/// while enforcing compliance.</span>
+    <span class="doccomment">/// * `agent-errors`: OS config agent encountered errors while enforcing</span>
+    <span class="doccomment">/// compliance.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">detailed_state</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. The reason for the `detailed_state` of the VM (if any).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">detailed_state_reason</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Compliance data for each `OSPolicy` that is applied to the VM.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">os_policy_compliances</span>:
+        <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">instance_os_policies_compliance::OsPolicyCompliance</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Timestamp of the last compliance check for the VM.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">last_compliance_check_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. Unique identifier for the last compliance run.</span>
+    <span class="doccomment">/// This id will be logged by the OS config agent during a compliance run and</span>
+    <span class="doccomment">/// can be used for debugging and tracing purpose.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">last_compliance_run_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `InstanceOSPoliciesCompliance`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">instance_os_policies_compliance</span> {
+    <span class="doccomment">/// Compliance data for an OS policy</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsPolicyCompliance</span> {
+        <span class="doccomment">/// The OS policy id</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">os_policy_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Reference to the `OSPolicyAssignment` API resource that the `OSPolicy`</span>
+        <span class="doccomment">/// belongs to.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Format:</span>
+        <span class="doccomment">/// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}`</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">os_policy_assignment</span>: <span class="ident">::prost::alloc::string::String</span>,
+        <span class="doccomment">/// Compliance state of the OS policy.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::OsPolicyComplianceState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
+        <span class="doccomment">/// Compliance data for each `OSPolicyResource` that is applied to the</span>
+        <span class="doccomment">/// VM.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">os_policy_resource_compliances</span>:
+            <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::OsPolicyResourceCompliance</span><span class="op">&gt;</span>,
+    }
+}
+<span class="doccomment">/// A request message for getting OS policies compliance data for the given</span>
+<span class="doccomment">/// Compute Engine VM instance.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetInstanceOsPoliciesComplianceRequest</span> {
+    <span class="doccomment">/// Required. API resource name for instance OS policies compliance resource.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Format:</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/instanceOSPoliciesCompliances/{instance}`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For `{project}`, either Compute Engine project-number or project-id can be</span>
+    <span class="doccomment">/// provided.</span>
+    <span class="doccomment">/// For `{instance}`, either Compute Engine VM instance-id or instance-name can</span>
+    <span class="doccomment">/// be provided.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A request message for listing OS policies compliance data for all Compute</span>
+<span class="doccomment">/// Engine VMs in the given location.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListInstanceOsPoliciesCompliancesRequest</span> {
+    <span class="doccomment">/// Required. The parent resource name.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Format: `projects/{project}/locations/{location}`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For `{project}`, either Compute Engine project-number or project-id can be</span>
+    <span class="doccomment">/// provided.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The maximum number of results to return.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// A pagination token returned from a previous call to</span>
+    <span class="doccomment">/// `ListInstanceOSPoliciesCompliances` that indicates where this listing</span>
+    <span class="doccomment">/// should continue from.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// If provided, this field specifies the criteria that must be met by a</span>
+    <span class="doccomment">/// `InstanceOSPoliciesCompliance` API resource to be included in the response.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A response message for listing OS policies compliance data for all Compute</span>
+<span class="doccomment">/// Engine VMs in the given location.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListInstanceOsPoliciesCompliancesResponse</span> {
+    <span class="doccomment">/// List of instance OS policies compliance objects.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">instance_os_policies_compliances</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">InstanceOsPoliciesCompliance</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The pagination token to retrieve the next page of instance OS policies</span>
+    <span class="doccomment">/// compliance objects.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="comment">// OS Inventory is a service for collecting and reporting operating</span>
 <span class="comment">// system and package information on VM instances.</span>
@@ -3201,243 +3460,6 @@
     <span class="ident">Basic</span> <span class="op">=</span> <span class="number">1</span>,
     <span class="doccomment">/// Returns all fields.</span>
     <span class="ident">Full</span> <span class="op">=</span> <span class="number">2</span>,
-}
-<span class="doccomment">/// Step performed by the OS Config agent for configuring an `OSPolicyResource`</span>
-<span class="doccomment">/// to its desired state.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsPolicyResourceConfigStep</span> {
-    <span class="doccomment">/// Configuration step type.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;os_policy_resource_config_step::Type&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Outcome of the configuration step.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;os_policy_resource_config_step::Outcome&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">outcome</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// An error message recorded during the execution of this step.</span>
-    <span class="doccomment">/// Only populated when outcome is FAILED.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">error_message</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `OSPolicyResourceConfigStep`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">os_policy_resource_config_step</span> {
-    <span class="doccomment">/// Supported configuration step types</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Type</span> {
-        <span class="doccomment">/// Default value. This value is unused.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Validation to detect resource conflicts, schema errors, etc.</span>
-        <span class="ident">Validation</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Check the current desired state status of the resource.</span>
-        <span class="ident">DesiredStateCheck</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Enforce the desired state for a resource that is not in desired state.</span>
-        <span class="ident">DesiredStateEnforcement</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Re-check desired state status for a resource after enforcement of all</span>
-        <span class="doccomment">/// resources in the current configuration run.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// This step is used to determine the final desired state status for the</span>
-        <span class="doccomment">/// resource. It accounts for any resources that might have drifted from</span>
-        <span class="doccomment">/// their desired state due to side effects from configuring other resources</span>
-        <span class="doccomment">/// during the current configuration run.</span>
-        <span class="ident">DesiredStateCheckPostEnforcement</span> <span class="op">=</span> <span class="number">4</span>,
-    }
-    <span class="doccomment">/// Supported outcomes for a configuration step.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Outcome</span> {
-        <span class="doccomment">/// Default value. This value is unused.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The step succeeded.</span>
-        <span class="ident">Succeeded</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The step failed.</span>
-        <span class="ident">Failed</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
-<span class="doccomment">/// Compliance data for an OS policy resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsPolicyResourceCompliance</span> {
-    <span class="doccomment">/// The id of the OS policy resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">os_policy_resource_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Ordered list of configuration steps taken by the agent for the OS policy</span>
-    <span class="doccomment">/// resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">config_steps</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">OsPolicyResourceConfigStep</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Compliance state of the OS policy resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OsPolicyComplianceState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Resource specific output.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;os_policy_resource_compliance::Output&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">output</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">os_policy_resource_compliance::Output</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `OSPolicyResourceCompliance`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">os_policy_resource_compliance</span> {
-    <span class="doccomment">/// ExecResource specific output.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ExecResourceOutput</span> {
-        <span class="doccomment">/// Output from Enforcement phase output file (if run).</span>
-        <span class="doccomment">/// Output size is limited to 100K bytes.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">enforcement_output</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    }
-    <span class="doccomment">/// Resource specific output.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Output</span> {
-        <span class="doccomment">/// ExecResource specific output.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="ident">ExecResourceOutput</span>(<span class="ident">ExecResourceOutput</span>),
-    }
-}
-<span class="doccomment">/// Supported OSPolicy compliance states.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OsPolicyComplianceState</span> {
-    <span class="doccomment">/// Default value. This value is unused.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Compliant state.</span>
-    <span class="ident">Compliant</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Non-compliant state</span>
-    <span class="ident">NonCompliant</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Unknown compliance state.</span>
-    <span class="ident">Unknown</span> <span class="op">=</span> <span class="number">3</span>,
-    <span class="doccomment">/// No applicable OS policies were found for the instance.</span>
-    <span class="doccomment">/// This state is only applicable to the instance.</span>
-    <span class="ident">NoOsPoliciesApplicable</span> <span class="op">=</span> <span class="number">4</span>,
-}
-<span class="doccomment">/// This API resource represents the OS policies compliance data for a Compute</span>
-<span class="doccomment">/// Engine virtual machine (VM) instance at a given point in time.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// A Compute Engine VM can have multiple OS policy assignments, and each</span>
-<span class="doccomment">/// assignment can have multiple OS policies. As a result, multiple OS policies</span>
-<span class="doccomment">/// could be applied to a single VM.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// You can use this API resource to determine both the compliance state of your</span>
-<span class="doccomment">/// VM as well as the compliance state of an individual OS policy.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// For more information, see [View</span>
-<span class="doccomment">/// compliance](&lt;https://cloud.google.com/compute/docs/os-configuration-management/view-compliance&gt;).</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InstanceOsPoliciesCompliance</span> {
-    <span class="doccomment">/// Output only. The `InstanceOSPoliciesCompliance` API resource name.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Format:</span>
-    <span class="doccomment">/// `projects/{project_number}/locations/{location}/instanceOSPoliciesCompliances/{instance_id}`</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The Compute Engine VM instance name.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instance</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Compliance state of the VM.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;OsPolicyComplianceState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Output only. Detailed compliance state of the VM.</span>
-    <span class="doccomment">/// This field is populated only when compliance state is `UNKNOWN`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// It may contain one of the following values:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `no-compliance-data`: Compliance data is not available for this VM.</span>
-    <span class="doccomment">/// * `no-agent-detected`: OS Config agent is not detected for this VM.</span>
-    <span class="doccomment">/// * `config-not-supported-by-agent`: The version of the OS Config agent</span>
-    <span class="doccomment">/// running on this VM does not support configuration management.</span>
-    <span class="doccomment">/// * `inactive`: VM is not running.</span>
-    <span class="doccomment">/// * `internal-service-errors`: There were internal service errors encountered</span>
-    <span class="doccomment">/// while enforcing compliance.</span>
-    <span class="doccomment">/// * `agent-errors`: OS config agent encountered errors while enforcing</span>
-    <span class="doccomment">/// compliance.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">detailed_state</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. The reason for the `detailed_state` of the VM (if any).</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">detailed_state_reason</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Output only. Compliance data for each `OSPolicy` that is applied to the VM.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">os_policy_compliances</span>:
-        <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">instance_os_policies_compliance::OsPolicyCompliance</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Timestamp of the last compliance check for the VM.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">last_compliance_check_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. Unique identifier for the last compliance run.</span>
-    <span class="doccomment">/// This id will be logged by the OS config agent during a compliance run and</span>
-    <span class="doccomment">/// can be used for debugging and tracing purpose.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">last_compliance_run_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `InstanceOSPoliciesCompliance`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">instance_os_policies_compliance</span> {
-    <span class="doccomment">/// Compliance data for an OS policy</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OsPolicyCompliance</span> {
-        <span class="doccomment">/// The OS policy id</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">os_policy_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Reference to the `OSPolicyAssignment` API resource that the `OSPolicy`</span>
-        <span class="doccomment">/// belongs to.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Format:</span>
-        <span class="doccomment">/// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}`</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">os_policy_assignment</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Compliance state of the OS policy.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;super::OsPolicyComplianceState&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">state</span>: <span class="ident">i32</span>,
-        <span class="doccomment">/// Compliance data for each `OSPolicyResource` that is applied to the</span>
-        <span class="doccomment">/// VM.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="kw">pub</span> <span class="ident">os_policy_resource_compliances</span>:
-            <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::OsPolicyResourceCompliance</span><span class="op">&gt;</span>,
-    }
-}
-<span class="doccomment">/// A request message for getting OS policies compliance data for the given</span>
-<span class="doccomment">/// Compute Engine VM instance.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetInstanceOsPoliciesComplianceRequest</span> {
-    <span class="doccomment">/// Required. API resource name for instance OS policies compliance resource.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Format:</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/instanceOSPoliciesCompliances/{instance}`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For `{project}`, either Compute Engine project-number or project-id can be</span>
-    <span class="doccomment">/// provided.</span>
-    <span class="doccomment">/// For `{instance}`, either Compute Engine VM instance-id or instance-name can</span>
-    <span class="doccomment">/// be provided.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A request message for listing OS policies compliance data for all Compute</span>
-<span class="doccomment">/// Engine VMs in the given location.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListInstanceOsPoliciesCompliancesRequest</span> {
-    <span class="doccomment">/// Required. The parent resource name.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Format: `projects/{project}/locations/{location}`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For `{project}`, either Compute Engine project-number or project-id can be</span>
-    <span class="doccomment">/// provided.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The maximum number of results to return.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_size</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// A pagination token returned from a previous call to</span>
-    <span class="doccomment">/// `ListInstanceOSPoliciesCompliances` that indicates where this listing</span>
-    <span class="doccomment">/// should continue from.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// If provided, this field specifies the criteria that must be met by a</span>
-    <span class="doccomment">/// `InstanceOSPoliciesCompliance` API resource to be included in the response.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A response message for listing OS policies compliance data for all Compute</span>
-<span class="doccomment">/// Engine VMs in the given location.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListInstanceOsPoliciesCompliancesResponse</span> {
-    <span class="doccomment">/// List of instance OS policies compliance objects.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">instance_os_policies_compliances</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">InstanceOsPoliciesCompliance</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The pagination token to retrieve the next page of instance OS policies</span>
-    <span class="doccomment">/// compliance objects.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">next_page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// An OS policy defines the desired state configuration for a VM.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -4055,28 +4077,6 @@
         <span class="doccomment">/// This mode checks if the configuration resources in the policy are in</span>
         <span class="doccomment">/// their desired state, and if not, enforces the desired state.</span>
         <span class="ident">Enforcement</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-}
-<span class="doccomment">/// Message encapsulating a value that can be either absolute (&quot;fixed&quot;) or</span>
-<span class="doccomment">/// relative (&quot;percent&quot;) to a value.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FixedOrPercent</span> {
-    <span class="doccomment">/// Type of the value.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;fixed_or_percent::Mode&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">mode</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">fixed_or_percent::Mode</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `FixedOrPercent`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">fixed_or_percent</span> {
-    <span class="doccomment">/// Type of the value.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Mode</span> {
-        <span class="doccomment">/// Specifies a fixed value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-        <span class="ident">Fixed</span>(<span class="ident">i32</span>),
-        <span class="doccomment">/// Specifies the relative value defined as a percentage, which will be</span>
-        <span class="doccomment">/// multiplied by a reference value.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-        <span class="ident">Percent</span>(<span class="ident">i32</span>),
     }
 }
 <span class="doccomment">/// OS policy assignment is an API resource that is used to</span>

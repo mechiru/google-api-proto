@@ -1332,53 +1332,6 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">body</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
-<span class="doccomment">/// Configuration for a CDN key. Used by the Video Stitcher</span>
-<span class="doccomment">/// to sign URIs for fetching video manifests and signing</span>
-<span class="doccomment">/// media segments for playback.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CdnKey</span> {
-    <span class="doccomment">/// The resource name of the CDN key, in the form of</span>
-    <span class="doccomment">/// `projects/{project}/locations/{location}/cdnKeys/{id}`.</span>
-    <span class="doccomment">/// The name is ignored when creating a CDN key.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The hostname this key applies to.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">hostname</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Configuration associated with the CDN key.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;cdn_key::CdnKeyConfig&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;5, 6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cdn_key_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">cdn_key::CdnKeyConfig</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `CdnKey`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cdn_key</span> {
-    <span class="doccomment">/// Configuration associated with the CDN key.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CdnKeyConfig</span> {
-        <span class="doccomment">/// The configuration for a Google Cloud CDN key.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-        <span class="ident">GoogleCdnKey</span>(<span class="ident"><span class="kw">super</span>::GoogleCdnKey</span>),
-        <span class="doccomment">/// The configuration for an Akamai CDN key.</span>
-        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-        <span class="ident">AkamaiCdnKey</span>(<span class="ident"><span class="kw">super</span>::AkamaiCdnKey</span>),
-    }
-}
-<span class="doccomment">/// Configuration for a Google Cloud CDN key.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GoogleCdnKey</span> {
-    <span class="doccomment">/// Input only. Secret for this Google Cloud CDN key.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">private_key</span>: <span class="ident">::prost::bytes::Bytes</span>,
-    <span class="doccomment">/// The public name of the Google Cloud CDN key.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">key_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Configuration for an Akamai CDN key.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AkamaiCdnKey</span> {
-    <span class="doccomment">/// Input only. Token key for the Akamai CDN edge configuration.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">token_key</span>: <span class="ident">::prost::bytes::Bytes</span>,
-}
 <span class="doccomment">/// Describes an event and a trigger URI.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Event</span> {
@@ -1569,6 +1522,53 @@
     <span class="doccomment">/// Describes the MIME type of the ad resource.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">creative_type</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Configuration for a CDN key. Used by the Video Stitcher</span>
+<span class="doccomment">/// to sign URIs for fetching video manifests and signing</span>
+<span class="doccomment">/// media segments for playback.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CdnKey</span> {
+    <span class="doccomment">/// The resource name of the CDN key, in the form of</span>
+    <span class="doccomment">/// `projects/{project}/locations/{location}/cdnKeys/{id}`.</span>
+    <span class="doccomment">/// The name is ignored when creating a CDN key.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The hostname this key applies to.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">hostname</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Configuration associated with the CDN key.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;cdn_key::CdnKeyConfig&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;5, 6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cdn_key_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">cdn_key::CdnKeyConfig</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `CdnKey`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">cdn_key</span> {
+    <span class="doccomment">/// Configuration associated with the CDN key.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CdnKeyConfig</span> {
+        <span class="doccomment">/// The configuration for a Google Cloud CDN key.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="ident">GoogleCdnKey</span>(<span class="ident"><span class="kw">super</span>::GoogleCdnKey</span>),
+        <span class="doccomment">/// The configuration for an Akamai CDN key.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="ident">AkamaiCdnKey</span>(<span class="ident"><span class="kw">super</span>::AkamaiCdnKey</span>),
+    }
+}
+<span class="doccomment">/// Configuration for a Google Cloud CDN key.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GoogleCdnKey</span> {
+    <span class="doccomment">/// Input only. Secret for this Google Cloud CDN key.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">private_key</span>: <span class="ident">::prost::bytes::Bytes</span>,
+    <span class="doccomment">/// The public name of the Google Cloud CDN key.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">key_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Configuration for an Akamai CDN key.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AkamaiCdnKey</span> {
+    <span class="doccomment">/// Input only. Token key for the Akamai CDN edge configuration.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">token_key</span>: <span class="ident">::prost::bytes::Bytes</span>,
 }
 <span class="doccomment">/// Metadata for a VOD session.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>

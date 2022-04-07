@@ -2681,34 +2681,7 @@
 <span id="2679">2679</span>
 <span id="2680">2680</span>
 <span id="2681">2681</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Encapsulates progress related information for a Cloud Bigtable long</span>
-<span class="doccomment">/// running operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OperationProgress</span> {
-    <span class="doccomment">/// Percent completion of the operation.</span>
-    <span class="doccomment">/// Values are between 0 and 100 inclusive.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">progress_percent</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Time the request was received.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// If set, the time at which this operation failed or was completed</span>
-    <span class="doccomment">/// successfully.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Storage media types for persisting Bigtable data.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">StorageType</span> {
-    <span class="doccomment">/// The user did not specify a storage type.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// Flash (SSD) storage should be used.</span>
-    <span class="ident">Ssd</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Magnetic drive (HDD) storage should be used.</span>
-    <span class="ident">Hdd</span> <span class="op">=</span> <span class="number">2</span>,
-}
-<span class="doccomment">/// Information about a table restore.</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Information about a table restore.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RestoreInfo</span> {
     <span class="doccomment">/// The type of the restore source.</span>
@@ -3078,6 +3051,33 @@
     <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
     <span class="doccomment">/// A backup was used as the source of the restore.</span>
     <span class="ident">Backup</span> <span class="op">=</span> <span class="number">1</span>,
+}
+<span class="doccomment">/// Encapsulates progress related information for a Cloud Bigtable long</span>
+<span class="doccomment">/// running operation.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OperationProgress</span> {
+    <span class="doccomment">/// Percent completion of the operation.</span>
+    <span class="doccomment">/// Values are between 0 and 100 inclusive.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">progress_percent</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Time the request was received.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">start_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// If set, the time at which this operation failed or was completed</span>
+    <span class="doccomment">/// successfully.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">end_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Storage media types for persisting Bigtable data.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">StorageType</span> {
+    <span class="doccomment">/// The user did not specify a storage type.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Flash (SSD) storage should be used.</span>
+    <span class="ident">Ssd</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Magnetic drive (HDD) storage should be used.</span>
+    <span class="ident">Hdd</span> <span class="op">=</span> <span class="number">2</span>,
 }
 <span class="doccomment">/// The request for</span>
 <span class="doccomment">/// \[RestoreTable][google.bigtable.admin.v2.BigtableTableAdmin.RestoreTable\].</span>

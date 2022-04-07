@@ -2592,6 +2592,71 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">jwts</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Jwt</span><span class="op">&gt;</span>,
 }
+<span class="doccomment">/// Layer holds metadata specific to a layer of a Docker image.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Layer</span> {
+    <span class="doccomment">/// Required. The recovered Dockerfile directive used to construct this layer.</span>
+    <span class="doccomment">/// See &lt;https://docs.docker.com/engine/reference/builder/&gt; for more information.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">directive</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The recovered arguments to the Dockerfile directive.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">arguments</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// A set of properties that uniquely identify a given Docker image.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Fingerprint</span> {
+    <span class="doccomment">/// Required. The layer ID of the final layer in the Docker image&#39;s v1</span>
+    <span class="doccomment">/// representation.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">v1_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. The ordered list of v2 blobs that represent a given image.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">v2_blob</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The name of the image&#39;s v2 blobs computed via:</span>
+    <span class="doccomment">///   \[bottom\] := v2_blob\[bottom\]</span>
+    <span class="doccomment">///   \[N\] := sha256(v2_blob\[N\] + &quot; &quot; + v2_name\[N+1\])</span>
+    <span class="doccomment">/// Only the name of the final blob is kept.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">v2_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Basis describes the base image portion (Note) of the DockerImage</span>
+<span class="doccomment">/// relationship. Linked occurrences are derived from this or an equivalent image</span>
+<span class="doccomment">/// via:</span>
+<span class="doccomment">///   FROM &lt;Basis.resource_url&gt;</span>
+<span class="doccomment">/// Or an equivalent reference, e.g., a tag of the resource_url.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageNote</span> {
+    <span class="doccomment">/// Required. Immutable. The resource_url for the resource representing the</span>
+    <span class="doccomment">/// basis of associated occurrence images.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">resource_url</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. Immutable. The fingerprint of the base image.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">fingerprint</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Fingerprint</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Details of the derived image portion of the DockerImage relationship. This</span>
+<span class="doccomment">/// image would be produced from a Dockerfile with FROM &lt;DockerImage.Basis in</span>
+<span class="doccomment">/// attached Note&gt;.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageOccurrence</span> {
+    <span class="doccomment">/// Required. The fingerprint of the derived image.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">fingerprint</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Fingerprint</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. The number of layers by which this image differs from the</span>
+    <span class="doccomment">/// associated image basis.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">distance</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// This contains layer-specific metadata, if populated it has length</span>
+    <span class="doccomment">/// &quot;distance&quot; and is ordered with \[distance\] being the layer immediately</span>
+    <span class="doccomment">/// following the base image and \[1\] being the final layer.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">layer_info</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Layer</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Output only. This contains the base image URL for the derived image</span>
+    <span class="doccomment">/// occurrence.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">base_resource_url</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
 <span class="doccomment">/// Common Vulnerability Scoring System version 3.</span>
 <span class="doccomment">/// For details, see &lt;https://www.first.org/cvss/specification-document&gt;</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -2764,193 +2829,6 @@
         <span class="ident">High</span> <span class="op">=</span> <span class="number">1</span>,
         <span class="ident">Low</span> <span class="op">=</span> <span class="number">2</span>,
         <span class="prelude-val">None</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// This represents a particular channel of distribution for a given package.</span>
-<span class="doccomment">/// E.g., Debian&#39;s jessie-backports dpkg mirror.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Distribution</span> {
-    <span class="doccomment">/// Required. The cpe_uri in [CPE format](&lt;https://cpe.mitre.org/specification/&gt;)</span>
-    <span class="doccomment">/// denoting the package manager version distributing a package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The CPU architecture for which packages in this distribution channel were</span>
-    <span class="doccomment">/// built.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Architecture&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">architecture</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The latest available version of this package in this distribution channel.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">latest_version</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Version</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// A freeform string denoting the maintainer of this package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">maintainer</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The distribution channel-specific homepage for this package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The distribution channel-specific description of this package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// An occurrence of a particular package installation found within a system&#39;s</span>
-<span class="doccomment">/// filesystem. E.g., glibc was found in `/var/lib/dpkg/status`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Location</span> {
-    <span class="doccomment">/// Required. The CPE URI in [CPE format](&lt;https://cpe.mitre.org/specification/&gt;)</span>
-    <span class="doccomment">/// denoting the package manager version distributing a package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The version installed at this location.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Version</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The path from which we gathered that this package/version is installed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// This represents a particular package that is distributed over various</span>
-<span class="doccomment">/// channels. E.g., glibc (aka libc6) is distributed by many, at various</span>
-<span class="doccomment">/// versions.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PackageNote</span> {
-    <span class="doccomment">/// Required. Immutable. The name of the package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The various channels by which a package is distributed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">distribution</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Distribution</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Details on how a particular software package was installed on a system.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PackageOccurrence</span> {
-    <span class="doccomment">/// Output only. The name of the installed package.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. All of the places within the filesystem versions of this package</span>
-    <span class="doccomment">/// have been found.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">location</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Location</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Version contains structured information about the version of a package.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Version</span> {
-    <span class="doccomment">/// Used to correct mistakes in the version numbering scheme.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">epoch</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Required only when version kind is NORMAL. The main part of the version</span>
-    <span class="doccomment">/// name.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The iteration of the package build from the above version.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">revision</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Whether this version is specifying part of an inclusive range. Grafeas</span>
-    <span class="doccomment">/// does not have the capability to specify version ranges; instead we have</span>
-    <span class="doccomment">/// fields that specify start version and end versions. At times this is</span>
-    <span class="doccomment">/// insufficient - we also need to specify whether the version is included in</span>
-    <span class="doccomment">/// the range or is excluded from the range. This boolean is expected to be set</span>
-    <span class="doccomment">/// to true when the version is included in a range.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">inclusive</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Required. Distinguishes between sentinel MIN/MAX versions and normal</span>
-    <span class="doccomment">/// versions.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;version::VersionKind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Human readable version string. This string is of the form</span>
-    <span class="doccomment">/// &lt;epoch&gt;:&lt;name&gt;-&lt;revision&gt; and is only set when kind is NORMAL.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">full_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `Version`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">version</span> {
-    <span class="doccomment">/// Whether this is an ordinary package version or a sentinel MIN/MAX version.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">VersionKind</span> {
-        <span class="doccomment">/// Unknown.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// A standard package version.</span>
-        <span class="ident">Normal</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// A special version representing negative infinity.</span>
-        <span class="ident">Minimum</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// A special version representing positive infinity.</span>
-        <span class="ident">Maximum</span> <span class="op">=</span> <span class="number">3</span>,
-    }
-}
-<span class="doccomment">/// Instruction set architectures supported by various package managers.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Architecture</span> {
-    <span class="doccomment">/// Unknown architecture.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// X86 architecture.</span>
-    <span class="ident">X86</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// X64 architecture.</span>
-    <span class="ident">X64</span> <span class="op">=</span> <span class="number">2</span>,
-}
-<span class="doccomment">/// A note that indicates a type of analysis a provider would perform. This note</span>
-<span class="doccomment">/// exists in a provider&#39;s project. A `Discovery` occurrence is created in a</span>
-<span class="doccomment">/// consumer&#39;s project at the start of analysis.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DiscoveryNote</span> {
-    <span class="doccomment">/// Required. Immutable. The kind of analysis that is handled by this</span>
-    <span class="doccomment">/// discovery.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;NoteKind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">analysis_kind</span>: <span class="ident">i32</span>,
-}
-<span class="doccomment">/// Provides information about the analysis status of a discovered resource.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DiscoveryOccurrence</span> {
-    <span class="doccomment">/// Whether the resource is continuously analyzed.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;discovery_occurrence::ContinuousAnalysis&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">continuous_analysis</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// The status of discovery for the resource.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;discovery_occurrence::AnalysisStatus&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">analysis_status</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// When an error is encountered this will contain a LocalizedMessage under</span>
-    <span class="doccomment">/// details to show to the user. The LocalizedMessage is output only and</span>
-    <span class="doccomment">/// populated by the API.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">analysis_status_error</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::google::rpc::Status</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The CPE of the resource being scanned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">cpe</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The last time this resource was scanned.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">last_scan_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The time occurrences related to this discovery occurrence were archived.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">archive_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Nested message and enum types in `DiscoveryOccurrence`.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">discovery_occurrence</span> {
-    <span class="doccomment">/// Whether the resource is continuously analyzed.</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ContinuousAnalysis</span> {
-        <span class="doccomment">/// Unknown.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// The resource is continuously analyzed.</span>
-        <span class="ident">Active</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// The resource is ignored for continuous analysis.</span>
-        <span class="ident">Inactive</span> <span class="op">=</span> <span class="number">2</span>,
-    }
-    <span class="doccomment">/// Analysis status for a resource. Currently for initial analysis only (not</span>
-    <span class="doccomment">/// updated in continuous analysis).</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AnalysisStatus</span> {
-        <span class="doccomment">/// Unknown.</span>
-        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="doccomment">/// Resource is known but no action has been taken yet.</span>
-        <span class="ident">Pending</span> <span class="op">=</span> <span class="number">1</span>,
-        <span class="doccomment">/// Resource is being analyzed.</span>
-        <span class="ident">Scanning</span> <span class="op">=</span> <span class="number">2</span>,
-        <span class="doccomment">/// Analysis has finished successfully.</span>
-        <span class="ident">FinishedSuccess</span> <span class="op">=</span> <span class="number">3</span>,
-        <span class="doccomment">/// Analysis has finished unsuccessfully, the analysis itself is in a bad</span>
-        <span class="doccomment">/// state.</span>
-        <span class="ident">FinishedFailed</span> <span class="op">=</span> <span class="number">4</span>,
-        <span class="doccomment">/// The resource is known not to be supported</span>
-        <span class="ident">FinishedUnsupported</span> <span class="op">=</span> <span class="number">5</span>,
     }
 }
 <span class="comment">// Spec defined at</span>
@@ -3682,6 +3560,73 @@
         <span class="ident">Custom</span> <span class="op">=</span> <span class="number">3</span>,
     }
 }
+<span class="doccomment">/// A note that indicates a type of analysis a provider would perform. This note</span>
+<span class="doccomment">/// exists in a provider&#39;s project. A `Discovery` occurrence is created in a</span>
+<span class="doccomment">/// consumer&#39;s project at the start of analysis.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DiscoveryNote</span> {
+    <span class="doccomment">/// Required. Immutable. The kind of analysis that is handled by this</span>
+    <span class="doccomment">/// discovery.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;NoteKind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">analysis_kind</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Provides information about the analysis status of a discovered resource.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DiscoveryOccurrence</span> {
+    <span class="doccomment">/// Whether the resource is continuously analyzed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;discovery_occurrence::ContinuousAnalysis&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">continuous_analysis</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The status of discovery for the resource.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;discovery_occurrence::AnalysisStatus&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">analysis_status</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// When an error is encountered this will contain a LocalizedMessage under</span>
+    <span class="doccomment">/// details to show to the user. The LocalizedMessage is output only and</span>
+    <span class="doccomment">/// populated by the API.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">analysis_status_error</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::<span class="kw">super</span>::google::rpc::Status</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The CPE of the resource being scanned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cpe</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The last time this resource was scanned.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">last_scan_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The time occurrences related to this discovery occurrence were archived.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">archive_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `DiscoveryOccurrence`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">discovery_occurrence</span> {
+    <span class="doccomment">/// Whether the resource is continuously analyzed.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ContinuousAnalysis</span> {
+        <span class="doccomment">/// Unknown.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// The resource is continuously analyzed.</span>
+        <span class="ident">Active</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// The resource is ignored for continuous analysis.</span>
+        <span class="ident">Inactive</span> <span class="op">=</span> <span class="number">2</span>,
+    }
+    <span class="doccomment">/// Analysis status for a resource. Currently for initial analysis only (not</span>
+    <span class="doccomment">/// updated in continuous analysis).</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AnalysisStatus</span> {
+        <span class="doccomment">/// Unknown.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Resource is known but no action has been taken yet.</span>
+        <span class="ident">Pending</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Resource is being analyzed.</span>
+        <span class="ident">Scanning</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// Analysis has finished successfully.</span>
+        <span class="ident">FinishedSuccess</span> <span class="op">=</span> <span class="number">3</span>,
+        <span class="doccomment">/// Analysis has finished unsuccessfully, the analysis itself is in a bad</span>
+        <span class="doccomment">/// state.</span>
+        <span class="ident">FinishedFailed</span> <span class="op">=</span> <span class="number">4</span>,
+        <span class="doccomment">/// The resource is known not to be supported</span>
+        <span class="ident">FinishedUnsupported</span> <span class="op">=</span> <span class="number">5</span>,
+    }
+}
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DsseAttestationNote</span> {
     <span class="doccomment">/// DSSEHint hints at the purpose of the attestation authority.</span>
@@ -3724,70 +3669,125 @@
         <span class="ident">Statement</span>(<span class="ident"><span class="kw">super</span>::InTotoStatement</span>),
     }
 }
-<span class="doccomment">/// Layer holds metadata specific to a layer of a Docker image.</span>
+<span class="doccomment">/// This represents a particular channel of distribution for a given package.</span>
+<span class="doccomment">/// E.g., Debian&#39;s jessie-backports dpkg mirror.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Layer</span> {
-    <span class="doccomment">/// Required. The recovered Dockerfile directive used to construct this layer.</span>
-    <span class="doccomment">/// See &lt;https://docs.docker.com/engine/reference/builder/&gt; for more information.</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Distribution</span> {
+    <span class="doccomment">/// Required. The cpe_uri in [CPE format](&lt;https://cpe.mitre.org/specification/&gt;)</span>
+    <span class="doccomment">/// denoting the package manager version distributing a package.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">directive</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The recovered arguments to the Dockerfile directive.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">arguments</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// A set of properties that uniquely identify a given Docker image.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Fingerprint</span> {
-    <span class="doccomment">/// Required. The layer ID of the final layer in the Docker image&#39;s v1</span>
-    <span class="doccomment">/// representation.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">v1_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The ordered list of v2 blobs that represent a given image.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">v2_blob</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The name of the image&#39;s v2 blobs computed via:</span>
-    <span class="doccomment">///   \[bottom\] := v2_blob\[bottom\]</span>
-    <span class="doccomment">///   \[N\] := sha256(v2_blob\[N\] + &quot; &quot; + v2_name\[N+1\])</span>
-    <span class="doccomment">/// Only the name of the final blob is kept.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">v2_name</span>: <span class="ident">::prost::alloc::string::String</span>,
-}
-<span class="doccomment">/// Basis describes the base image portion (Note) of the DockerImage</span>
-<span class="doccomment">/// relationship. Linked occurrences are derived from this or an equivalent image</span>
-<span class="doccomment">/// via:</span>
-<span class="doccomment">///   FROM &lt;Basis.resource_url&gt;</span>
-<span class="doccomment">/// Or an equivalent reference, e.g., a tag of the resource_url.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageNote</span> {
-    <span class="doccomment">/// Required. Immutable. The resource_url for the resource representing the</span>
-    <span class="doccomment">/// basis of associated occurrence images.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">resource_url</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Immutable. The fingerprint of the base image.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">fingerprint</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Fingerprint</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Details of the derived image portion of the DockerImage relationship. This</span>
-<span class="doccomment">/// image would be produced from a Dockerfile with FROM &lt;DockerImage.Basis in</span>
-<span class="doccomment">/// attached Note&gt;.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ImageOccurrence</span> {
-    <span class="doccomment">/// Required. The fingerprint of the derived image.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">fingerprint</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Fingerprint</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. The number of layers by which this image differs from the</span>
-    <span class="doccomment">/// associated image basis.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">distance</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// This contains layer-specific metadata, if populated it has length</span>
-    <span class="doccomment">/// &quot;distance&quot; and is ordered with \[distance\] being the layer immediately</span>
-    <span class="doccomment">/// following the base image and \[1\] being the final layer.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">layer_info</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Layer</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Output only. This contains the base image URL for the derived image</span>
-    <span class="doccomment">/// occurrence.</span>
+    <span class="kw">pub</span> <span class="ident">cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The CPU architecture for which packages in this distribution channel were</span>
+    <span class="doccomment">/// built.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;Architecture&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">architecture</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The latest available version of this package in this distribution channel.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">latest_version</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Version</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A freeform string denoting the maintainer of this package.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">base_resource_url</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="kw">pub</span> <span class="ident">maintainer</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The distribution channel-specific homepage for this package.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">url</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The distribution channel-specific description of this package.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// An occurrence of a particular package installation found within a system&#39;s</span>
+<span class="doccomment">/// filesystem. E.g., glibc was found in `/var/lib/dpkg/status`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Location</span> {
+    <span class="doccomment">/// Required. The CPE URI in [CPE format](&lt;https://cpe.mitre.org/specification/&gt;)</span>
+    <span class="doccomment">/// denoting the package manager version distributing a package.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">cpe_uri</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The version installed at this location.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Version</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The path from which we gathered that this package/version is installed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// This represents a particular package that is distributed over various</span>
+<span class="doccomment">/// channels. E.g., glibc (aka libc6) is distributed by many, at various</span>
+<span class="doccomment">/// versions.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PackageNote</span> {
+    <span class="doccomment">/// Required. Immutable. The name of the package.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The various channels by which a package is distributed.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">distribution</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Distribution</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Details on how a particular software package was installed on a system.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PackageOccurrence</span> {
+    <span class="doccomment">/// Output only. The name of the installed package.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Required. All of the places within the filesystem versions of this package</span>
+    <span class="doccomment">/// have been found.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">location</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Location</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Version contains structured information about the version of a package.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Version</span> {
+    <span class="doccomment">/// Used to correct mistakes in the version numbering scheme.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">epoch</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Required only when version kind is NORMAL. The main part of the version</span>
+    <span class="doccomment">/// name.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The iteration of the package build from the above version.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">revision</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Whether this version is specifying part of an inclusive range. Grafeas</span>
+    <span class="doccomment">/// does not have the capability to specify version ranges; instead we have</span>
+    <span class="doccomment">/// fields that specify start version and end versions. At times this is</span>
+    <span class="doccomment">/// insufficient - we also need to specify whether the version is included in</span>
+    <span class="doccomment">/// the range or is excluded from the range. This boolean is expected to be set</span>
+    <span class="doccomment">/// to true when the version is included in a range.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">inclusive</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Required. Distinguishes between sentinel MIN/MAX versions and normal</span>
+    <span class="doccomment">/// versions.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;version::VersionKind&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Human readable version string. This string is of the form</span>
+    <span class="doccomment">/// &lt;epoch&gt;:&lt;name&gt;-&lt;revision&gt; and is only set when kind is NORMAL.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">full_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Version`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">version</span> {
+    <span class="doccomment">/// Whether this is an ordinary package version or a sentinel MIN/MAX version.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">VersionKind</span> {
+        <span class="doccomment">/// Unknown.</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// A standard package version.</span>
+        <span class="ident">Normal</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// A special version representing negative infinity.</span>
+        <span class="ident">Minimum</span> <span class="op">=</span> <span class="number">2</span>,
+        <span class="doccomment">/// A special version representing positive infinity.</span>
+        <span class="ident">Maximum</span> <span class="op">=</span> <span class="number">3</span>,
+    }
+}
+<span class="doccomment">/// Instruction set architectures supported by various package managers.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Architecture</span> {
+    <span class="doccomment">/// Unknown architecture.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// X86 architecture.</span>
+    <span class="ident">X86</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// X64 architecture.</span>
+    <span class="ident">X64</span> <span class="op">=</span> <span class="number">2</span>,
 }
 <span class="doccomment">/// An Upgrade Note represents a potential upgrade of a package to a given</span>
 <span class="doccomment">/// version. For each package version combination (i.e. bash 4.0, bash 4.1,</span>
