@@ -117,13 +117,13 @@ pub struct BigQueryExport {
     /// creation or update.
     #[prost(message, optional, tag = "6")]
     pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Email address of the user who last edited the big query
-    /// export. This field is set by the server and will be ignored if provided on
-    /// export creation or update.
+    /// Output only. Email address of the user who last edited the big query export.
+    /// This field is set by the server and will be ignored if provided on export
+    /// creation or update.
     #[prost(string, tag = "7")]
     pub most_recent_editor: ::prost::alloc::string::String,
-    /// Output only. The service account that needs permission to create table,
-    /// upload data to the big query dataset.
+    /// Output only. The service account that needs permission to create table, upload data to
+    /// the big query dataset.
     #[prost(string, tag = "8")]
     pub principal: ::prost::alloc::string::String,
 }
@@ -146,10 +146,16 @@ pub struct Resource {
     /// <https://cloud.google.com/apis/design/resource_names#full_resource_name>
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
+    /// The human readable name of the resource.
+    #[prost(string, tag = "8")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The full resource type of the resource.
+    #[prost(string, tag = "6")]
+    pub r#type: ::prost::alloc::string::String,
     /// The full resource name of project that the resource belongs to.
     #[prost(string, tag = "2")]
     pub project: ::prost::alloc::string::String,
-    /// The project id that the resource belongs to.
+    /// The project ID that the resource belongs to.
     #[prost(string, tag = "3")]
     pub project_display_name: ::prost::alloc::string::String,
     /// The full resource name of resource's parent.
@@ -158,17 +164,11 @@ pub struct Resource {
     /// The human readable name of resource's parent.
     #[prost(string, tag = "5")]
     pub parent_display_name: ::prost::alloc::string::String,
-    /// The full resource type of the resource.
-    #[prost(string, tag = "6")]
-    pub r#type: ::prost::alloc::string::String,
     /// Output only. Contains a Folder message for each folder in the assets ancestry.
     /// The first folder is the deepest nested folder, and the last folder is the
     /// folder directly under the Organization.
     #[prost(message, repeated, tag = "7")]
     pub folders: ::prost::alloc::vec::Vec<Folder>,
-    /// The human readable name of the resource.
-    #[prost(string, tag = "8")]
-    pub display_name: ::prost::alloc::string::String,
 }
 /// User specified settings that are attached to the Security Command
 /// Center organization.
@@ -374,11 +374,42 @@ pub mod asset {
         pub policy_blob: ::prost::alloc::string::String,
     }
 }
+/// Represents a particular IAM binding, which captures a member's role addition,
+/// removal, or state.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct IamBinding {
+    /// The action that was performed on a Binding.
+    #[prost(enumeration = "iam_binding::Action", tag = "1")]
+    pub action: i32,
+    /// Role that is assigned to "members".
+    /// For example, "roles/viewer", "roles/editor", or "roles/owner".
+    #[prost(string, tag = "2")]
+    pub role: ::prost::alloc::string::String,
+    /// A single identity requesting access for a Cloud Platform resource,
+    /// e.g. "foo@google.com".
+    #[prost(string, tag = "3")]
+    pub member: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `IamBinding`.
+pub mod iam_binding {
+    /// The type of action performed on a Binding in a policy.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Action {
+        /// Unspecified.
+        Unspecified = 0,
+        /// Addition of a Binding.
+        Add = 1,
+        /// Removal of a Binding.
+        Remove = 2,
+    }
+}
 /// Representation of third party SIEM/SOAR fields within SCC.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExternalSystem {
     /// External System Name e.g. jira, demisto, etc.
-    ///  e.g.: `organizations/1234/sources/5678/findings/123456/externalSystems/jira`
+    ///  e.g.:
+    ///  `organizations/1234/sources/5678/findings/123456/externalSystems/jira`
     /// `folders/1234/sources/5678/findings/123456/externalSystems/jira`
     /// `projects/1234/sources/5678/findings/123456/externalSystems/jira`
     #[prost(string, tag = "1")]
@@ -720,6 +751,7 @@ pub mod mitre_attack {
     }
     /// MITRE ATT&CK techniques that can be referenced by SCC findings.
     /// See: <https://attack.mitre.org/techniques/enterprise/>
+    /// Next ID: 30
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Technique {
@@ -781,6 +813,8 @@ pub mod mitre_attack {
         ExploitPublicFacingApplication = 27,
         /// T1556
         ModifyAuthenticationProcess = 28,
+        /// T1485
+        DataDestruction = 29,
     }
 }
 /// Represents what's commonly known as an Indicator of compromise (IoC) in
@@ -875,7 +909,7 @@ pub struct Finding {
     /// finding.
     #[prost(string, tag = "14")]
     pub canonical_name: ::prost::alloc::string::String,
-    /// Indicates the mute state of a finding (either unspecified, muted, unmuted
+    /// Indicates the mute state of a finding (either muted, unmuted
     /// or undefined). Unlike other attributes of a finding, a finding provider
     /// shouldn't set the value of mute.
     #[prost(enumeration = "finding::Mute", tag = "15")]
@@ -898,8 +932,8 @@ pub struct Finding {
     /// Output only. The most recent time this finding was muted or unmuted.
     #[prost(message, optional, tag = "21")]
     pub mute_update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Third party SIEM/SOAR fields within SCC, contains external
-    /// system information and external system finding fields.
+    /// Output only. Third party SIEM/SOAR fields within SCC, contains external system
+    /// information and external system finding fields.
     #[prost(btree_map = "string, message", tag = "22")]
     pub external_systems:
         ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ExternalSystem>,
@@ -917,6 +951,9 @@ pub struct Finding {
     /// shouldn't set the value of mute.
     #[prost(string, tag = "28")]
     pub mute_initiator: ::prost::alloc::string::String,
+    /// Represents IAM bindings associated with the Finding.
+    #[prost(message, repeated, tag = "39")]
+    pub iam_bindings: ::prost::alloc::vec::Vec<IamBinding>,
 }
 /// Nested message and enum types in `Finding`.
 pub mod finding {
@@ -978,7 +1015,7 @@ pub mod finding {
         /// access data or execute unauthorized code.
         Medium = 3,
         /// Vulnerability:
-        /// A low risk vulnerability hampers a security organization’s ability to
+        /// A low risk vulnerability hampers a security organization's ability to
         /// detect vulnerabilities or active threats in their deployment, or prevents
         /// the root cause investigation of security issues. An example is monitoring
         /// and logs being disabled for resource configurations and access.
@@ -2100,10 +2137,16 @@ pub mod list_findings_response {
             /// <https://cloud.google.com/apis/design/resource_names#full_resource_name>
             #[prost(string, tag = "1")]
             pub name: ::prost::alloc::string::String,
+            /// The human readable name of the resource.
+            #[prost(string, tag = "8")]
+            pub display_name: ::prost::alloc::string::String,
+            /// The full resource type of the resource.
+            #[prost(string, tag = "6")]
+            pub r#type: ::prost::alloc::string::String,
             /// The full resource name of project that the resource belongs to.
             #[prost(string, tag = "2")]
             pub project_name: ::prost::alloc::string::String,
-            /// The project id that the resource belongs to.
+            /// The project ID that the resource belongs to.
             #[prost(string, tag = "3")]
             pub project_display_name: ::prost::alloc::string::String,
             /// The full resource name of resource's parent.
@@ -2112,17 +2155,11 @@ pub mod list_findings_response {
             /// The human readable name of resource's parent.
             #[prost(string, tag = "5")]
             pub parent_display_name: ::prost::alloc::string::String,
-            /// The full resource type of the resource.
-            #[prost(string, tag = "6")]
-            pub r#type: ::prost::alloc::string::String,
             /// Contains a Folder message for each folder in the assets ancestry.
             /// The first folder is the deepest nested folder, and the last folder is
             /// the folder directly under the Organization.
             #[prost(message, repeated, tag = "7")]
             pub folders: ::prost::alloc::vec::Vec<super::super::Folder>,
-            /// The human readable name of the resource.
-            #[prost(string, tag = "8")]
-            pub display_name: ::prost::alloc::string::String,
         }
         /// The change in state of the finding.
         ///
@@ -2288,7 +2325,7 @@ pub struct UpdateSecurityMarksRequest {
     /// The time at which the updated SecurityMarks take effect.
     /// If not set uses current server time.  Updates will be applied to the
     /// SecurityMarks that are active immediately preceding this time. Must be
-    /// smaller or equal to the server time.
+    /// earlier or equal to the server time.
     #[prost(message, optional, tag = "3")]
     pub start_time: ::core::option::Option<::prost_types::Timestamp>,
 }
