@@ -1083,6 +1083,14 @@
 <span id="1081">1081</span>
 <span id="1082">1082</span>
 <span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
+<span id="1087">1087</span>
+<span id="1088">1088</span>
+<span id="1089">1089</span>
+<span id="1090">1090</span>
+<span id="1091">1091</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Describes a vehicle attribute as a key-value pair. The &quot;key:value&quot; string</span>
 <span class="doccomment">/// length cannot exceed 256 characters.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1761,6 +1769,9 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListDeliveryVehiclesResponse</span> {
     <span class="doccomment">/// The set of delivery vehicles that meet the requested filtering criteria.</span>
+    <span class="doccomment">/// When no filter is specified, the request returns all delivery vehicles. A</span>
+    <span class="doccomment">/// successful response can also be empty. An empty response indicates that no</span>
+    <span class="doccomment">/// delivery vehicles were found meeting the requested filter criteria.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">delivery_vehicles</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">DeliveryVehicle</span><span class="op">&gt;</span>,
     <span class="doccomment">/// You can pass this token in the `ListDeliveryVehiclesRequest` to continue to</span>
@@ -1868,7 +1879,9 @@
 <span class="doccomment">/// criteria in the `SearchTasksRequest`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SearchTasksResponse</span> {
-    <span class="doccomment">/// The set of Tasks for the requested `tracking_id`.</span>
+    <span class="doccomment">/// The set of Tasks for the requested `tracking_id`. A successful response can</span>
+    <span class="doccomment">/// also be empty. An empty response indicates that no Tasks are associated</span>
+    <span class="doccomment">/// with the supplied `tracking_id`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">tasks</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Task</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Pass this token in the `SearchTasksRequest` to continue to</span>
@@ -1942,7 +1955,10 @@
 <span class="doccomment">/// criteria in the `ListTasksRequest`.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListTasksResponse</span> {
-    <span class="doccomment">/// The set of Tasks that meet the requested filtering criteria.</span>
+    <span class="doccomment">/// The set of Tasks that meet the requested filtering criteria. When no filter</span>
+    <span class="doccomment">/// is specified, the request returns all tasks. A successful response can also</span>
+    <span class="doccomment">/// be empty. An empty response indicates that no Tasks were found meeting the</span>
+    <span class="doccomment">/// requested filter criteria.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">tasks</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Task</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Pass this token in the `ListTasksRequest` to continue to list results.</span>
