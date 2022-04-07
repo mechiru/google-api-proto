@@ -316,6 +316,259 @@ pub enum LocationSensor {
     /// The fused location provider in Google Play services.
     FusedLocationProvider = 100,
 }
+/// Trip metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Trip {
+    /// Output only. In the format "providers/{provider}/trips/{trip}"
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// ID of the vehicle making this trip.
+    #[prost(string, tag = "2")]
+    pub vehicle_id: ::prost::alloc::string::String,
+    /// Current status of the trip.
+    #[prost(enumeration = "TripStatus", tag = "3")]
+    pub trip_status: i32,
+    /// The type of the trip.
+    #[prost(enumeration = "TripType", tag = "4")]
+    pub trip_type: i32,
+    /// Location where customer indicates they will be picked up.
+    #[prost(message, optional, tag = "5")]
+    pub pickup_point: ::core::option::Option<TerminalLocation>,
+    /// Input only. The actual location when and where customer was picked up.
+    /// This field is for provider to provide feedback on actual pickup
+    /// information.
+    #[prost(message, optional, tag = "22")]
+    pub actual_pickup_point: ::core::option::Option<StopLocation>,
+    /// Input only. The actual time and location of the driver arrival at
+    /// the pickup point.
+    /// This field is for provider to provide feedback on actual arrival
+    /// information at the pickup point.
+    #[prost(message, optional, tag = "32")]
+    pub actual_pickup_arrival_point: ::core::option::Option<StopLocation>,
+    /// Output only. Either the estimated future time when the rider(s) will be picked up, or
+    /// the actual time when they were picked up.
+    #[prost(message, optional, tag = "6")]
+    pub pickup_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Intermediate stops in order that the trip requests (in addition
+    /// to pickup and dropoff). Initially this will not be supported for shared
+    /// trips.
+    #[prost(message, repeated, tag = "14")]
+    pub intermediate_destinations: ::prost::alloc::vec::Vec<TerminalLocation>,
+    /// Indicates the last time the Trip.intermediate_destinations was modified.
+    /// Your server should cache this value and pass it in UpdateTripRequest
+    /// when update Trip.intermediate_destination_index to ensure the
+    /// Trip.intermediate_destinations is not changed.
+    #[prost(message, optional, tag = "25")]
+    pub intermediate_destinations_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// When TripStatus is ENROUTE_TO_INTERMEDIATE_DESTINATION, a number between
+    /// \[0..N-1\] indicating which intermediate destination the vehicle will cross
+    /// next.
+    /// When TripStatus is ARRIVED_AT_INTERMEDIATE_DESTINATION, a number between
+    /// \[0..N-1\] indicating which intermediate destination the vehicle is at.
+    /// The provider sets this value. If there are no intermediate_destinations,
+    /// this field is ignored.
+    #[prost(int32, tag = "15")]
+    pub intermediate_destination_index: i32,
+    /// Input only. The actual time and location of the driver's arrival at
+    /// an intermediate destination.
+    /// This field is for provider to provide feedback on actual arriaval
+    /// information at intermediate destinations.
+    #[prost(message, repeated, tag = "33")]
+    pub actual_intermediate_destination_arrival_points: ::prost::alloc::vec::Vec<StopLocation>,
+    /// Input only. The actual time and location when and where the customer was picked up from
+    /// an intermediate destination.
+    /// This field is for provider to provide feedback on actual pickup
+    /// information at intermediate destinations.
+    #[prost(message, repeated, tag = "34")]
+    pub actual_intermediate_destinations: ::prost::alloc::vec::Vec<StopLocation>,
+    /// Location where customer indicates they will be dropped off.
+    #[prost(message, optional, tag = "7")]
+    pub dropoff_point: ::core::option::Option<TerminalLocation>,
+    /// Input only. The actual time and location when and where customer was dropped off.
+    /// This field is for provider to provide feedback on actual dropoff
+    /// information.
+    #[prost(message, optional, tag = "23")]
+    pub actual_dropoff_point: ::core::option::Option<StopLocation>,
+    /// Output only. Either the estimated future time when the rider(s) will be dropped off at
+    /// the final destination, or the actual time when they were dropped off.
+    #[prost(message, optional, tag = "8")]
+    pub dropoff_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The full path from the current location to the dropoff point, inclusive.
+    /// If this is a shared ride, this path could include waypoints from other
+    /// trips.
+    #[prost(message, repeated, tag = "16")]
+    pub remaining_waypoints: ::prost::alloc::vec::Vec<TripWaypoint>,
+    /// This field supports manual ordering of the waypoints for the trip.
+    /// It contains all of the remaining waypoints of vehicle assigned, as well as
+    /// the pickup and drop-off waypoints for this trip.
+    /// If the trip hasn't been assigned to a vehicle, then this field is ignored.
+    /// For privacy reasons, this field is only populated by the server on
+    /// UpdateTrip and CreateTrip calls, and NOT on GetTrip calls.
+    #[prost(message, repeated, tag = "20")]
+    pub vehicle_waypoints: ::prost::alloc::vec::Vec<TripWaypoint>,
+    /// Output only. Anticipated route for this trip to the first entry in remaining_waypoints.
+    /// If back_to_back or shared trips are enabled, the waypoints may belong to a
+    /// different trip.
+    #[prost(message, repeated, tag = "9")]
+    pub route: ::prost::alloc::vec::Vec<super::super::super::google::r#type::LatLng>,
+    /// Output only. An encoded path to the next waypoint. This field facilitates journey
+    /// sharing between a Driver app and a Rider app. Your driver app is
+    /// responsible for setting this field on all of its current trips by passing
+    /// Vehicle.current_route_segment to UpdateVehicle. Note: This field is
+    /// intended only for use by the Driver SDK and Consumer SDK.
+    #[prost(string, tag = "21")]
+    pub current_route_segment: ::prost::alloc::string::String,
+    /// Output only. Indicates the last time the route was modified.  Note: This field is
+    /// intended only for use by the Driver SDK and Consumer SDK.
+    #[prost(message, optional, tag = "17")]
+    pub current_route_segment_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. When available, the traffic conditions along the
+    /// current_route_segment. Note: This field is intended only
+    /// for use by the Driver SDK and Consumer SDK.
+    #[prost(message, optional, tag = "28")]
+    pub current_route_segment_traffic: ::core::option::Option<ConsumableTrafficPolyline>,
+    /// Output only. Indicates the last time the current_route_segment_traffic was modified.
+    /// Note: This field is intended only for use by the Driver SDK and Consumer
+    /// SDK.
+    #[prost(message, optional, tag = "30")]
+    pub current_route_segment_traffic_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The waypoint where current_route_segment ends. This can be supplied by
+    /// drivers on UpdateVehicle calls either as a full trip waypoint, a waypoint
+    /// latlng, or as a the last latlng of the current_route_segment. Fleet Engine
+    /// will then do its best to interpolate to an actual waypoint if it is not
+    /// fully specified. It will be returned in GetTrip calls. It is not respected
+    /// in Create/Update Trip calls.
+    #[prost(message, optional, tag = "24")]
+    pub current_route_segment_end_point: ::core::option::Option<TripWaypoint>,
+    /// Output only. The remaining driving distance in Trip.current_route_segment field.
+    /// This field facilitates journey sharing between a driver and rider and
+    /// Fleet Engine does not update it. Your driver app is responsible for setting
+    /// field on all of its current trips by passing
+    /// Vehicle.remaining_distance_meters to an Vehicle.update call.
+    /// The value is unspecified if the trip is not assigned to a vehicle, or the
+    /// trip is inactive (completed or cancelled), or driver hasn't updated this
+    /// value.
+    #[prost(message, optional, tag = "12")]
+    pub remaining_distance_meters: ::core::option::Option<i32>,
+    /// Output only. The ETA to the next waypoint (the first entry in the
+    /// Trip.remaining_waypoints field). This field facilitates journey sharing
+    /// between a driver and a consumer. Fleet Engine does not update this value.
+    /// Your driver app is responsible for setting this field by passing
+    /// Vehicle.remaining_time_seconds in a call to Vehicle.update. FleetEngine
+    /// converts the Vehicle.remaining_time_seconds to Trip.eta_to_first_waypoint,
+    /// and returns it to the rider. The value is unspecified if the trip is not
+    /// assigned to a vehicle, or the trip is inactive (completed or cancelled), or
+    /// driver hasn't updated this value.
+    #[prost(message, optional, tag = "13")]
+    pub eta_to_first_waypoint: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The duration from when the Trip data is returned to the time in
+    /// Trip.eta_to_first_waypoint.
+    #[prost(message, optional, tag = "27")]
+    pub remaining_time_to_first_waypoint: ::core::option::Option<::prost_types::Duration>,
+    /// Output only. Indicates the last time that `remaining_waypoints` was changed (a
+    /// waypoint was added, removed, or changed).
+    #[prost(message, optional, tag = "19")]
+    pub remaining_waypoints_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Indicates the last time the `remaining_waypoints.path_to_waypoint` and
+    /// `remaining_waypoints.traffic_to_waypoint` were modified. Your client app
+    /// should cache this value and pass it in `GetTripRequest` to ensure the
+    /// paths and traffic for `remaining_waypoints` are only returned if updated.
+    #[prost(message, optional, tag = "29")]
+    pub remaining_waypoints_route_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// Immutable. Indicates the number of passengers on this trip and does not include the
+    /// driver. A vehicle must have available capacity to be returned
+    /// in SearchVehicles.
+    #[prost(int32, tag = "10")]
+    pub number_of_passengers: i32,
+    /// Output only. Indicates the last reported location of the vehicle along the route.
+    #[prost(message, optional, tag = "11")]
+    pub last_location: ::core::option::Option<VehicleLocation>,
+    /// Output only. Indicates whether the vehicle's last_location can be snapped to
+    /// the current_route_segment. False if last_location or current_route_segment
+    /// doesn't exist.
+    /// It is computed by Fleet Engine. Any update from clients will be ignored.
+    #[prost(bool, tag = "26")]
+    pub last_location_snappable: bool,
+    /// The subset of Trip fields that are populated and how they should be
+    /// interpreted.
+    #[prost(enumeration = "TripView", tag = "31")]
+    pub view: i32,
+}
+/// The actual location where a stop (pickup/dropoff) happened.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StopLocation {
+    /// Required. Denotes the actual location.
+    #[prost(message, optional, tag = "1")]
+    pub point: ::core::option::Option<super::super::super::google::r#type::LatLng>,
+    /// Indicates when the stop happened.
+    #[prost(message, optional, tag = "2")]
+    pub timestamp: ::core::option::Option<::prost_types::Timestamp>,
+    /// Input only. Deprecated.  Use the timestamp field.
+    #[deprecated]
+    #[prost(message, optional, tag = "3")]
+    pub stop_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// The status of a trip indicating its progression.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TripStatus {
+    /// Default, used for unspecified or unrecognized trip status.
+    UnknownTripStatus = 0,
+    /// Newly created trip.
+    New = 1,
+    /// The driver is on their way to the pickup point.
+    EnrouteToPickup = 2,
+    /// The driver has arrived at the pickup point.
+    ArrivedAtPickup = 3,
+    /// The driver has arrived at an intermediate destination and is waiting for
+    /// the rider.
+    ArrivedAtIntermediateDestination = 7,
+    /// The driver is on their way to an intermediate destination
+    /// (not the dropoff point).
+    EnrouteToIntermediateDestination = 8,
+    /// The driver has picked up the rider and is on their way to the
+    /// next destination.
+    EnrouteToDropoff = 4,
+    /// The rider has been dropped off and the trip is complete.
+    Complete = 5,
+    /// The trip was canceled prior to pickup by the driver, rider, or
+    /// rideshare provider.
+    Canceled = 6,
+}
+/// A set of values that indicate upon which platform the request was issued.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum BillingPlatformIdentifier {
+    /// Default. Used for unspecified platforms.
+    Unspecified = 0,
+    /// The platform is a client server.
+    Server = 1,
+    /// The platform is a web browser.
+    Web = 2,
+    /// The platform is an Android mobile device.
+    Android = 3,
+    /// The platform is an IOS mobile device.
+    Ios = 4,
+    /// Other platforms that are not listed in this enumeration.
+    Others = 5,
+}
+/// Selector for different sets of Trip fields in a `GetTrip` response.  See
+/// \[AIP-157\](<https://google.aip.dev/157>) for context. Additional views are
+/// likely to be added.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TripView {
+    /// The default value. For backwards-compatibility, the API will default to an
+    /// SDK view. To ensure stability and support, customers are
+    /// advised to select a `TripView` other than `SDK`.
+    Unspecified = 0,
+    /// Includes fields that may not be interpretable or supportable using
+    /// publicly available libraries.
+    Sdk = 1,
+    /// Trip fields are populated for the Journey Sharing use case. This view is
+    /// intended for server-to-server communications.
+    JourneySharingV1s = 2,
+}
 /// A RequestHeader contains fields common to all Fleet Engine RPC requests.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestHeader {
@@ -1492,259 +1745,6 @@ pub mod vehicle_service_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
-}
-/// Trip metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Trip {
-    /// Output only. In the format "providers/{provider}/trips/{trip}"
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// ID of the vehicle making this trip.
-    #[prost(string, tag = "2")]
-    pub vehicle_id: ::prost::alloc::string::String,
-    /// Current status of the trip.
-    #[prost(enumeration = "TripStatus", tag = "3")]
-    pub trip_status: i32,
-    /// The type of the trip.
-    #[prost(enumeration = "TripType", tag = "4")]
-    pub trip_type: i32,
-    /// Location where customer indicates they will be picked up.
-    #[prost(message, optional, tag = "5")]
-    pub pickup_point: ::core::option::Option<TerminalLocation>,
-    /// Input only. The actual location when and where customer was picked up.
-    /// This field is for provider to provide feedback on actual pickup
-    /// information.
-    #[prost(message, optional, tag = "22")]
-    pub actual_pickup_point: ::core::option::Option<StopLocation>,
-    /// Input only. The actual time and location of the driver arrival at
-    /// the pickup point.
-    /// This field is for provider to provide feedback on actual arrival
-    /// information at the pickup point.
-    #[prost(message, optional, tag = "32")]
-    pub actual_pickup_arrival_point: ::core::option::Option<StopLocation>,
-    /// Output only. Either the estimated future time when the rider(s) will be picked up, or
-    /// the actual time when they were picked up.
-    #[prost(message, optional, tag = "6")]
-    pub pickup_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Intermediate stops in order that the trip requests (in addition
-    /// to pickup and dropoff). Initially this will not be supported for shared
-    /// trips.
-    #[prost(message, repeated, tag = "14")]
-    pub intermediate_destinations: ::prost::alloc::vec::Vec<TerminalLocation>,
-    /// Indicates the last time the Trip.intermediate_destinations was modified.
-    /// Your server should cache this value and pass it in UpdateTripRequest
-    /// when update Trip.intermediate_destination_index to ensure the
-    /// Trip.intermediate_destinations is not changed.
-    #[prost(message, optional, tag = "25")]
-    pub intermediate_destinations_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// When TripStatus is ENROUTE_TO_INTERMEDIATE_DESTINATION, a number between
-    /// \[0..N-1\] indicating which intermediate destination the vehicle will cross
-    /// next.
-    /// When TripStatus is ARRIVED_AT_INTERMEDIATE_DESTINATION, a number between
-    /// \[0..N-1\] indicating which intermediate destination the vehicle is at.
-    /// The provider sets this value. If there are no intermediate_destinations,
-    /// this field is ignored.
-    #[prost(int32, tag = "15")]
-    pub intermediate_destination_index: i32,
-    /// Input only. The actual time and location of the driver's arrival at
-    /// an intermediate destination.
-    /// This field is for provider to provide feedback on actual arriaval
-    /// information at intermediate destinations.
-    #[prost(message, repeated, tag = "33")]
-    pub actual_intermediate_destination_arrival_points: ::prost::alloc::vec::Vec<StopLocation>,
-    /// Input only. The actual time and location when and where the customer was picked up from
-    /// an intermediate destination.
-    /// This field is for provider to provide feedback on actual pickup
-    /// information at intermediate destinations.
-    #[prost(message, repeated, tag = "34")]
-    pub actual_intermediate_destinations: ::prost::alloc::vec::Vec<StopLocation>,
-    /// Location where customer indicates they will be dropped off.
-    #[prost(message, optional, tag = "7")]
-    pub dropoff_point: ::core::option::Option<TerminalLocation>,
-    /// Input only. The actual time and location when and where customer was dropped off.
-    /// This field is for provider to provide feedback on actual dropoff
-    /// information.
-    #[prost(message, optional, tag = "23")]
-    pub actual_dropoff_point: ::core::option::Option<StopLocation>,
-    /// Output only. Either the estimated future time when the rider(s) will be dropped off at
-    /// the final destination, or the actual time when they were dropped off.
-    #[prost(message, optional, tag = "8")]
-    pub dropoff_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The full path from the current location to the dropoff point, inclusive.
-    /// If this is a shared ride, this path could include waypoints from other
-    /// trips.
-    #[prost(message, repeated, tag = "16")]
-    pub remaining_waypoints: ::prost::alloc::vec::Vec<TripWaypoint>,
-    /// This field supports manual ordering of the waypoints for the trip.
-    /// It contains all of the remaining waypoints of vehicle assigned, as well as
-    /// the pickup and drop-off waypoints for this trip.
-    /// If the trip hasn't been assigned to a vehicle, then this field is ignored.
-    /// For privacy reasons, this field is only populated by the server on
-    /// UpdateTrip and CreateTrip calls, and NOT on GetTrip calls.
-    #[prost(message, repeated, tag = "20")]
-    pub vehicle_waypoints: ::prost::alloc::vec::Vec<TripWaypoint>,
-    /// Output only. Anticipated route for this trip to the first entry in remaining_waypoints.
-    /// If back_to_back or shared trips are enabled, the waypoints may belong to a
-    /// different trip.
-    #[prost(message, repeated, tag = "9")]
-    pub route: ::prost::alloc::vec::Vec<super::super::super::google::r#type::LatLng>,
-    /// Output only. An encoded path to the next waypoint. This field facilitates journey
-    /// sharing between a Driver app and a Rider app. Your driver app is
-    /// responsible for setting this field on all of its current trips by passing
-    /// Vehicle.current_route_segment to UpdateVehicle. Note: This field is
-    /// intended only for use by the Driver SDK and Consumer SDK.
-    #[prost(string, tag = "21")]
-    pub current_route_segment: ::prost::alloc::string::String,
-    /// Output only. Indicates the last time the route was modified.  Note: This field is
-    /// intended only for use by the Driver SDK and Consumer SDK.
-    #[prost(message, optional, tag = "17")]
-    pub current_route_segment_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. When available, the traffic conditions along the
-    /// current_route_segment. Note: This field is intended only
-    /// for use by the Driver SDK and Consumer SDK.
-    #[prost(message, optional, tag = "28")]
-    pub current_route_segment_traffic: ::core::option::Option<ConsumableTrafficPolyline>,
-    /// Output only. Indicates the last time the current_route_segment_traffic was modified.
-    /// Note: This field is intended only for use by the Driver SDK and Consumer
-    /// SDK.
-    #[prost(message, optional, tag = "30")]
-    pub current_route_segment_traffic_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The waypoint where current_route_segment ends. This can be supplied by
-    /// drivers on UpdateVehicle calls either as a full trip waypoint, a waypoint
-    /// latlng, or as a the last latlng of the current_route_segment. Fleet Engine
-    /// will then do its best to interpolate to an actual waypoint if it is not
-    /// fully specified. It will be returned in GetTrip calls. It is not respected
-    /// in Create/Update Trip calls.
-    #[prost(message, optional, tag = "24")]
-    pub current_route_segment_end_point: ::core::option::Option<TripWaypoint>,
-    /// Output only. The remaining driving distance in Trip.current_route_segment field.
-    /// This field facilitates journey sharing between a driver and rider and
-    /// Fleet Engine does not update it. Your driver app is responsible for setting
-    /// field on all of its current trips by passing
-    /// Vehicle.remaining_distance_meters to an Vehicle.update call.
-    /// The value is unspecified if the trip is not assigned to a vehicle, or the
-    /// trip is inactive (completed or cancelled), or driver hasn't updated this
-    /// value.
-    #[prost(message, optional, tag = "12")]
-    pub remaining_distance_meters: ::core::option::Option<i32>,
-    /// Output only. The ETA to the next waypoint (the first entry in the
-    /// Trip.remaining_waypoints field). This field facilitates journey sharing
-    /// between a driver and a consumer. Fleet Engine does not update this value.
-    /// Your driver app is responsible for setting this field by passing
-    /// Vehicle.remaining_time_seconds in a call to Vehicle.update. FleetEngine
-    /// converts the Vehicle.remaining_time_seconds to Trip.eta_to_first_waypoint,
-    /// and returns it to the rider. The value is unspecified if the trip is not
-    /// assigned to a vehicle, or the trip is inactive (completed or cancelled), or
-    /// driver hasn't updated this value.
-    #[prost(message, optional, tag = "13")]
-    pub eta_to_first_waypoint: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The duration from when the Trip data is returned to the time in
-    /// Trip.eta_to_first_waypoint.
-    #[prost(message, optional, tag = "27")]
-    pub remaining_time_to_first_waypoint: ::core::option::Option<::prost_types::Duration>,
-    /// Output only. Indicates the last time that `remaining_waypoints` was changed (a
-    /// waypoint was added, removed, or changed).
-    #[prost(message, optional, tag = "19")]
-    pub remaining_waypoints_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Indicates the last time the `remaining_waypoints.path_to_waypoint` and
-    /// `remaining_waypoints.traffic_to_waypoint` were modified. Your client app
-    /// should cache this value and pass it in `GetTripRequest` to ensure the
-    /// paths and traffic for `remaining_waypoints` are only returned if updated.
-    #[prost(message, optional, tag = "29")]
-    pub remaining_waypoints_route_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// Immutable. Indicates the number of passengers on this trip and does not include the
-    /// driver. A vehicle must have available capacity to be returned
-    /// in SearchVehicles.
-    #[prost(int32, tag = "10")]
-    pub number_of_passengers: i32,
-    /// Output only. Indicates the last reported location of the vehicle along the route.
-    #[prost(message, optional, tag = "11")]
-    pub last_location: ::core::option::Option<VehicleLocation>,
-    /// Output only. Indicates whether the vehicle's last_location can be snapped to
-    /// the current_route_segment. False if last_location or current_route_segment
-    /// doesn't exist.
-    /// It is computed by Fleet Engine. Any update from clients will be ignored.
-    #[prost(bool, tag = "26")]
-    pub last_location_snappable: bool,
-    /// The subset of Trip fields that are populated and how they should be
-    /// interpreted.
-    #[prost(enumeration = "TripView", tag = "31")]
-    pub view: i32,
-}
-/// The actual location where a stop (pickup/dropoff) happened.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StopLocation {
-    /// Required. Denotes the actual location.
-    #[prost(message, optional, tag = "1")]
-    pub point: ::core::option::Option<super::super::super::google::r#type::LatLng>,
-    /// Indicates when the stop happened.
-    #[prost(message, optional, tag = "2")]
-    pub timestamp: ::core::option::Option<::prost_types::Timestamp>,
-    /// Input only. Deprecated.  Use the timestamp field.
-    #[deprecated]
-    #[prost(message, optional, tag = "3")]
-    pub stop_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// The status of a trip indicating its progression.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TripStatus {
-    /// Default, used for unspecified or unrecognized trip status.
-    UnknownTripStatus = 0,
-    /// Newly created trip.
-    New = 1,
-    /// The driver is on their way to the pickup point.
-    EnrouteToPickup = 2,
-    /// The driver has arrived at the pickup point.
-    ArrivedAtPickup = 3,
-    /// The driver has arrived at an intermediate destination and is waiting for
-    /// the rider.
-    ArrivedAtIntermediateDestination = 7,
-    /// The driver is on their way to an intermediate destination
-    /// (not the dropoff point).
-    EnrouteToIntermediateDestination = 8,
-    /// The driver has picked up the rider and is on their way to the
-    /// next destination.
-    EnrouteToDropoff = 4,
-    /// The rider has been dropped off and the trip is complete.
-    Complete = 5,
-    /// The trip was canceled prior to pickup by the driver, rider, or
-    /// rideshare provider.
-    Canceled = 6,
-}
-/// A set of values that indicate upon which platform the request was issued.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum BillingPlatformIdentifier {
-    /// Default. Used for unspecified platforms.
-    Unspecified = 0,
-    /// The platform is a client server.
-    Server = 1,
-    /// The platform is a web browser.
-    Web = 2,
-    /// The platform is an Android mobile device.
-    Android = 3,
-    /// The platform is an IOS mobile device.
-    Ios = 4,
-    /// Other platforms that are not listed in this enumeration.
-    Others = 5,
-}
-/// Selector for different sets of Trip fields in a `GetTrip` response.  See
-/// \[AIP-157\](<https://google.aip.dev/157>) for context. Additional views are
-/// likely to be added.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TripView {
-    /// The default value. For backwards-compatibility, the API will default to an
-    /// SDK view. To ensure stability and support, customers are
-    /// advised to select a `TripView` other than `SDK`.
-    Unspecified = 0,
-    /// Includes fields that may not be interpretable or supportable using
-    /// publicly available libraries.
-    Sdk = 1,
-    /// Trip fields are populated for the Journey Sharing use case. This view is
-    /// intended for server-to-server communications.
-    JourneySharingV1s = 2,
 }
 /// CreateTrip request message.
 #[derive(Clone, PartialEq, ::prost::Message)]

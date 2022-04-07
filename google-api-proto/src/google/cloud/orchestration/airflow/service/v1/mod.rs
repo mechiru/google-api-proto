@@ -1,3 +1,124 @@
+/// List ImageVersions in a project and location.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListImageVersionsRequest {
+    /// List ImageVersions in the given project and location, in the form:
+    /// "projects/{projectId}/locations/{locationId}"
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of image_versions to return.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous List request, if any.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Whether or not image versions from old releases should be included.
+    #[prost(bool, tag = "4")]
+    pub include_past_releases: bool,
+}
+/// The ImageVersions in a project and location.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListImageVersionsResponse {
+    /// The list of supported ImageVersions in a location.
+    #[prost(message, repeated, tag = "1")]
+    pub image_versions: ::prost::alloc::vec::Vec<ImageVersion>,
+    /// The page token used to query for the next page if one exists.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// ImageVersion information
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImageVersion {
+    /// The string identifier of the ImageVersion, in the form:
+    /// "composer-x.y.z-airflow-a.b(.c)"
+    #[prost(string, tag = "1")]
+    pub image_version_id: ::prost::alloc::string::String,
+    /// Whether this is the default ImageVersion used by Composer during
+    /// environment creation if no input ImageVersion is specified.
+    #[prost(bool, tag = "2")]
+    pub is_default: bool,
+    /// supported python versions
+    #[prost(string, repeated, tag = "3")]
+    pub supported_python_versions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The date of the version release.
+    #[prost(message, optional, tag = "4")]
+    pub release_date: ::core::option::Option<super::super::super::super::super::r#type::Date>,
+    /// Whether it is impossible to create an environment with the image version.
+    #[prost(bool, tag = "5")]
+    pub creation_disabled: bool,
+    /// Whether it is impossible to upgrade an environment running with the image
+    /// version.
+    #[prost(bool, tag = "6")]
+    pub upgrade_disabled: bool,
+}
+#[doc = r" Generated client implementations."]
+pub mod image_versions_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " Readonly service to query available ImageVersions."]
+    #[derive(Debug, Clone)]
+    pub struct ImageVersionsClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ImageVersionsClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ImageVersionsClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            ImageVersionsClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " List ImageVersions for provided location."]
+        pub async fn list_image_versions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListImageVersionsRequest>,
+        ) -> Result<tonic::Response<super::ListImageVersionsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.orchestration.airflow.service.v1.ImageVersions/ListImageVersions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// Create a new environment.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateEnvironmentRequest {
@@ -885,126 +1006,5 @@ pub mod operation_metadata {
         Update = 3,
         /// A resource check operation.
         Check = 4,
-    }
-}
-/// List ImageVersions in a project and location.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListImageVersionsRequest {
-    /// List ImageVersions in the given project and location, in the form:
-    /// "projects/{projectId}/locations/{locationId}"
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of image_versions to return.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous List request, if any.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Whether or not image versions from old releases should be included.
-    #[prost(bool, tag = "4")]
-    pub include_past_releases: bool,
-}
-/// The ImageVersions in a project and location.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListImageVersionsResponse {
-    /// The list of supported ImageVersions in a location.
-    #[prost(message, repeated, tag = "1")]
-    pub image_versions: ::prost::alloc::vec::Vec<ImageVersion>,
-    /// The page token used to query for the next page if one exists.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// ImageVersion information
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageVersion {
-    /// The string identifier of the ImageVersion, in the form:
-    /// "composer-x.y.z-airflow-a.b(.c)"
-    #[prost(string, tag = "1")]
-    pub image_version_id: ::prost::alloc::string::String,
-    /// Whether this is the default ImageVersion used by Composer during
-    /// environment creation if no input ImageVersion is specified.
-    #[prost(bool, tag = "2")]
-    pub is_default: bool,
-    /// supported python versions
-    #[prost(string, repeated, tag = "3")]
-    pub supported_python_versions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The date of the version release.
-    #[prost(message, optional, tag = "4")]
-    pub release_date: ::core::option::Option<super::super::super::super::super::r#type::Date>,
-    /// Whether it is impossible to create an environment with the image version.
-    #[prost(bool, tag = "5")]
-    pub creation_disabled: bool,
-    /// Whether it is impossible to upgrade an environment running with the image
-    /// version.
-    #[prost(bool, tag = "6")]
-    pub upgrade_disabled: bool,
-}
-#[doc = r" Generated client implementations."]
-pub mod image_versions_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " Readonly service to query available ImageVersions."]
-    #[derive(Debug, Clone)]
-    pub struct ImageVersionsClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ImageVersionsClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ImageVersionsClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            ImageVersionsClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " List ImageVersions for provided location."]
-        pub async fn list_image_versions(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListImageVersionsRequest>,
-        ) -> Result<tonic::Response<super::ListImageVersionsResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.orchestration.airflow.service.v1.ImageVersions/ListImageVersions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
     }
 }

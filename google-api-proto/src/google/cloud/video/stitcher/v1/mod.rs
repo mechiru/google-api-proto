@@ -62,53 +62,6 @@ pub struct ResponseMetadata {
     #[prost(string, tag = "6")]
     pub body: ::prost::alloc::string::String,
 }
-/// Configuration for a CDN key. Used by the Video Stitcher
-/// to sign URIs for fetching video manifests and signing
-/// media segments for playback.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CdnKey {
-    /// The resource name of the CDN key, in the form of
-    /// `projects/{project}/locations/{location}/cdnKeys/{id}`.
-    /// The name is ignored when creating a CDN key.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The hostname this key applies to.
-    #[prost(string, tag = "4")]
-    pub hostname: ::prost::alloc::string::String,
-    /// Configuration associated with the CDN key.
-    #[prost(oneof = "cdn_key::CdnKeyConfig", tags = "5, 6")]
-    pub cdn_key_config: ::core::option::Option<cdn_key::CdnKeyConfig>,
-}
-/// Nested message and enum types in `CdnKey`.
-pub mod cdn_key {
-    /// Configuration associated with the CDN key.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum CdnKeyConfig {
-        /// The configuration for a Google Cloud CDN key.
-        #[prost(message, tag = "5")]
-        GoogleCdnKey(super::GoogleCdnKey),
-        /// The configuration for an Akamai CDN key.
-        #[prost(message, tag = "6")]
-        AkamaiCdnKey(super::AkamaiCdnKey),
-    }
-}
-/// Configuration for a Google Cloud CDN key.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GoogleCdnKey {
-    /// Input only. Secret for this Google Cloud CDN key.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub private_key: ::prost::bytes::Bytes,
-    /// The public name of the Google Cloud CDN key.
-    #[prost(string, tag = "2")]
-    pub key_name: ::prost::alloc::string::String,
-}
-/// Configuration for an Akamai CDN key.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AkamaiCdnKey {
-    /// Input only. Token key for the Akamai CDN edge configuration.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub token_key: ::prost::bytes::Bytes,
-}
 /// Describes an event and a trigger URI.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Event {
@@ -299,6 +252,53 @@ pub struct StaticAdResource {
     /// Describes the MIME type of the ad resource.
     #[prost(string, tag = "2")]
     pub creative_type: ::prost::alloc::string::String,
+}
+/// Configuration for a CDN key. Used by the Video Stitcher
+/// to sign URIs for fetching video manifests and signing
+/// media segments for playback.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CdnKey {
+    /// The resource name of the CDN key, in the form of
+    /// `projects/{project}/locations/{location}/cdnKeys/{id}`.
+    /// The name is ignored when creating a CDN key.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The hostname this key applies to.
+    #[prost(string, tag = "4")]
+    pub hostname: ::prost::alloc::string::String,
+    /// Configuration associated with the CDN key.
+    #[prost(oneof = "cdn_key::CdnKeyConfig", tags = "5, 6")]
+    pub cdn_key_config: ::core::option::Option<cdn_key::CdnKeyConfig>,
+}
+/// Nested message and enum types in `CdnKey`.
+pub mod cdn_key {
+    /// Configuration associated with the CDN key.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum CdnKeyConfig {
+        /// The configuration for a Google Cloud CDN key.
+        #[prost(message, tag = "5")]
+        GoogleCdnKey(super::GoogleCdnKey),
+        /// The configuration for an Akamai CDN key.
+        #[prost(message, tag = "6")]
+        AkamaiCdnKey(super::AkamaiCdnKey),
+    }
+}
+/// Configuration for a Google Cloud CDN key.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GoogleCdnKey {
+    /// Input only. Secret for this Google Cloud CDN key.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub private_key: ::prost::bytes::Bytes,
+    /// The public name of the Google Cloud CDN key.
+    #[prost(string, tag = "2")]
+    pub key_name: ::prost::alloc::string::String,
+}
+/// Configuration for an Akamai CDN key.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AkamaiCdnKey {
+    /// Input only. Token key for the Akamai CDN edge configuration.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub token_key: ::prost::bytes::Bytes,
 }
 /// Metadata for a VOD session.
 #[derive(Clone, PartialEq, ::prost::Message)]

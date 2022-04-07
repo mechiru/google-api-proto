@@ -1,3 +1,96 @@
+/// A detailed representation of a Yum artifact.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct YumArtifact {
+    /// Output only. The Artifact Registry resource name of the artifact.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. The yum package name of the artifact.
+    #[prost(string, tag = "2")]
+    pub package_name: ::prost::alloc::string::String,
+    /// Output only. An artifact is a binary or source package.
+    #[prost(enumeration = "yum_artifact::PackageType", tag = "3")]
+    pub package_type: i32,
+    /// Output only. Operating system architecture of the artifact.
+    #[prost(string, tag = "4")]
+    pub architecture: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `YumArtifact`.
+pub mod yum_artifact {
+    /// Package type is either binary or source.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum PackageType {
+        /// Package type is not specified.
+        Unspecified = 0,
+        /// Binary package (.rpm).
+        Binary = 1,
+        /// Source package (.srpm).
+        Source = 2,
+    }
+}
+/// Google Cloud Storage location where the artifacts currently reside.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportYumArtifactsGcsSource {
+    /// Cloud Storage paths URI (e.g., gs://my_bucket//my_object).
+    #[prost(string, repeated, tag = "1")]
+    pub uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Supports URI wildcards for matching multiple objects from a single URI.
+    #[prost(bool, tag = "2")]
+    pub use_wildcards: bool,
+}
+/// The request to import new yum artifacts.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportYumArtifactsRequest {
+    /// The name of the parent resource where the artifacts will be imported.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The source location of the package binaries.
+    #[prost(oneof = "import_yum_artifacts_request::Source", tags = "2")]
+    pub source: ::core::option::Option<import_yum_artifacts_request::Source>,
+}
+/// Nested message and enum types in `ImportYumArtifactsRequest`.
+pub mod import_yum_artifacts_request {
+    /// The source location of the package binaries.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Source {
+        /// Google Cloud Storage location where input content is located.
+        #[prost(message, tag = "2")]
+        GcsSource(super::ImportYumArtifactsGcsSource),
+    }
+}
+/// Error information explaining why a package was not imported.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportYumArtifactsErrorInfo {
+    /// The detailed error status.
+    #[prost(message, optional, tag = "2")]
+    pub error: ::core::option::Option<super::super::super::rpc::Status>,
+    /// The source that was not imported.
+    #[prost(oneof = "import_yum_artifacts_error_info::Source", tags = "1")]
+    pub source: ::core::option::Option<import_yum_artifacts_error_info::Source>,
+}
+/// Nested message and enum types in `ImportYumArtifactsErrorInfo`.
+pub mod import_yum_artifacts_error_info {
+    /// The source that was not imported.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Source {
+        /// Google Cloud Storage location requested.
+        #[prost(message, tag = "1")]
+        GcsSource(super::ImportYumArtifactsGcsSource),
+    }
+}
+/// The response message from importing YUM artifacts.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportYumArtifactsResponse {
+    /// The yum artifacts imported.
+    #[prost(message, repeated, tag = "1")]
+    pub yum_artifacts: ::prost::alloc::vec::Vec<YumArtifact>,
+    /// Detailed error info for artifacts that were not imported.
+    #[prost(message, repeated, tag = "2")]
+    pub errors: ::prost::alloc::vec::Vec<ImportYumArtifactsErrorInfo>,
+}
+/// The operation metadata for importing artifacts.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportYumArtifactsMetadata {}
 /// A detailed representation of an Apt artifact. Information in the record
 /// is derived from the archive's control file.
 /// See <https://www.debian.org/doc/debian-policy/ch-controlfields.html>
@@ -649,99 +742,6 @@ pub enum VersionView {
     /// Include everything.
     Full = 2,
 }
-/// A detailed representation of a Yum artifact.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct YumArtifact {
-    /// Output only. The Artifact Registry resource name of the artifact.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. The yum package name of the artifact.
-    #[prost(string, tag = "2")]
-    pub package_name: ::prost::alloc::string::String,
-    /// Output only. An artifact is a binary or source package.
-    #[prost(enumeration = "yum_artifact::PackageType", tag = "3")]
-    pub package_type: i32,
-    /// Output only. Operating system architecture of the artifact.
-    #[prost(string, tag = "4")]
-    pub architecture: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `YumArtifact`.
-pub mod yum_artifact {
-    /// Package type is either binary or source.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum PackageType {
-        /// Package type is not specified.
-        Unspecified = 0,
-        /// Binary package (.rpm).
-        Binary = 1,
-        /// Source package (.srpm).
-        Source = 2,
-    }
-}
-/// Google Cloud Storage location where the artifacts currently reside.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportYumArtifactsGcsSource {
-    /// Cloud Storage paths URI (e.g., gs://my_bucket//my_object).
-    #[prost(string, repeated, tag = "1")]
-    pub uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Supports URI wildcards for matching multiple objects from a single URI.
-    #[prost(bool, tag = "2")]
-    pub use_wildcards: bool,
-}
-/// The request to import new yum artifacts.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportYumArtifactsRequest {
-    /// The name of the parent resource where the artifacts will be imported.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The source location of the package binaries.
-    #[prost(oneof = "import_yum_artifacts_request::Source", tags = "2")]
-    pub source: ::core::option::Option<import_yum_artifacts_request::Source>,
-}
-/// Nested message and enum types in `ImportYumArtifactsRequest`.
-pub mod import_yum_artifacts_request {
-    /// The source location of the package binaries.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Source {
-        /// Google Cloud Storage location where input content is located.
-        #[prost(message, tag = "2")]
-        GcsSource(super::ImportYumArtifactsGcsSource),
-    }
-}
-/// Error information explaining why a package was not imported.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportYumArtifactsErrorInfo {
-    /// The detailed error status.
-    #[prost(message, optional, tag = "2")]
-    pub error: ::core::option::Option<super::super::super::rpc::Status>,
-    /// The source that was not imported.
-    #[prost(oneof = "import_yum_artifacts_error_info::Source", tags = "1")]
-    pub source: ::core::option::Option<import_yum_artifacts_error_info::Source>,
-}
-/// Nested message and enum types in `ImportYumArtifactsErrorInfo`.
-pub mod import_yum_artifacts_error_info {
-    /// The source that was not imported.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Source {
-        /// Google Cloud Storage location requested.
-        #[prost(message, tag = "1")]
-        GcsSource(super::ImportYumArtifactsGcsSource),
-    }
-}
-/// The response message from importing YUM artifacts.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportYumArtifactsResponse {
-    /// The yum artifacts imported.
-    #[prost(message, repeated, tag = "1")]
-    pub yum_artifacts: ::prost::alloc::vec::Vec<YumArtifact>,
-    /// Detailed error info for artifacts that were not imported.
-    #[prost(message, repeated, tag = "2")]
-    pub errors: ::prost::alloc::vec::Vec<ImportYumArtifactsErrorInfo>,
-}
-/// The operation metadata for importing artifacts.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportYumArtifactsMetadata {}
 /// Metadata type for longrunning-operations, currently empty.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OperationMetadata {}

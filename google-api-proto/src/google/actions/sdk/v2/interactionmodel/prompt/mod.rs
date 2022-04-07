@@ -1,66 +1,3 @@
-/// Represents the surface the user is using to make a request to the Action.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SurfaceCapabilities {
-    /// Required. The capabilities of the surface making a request to the Action.
-    #[prost(
-        enumeration = "surface_capabilities::Capability",
-        repeated,
-        packed = "false",
-        tag = "1"
-    )]
-    pub capabilities: ::prost::alloc::vec::Vec<i32>,
-}
-/// Nested message and enum types in `SurfaceCapabilities`.
-pub mod surface_capabilities {
-    /// Capabilities the device surface supports at the time of the request.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Capability {
-        /// Unspecified surface capability.
-        Unspecified = 0,
-        /// Device can speak to the user via text-to-speech or SSML.
-        Speech = 1,
-        /// Device can display rich responses like cards, lists and tables.
-        RichResponse = 2,
-        /// Device can play long form audio media like music and podcasts.
-        LongFormAudio = 3,
-        /// Device can display a interactive canvas response.
-        InteractiveCanvas = 4,
-        /// Device can use web links in rich responses to open a web browser.
-        WebLink = 5,
-        /// Device can support saving and fetching home storage.
-        HomeStorage = 6,
-    }
-}
-/// Represents a simple prompt to be send to a user.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StaticSimplePrompt {
-    /// List of possible variants.
-    #[prost(message, repeated, tag = "1")]
-    pub variants: ::prost::alloc::vec::Vec<static_simple_prompt::Variant>,
-}
-/// Nested message and enum types in `StaticSimplePrompt`.
-pub mod static_simple_prompt {
-    /// Represents a variant which is part of the simple prompt.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Variant {
-        /// Optional. Represents the speech to be spoken to the user.  Can be SSML or text to
-        /// speech.
-        /// By default, speech will be appended to previous Simple prompt's
-        /// speech. If the `override` field in the containing prompt is `true` the
-        /// speech defined in this field will override previous Simple prompt's
-        /// speech.
-        #[prost(string, tag = "1")]
-        pub speech: ::prost::alloc::string::String,
-        /// Optional. Text to display in the chat bubble. If not given, a display rendering of
-        /// the speech field above will be used. Limited to 640 chars.
-        /// By default, text will be appended to previous Simple prompt's text.
-        /// If the `override` field in the containing prompt is `true` the text
-        /// defined in this field will override previous Simple prompt's text.
-        #[prost(string, tag = "2")]
-        pub text: ::prost::alloc::string::String,
-    }
-}
 /// Represents a Interactive Canvas response to be sent to the user.
 /// This can be used in conjunction with the `first_simple` field in the
 /// containing prompt to speak to the user in addition to displaying a
@@ -504,6 +441,35 @@ pub mod static_content_prompt {
         CollectionBrowse(super::StaticCollectionBrowsePrompt),
     }
 }
+/// Represents a simple prompt to be send to a user.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StaticSimplePrompt {
+    /// List of possible variants.
+    #[prost(message, repeated, tag = "1")]
+    pub variants: ::prost::alloc::vec::Vec<static_simple_prompt::Variant>,
+}
+/// Nested message and enum types in `StaticSimplePrompt`.
+pub mod static_simple_prompt {
+    /// Represents a variant which is part of the simple prompt.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Variant {
+        /// Optional. Represents the speech to be spoken to the user.  Can be SSML or text to
+        /// speech.
+        /// By default, speech will be appended to previous Simple prompt's
+        /// speech. If the `override` field in the containing prompt is `true` the
+        /// speech defined in this field will override previous Simple prompt's
+        /// speech.
+        #[prost(string, tag = "1")]
+        pub speech: ::prost::alloc::string::String,
+        /// Optional. Text to display in the chat bubble. If not given, a display rendering of
+        /// the speech field above will be used. Limited to 640 chars.
+        /// By default, text will be appended to previous Simple prompt's text.
+        /// If the `override` field in the containing prompt is `true` the text
+        /// defined in this field will override previous Simple prompt's text.
+        #[prost(string, tag = "2")]
+        pub text: ::prost::alloc::string::String,
+    }
+}
 /// Represents a suggestion chip, a UI element shown to the user for convenience.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Suggestion {
@@ -513,6 +479,40 @@ pub struct Suggestion {
     /// Max 25 chars
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
+}
+/// Represents the surface the user is using to make a request to the Action.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SurfaceCapabilities {
+    /// Required. The capabilities of the surface making a request to the Action.
+    #[prost(
+        enumeration = "surface_capabilities::Capability",
+        repeated,
+        packed = "false",
+        tag = "1"
+    )]
+    pub capabilities: ::prost::alloc::vec::Vec<i32>,
+}
+/// Nested message and enum types in `SurfaceCapabilities`.
+pub mod surface_capabilities {
+    /// Capabilities the device surface supports at the time of the request.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Capability {
+        /// Unspecified surface capability.
+        Unspecified = 0,
+        /// Device can speak to the user via text-to-speech or SSML.
+        Speech = 1,
+        /// Device can display rich responses like cards, lists and tables.
+        RichResponse = 2,
+        /// Device can play long form audio media like music and podcasts.
+        LongFormAudio = 3,
+        /// Device can display a interactive canvas response.
+        InteractiveCanvas = 4,
+        /// Device can use web links in rich responses to open a web browser.
+        WebLink = 5,
+        /// Device can support saving and fetching home storage.
+        HomeStorage = 6,
+    }
 }
 /// Represents a list of prompt candidates, one of which will be selected as the
 /// prompt to be shown in the response to the user.

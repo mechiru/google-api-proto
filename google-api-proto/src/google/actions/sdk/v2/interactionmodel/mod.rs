@@ -4,6 +4,28 @@ pub mod prompt;
 #[cfg(any(feature = "google-actions-sdk-v2-interactionmodel-type",))]
 pub mod r#type;
 
+/// Entity sets describe the pre-defined set of entities that the values of
+/// built-in intent parameters can come from. Entity sets can be referenced from
+/// entity_set in built-in intent parameters.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EntitySet {
+    /// Required. The list of entities this entity set supports.
+    #[prost(message, repeated, tag = "1")]
+    pub entities: ::prost::alloc::vec::Vec<entity_set::Entity>,
+}
+/// Nested message and enum types in `EntitySet`.
+pub mod entity_set {
+    /// An entity a built-in intent parameter value can come from.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Entity {
+        /// Required. The ID of the entity.
+        /// For a list of built-in-intent parameters and their supported entities,
+        /// see
+        /// <https://developers.google.com/assistant/conversational/build/built-in-intents>
+        #[prost(string, tag = "1")]
+        pub id: ::prost::alloc::string::String,
+    }
+}
 /// Defines a handler to be executed after an event. Examples of events are
 /// intent and condition based events in a scene.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -49,44 +71,6 @@ pub struct GlobalIntentEvent {
     /// in response to events.
     #[prost(message, optional, tag = "2")]
     pub handler: ::core::option::Option<EventHandler>,
-}
-/// Registers Events which trigger as the result of an intent match.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct IntentEvent {
-    /// Required. Intent triggering the event.
-    #[prost(string, tag = "1")]
-    pub intent: ::prost::alloc::string::String,
-    /// Optional. Destination scene which the conversation should jump to. The state of the
-    /// current scene is destroyed on the transition.
-    #[prost(string, tag = "2")]
-    pub transition_to_scene: ::prost::alloc::string::String,
-    /// Optional. Event handler which is triggered when the intent is matched. Should execute
-    /// before transitioning to the destination scene. Useful to generate prompts
-    /// in response to events.
-    #[prost(message, optional, tag = "3")]
-    pub handler: ::core::option::Option<EventHandler>,
-}
-/// Entity sets describe the pre-defined set of entities that the values of
-/// built-in intent parameters can come from. Entity sets can be referenced from
-/// entity_set in built-in intent parameters.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EntitySet {
-    /// Required. The list of entities this entity set supports.
-    #[prost(message, repeated, tag = "1")]
-    pub entities: ::prost::alloc::vec::Vec<entity_set::Entity>,
-}
-/// Nested message and enum types in `EntitySet`.
-pub mod entity_set {
-    /// An entity a built-in intent parameter value can come from.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Entity {
-        /// Required. The ID of the entity.
-        /// For a list of built-in-intent parameters and their supported entities,
-        /// see
-        /// <https://developers.google.com/assistant/conversational/build/built-in-intents>
-        #[prost(string, tag = "1")]
-        pub id: ::prost::alloc::string::String,
-    }
 }
 /// Intents map open-ended user input to structured objects. Spoken
 /// phrases are matched to intents with Google's Natural Language Understanding
@@ -194,6 +178,22 @@ pub struct ConditionalEvent {
     /// Optional. Event handler which is triggered when the associated condition is evaluated
     /// to `true`. Should execute before transitioning to the destination scene.
     /// Useful to generate Prompts in response to events.
+    #[prost(message, optional, tag = "3")]
+    pub handler: ::core::option::Option<EventHandler>,
+}
+/// Registers Events which trigger as the result of an intent match.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct IntentEvent {
+    /// Required. Intent triggering the event.
+    #[prost(string, tag = "1")]
+    pub intent: ::prost::alloc::string::String,
+    /// Optional. Destination scene which the conversation should jump to. The state of the
+    /// current scene is destroyed on the transition.
+    #[prost(string, tag = "2")]
+    pub transition_to_scene: ::prost::alloc::string::String,
+    /// Optional. Event handler which is triggered when the intent is matched. Should execute
+    /// before transitioning to the destination scene. Useful to generate prompts
+    /// in response to events.
     #[prost(message, optional, tag = "3")]
     pub handler: ::core::option::Option<EventHandler>,
 }

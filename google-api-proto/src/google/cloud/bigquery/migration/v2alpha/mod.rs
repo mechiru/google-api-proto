@@ -1,28 +1,3 @@
-/// Assessment task config.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AssessmentTaskDetails {
-    /// Required. The Cloud Storage path for assessment input files.
-    #[prost(string, tag = "1")]
-    pub input_path: ::prost::alloc::string::String,
-    /// Required. The BigQuery dataset for output.
-    #[prost(string, tag = "2")]
-    pub output_dataset: ::prost::alloc::string::String,
-    /// Optional. An optional Cloud Storage path to write the query logs (which is
-    /// then used as an input path on the translation task)
-    #[prost(string, tag = "3")]
-    pub querylogs_path: ::prost::alloc::string::String,
-    /// Required. The data source or data warehouse type (eg: TERADATA/REDSHIFT)
-    /// from which the input data is extracted.
-    #[prost(string, tag = "4")]
-    pub data_source: ::prost::alloc::string::String,
-}
-/// Details for an assessment task orchestration result.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AssessmentOrchestrationResultDetails {
-    /// Optional. The version used for the output table schemas.
-    #[prost(string, tag = "1")]
-    pub output_tables_schema_version: ::prost::alloc::string::String,
-}
 /// Provides details for errors and the corresponding resources.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResourceErrorDetail {
@@ -60,105 +35,6 @@ pub struct ErrorLocation {
     /// means that there is no columns information.
     #[prost(int32, tag = "2")]
     pub column: i32,
-}
-/// The metrics object for a SubTask.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TimeSeries {
-    /// Required. The name of the metric.
-    ///
-    /// If the metric is not known by the service yet, it will be auto-created.
-    #[prost(string, tag = "1")]
-    pub metric: ::prost::alloc::string::String,
-    /// Required. The value type of the time series.
-    #[prost(
-        enumeration = "super::super::super::super::api::metric_descriptor::ValueType",
-        tag = "2"
-    )]
-    pub value_type: i32,
-    /// Optional. The metric kind of the time series.
-    ///
-    /// If present, it must be the same as the metric kind of the associated
-    /// metric. If the associated metric's descriptor must be auto-created, then
-    /// this field specifies the metric kind of the new descriptor and must be
-    /// either `GAUGE` (the default) or `CUMULATIVE`.
-    #[prost(
-        enumeration = "super::super::super::super::api::metric_descriptor::MetricKind",
-        tag = "3"
-    )]
-    pub metric_kind: i32,
-    /// Required. The data points of this time series. When listing time series, points are
-    /// returned in reverse time order.
-    ///
-    /// When creating a time series, this field must contain exactly one point and
-    /// the point's type must be the same as the value type of the associated
-    /// metric. If the associated metric's descriptor must be auto-created, then
-    /// the value type of the descriptor is determined by the point's type, which
-    /// must be `BOOL`, `INT64`, `DOUBLE`, or `DISTRIBUTION`.
-    #[prost(message, repeated, tag = "4")]
-    pub points: ::prost::alloc::vec::Vec<Point>,
-}
-/// A single data point in a time series.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Point {
-    /// The time interval to which the data point applies.  For `GAUGE` metrics,
-    /// the start time does not need to be supplied, but if it is supplied, it must
-    /// equal the end time.  For `DELTA` metrics, the start and end time should
-    /// specify a non-zero interval, with subsequent points specifying contiguous
-    /// and non-overlapping intervals.  For `CUMULATIVE` metrics, the start and end
-    /// time should specify a non-zero interval, with subsequent points specifying
-    /// the same start time and increasing end times, until an event resets the
-    /// cumulative value to zero and sets a new start time for the following
-    /// points.
-    #[prost(message, optional, tag = "1")]
-    pub interval: ::core::option::Option<TimeInterval>,
-    /// The value of the data point.
-    #[prost(message, optional, tag = "2")]
-    pub value: ::core::option::Option<TypedValue>,
-}
-/// A time interval extending just after a start time through an end time.
-/// If the start time is the same as the end time, then the interval
-/// represents a single point in time.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TimeInterval {
-    /// Optional. The beginning of the time interval.  The default value
-    /// for the start time is the end time. The start time must not be
-    /// later than the end time.
-    #[prost(message, optional, tag = "1")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Required. The end of the time interval.
-    #[prost(message, optional, tag = "2")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// A single strongly-typed value.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TypedValue {
-    /// The typed value field.
-    #[prost(oneof = "typed_value::Value", tags = "1, 2, 3, 4, 5")]
-    pub value: ::core::option::Option<typed_value::Value>,
-}
-/// Nested message and enum types in `TypedValue`.
-pub mod typed_value {
-    /// The typed value field.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Value {
-        /// A Boolean value: `true` or `false`.
-        #[prost(bool, tag = "1")]
-        BoolValue(bool),
-        /// A 64-bit integer. Its range is approximately +/-9.2x10^18.
-        #[prost(int64, tag = "2")]
-        Int64Value(i64),
-        /// A 64-bit double-precision floating-point number. Its magnitude
-        /// is approximately +/-10^(+/-300) and it has 16 significant digits of
-        /// precision.
-        #[prost(double, tag = "3")]
-        DoubleValue(f64),
-        /// A variable-length string value.
-        #[prost(string, tag = "4")]
-        StringValue(::prost::alloc::string::String),
-        /// A distribution value.
-        #[prost(message, tag = "5")]
-        DistributionValue(super::super::super::super::super::api::Distribution),
-    }
 }
 /// Mapping between an input and output file to be translated in a subtask.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -349,6 +225,130 @@ pub struct DatasetReference {
     /// The ID of the project containing this dataset.
     #[prost(string, tag = "2")]
     pub project_id: ::prost::alloc::string::String,
+}
+/// Assessment task config.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssessmentTaskDetails {
+    /// Required. The Cloud Storage path for assessment input files.
+    #[prost(string, tag = "1")]
+    pub input_path: ::prost::alloc::string::String,
+    /// Required. The BigQuery dataset for output.
+    #[prost(string, tag = "2")]
+    pub output_dataset: ::prost::alloc::string::String,
+    /// Optional. An optional Cloud Storage path to write the query logs (which is
+    /// then used as an input path on the translation task)
+    #[prost(string, tag = "3")]
+    pub querylogs_path: ::prost::alloc::string::String,
+    /// Required. The data source or data warehouse type (eg: TERADATA/REDSHIFT)
+    /// from which the input data is extracted.
+    #[prost(string, tag = "4")]
+    pub data_source: ::prost::alloc::string::String,
+}
+/// Details for an assessment task orchestration result.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssessmentOrchestrationResultDetails {
+    /// Optional. The version used for the output table schemas.
+    #[prost(string, tag = "1")]
+    pub output_tables_schema_version: ::prost::alloc::string::String,
+}
+/// The metrics object for a SubTask.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TimeSeries {
+    /// Required. The name of the metric.
+    ///
+    /// If the metric is not known by the service yet, it will be auto-created.
+    #[prost(string, tag = "1")]
+    pub metric: ::prost::alloc::string::String,
+    /// Required. The value type of the time series.
+    #[prost(
+        enumeration = "super::super::super::super::api::metric_descriptor::ValueType",
+        tag = "2"
+    )]
+    pub value_type: i32,
+    /// Optional. The metric kind of the time series.
+    ///
+    /// If present, it must be the same as the metric kind of the associated
+    /// metric. If the associated metric's descriptor must be auto-created, then
+    /// this field specifies the metric kind of the new descriptor and must be
+    /// either `GAUGE` (the default) or `CUMULATIVE`.
+    #[prost(
+        enumeration = "super::super::super::super::api::metric_descriptor::MetricKind",
+        tag = "3"
+    )]
+    pub metric_kind: i32,
+    /// Required. The data points of this time series. When listing time series, points are
+    /// returned in reverse time order.
+    ///
+    /// When creating a time series, this field must contain exactly one point and
+    /// the point's type must be the same as the value type of the associated
+    /// metric. If the associated metric's descriptor must be auto-created, then
+    /// the value type of the descriptor is determined by the point's type, which
+    /// must be `BOOL`, `INT64`, `DOUBLE`, or `DISTRIBUTION`.
+    #[prost(message, repeated, tag = "4")]
+    pub points: ::prost::alloc::vec::Vec<Point>,
+}
+/// A single data point in a time series.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Point {
+    /// The time interval to which the data point applies.  For `GAUGE` metrics,
+    /// the start time does not need to be supplied, but if it is supplied, it must
+    /// equal the end time.  For `DELTA` metrics, the start and end time should
+    /// specify a non-zero interval, with subsequent points specifying contiguous
+    /// and non-overlapping intervals.  For `CUMULATIVE` metrics, the start and end
+    /// time should specify a non-zero interval, with subsequent points specifying
+    /// the same start time and increasing end times, until an event resets the
+    /// cumulative value to zero and sets a new start time for the following
+    /// points.
+    #[prost(message, optional, tag = "1")]
+    pub interval: ::core::option::Option<TimeInterval>,
+    /// The value of the data point.
+    #[prost(message, optional, tag = "2")]
+    pub value: ::core::option::Option<TypedValue>,
+}
+/// A time interval extending just after a start time through an end time.
+/// If the start time is the same as the end time, then the interval
+/// represents a single point in time.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TimeInterval {
+    /// Optional. The beginning of the time interval.  The default value
+    /// for the start time is the end time. The start time must not be
+    /// later than the end time.
+    #[prost(message, optional, tag = "1")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Required. The end of the time interval.
+    #[prost(message, optional, tag = "2")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// A single strongly-typed value.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TypedValue {
+    /// The typed value field.
+    #[prost(oneof = "typed_value::Value", tags = "1, 2, 3, 4, 5")]
+    pub value: ::core::option::Option<typed_value::Value>,
+}
+/// Nested message and enum types in `TypedValue`.
+pub mod typed_value {
+    /// The typed value field.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Value {
+        /// A Boolean value: `true` or `false`.
+        #[prost(bool, tag = "1")]
+        BoolValue(bool),
+        /// A 64-bit integer. Its range is approximately +/-9.2x10^18.
+        #[prost(int64, tag = "2")]
+        Int64Value(i64),
+        /// A 64-bit double-precision floating-point number. Its magnitude
+        /// is approximately +/-10^(+/-300) and it has 16 significant digits of
+        /// precision.
+        #[prost(double, tag = "3")]
+        DoubleValue(f64),
+        /// A variable-length string value.
+        #[prost(string, tag = "4")]
+        StringValue(::prost::alloc::string::String),
+        /// A distribution value.
+        #[prost(message, tag = "5")]
+        DistributionValue(super::super::super::super::super::api::Distribution),
+    }
 }
 /// A migration workflow which specifies what needs to be done for an EDW
 /// migration.

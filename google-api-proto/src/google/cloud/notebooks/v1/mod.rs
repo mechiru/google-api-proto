@@ -630,355 +630,6 @@ pub mod virtual_machine_config {
         Gvnic = 2,
     }
 }
-/// Request for listing Managed Notebook Runtimes.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListRuntimesRequest {
-    /// Required. Format:
-    /// `parent=projects/{project_id}/locations/{location}`
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Maximum return size of the list call.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// A previous returned page token that can be used to continue listing
-    /// from the last result.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response for listing Managed Notebook Runtimes.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListRuntimesResponse {
-    /// A list of returned Runtimes.
-    #[prost(message, repeated, tag = "1")]
-    pub runtimes: ::prost::alloc::vec::Vec<Runtime>,
-    /// Page token that can be used to continue listing from the last result in the
-    /// next list call.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-    /// Locations that could not be reached. For example,
-    /// ['us-west1', 'us-central1'].
-    /// A ListRuntimesResponse will only contain either runtimes or unreachables,
-    #[prost(string, repeated, tag = "3")]
-    pub unreachable: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Request for getting a Managed Notebook Runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetRuntimeRequest {
-    /// Required. Format:
-    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for creating a Managed Notebook Runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateRuntimeRequest {
-    /// Required. Format:
-    /// `parent=projects/{project_id}/locations/{location}`
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. User-defined unique ID of this Runtime.
-    #[prost(string, tag = "2")]
-    pub runtime_id: ::prost::alloc::string::String,
-    /// Required. The Runtime to be created.
-    #[prost(message, optional, tag = "3")]
-    pub runtime: ::core::option::Option<Runtime>,
-}
-/// Request for deleting a Managed Notebook Runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteRuntimeRequest {
-    /// Required. Format:
-    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for starting a Managed Notebook Runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StartRuntimeRequest {
-    /// Required. Format:
-    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for stopping a Managed Notebook Runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StopRuntimeRequest {
-    /// Required. Format:
-    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for switching a Managed Notebook Runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SwitchRuntimeRequest {
-    /// Required. Format:
-    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// machine type.
-    #[prost(string, tag = "2")]
-    pub machine_type: ::prost::alloc::string::String,
-    /// accelerator config.
-    #[prost(message, optional, tag = "3")]
-    pub accelerator_config: ::core::option::Option<RuntimeAcceleratorConfig>,
-}
-/// Request for reseting a Managed Notebook Runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResetRuntimeRequest {
-    /// Required. Format:
-    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for reporting a Managed Notebook Event.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReportRuntimeEventRequest {
-    /// Required. Format:
-    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The VM hardware token for authenticating the VM.
-    /// <https://cloud.google.com/compute/docs/instances/verifying-instance-identity>
-    #[prost(string, tag = "2")]
-    pub vm_id: ::prost::alloc::string::String,
-    /// Required. The Event to be reported.
-    #[prost(message, optional, tag = "3")]
-    pub event: ::core::option::Option<Event>,
-}
-#[doc = r" Generated client implementations."]
-pub mod managed_notebook_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[doc = " API v1 service for Managed Notebooks."]
-    #[derive(Debug, Clone)]
-    pub struct ManagedNotebookServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ManagedNotebookServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::ResponseBody: Body + Send + 'static,
-        T::Error: Into<StdError>,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ManagedNotebookServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + Send + Sync,
-        {
-            ManagedNotebookServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        #[doc = r" Compress requests with `gzip`."]
-        #[doc = r""]
-        #[doc = r" This requires the server to support it otherwise it might respond with an"]
-        #[doc = r" error."]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        #[doc = r" Enable decompressing responses with `gzip`."]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        #[doc = " Lists Runtimes in a given project and location."]
-        pub async fn list_runtimes(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListRuntimesRequest>,
-        ) -> Result<tonic::Response<super::ListRuntimesResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/ListRuntimes",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Gets details of a single Runtime. The location must be a regional endpoint"]
-        #[doc = " rather than zonal."]
-        pub async fn get_runtime(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetRuntimeRequest>,
-        ) -> Result<tonic::Response<super::Runtime>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/GetRuntime",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Creates a new Runtime in a given project and location."]
-        pub async fn create_runtime(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateRuntimeRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/CreateRuntime",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Deletes a single Runtime."]
-        pub async fn delete_runtime(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteRuntimeRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/DeleteRuntime",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Starts a Managed Notebook Runtime."]
-        #[doc = " Perform \"Start\" on GPU instances; \"Resume\" on CPU instances"]
-        #[doc = " See:"]
-        #[doc = " https://cloud.google.com/compute/docs/instances/stop-start-instance"]
-        #[doc = " https://cloud.google.com/compute/docs/instances/suspend-resume-instance"]
-        pub async fn start_runtime(
-            &mut self,
-            request: impl tonic::IntoRequest<super::StartRuntimeRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/StartRuntime",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Stops a Managed Notebook Runtime."]
-        #[doc = " Perform \"Stop\" on GPU instances; \"Suspend\" on CPU instances"]
-        #[doc = " See:"]
-        #[doc = " https://cloud.google.com/compute/docs/instances/stop-start-instance"]
-        #[doc = " https://cloud.google.com/compute/docs/instances/suspend-resume-instance"]
-        pub async fn stop_runtime(
-            &mut self,
-            request: impl tonic::IntoRequest<super::StopRuntimeRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/StopRuntime",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Switch a Managed Notebook Runtime."]
-        pub async fn switch_runtime(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SwitchRuntimeRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/SwitchRuntime",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Resets a Managed Notebook Runtime."]
-        pub async fn reset_runtime(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ResetRuntimeRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/ResetRuntime",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        #[doc = " Report and process a runtime event."]
-        pub async fn report_runtime_event(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ReportRuntimeEventRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.notebooks.v1.ManagedNotebookService/ReportRuntimeEvent",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// The description a notebook execution workload.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExecutionTemplate {
@@ -3044,6 +2695,355 @@ pub mod notebook_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.notebooks.v1.NotebookService/CreateExecution",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Request for listing Managed Notebook Runtimes.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListRuntimesRequest {
+    /// Required. Format:
+    /// `parent=projects/{project_id}/locations/{location}`
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Maximum return size of the list call.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// A previous returned page token that can be used to continue listing
+    /// from the last result.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response for listing Managed Notebook Runtimes.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListRuntimesResponse {
+    /// A list of returned Runtimes.
+    #[prost(message, repeated, tag = "1")]
+    pub runtimes: ::prost::alloc::vec::Vec<Runtime>,
+    /// Page token that can be used to continue listing from the last result in the
+    /// next list call.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+    /// Locations that could not be reached. For example,
+    /// ['us-west1', 'us-central1'].
+    /// A ListRuntimesResponse will only contain either runtimes or unreachables,
+    #[prost(string, repeated, tag = "3")]
+    pub unreachable: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Request for getting a Managed Notebook Runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetRuntimeRequest {
+    /// Required. Format:
+    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for creating a Managed Notebook Runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateRuntimeRequest {
+    /// Required. Format:
+    /// `parent=projects/{project_id}/locations/{location}`
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. User-defined unique ID of this Runtime.
+    #[prost(string, tag = "2")]
+    pub runtime_id: ::prost::alloc::string::String,
+    /// Required. The Runtime to be created.
+    #[prost(message, optional, tag = "3")]
+    pub runtime: ::core::option::Option<Runtime>,
+}
+/// Request for deleting a Managed Notebook Runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteRuntimeRequest {
+    /// Required. Format:
+    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for starting a Managed Notebook Runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StartRuntimeRequest {
+    /// Required. Format:
+    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for stopping a Managed Notebook Runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StopRuntimeRequest {
+    /// Required. Format:
+    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for switching a Managed Notebook Runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SwitchRuntimeRequest {
+    /// Required. Format:
+    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// machine type.
+    #[prost(string, tag = "2")]
+    pub machine_type: ::prost::alloc::string::String,
+    /// accelerator config.
+    #[prost(message, optional, tag = "3")]
+    pub accelerator_config: ::core::option::Option<RuntimeAcceleratorConfig>,
+}
+/// Request for reseting a Managed Notebook Runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResetRuntimeRequest {
+    /// Required. Format:
+    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for reporting a Managed Notebook Event.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReportRuntimeEventRequest {
+    /// Required. Format:
+    /// `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The VM hardware token for authenticating the VM.
+    /// <https://cloud.google.com/compute/docs/instances/verifying-instance-identity>
+    #[prost(string, tag = "2")]
+    pub vm_id: ::prost::alloc::string::String,
+    /// Required. The Event to be reported.
+    #[prost(message, optional, tag = "3")]
+    pub event: ::core::option::Option<Event>,
+}
+#[doc = r" Generated client implementations."]
+pub mod managed_notebook_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[doc = " API v1 service for Managed Notebooks."]
+    #[derive(Debug, Clone)]
+    pub struct ManagedNotebookServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ManagedNotebookServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ManagedNotebookServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            ManagedNotebookServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = " Lists Runtimes in a given project and location."]
+        pub async fn list_runtimes(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListRuntimesRequest>,
+        ) -> Result<tonic::Response<super::ListRuntimesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/ListRuntimes",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets details of a single Runtime. The location must be a regional endpoint"]
+        #[doc = " rather than zonal."]
+        pub async fn get_runtime(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetRuntimeRequest>,
+        ) -> Result<tonic::Response<super::Runtime>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/GetRuntime",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a new Runtime in a given project and location."]
+        pub async fn create_runtime(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateRuntimeRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/CreateRuntime",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes a single Runtime."]
+        pub async fn delete_runtime(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteRuntimeRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/DeleteRuntime",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Starts a Managed Notebook Runtime."]
+        #[doc = " Perform \"Start\" on GPU instances; \"Resume\" on CPU instances"]
+        #[doc = " See:"]
+        #[doc = " https://cloud.google.com/compute/docs/instances/stop-start-instance"]
+        #[doc = " https://cloud.google.com/compute/docs/instances/suspend-resume-instance"]
+        pub async fn start_runtime(
+            &mut self,
+            request: impl tonic::IntoRequest<super::StartRuntimeRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/StartRuntime",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Stops a Managed Notebook Runtime."]
+        #[doc = " Perform \"Stop\" on GPU instances; \"Suspend\" on CPU instances"]
+        #[doc = " See:"]
+        #[doc = " https://cloud.google.com/compute/docs/instances/stop-start-instance"]
+        #[doc = " https://cloud.google.com/compute/docs/instances/suspend-resume-instance"]
+        pub async fn stop_runtime(
+            &mut self,
+            request: impl tonic::IntoRequest<super::StopRuntimeRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/StopRuntime",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Switch a Managed Notebook Runtime."]
+        pub async fn switch_runtime(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SwitchRuntimeRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/SwitchRuntime",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Resets a Managed Notebook Runtime."]
+        pub async fn reset_runtime(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ResetRuntimeRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/ResetRuntime",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Report and process a runtime event."]
+        pub async fn report_runtime_event(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ReportRuntimeEventRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.notebooks.v1.ManagedNotebookService/ReportRuntimeEvent",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

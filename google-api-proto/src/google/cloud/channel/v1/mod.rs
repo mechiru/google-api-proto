@@ -1,3 +1,99 @@
+/// Represents Pub/Sub message content describing customer update.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CustomerEvent {
+    /// Resource name of the customer.
+    /// Format: accounts/{account_id}/customers/{customer_id}
+    #[prost(string, tag = "1")]
+    pub customer: ::prost::alloc::string::String,
+    /// Type of event which happened on the customer.
+    #[prost(enumeration = "customer_event::Type", tag = "2")]
+    pub event_type: i32,
+}
+/// Nested message and enum types in `CustomerEvent`.
+pub mod customer_event {
+    /// Type of customer event.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// Not used.
+        Unspecified = 0,
+        /// Primary domain for customer was changed.
+        PrimaryDomainChanged = 1,
+        /// Primary domain of the customer has been verified.
+        PrimaryDomainVerified = 2,
+    }
+}
+/// Represents Pub/Sub message content describing entitlement update.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EntitlementEvent {
+    /// Resource name of an entitlement of the form:
+    /// accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
+    #[prost(string, tag = "1")]
+    pub entitlement: ::prost::alloc::string::String,
+    /// Type of event which happened on the entitlement.
+    #[prost(enumeration = "entitlement_event::Type", tag = "2")]
+    pub event_type: i32,
+}
+/// Nested message and enum types in `EntitlementEvent`.
+pub mod entitlement_event {
+    /// Type of entitlement event.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// Not used.
+        Unspecified = 0,
+        /// A new entitlement was created.
+        Created = 1,
+        /// The offer type associated with an entitlement was changed.
+        /// This is not triggered if an entitlement converts from a commit offer to a
+        /// flexible offer as part of a renewal.
+        PricePlanSwitched = 3,
+        /// Annual commitment for a commit plan was changed.
+        CommitmentChanged = 4,
+        /// An annual entitlement was renewed.
+        Renewed = 5,
+        /// Entitlement was suspended.
+        Suspended = 6,
+        /// Entitlement was unsuspended.
+        Activated = 7,
+        /// Entitlement was cancelled.
+        Cancelled = 8,
+        /// Entitlement was upgraded or downgraded (e.g. from Google Workspace
+        /// Business Standard to Google Workspace Business Plus).
+        SkuChanged = 9,
+        /// The renewal settings of an entitlement has changed.
+        RenewalSettingChanged = 10,
+        /// Paid service has started on trial entitlement.
+        PaidServiceStarted = 11,
+        /// License was assigned to or revoked from a user.
+        LicenseAssignmentChanged = 12,
+        /// License cap was changed for the entitlement.
+        LicenseCapChanged = 13,
+    }
+}
+/// Represents information which resellers will get as part of notification from
+/// Cloud Pub/Sub.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SubscriberEvent {
+    /// Specifies the Pub/Sub event provided to the partners.
+    /// This is a required field.
+    #[prost(oneof = "subscriber_event::Event", tags = "1, 2")]
+    pub event: ::core::option::Option<subscriber_event::Event>,
+}
+/// Nested message and enum types in `SubscriberEvent`.
+pub mod subscriber_event {
+    /// Specifies the Pub/Sub event provided to the partners.
+    /// This is a required field.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Event {
+        /// Customer event send as part of Pub/Sub event to partners.
+        #[prost(message, tag = "1")]
+        CustomerEvent(super::CustomerEvent),
+        /// Entitlement event send as part of Pub/Sub event to partners.
+        #[prost(message, tag = "2")]
+        EntitlementEvent(super::EntitlementEvent),
+    }
+}
 /// Required Edu Attributes
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EduData {
@@ -3159,102 +3255,6 @@ pub mod cloud_channel_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-    }
-}
-/// Represents Pub/Sub message content describing customer update.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CustomerEvent {
-    /// Resource name of the customer.
-    /// Format: accounts/{account_id}/customers/{customer_id}
-    #[prost(string, tag = "1")]
-    pub customer: ::prost::alloc::string::String,
-    /// Type of event which happened on the customer.
-    #[prost(enumeration = "customer_event::Type", tag = "2")]
-    pub event_type: i32,
-}
-/// Nested message and enum types in `CustomerEvent`.
-pub mod customer_event {
-    /// Type of customer event.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// Not used.
-        Unspecified = 0,
-        /// Primary domain for customer was changed.
-        PrimaryDomainChanged = 1,
-        /// Primary domain of the customer has been verified.
-        PrimaryDomainVerified = 2,
-    }
-}
-/// Represents Pub/Sub message content describing entitlement update.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EntitlementEvent {
-    /// Resource name of an entitlement of the form:
-    /// accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
-    #[prost(string, tag = "1")]
-    pub entitlement: ::prost::alloc::string::String,
-    /// Type of event which happened on the entitlement.
-    #[prost(enumeration = "entitlement_event::Type", tag = "2")]
-    pub event_type: i32,
-}
-/// Nested message and enum types in `EntitlementEvent`.
-pub mod entitlement_event {
-    /// Type of entitlement event.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// Not used.
-        Unspecified = 0,
-        /// A new entitlement was created.
-        Created = 1,
-        /// The offer type associated with an entitlement was changed.
-        /// This is not triggered if an entitlement converts from a commit offer to a
-        /// flexible offer as part of a renewal.
-        PricePlanSwitched = 3,
-        /// Annual commitment for a commit plan was changed.
-        CommitmentChanged = 4,
-        /// An annual entitlement was renewed.
-        Renewed = 5,
-        /// Entitlement was suspended.
-        Suspended = 6,
-        /// Entitlement was unsuspended.
-        Activated = 7,
-        /// Entitlement was cancelled.
-        Cancelled = 8,
-        /// Entitlement was upgraded or downgraded (e.g. from Google Workspace
-        /// Business Standard to Google Workspace Business Plus).
-        SkuChanged = 9,
-        /// The renewal settings of an entitlement has changed.
-        RenewalSettingChanged = 10,
-        /// Paid service has started on trial entitlement.
-        PaidServiceStarted = 11,
-        /// License was assigned to or revoked from a user.
-        LicenseAssignmentChanged = 12,
-        /// License cap was changed for the entitlement.
-        LicenseCapChanged = 13,
-    }
-}
-/// Represents information which resellers will get as part of notification from
-/// Cloud Pub/Sub.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SubscriberEvent {
-    /// Specifies the Pub/Sub event provided to the partners.
-    /// This is a required field.
-    #[prost(oneof = "subscriber_event::Event", tags = "1, 2")]
-    pub event: ::core::option::Option<subscriber_event::Event>,
-}
-/// Nested message and enum types in `SubscriberEvent`.
-pub mod subscriber_event {
-    /// Specifies the Pub/Sub event provided to the partners.
-    /// This is a required field.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Event {
-        /// Customer event send as part of Pub/Sub event to partners.
-        #[prost(message, tag = "1")]
-        CustomerEvent(super::CustomerEvent),
-        /// Entitlement event send as part of Pub/Sub event to partners.
-        #[prost(message, tag = "2")]
-        EntitlementEvent(super::EntitlementEvent),
     }
 }
 /// Provides contextual information about a \[google.longrunning.Operation][google.longrunning.Operation\].
