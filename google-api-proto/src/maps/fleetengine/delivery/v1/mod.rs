@@ -676,6 +676,9 @@ pub struct ListDeliveryVehiclesRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListDeliveryVehiclesResponse {
     /// The set of delivery vehicles that meet the requested filtering criteria.
+    /// When no filter is specified, the request returns all delivery vehicles. A
+    /// successful response can also be empty. An empty response indicates that no
+    /// delivery vehicles were found meeting the requested filter criteria.
     #[prost(message, repeated, tag = "1")]
     pub delivery_vehicles: ::prost::alloc::vec::Vec<DeliveryVehicle>,
     /// You can pass this token in the `ListDeliveryVehiclesRequest` to continue to
@@ -783,7 +786,9 @@ pub struct SearchTasksRequest {
 /// criteria in the `SearchTasksRequest`.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SearchTasksResponse {
-    /// The set of Tasks for the requested `tracking_id`.
+    /// The set of Tasks for the requested `tracking_id`. A successful response can
+    /// also be empty. An empty response indicates that no Tasks are associated
+    /// with the supplied `tracking_id`.
     #[prost(message, repeated, tag = "1")]
     pub tasks: ::prost::alloc::vec::Vec<Task>,
     /// Pass this token in the `SearchTasksRequest` to continue to
@@ -857,7 +862,10 @@ pub struct ListTasksRequest {
 /// criteria in the `ListTasksRequest`.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListTasksResponse {
-    /// The set of Tasks that meet the requested filtering criteria.
+    /// The set of Tasks that meet the requested filtering criteria. When no filter
+    /// is specified, the request returns all tasks. A successful response can also
+    /// be empty. An empty response indicates that no Tasks were found meeting the
+    /// requested filter criteria.
     #[prost(message, repeated, tag = "1")]
     pub tasks: ::prost::alloc::vec::Vec<Task>,
     /// Pass this token in the `ListTasksRequest` to continue to list results.
