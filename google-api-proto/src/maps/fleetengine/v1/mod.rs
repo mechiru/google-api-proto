@@ -1152,8 +1152,8 @@ pub struct SearchVehiclesRequest {
     /// the capacity value.
     #[prost(int32, tag = "8")]
     pub minimum_capacity: i32,
-    /// Required. Restricts the search to only those vehicles that support at least
-    /// one of the specified trip types.
+    /// Required. Represents the type of proposed trip. Eligible vehicles are those
+    /// that can support at least one of the given trip type.
     ///
     /// At the present time, only `EXCLUSIVE` is supported.
     #[prost(enumeration = "TripType", repeated, packed = "false", tag = "9")]

@@ -499,21 +499,6 @@ pub struct VirtualClusterConfig {
     /// a Cloud Storage bucket.**
     #[prost(string, tag = "1")]
     pub staging_bucket: ::prost::alloc::string::String,
-    /// Optional. A Cloud Storage bucket used to store ephemeral cluster and jobs data,
-    /// such as Spark and MapReduce history files.
-    /// If you do not specify a temp bucket,
-    /// Dataproc will determine a Cloud Storage location (US,
-    /// ASIA, or EU) for your cluster's temp bucket according to the
-    /// Compute Engine zone where your cluster is deployed, and then create
-    /// and manage this project-level, per-location bucket. The default bucket has
-    /// a TTL of 90 days, but you can use any TTL (or none) if you specify a
-    /// bucket (see
-    /// [Dataproc staging and temp
-    /// buckets](<https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket>)).
-    /// **This field requires a Cloud Storage bucket name, not a `gs://...` URI to
-    /// a Cloud Storage bucket.**
-    #[prost(string, tag = "2")]
-    pub temp_bucket: ::prost::alloc::string::String,
     /// Optional. Configuration of auxiliary services used by this cluster.
     #[prost(message, optional, tag = "7")]
     pub auxiliary_services_config: ::core::option::Option<AuxiliaryServicesConfig>,
@@ -3798,15 +3783,23 @@ pub mod autoscaling_policy {
 /// Basic algorithm for autoscaling.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BasicAutoscalingAlgorithm {
-    /// Required. YARN autoscaling configuration.
-    #[prost(message, optional, tag = "1")]
-    pub yarn_config: ::core::option::Option<BasicYarnAutoscalingConfig>,
     /// Optional. Duration between scaling events. A scaling period starts after
     /// the update operation from the previous event has completed.
     ///
     /// Bounds: [2m, 1d]. Default: 2m.
     #[prost(message, optional, tag = "2")]
     pub cooldown_period: ::core::option::Option<::prost_types::Duration>,
+    #[prost(oneof = "basic_autoscaling_algorithm::Config", tags = "1")]
+    pub config: ::core::option::Option<basic_autoscaling_algorithm::Config>,
+}
+/// Nested message and enum types in `BasicAutoscalingAlgorithm`.
+pub mod basic_autoscaling_algorithm {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Config {
+        /// Required. YARN autoscaling configuration.
+        #[prost(message, tag = "1")]
+        YarnConfig(super::BasicYarnAutoscalingConfig),
+    }
 }
 /// Basic autoscaling configurations for YARN.
 #[derive(Clone, PartialEq, ::prost::Message)]
