@@ -3109,6 +3109,11 @@
 <span id="3104">3104</span>
 <span id="3105">3105</span>
 <span id="3106">3106</span>
+<span id="3107">3107</span>
+<span id="3108">3108</span>
+<span id="3109">3109</span>
+<span id="3110">3110</span>
+<span id="3111">3111</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Message that contains the resource name and display name of a folder</span>
 <span class="doccomment">/// resource.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -3317,7 +3322,7 @@
     }
     <span class="doccomment">/// MITRE ATT&amp;CK techniques that can be referenced by SCC findings.</span>
     <span class="doccomment">/// See: &lt;https://attack.mitre.org/techniques/enterprise/&gt;</span>
-    <span class="doccomment">/// Next ID: 30</span>
+    <span class="doccomment">/// Next ID: 31</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
     <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Technique</span> {
@@ -3381,6 +3386,8 @@
         <span class="ident">ModifyAuthenticationProcess</span> <span class="op">=</span> <span class="number">28</span>,
         <span class="doccomment">/// T1485</span>
         <span class="ident">DataDestruction</span> <span class="op">=</span> <span class="number">29</span>,
+        <span class="doccomment">/// T1484</span>
+        <span class="ident">DomainPolicyModification</span> <span class="op">=</span> <span class="number">30</span>,
     }
 }
 <span class="doccomment">/// User specified security marks that are attached to the parent Security</span>
@@ -3732,6 +3739,9 @@
     <span class="doccomment">/// Represents IAM bindings associated with the Finding.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;39&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">iam_bindings</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">IamBinding</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Next steps associate to the finding.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;40&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">next_steps</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Finding`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">finding</span> {

@@ -3433,7 +3433,349 @@
 <span id="3428">3428</span>
 <span id="3429">3429</span>
 <span id="3430">3430</span>
-</pre><pre class="rust"><code><span class="doccomment">/// Timestamps associated with this resource in a particular system.</span>
+<span id="3431">3431</span>
+<span id="3432">3432</span>
+<span id="3433">3433</span>
+<span id="3434">3434</span>
+<span id="3435">3435</span>
+<span id="3436">3436</span>
+<span id="3437">3437</span>
+<span id="3438">3438</span>
+<span id="3439">3439</span>
+<span id="3440">3440</span>
+<span id="3441">3441</span>
+<span id="3442">3442</span>
+<span id="3443">3443</span>
+<span id="3444">3444</span>
+<span id="3445">3445</span>
+<span id="3446">3446</span>
+<span id="3447">3447</span>
+<span id="3448">3448</span>
+<span id="3449">3449</span>
+<span id="3450">3450</span>
+<span id="3451">3451</span>
+<span id="3452">3452</span>
+<span id="3453">3453</span>
+<span id="3454">3454</span>
+<span id="3455">3455</span>
+<span id="3456">3456</span>
+<span id="3457">3457</span>
+<span id="3458">3458</span>
+<span id="3459">3459</span>
+<span id="3460">3460</span>
+<span id="3461">3461</span>
+<span id="3462">3462</span>
+<span id="3463">3463</span>
+<span id="3464">3464</span>
+<span id="3465">3465</span>
+<span id="3466">3466</span>
+<span id="3467">3467</span>
+<span id="3468">3468</span>
+<span id="3469">3469</span>
+<span id="3470">3470</span>
+<span id="3471">3471</span>
+<span id="3472">3472</span>
+<span id="3473">3473</span>
+<span id="3474">3474</span>
+<span id="3475">3475</span>
+<span id="3476">3476</span>
+<span id="3477">3477</span>
+<span id="3478">3478</span>
+<span id="3479">3479</span>
+<span id="3480">3480</span>
+<span id="3481">3481</span>
+<span id="3482">3482</span>
+<span id="3483">3483</span>
+<span id="3484">3484</span>
+<span id="3485">3485</span>
+<span id="3486">3486</span>
+<span id="3487">3487</span>
+<span id="3488">3488</span>
+<span id="3489">3489</span>
+<span id="3490">3490</span>
+<span id="3491">3491</span>
+<span id="3492">3492</span>
+<span id="3493">3493</span>
+<span id="3494">3494</span>
+<span id="3495">3495</span>
+<span id="3496">3496</span>
+<span id="3497">3497</span>
+<span id="3498">3498</span>
+<span id="3499">3499</span>
+<span id="3500">3500</span>
+<span id="3501">3501</span>
+<span id="3502">3502</span>
+<span id="3503">3503</span>
+<span id="3504">3504</span>
+<span id="3505">3505</span>
+<span id="3506">3506</span>
+<span id="3507">3507</span>
+<span id="3508">3508</span>
+<span id="3509">3509</span>
+<span id="3510">3510</span>
+<span id="3511">3511</span>
+<span id="3512">3512</span>
+<span id="3513">3513</span>
+<span id="3514">3514</span>
+<span id="3515">3515</span>
+<span id="3516">3516</span>
+<span id="3517">3517</span>
+<span id="3518">3518</span>
+<span id="3519">3519</span>
+<span id="3520">3520</span>
+<span id="3521">3521</span>
+<span id="3522">3522</span>
+<span id="3523">3523</span>
+<span id="3524">3524</span>
+<span id="3525">3525</span>
+<span id="3526">3526</span>
+<span id="3527">3527</span>
+<span id="3528">3528</span>
+<span id="3529">3529</span>
+<span id="3530">3530</span>
+<span id="3531">3531</span>
+<span id="3532">3532</span>
+<span id="3533">3533</span>
+<span id="3534">3534</span>
+<span id="3535">3535</span>
+<span id="3536">3536</span>
+<span id="3537">3537</span>
+<span id="3538">3538</span>
+<span id="3539">3539</span>
+<span id="3540">3540</span>
+<span id="3541">3541</span>
+<span id="3542">3542</span>
+<span id="3543">3543</span>
+<span id="3544">3544</span>
+<span id="3545">3545</span>
+<span id="3546">3546</span>
+<span id="3547">3547</span>
+<span id="3548">3548</span>
+<span id="3549">3549</span>
+<span id="3550">3550</span>
+<span id="3551">3551</span>
+<span id="3552">3552</span>
+<span id="3553">3553</span>
+<span id="3554">3554</span>
+<span id="3555">3555</span>
+<span id="3556">3556</span>
+<span id="3557">3557</span>
+<span id="3558">3558</span>
+<span id="3559">3559</span>
+<span id="3560">3560</span>
+<span id="3561">3561</span>
+<span id="3562">3562</span>
+<span id="3563">3563</span>
+<span id="3564">3564</span>
+<span id="3565">3565</span>
+<span id="3566">3566</span>
+<span id="3567">3567</span>
+<span id="3568">3568</span>
+<span id="3569">3569</span>
+<span id="3570">3570</span>
+<span id="3571">3571</span>
+<span id="3572">3572</span>
+<span id="3573">3573</span>
+<span id="3574">3574</span>
+<span id="3575">3575</span>
+<span id="3576">3576</span>
+<span id="3577">3577</span>
+<span id="3578">3578</span>
+<span id="3579">3579</span>
+<span id="3580">3580</span>
+<span id="3581">3581</span>
+<span id="3582">3582</span>
+<span id="3583">3583</span>
+<span id="3584">3584</span>
+<span id="3585">3585</span>
+<span id="3586">3586</span>
+<span id="3587">3587</span>
+<span id="3588">3588</span>
+<span id="3589">3589</span>
+<span id="3590">3590</span>
+<span id="3591">3591</span>
+<span id="3592">3592</span>
+<span id="3593">3593</span>
+<span id="3594">3594</span>
+<span id="3595">3595</span>
+<span id="3596">3596</span>
+<span id="3597">3597</span>
+<span id="3598">3598</span>
+<span id="3599">3599</span>
+<span id="3600">3600</span>
+<span id="3601">3601</span>
+<span id="3602">3602</span>
+<span id="3603">3603</span>
+<span id="3604">3604</span>
+<span id="3605">3605</span>
+<span id="3606">3606</span>
+<span id="3607">3607</span>
+<span id="3608">3608</span>
+<span id="3609">3609</span>
+<span id="3610">3610</span>
+<span id="3611">3611</span>
+<span id="3612">3612</span>
+<span id="3613">3613</span>
+<span id="3614">3614</span>
+<span id="3615">3615</span>
+<span id="3616">3616</span>
+<span id="3617">3617</span>
+<span id="3618">3618</span>
+<span id="3619">3619</span>
+<span id="3620">3620</span>
+<span id="3621">3621</span>
+</pre><pre class="rust"><code><span class="doccomment">/// Entry metadata relevant only to the user and private to them.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PersonalDetails</span> {
+    <span class="doccomment">/// True if the entry is starred by the user; false otherwise.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">starred</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Set if the entry is starred; unset otherwise.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">star_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// This enum lists all the systems that Data Catalog integrates with.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">IntegratedSystem</span> {
+    <span class="doccomment">/// Default unknown system.</span>
+    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// BigQuery.</span>
+    <span class="ident">Bigquery</span> <span class="op">=</span> <span class="number">1</span>,
+    <span class="doccomment">/// Cloud Pub/Sub.</span>
+    <span class="ident">CloudPubsub</span> <span class="op">=</span> <span class="number">2</span>,
+    <span class="doccomment">/// Dataproc Metastore.</span>
+    <span class="ident">DataprocMetastore</span> <span class="op">=</span> <span class="number">3</span>,
+    <span class="doccomment">/// Dataplex.</span>
+    <span class="ident">Dataplex</span> <span class="op">=</span> <span class="number">4</span>,
+}
+<span class="doccomment">/// Native schema used by a resource represented as an entry. Used by query</span>
+<span class="doccomment">/// engines for deserializing and parsing source data.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PhysicalSchema</span> {
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;physical_schema::Schema&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 3, 4, 5, 6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">schema</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">physical_schema::Schema</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `PhysicalSchema`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">physical_schema</span> {
+    <span class="doccomment">/// Schema in Avro JSON format.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AvroSchema</span> {
+        <span class="doccomment">/// JSON source of the Avro schema.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">text</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Schema in Thrift format.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ThriftSchema</span> {
+        <span class="doccomment">/// Thrift IDL source of the schema.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">text</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Schema in protocol buffer format.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProtobufSchema</span> {
+        <span class="doccomment">/// Protocol buffer source of the schema.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">text</span>: <span class="ident">::prost::alloc::string::String</span>,
+    }
+    <span class="doccomment">/// Marks a Parquet-encoded data source.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ParquetSchema</span> {}
+    <span class="doccomment">/// Marks an ORC-encoded data source.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OrcSchema</span> {}
+    <span class="doccomment">/// Marks a CSV-encoded data source.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CsvSchema</span> {}
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Schema</span> {
+        <span class="doccomment">/// Schema in Avro JSON format.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">Avro</span>(<span class="ident">AvroSchema</span>),
+        <span class="doccomment">/// Schema in Thrift format.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+        <span class="ident">Thrift</span>(<span class="ident">ThriftSchema</span>),
+        <span class="doccomment">/// Schema in protocol buffer format.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+        <span class="ident">Protobuf</span>(<span class="ident">ProtobufSchema</span>),
+        <span class="doccomment">/// Marks a Parquet-encoded data source.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">Parquet</span>(<span class="ident">ParquetSchema</span>),
+        <span class="doccomment">/// Marks an ORC-encoded data source.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+        <span class="ident">Orc</span>(<span class="ident">OrcSchema</span>),
+        <span class="doccomment">/// Marks a CSV-encoded data source.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+        <span class="ident">Csv</span>(<span class="ident">CsvSchema</span>),
+    }
+}
+<span class="doccomment">/// Common Dataplex fields.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DataplexSpec</span> {
+    <span class="doccomment">/// Fully qualified resource name of an asset in Dataplex, to which the</span>
+    <span class="doccomment">/// underlying data source (Cloud Storage bucket or BigQuery dataset) of the</span>
+    <span class="doccomment">/// entity is attached.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">asset</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Format of the data.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">data_format</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PhysicalSchema</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Compression format of the data, e.g., zip, gzip etc.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">compression_format</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Project ID of the underlying Cloud Storage or BigQuery data. Note that</span>
+    <span class="doccomment">/// this may not be the same project as the correspondingly Dataplex lake /</span>
+    <span class="doccomment">/// zone / asset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">project_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Entry specyfication for a Dataplex fileset.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DataplexFilesetSpec</span> {
+    <span class="doccomment">/// Common Dataplex fields.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataplex_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">DataplexSpec</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Entry specification for a Dataplex table.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DataplexTableSpec</span> {
+    <span class="doccomment">/// List of external tables registered by Dataplex in other systems based on</span>
+    <span class="doccomment">/// the same underlying data.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// External tables allow to query this data in those systems.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">external_tables</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">DataplexExternalTable</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Common Dataplex fields.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataplex_spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">DataplexSpec</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Indicates if the table schema is managed by the user or not.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">user_managed</span>: <span class="ident">bool</span>,
+}
+<span class="doccomment">/// External table registered by Dataplex.</span>
+<span class="doccomment">/// Dataplex publishes data discovered from an asset into multiple other systems</span>
+<span class="doccomment">/// (BigQuery, DPMS) in form of tables. We call them &quot;external tables&quot;. External</span>
+<span class="doccomment">/// tables are also synced into the Data Catalog.</span>
+<span class="doccomment">/// This message contains pointers to</span>
+<span class="doccomment">/// those external tables (fully qualified name, resource name et cetera) within</span>
+<span class="doccomment">/// the Data Catalog.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DataplexExternalTable</span> {
+    <span class="doccomment">/// Service in which the external table is registered.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;IntegratedSystem&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">system</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Fully qualified name (FQN) of the external table.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;28&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">fully_qualified_name</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Google Cloud resource name of the external table.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">google_cloud_resource</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Name of the Data Catalog entry representing the external table.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">data_catalog_entry</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Timestamps associated with this resource in a particular system.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SystemTimestamps</span> {
     <span class="doccomment">/// Creation timestamp of the resource within the given system.</span>
@@ -3490,6 +3832,8 @@
     <span class="doccomment">/// The name can&#39;t start or end with spaces, must contain only Unicode letters,</span>
     <span class="doccomment">/// numbers, underscores, dashes, and spaces, and be at most 200 bytes long</span>
     <span class="doccomment">/// when encoded in UTF-8.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The taxonomy display name must be unique within an organization.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Optional. Description of this taxonomy. If not set, defaults to empty.</span>
@@ -4296,6 +4640,11 @@
     <span class="doccomment">/// `//bigquery.googleapis.com/projects/{PROJECT_ID}/locations/{LOCATION}/datasets/{DATASET_ID}/tables/{TABLE_ID}`</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">resource</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Output only. Data Catalog entry name, if applicable.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">source_entry</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;data_source::Properties&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">properties</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">data_source::Properties</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `DataSource`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">data_source</span> {
@@ -4310,6 +4659,41 @@
         <span class="doccomment">/// BigQuery service.</span>
         <span class="ident">Bigquery</span> <span class="op">=</span> <span class="number">2</span>,
     }
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Properties</span> {
+        <span class="doccomment">/// Detailed properties of the underlying storage.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">StorageProperties</span>(<span class="ident"><span class="kw">super</span>::StorageProperties</span>),
+    }
+}
+<span class="doccomment">/// Details the properties of the underlying storage.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">StorageProperties</span> {
+    <span class="doccomment">/// Patterns to identify a set of files for this fileset.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Examples of a valid `file_pattern`:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  * `gs://bucket_name/dir/*`: matches all files in the `bucket_name/dir`</span>
+    <span class="doccomment">///                              directory</span>
+    <span class="doccomment">///  * `gs://bucket_name/dir/**`: matches all files in the `bucket_name/dir`</span>
+    <span class="doccomment">///                               and all subdirectories recursively</span>
+    <span class="doccomment">///  * `gs://bucket_name/file*`: matches files prefixed by `file` in</span>
+    <span class="doccomment">///                              `bucket_name`</span>
+    <span class="doccomment">///  * `gs://bucket_name/??.txt`: matches files with two characters followed by</span>
+    <span class="doccomment">///                               `.txt` in `bucket_name`</span>
+    <span class="doccomment">///  * `gs://bucket_name/\[aeiou\].txt`: matches files that contain a single</span>
+    <span class="doccomment">///                                    vowel character followed by `.txt` in</span>
+    <span class="doccomment">///                                    `bucket_name`</span>
+    <span class="doccomment">///  * `gs://bucket_name/\[a-m\].txt`: matches files that contain `a`, `b`, ...</span>
+    <span class="doccomment">///                                  or `m` followed by `.txt` in `bucket_name`</span>
+    <span class="doccomment">///  * `gs://bucket_name/a/*/b`: matches all files in `bucket_name` that match</span>
+    <span class="doccomment">///                              the `a/*/b` pattern, such as `a/c/b`, `a/d/b`</span>
+    <span class="doccomment">///  * `gs://another_bucket/a.txt`: matches `gs://another_bucket/a.txt`</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">file_pattern</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// File type in MIME format, for example, `text/plain`.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">file_type</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Tags contain custom metadata and are attached to Data Catalog resources. Tags</span>
 <span class="doccomment">/// conform with the specification of their tag template.</span>
@@ -4461,7 +4845,7 @@
     <span class="doccomment">/// \[ListTags][google.cloud.datacatalog.v1.ListTags\] API response.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Additionally, you can search for a public tag by value with a</span>
-    <span class="doccomment">/// simple search query instead of using a ``tag:`` predicate.</span>
+    <span class="doccomment">/// simple search query in addition to using a ``tag:`` predicate.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">is_publicly_readable</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// Required. Map of tag template field IDs to the settings for the field.</span>
@@ -4826,29 +5210,6 @@
     <span class="doccomment">/// Paths of the imported libraries.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">imported_libraries</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// Entry metadata relevant only to the user and private to them.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PersonalDetails</span> {
-    <span class="doccomment">/// True if the entry is starred by the user; false otherwise.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">starred</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Set if the entry is starred; unset otherwise.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">star_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
-}
-<span class="doccomment">/// This enum lists all the systems that Data Catalog integrates with.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">IntegratedSystem</span> {
-    <span class="doccomment">/// Default unknown system.</span>
-    <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-    <span class="doccomment">/// BigQuery.</span>
-    <span class="ident">Bigquery</span> <span class="op">=</span> <span class="number">1</span>,
-    <span class="doccomment">/// Cloud Pub/Sub.</span>
-    <span class="ident">CloudPubsub</span> <span class="op">=</span> <span class="number">2</span>,
-    <span class="doccomment">/// Dataproc Metastore.</span>
-    <span class="ident">DataprocMetastore</span> <span class="op">=</span> <span class="number">3</span>,
 }
 <span class="doccomment">/// Result in the response to a search request.</span>
 <span class="doccomment">///</span>
@@ -5414,7 +5775,7 @@
     <span class="doccomment">/// Default value is an empty string.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Business Context of the entry. Not supported for BigQuery datasets.</span>
+    <span class="doccomment">/// Business Context of the entry. Not supported for BigQuery datasets</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;37&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">business_context</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">BusinessContext</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Schema of the entry. An entry might not have any schema attached to it.</span>
@@ -5462,7 +5823,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// When extending the API with new types and systems, use this field instead</span>
     <span class="doccomment">/// of the legacy `type_spec`.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;entry::Spec&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;24, 27, 28&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;entry::Spec&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;24, 27, 28, 33&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">spec</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">entry::Spec</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Entry`.</span>
@@ -5551,6 +5912,10 @@
         <span class="doccomment">/// only for entries with the `ROUTINE` type.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;28&quot;</span>)]</span>
         <span class="ident">RoutineSpec</span>(<span class="ident"><span class="kw">super</span>::RoutineSpec</span>),
+        <span class="doccomment">/// Specification that applies to a fileset resource. Valid only</span>
+        <span class="doccomment">/// for entries with the `FILESET` type.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;33&quot;</span>)]</span>
+        <span class="ident">FilesetSpec</span>(<span class="ident"><span class="kw">super</span>::FilesetSpec</span>),
     }
 }
 <span class="doccomment">/// Specification that applies to a table resource. Valid only</span>
@@ -5560,6 +5925,10 @@
     <span class="doccomment">/// Type of this table.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;database_table_spec::TableType&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">r#type</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Fields specific to a Dataplex table and present only in the Dataplex table</span>
+    <span class="doccomment">/// entries.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataplex_table</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">DataplexTableSpec</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `DatabaseTableSpec`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">database_table_spec</span> {
@@ -5574,6 +5943,15 @@
         <span class="doccomment">/// External table.</span>
         <span class="ident">External</span> <span class="op">=</span> <span class="number">2</span>,
     }
+}
+<span class="doccomment">/// Specification that applies to a fileset. Valid only for entries with the</span>
+<span class="doccomment">/// &#39;FILESET&#39; type.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FilesetSpec</span> {
+    <span class="doccomment">/// Fields specific to a Dataplex fileset and present only in the Dataplex</span>
+    <span class="doccomment">/// fileset entries.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataplex_fileset</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">DataplexFilesetSpec</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Specification that applies to a data source connection. Valid only for</span>
 <span class="doccomment">/// entries with the `DATA_SOURCE_CONNECTION` type.</span>
@@ -5703,8 +6081,8 @@
         <span class="doccomment">/// Designation of the person, for example, Data Steward.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">designation</span>: <span class="ident">::prost::alloc::string::String</span>,
-        <span class="doccomment">/// Email of the person in the format of `john.doe@example.com`,</span>
-        <span class="doccomment">/// `&lt;john.doe@example.com&gt;`, or `John Doe&lt;john.doe@example.com&gt;`.</span>
+        <span class="doccomment">/// Email of the person in the format of `john.doe@xyz`,</span>
+        <span class="doccomment">/// `&lt;john.doe@xyz&gt;`, or `John Doe&lt;john.doe@xyz&gt;`.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">email</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
@@ -6065,6 +6443,10 @@
     <span class="ident">DataSourceConnection</span> <span class="op">=</span> <span class="number">8</span>,
     <span class="doccomment">/// Output only. Routine, for example, a BigQuery routine.</span>
     <span class="ident">Routine</span> <span class="op">=</span> <span class="number">9</span>,
+    <span class="doccomment">/// A Dataplex lake.</span>
+    <span class="ident">Lake</span> <span class="op">=</span> <span class="number">10</span>,
+    <span class="doccomment">/// A Dataplex zone.</span>
+    <span class="ident">Zone</span> <span class="op">=</span> <span class="number">11</span>,
     <span class="doccomment">/// A service, for example, a Dataproc Metastore service.</span>
     <span class="ident">Service</span> <span class="op">=</span> <span class="number">14</span>,
 }
