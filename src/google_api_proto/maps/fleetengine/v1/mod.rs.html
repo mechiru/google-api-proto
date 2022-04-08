@@ -3298,8 +3298,8 @@
     <span class="doccomment">/// the capacity value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">minimum_capacity</span>: <span class="ident">i32</span>,
-    <span class="doccomment">/// Required. Restricts the search to only those vehicles that support at least</span>
-    <span class="doccomment">/// one of the specified trip types.</span>
+    <span class="doccomment">/// Required. Represents the type of proposed trip. Eligible vehicles are those</span>
+    <span class="doccomment">/// that can support at least one of the given trip type.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// At the present time, only `EXCLUSIVE` is supported.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;TripType&quot;</span>, <span class="ident">repeated</span>, <span class="ident">packed</span> <span class="op">=</span> <span class="string">&quot;false&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>

@@ -4672,13 +4672,6 @@
 <span id="4667">4667</span>
 <span id="4668">4668</span>
 <span id="4669">4669</span>
-<span id="4670">4670</span>
-<span id="4671">4671</span>
-<span id="4672">4672</span>
-<span id="4673">4673</span>
-<span id="4674">4674</span>
-<span id="4675">4675</span>
-<span id="4676">4676</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Runtime configuration for a workload.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RuntimeConfig</span> {
@@ -5180,21 +5173,6 @@
     <span class="doccomment">/// a Cloud Storage bucket.**</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">staging_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Optional. A Cloud Storage bucket used to store ephemeral cluster and jobs data,</span>
-    <span class="doccomment">/// such as Spark and MapReduce history files.</span>
-    <span class="doccomment">/// If you do not specify a temp bucket,</span>
-    <span class="doccomment">/// Dataproc will determine a Cloud Storage location (US,</span>
-    <span class="doccomment">/// ASIA, or EU) for your cluster&#39;s temp bucket according to the</span>
-    <span class="doccomment">/// Compute Engine zone where your cluster is deployed, and then create</span>
-    <span class="doccomment">/// and manage this project-level, per-location bucket. The default bucket has</span>
-    <span class="doccomment">/// a TTL of 90 days, but you can use any TTL (or none) if you specify a</span>
-    <span class="doccomment">/// bucket (see</span>
-    <span class="doccomment">/// [Dataproc staging and temp</span>
-    <span class="doccomment">/// buckets](&lt;https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket&gt;)).</span>
-    <span class="doccomment">/// **This field requires a Cloud Storage bucket name, not a `gs://...` URI to</span>
-    <span class="doccomment">/// a Cloud Storage bucket.**</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">temp_bucket</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Optional. Configuration of auxiliary services used by this cluster.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">auxiliary_services_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">AuxiliaryServicesConfig</span><span class="op">&gt;</span>,
@@ -8479,15 +8457,23 @@
 <span class="doccomment">/// Basic algorithm for autoscaling.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BasicAutoscalingAlgorithm</span> {
-    <span class="doccomment">/// Required. YARN autoscaling configuration.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">yarn_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">BasicYarnAutoscalingConfig</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Optional. Duration between scaling events. A scaling period starts after</span>
     <span class="doccomment">/// the update operation from the previous event has completed.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Bounds: [2m, 1d]. Default: 2m.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">cooldown_period</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Duration</span><span class="op">&gt;</span>,
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;basic_autoscaling_algorithm::Config&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">basic_autoscaling_algorithm::Config</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `BasicAutoscalingAlgorithm`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">basic_autoscaling_algorithm</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Config</span> {
+        <span class="doccomment">/// Required. YARN autoscaling configuration.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="ident">YarnConfig</span>(<span class="ident"><span class="kw">super</span>::BasicYarnAutoscalingConfig</span>),
+    }
 }
 <span class="doccomment">/// Basic autoscaling configurations for YARN.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
