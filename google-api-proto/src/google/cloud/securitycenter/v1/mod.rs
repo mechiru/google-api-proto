@@ -206,7 +206,7 @@ pub mod mitre_attack {
     }
     /// MITRE ATT&CK techniques that can be referenced by SCC findings.
     /// See: <https://attack.mitre.org/techniques/enterprise/>
-    /// Next ID: 30
+    /// Next ID: 31
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Technique {
@@ -270,6 +270,8 @@ pub mod mitre_attack {
         ModifyAuthenticationProcess = 28,
         /// T1485
         DataDestruction = 29,
+        /// T1484
+        DomainPolicyModification = 30,
     }
 }
 /// User specified security marks that are attached to the parent Security
@@ -621,6 +623,9 @@ pub struct Finding {
     /// Represents IAM bindings associated with the Finding.
     #[prost(message, repeated, tag = "39")]
     pub iam_bindings: ::prost::alloc::vec::Vec<IamBinding>,
+    /// Next steps associate to the finding.
+    #[prost(string, tag = "40")]
+    pub next_steps: ::prost::alloc::string::String,
 }
 /// Nested message and enum types in `Finding`.
 pub mod finding {
