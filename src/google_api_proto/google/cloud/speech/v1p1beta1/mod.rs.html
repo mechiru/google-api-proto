@@ -1564,6 +1564,8 @@
 <span id="1559">1559</span>
 <span id="1560">1560</span>
 <span id="1561">1561</span>
+<span id="1562">1562</span>
+<span id="1563">1563</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A set of words or phrases that represents a common concept likely to appear</span>
 <span class="doccomment">/// in your audio, for example a list of passenger ship names. CustomClass items</span>
 <span class="doccomment">/// can be substituted into placeholders that you set in PhraseSet phrases.</span>
@@ -1707,15 +1709,16 @@
 <span class="doccomment">/// Message sent by the client for the `CreatePhraseSet` method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreatePhraseSetRequest</span> {
-    <span class="doccomment">/// Required. The parent resource where this phrase set will be created. Format:</span>
+    <span class="doccomment">/// Required. The parent resource where this phrase set will be created.</span>
+    <span class="doccomment">/// Format:</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// `projects/{project}/locations/{location}/phraseSets`</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Speech-to-Text supports three locations: `global`, `us` (US North America),</span>
     <span class="doccomment">/// and `eu` (Europe). If you are calling the `speech.googleapis.com`</span>
     <span class="doccomment">/// endpoint, use the `global` location. To specify a region, use a</span>
-    <span class="doccomment">/// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or</span>
-    <span class="doccomment">/// `eu` location value.</span>
+    <span class="doccomment">/// [regional endpoint](&lt;https://cloud.google.com/speech-to-text/docs/endpoints&gt;)</span>
+    <span class="doccomment">/// with matching `us` or `eu` location value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Required. The ID to use for the phrase set, which will become the final</span>
@@ -1742,8 +1745,8 @@
     <span class="doccomment">/// Speech-to-Text supports three locations: `global`, `us` (US North America),</span>
     <span class="doccomment">/// and `eu` (Europe). If you are calling the `speech.googleapis.com`</span>
     <span class="doccomment">/// endpoint, use the `global` location. To specify a region, use a</span>
-    <span class="doccomment">/// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or</span>
-    <span class="doccomment">/// `eu` location value.</span>
+    <span class="doccomment">/// [regional endpoint](&lt;https://cloud.google.com/speech-to-text/docs/endpoints&gt;)</span>
+    <span class="doccomment">/// with matching `us` or `eu` location value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">phrase_set</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">PhraseSet</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The list of fields to be updated.</span>
@@ -1760,8 +1763,8 @@
     <span class="doccomment">/// Speech-to-Text supports three locations: `global`, `us` (US North America),</span>
     <span class="doccomment">/// and `eu` (Europe). If you are calling the `speech.googleapis.com`</span>
     <span class="doccomment">/// endpoint, use the `global` location. To specify a region, use a</span>
-    <span class="doccomment">/// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or</span>
-    <span class="doccomment">/// `eu` location value.</span>
+    <span class="doccomment">/// [regional endpoint](&lt;https://cloud.google.com/speech-to-text/docs/endpoints&gt;)</span>
+    <span class="doccomment">/// with matching `us` or `eu` location value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
@@ -1775,8 +1778,8 @@
     <span class="doccomment">/// Speech-to-Text supports three locations: `global`, `us` (US North America),</span>
     <span class="doccomment">/// and `eu` (Europe). If you are calling the `speech.googleapis.com`</span>
     <span class="doccomment">/// endpoint, use the `global` location. To specify a region, use a</span>
-    <span class="doccomment">/// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or</span>
-    <span class="doccomment">/// `eu` location value.</span>
+    <span class="doccomment">/// [regional endpoint](&lt;https://cloud.google.com/speech-to-text/docs/endpoints&gt;)</span>
+    <span class="doccomment">/// with matching `us` or `eu` location value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The maximum number of phrase sets to return. The service may return</span>
@@ -1816,15 +1819,16 @@
 <span class="doccomment">/// Message sent by the client for the `CreateCustomClass` method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateCustomClassRequest</span> {
-    <span class="doccomment">/// Required. The parent resource where this custom class will be created. Format:</span>
+    <span class="doccomment">/// Required. The parent resource where this custom class will be created.</span>
+    <span class="doccomment">/// Format:</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// `projects/{project}/locations/{location}/customClasses`</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Speech-to-Text supports three locations: `global`, `us` (US North America),</span>
     <span class="doccomment">/// and `eu` (Europe). If you are calling the `speech.googleapis.com`</span>
     <span class="doccomment">/// endpoint, use the `global` location. To specify a region, use a</span>
-    <span class="doccomment">/// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or</span>
-    <span class="doccomment">/// `eu` location value.</span>
+    <span class="doccomment">/// [regional endpoint](&lt;https://cloud.google.com/speech-to-text/docs/endpoints&gt;)</span>
+    <span class="doccomment">/// with matching `us` or `eu` location value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Required. The ID to use for the custom class, which will become the final</span>
@@ -1851,8 +1855,8 @@
     <span class="doccomment">/// Speech-to-Text supports three locations: `global`, `us` (US North America),</span>
     <span class="doccomment">/// and `eu` (Europe). If you are calling the `speech.googleapis.com`</span>
     <span class="doccomment">/// endpoint, use the `global` location. To specify a region, use a</span>
-    <span class="doccomment">/// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or</span>
-    <span class="doccomment">/// `eu` location value.</span>
+    <span class="doccomment">/// [regional endpoint](&lt;https://cloud.google.com/speech-to-text/docs/endpoints&gt;)</span>
+    <span class="doccomment">/// with matching `us` or `eu` location value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">custom_class</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">CustomClass</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The list of fields to be updated.</span>
@@ -1878,8 +1882,8 @@
     <span class="doccomment">/// Speech-to-Text supports three locations: `global`, `us` (US North America),</span>
     <span class="doccomment">/// and `eu` (Europe). If you are calling the `speech.googleapis.com`</span>
     <span class="doccomment">/// endpoint, use the `global` location. To specify a region, use a</span>
-    <span class="doccomment">/// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or</span>
-    <span class="doccomment">/// `eu` location value.</span>
+    <span class="doccomment">/// [regional endpoint](&lt;https://cloud.google.com/speech-to-text/docs/endpoints&gt;)</span>
+    <span class="doccomment">/// with matching `us` or `eu` location value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The maximum number of custom classes to return. The service may return</span>
@@ -1917,8 +1921,8 @@
     <span class="doccomment">/// Speech-to-Text supports three locations: `global`, `us` (US North America),</span>
     <span class="doccomment">/// and `eu` (Europe). If you are calling the `speech.googleapis.com`</span>
     <span class="doccomment">/// endpoint, use the `global` location. To specify a region, use a</span>
-    <span class="doccomment">/// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or</span>
-    <span class="doccomment">/// `eu` location value.</span>
+    <span class="doccomment">/// [regional endpoint](&lt;https://cloud.google.com/speech-to-text/docs/endpoints&gt;)</span>
+    <span class="doccomment">/// with matching `us` or `eu` location value.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
