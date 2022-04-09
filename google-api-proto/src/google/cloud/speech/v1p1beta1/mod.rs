@@ -141,15 +141,16 @@ pub mod transcript_normalization {
 /// Message sent by the client for the `CreatePhraseSet` method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreatePhraseSetRequest {
-    /// Required. The parent resource where this phrase set will be created. Format:
+    /// Required. The parent resource where this phrase set will be created.
+    /// Format:
     ///
     /// `projects/{project}/locations/{location}/phraseSets`
     ///
     /// Speech-to-Text supports three locations: `global`, `us` (US North America),
     /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
     /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or
-    /// `eu` location value.
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
     /// Required. The ID to use for the phrase set, which will become the final
@@ -176,8 +177,8 @@ pub struct UpdatePhraseSetRequest {
     /// Speech-to-Text supports three locations: `global`, `us` (US North America),
     /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
     /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or
-    /// `eu` location value.
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
     #[prost(message, optional, tag = "1")]
     pub phrase_set: ::core::option::Option<PhraseSet>,
     /// The list of fields to be updated.
@@ -194,8 +195,8 @@ pub struct GetPhraseSetRequest {
     /// Speech-to-Text supports three locations: `global`, `us` (US North America),
     /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
     /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or
-    /// `eu` location value.
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
@@ -209,8 +210,8 @@ pub struct ListPhraseSetRequest {
     /// Speech-to-Text supports three locations: `global`, `us` (US North America),
     /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
     /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or
-    /// `eu` location value.
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
     /// The maximum number of phrase sets to return. The service may return
@@ -250,15 +251,16 @@ pub struct DeletePhraseSetRequest {
 /// Message sent by the client for the `CreateCustomClass` method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateCustomClassRequest {
-    /// Required. The parent resource where this custom class will be created. Format:
+    /// Required. The parent resource where this custom class will be created.
+    /// Format:
     ///
     /// `projects/{project}/locations/{location}/customClasses`
     ///
     /// Speech-to-Text supports three locations: `global`, `us` (US North America),
     /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
     /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or
-    /// `eu` location value.
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
     /// Required. The ID to use for the custom class, which will become the final
@@ -285,8 +287,8 @@ pub struct UpdateCustomClassRequest {
     /// Speech-to-Text supports three locations: `global`, `us` (US North America),
     /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
     /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or
-    /// `eu` location value.
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
     #[prost(message, optional, tag = "1")]
     pub custom_class: ::core::option::Option<CustomClass>,
     /// The list of fields to be updated.
@@ -312,8 +314,8 @@ pub struct ListCustomClassesRequest {
     /// Speech-to-Text supports three locations: `global`, `us` (US North America),
     /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
     /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or
-    /// `eu` location value.
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
     /// The maximum number of custom classes to return. The service may return
@@ -351,8 +353,8 @@ pub struct DeleteCustomClassRequest {
     /// Speech-to-Text supports three locations: `global`, `us` (US North America),
     /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
     /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](/speech-to-text/docs/endpoints) with matching `us` or
-    /// `eu` location value.
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
