@@ -215,6 +215,12 @@ pub struct EntityResult {
     /// is always set except for eventually consistent reads.
     #[prost(int64, tag = "4")]
     pub version: i64,
+    /// The time at which the entity was last changed.
+    /// This field is set for \[`FULL`][google.datastore.v1.EntityResult.ResultType.FULL\] entity
+    /// results.
+    /// If this entity is missing, this field will not be set.
+    #[prost(message, optional, tag = "5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
     /// A cursor that points to the position after the result entity.
     /// Set only when the `EntityResult` is part of a `QueryResultBatch` message.
     #[prost(bytes = "bytes", tag = "3")]
@@ -534,6 +540,18 @@ pub struct QueryResultBatch {
     /// The value will be zero for eventually consistent queries.
     #[prost(int64, tag = "7")]
     pub snapshot_version: i64,
+    /// Read timestamp this batch was returned from.
+    /// This applies to the range of results from the query's `start_cursor` (or
+    /// the beginning of the query if no cursor was given) to this batch's
+    /// `end_cursor` (not the query's `end_cursor`).
+    ///
+    /// In a single transaction, subsequent query result batches for the same query
+    /// can have a greater timestamp. Each batch's read timestamp
+    /// is valid for all preceding batches.
+    /// This value will not be set for eventually consistent queries in Cloud
+    /// Datastore.
+    #[prost(message, optional, tag = "8")]
+    pub read_time: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Nested message and enum types in `QueryResultBatch`.
 pub mod query_result_batch {
@@ -585,6 +603,9 @@ pub struct LookupResponse {
     /// order of the keys in the input.
     #[prost(message, repeated, tag = "3")]
     pub deferred: ::prost::alloc::vec::Vec<Key>,
+    /// The time at which these entities were read or found missing.
+    #[prost(message, optional, tag = "7")]
+    pub read_time: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// The request for \[Datastore.RunQuery][google.datastore.v1.Datastore.RunQuery\].
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -724,6 +745,9 @@ pub struct CommitResponse {
     /// updated.
     #[prost(int32, tag = "4")]
     pub index_updates: i32,
+    /// The transaction commit timestamp. Not set for non-transactional commits.
+    #[prost(message, optional, tag = "8")]
+    pub commit_time: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// The request for \[Datastore.AllocateIds][google.datastore.v1.Datastore.AllocateIds\].
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -777,7 +801,7 @@ pub struct Mutation {
     /// When set, the server will detect whether or not this mutation conflicts
     /// with the current version of the entity on the server. Conflicting mutations
     /// are not applied, and are marked as such in MutationResult.
-    #[prost(oneof = "mutation::ConflictDetectionStrategy", tags = "8")]
+    #[prost(oneof = "mutation::ConflictDetectionStrategy", tags = "8, 11")]
     pub conflict_detection_strategy: ::core::option::Option<mutation::ConflictDetectionStrategy>,
 }
 /// Nested message and enum types in `Mutation`.
@@ -819,6 +843,11 @@ pub mod mutation {
         /// mutation conflicts.
         #[prost(int64, tag = "8")]
         BaseVersion(i64),
+        /// The update time of the entity that this mutation is being applied
+        /// to. If this does not match the current update time on the server, the
+        /// mutation conflicts.
+        #[prost(message, tag = "11")]
+        UpdateTime(::prost_types::Timestamp),
     }
 }
 /// The result of applying a mutation.
@@ -835,6 +864,12 @@ pub struct MutationResult {
     /// than the version of any possible future entity.
     #[prost(int64, tag = "4")]
     pub version: i64,
+    /// The update time of the entity on the server after processing the mutation.
+    /// If the mutation doesn't change anything on the server, then the timestamp
+    /// will be the update timestamp of the current entity. This field will not be
+    /// set after a 'delete'.
+    #[prost(message, optional, tag = "6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
     /// Whether a conflict was detected for this mutation. Always false when a
     /// conflict detection strategy field is not set in the mutation.
     #[prost(bool, tag = "5")]
@@ -853,7 +888,7 @@ pub struct ReadOptions {
     /// Explicitly setting `read_consistency`=`EVENTUAL` will result in eventually
     /// consistent lookups & queries in both Cloud Datastore & Cloud Firestore in
     /// Datastore mode.
-    #[prost(oneof = "read_options::ConsistencyType", tags = "1, 2")]
+    #[prost(oneof = "read_options::ConsistencyType", tags = "1, 2, 4")]
     pub consistency_type: ::core::option::Option<read_options::ConsistencyType>,
 }
 /// Nested message and enum types in `ReadOptions`.
@@ -890,6 +925,11 @@ pub mod read_options {
         /// \[Datastore.BeginTransaction][google.datastore.v1.Datastore.BeginTransaction\].
         #[prost(bytes, tag = "2")]
         Transaction(::prost::bytes::Bytes),
+        /// Reads entities as they were at the given time. This may not be older
+        /// than 270 seconds.  This value is only supported for Cloud Firestore in
+        /// Datastore mode.
+        #[prost(message, tag = "4")]
+        ReadTime(::prost_types::Timestamp),
     }
 }
 /// Options for beginning a new transaction.
@@ -915,7 +955,12 @@ pub mod transaction_options {
     }
     /// Options specific to read-only transactions.
     #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ReadOnly {}
+    pub struct ReadOnly {
+        /// Reads entities at the given time.
+        /// This may not be older than 60 seconds.
+        #[prost(message, optional, tag = "1")]
+        pub read_time: ::core::option::Option<::prost_types::Timestamp>,
+    }
     /// The `mode` of the transaction, indicating whether write operations are
     /// supported.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
