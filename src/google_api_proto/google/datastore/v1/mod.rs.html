@@ -1107,6 +1107,51 @@
 <span id="1102">1102</span>
 <span id="1103">1103</span>
 <span id="1104">1104</span>
+<span id="1105">1105</span>
+<span id="1106">1106</span>
+<span id="1107">1107</span>
+<span id="1108">1108</span>
+<span id="1109">1109</span>
+<span id="1110">1110</span>
+<span id="1111">1111</span>
+<span id="1112">1112</span>
+<span id="1113">1113</span>
+<span id="1114">1114</span>
+<span id="1115">1115</span>
+<span id="1116">1116</span>
+<span id="1117">1117</span>
+<span id="1118">1118</span>
+<span id="1119">1119</span>
+<span id="1120">1120</span>
+<span id="1121">1121</span>
+<span id="1122">1122</span>
+<span id="1123">1123</span>
+<span id="1124">1124</span>
+<span id="1125">1125</span>
+<span id="1126">1126</span>
+<span id="1127">1127</span>
+<span id="1128">1128</span>
+<span id="1129">1129</span>
+<span id="1130">1130</span>
+<span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
+<span id="1135">1135</span>
+<span id="1136">1136</span>
+<span id="1137">1137</span>
+<span id="1138">1138</span>
+<span id="1139">1139</span>
+<span id="1140">1140</span>
+<span id="1141">1141</span>
+<span id="1142">1142</span>
+<span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A partition ID identifies a grouping of entities. The grouping is always</span>
 <span class="doccomment">/// by project and namespace, however the namespace ID may be empty.</span>
 <span class="doccomment">///</span>
@@ -1324,6 +1369,12 @@
     <span class="doccomment">/// is always set except for eventually consistent reads.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// The time at which the entity was last changed.</span>
+    <span class="doccomment">/// This field is set for \[`FULL`][google.datastore.v1.EntityResult.ResultType.FULL\] entity</span>
+    <span class="doccomment">/// results.</span>
+    <span class="doccomment">/// If this entity is missing, this field will not be set.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
     <span class="doccomment">/// A cursor that points to the position after the result entity.</span>
     <span class="doccomment">/// Set only when the `EntityResult` is part of a `QueryResultBatch` message.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span> <span class="op">=</span> <span class="string">&quot;bytes&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
@@ -1643,6 +1694,18 @@
     <span class="doccomment">/// The value will be zero for eventually consistent queries.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">snapshot_version</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// Read timestamp this batch was returned from.</span>
+    <span class="doccomment">/// This applies to the range of results from the query&#39;s `start_cursor` (or</span>
+    <span class="doccomment">/// the beginning of the query if no cursor was given) to this batch&#39;s</span>
+    <span class="doccomment">/// `end_cursor` (not the query&#39;s `end_cursor`).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// In a single transaction, subsequent query result batches for the same query</span>
+    <span class="doccomment">/// can have a greater timestamp. Each batch&#39;s read timestamp</span>
+    <span class="doccomment">/// is valid for all preceding batches.</span>
+    <span class="doccomment">/// This value will not be set for eventually consistent queries in Cloud</span>
+    <span class="doccomment">/// Datastore.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">read_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `QueryResultBatch`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">query_result_batch</span> {
@@ -1694,6 +1757,9 @@
     <span class="doccomment">/// order of the keys in the input.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">deferred</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Key</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The time at which these entities were read or found missing.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;7&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">read_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// The request for \[Datastore.RunQuery][google.datastore.v1.Datastore.RunQuery\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1833,6 +1899,9 @@
     <span class="doccomment">/// updated.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">index_updates</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// The transaction commit timestamp. Not set for non-transactional commits.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">commit_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// The request for \[Datastore.AllocateIds][google.datastore.v1.Datastore.AllocateIds\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1886,7 +1955,7 @@
     <span class="doccomment">/// When set, the server will detect whether or not this mutation conflicts</span>
     <span class="doccomment">/// with the current version of the entity on the server. Conflicting mutations</span>
     <span class="doccomment">/// are not applied, and are marked as such in MutationResult.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;mutation::ConflictDetectionStrategy&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;mutation::ConflictDetectionStrategy&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;8, 11&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">conflict_detection_strategy</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">mutation::ConflictDetectionStrategy</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `Mutation`.</span>
@@ -1928,6 +1997,11 @@
         <span class="doccomment">/// mutation conflicts.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
         <span class="ident">BaseVersion</span>(<span class="ident">i64</span>),
+        <span class="doccomment">/// The update time of the entity that this mutation is being applied</span>
+        <span class="doccomment">/// to. If this does not match the current update time on the server, the</span>
+        <span class="doccomment">/// mutation conflicts.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;11&quot;</span>)]</span>
+        <span class="ident">UpdateTime</span>(<span class="ident">::prost_types::Timestamp</span>),
     }
 }
 <span class="doccomment">/// The result of applying a mutation.</span>
@@ -1944,6 +2018,12 @@
     <span class="doccomment">/// than the version of any possible future entity.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// The update time of the entity on the server after processing the mutation.</span>
+    <span class="doccomment">/// If the mutation doesn&#39;t change anything on the server, then the timestamp</span>
+    <span class="doccomment">/// will be the update timestamp of the current entity. This field will not be</span>
+    <span class="doccomment">/// set after a &#39;delete&#39;.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;6&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Whether a conflict was detected for this mutation. Always false when a</span>
     <span class="doccomment">/// conflict detection strategy field is not set in the mutation.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
@@ -1962,7 +2042,7 @@
     <span class="doccomment">/// Explicitly setting `read_consistency`=`EVENTUAL` will result in eventually</span>
     <span class="doccomment">/// consistent lookups &amp; queries in both Cloud Datastore &amp; Cloud Firestore in</span>
     <span class="doccomment">/// Datastore mode.</span>
-    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;read_options::ConsistencyType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">oneof</span> <span class="op">=</span> <span class="string">&quot;read_options::ConsistencyType&quot;</span>, <span class="ident">tags</span> <span class="op">=</span> <span class="string">&quot;1, 2, 4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">consistency_type</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">read_options::ConsistencyType</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `ReadOptions`.</span>
@@ -1999,6 +2079,11 @@
         <span class="doccomment">/// \[Datastore.BeginTransaction][google.datastore.v1.Datastore.BeginTransaction\].</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bytes</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">Transaction</span>(<span class="ident">::prost::bytes::Bytes</span>),
+        <span class="doccomment">/// Reads entities as they were at the given time. This may not be older</span>
+        <span class="doccomment">/// than 270 seconds.  This value is only supported for Cloud Firestore in</span>
+        <span class="doccomment">/// Datastore mode.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+        <span class="ident">ReadTime</span>(<span class="ident">::prost_types::Timestamp</span>),
     }
 }
 <span class="doccomment">/// Options for beginning a new transaction.</span>
@@ -2024,7 +2109,12 @@
     }
     <span class="doccomment">/// Options specific to read-only transactions.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReadOnly</span> {}
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReadOnly</span> {
+        <span class="doccomment">/// Reads entities at the given time.</span>
+        <span class="doccomment">/// This may not be older than 60 seconds.</span>
+        <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+        <span class="kw">pub</span> <span class="ident">read_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    }
     <span class="doccomment">/// The `mode` of the transaction, indicating whether write operations are</span>
     <span class="doccomment">/// supported.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>

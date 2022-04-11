@@ -1093,11 +1093,96 @@
 <span id="1088">1088</span>
 <span id="1089">1089</span>
 <span id="1090">1090</span>
+<span id="1091">1091</span>
+<span id="1092">1092</span>
+<span id="1093">1093</span>
+<span id="1094">1094</span>
+<span id="1095">1095</span>
+<span id="1096">1096</span>
+<span id="1097">1097</span>
+<span id="1098">1098</span>
+<span id="1099">1099</span>
+<span id="1100">1100</span>
+<span id="1101">1101</span>
+<span id="1102">1102</span>
+<span id="1103">1103</span>
+<span id="1104">1104</span>
+<span id="1105">1105</span>
+<span id="1106">1106</span>
+<span id="1107">1107</span>
+<span id="1108">1108</span>
+<span id="1109">1109</span>
+<span id="1110">1110</span>
+<span id="1111">1111</span>
+<span id="1112">1112</span>
+<span id="1113">1113</span>
+<span id="1114">1114</span>
+<span id="1115">1115</span>
+<span id="1116">1116</span>
+<span id="1117">1117</span>
+<span id="1118">1118</span>
+<span id="1119">1119</span>
+<span id="1120">1120</span>
+<span id="1121">1121</span>
+<span id="1122">1122</span>
+<span id="1123">1123</span>
+<span id="1124">1124</span>
+<span id="1125">1125</span>
+<span id="1126">1126</span>
+<span id="1127">1127</span>
+<span id="1128">1128</span>
+<span id="1129">1129</span>
+<span id="1130">1130</span>
+<span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
+<span id="1135">1135</span>
+<span id="1136">1136</span>
+<span id="1137">1137</span>
+<span id="1138">1138</span>
+<span id="1139">1139</span>
+<span id="1140">1140</span>
+<span id="1141">1141</span>
+<span id="1142">1142</span>
+<span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
+<span id="1158">1158</span>
+<span id="1159">1159</span>
+<span id="1160">1160</span>
+<span id="1161">1161</span>
+<span id="1162">1162</span>
+<span id="1163">1163</span>
+<span id="1164">1164</span>
+<span id="1165">1165</span>
+<span id="1166">1166</span>
+<span id="1167">1167</span>
+<span id="1168">1168</span>
+<span id="1169">1169</span>
+<span id="1170">1170</span>
+<span id="1171">1171</span>
+<span id="1172">1172</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A reservation is a mechanism used to guarantee slots to users.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Reservation</span> {
     <span class="doccomment">/// The resource name of the reservation, e.g.,</span>
     <span class="doccomment">/// `projects/*/locations/*/reservations/team1-prod`.</span>
+    <span class="doccomment">/// The reservation_id must only contain lower case alphanumeric characters or</span>
+    <span class="doccomment">/// dashes. It must start with a letter and must not end with a dash. Its</span>
+    <span class="doccomment">/// maximum length is 64 characters.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Minimum slots available to this reservation. A slot is a unit of</span>
@@ -1106,10 +1191,14 @@
     <span class="doccomment">/// Queries using this reservation might use more slots during runtime if</span>
     <span class="doccomment">/// ignore_idle_slots is set to false.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// If the new reservation&#39;s slot capacity exceed the parent&#39;s slot capacity or</span>
-    <span class="doccomment">/// if total slot capacity of the new reservation and its siblings exceeds the</span>
-    <span class="doccomment">/// parent&#39;s slot capacity, the request will fail with</span>
+    <span class="doccomment">/// If the new reservation&#39;s slot capacity exceeds the project&#39;s slot capacity</span>
+    <span class="doccomment">/// or if total slot capacity of the new reservation and its siblings exceeds</span>
+    <span class="doccomment">/// the project&#39;s slot capacity, the request will fail with</span>
     <span class="doccomment">/// `google.rpc.Code.RESOURCE_EXHAUSTED`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// NOTE: for reservations in US or EU multi-regions, slot capacity constraints</span>
+    <span class="doccomment">/// are checked separately for default and auxiliary regions. See</span>
+    <span class="doccomment">/// multi_region_auxiliary flag for more details.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">slot_capacity</span>: <span class="ident">i64</span>,
     <span class="doccomment">/// If false, any query or pipeline job using this reservation will use idle</span>
@@ -1118,12 +1207,27 @@
     <span class="doccomment">/// capacity specified in the slot_capacity field at most.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">ignore_idle_slots</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Maximum number of queries that are allowed to run concurrently in this</span>
+    <span class="doccomment">/// reservation. This is a soft limit due to asynchronous nature of the system</span>
+    <span class="doccomment">/// and various optimizations for small queries.</span>
+    <span class="doccomment">/// Default value is 0 which means that concurrency will be automatically set</span>
+    <span class="doccomment">/// based on the reservation size.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;16&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">concurrency</span>: <span class="ident">i64</span>,
     <span class="doccomment">/// Output only. Creation time of the reservation.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">creation_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Output only. Last update time of the reservation.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;9&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">update_time</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::Timestamp</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Applicable only for reservations located within one of the BigQuery</span>
+    <span class="doccomment">/// multi-regions (US or EU).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If set to true, this reservation is placed in the organization&#39;s</span>
+    <span class="doccomment">/// secondary region which is designated for disaster recovery purposes.</span>
+    <span class="doccomment">/// If false, this reservation is placed in the organization&#39;s default region.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;14&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">multi_region_auxiliary</span>: <span class="ident">bool</span>,
 }
 <span class="doccomment">/// Capacity commitment is a way to purchase compute capacity for BigQuery jobs</span>
 <span class="doccomment">/// (in the form of slots) with some committed period of usage. Annual</span>
@@ -1139,6 +1243,9 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CapacityCommitment</span> {
     <span class="doccomment">/// Output only. The resource name of the capacity commitment, e.g.,</span>
     <span class="doccomment">/// `projects/myproject/locations/US/capacityCommitments/123`</span>
+    <span class="doccomment">/// The commitment_id must only contain lower case alphanumeric characters or</span>
+    <span class="doccomment">/// dashes. It must start with a letter and must not end</span>
+    <span class="doccomment">/// with a dash. Its maximum length is 64 characters.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Number of slots in this commitment.</span>
@@ -1166,6 +1273,14 @@
     <span class="doccomment">/// commitment plan. Only applicable for ANNUAL and TRIAL commitments.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;capacity_commitment::CommitmentPlan&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">renewal_plan</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Applicable only for commitments located within one of the BigQuery</span>
+    <span class="doccomment">/// multi-regions (US or EU).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If set to true, this commitment is placed in the organization&#39;s</span>
+    <span class="doccomment">/// secondary region which is designated for disaster recovery purposes.</span>
+    <span class="doccomment">/// If false, this commitment is placed in the organization&#39;s default region.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;10&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">multi_region_auxiliary</span>: <span class="ident">bool</span>,
 }
 <span class="doccomment">/// Nested message and enum types in `CapacityCommitment`.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">capacity_commitment</span> {
@@ -1203,10 +1318,10 @@
         <span class="doccomment">/// Invalid state value.</span>
         <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
         <span class="doccomment">/// Capacity commitment is pending provisioning. Pending capacity commitment</span>
-        <span class="doccomment">/// does not contribute to the parent&#39;s slot_capacity.</span>
+        <span class="doccomment">/// does not contribute to the project&#39;s slot_capacity.</span>
         <span class="ident">Pending</span> <span class="op">=</span> <span class="number">1</span>,
         <span class="doccomment">/// Once slots are provisioned, capacity commitment becomes active.</span>
-        <span class="doccomment">/// slot_count is added to the parent&#39;s slot_capacity.</span>
+        <span class="doccomment">/// slot_count is added to the project&#39;s slot_capacity.</span>
         <span class="ident">Active</span> <span class="op">=</span> <span class="number">2</span>,
         <span class="doccomment">/// Capacity commitment is failed to be activated by the backend.</span>
         <span class="ident">Failed</span> <span class="op">=</span> <span class="number">3</span>,
@@ -1219,8 +1334,9 @@
     <span class="doccomment">/// `projects/myproject/locations/US`</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// The reservation ID. This field must only contain lower case alphanumeric</span>
-    <span class="doccomment">/// characters or dash. Max length is 64 characters.</span>
+    <span class="doccomment">/// The reservation ID. It must only contain lower case alphanumeric</span>
+    <span class="doccomment">/// characters or dashes. It must start with a letter and must not end</span>
+    <span class="doccomment">/// with a dash. Its maximum length is 64 characters.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">reservation_id</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Definition of the new reservation to create.</span>
@@ -1294,8 +1410,8 @@
     <span class="kw">pub</span> <span class="ident">enforce_single_admin_project_per_org</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// The optional capacity commitment ID. Capacity commitment name will be</span>
     <span class="doccomment">/// generated automatically if this field is empty.</span>
-    <span class="doccomment">/// This field must only contain lower case alphanumeric characters or dash.</span>
-    <span class="doccomment">/// Max length is 64 characters.</span>
+    <span class="doccomment">/// This field must only contain lower case alphanumeric characters or dashes.</span>
+    <span class="doccomment">/// The first and last character cannot be a dash. Max length is 64 characters.</span>
     <span class="doccomment">/// NOTE: this ID won&#39;t be kept if the capacity commitment is split or merged.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">capacity_commitment_id</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -1392,12 +1508,14 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">capacity_commitment_ids</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">::prost::alloc::string::String</span><span class="op">&gt;</span>,
 }
-<span class="doccomment">/// A Assignment allows a project to submit jobs</span>
+<span class="doccomment">/// An assignment allows a project to submit jobs</span>
 <span class="doccomment">/// of a certain type using slots from the specified reservation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Assignment</span> {
     <span class="doccomment">/// Output only. Name of the resource. E.g.:</span>
     <span class="doccomment">/// `projects/myproject/locations/US/reservations/team1-prod/assignments/123`.</span>
+    <span class="doccomment">/// The assignment_id must only contain lower case alphanumeric characters or</span>
+    <span class="doccomment">/// dashes and the max length is 64 characters.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The resource which will use the reservation. E.g.</span>
@@ -1457,7 +1575,7 @@
     <span class="kw">pub</span> <span class="ident">assignment</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Assignment</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The optional assignment ID. Assignment name will be generated automatically</span>
     <span class="doccomment">/// if this field is empty.</span>
-    <span class="doccomment">/// This field must only contain lower case alphanumeric characters or dash.</span>
+    <span class="doccomment">/// This field must only contain lower case alphanumeric characters or dashes.</span>
     <span class="doccomment">/// Max length is 64 characters.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">assignment_id</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -1599,6 +1717,30 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">destination_id</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
+<span class="doccomment">/// The request for \[ReservationService.UpdateAssignment][google.cloud.bigquery.reservation.v1.ReservationService.UpdateAssignment\].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateAssignmentRequest</span> {
+    <span class="doccomment">/// Content of the assignment to update.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">assignment</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Assignment</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Standard field mask for the set of fields to be updated.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">update_mask</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">::prost_types::FieldMask</span><span class="op">&gt;</span>,
+}
+<span class="doccomment">/// Fully qualified reference to BigQuery table.</span>
+<span class="doccomment">/// Internally stored as google.cloud.bi.v1.BqTableReference.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TableReference</span> {
+    <span class="doccomment">/// The assigned project ID of the project.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">project_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The ID of the dataset in the above project.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">dataset_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// The ID of the table in the above dataset.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">table_id</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
 <span class="doccomment">/// Represents a BI Reservation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BiReservation</span> {
@@ -1613,6 +1755,9 @@
     <span class="doccomment">/// Size of a reservation, in bytes.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int64</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">size</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// Preferred tables to use BI capacity for.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">preferred_tables</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">TableReference</span><span class="op">&gt;</span>,
 }
 <span class="doccomment">/// A request to get a singleton BI reservation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -1884,7 +2029,7 @@
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; For example, in order to downgrade from 10000 slots to 8000, you might&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; split a 10000 capacity commitment into commitments of 2000 and 8000. Then,&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; you would change the plan of the first one to `FLEX` and then delete it.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; you delete the first one after the commitment end time passes.&quot;</span>]</span>
         <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">split_capacity_commitment</span>(
             <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
             <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::SplitCapacityCommitmentRequest</span><span class="op">&gt;</span>,
@@ -2044,8 +2189,8 @@
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deprecated: Looks up assignments for a specified resource for a particular region.&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; If the request is about a project:&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Deprecated: Looks up assignments for a specified resource for a particular&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; region. If the request is about a project:&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; 1. Assignments created on the project will be returned if they exist.&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; 2. Otherwise assignments created on the closest ancestor will be&quot;</span>]</span>
@@ -2137,6 +2282,25 @@
             <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
             <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
                 <span class="string">&quot;/google.cloud.bigquery.reservation.v1.ReservationService/MoveAssignment&quot;</span>,
+            );
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
+        }
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Updates an existing assignment.&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Only the `priority` field can be updated.&quot;</span>]</span>
+        <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">update_assignment</span>(
+            <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+            <span class="ident">request</span>: <span class="kw">impl</span> <span class="ident">tonic::IntoRequest</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::UpdateAssignmentRequest</span><span class="op">&gt;</span>,
+        ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">tonic::Response</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::Assignment</span><span class="op">&gt;</span>, <span class="ident">tonic::Status</span><span class="op">&gt;</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">ready</span>().<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                <span class="ident">tonic::Status::new</span>(
+                    <span class="ident">tonic::Code::Unknown</span>,
+                    <span class="macro">format!</span>(<span class="string">&quot;Service was not ready: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>()),
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="ident">codec</span> <span class="op">=</span> <span class="ident">tonic::codec::ProstCodec::default</span>();
+            <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">http::uri::PathAndQuery::from_static</span>(
+                <span class="string">&quot;/google.cloud.bigquery.reservation.v1.ReservationService/UpdateAssignment&quot;</span>,
             );
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
