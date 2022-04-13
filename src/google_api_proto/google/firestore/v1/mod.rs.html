@@ -1929,6 +1929,9 @@
 <span id="1924">1924</span>
 <span id="1925">1925</span>
 <span id="1926">1926</span>
+<span id="1927">1927</span>
+<span id="1928">1928</span>
+<span id="1929">1929</span>
 </pre><pre class="rust"><code><span class="doccomment">/// A Firestore document.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Must not exceed 1 MiB - 4 bytes.</span>
@@ -2158,7 +2161,10 @@
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;composite_filter::Operator&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">op</span>: <span class="ident">i32</span>,
         <span class="doccomment">/// The list of filters to combine.</span>
-        <span class="doccomment">/// Must contain at least one filter.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Requires:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// * At least one filter is present.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">filters</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Filter</span><span class="op">&gt;</span>,
     }
@@ -2172,7 +2178,7 @@
         <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Operator</span> {
             <span class="doccomment">/// Unspecified. This value must not be used.</span>
             <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
-            <span class="doccomment">/// The results are required to satisfy each of the combined filters.</span>
+            <span class="doccomment">/// Documents are required to satisfy all of the combined filters.</span>
             <span class="ident">And</span> <span class="op">=</span> <span class="number">1</span>,
         }
     }
