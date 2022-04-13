@@ -227,7 +227,10 @@ pub mod structured_query {
         #[prost(enumeration = "composite_filter::Operator", tag = "1")]
         pub op: i32,
         /// The list of filters to combine.
-        /// Must contain at least one filter.
+        ///
+        /// Requires:
+        ///
+        /// * At least one filter is present.
         #[prost(message, repeated, tag = "2")]
         pub filters: ::prost::alloc::vec::Vec<Filter>,
     }
@@ -241,7 +244,7 @@ pub mod structured_query {
         pub enum Operator {
             /// Unspecified. This value must not be used.
             Unspecified = 0,
-            /// The results are required to satisfy each of the combined filters.
+            /// Documents are required to satisfy all of the combined filters.
             And = 1,
         }
     }
