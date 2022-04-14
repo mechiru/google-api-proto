@@ -88,9 +88,6 @@ pub mod bigtable;
 #[cfg(any(feature = "google-bytestream",))]
 pub mod bytestream;
 
-#[cfg(any(feature = "google-chat-dynamite-integration-logging-v1",))]
-pub mod chat;
-
 #[cfg(any(
     feature = "google-chromeos-moblab-v1beta1",
     feature = "google-chromeos-uidetection-v1",
