@@ -267,6 +267,14 @@ pub struct PublishLifecycleEventRequest {
     /// PublishLifecycleEvent (containing a BuildEnqueued message).
     #[prost(string, tag = "6")]
     pub project_id: ::prost::alloc::string::String,
+    /// Whether to require a previously received matching parent lifecycle event
+    /// for the current request's event before continuing processing.
+    /// - InvocationAttemptStarted and BuildFinished events require a BuildEnqueued
+    ///   parent event.
+    /// - InvocationAttemptFinished events require an InvocationAttemptStarted
+    ///   parent event.
+    #[prost(bool, tag = "7")]
+    pub check_preceding_lifecycle_events_present: bool,
 }
 /// Nested message and enum types in `PublishLifecycleEventRequest`.
 pub mod publish_lifecycle_event_request {
@@ -328,6 +336,12 @@ pub struct PublishBuildToolEventStreamRequest {
     /// PublishLifecycleEvent (containing a BuildEnqueued message).
     #[prost(string, tag = "6")]
     pub project_id: ::prost::alloc::string::String,
+    /// Whether to require a previously received matching InvocationAttemptStarted
+    /// event before continuing event processing for the event in the current
+    /// request. BES only performs this check for events with sequence_number 1
+    /// i.e. the first event in the stream.
+    #[prost(bool, tag = "7")]
+    pub check_preceding_lifecycle_events_present: bool,
 }
 #[doc = r" Generated client implementations."]
 pub mod publish_build_event_client {

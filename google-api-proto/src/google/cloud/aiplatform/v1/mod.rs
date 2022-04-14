@@ -308,7 +308,7 @@ pub struct PipelineJob {
     /// Output only. Timestamp when this PipelineJob was most recently updated.
     #[prost(message, optional, tag = "6")]
     pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Required. The spec of the pipeline.
+    /// The spec of the pipeline.
     #[prost(message, optional, tag = "7")]
     pub pipeline_spec: ::core::option::Option<::prost_types::Struct>,
     /// Output only. The detailed state of the job.
@@ -693,6 +693,12 @@ pub enum JobState {
     Paused = 8,
     /// The job has expired.
     Expired = 9,
+    /// The job is being updated. The job is only able to be updated at RUNNING
+    /// state; if the update operation succeeds, job goes back to RUNNING state; if
+    /// the update operation fails, the job goes back to RUNNING state with error
+    /// messages written to \[ModelDeploymentMonitoringJob.partial_errors][\] field
+    /// if it is a ModelDeploymentMonitoringJob.
+    Updating = 10,
 }
 /// Represents a hardware accelerator type.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -764,6 +770,11 @@ pub struct DedicatedResources {
     /// replicas at maximum may handle, a portion of the traffic will be dropped.
     /// If this value is not provided, will use \[min_replica_count][google.cloud.aiplatform.v1.DedicatedResources.min_replica_count\] as the
     /// default value.
+    ///
+    /// The value of this field impacts the charge against Vertex CPU and GPU
+    /// quotas. Specifically, you will be charged for (max_replica_count *
+    /// number of cores in the selected machine type) and (max_replica_count *
+    /// number of GPUs per replica in the selected machine type).
     #[prost(int32, tag = "3")]
     pub max_replica_count: i32,
     /// Immutable. The metric specifications that overrides a resource
@@ -850,6 +861,22 @@ pub struct DiskSpec {
     /// Size in GB of the boot disk (default is 100GB).
     #[prost(int32, tag = "2")]
     pub boot_disk_size_gb: i32,
+}
+/// Represents a mount configuration for Network File System (NFS) to mount.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NfsMount {
+    /// Required. IP address of the NFS server.
+    #[prost(string, tag = "1")]
+    pub server: ::prost::alloc::string::String,
+    /// Required. Source path exported from NFS server.
+    /// Has to start with '/', and combined with the ip address, it indicates
+    /// the source mount path in the form of `server:path`
+    #[prost(string, tag = "2")]
+    pub path: ::prost::alloc::string::String,
+    /// Required. Destination mount path. The NFS will be mounted for the user under
+    /// /mnt/nfs/<mount_point>
+    #[prost(string, tag = "3")]
+    pub mount_point: ::prost::alloc::string::String,
 }
 /// The metric specification that defines the target resource utilization
 /// (CPU utilization, accelerator's duty cycle, and so on) for calculating the
@@ -977,6 +1004,16 @@ pub struct CustomJobSpec {
     /// If this field is left unspecified, the job is not peered with any network.
     #[prost(string, tag = "5")]
     pub network: ::prost::alloc::string::String,
+    /// Optional. A list of names for the reserved ip ranges under the VPC network
+    /// that can be used for this job.
+    ///
+    /// If set, we will deploy the job within the provided ip ranges. Otherwise,
+    /// the job will be deployed to any ip ranges under the provided VPC
+    /// network.
+    ///
+    /// Example: \['vertex-ai-ip-range'\].
+    #[prost(string, repeated, tag = "13")]
+    pub reserved_ip_ranges: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// The Cloud Storage location to store the output of this CustomJob or
     /// HyperparameterTuningJob. For HyperparameterTuningJob,
     /// the baseOutputDirectory of
@@ -1025,6 +1062,9 @@ pub struct WorkerPoolSpec {
     /// Optional. The number of worker replicas to use for this worker pool.
     #[prost(int64, tag = "2")]
     pub replica_count: i64,
+    /// Optional. List of NFS mount spec.
+    #[prost(message, repeated, tag = "4")]
+    pub nfs_mounts: ::prost::alloc::vec::Vec<NfsMount>,
     /// Disk spec.
     #[prost(message, optional, tag = "5")]
     pub disk_spec: ::core::option::Option<DiskSpec>,
@@ -1270,7 +1310,7 @@ pub struct StudySpec {
     /// Describe which measurement selection type will be used
     #[prost(enumeration = "study_spec::MeasurementSelectionType", tag = "7")]
     pub measurement_selection_type: i32,
-    #[prost(oneof = "study_spec::AutomatedStoppingSpec", tags = "4, 5")]
+    #[prost(oneof = "study_spec::AutomatedStoppingSpec", tags = "4, 5, 9")]
     pub automated_stopping_spec: ::core::option::Option<study_spec::AutomatedStoppingSpec>,
 }
 /// Nested message and enum types in `StudySpec`.
@@ -1520,6 +1560,55 @@ pub mod study_spec {
         #[prost(bool, tag = "1")]
         pub use_elapsed_duration: bool,
     }
+    /// Configuration for ConvexAutomatedStoppingSpec.
+    /// When there are enough completed trials (configured by
+    /// min_measurement_count), for pending trials with enough measurements and
+    /// steps, the policy first computes an overestimate of the objective value at
+    /// max_num_steps according to the slope of the incomplete objective value
+    /// curve. No prediction can be made if the curve is completely flat. If the
+    /// overestimation is worse than the best objective value of the completed
+    /// trials, this pending trial will be early-stopped, but a last measurement
+    /// will be added to the pending trial with max_num_steps and predicted
+    /// objective value from the autoregression model.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConvexAutomatedStoppingSpec {
+        /// Steps used in predicting the final objective for early stopped trials. In
+        /// general, it's set to be the same as the defined steps in training /
+        /// tuning. If not defined, it will learn it from the completed trials. When
+        /// use_steps is false, this field is set to the maximum elapsed seconds.
+        #[prost(int64, tag = "1")]
+        pub max_step_count: i64,
+        /// Minimum number of steps for a trial to complete. Trials which do not have
+        /// a measurement with step_count > min_step_count won't be considered for
+        /// early stopping. It's ok to set it to 0, and a trial can be early stopped
+        /// at any stage. By default, min_step_count is set to be one-tenth of the
+        /// max_step_count.
+        /// When use_elapsed_duration is true, this field is set to the minimum
+        /// elapsed seconds.
+        #[prost(int64, tag = "2")]
+        pub min_step_count: i64,
+        /// The minimal number of measurements in a Trial.  Early-stopping checks
+        /// will not trigger if less than min_measurement_count+1 completed trials or
+        /// pending trials with less than min_measurement_count measurements. If not
+        /// defined, the default value is 5.
+        #[prost(int64, tag = "3")]
+        pub min_measurement_count: i64,
+        /// The hyper-parameter name used in the tuning job that stands for learning
+        /// rate. Leave it blank if learning rate is not in a parameter in tuning.
+        /// The learning_rate is used to estimate the objective value of the ongoing
+        /// trial.
+        #[prost(string, tag = "4")]
+        pub learning_rate_parameter_name: ::prost::alloc::string::String,
+        /// This bool determines whether or not the rule is applied based on
+        /// elapsed_secs or steps. If use_elapsed_duration==false, the early stopping
+        /// decision is made according to the predicted objective values according to
+        /// the target steps. If use_elapsed_duration==true, elapsed_secs is used
+        /// instead of steps. Also, in this case, the parameters max_num_steps and
+        /// min_num_steps are overloaded to contain max_elapsed_seconds and
+        /// min_elapsed_seconds.
+        #[prost(bool, tag = "5")]
+        pub use_elapsed_duration: bool,
+    }
     /// The available search algorithms for the Study.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
@@ -1582,6 +1671,9 @@ pub mod study_spec {
         /// The automated early stopping spec using median rule.
         #[prost(message, tag = "5")]
         MedianAutomatedStoppingSpec(MedianAutomatedStoppingSpec),
+        /// The automated early stopping spec using convex stopping rule.
+        #[prost(message, tag = "9")]
+        ConvexAutomatedStoppingSpec(ConvexAutomatedStoppingSpec),
     }
 }
 /// A message representing a Measurement of a Trial. A Measurement contains
@@ -3612,7 +3704,7 @@ pub struct FeatureStatsAnomaly {
     #[prost(message, optional, tag = "8")]
     pub end_time: ::core::option::Option<::prost_types::Timestamp>,
 }
-/// Next ID: 7
+/// Next ID: 8
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ModelMonitoringObjectiveConfig {
     /// Training dataset for models. This field has to be set only if
@@ -3879,6 +3971,10 @@ pub struct ModelDeploymentMonitoringJob {
         tag = "5"
     )]
     pub schedule_state: i32,
+    /// Output only. Latest triggered monitoring pipeline metadata.
+    #[prost(message, optional, tag = "25")]
+    pub latest_monitoring_pipeline_metadata:
+        ::core::option::Option<model_deployment_monitoring_job::LatestMonitoringPipelineMetadata>,
     /// Required. The config for monitoring objectives. This is a per DeployedModel config.
     /// Each DeployedModel needs to be configured separately.
     #[prost(message, repeated, tag = "6")]
@@ -3975,6 +4071,17 @@ pub struct ModelDeploymentMonitoringJob {
 }
 /// Nested message and enum types in `ModelDeploymentMonitoringJob`.
 pub mod model_deployment_monitoring_job {
+    /// All metadata of most recent monitoring pipelines.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct LatestMonitoringPipelineMetadata {
+        /// The time that most recent monitoring pipelines that is related to this
+        /// run.
+        #[prost(message, optional, tag = "1")]
+        pub run_time: ::core::option::Option<::prost_types::Timestamp>,
+        /// The status of the most recent monitoring pipeline.
+        #[prost(message, optional, tag = "2")]
+        pub status: ::core::option::Option<super::super::super::super::rpc::Status>,
+    }
     /// The state to Specify the monitoring pipeline.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
@@ -7500,7 +7607,8 @@ pub struct Featurestore {
         ::prost::alloc::string::String,
         ::prost::alloc::string::String,
     >,
-    /// Required. Config for online serving resources.
+    /// Optional. Config for online storage resources. If unset, the featurestore will
+    /// not have an online store and cannot be used for online serving.
     #[prost(message, optional, tag = "7")]
     pub online_serving_config: ::core::option::Option<featurestore::OnlineServingConfig>,
     /// Output only. State of the featurestore.
@@ -7517,32 +7625,33 @@ pub mod featurestore {
     /// resources.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct OnlineServingConfig {
-        /// The number of nodes for each cluster. The number of nodes will not
-        /// scale automatically but can be scaled manually by providing different
-        /// values when updating.
-        /// Only one of `fixed_node_count` and `scaling` can be set. Setting one will
-        /// reset the other.
+        /// The number of nodes for the online store. The number of nodes doesn't
+        /// scale automatically, but you can manually update the number of
+        /// nodes. If set to 0, the featurestore will not have an
+        /// online store and cannot be used for online serving.
         #[prost(int32, tag = "2")]
         pub fixed_node_count: i32,
     }
-    /// Possible states a Featurestore can have.
+    /// Possible states a featurestore can have.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum State {
         /// Default value. This value is unused.
         Unspecified = 0,
-        /// State when the Featurestore configuration is not being updated and the
-        /// fields reflect the current configuration of the Featurestore. The
-        /// Featurestore is usable in this state.
+        /// State when the featurestore configuration is not being updated and the
+        /// fields reflect the current configuration of the featurestore. The
+        /// featurestore is usable in this state.
         Stable = 1,
-        /// State when the Featurestore configuration is being updated and the fields
-        /// reflect the updated configuration of the Featurestore, not the current
-        /// one. For example, `online_serving_config.fixed_node_count` can take
-        /// minutes to update. While the update is in progress, the Featurestore
-        /// will be in the UPDATING state and the value of `fixed_node_count` will be
-        /// the updated value. Until the update completes, the actual number of nodes
-        /// can still be the original value of `fixed_node_count`. The Featurestore
-        /// is still usable in this state.
+        /// The state of the featurestore configuration when it is being updated.
+        /// During an update, the fields reflect either the original configuration
+        /// or the updated configuration of the featurestore. For example,
+        /// `online_serving_config.fixed_node_count` can take minutes to update.
+        /// While the update is in progress, the featurestore is in the UPDATING
+        /// state, and the value of `fixed_node_count` can be the original value or
+        /// the updated value, depending on the progress of the operation. Until the
+        /// update completes, the actual number of nodes can still be the original
+        /// value of `fixed_node_count`. The featurestore is still usable in this
+        /// state.
         Updating = 2,
     }
 }
@@ -7865,9 +7974,9 @@ pub struct IndexEndpoint {
     /// Private services access must already be configured for the network. If left
     /// unspecified, the Endpoint is not peered with any network.
     ///
-    /// Only one of the fields, \[network][google.cloud.aiplatform.v1.IndexEndpoint.network\] or
-    /// \[enable_private_service_connect][google.cloud.aiplatform.v1.IndexEndpoint.enable_private_service_connect\],
-    /// can be set.
+    /// \[network][google.cloud.aiplatform.v1.IndexEndpoint.network\] and
+    /// \[private_service_connect_config][google.cloud.aiplatform.v1.IndexEndpoint.private_service_connect_config\]
+    /// are mutually exclusive.
     ///
     /// \[Format\](<https://cloud.google.com/compute/docs/reference/rest/v1/networks/insert>):
     /// projects/{project}/global/networks/{network}.
@@ -7875,11 +7984,12 @@ pub struct IndexEndpoint {
     /// network name.
     #[prost(string, tag = "9")]
     pub network: ::prost::alloc::string::String,
-    /// Optional. If true, expose the IndexEndpoint via private service connect.
+    /// Optional. Deprecated: If true, expose the IndexEndpoint via private service connect.
     ///
     /// Only one of the fields, \[network][google.cloud.aiplatform.v1.IndexEndpoint.network\] or
     /// \[enable_private_service_connect][google.cloud.aiplatform.v1.IndexEndpoint.enable_private_service_connect\],
     /// can be set.
+    #[deprecated]
     #[prost(bool, tag = "10")]
     pub enable_private_service_connect: bool,
 }
@@ -8149,7 +8259,7 @@ pub struct Endpoint {
     /// network name.
     #[prost(string, tag = "13")]
     pub network: ::prost::alloc::string::String,
-    /// If true, expose the Endpoint via private service connect.
+    /// Deprecated: If true, expose the Endpoint via private service connect.
     ///
     /// Only one of the fields, \[network][google.cloud.aiplatform.v1.Endpoint.network\] or
     /// \[enable_private_service_connect][google.cloud.aiplatform.v1.Endpoint.enable_private_service_connect\],
@@ -8289,7 +8399,7 @@ pub struct PredictRequestResponseLoggingConfig {
     #[prost(double, tag = "2")]
     pub sampling_rate: f64,
     /// BigQuery table for logging.
-    /// If only given project, a new dataset will be created with name
+    /// If only given a project, a new dataset will be created with name
     /// `logging_<endpoint-display-name>_<endpoint-id>` where
     /// <endpoint-display-name> will be made BigQuery-dataset-name compatible (e.g.
     /// most special characters will become underscores). If no table name is
@@ -9661,17 +9771,16 @@ pub struct Feature {
     /// "overwrite" update happens.
     #[prost(string, tag = "7")]
     pub etag: ::prost::alloc::string::String,
-    /// Optional. If not set, use the monitoring_config defined for the EntityType
-    /// this Feature belongs to. Only Features with type
-    /// (\[Feature.ValueType][google.cloud.aiplatform.v1.Feature.ValueType\]) BOOL,
-    /// STRING, DOUBLE or INT64 can enable monitoring.
+    /// Optional. If not set, use the monitoring_config defined for the EntityType this
+    /// Feature belongs to.
+    /// Only Features with type (\[Feature.ValueType][google.cloud.aiplatform.v1.Feature.ValueType\]) BOOL, STRING, DOUBLE or
+    /// INT64 can enable monitoring.
     ///
     /// If set to true, all types of data monitoring are disabled despite the
     /// config on EntityType.
     #[prost(bool, tag = "12")]
     pub disable_monitoring: bool,
-    /// Output only. The list of historical stats and anomalies with specified
-    /// objectives.
+    /// Output only. The list of historical stats and anomalies with specified objectives.
     #[prost(message, repeated, tag = "11")]
     pub monitoring_stats_anomalies: ::prost::alloc::vec::Vec<feature::MonitoringStatsAnomaly>,
 }
@@ -9680,9 +9789,7 @@ pub mod feature {
     /// A list of historical [Snapshot
     /// Analysis]\[FeaturestoreMonitoringConfig.SnapshotAnalysis\] or [Import Feature
     /// Analysis] \[FeaturestoreMonitoringConfig.ImportFeatureAnalysis\] stats
-    /// requested by user, sorted by
-    /// \[FeatureStatsAnomaly.start_time][google.cloud.aiplatform.v1.FeatureStatsAnomaly.start_time\]
-    /// descending.
+    /// requested by user, sorted by \[FeatureStatsAnomaly.start_time][google.cloud.aiplatform.v1.FeatureStatsAnomaly.start_time\] descending.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct MonitoringStatsAnomaly {
         /// Output only. The objective for each stats.
@@ -9749,17 +9856,13 @@ pub struct FeaturestoreMonitoringConfig {
         ::core::option::Option<featurestore_monitoring_config::ImportFeaturesAnalysis>,
     /// Threshold for numerical features of anomaly detection.
     /// This is shared by all objectives of Featurestore Monitoring for numerical
-    /// features (i.e. Features with type
-    /// (\[Feature.ValueType][google.cloud.aiplatform.v1.Feature.ValueType\]) DOUBLE
-    /// or INT64).
+    /// features (i.e. Features with type (\[Feature.ValueType][google.cloud.aiplatform.v1.Feature.ValueType\]) DOUBLE or INT64).
     #[prost(message, optional, tag = "3")]
     pub numerical_threshold_config:
         ::core::option::Option<featurestore_monitoring_config::ThresholdConfig>,
     /// Threshold for categorical features of anomaly detection.
     /// This is shared by all types of Featurestore Monitoring for categorical
-    /// features (i.e. Features with type
-    /// (\[Feature.ValueType][google.cloud.aiplatform.v1.Feature.ValueType\]) BOOL or
-    /// STRING).
+    /// features (i.e. Features with type (\[Feature.ValueType][google.cloud.aiplatform.v1.Feature.ValueType\]) BOOL or STRING).
     #[prost(message, optional, tag = "4")]
     pub categorical_threshold_config:
         ::core::option::Option<featurestore_monitoring_config::ThresholdConfig>,
@@ -11058,6 +11161,9 @@ pub struct ListPipelineJobsRequest {
     /// * `end_time`: Supports `=`, `!=`, `<`, `>`, `<=`, and `>=` comparisons.
     ///   Values must be in RFC 3339 format.
     /// * `labels`: Supports key-value equality and key presence.
+    /// * `template_uri`: Supports `=`, `!=` comparisons, and `:` wildcard.
+    /// * `template_metadata.version_name`: Supports `=`, `!=` comparisons, and `:`
+    /// wildcard.
     ///
     /// Filter expressions can be combined together using logical operators
     /// (`AND` & `OR`).
@@ -11421,10 +11527,9 @@ pub struct EntityType {
     /// "overwrite" update happens.
     #[prost(string, tag = "7")]
     pub etag: ::prost::alloc::string::String,
-    /// Optional. The default monitoring configuration for all Features with value
-    /// type
-    /// (\[Feature.ValueType][google.cloud.aiplatform.v1.Feature.ValueType\]) BOOL,
-    /// STRING, DOUBLE or INT64 under this EntityType.
+    /// Optional. The default monitoring configuration for all Features with value type
+    /// (\[Feature.ValueType][google.cloud.aiplatform.v1.Feature.ValueType\]) BOOL, STRING, DOUBLE or INT64 under this
+    /// EntityType.
     ///
     /// If this is populated with
     /// \[FeaturestoreMonitoringConfig.monitoring_interval\] specified, snapshot
@@ -13346,6 +13451,23 @@ pub struct ListModelsResponse {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateModelRequest {
     /// Required. The Model which replaces the resource on the server.
+    /// When Model Versioning is enabled, the model.name will be used to determine
+    /// whether to update the model or model version.
+    /// 1. model.name with the @ value, e.g. models/123@1, refers to a version
+    /// specific update.
+    /// 2. model.name without the @ value, e.g. models/123, refers to a model
+    /// update.
+    /// 3. model.name with @-, e.g. models/123@-, refers to a model update.
+    /// 4. Supported model fields: display_name, description; supported
+    /// version-specific fields: version_description. Labels are supported in both
+    /// scenarios. Both the model labels and the version labels are merged when a
+    /// model is returned. When updating labels, if the request is for
+    /// model-specific update, model label gets updated. Otherwise, version labels
+    /// get updated.
+    /// 5. A model name or model version name fields update mismatch will cause a
+    /// precondition error.
+    /// 6. One request cannot update both the model and the version fields. You
+    /// must update them separately.
     #[prost(message, optional, tag = "1")]
     pub model: ::core::option::Option<Model>,
     /// Required. The update mask applies to the resource.
@@ -14017,7 +14139,7 @@ pub struct UpdateArtifactRequest {
     /// `projects/{project}/locations/{location}/metadataStores/{metadatastore}/artifacts/{artifact}`
     #[prost(message, optional, tag = "1")]
     pub artifact: ::core::option::Option<Artifact>,
-    /// Required. A FieldMask indicating which fields should be updated.
+    /// Optional. A FieldMask indicating which fields should be updated.
     /// Functionality of this field is not yet supported.
     #[prost(message, optional, tag = "2")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
@@ -14185,7 +14307,7 @@ pub struct UpdateContextRequest {
     /// `projects/{project}/locations/{location}/metadataStores/{metadatastore}/contexts/{context}`
     #[prost(message, optional, tag = "1")]
     pub context: ::core::option::Option<Context>,
-    /// Required. A FieldMask indicating which fields should be updated.
+    /// Optional. A FieldMask indicating which fields should be updated.
     /// Functionality of this field is not yet supported.
     #[prost(message, optional, tag = "2")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
@@ -14409,7 +14531,7 @@ pub struct UpdateExecutionRequest {
     /// `projects/{project}/locations/{location}/metadataStores/{metadatastore}/executions/{execution}`
     #[prost(message, optional, tag = "1")]
     pub execution: ::core::option::Option<Execution>,
-    /// Required. A FieldMask indicating which fields should be updated.
+    /// Optional. A FieldMask indicating which fields should be updated.
     /// Functionality of this field is not yet supported.
     #[prost(message, optional, tag = "2")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
