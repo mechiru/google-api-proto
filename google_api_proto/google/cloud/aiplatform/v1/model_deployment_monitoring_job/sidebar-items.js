@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["MonitoringScheduleState","The state to Specify the monitoring pipeline."]]});
+initSidebarItems({"enum":[["MonitoringScheduleState","The state to Specify the monitoring pipeline."]],"struct":[["LatestMonitoringPipelineMetadata","All metadata of most recent monitoring pipelines."]]});
