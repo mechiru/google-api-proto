@@ -8742,6 +8742,13 @@
 <span id="8737">8737</span>
 <span id="8738">8738</span>
 <span id="8739">8739</span>
+<span id="8740">8740</span>
+<span id="8741">8741</span>
+<span id="8742">8742</span>
+<span id="8743">8743</span>
+<span id="8744">8744</span>
+<span id="8745">8745</span>
+<span id="8746">8746</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Information for a word recognized by the speech recognizer.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SpeechWordInfo</span> {
@@ -9694,7 +9701,11 @@
     <span class="doccomment">/// that have slow webhooks.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">bool</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;8&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">return_partial_responses</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// The tag used by the webhook to identify which fulfillment is being called.</span>
+    <span class="doccomment">/// The value of this field will be populated in the \[WebhookRequest][google.cloud.dialogflow.cx.v3.WebhookRequest\]</span>
+    <span class="doccomment">/// `fulfillmentInfo.tag` field by Dialogflow when the associated webhook is</span>
+    <span class="doccomment">/// called.</span>
+    <span class="doccomment">/// The tag is typically used by the webhook service to identify which</span>
+    <span class="doccomment">/// fulfillment is being called, but it could be used for other purposes.</span>
     <span class="doccomment">/// This field is required if `webhook` is specified.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">tag</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -9794,7 +9805,7 @@
     <span class="doccomment">/// ID&gt;/flows/&lt;Flow ID&gt;/pages/&lt;Page ID&gt;`.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The human-readable name of the page, unique within the agent.</span>
+    <span class="doccomment">/// Required. The human-readable name of the page, unique within the flow.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// The fulfillment to call when the session is entering the page.</span>
@@ -12154,7 +12165,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// TransitionRoutes are evalauted in the following order:</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// *   TransitionRoutes with intent specified..</span>
+    <span class="doccomment">/// *   TransitionRoutes with intent specified.</span>
     <span class="doccomment">/// *   TransitionRoutes with only condition specified.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// TransitionRoutes with intent specified are inherited by pages in the flow.</span>
@@ -12770,7 +12781,7 @@
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Required. The human-readable name of the transition route group, unique within</span>
-    <span class="doccomment">/// the \[Agent][google.cloud.dialogflow.cx.v3.Agent\]. The display name can be no longer than 30 characters.</span>
+    <span class="doccomment">/// the flow. The display name can be no longer than 30 characters.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">display_name</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Transition routes associated with the \[TransitionRouteGroup][google.cloud.dialogflow.cx.v3.TransitionRouteGroup\].</span>
@@ -14021,7 +14032,7 @@
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">unary</span>(<span class="ident">request</span>.<span class="ident">into_request</span>(), <span class="ident">path</span>, <span class="ident">codec</span>).<span class="kw">await</span>
         }
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; Imports the test cases from a Cloud Storage bucket or a local file. It&quot;</span>]</span>
-        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; always creates new test cases and won&#39;t overwite any existing ones. The&quot;</span>]</span>
+        <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; always creates new test cases and won&#39;t overwrite any existing ones. The&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; provided ID in the imported test case is neglected.&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>]</span>
         <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot; This method is a [long-running&quot;</span>]</span>
@@ -15574,8 +15585,11 @@
     <span class="doccomment">/// Represents fulfillment information communicated to the webhook.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FulfillmentInfo</span> {
-        <span class="doccomment">/// Always present. The tag used to identify which fulfillment is being</span>
-        <span class="doccomment">/// called.</span>
+        <span class="doccomment">/// Always present.</span>
+        <span class="doccomment">/// The value of the \[Fulfillment.tag][google.cloud.dialogflow.cx.v3.Fulfillment.tag\] field will be populated in this</span>
+        <span class="doccomment">/// field by Dialogflow when the associated webhook is called.</span>
+        <span class="doccomment">/// The tag is typically used by the webhook service to identify which</span>
+        <span class="doccomment">/// fulfillment is being called, but it could be used for other purposes.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="kw">pub</span> <span class="ident">tag</span>: <span class="ident">::prost::alloc::string::String</span>,
     }
