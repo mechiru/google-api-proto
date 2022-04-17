@@ -950,7 +950,11 @@ pub struct Fulfillment {
     /// that have slow webhooks.
     #[prost(bool, tag = "8")]
     pub return_partial_responses: bool,
-    /// The tag used by the webhook to identify which fulfillment is being called.
+    /// The value of this field will be populated in the \[WebhookRequest][google.cloud.dialogflow.cx.v3.WebhookRequest\]
+    /// `fulfillmentInfo.tag` field by Dialogflow when the associated webhook is
+    /// called.
+    /// The tag is typically used by the webhook service to identify which
+    /// fulfillment is being called, but it could be used for other purposes.
     /// This field is required if `webhook` is specified.
     #[prost(string, tag = "3")]
     pub tag: ::prost::alloc::string::String,
@@ -1050,7 +1054,7 @@ pub struct Page {
     /// ID>/flows/<Flow ID>/pages/<Page ID>`.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// Required. The human-readable name of the page, unique within the agent.
+    /// Required. The human-readable name of the page, unique within the flow.
     #[prost(string, tag = "2")]
     pub display_name: ::prost::alloc::string::String,
     /// The fulfillment to call when the session is entering the page.
@@ -3410,7 +3414,7 @@ pub struct Flow {
     ///
     /// TransitionRoutes are evalauted in the following order:
     ///
-    /// *   TransitionRoutes with intent specified..
+    /// *   TransitionRoutes with intent specified.
     /// *   TransitionRoutes with only condition specified.
     ///
     /// TransitionRoutes with intent specified are inherited by pages in the flow.
@@ -4026,7 +4030,7 @@ pub struct TransitionRouteGroup {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     /// Required. The human-readable name of the transition route group, unique within
-    /// the \[Agent][google.cloud.dialogflow.cx.v3.Agent\]. The display name can be no longer than 30 characters.
+    /// the flow. The display name can be no longer than 30 characters.
     #[prost(string, tag = "2")]
     pub display_name: ::prost::alloc::string::String,
     /// Transition routes associated with the \[TransitionRouteGroup][google.cloud.dialogflow.cx.v3.TransitionRouteGroup\].
@@ -5277,7 +5281,7 @@ pub mod test_cases_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
         #[doc = " Imports the test cases from a Cloud Storage bucket or a local file. It"]
-        #[doc = " always creates new test cases and won't overwite any existing ones. The"]
+        #[doc = " always creates new test cases and won't overwrite any existing ones. The"]
         #[doc = " provided ID in the imported test case is neglected."]
         #[doc = ""]
         #[doc = " This method is a [long-running"]
@@ -6830,8 +6834,11 @@ pub mod webhook_request {
     /// Represents fulfillment information communicated to the webhook.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct FulfillmentInfo {
-        /// Always present. The tag used to identify which fulfillment is being
-        /// called.
+        /// Always present.
+        /// The value of the \[Fulfillment.tag][google.cloud.dialogflow.cx.v3.Fulfillment.tag\] field will be populated in this
+        /// field by Dialogflow when the associated webhook is called.
+        /// The tag is typically used by the webhook service to identify which
+        /// fulfillment is being called, but it could be used for other purposes.
         #[prost(string, tag = "1")]
         pub tag: ::prost::alloc::string::String,
     }
