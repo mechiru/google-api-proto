@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["EventType","The definition of the even types."]]});
+initSidebarItems({"enum":[["EventType","The definition of the event types."]]});

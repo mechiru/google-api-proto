@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["BackupScope","This defines the “scope” of the Backup - which namespaced resources in the cluster will be included in a Backup. Exactly one of the fields of backup_scope MUST be specified."]]});
