@@ -3114,6 +3114,52 @@
 <span id="3109">3109</span>
 <span id="3110">3110</span>
 <span id="3111">3111</span>
+<span id="3112">3112</span>
+<span id="3113">3113</span>
+<span id="3114">3114</span>
+<span id="3115">3115</span>
+<span id="3116">3116</span>
+<span id="3117">3117</span>
+<span id="3118">3118</span>
+<span id="3119">3119</span>
+<span id="3120">3120</span>
+<span id="3121">3121</span>
+<span id="3122">3122</span>
+<span id="3123">3123</span>
+<span id="3124">3124</span>
+<span id="3125">3125</span>
+<span id="3126">3126</span>
+<span id="3127">3127</span>
+<span id="3128">3128</span>
+<span id="3129">3129</span>
+<span id="3130">3130</span>
+<span id="3131">3131</span>
+<span id="3132">3132</span>
+<span id="3133">3133</span>
+<span id="3134">3134</span>
+<span id="3135">3135</span>
+<span id="3136">3136</span>
+<span id="3137">3137</span>
+<span id="3138">3138</span>
+<span id="3139">3139</span>
+<span id="3140">3140</span>
+<span id="3141">3141</span>
+<span id="3142">3142</span>
+<span id="3143">3143</span>
+<span id="3144">3144</span>
+<span id="3145">3145</span>
+<span id="3146">3146</span>
+<span id="3147">3147</span>
+<span id="3148">3148</span>
+<span id="3149">3149</span>
+<span id="3150">3150</span>
+<span id="3151">3151</span>
+<span id="3152">3152</span>
+<span id="3153">3153</span>
+<span id="3154">3154</span>
+<span id="3155">3155</span>
+<span id="3156">3156</span>
+<span id="3157">3157</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Message that contains the resource name and display name of a folder</span>
 <span class="doccomment">/// resource.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -3187,6 +3233,47 @@
     <span class="doccomment">/// A CLDR.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">region_code</span>: <span class="ident">::prost::alloc::string::String</span>,
+}
+<span class="doccomment">/// Contains information about the IP connection associated with the finding.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Connection</span> {
+    <span class="doccomment">/// Destination IP address. Not present for sockets that are listening and not</span>
+    <span class="doccomment">/// connected.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination_ip</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Destination port. Not present for sockets that are listening and not</span>
+    <span class="doccomment">/// connected.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">destination_port</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// Source IP address.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">source_ip</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Source port.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">int32</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">source_port</span>: <span class="ident">i32</span>,
+    <span class="doccomment">/// IANA Internet Protocol Number such as TCP(6) and UDP(17).</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">enumeration</span> <span class="op">=</span> <span class="string">&quot;connection::Protocol&quot;</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;5&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">protocol</span>: <span class="ident">i32</span>,
+}
+<span class="doccomment">/// Nested message and enum types in `Connection`.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">connection</span> {
+    <span class="doccomment">/// IANA Internet Protocol Number such as TCP(6) and UDP(17).</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">::prost::Enumeration</span>)]</span>
+    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Protocol</span> {
+        <span class="doccomment">/// Unspecified protocol (not HOPOPT).</span>
+        <span class="ident">Unspecified</span> <span class="op">=</span> <span class="number">0</span>,
+        <span class="doccomment">/// Internet Control Message Protocol.</span>
+        <span class="ident">Icmp</span> <span class="op">=</span> <span class="number">1</span>,
+        <span class="doccomment">/// Transmission Control Protocol.</span>
+        <span class="ident">Tcp</span> <span class="op">=</span> <span class="number">6</span>,
+        <span class="doccomment">/// User Datagram Protocol.</span>
+        <span class="ident">Udp</span> <span class="op">=</span> <span class="number">17</span>,
+        <span class="doccomment">/// Generic Routing Encapsulation.</span>
+        <span class="ident">Gre</span> <span class="op">=</span> <span class="number">47</span>,
+        <span class="doccomment">/// Encap Security Payload.</span>
+        <span class="ident">Esp</span> <span class="op">=</span> <span class="number">50</span>,
+    }
 }
 <span class="doccomment">/// Representation of third party SIEM/SOAR fields within SCC.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
@@ -3730,12 +3817,18 @@
     <span class="doccomment">/// caller, which method was accessed, from where, etc.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;26&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">access</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Access</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Contains information about the IP connection associated with the finding.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;31&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">connections</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">Connection</span><span class="op">&gt;</span>,
     <span class="doccomment">/// First known as mute_annotation. Records additional information about the</span>
     <span class="doccomment">/// mute operation e.g. mute config that muted the finding, user who muted the</span>
     <span class="doccomment">/// finding, etc. Unlike other attributes of a finding, a finding provider</span>
     <span class="doccomment">/// shouldn&#39;t set the value of mute.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;28&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">mute_initiator</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Contains more detail about the finding.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;37&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">description</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Represents IAM bindings associated with the Finding.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">repeated</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;39&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">iam_bindings</span>: <span class="ident">::prost::alloc::vec::Vec</span><span class="op">&lt;</span><span class="ident">IamBinding</span><span class="op">&gt;</span>,
@@ -4293,8 +4386,8 @@
 <span class="doccomment">/// 2. Once a bulk operation is started, there is no way to stop it.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BulkMuteFindingsRequest</span> {
-    <span class="doccomment">/// Required. The parent, at which bulk action needs to be applied. Its format</span>
-    <span class="doccomment">/// is &quot;organizations/\[organization_id\]&quot;, &quot;folders/\[folder_id\]&quot;,</span>
+    <span class="doccomment">/// Required. The parent, at which bulk action needs to be applied. Its format is</span>
+    <span class="doccomment">/// &quot;organizations/\[organization_id\]&quot;, &quot;folders/\[folder_id\]&quot;,</span>
     <span class="doccomment">/// &quot;projects/\[project_id\]&quot;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -4341,8 +4434,8 @@
     <span class="doccomment">/// greater than 0 characters in length.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">finding_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The Finding being created. The name and security_marks will be</span>
-    <span class="doccomment">/// ignored as they are both output only fields on this resource.</span>
+    <span class="doccomment">/// Required. The Finding being created. The name and security_marks will be ignored as</span>
+    <span class="doccomment">/// they are both output only fields on this resource.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">finding</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Finding</span><span class="op">&gt;</span>,
 }
@@ -4367,8 +4460,8 @@
 <span class="doccomment">/// Request message for creating a notification config.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateNotificationConfigRequest</span> {
-    <span class="doccomment">/// Required. Resource name of the new notification config&#39;s parent. Its format</span>
-    <span class="doccomment">/// is &quot;organizations/\[organization_id\]&quot;.</span>
+    <span class="doccomment">/// Required. Resource name of the new notification config&#39;s parent. Its format is</span>
+    <span class="doccomment">/// &quot;organizations/\[organization_id\]&quot;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Required.</span>
@@ -4377,9 +4470,8 @@
     <span class="doccomment">/// characters, underscores or hyphens only.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">config_id</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The notification config being created. The name and the service</span>
-    <span class="doccomment">/// account will be ignored as they are both output only fields on this</span>
-    <span class="doccomment">/// resource.</span>
+    <span class="doccomment">/// Required. The notification config being created. The name and the service account</span>
+    <span class="doccomment">/// will be ignored as they are both output only fields on this resource.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">notification_config</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">NotificationConfig</span><span class="op">&gt;</span>,
 }
@@ -4390,8 +4482,8 @@
     <span class="doccomment">/// &quot;organizations/\[organization_id\]&quot;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. The Source being created, only the display_name and description</span>
-    <span class="doccomment">/// will be used. All other fields will be ignored.</span>
+    <span class="doccomment">/// Required. The Source being created, only the display_name and description will be</span>
+    <span class="doccomment">/// used. All other fields will be ignored.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">optional</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">::core::option::Option</span><span class="op">&lt;</span><span class="ident">Source</span><span class="op">&gt;</span>,
 }
@@ -4444,8 +4536,8 @@
 <span class="doccomment">/// Request message for getting organization settings.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GetOrganizationSettingsRequest</span> {
-    <span class="doccomment">/// Required. Name of the organization to get organization settings for. Its</span>
-    <span class="doccomment">/// format is &quot;organizations/\[organization_id\]/organizationSettings&quot;.</span>
+    <span class="doccomment">/// Required. Name of the organization to get organization settings for. Its format is</span>
+    <span class="doccomment">/// &quot;organizations/\[organization_id\]/organizationSettings&quot;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
@@ -4529,9 +4621,9 @@
     <span class="doccomment">/// property not existing: `-resource_properties.my_property : &quot;&quot;`</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Expression that defines what assets fields to use for grouping.</span>
-    <span class="doccomment">/// The string value should follow SQL syntax: comma separated list of fields.</span>
-    <span class="doccomment">/// For example:</span>
+    <span class="doccomment">/// Required. Expression that defines what assets fields to use for grouping. The string</span>
+    <span class="doccomment">/// value should follow SQL syntax: comma separated list of fields. For</span>
+    <span class="doccomment">/// example:</span>
     <span class="doccomment">/// &quot;security_center_properties.resource_project,security_center_properties.project&quot;.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The following fields are supported when compare_duration is not set:</span>
@@ -4686,9 +4778,9 @@
     <span class="doccomment">///   * resource.type: `=`, `:`</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
-    <span class="doccomment">/// Required. Expression that defines what assets fields to use for grouping</span>
-    <span class="doccomment">/// (including `state_change`). The string value should follow SQL syntax:</span>
-    <span class="doccomment">/// comma separated list of fields. For example: &quot;parent,resource_name&quot;.</span>
+    <span class="doccomment">/// Required. Expression that defines what assets fields to use for grouping (including</span>
+    <span class="doccomment">/// `state_change`). The string value should follow SQL syntax: comma separated</span>
+    <span class="doccomment">/// list of fields. For example: &quot;parent,resource_name&quot;.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The following fields are supported:</span>
     <span class="doccomment">///</span>
@@ -4787,8 +4879,8 @@
 <span class="doccomment">/// folder or project.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListMuteConfigsRequest</span> {
-    <span class="doccomment">/// Required. The parent, which owns the collection of mute configs. Its format</span>
-    <span class="doccomment">/// is &quot;organizations/\[organization_id\]&quot;, &quot;folders/\[folder_id\]&quot;,</span>
+    <span class="doccomment">/// Required. The parent, which owns the collection of mute configs. Its format is</span>
+    <span class="doccomment">/// &quot;organizations/\[organization_id\]&quot;, &quot;folders/\[folder_id\]&quot;,</span>
     <span class="doccomment">/// &quot;projects/\[project_id\]&quot;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -4848,8 +4940,8 @@
 <span class="doccomment">/// Request message for listing sources.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListSourcesRequest</span> {
-    <span class="doccomment">/// Required. Resource name of the parent of sources to list. Its format should</span>
-    <span class="doccomment">/// be &quot;organizations/\[organization_id\], folders/\[folder_id\], or</span>
+    <span class="doccomment">/// Required. Resource name of the parent of sources to list. Its format should be</span>
+    <span class="doccomment">/// &quot;organizations/\[organization_id\], folders/\[folder_id\], or</span>
     <span class="doccomment">/// projects/\[project_id\]&quot;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
@@ -5345,8 +5437,8 @@
 <span class="doccomment">/// Request message for running asset discovery for an organization.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RunAssetDiscoveryRequest</span> {
-    <span class="doccomment">/// Required. Name of the organization to run asset discovery for. Its format</span>
-    <span class="doccomment">/// is &quot;organizations/\[organization_id\]&quot;.</span>
+    <span class="doccomment">/// Required. Name of the organization to run asset discovery for. Its format is</span>
+    <span class="doccomment">/// &quot;organizations/\[organization_id\]&quot;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
@@ -5365,8 +5457,8 @@
 <span class="doccomment">/// Request message for updating or creating a finding.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UpdateFindingRequest</span> {
-    <span class="doccomment">/// Required. The finding resource to update or create if it does not already</span>
-    <span class="doccomment">/// exist. parent, security_marks, and update_time will be ignored.</span>
+    <span class="doccomment">/// Required. The finding resource to update or create if it does not already exist.</span>
+    <span class="doccomment">/// parent, security_marks, and update_time will be ignored.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// In the case of creation, the finding id portion of the name must be</span>
     <span class="doccomment">/// alphanumeric and less than or equal to 32 characters and greater than 0</span>
@@ -5483,8 +5575,8 @@
 <span class="doccomment">/// organization, folder or project.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListBigQueryExportsRequest</span> {
-    <span class="doccomment">/// Required. The parent, which owns the collection of BigQuery exports. Its</span>
-    <span class="doccomment">/// format is &quot;organizations/\[organization_id\]&quot;, &quot;folders/\[folder_id\]&quot;,</span>
+    <span class="doccomment">/// Required. The parent, which owns the collection of BigQuery exports. Its format is</span>
+    <span class="doccomment">/// &quot;organizations/\[organization_id\]&quot;, &quot;folders/\[folder_id\]&quot;,</span>
     <span class="doccomment">/// &quot;projects/\[project_id\]&quot;.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">parent</span>: <span class="ident">::prost::alloc::string::String</span>,
