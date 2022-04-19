@@ -193,7 +193,10 @@ pub mod functions;
 ))]
 pub mod gaming;
 
-#[cfg(any(feature = "google-cloud-gkebackup-logging-v1",))]
+#[cfg(any(
+    feature = "google-cloud-gkebackup-logging-v1",
+    feature = "google-cloud-gkebackup-v1",
+))]
 pub mod gkebackup;
 
 #[cfg(any(

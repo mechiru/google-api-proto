@@ -184,6 +184,7 @@ pub mod chromeos;
     feature = "google-cloud-gaming-v1",
     feature = "google-cloud-gaming-v1beta",
     feature = "google-cloud-gkebackup-logging-v1",
+    feature = "google-cloud-gkebackup-v1",
     feature = "google-cloud-gkeconnect-gateway-v1",
     feature = "google-cloud-gkeconnect-gateway-v1alpha1",
     feature = "google-cloud-gkeconnect-gateway-v1beta1",

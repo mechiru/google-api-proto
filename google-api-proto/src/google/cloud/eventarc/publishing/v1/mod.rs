@@ -12,6 +12,20 @@ pub struct PublishChannelConnectionEventsRequest {
 /// The response message for the PublishChannelConnectionEvents method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PublishChannelConnectionEventsResponse {}
+/// The request message for the PublishEvents method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PublishEventsRequest {
+    /// The full name of the channel to publish to. For example:
+    /// `projects/{project}/locations/{location}/channels/{channel-id}`.
+    #[prost(string, tag = "1")]
+    pub channel: ::prost::alloc::string::String,
+    /// The CloudEvents v1.0 events to publish. No other types are allowed.
+    #[prost(message, repeated, tag = "2")]
+    pub events: ::prost::alloc::vec::Vec<::prost_types::Any>,
+}
+/// The response message for the PublishEvents method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PublishEventsResponse {}
 #[doc = r" Generated client implementations."]
 pub mod publisher_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
@@ -100,6 +114,23 @@ pub mod publisher_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.eventarc.publishing.v1.Publisher/PublishChannelConnectionEvents",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Publish events to a subscriber's channel."]
+        pub async fn publish_events(
+            &mut self,
+            request: impl tonic::IntoRequest<super::PublishEventsRequest>,
+        ) -> Result<tonic::Response<super::PublishEventsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.eventarc.publishing.v1.Publisher/PublishEvents",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

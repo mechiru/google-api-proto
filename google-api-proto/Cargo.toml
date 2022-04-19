@@ -178,6 +178,7 @@ google-cloud-functions-v1 = ["google-api", "google-cloud", "google-iam-v1", "goo
 google-cloud-gaming-v1 = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-gaming-v1beta = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-gkebackup-logging-v1 = ["google-cloud", "google-rpc"]
+google-cloud-gkebackup-v1 = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-gkeconnect-gateway-v1 = ["google-api", "google-cloud"]
 google-cloud-gkeconnect-gateway-v1alpha1 = ["google-api", "google-cloud"]
 google-cloud-gkeconnect-gateway-v1beta1 = ["google-api", "google-cloud"]
