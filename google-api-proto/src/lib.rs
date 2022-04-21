@@ -59,6 +59,7 @@ pub mod ccc;
     feature = "google-bigtable-admin-v2",
     feature = "google-bigtable-v2",
     feature = "google-bytestream",
+    feature = "google-chat-logging-v1",
     feature = "google-chromeos-moblab-v1beta1",
     feature = "google-chromeos-uidetection-v1",
     feature = "google-cloud",

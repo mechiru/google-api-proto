@@ -2,7 +2,8 @@
 /// Google Service Management.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ManagedService {
-    /// The name of the service. See the \[overview\](/service-management/overview)
+    /// The name of the service. See the
+    /// \[overview\](<https://cloud.google.com/service-infrastructure/docs/overview>)
     /// for naming requirements.
     #[prost(string, tag = "2")]
     pub service_name: ::prost::alloc::string::String,
@@ -166,8 +167,9 @@ pub struct ChangeReport {
 /// service config, and then create a Rollout to push the service config.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Rollout {
-    /// Optional. Unique identifier of this Rollout. Must be no longer than 63 characters
-    /// and only lower case letters, digits, '.', '_' and '-' are allowed.
+    /// Optional. Unique identifier of this Rollout. Must be no longer than 63
+    /// characters and only lower case letters, digits, '.', '_' and '-' are
+    /// allowed.
     ///
     /// If not specified by client, the server will generate one. The generated id
     /// will have the form of <date><revision number>, where "date" is the create
@@ -312,8 +314,8 @@ pub struct ListServicesResponse {
 /// Request message for `GetService` method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetServiceRequest {
-    /// Required. The name of the service.  See the `ServiceManager` overview for naming
-    /// requirements.  For example: `example.googleapis.com`.
+    /// Required. The name of the service.  See the `ServiceManager` overview for
+    /// naming requirements.  For example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
 }
@@ -327,16 +329,18 @@ pub struct CreateServiceRequest {
 /// Request message for DeleteService method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeleteServiceRequest {
-    /// Required. The name of the service.  See the \[overview\](/service-management/overview)
-    /// for naming requirements.  For example: `example.googleapis.com`.
+    /// Required. The name of the service.  See the
+    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
 }
 /// Request message for UndeleteService method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UndeleteServiceRequest {
-    /// Required. The name of the service. See the \[overview\](/service-management/overview)
-    /// for naming requirements. For example: `example.googleapis.com`.
+    /// Required. The name of the service. See the
+    /// \[overview\](/service-management/overview) for naming requirements. For
+    /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
 }
@@ -350,8 +354,9 @@ pub struct UndeleteServiceResponse {
 /// Request message for GetServiceConfig method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetServiceConfigRequest {
-    /// Required. The name of the service.  See the \[overview\](/service-management/overview)
-    /// for naming requirements.  For example: `example.googleapis.com`.
+    /// Required. The name of the service.  See the
+    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
     /// Required. The id of the service configuration resource.
@@ -382,8 +387,9 @@ pub mod get_service_config_request {
 /// Request message for ListServiceConfigs method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListServiceConfigsRequest {
-    /// Required. The name of the service.  See the \[overview\](/service-management/overview)
-    /// for naming requirements.  For example: `example.googleapis.com`.
+    /// Required. The name of the service.  See the
+    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
     /// The token of the page to retrieve.
@@ -407,8 +413,9 @@ pub struct ListServiceConfigsResponse {
 /// Request message for CreateServiceConfig method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateServiceConfigRequest {
-    /// Required. The name of the service.  See the \[overview\](/service-management/overview)
-    /// for naming requirements.  For example: `example.googleapis.com`.
+    /// Required. The name of the service.  See the
+    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
     /// Required. The service configuration resource.
@@ -418,8 +425,9 @@ pub struct CreateServiceConfigRequest {
 /// Request message for SubmitConfigSource method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubmitConfigSourceRequest {
-    /// Required. The name of the service.  See the \[overview\](/service-management/overview)
-    /// for naming requirements.  For example: `example.googleapis.com`.
+    /// Required. The name of the service.  See the
+    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
     /// Required. The source configuration for the service.
@@ -441,8 +449,9 @@ pub struct SubmitConfigSourceResponse {
 /// Request message for 'CreateServiceRollout'
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateServiceRolloutRequest {
-    /// Required. The name of the service.  See the \[overview\](/service-management/overview)
-    /// for naming requirements.  For example: `example.googleapis.com`.
+    /// Required. The name of the service.  See the
+    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
     /// Required. The rollout resource. The `service_name` field is output only.
@@ -452,8 +461,9 @@ pub struct CreateServiceRolloutRequest {
 /// Request message for 'ListServiceRollouts'
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListServiceRolloutsRequest {
-    /// Required. The name of the service.  See the \[overview\](/service-management/overview)
-    /// for naming requirements.  For example: `example.googleapis.com`.
+    /// Required. The name of the service.  See the
+    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
     /// The token of the page to retrieve.
@@ -466,10 +476,10 @@ pub struct ListServiceRolloutsRequest {
     /// Required. Use `filter` to return subset of rollouts.
     /// The following filters are supported:
     ///   -- To limit the results to only those in
-    ///      \[status\](google.api.servicemanagement.v1.RolloutStatus) 'SUCCESS',
+    ///      status (google.api.servicemanagement.v1.RolloutStatus) 'SUCCESS',
     ///      use filter='status=SUCCESS'
     ///   -- To limit the results to those in
-    ///      \[status\](google.api.servicemanagement.v1.RolloutStatus) 'CANCELLED'
+    ///      status (google.api.servicemanagement.v1.RolloutStatus) 'CANCELLED'
     ///      or 'FAILED', use filter='status=CANCELLED OR status=FAILED'
     #[prost(string, tag = "4")]
     pub filter: ::prost::alloc::string::String,
@@ -487,8 +497,9 @@ pub struct ListServiceRolloutsResponse {
 /// Request message for GetServiceRollout method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetServiceRolloutRequest {
-    /// Required. The name of the service.  See the \[overview\](/service-management/overview)
-    /// for naming requirements.  For example: `example.googleapis.com`.
+    /// Required. The name of the service.  See the
+    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
     /// Required. The id of the rollout resource.
@@ -536,7 +547,8 @@ pub struct GenerateConfigReportResponse {
 pub mod service_manager_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    #[doc = " [Google Service Management API](/service-management/overview)"]
+    #[doc = " [Google Service Management"]
+    #[doc = " API](https://cloud.google.com/service-infrastructure/docs/overview)"]
     #[derive(Debug, Clone)]
     pub struct ServiceManagerClient<T> {
         inner: tonic::client::Grpc<T>,
@@ -653,8 +665,10 @@ pub mod service_manager_client {
         }
         #[doc = " Deletes a managed service. This method will change the service to the"]
         #[doc = " `Soft-Delete` state for 30 days. Within this period, service producers may"]
-        #[doc = " call [UndeleteService][google.api.servicemanagement.v1.ServiceManager.UndeleteService] to restore the service."]
-        #[doc = " After 30 days, the service will be permanently deleted."]
+        #[doc = " call"]
+        #[doc = " [UndeleteService][google.api.servicemanagement.v1.ServiceManager.UndeleteService]"]
+        #[doc = " to restore the service. After 30 days, the service will be permanently"]
+        #[doc = " deleted."]
         #[doc = ""]
         #[doc = " Operation<response: google.protobuf.Empty>"]
         pub async fn delete_service(
@@ -766,7 +780,8 @@ pub mod service_manager_client {
         #[doc = " Specification). This method stores the source configurations as well as the"]
         #[doc = " generated service configuration. To rollout the service configuration to"]
         #[doc = " other services,"]
-        #[doc = " please call [CreateServiceRollout][google.api.servicemanagement.v1.ServiceManager.CreateServiceRollout]."]
+        #[doc = " please call"]
+        #[doc = " [CreateServiceRollout][google.api.servicemanagement.v1.ServiceManager.CreateServiceRollout]."]
         #[doc = ""]
         #[doc = " Only the 100 most recent configuration sources and ones referenced by"]
         #[doc = " existing service configurtions are kept for each service. The rest will be"]
@@ -810,7 +825,8 @@ pub mod service_manager_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        #[doc = " Gets a service configuration [rollout][google.api.servicemanagement.v1.Rollout]."]
+        #[doc = " Gets a service configuration"]
+        #[doc = " [rollout][google.api.servicemanagement.v1.Rollout]."]
         pub async fn get_service_rollout(
             &mut self,
             request: impl tonic::IntoRequest<super::GetServiceRolloutRequest>,
