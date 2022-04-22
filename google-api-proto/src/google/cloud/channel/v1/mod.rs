@@ -72,7 +72,7 @@ pub mod entitlement_event {
     }
 }
 /// Represents information which resellers will get as part of notification from
-/// Cloud Pub/Sub.
+/// Pub/Sub.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubscriberEvent {
     /// Specifies the Pub/Sub event provided to the partners.
@@ -86,10 +86,10 @@ pub mod subscriber_event {
     /// This is a required field.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Event {
-        /// Customer event send as part of Pub/Sub event to partners.
+        /// Customer event sent as part of Pub/Sub event to partners.
         #[prost(message, tag = "1")]
         CustomerEvent(super::CustomerEvent),
-        /// Entitlement event send as part of Pub/Sub event to partners.
+        /// Entitlement event sent as part of Pub/Sub event to partners.
         #[prost(message, tag = "2")]
         EntitlementEvent(super::EntitlementEvent),
     }
@@ -759,7 +759,8 @@ pub struct Entitlement {
     /// Optional. This purchase order (PO) information is for resellers to use for their
     /// company tracking usage. If a purchaseOrderId value is given, it appears in
     /// the API responses and shows up in the invoice. The property accepts up to
-    /// 80 plain text characters.
+    /// 80 plain text characters. This is only supported for Google Workspace
+    /// entitlements.
     #[prost(string, tag = "19")]
     pub purchase_order_id: ::prost::alloc::string::String,
     /// Output only. Settings for trial offers.
@@ -1000,6 +1001,11 @@ pub struct ListCustomersRequest {
     /// \[CloudChannelService.ListCustomers][google.cloud.channel.v1.CloudChannelService.ListCustomers\] call.
     #[prost(string, tag = "3")]
     pub page_token: ::prost::alloc::string::String,
+    /// Optional. Filters applied to the \[CloudChannelService.ListCustomers\] results. See
+    /// <https://cloud.google.com/channel/docs/concepts/google-cloud/filter-customers>
+    /// for more information.
+    #[prost(string, tag = "4")]
+    pub filter: ::prost::alloc::string::String,
 }
 /// Response message for \[CloudChannelService.ListCustomers][google.cloud.channel.v1.CloudChannelService.ListCustomers\].
 #[derive(Clone, PartialEq, ::prost::Message)]

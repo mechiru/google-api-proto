@@ -330,7 +330,7 @@ pub struct CreateServiceRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeleteServiceRequest {
     /// Required. The name of the service.  See the
-    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// \[overview\](<https://cloud.google.com/service-infrastructure/docs/overview>) for naming requirements.  For
     /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
@@ -339,7 +339,7 @@ pub struct DeleteServiceRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UndeleteServiceRequest {
     /// Required. The name of the service. See the
-    /// \[overview\](/service-management/overview) for naming requirements. For
+    /// \[overview\](<https://cloud.google.com/service-infrastructure/docs/overview>) for naming requirements. For
     /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
@@ -355,7 +355,7 @@ pub struct UndeleteServiceResponse {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetServiceConfigRequest {
     /// Required. The name of the service.  See the
-    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// \[overview\](<https://cloud.google.com/service-infrastructure/docs/overview>) for naming requirements.  For
     /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
@@ -388,7 +388,7 @@ pub mod get_service_config_request {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListServiceConfigsRequest {
     /// Required. The name of the service.  See the
-    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// \[overview\](<https://cloud.google.com/service-infrastructure/docs/overview>) for naming requirements.  For
     /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
@@ -414,7 +414,7 @@ pub struct ListServiceConfigsResponse {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateServiceConfigRequest {
     /// Required. The name of the service.  See the
-    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// \[overview\](<https://cloud.google.com/service-infrastructure/docs/overview>) for naming requirements.  For
     /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
@@ -426,7 +426,7 @@ pub struct CreateServiceConfigRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubmitConfigSourceRequest {
     /// Required. The name of the service.  See the
-    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// \[overview\](<https://cloud.google.com/service-infrastructure/docs/overview>) for naming requirements.  For
     /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
@@ -450,7 +450,7 @@ pub struct SubmitConfigSourceResponse {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateServiceRolloutRequest {
     /// Required. The name of the service.  See the
-    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// \[overview\](<https://cloud.google.com/service-infrastructure/docs/overview>) for naming requirements.  For
     /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
@@ -462,7 +462,7 @@ pub struct CreateServiceRolloutRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListServiceRolloutsRequest {
     /// Required. The name of the service.  See the
-    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// \[overview\](<https://cloud.google.com/service-infrastructure/docs/overview>) for naming requirements.  For
     /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
@@ -498,7 +498,7 @@ pub struct ListServiceRolloutsResponse {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetServiceRolloutRequest {
     /// Required. The name of the service.  See the
-    /// \[overview\](/service-management/overview) for naming requirements.  For
+    /// \[overview\](<https://cloud.google.com/service-infrastructure/docs/overview>) for naming requirements.  For
     /// example: `example.googleapis.com`.
     #[prost(string, tag = "1")]
     pub service_name: ::prost::alloc::string::String,
