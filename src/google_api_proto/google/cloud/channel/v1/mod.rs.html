@@ -3301,6 +3301,12 @@
 <span id="3296">3296</span>
 <span id="3297">3297</span>
 <span id="3298">3298</span>
+<span id="3299">3299</span>
+<span id="3300">3300</span>
+<span id="3301">3301</span>
+<span id="3302">3302</span>
+<span id="3303">3303</span>
+<span id="3304">3304</span>
 </pre><pre class="rust"><code><span class="doccomment">/// Represents Pub/Sub message content describing customer update.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CustomerEvent</span> {
@@ -3375,7 +3381,7 @@
     }
 }
 <span class="doccomment">/// Represents information which resellers will get as part of notification from</span>
-<span class="doccomment">/// Cloud Pub/Sub.</span>
+<span class="doccomment">/// Pub/Sub.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SubscriberEvent</span> {
     <span class="doccomment">/// Specifies the Pub/Sub event provided to the partners.</span>
@@ -3389,10 +3395,10 @@
     <span class="doccomment">/// This is a required field.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Oneof</span>)]</span>
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Event</span> {
-        <span class="doccomment">/// Customer event send as part of Pub/Sub event to partners.</span>
+        <span class="doccomment">/// Customer event sent as part of Pub/Sub event to partners.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;1&quot;</span>)]</span>
         <span class="ident">CustomerEvent</span>(<span class="ident"><span class="kw">super</span>::CustomerEvent</span>),
-        <span class="doccomment">/// Entitlement event send as part of Pub/Sub event to partners.</span>
+        <span class="doccomment">/// Entitlement event sent as part of Pub/Sub event to partners.</span>
         <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">message</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;2&quot;</span>)]</span>
         <span class="ident">EntitlementEvent</span>(<span class="ident"><span class="kw">super</span>::EntitlementEvent</span>),
     }
@@ -4062,7 +4068,8 @@
     <span class="doccomment">/// Optional. This purchase order (PO) information is for resellers to use for their</span>
     <span class="doccomment">/// company tracking usage. If a purchaseOrderId value is given, it appears in</span>
     <span class="doccomment">/// the API responses and shows up in the invoice. The property accepts up to</span>
-    <span class="doccomment">/// 80 plain text characters.</span>
+    <span class="doccomment">/// 80 plain text characters. This is only supported for Google Workspace</span>
+    <span class="doccomment">/// entitlements.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;19&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">purchase_order_id</span>: <span class="ident">::prost::alloc::string::String</span>,
     <span class="doccomment">/// Output only. Settings for trial offers.</span>
@@ -4303,6 +4310,11 @@
     <span class="doccomment">/// \[CloudChannelService.ListCustomers][google.cloud.channel.v1.CloudChannelService.ListCustomers\] call.</span>
     <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;3&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="ident">page_token</span>: <span class="ident">::prost::alloc::string::String</span>,
+    <span class="doccomment">/// Optional. Filters applied to the \[CloudChannelService.ListCustomers\] results. See</span>
+    <span class="doccomment">/// &lt;https://cloud.google.com/channel/docs/concepts/google-cloud/filter-customers&gt;</span>
+    <span class="doccomment">/// for more information.</span>
+    <span class="attribute">#[<span class="ident">prost</span>(<span class="ident">string</span>, <span class="ident">tag</span> <span class="op">=</span> <span class="string">&quot;4&quot;</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">filter</span>: <span class="ident">::prost::alloc::string::String</span>,
 }
 <span class="doccomment">/// Response message for \[CloudChannelService.ListCustomers][google.cloud.channel.v1.CloudChannelService.ListCustomers\].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">::prost::Message</span>)]</span>
