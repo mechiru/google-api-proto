@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Adjustment","A oneof that represents the different types for this adjustment."]]});
