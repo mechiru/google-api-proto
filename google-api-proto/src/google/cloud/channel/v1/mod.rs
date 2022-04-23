@@ -943,6 +943,132 @@ pub mod transfer_eligibility {
         SkuSuspended = 3,
     }
 }
+/// Configuration for how a reseller will reprice a Customer.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CustomerRepricingConfig {
+    /// Output only. Resource name of the CustomerRepricingConfig.
+    /// Format:
+    /// accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The configuration for bill modifications made by a reseller before
+    /// sending it to customers.
+    #[prost(message, optional, tag = "2")]
+    pub repricing_config: ::core::option::Option<RepricingConfig>,
+    /// Output only. Timestamp of an update to the repricing rule. If `update_time` is after
+    /// \[RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month\] then it indicates this was set
+    /// mid-month.
+    #[prost(message, optional, tag = "3")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Configuration for how a distributor will rebill a channel partner
+/// (also known as a distributor-authorized reseller).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ChannelPartnerRepricingConfig {
+    /// Output only. Resource name of the ChannelPartnerRepricingConfig.
+    /// Format:
+    /// accounts/{account_id}/channelPartnerLinks/{channel_partner_id}/channelPartnerRepricingConfigs/{id}.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The configuration for bill modifications made by a reseller before
+    /// sending it to ChannelPartner.
+    #[prost(message, optional, tag = "2")]
+    pub repricing_config: ::core::option::Option<RepricingConfig>,
+    /// Output only. Timestamp of an update to the repricing rule. If `update_time` is after
+    /// \[RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month\] then it indicates this was set
+    /// mid-month.
+    #[prost(message, optional, tag = "3")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Configuration for repricing a Google bill over a period of time.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RepricingConfig {
+    /// Required. The YearMonth when these adjustments activate. The Day field needs to be
+    /// "0" since we only accept YearMonth repricing boundaries.
+    #[prost(message, optional, tag = "1")]
+    pub effective_invoice_month: ::core::option::Option<super::super::super::r#type::Date>,
+    /// Required. Information about the adjustment.
+    #[prost(message, optional, tag = "2")]
+    pub adjustment: ::core::option::Option<RepricingAdjustment>,
+    /// Required. The \[RebillingBasis][google.cloud.channel.v1.RebillingBasis\] to use for this bill. Specifies the relative cost
+    /// based on repricing costs you will apply.
+    #[prost(enumeration = "RebillingBasis", tag = "3")]
+    pub rebilling_basis: i32,
+    /// Required. Defines the granularity for repricing.
+    #[prost(oneof = "repricing_config::Granularity", tags = "4, 5")]
+    pub granularity: ::core::option::Option<repricing_config::Granularity>,
+}
+/// Nested message and enum types in `RepricingConfig`.
+pub mod repricing_config {
+    /// Applies the repricing configuration at the entitlement level.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct EntitlementGranularity {
+        /// Resource name of the entitlement.
+        /// Format:
+        /// accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
+        #[prost(string, tag = "1")]
+        pub entitlement: ::prost::alloc::string::String,
+    }
+    /// Applies the repricing configuration at the channel partner level.
+    /// The channel partner value is derived from the resource name. Takes an
+    /// empty json object.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ChannelPartnerGranularity {}
+    /// Required. Defines the granularity for repricing.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Granularity {
+        /// Applies the repricing configuration at the entitlement level. This is
+        /// the only supported value for CustomerRepricingConfig.
+        #[prost(message, tag = "4")]
+        EntitlementGranularity(EntitlementGranularity),
+        /// Applies the repricing configuration at the channel partner level.
+        /// This is the only supported value for ChannelPartnerRepricingConfig.
+        #[prost(message, tag = "5")]
+        ChannelPartnerGranularity(ChannelPartnerGranularity),
+    }
+}
+/// A type that represents the various adjustments you can apply to a bill.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RepricingAdjustment {
+    /// A oneof that represents the different types for this adjustment.
+    #[prost(oneof = "repricing_adjustment::Adjustment", tags = "2")]
+    pub adjustment: ::core::option::Option<repricing_adjustment::Adjustment>,
+}
+/// Nested message and enum types in `RepricingAdjustment`.
+pub mod repricing_adjustment {
+    /// A oneof that represents the different types for this adjustment.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Adjustment {
+        /// Flat markup or markdown on an entire bill.
+        #[prost(message, tag = "2")]
+        PercentageAdjustment(super::PercentageAdjustment),
+    }
+}
+/// An adjustment that applies a flat markup or markdown to an entire bill.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PercentageAdjustment {
+    /// The percentage of the bill to adjust.
+    /// For example:
+    /// Mark down by 1% => "-1.00"
+    /// Mark up by 1%   => "1.00"
+    /// Pass-Through    => "0.00"
+    #[prost(message, optional, tag = "2")]
+    pub percentage: ::core::option::Option<super::super::super::r#type::Decimal>,
+}
+/// Specifies the different costs that the modified bill can be based on.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum RebillingBasis {
+    /// Not used.
+    Unspecified = 0,
+    /// Use the list cost, also known as the MSRP.
+    CostAtList = 1,
+    /// Pass through all discounts except the Reseller Program Discount. If this is
+    /// the default cost base and no adjustments are specified, the output cost
+    /// will be exactly what the customer would see if they viewed the bill in the
+    /// Google Cloud Console.
+    DirectCustomerCost = 2,
+}
 /// Request message for \[CloudChannelService.CheckCloudIdentityAccountsExist][google.cloud.channel.v1.CloudChannelService.CheckCloudIdentityAccountsExist\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CheckCloudIdentityAccountsExistRequest {
@@ -1385,6 +1511,168 @@ pub struct UpdateChannelPartnerLinkRequest {
     /// channel_partner_link.link_state.
     #[prost(message, optional, tag = "3")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Request message for \[CloudChannelService.GetCustomerRepricingConfig][google.cloud.channel.v1.CloudChannelService.GetCustomerRepricingConfig\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetCustomerRepricingConfigRequest {
+    /// Required. The resource name of the CustomerRepricingConfig.
+    /// Format:
+    /// accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for \[CloudChannelService.ListCustomerRepricingConfigs][google.cloud.channel.v1.CloudChannelService.ListCustomerRepricingConfigs\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListCustomerRepricingConfigsRequest {
+    /// Required. The resource name of the customer.
+    /// Parent uses the format: accounts/{account_id}/customers/{customer_id}.
+    /// Supports accounts/{account_id}/customers/- to retrieve configs for all
+    /// customers.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The maximum number of repricing configs to return. The service may return
+    /// fewer than this value. If unspecified, returns a maximum of 50 rules. The
+    /// maximum value is 100; values above 100 will be coerced to 100.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. A token identifying a page of results beyond the first page.
+    /// Obtained through
+    /// \[ListCustomerRepricingConfigsResponse.next_page_token][google.cloud.channel.v1.ListCustomerRepricingConfigsResponse.next_page_token\] of the previous
+    /// \[CloudChannelService.ListCustomerRepricingConfigs][google.cloud.channel.v1.CloudChannelService.ListCustomerRepricingConfigs\] call.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. A filter for \[CloudChannelService.ListCustomerRepricingConfigs\]
+    /// results (customer only). You can use this filter when you support
+    /// a BatchGet-like query.
+    /// To use the filter, you must set `parent=accounts/{account_id}/customers/-`.
+    ///
+    /// Example: customer = accounts/account_id/customers/c1 OR
+    /// customer = accounts/account_id/customers/c2.
+    #[prost(string, tag = "4")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// Response message for \[CloudChannelService.ListCustomerRepricingConfigs][google.cloud.channel.v1.CloudChannelService.ListCustomerRepricingConfigs\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListCustomerRepricingConfigsResponse {
+    /// The repricing configs for this channel partner.
+    #[prost(message, repeated, tag = "1")]
+    pub customer_repricing_configs: ::prost::alloc::vec::Vec<CustomerRepricingConfig>,
+    /// A token to retrieve the next page of results.
+    /// Pass to \[ListCustomerRepricingConfigsRequest.page_token][google.cloud.channel.v1.ListCustomerRepricingConfigsRequest.page_token\] to obtain that
+    /// page.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for \[CloudChannelService.CreateCustomerRepricingConfig][google.cloud.channel.v1.CloudChannelService.CreateCustomerRepricingConfig\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateCustomerRepricingConfigRequest {
+    /// Required. The resource name of the customer that will receive this repricing config.
+    /// Parent uses the format: accounts/{account_id}/customers/{customer_id}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The CustomerRepricingConfig object to update.
+    #[prost(message, optional, tag = "2")]
+    pub customer_repricing_config: ::core::option::Option<CustomerRepricingConfig>,
+}
+/// Request message for \[CloudChannelService.UpdateCustomerRepricingConfig][google.cloud.channel.v1.CloudChannelService.UpdateCustomerRepricingConfig\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateCustomerRepricingConfigRequest {
+    /// Required. The CustomerRepricingConfig object to update.
+    #[prost(message, optional, tag = "1")]
+    pub customer_repricing_config: ::core::option::Option<CustomerRepricingConfig>,
+}
+/// Request message for \[CloudChannelService.DeleteCustomerRepricingConfig][google.cloud.channel.v1.CloudChannelService.DeleteCustomerRepricingConfig\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteCustomerRepricingConfigRequest {
+    /// Required. The resource name of the customer repricing config rule to delete.
+    /// Format:
+    /// accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for \[CloudChannelService.GetChannelPartnerRepricingConfig][google.cloud.channel.v1.CloudChannelService.GetChannelPartnerRepricingConfig\]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetChannelPartnerRepricingConfigRequest {
+    /// Required. The resource name of the ChannelPartnerRepricingConfig
+    /// Format:
+    /// accounts/{account_id}/channelPartnerLinks/{channel_partner_id}/channelPartnerRepricingConfigs/{id}.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for
+/// \[CloudChannelService.ListChannelPartnerRepricingConfigs][google.cloud.channel.v1.CloudChannelService.ListChannelPartnerRepricingConfigs\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListChannelPartnerRepricingConfigsRequest {
+    /// Required. The resource name of the account's \[ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink\].
+    /// Parent uses the format:
+    /// accounts/{account_id}/channelPartnerLinks/{channel_partner_id}.
+    /// Supports accounts/{account_id}/channelPartnerLinks/- to retrieve configs
+    /// for all channel partners.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The maximum number of repricing configs to return. The service may return
+    /// fewer than this value. If unspecified, returns a maximum of 50 rules. The
+    /// maximum value is 100; values above 100 will be coerced to 100.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. A token identifying a page of results beyond the first page.
+    /// Obtained through
+    /// \[ListChannelPartnerRepricingConfigsResponse.next_page_token][google.cloud.channel.v1.ListChannelPartnerRepricingConfigsResponse.next_page_token\] of the
+    /// previous \[CloudChannelService.ListChannelPartnerRepricingConfigs][google.cloud.channel.v1.CloudChannelService.ListChannelPartnerRepricingConfigs\] call.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. A filter for \[CloudChannelService.ListChannelPartnerRepricingConfigs\]
+    /// results (channel_partner_link only). You can use this filter when you
+    /// support a BatchGet-like query.
+    /// To use the filter, you must set
+    /// `parent=accounts/{account_id}/channelPartnerLinks/-`.
+    ///
+    /// Example: `channel_partner_link =
+    /// accounts/account_id/channelPartnerLinks/c1` OR `channel_partner_link =
+    /// accounts/account_id/channelPartnerLinks/c2`.
+    #[prost(string, tag = "4")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// Response message for
+/// \[CloudChannelService.ListChannelPartnerRepricingConfigs][google.cloud.channel.v1.CloudChannelService.ListChannelPartnerRepricingConfigs\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListChannelPartnerRepricingConfigsResponse {
+    /// The repricing configs for this channel partner.
+    #[prost(message, repeated, tag = "1")]
+    pub channel_partner_repricing_configs: ::prost::alloc::vec::Vec<ChannelPartnerRepricingConfig>,
+    /// A token to retrieve the next page of results.
+    /// Pass to \[ListChannelPartnerRepricingConfigsRequest.page_token][google.cloud.channel.v1.ListChannelPartnerRepricingConfigsRequest.page_token\] to obtain
+    /// that page.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for
+/// \[CloudChannelService.CreateChannelPartnerRepricingConfig][google.cloud.channel.v1.CloudChannelService.CreateChannelPartnerRepricingConfig\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateChannelPartnerRepricingConfigRequest {
+    /// Required. The resource name of the ChannelPartner that will receive the repricing
+    /// config. Parent uses the format:
+    /// accounts/{account_id}/channelPartnerLinks/{channel_partner_id}
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The ChannelPartnerRepricingConfig object to update.
+    #[prost(message, optional, tag = "2")]
+    pub channel_partner_repricing_config: ::core::option::Option<ChannelPartnerRepricingConfig>,
+}
+/// Request message for
+/// \[CloudChannelService.UpdateChannelPartnerRepricingConfig][google.cloud.channel.v1.CloudChannelService.UpdateChannelPartnerRepricingConfig\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateChannelPartnerRepricingConfigRequest {
+    /// Required. The ChannelPartnerRepricingConfig object to update.
+    #[prost(message, optional, tag = "1")]
+    pub channel_partner_repricing_config: ::core::option::Option<ChannelPartnerRepricingConfig>,
+}
+/// Request message for DeleteChannelPartnerRepricingConfig.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteChannelPartnerRepricingConfigRequest {
+    /// Required. The resource name of the channel partner repricing config rule to delete.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
 }
 /// Request message for \[CloudChannelService.CreateEntitlement][google.cloud.channel.v1.CloudChannelService.CreateEntitlement\]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3016,6 +3304,396 @@ pub mod cloud_channel_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.channel.v1.CloudChannelService/UpdateChannelPartnerLink",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets information about how a Reseller modifies their bill before sending"]
+        #[doc = " it to a Customer."]
+        #[doc = ""]
+        #[doc = " Possible Error Codes:"]
+        #[doc = ""]
+        #[doc = " * PERMISSION_DENIED: If the account making the request and the account"]
+        #[doc = " being queried are different."]
+        #[doc = " * NOT_FOUND: The [CustomerRepricingConfig][google.cloud.channel.v1.CustomerRepricingConfig] was not found."]
+        #[doc = " * INTERNAL: Any non-user error related to technical issues in the"]
+        #[doc = " backend. In this case, contact Cloud Channel support."]
+        #[doc = ""]
+        #[doc = " Return Value:"]
+        #[doc = " If successful, the [CustomerRepricingConfig][google.cloud.channel.v1.CustomerRepricingConfig] resource, otherwise returns"]
+        #[doc = " an error."]
+        pub async fn get_customer_repricing_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetCustomerRepricingConfigRequest>,
+        ) -> Result<tonic::Response<super::CustomerRepricingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.channel.v1.CloudChannelService/GetCustomerRepricingConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Lists information about how a Reseller modifies their bill before sending"]
+        #[doc = " it to a Customer."]
+        #[doc = ""]
+        #[doc = " Possible Error Codes:"]
+        #[doc = ""]
+        #[doc = " * PERMISSION_DENIED: If the account making the request and the account"]
+        #[doc = " being queried are different."]
+        #[doc = " * NOT_FOUND: The [CustomerRepricingConfig][google.cloud.channel.v1.CustomerRepricingConfig] specified does not exist or is"]
+        #[doc = " not associated with the given account."]
+        #[doc = " * INTERNAL: Any non-user error related to technical issues in the"]
+        #[doc = " backend. In this case, contact Cloud Channel support."]
+        #[doc = ""]
+        #[doc = " Return Value:"]
+        #[doc = " If successful, the [CustomerRepricingConfig][google.cloud.channel.v1.CustomerRepricingConfig] resources. The"]
+        #[doc = " data for each resource is displayed in the ascending order of:"]
+        #[doc = " * customer ID"]
+        #[doc = " * [RepricingConfig.EntitlementGranularity.entitlement][google.cloud.channel.v1.RepricingConfig.EntitlementGranularity.entitlement]"]
+        #[doc = " * [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month]"]
+        #[doc = " * [CustomerRepricingConfig.update_time][google.cloud.channel.v1.CustomerRepricingConfig.update_time]"]
+        #[doc = ""]
+        #[doc = " If unsuccessful, returns an error."]
+        pub async fn list_customer_repricing_configs(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListCustomerRepricingConfigsRequest>,
+        ) -> Result<tonic::Response<super::ListCustomerRepricingConfigsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.channel.v1.CloudChannelService/ListCustomerRepricingConfigs",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a CustomerRepricingConfig. Call this method to set modifications"]
+        #[doc = " for a specific customer's bill. You can only create configs if the"]
+        #[doc = " [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month] is a"]
+        #[doc = " future month. If needed, you can create a config for the current month,"]
+        #[doc = " with some restrictions."]
+        #[doc = ""]
+        #[doc = " When creating a config for a future month, make sure there are no existing"]
+        #[doc = " configs for that"]
+        #[doc = " [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month]."]
+        #[doc = ""]
+        #[doc = " The following restrictions are for creating configs in the current month."]
+        #[doc = ""]
+        #[doc = " * This functionality is reserved for recovering from an erroneous config,"]
+        #[doc = " and should not be used for regular business cases."]
+        #[doc = " * The new config will not modify exports used with other configs."]
+        #[doc = " Changes to the config may be immediate, but may take up to 24 hours."]
+        #[doc = " * There is a limit of ten configs for any"]
+        #[doc = " [RepricingConfig.EntitlementGranularity.entitlement][google.cloud.channel.v1.RepricingConfig.EntitlementGranularity.entitlement]"]
+        #[doc = " or [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month]."]
+        #[doc = " * The contained [CustomerRepricingConfig.repricing_config][google.cloud.channel.v1.CustomerRepricingConfig.repricing_config] vaule must be"]
+        #[doc = " different from the value used in the current config for a"]
+        #[doc = " [RepricingConfig.EntitlementGranularity.entitlement][google.cloud.channel.v1.RepricingConfig.EntitlementGranularity.entitlement]."]
+        #[doc = ""]
+        #[doc = " Possible Error Codes:"]
+        #[doc = ""]
+        #[doc = " * PERMISSION_DENIED: If the account making the request and the account"]
+        #[doc = " being queried are different."]
+        #[doc = " * INVALID_ARGUMENT: Missing or invalid required parameters in the"]
+        #[doc = " request. Also displays if the updated config is for the current month or"]
+        #[doc = " past months."]
+        #[doc = " * NOT_FOUND: The [CustomerRepricingConfig][google.cloud.channel.v1.CustomerRepricingConfig] specified does not exist or is"]
+        #[doc = " not associated with the given account."]
+        #[doc = " * INTERNAL: Any non-user error related to technical issues in the"]
+        #[doc = " backend. In this case, contact Cloud Channel support."]
+        #[doc = ""]
+        #[doc = " Return Value:"]
+        #[doc = " If successful, the updated [CustomerRepricingConfig][google.cloud.channel.v1.CustomerRepricingConfig] resource, otherwise"]
+        #[doc = " returns an error."]
+        pub async fn create_customer_repricing_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateCustomerRepricingConfigRequest>,
+        ) -> Result<tonic::Response<super::CustomerRepricingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.channel.v1.CloudChannelService/CreateCustomerRepricingConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates a CustomerRepricingConfig. Call this method to set modifications"]
+        #[doc = " for a specific customer's bill. This method overwrites the existing"]
+        #[doc = " CustomerRepricingConfig."]
+        #[doc = ""]
+        #[doc = " You can only update configs if the"]
+        #[doc = " [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month] is a"]
+        #[doc = " future month. To make changes to configs for the current month, use"]
+        #[doc = " [CreateCustomerRepricingConfig][google.cloud.channel.v1.CloudChannelService.CreateCustomerRepricingConfig], taking note of its restrictions. You"]
+        #[doc = " cannot update the [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month]."]
+        #[doc = ""]
+        #[doc = " When updating a config in the future:"]
+        #[doc = ""]
+        #[doc = " * This config must already exist."]
+        #[doc = ""]
+        #[doc = " Possible Error Codes:"]
+        #[doc = ""]
+        #[doc = " * PERMISSION_DENIED: If the account making the request and the account"]
+        #[doc = " being queried are different."]
+        #[doc = " * INVALID_ARGUMENT: Missing or invalid required parameters in the"]
+        #[doc = " request. Also displays if the updated config is for the current month or"]
+        #[doc = " past months."]
+        #[doc = " * NOT_FOUND: The [CustomerRepricingConfig][google.cloud.channel.v1.CustomerRepricingConfig] specified does not exist or is"]
+        #[doc = " not associated with the given account."]
+        #[doc = " * INTERNAL: Any non-user error related to technical issues in the"]
+        #[doc = " backend. In this case, contact Cloud Channel support."]
+        #[doc = ""]
+        #[doc = " Return Value:"]
+        #[doc = " If successful, the updated [CustomerRepricingConfig][google.cloud.channel.v1.CustomerRepricingConfig] resource, otherwise"]
+        #[doc = " returns an error."]
+        pub async fn update_customer_repricing_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateCustomerRepricingConfigRequest>,
+        ) -> Result<tonic::Response<super::CustomerRepricingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.channel.v1.CloudChannelService/UpdateCustomerRepricingConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes the given [CustomerRepricingConfig][google.cloud.channel.v1.CustomerRepricingConfig] permanently. You can only"]
+        #[doc = " delete configs if their [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month] is set"]
+        #[doc = " to a date after the current month."]
+        #[doc = ""]
+        #[doc = " Possible error codes:"]
+        #[doc = ""]
+        #[doc = " * PERMISSION_DENIED: The account making the request does not own"]
+        #[doc = " this customer."]
+        #[doc = " * INVALID_ARGUMENT: Required request parameters are missing or invalid."]
+        #[doc = " * FAILED_PRECONDITION: The [CustomerRepricingConfig][google.cloud.channel.v1.CustomerRepricingConfig] is active or in the"]
+        #[doc = " past."]
+        #[doc = " * NOT_FOUND: No [CustomerRepricingConfig][google.cloud.channel.v1.CustomerRepricingConfig] found for the name in the"]
+        #[doc = " request."]
+        pub async fn delete_customer_repricing_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteCustomerRepricingConfigRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.channel.v1.CloudChannelService/DeleteCustomerRepricingConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Gets information about how a Distributor modifies their bill before sending"]
+        #[doc = " it to a ChannelPartner."]
+        #[doc = ""]
+        #[doc = " Possible Error Codes:"]
+        #[doc = ""]
+        #[doc = " * PERMISSION_DENIED: If the account making the request and the account"]
+        #[doc = " being queried are different."]
+        #[doc = " * NOT_FOUND: The [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig] was not found."]
+        #[doc = " * INTERNAL: Any non-user error related to technical issues in the"]
+        #[doc = " backend. In this case, contact Cloud Channel support."]
+        #[doc = ""]
+        #[doc = " Return Value:"]
+        #[doc = " If successful, the [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig] resource, otherwise"]
+        #[doc = " returns an error."]
+        pub async fn get_channel_partner_repricing_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetChannelPartnerRepricingConfigRequest>,
+        ) -> Result<tonic::Response<super::ChannelPartnerRepricingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.channel.v1.CloudChannelService/GetChannelPartnerRepricingConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Lists information about how a Reseller modifies their bill before sending"]
+        #[doc = " it to a ChannelPartner."]
+        #[doc = ""]
+        #[doc = " Possible Error Codes:"]
+        #[doc = ""]
+        #[doc = " * PERMISSION_DENIED: If the account making the request and the account"]
+        #[doc = " being queried are different."]
+        #[doc = " * NOT_FOUND: The [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig] specified does not exist"]
+        #[doc = " or is not associated with the given account."]
+        #[doc = " * INTERNAL: Any non-user error related to technical issues in the"]
+        #[doc = " backend. In this case, contact Cloud Channel support."]
+        #[doc = ""]
+        #[doc = " Return Value:"]
+        #[doc = " If successful, the [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig] resources."]
+        #[doc = " The data for each resource is displayed in the ascending order of:"]
+        #[doc = " * channel partner ID"]
+        #[doc = " * [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month]"]
+        #[doc = " * [ChannelPartnerRepricingConfig.update_time][google.cloud.channel.v1.ChannelPartnerRepricingConfig.update_time]"]
+        #[doc = ""]
+        #[doc = " If unsuccessful, returns an error."]
+        pub async fn list_channel_partner_repricing_configs(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListChannelPartnerRepricingConfigsRequest>,
+        ) -> Result<tonic::Response<super::ListChannelPartnerRepricingConfigsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.channel.v1.CloudChannelService/ListChannelPartnerRepricingConfigs",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Creates a ChannelPartnerRepricingConfig. Call this method to set"]
+        #[doc = " modifications for a specific ChannelPartner's bill. You can only create"]
+        #[doc = " configs if the [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month] is a future"]
+        #[doc = " month. If needed, you can create a config for the current month, with some"]
+        #[doc = " restrictions."]
+        #[doc = ""]
+        #[doc = " When creating a config for a future month, make sure there are no existing"]
+        #[doc = " configs for that"]
+        #[doc = " [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month]."]
+        #[doc = ""]
+        #[doc = " The following restrictions are for creating configs in the current month."]
+        #[doc = ""]
+        #[doc = " * This functionality is reserved for recovering from an erroneous config,"]
+        #[doc = " and should not be used for regular business cases."]
+        #[doc = " * The new config will not modify exports used with other configs."]
+        #[doc = " Changes to the config may be immediate, but may take up to 24 hours."]
+        #[doc = " * There is a limit of ten configs for any ChannelPartner or"]
+        #[doc = " [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month]."]
+        #[doc = " * The contained [ChannelPartnerRepricingConfig.repricing_config][google.cloud.channel.v1.ChannelPartnerRepricingConfig.repricing_config] vaule"]
+        #[doc = " must be different from the value used in the current config for a"]
+        #[doc = " ChannelPartner."]
+        #[doc = ""]
+        #[doc = " Possible Error Codes:"]
+        #[doc = ""]
+        #[doc = " * PERMISSION_DENIED: If the account making the request and the account"]
+        #[doc = " being queried are different."]
+        #[doc = " * INVALID_ARGUMENT: Missing or invalid required parameters in the"]
+        #[doc = " request. Also displays if the updated config is for the current month or"]
+        #[doc = " past months."]
+        #[doc = " * NOT_FOUND: The [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig] specified does not exist"]
+        #[doc = " or is not associated with the given account."]
+        #[doc = " * INTERNAL: Any non-user error related to technical issues in the"]
+        #[doc = " backend. In this case, contact Cloud Channel support."]
+        #[doc = ""]
+        #[doc = " Return Value:"]
+        #[doc = " If successful, the updated [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig] resource,"]
+        #[doc = " otherwise returns an error."]
+        pub async fn create_channel_partner_repricing_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateChannelPartnerRepricingConfigRequest>,
+        ) -> Result<tonic::Response<super::ChannelPartnerRepricingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.channel.v1.CloudChannelService/CreateChannelPartnerRepricingConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Updates a ChannelPartnerRepricingConfig. Call this method to set"]
+        #[doc = " modifications for a specific ChannelPartner's bill. This method overwrites"]
+        #[doc = " the existing CustomerRepricingConfig."]
+        #[doc = ""]
+        #[doc = " You can only update configs if the"]
+        #[doc = " [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month] is a"]
+        #[doc = " future month. To make changes to configs for the current month, use"]
+        #[doc = " [CreateChannelPartnerRepricingConfig][google.cloud.channel.v1.CloudChannelService.CreateChannelPartnerRepricingConfig], taking note of its restrictions."]
+        #[doc = " You cannot update the [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month]."]
+        #[doc = ""]
+        #[doc = " When updating a config in the future:"]
+        #[doc = ""]
+        #[doc = " * This config must already exist."]
+        #[doc = ""]
+        #[doc = " Possible Error Codes:"]
+        #[doc = ""]
+        #[doc = " * PERMISSION_DENIED: If the account making the request and the account"]
+        #[doc = " being queried are different."]
+        #[doc = " * INVALID_ARGUMENT: Missing or invalid required parameters in the"]
+        #[doc = " request. Also displays if the updated config is for the current month or"]
+        #[doc = " past months."]
+        #[doc = " * NOT_FOUND: The [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig] specified does not exist"]
+        #[doc = " or is not associated with the given account."]
+        #[doc = " * INTERNAL: Any non-user error related to technical issues in the"]
+        #[doc = " backend. In this case, contact Cloud Channel support."]
+        #[doc = ""]
+        #[doc = " Return Value:"]
+        #[doc = " If successful, the updated [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig] resource,"]
+        #[doc = " otherwise returns an error."]
+        pub async fn update_channel_partner_repricing_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateChannelPartnerRepricingConfigRequest>,
+        ) -> Result<tonic::Response<super::ChannelPartnerRepricingConfig>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.channel.v1.CloudChannelService/UpdateChannelPartnerRepricingConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = " Deletes the given [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig] permanently. You can"]
+        #[doc = " only delete configs if their [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month] is"]
+        #[doc = " set to a date after the current month."]
+        #[doc = ""]
+        #[doc = " Possible error codes:"]
+        #[doc = ""]
+        #[doc = " * PERMISSION_DENIED: The account making the request does not own"]
+        #[doc = " this customer."]
+        #[doc = " * INVALID_ARGUMENT: Required request parameters are missing or invalid."]
+        #[doc = " * FAILED_PRECONDITION: The [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig] is active or"]
+        #[doc = " in the past."]
+        #[doc = " * NOT_FOUND: No [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig] found for the name in the"]
+        #[doc = " request."]
+        pub async fn delete_channel_partner_repricing_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteChannelPartnerRepricingConfigRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.channel.v1.CloudChannelService/DeleteChannelPartnerRepricingConfig",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
