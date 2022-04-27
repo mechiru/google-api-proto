@@ -1136,6 +1136,24 @@ pub struct RunQueryResponse {
     /// the last response and the current response.
     #[prost(int32, tag="4")]
     pub skipped_results: i32,
+    /// The continuation mode for the query. If present, it indicates the current
+    /// query response stream has finished. This can be set with or without a
+    /// `document` present, but when set, no more results are returned.
+    #[prost(oneof="run_query_response::ContinuationSelector", tags="6")]
+    pub continuation_selector: ::core::option::Option<run_query_response::ContinuationSelector>,
+}
+/// Nested message and enum types in `RunQueryResponse`.
+pub mod run_query_response {
+    /// The continuation mode for the query. If present, it indicates the current
+    /// query response stream has finished. This can be set with or without a
+    /// `document` present, but when set, no more results are returned.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum ContinuationSelector {
+        /// If present, Firestore has completely finished the request and no more
+        /// documents will be returned.
+        #[prost(bool, tag="6")]
+        Done(bool),
+    }
 }
 /// The request for \[Firestore.PartitionQuery][google.firestore.v1.Firestore.PartitionQuery\].
 #[derive(Clone, PartialEq, ::prost::Message)]
