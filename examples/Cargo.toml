@@ -7,11 +7,11 @@ edition = "2021"
 [dependencies]
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 tokio = { version = "1.15", features = ["macros", "rt-multi-thread"] }
-google-authz = { version = "1.0.0-alpha.1", features = ["tonic"] }
+google-authz = { version = "1.0.0-alpha.4", features = ["tonic"] }
 # grpc + gcp
-tonic = { version = "0.6", features = ["tls", "tls-webpki-roots"] }
-prost = { version = "0.9" }
-prost-types = { version = "0.9" }
+tonic = { version = "0.7", features = ["tls", "tls-webpki-roots"] }
+prost = { version = "0.10" }
+prost-types = { version = "0.10" }
 
 [dependencies.'google-api-proto']
 path = "../google-api-proto"
