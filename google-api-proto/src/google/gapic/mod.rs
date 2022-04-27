@@ -1,2 +1,2 @@
-#[cfg(any(feature = "google-gapic-metadata",))]
+#[cfg(any(feature = "google-gapic-metadata"))]
 pub mod metadata;

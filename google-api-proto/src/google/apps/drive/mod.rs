@@ -1,2 +1,2 @@
-#[cfg(any(feature = "google-apps-drive-activity-v2",))]
+#[cfg(any(feature = "google-apps-drive-activity-v2"))]
 pub mod activity;

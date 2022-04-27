@@ -1,2 +1,2 @@
-#[cfg(any(feature = "google-networking-trafficdirector-type",))]
+#[cfg(any(feature = "google-networking-trafficdirector-type"))]
 pub mod trafficdirector;

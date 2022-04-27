@@ -4,14 +4,11 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RuntimeEvent {
     /// Required. Type of event.
-    #[prost(enumeration = "runtime_event::EventType", tag = "1")]
+    #[prost(enumeration="runtime_event::EventType", tag="1")]
     pub r#type: i32,
     /// Optional. Additional metadata for the event.
-    #[prost(btree_map = "string, string", tag = "2")]
-    pub details: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
+    #[prost(btree_map="string, string", tag="2")]
+    pub details: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
 }
 /// Nested message and enum types in `RuntimeEvent`.
 pub mod runtime_event {

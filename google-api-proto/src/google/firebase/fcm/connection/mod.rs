@@ -1,2 +1,2 @@
-#[cfg(any(feature = "google-firebase-fcm-connection-v1alpha1",))]
+#[cfg(any(feature = "google-firebase-fcm-connection-v1alpha1"))]
 pub mod v1alpha1;
