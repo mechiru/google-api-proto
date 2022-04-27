@@ -520,7 +520,7 @@ pub mod document {
         /// \[Document.text][google.cloud.documentai.v1beta3.Document.text\].
         #[prost(message, optional, tag = "1")]
         pub text_anchor: ::core::option::Option<TextAnchor>,
-        /// Entity type from a schema e.g. `Address`.
+        /// Required. Entity type from a schema e.g. `Address`.
         #[prost(string, tag = "2")]
         pub r#type: ::prost::alloc::string::String,
         /// Optional. Text value in the document e.g. `1600 Amphitheatre Pkwy`. If

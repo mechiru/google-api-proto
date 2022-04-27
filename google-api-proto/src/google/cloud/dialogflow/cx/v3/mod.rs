@@ -6405,6 +6405,21 @@ pub struct SecuritySettings {
     /// List of types of data to remove when retention settings triggers purge.
     #[prost(enumeration = "security_settings::PurgeDataType", repeated, tag = "8")]
     pub purge_data_types: ::prost::alloc::vec::Vec<i32>,
+    /// Controls audio export settings for post-conversation analytics when
+    /// ingesting audio to conversations via \[Participants.AnalyzeContent][\] or
+    /// \[Participants.StreamingAnalyzeContent][\].
+    ///
+    /// If \[retention_strategy][google.cloud.dialogflow.cx.v3.SecuritySettings.retention_strategy\] is set to REMOVE_AFTER_CONVERSATION or
+    /// \[audio_export_settings.gcs_bucket][\] is empty, audio export is disabled.
+    ///
+    /// If audio export is enabled, audio is recorded and saved to
+    /// \[audio_export_settings.gcs_bucket][\], subject to retention policy of
+    /// \[audio_export_settings.gcs_bucket][\].
+    ///
+    /// This setting won't effect audio input for implicit sessions via
+    /// \[Sessions.DetectIntent][google.cloud.dialogflow.cx.v3.Sessions.DetectIntent\] or \[Sessions.StreamingDetectIntent][google.cloud.dialogflow.cx.v3.Sessions.StreamingDetectIntent\].
+    #[prost(message, optional, tag = "12")]
+    pub audio_export_settings: ::core::option::Option<security_settings::AudioExportSettings>,
     /// Controls conversation exporting settings to Insights after conversation is
     /// completed.
     ///
@@ -6420,6 +6435,45 @@ pub struct SecuritySettings {
 }
 /// Nested message and enum types in `SecuritySettings`.
 pub mod security_settings {
+    /// Settings for exporting audio.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct AudioExportSettings {
+        /// Cloud Storage bucket to export audio record to. You need to grant
+        /// `service-<Conversation Project
+        /// Number>@gcp-sa-dialogflow.iam.gserviceaccount.com` the `Storage Object
+        /// Admin` role in this bucket.
+        #[prost(string, tag = "1")]
+        pub gcs_bucket: ::prost::alloc::string::String,
+        /// Filename pattern for exported audio.
+        #[prost(string, tag = "2")]
+        pub audio_export_pattern: ::prost::alloc::string::String,
+        /// Enable audio redaction if it is true.
+        #[prost(bool, tag = "3")]
+        pub enable_audio_redaction: bool,
+        /// File format for exported audio file. Currently only in telephony
+        /// recordings.
+        #[prost(enumeration = "audio_export_settings::AudioFormat", tag = "4")]
+        pub audio_format: i32,
+    }
+    /// Nested message and enum types in `AudioExportSettings`.
+    pub mod audio_export_settings {
+        /// File format for exported audio file. Currently only in telephony
+        /// recordings.
+        #[derive(
+            Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration,
+        )]
+        #[repr(i32)]
+        pub enum AudioFormat {
+            /// Unspecified. Do not use.
+            Unspecified = 0,
+            /// G.711 mu-law PCM with 8kHz sample rate.
+            Mulaw = 1,
+            /// MP3 file format.
+            Mp3 = 2,
+            /// OGG Vorbis.
+            Ogg = 3,
+        }
+    }
     /// Settings for exporting conversations to
     /// \[Insights\](<https://cloud.google.com/contact-center/insights/docs>).
     #[derive(Clone, PartialEq, ::prost::Message)]
