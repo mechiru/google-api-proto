@@ -54,6 +54,7 @@ The list of available features can be found [here](./google-api-proto/Cargo.toml
 | google-api-proto | tonic | tonic-build |
 |------------------|-------|-------------|
 | 1.0.0 ≦          | 0.6.x | 0.6.x       |
+| 1.59.0 ≦         | 0.7.x | 0.7.x       |
 
 ## Example
 The complete code can be found [here](./examples/src/spanner.rs).
@@ -64,12 +65,12 @@ Cargo.toml:
 # For runtime
 tokio = { version = "1.15", features = ["macros", "rt-multi-thread"] }
 # For google authentication
-google-authz = { version = "1.0.0-alpha.1", features = ["tonic"] }
+google-authz = { version = "1.0.0-alpha.4", features = ["tonic"] }
 # For gRPC
-tonic = { version = "0.6", features = ["tls", "tls-webpki-roots"] }
-prost = { version = "0.9" }
-prost-types = { version = "0.9" }
-google-api-proto = { version = "*", features = ["google-spanner-admin-database-v1"] }
+tonic = { version = "0.7", features = ["tls", "tls-webpki-roots"] }
+prost = { version = "0.10" }
+prost-types = { version = "0.10" }
+google-api-proto = { version = "1", features = ["google-spanner-admin-database-v1"] }
 ```
 
 main.rs:
