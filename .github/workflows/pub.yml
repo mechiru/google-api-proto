@@ -20,7 +20,6 @@ jobs:
         toolchain: stable
         override: true
         profile: minimal
-        components: rustfmt
     - run: cargo install cargo-release
     - run: ./pub.sh
       env:
