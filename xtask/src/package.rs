@@ -131,16 +131,24 @@ impl Items {
 
     fn print(&self) -> anyhow::Result<String> {
         let mut output = String::new();
+        let mut tmp = String::new();
 
         for item in &self.0 {
             match item {
                 Item::Module(name, features) => {
-                    writeln!(&mut output, "#[cfg(any(")?;
+                    tmp.clear();
+
+                    writeln!(&mut tmp, "#[cfg(any(")?;
                     for feature in features {
-                        writeln!(&mut output, "feature = \"{}\",", feature)?;
+                        writeln!(&mut tmp, "feature = \"{}\",", feature)?;
                     }
-                    writeln!(&mut output, "))]")?;
-                    writeln!(&mut output, "pub mod {};\n", name.escaped())?;
+                    writeln!(&mut tmp, "))]")?;
+                    writeln!(&mut tmp, "pub mod {};\n", name.escaped())?;
+
+                    // https://github.com/hyperium/tonic/issues/890
+                    let file = syn::parse_file(&tmp)?;
+                    let pretty_code = prettyplease::unparse(&file);
+                    output.push_str(&pretty_code);
                 }
                 Item::Items(code) => output.write_str(code)?,
             }

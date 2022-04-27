@@ -69,15 +69,13 @@ fn generate(opt: &Opt) -> anyhow::Result<()> {
 
     let mut config = prost_build::Config::new();
     config.btree_map(&["."]).bytes(&["."]).protoc_arg("--experimental_allow_proto3_optional");
-    tonic_build::configure()
-        .build_server(false)
-        .format(false)
-        .out_dir(&opt.temp_dir)
-        .compile_with_config(config, &protos.proto_paths(), &[&opt.input_proto_dir])?;
+    tonic_build::configure().build_server(false).out_dir(&opt.temp_dir).compile_with_config(
+        config,
+        &protos.proto_paths(),
+        &[&opt.input_proto_dir],
+    )?;
 
     Package::from_dir(&opt.temp_dir)?.generate(opt.output_package_src())?;
-
-    tonic_build::fmt(opt.output_package_src().to_str().unwrap());
 
     Ok(())
 }
