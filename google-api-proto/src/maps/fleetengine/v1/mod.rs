@@ -449,7 +449,7 @@ pub struct Trip {
     pub intermediate_destination_index: i32,
     /// Input only. The actual time and location of the driver's arrival at
     /// an intermediate destination.
-    /// This field is for provider to provide feedback on actual arriaval
+    /// This field is for provider to provide feedback on actual arrival
     /// information at intermediate destinations.
     #[prost(message, repeated, tag="33")]
     pub actual_intermediate_destination_arrival_points: ::prost::alloc::vec::Vec<StopLocation>,
@@ -659,15 +659,15 @@ pub struct CreateTripRequest {
     /// this call is a member.
     #[prost(string, tag="3")]
     pub parent: ::prost::alloc::string::String,
-    /// Required. Unique Trip ID; must be unique per provider.
+    /// Required. Unique Trip ID.
     /// Subject to the following restrictions:
     ///
-    /// 1. IDs must be valid Unicode strings.
-    /// 2. IDs are limited to a maximum length of 64 characters.
-    /// 3. IDs must be normalized according to Unicode Normalization Form C
+    /// * Must be a valid Unicode string.
+    /// * Limited to a maximum length of 64 characters.
+    /// * Normalized according to Unicode Normalization Form C
     /// (<http://www.unicode.org/reports/tr15/>).
-    /// 4. IDs must not contain any of the following ASCII characters: '/', ':',
-    /// '?', ',', or '#'.
+    /// * May not contain any of the following ASCII characters: '/', ':', '?',
+    /// ',', or '#'.
     #[prost(string, tag="5")]
     pub trip_id: ::prost::alloc::string::String,
     /// Required. Trip entity to create.
@@ -1378,15 +1378,15 @@ pub struct CreateVehicleRequest {
     /// this call is a member.
     #[prost(string, tag="3")]
     pub parent: ::prost::alloc::string::String,
-    /// Required. Unique Vehicle ID; must be unique per provider.
+    /// Required. Unique Vehicle ID.
     /// Subject to the following restrictions:
     ///
-    /// 1. IDs must be valid Unicode strings.
-    /// 2. IDs are limited to a maximum length of 64 characters.
-    /// 3. IDs must be normalized according to Unicode Normalization Form C
+    /// * Must be a valid Unicode string.
+    /// * Limited to a maximum length of 64 characters.
+    /// * Normalized according to Unicode Normalization Form C
     /// (<http://www.unicode.org/reports/tr15/>).
-    /// 4. IDs must not contain any of the following ASCII characters: '/', ':',
-    /// '?', ',', or '#'.
+    /// * May not contain any of the following ASCII characters: '/', ':', '?',
+    /// ',', or '#'.
     #[prost(string, tag="4")]
     pub vehicle_id: ::prost::alloc::string::String,
     /// Required. The Vehicle entity to create. When creating a Vehicle, the following

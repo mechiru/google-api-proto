@@ -320,7 +320,15 @@ pub mod vehicle_stop {
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct TaskInfo {
         /// The Task ID. This field won't be populated in the response of either a
-        /// `GetTask`, or a `SearchTasks` call.
+        /// `GetTask`, or a `SearchTasks` call. Task IDs are subject to the following
+        /// restrictions:
+        ///
+        /// * Must be a valid Unicode string.
+        /// * Limited to a maximum length of 64 characters.
+        /// * Normalized according to Unicode Normalization Form C
+        /// (<http://www.unicode.org/reports/tr15/>).
+        /// * May not contain any of the following ASCII characters: '/', ':', '?',
+        /// ',', or '#'.
         #[prost(string, tag="1")]
         pub task_id: ::prost::alloc::string::String,
         /// The time required to perform the Task.
@@ -465,15 +473,23 @@ pub struct Task {
     /// `UNAVAILABLE` and `SCHEDULED_STOP`. These IDs are subject to the
     /// following restrictions:
     ///
-    /// * Tracking IDs must be valid Unicode strings.
-    /// * Tracking IDs are limited to a maximum length of 64 characters.
-    /// * Tracking IDs must be normalized according to Unicode Normalization Form C
+    /// * Must be a valid Unicode string.
+    /// * Limited to a maximum length of 64 characters.
+    /// * Normalized according to Unicode Normalization Form C
     /// (<http://www.unicode.org/reports/tr15/>).
-    /// * Tracking IDs may not contain any of the following ASCII characters: '/',
-    /// ':', '?', ',', or '#'.
+    /// * May not contain any of the following ASCII characters: '/', ':', '?',
+    /// ',', or '#'.
     #[prost(string, tag="4")]
     pub tracking_id: ::prost::alloc::string::String,
-    /// Output only. The ID of the vehicle that is executing this Task.
+    /// Output only. The ID of the vehicle that is executing this Task. Delivery Vehicle IDs are
+    /// subject to the following restrictions:
+    ///
+    /// * Must be a valid Unicode string.
+    /// * Limited to a maximum length of 64 characters.
+    /// * Normalized according to Unicode Normalization Form C
+    /// (<http://www.unicode.org/reports/tr15/>).
+    /// * May not contain any of the following ASCII characters: '/', ':', '?',
+    /// ',', or '#'.
     #[prost(string, tag="5")]
     pub delivery_vehicle_id: ::prost::alloc::string::String,
     /// Immutable. The location where the Task will be completed.
@@ -590,15 +606,15 @@ pub struct CreateDeliveryVehicleRequest {
     /// Google Cloud Project ID. For example, `sample-cloud-project`.
     #[prost(string, tag="3")]
     pub parent: ::prost::alloc::string::String,
-    /// Required. The Delivery Vehicle ID must be unique for each provider. Delivery Vehicle
-    /// IDs are subject to the following restrictions:
+    /// Required. The Delivery Vehicle ID must be unique and subject to the following
+    /// restrictions:
     ///
-    /// * IDs must be valid Unicode strings.
-    /// * IDs are limited to a maximum length of 64 characters.
-    /// * IDs must be normalized according to Unicode Normalization Form C
+    /// * Must be a valid Unicode string.
+    /// * Limited to a maximum length of 64 characters.
+    /// * Normalized according to Unicode Normalization Form C
     /// (<http://www.unicode.org/reports/tr15/>).
-    /// * IDs may not contain any of the following ASCII characters: '/', ':',
-    /// '?', ',', or '#'.
+    /// * May not contain any of the following ASCII characters: '/', ':', '?',
+    /// ',', or '#'.
     #[prost(string, tag="4")]
     pub delivery_vehicle_id: ::prost::alloc::string::String,
     /// Required. The `DeliveryVehicle` entity to create. When creating a new delivery
@@ -713,17 +729,17 @@ pub struct CreateTaskRequest {
     /// Google Cloud Project ID. For example, `sample-cloud-project`.
     #[prost(string, tag="3")]
     pub parent: ::prost::alloc::string::String,
-    /// Required. The Task ID must be unique for each provider, but it should be not a
-    /// shipment tracking ID. To store a shipment tracking ID, use the
-    /// `tracking_id` field. Note that multiple tasks can have the same
-    /// `tracking_id`. Task IDs are subject to the following restrictions:
+    /// Required. The Task ID must be unique, but it should be not a shipment tracking ID. To
+    /// store a shipment tracking ID, use the `tracking_id` field. Note that
+    /// multiple tasks can have the same `tracking_id`. Task IDs are subject to the
+    /// following restrictions:
     ///
-    /// * Task IDs must be valid Unicode strings.
-    /// * Task IDs are limited to a maximum length of 64 characters.
-    /// * Task IDs must be normalized according to Unicode Normalization Form C
+    /// * Must be a valid Unicode string.
+    /// * Limited to a maximum length of 64 characters.
+    /// * Normalized according to Unicode Normalization Form C
     /// (<http://www.unicode.org/reports/tr15/>).
-    /// * Task IDs may not contain any of the following ASCII characters: '/',
-    /// ':', '?', ',', or '#'.
+    /// * May not contain any of the following ASCII characters: '/', ':', '?',
+    /// ',', or '#'.
     #[prost(string, tag="5")]
     pub task_id: ::prost::alloc::string::String,
     /// Required. The Task entity to create.
@@ -763,7 +779,15 @@ pub struct SearchTasksRequest {
     /// `sample-cloud-project`.
     #[prost(string, tag="3")]
     pub parent: ::prost::alloc::string::String,
-    /// Required. The identifier of the set of related Tasks being requested.
+    /// Required. The identifier of the set of related Tasks being requested. Tracking IDs
+    /// are subject to the following restrictions:
+    ///
+    /// * Must be a valid Unicode string.
+    /// * Limited to a maximum length of 64 characters.
+    /// * Normalized according to Unicode Normalization Form C
+    /// (<http://www.unicode.org/reports/tr15/>).
+    /// * May not contain any of the following ASCII characters: '/', ':', '?',
+    /// ',', or '#'.
     #[prost(string, tag="4")]
     pub tracking_id: ::prost::alloc::string::String,
     /// Optional. The maximum number of Tasks to return. The service may return fewer than
