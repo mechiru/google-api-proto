@@ -242,335 +242,6 @@ pub mod deployed_fleet_details {
         pub fleet_autoscaler_spec: ::prost::alloc::string::String,
     }
 }
-/// Request message for RealmsService.ListRealms.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListRealmsRequest {
-    /// Required. The parent resource name. Uses the form:
-    /// `projects/{project}/locations/{location}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of items to return.  If unspecified, server
-    /// will pick an appropriate default. Server may return fewer items than
-    /// requested. A caller should only rely on response's
-    /// \[next_page_token][google.cloud.gaming.v1beta.ListRealmsResponse.next_page_token\]
-    /// to determine if there are more realms left to be queried.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// Optional. The next_page_token value returned from a previous List request,
-    /// if any.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Optional. The filter to apply to list results.
-    #[prost(string, tag="4")]
-    pub filter: ::prost::alloc::string::String,
-    /// Optional. Specifies the ordering of results following syntax at
-    /// <https://cloud.google.com/apis/design/design_patterns#sorting_order.>
-    #[prost(string, tag="5")]
-    pub order_by: ::prost::alloc::string::String,
-}
-/// Response message for RealmsService.ListRealms.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListRealmsResponse {
-    /// The list of realms.
-    #[prost(message, repeated, tag="1")]
-    pub realms: ::prost::alloc::vec::Vec<Realm>,
-    /// Token to retrieve the next page of results, or empty if there are no more
-    /// results in the list.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-    /// List of locations that could not be reached.
-    #[prost(string, repeated, tag="3")]
-    pub unreachable: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Request message for RealmsService.GetRealm.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetRealmRequest {
-    /// Required. The name of the realm to retrieve. Uses the form:
-    /// `projects/{project}/locations/{location}/realms/{realm}`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for RealmsService.CreateRealm.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateRealmRequest {
-    /// Required. The parent resource name. Uses the form:
-    /// `projects/{project}/locations/{location}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The ID of the realm resource to be created.
-    #[prost(string, tag="2")]
-    pub realm_id: ::prost::alloc::string::String,
-    /// Required. The realm resource to be created.
-    #[prost(message, optional, tag="3")]
-    pub realm: ::core::option::Option<Realm>,
-}
-/// Request message for RealmsService.DeleteRealm.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteRealmRequest {
-    /// Required. The name of the realm to delete. Uses the form:
-    /// `projects/{project}/locations/{location}/realms/{realm}`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for RealmsService.UpdateRealm.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateRealmRequest {
-    /// Required. The realm to be updated.
-    /// Only fields specified in update_mask are updated.
-    #[prost(message, optional, tag="1")]
-    pub realm: ::core::option::Option<Realm>,
-    /// Required. The update mask applies to the resource. For the `FieldMask`
-    /// definition, see
-    ///
-    /// https:
-    /// //developers.google.com/protocol-buffers
-    /// // /docs/reference/google.protobuf#fieldmask
-    #[prost(message, optional, tag="2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Request message for RealmsService.PreviewRealmUpdate.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PreviewRealmUpdateRequest {
-    /// Required. The realm to be updated.
-    /// Only fields specified in update_mask are updated.
-    #[prost(message, optional, tag="1")]
-    pub realm: ::core::option::Option<Realm>,
-    /// Required. The update mask applies to the resource. For the `FieldMask`
-    /// definition, see
-    ///
-    /// https:
-    /// //developers.google.com/protocol-buffers
-    /// // /docs/reference/google.protobuf#fieldmask
-    #[prost(message, optional, tag="2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-    /// Optional. The target timestamp to compute the preview.
-    #[prost(message, optional, tag="3")]
-    pub preview_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Response message for RealmsService.PreviewRealmUpdate.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PreviewRealmUpdateResponse {
-    /// ETag of the realm.
-    #[prost(string, tag="2")]
-    pub etag: ::prost::alloc::string::String,
-    /// The target state.
-    #[prost(message, optional, tag="3")]
-    pub target_state: ::core::option::Option<TargetState>,
-}
-/// A realm resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Realm {
-    /// The resource name of the realm. Uses the form:
-    /// `projects/{project}/locations/{location}/realms/{realm}`. For
-    /// example, `projects/my-project/locations/{location}/realms/my-realm`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. The creation time.
-    #[prost(message, optional, tag="2")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The last-modified time.
-    #[prost(message, optional, tag="3")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The labels associated with this realm. Each label is a key-value pair.
-    #[prost(btree_map="string, string", tag="4")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Required. Time zone where all policies targeting this realm are evaluated.
-    /// The value of this field must be from the IANA time zone database:
-    /// <https://www.iana.org/time-zones.>
-    #[prost(string, tag="6")]
-    pub time_zone: ::prost::alloc::string::String,
-    /// ETag of the resource.
-    #[prost(string, tag="7")]
-    pub etag: ::prost::alloc::string::String,
-    /// Human readable description of the realm.
-    #[prost(string, tag="8")]
-    pub description: ::prost::alloc::string::String,
-}
-/// Generated client implementations.
-pub mod realms_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// A realm is a grouping of game server clusters that are considered
-    /// interchangeable.
-    #[derive(Debug, Clone)]
-    pub struct RealmsServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> RealmsServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> RealmsServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            RealmsServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Lists realms in a given project and location.
-        pub async fn list_realms(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListRealmsRequest>,
-        ) -> Result<tonic::Response<super::ListRealmsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gaming.v1beta.RealmsService/ListRealms",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets details of a single realm.
-        pub async fn get_realm(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetRealmRequest>,
-        ) -> Result<tonic::Response<super::Realm>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gaming.v1beta.RealmsService/GetRealm",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Creates a new realm in a given project and location.
-        pub async fn create_realm(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateRealmRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gaming.v1beta.RealmsService/CreateRealm",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes a single realm.
-        pub async fn delete_realm(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteRealmRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gaming.v1beta.RealmsService/DeleteRealm",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Patches a single realm.
-        pub async fn update_realm(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateRealmRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gaming.v1beta.RealmsService/UpdateRealm",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Previews patches to a single realm.
-        pub async fn preview_realm_update(
-            &mut self,
-            request: impl tonic::IntoRequest<super::PreviewRealmUpdateRequest>,
-        ) -> Result<tonic::Response<super::PreviewRealmUpdateResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gaming.v1beta.RealmsService/PreviewRealmUpdate",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// Request message for GameServerDeploymentsService.ListGameServerDeployments.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListGameServerDeploymentsRequest {
@@ -1117,6 +788,335 @@ pub mod game_server_deployments_service_client {
         }
     }
 }
+/// Request message for RealmsService.ListRealms.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListRealmsRequest {
+    /// Required. The parent resource name. Uses the form:
+    /// `projects/{project}/locations/{location}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The maximum number of items to return.  If unspecified, server
+    /// will pick an appropriate default. Server may return fewer items than
+    /// requested. A caller should only rely on response's
+    /// \[next_page_token][google.cloud.gaming.v1beta.ListRealmsResponse.next_page_token\]
+    /// to determine if there are more realms left to be queried.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// Optional. The next_page_token value returned from a previous List request,
+    /// if any.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. The filter to apply to list results.
+    #[prost(string, tag="4")]
+    pub filter: ::prost::alloc::string::String,
+    /// Optional. Specifies the ordering of results following syntax at
+    /// <https://cloud.google.com/apis/design/design_patterns#sorting_order.>
+    #[prost(string, tag="5")]
+    pub order_by: ::prost::alloc::string::String,
+}
+/// Response message for RealmsService.ListRealms.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListRealmsResponse {
+    /// The list of realms.
+    #[prost(message, repeated, tag="1")]
+    pub realms: ::prost::alloc::vec::Vec<Realm>,
+    /// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+    /// List of locations that could not be reached.
+    #[prost(string, repeated, tag="3")]
+    pub unreachable: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Request message for RealmsService.GetRealm.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetRealmRequest {
+    /// Required. The name of the realm to retrieve. Uses the form:
+    /// `projects/{project}/locations/{location}/realms/{realm}`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for RealmsService.CreateRealm.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateRealmRequest {
+    /// Required. The parent resource name. Uses the form:
+    /// `projects/{project}/locations/{location}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The ID of the realm resource to be created.
+    #[prost(string, tag="2")]
+    pub realm_id: ::prost::alloc::string::String,
+    /// Required. The realm resource to be created.
+    #[prost(message, optional, tag="3")]
+    pub realm: ::core::option::Option<Realm>,
+}
+/// Request message for RealmsService.DeleteRealm.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteRealmRequest {
+    /// Required. The name of the realm to delete. Uses the form:
+    /// `projects/{project}/locations/{location}/realms/{realm}`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for RealmsService.UpdateRealm.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateRealmRequest {
+    /// Required. The realm to be updated.
+    /// Only fields specified in update_mask are updated.
+    #[prost(message, optional, tag="1")]
+    pub realm: ::core::option::Option<Realm>,
+    /// Required. The update mask applies to the resource. For the `FieldMask`
+    /// definition, see
+    ///
+    /// https:
+    /// //developers.google.com/protocol-buffers
+    /// // /docs/reference/google.protobuf#fieldmask
+    #[prost(message, optional, tag="2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Request message for RealmsService.PreviewRealmUpdate.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PreviewRealmUpdateRequest {
+    /// Required. The realm to be updated.
+    /// Only fields specified in update_mask are updated.
+    #[prost(message, optional, tag="1")]
+    pub realm: ::core::option::Option<Realm>,
+    /// Required. The update mask applies to the resource. For the `FieldMask`
+    /// definition, see
+    ///
+    /// https:
+    /// //developers.google.com/protocol-buffers
+    /// // /docs/reference/google.protobuf#fieldmask
+    #[prost(message, optional, tag="2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// Optional. The target timestamp to compute the preview.
+    #[prost(message, optional, tag="3")]
+    pub preview_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Response message for RealmsService.PreviewRealmUpdate.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PreviewRealmUpdateResponse {
+    /// ETag of the realm.
+    #[prost(string, tag="2")]
+    pub etag: ::prost::alloc::string::String,
+    /// The target state.
+    #[prost(message, optional, tag="3")]
+    pub target_state: ::core::option::Option<TargetState>,
+}
+/// A realm resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Realm {
+    /// The resource name of the realm. Uses the form:
+    /// `projects/{project}/locations/{location}/realms/{realm}`. For
+    /// example, `projects/my-project/locations/{location}/realms/my-realm`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. The creation time.
+    #[prost(message, optional, tag="2")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The last-modified time.
+    #[prost(message, optional, tag="3")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The labels associated with this realm. Each label is a key-value pair.
+    #[prost(btree_map="string, string", tag="4")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Required. Time zone where all policies targeting this realm are evaluated.
+    /// The value of this field must be from the IANA time zone database:
+    /// <https://www.iana.org/time-zones.>
+    #[prost(string, tag="6")]
+    pub time_zone: ::prost::alloc::string::String,
+    /// ETag of the resource.
+    #[prost(string, tag="7")]
+    pub etag: ::prost::alloc::string::String,
+    /// Human readable description of the realm.
+    #[prost(string, tag="8")]
+    pub description: ::prost::alloc::string::String,
+}
+/// Generated client implementations.
+pub mod realms_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// A realm is a grouping of game server clusters that are considered
+    /// interchangeable.
+    #[derive(Debug, Clone)]
+    pub struct RealmsServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> RealmsServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> RealmsServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            RealmsServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Lists realms in a given project and location.
+        pub async fn list_realms(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListRealmsRequest>,
+        ) -> Result<tonic::Response<super::ListRealmsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gaming.v1beta.RealmsService/ListRealms",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets details of a single realm.
+        pub async fn get_realm(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetRealmRequest>,
+        ) -> Result<tonic::Response<super::Realm>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gaming.v1beta.RealmsService/GetRealm",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Creates a new realm in a given project and location.
+        pub async fn create_realm(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateRealmRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::longrunning::Operation>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gaming.v1beta.RealmsService/CreateRealm",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes a single realm.
+        pub async fn delete_realm(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteRealmRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::longrunning::Operation>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gaming.v1beta.RealmsService/DeleteRealm",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Patches a single realm.
+        pub async fn update_realm(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateRealmRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::longrunning::Operation>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gaming.v1beta.RealmsService/UpdateRealm",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Previews patches to a single realm.
+        pub async fn preview_realm_update(
+            &mut self,
+            request: impl tonic::IntoRequest<super::PreviewRealmUpdateRequest>,
+        ) -> Result<tonic::Response<super::PreviewRealmUpdateResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gaming.v1beta.RealmsService/PreviewRealmUpdate",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// Request message for GameServerConfigsService.ListGameServerConfigs.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListGameServerConfigsRequest {
@@ -1252,156 +1252,6 @@ pub struct GameServerConfig {
     /// The description of the game server config.
     #[prost(string, tag="7")]
     pub description: ::prost::alloc::string::String,
-}
-/// Generated client implementations.
-pub mod game_server_configs_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// The game server config configures the game servers in an Agones fleet.
-    #[derive(Debug, Clone)]
-    pub struct GameServerConfigsServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> GameServerConfigsServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> GameServerConfigsServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            GameServerConfigsServiceClient::new(
-                InterceptedService::new(inner, interceptor),
-            )
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Lists game server configs in a given project, location, and game server
-        /// deployment.
-        pub async fn list_game_server_configs(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListGameServerConfigsRequest>,
-        ) -> Result<
-                tonic::Response<super::ListGameServerConfigsResponse>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gaming.v1beta.GameServerConfigsService/ListGameServerConfigs",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets details of a single game server config.
-        pub async fn get_game_server_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetGameServerConfigRequest>,
-        ) -> Result<tonic::Response<super::GameServerConfig>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gaming.v1beta.GameServerConfigsService/GetGameServerConfig",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Creates a new game server config in a given project, location, and game
-        /// server deployment. Game server configs are immutable, and are not applied
-        /// until referenced in the game server deployment rollout resource.
-        pub async fn create_game_server_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateGameServerConfigRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gaming.v1beta.GameServerConfigsService/CreateGameServerConfig",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes a single game server config. The deletion will fail if the game
-        /// server config is referenced in a game server deployment rollout.
-        pub async fn delete_game_server_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteGameServerConfigRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gaming.v1beta.GameServerConfigsService/DeleteGameServerConfig",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
 }
 /// Request message for GameServerClustersService.ListGameServerClusters.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1636,6 +1486,156 @@ pub struct GameServerCluster {
     /// Human readable description of the cluster.
     #[prost(string, tag="7")]
     pub description: ::prost::alloc::string::String,
+}
+/// Generated client implementations.
+pub mod game_server_configs_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// The game server config configures the game servers in an Agones fleet.
+    #[derive(Debug, Clone)]
+    pub struct GameServerConfigsServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> GameServerConfigsServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> GameServerConfigsServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            GameServerConfigsServiceClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Lists game server configs in a given project, location, and game server
+        /// deployment.
+        pub async fn list_game_server_configs(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListGameServerConfigsRequest>,
+        ) -> Result<
+                tonic::Response<super::ListGameServerConfigsResponse>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gaming.v1beta.GameServerConfigsService/ListGameServerConfigs",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets details of a single game server config.
+        pub async fn get_game_server_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetGameServerConfigRequest>,
+        ) -> Result<tonic::Response<super::GameServerConfig>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gaming.v1beta.GameServerConfigsService/GetGameServerConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Creates a new game server config in a given project, location, and game
+        /// server deployment. Game server configs are immutable, and are not applied
+        /// until referenced in the game server deployment rollout resource.
+        pub async fn create_game_server_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateGameServerConfigRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::longrunning::Operation>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gaming.v1beta.GameServerConfigsService/CreateGameServerConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes a single game server config. The deletion will fail if the game
+        /// server config is referenced in a game server deployment rollout.
+        pub async fn delete_game_server_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteGameServerConfigRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::longrunning::Operation>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gaming.v1beta.GameServerConfigsService/DeleteGameServerConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
 }
 /// Generated client implementations.
 pub mod game_server_clusters_service_client {

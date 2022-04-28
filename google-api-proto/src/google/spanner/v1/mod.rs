@@ -147,122 +147,6 @@ pub struct KeySet {
     #[prost(bool, tag="3")]
     pub all: bool,
 }
-/// A modification to one or more Cloud Spanner rows.  Mutations can be
-/// applied to a Cloud Spanner database by sending them in a
-/// \[Commit][google.spanner.v1.Spanner.Commit\] call.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Mutation {
-    /// Required. The operation to perform.
-    #[prost(oneof="mutation::Operation", tags="1, 2, 3, 4, 5")]
-    pub operation: ::core::option::Option<mutation::Operation>,
-}
-/// Nested message and enum types in `Mutation`.
-pub mod mutation {
-    /// Arguments to \[insert][google.spanner.v1.Mutation.insert\], \[update][google.spanner.v1.Mutation.update\], \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], and
-    /// \[replace][google.spanner.v1.Mutation.replace\] operations.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Write {
-        /// Required. The table whose rows will be written.
-        #[prost(string, tag="1")]
-        pub table: ::prost::alloc::string::String,
-        /// The names of the columns in \[table][google.spanner.v1.Mutation.Write.table\] to be written.
-        ///
-        /// The list of columns must contain enough columns to allow
-        /// Cloud Spanner to derive values for all primary key columns in the
-        /// row(s) to be modified.
-        #[prost(string, repeated, tag="2")]
-        pub columns: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// The values to be written. `values` can contain more than one
-        /// list of values. If it does, then multiple rows are written, one
-        /// for each entry in `values`. Each list in `values` must have
-        /// exactly as many entries as there are entries in \[columns][google.spanner.v1.Mutation.Write.columns\]
-        /// above. Sending multiple lists is equivalent to sending multiple
-        /// `Mutation`s, each containing one `values` entry and repeating
-        /// \[table][google.spanner.v1.Mutation.Write.table\] and \[columns][google.spanner.v1.Mutation.Write.columns\]. Individual values in each list are
-        /// encoded as described \[here][google.spanner.v1.TypeCode\].
-        #[prost(message, repeated, tag="3")]
-        pub values: ::prost::alloc::vec::Vec<::prost_types::ListValue>,
-    }
-    /// Arguments to \[delete][google.spanner.v1.Mutation.delete\] operations.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Delete {
-        /// Required. The table whose rows will be deleted.
-        #[prost(string, tag="1")]
-        pub table: ::prost::alloc::string::String,
-        /// Required. The primary keys of the rows within \[table][google.spanner.v1.Mutation.Delete.table\] to delete.  The
-        /// primary keys must be specified in the order in which they appear in the
-        /// `PRIMARY KEY()` clause of the table's equivalent DDL statement (the DDL
-        /// statement used to create the table).
-        /// Delete is idempotent. The transaction will succeed even if some or all
-        /// rows do not exist.
-        #[prost(message, optional, tag="2")]
-        pub key_set: ::core::option::Option<super::KeySet>,
-    }
-    /// Required. The operation to perform.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Operation {
-        /// Insert new rows in a table. If any of the rows already exist,
-        /// the write or transaction fails with error `ALREADY_EXISTS`.
-        #[prost(message, tag="1")]
-        Insert(Write),
-        /// Update existing rows in a table. If any of the rows does not
-        /// already exist, the transaction fails with error `NOT_FOUND`.
-        #[prost(message, tag="2")]
-        Update(Write),
-        /// Like \[insert][google.spanner.v1.Mutation.insert\], except that if the row already exists, then
-        /// its column values are overwritten with the ones provided. Any
-        /// column values not explicitly written are preserved.
-        ///
-        /// When using \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], just as when using \[insert][google.spanner.v1.Mutation.insert\], all `NOT
-        /// NULL` columns in the table must be given a value. This holds true
-        /// even when the row already exists and will therefore actually be updated.
-        #[prost(message, tag="3")]
-        InsertOrUpdate(Write),
-        /// Like \[insert][google.spanner.v1.Mutation.insert\], except that if the row already exists, it is
-        /// deleted, and the column values provided are inserted
-        /// instead. Unlike \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], this means any values not
-        /// explicitly written become `NULL`.
-        ///
-        /// In an interleaved table, if you create the child table with the
-        /// `ON DELETE CASCADE` annotation, then replacing a parent row
-        /// also deletes the child rows. Otherwise, you must delete the
-        /// child rows before you replace the parent row.
-        #[prost(message, tag="4")]
-        Replace(Write),
-        /// Delete rows from a table. Succeeds whether or not the named
-        /// rows were present.
-        #[prost(message, tag="5")]
-        Delete(Delete),
-    }
-}
-/// The response for \[Commit][google.spanner.v1.Spanner.Commit\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CommitResponse {
-    /// The Cloud Spanner timestamp at which the transaction committed.
-    #[prost(message, optional, tag="1")]
-    pub commit_timestamp: ::core::option::Option<::prost_types::Timestamp>,
-    /// The statistics about this Commit. Not returned by default.
-    /// For more information, see
-    /// \[CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats\].
-    #[prost(message, optional, tag="2")]
-    pub commit_stats: ::core::option::Option<commit_response::CommitStats>,
-}
-/// Nested message and enum types in `CommitResponse`.
-pub mod commit_response {
-    /// Additional statistics about a commit.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CommitStats {
-        /// The total number of mutations for the transaction. Knowing the
-        /// `mutation_count` value can help you maximize the number of mutations
-        /// in a transaction and minimize the number of API round trips. You can
-        /// also monitor this value to prevent transactions from exceeding the system
-        /// \[limit\](<https://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data>).
-        /// If the number of mutations exceeds the limit, the server returns
-        /// \[INVALID_ARGUMENT\](<https://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT>).
-        #[prost(int64, tag="1")]
-        pub mutation_count: i64,
-    }
-}
 /// Node information for nodes appearing in a \[QueryPlan.plan_nodes][google.spanner.v1.QueryPlan.plan_nodes\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PlanNode {
@@ -370,140 +254,33 @@ pub struct QueryPlan {
     #[prost(message, repeated, tag="1")]
     pub plan_nodes: ::prost::alloc::vec::Vec<PlanNode>,
 }
-/// `Type` indicates the type of a Cloud Spanner value, as might be stored in a
-/// table cell or returned from an SQL query.
+/// The response for \[Commit][google.spanner.v1.Spanner.Commit\].
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Type {
-    /// Required. The \[TypeCode][google.spanner.v1.TypeCode\] for this type.
-    #[prost(enumeration="TypeCode", tag="1")]
-    pub code: i32,
-    /// If \[code][google.spanner.v1.Type.code\] == \[ARRAY][google.spanner.v1.TypeCode.ARRAY\], then `array_element_type`
-    /// is the type of the array elements.
-    #[prost(message, optional, boxed, tag="2")]
-    pub array_element_type: ::core::option::Option<::prost::alloc::boxed::Box<Type>>,
-    /// If \[code][google.spanner.v1.Type.code\] == \[STRUCT][google.spanner.v1.TypeCode.STRUCT\], then `struct_type`
-    /// provides type information for the struct's fields.
-    #[prost(message, optional, tag="3")]
-    pub struct_type: ::core::option::Option<StructType>,
-    /// The \[TypeAnnotationCode][google.spanner.v1.TypeAnnotationCode\] that disambiguates SQL type that Spanner will
-    /// use to represent values of this type during query processing. This is
-    /// necessary for some type codes because a single \[TypeCode][google.spanner.v1.TypeCode\] can be mapped
-    /// to different SQL types depending on the SQL dialect. \[type_annotation][google.spanner.v1.Type.type_annotation\]
-    /// typically is not needed to process the content of a value (it doesn't
-    /// affect serialization) and clients can ignore it on the read path.
-    #[prost(enumeration="TypeAnnotationCode", tag="4")]
-    pub type_annotation: i32,
+pub struct CommitResponse {
+    /// The Cloud Spanner timestamp at which the transaction committed.
+    #[prost(message, optional, tag="1")]
+    pub commit_timestamp: ::core::option::Option<::prost_types::Timestamp>,
+    /// The statistics about this Commit. Not returned by default.
+    /// For more information, see
+    /// \[CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats\].
+    #[prost(message, optional, tag="2")]
+    pub commit_stats: ::core::option::Option<commit_response::CommitStats>,
 }
-/// `StructType` defines the fields of a \[STRUCT][google.spanner.v1.TypeCode.STRUCT\] type.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StructType {
-    /// The list of fields that make up this struct. Order is
-    /// significant, because values of this struct type are represented as
-    /// lists, where the order of field values matches the order of
-    /// fields in the \[StructType][google.spanner.v1.StructType\]. In turn, the order of fields
-    /// matches the order of columns in a read request, or the order of
-    /// fields in the `SELECT` clause of a query.
-    #[prost(message, repeated, tag="1")]
-    pub fields: ::prost::alloc::vec::Vec<struct_type::Field>,
-}
-/// Nested message and enum types in `StructType`.
-pub mod struct_type {
-    /// Message representing a single field of a struct.
+/// Nested message and enum types in `CommitResponse`.
+pub mod commit_response {
+    /// Additional statistics about a commit.
     #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Field {
-        /// The name of the field. For reads, this is the column name. For
-        /// SQL queries, it is the column alias (e.g., `"Word"` in the
-        /// query `"SELECT 'hello' AS Word"`), or the column name (e.g.,
-        /// `"ColName"` in the query `"SELECT ColName FROM Table"`). Some
-        /// columns might have an empty name (e.g., `"SELECT
-        /// UPPER(ColName)"`). Note that a query result can contain
-        /// multiple fields with the same name.
-        #[prost(string, tag="1")]
-        pub name: ::prost::alloc::string::String,
-        /// The type of the field.
-        #[prost(message, optional, tag="2")]
-        pub r#type: ::core::option::Option<super::Type>,
+    pub struct CommitStats {
+        /// The total number of mutations for the transaction. Knowing the
+        /// `mutation_count` value can help you maximize the number of mutations
+        /// in a transaction and minimize the number of API round trips. You can
+        /// also monitor this value to prevent transactions from exceeding the system
+        /// \[limit\](<https://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data>).
+        /// If the number of mutations exceeds the limit, the server returns
+        /// \[INVALID_ARGUMENT\](<https://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT>).
+        #[prost(int64, tag="1")]
+        pub mutation_count: i64,
     }
-}
-/// `TypeCode` is used as part of \[Type][google.spanner.v1.Type\] to
-/// indicate the type of a Cloud Spanner value.
-///
-/// Each legal value of a type can be encoded to or decoded from a JSON
-/// value, using the encodings described below. All Cloud Spanner values can
-/// be `null`, regardless of type; `null`s are always encoded as a JSON
-/// `null`.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TypeCode {
-    /// Not specified.
-    Unspecified = 0,
-    /// Encoded as JSON `true` or `false`.
-    Bool = 1,
-    /// Encoded as `string`, in decimal format.
-    Int64 = 2,
-    /// Encoded as `number`, or the strings `"NaN"`, `"Infinity"`, or
-    /// `"-Infinity"`.
-    Float64 = 3,
-    /// Encoded as `string` in RFC 3339 timestamp format. The time zone
-    /// must be present, and must be `"Z"`.
-    ///
-    /// If the schema has the column option
-    /// `allow_commit_timestamp=true`, the placeholder string
-    /// `"spanner.commit_timestamp()"` can be used to instruct the system
-    /// to insert the commit timestamp associated with the transaction
-    /// commit.
-    Timestamp = 4,
-    /// Encoded as `string` in RFC 3339 date format.
-    Date = 5,
-    /// Encoded as `string`.
-    String = 6,
-    /// Encoded as a base64-encoded `string`, as described in RFC 4648,
-    /// section 4.
-    Bytes = 7,
-    /// Encoded as `list`, where the list elements are represented
-    /// according to
-    /// \[array_element_type][google.spanner.v1.Type.array_element_type\].
-    Array = 8,
-    /// Encoded as `list`, where list element `i` is represented according
-    /// to \[struct_type.fields[i]][google.spanner.v1.StructType.fields\].
-    Struct = 9,
-    /// Encoded as `string`, in decimal format or scientific notation format.
-    /// <br>Decimal format:
-    /// <br>`\[+-]Digits[.[Digits]\]` or
-    /// <br>`\[+-][Digits\].Digits`
-    ///
-    /// Scientific notation:
-    /// <br>`\[+-]Digits[.[Digits]][ExponentIndicator[+-]Digits\]` or
-    /// <br>`\[+-][Digits].Digits[ExponentIndicator[+-]Digits\]`
-    /// <br>(ExponentIndicator is `"e"` or `"E"`)
-    Numeric = 10,
-    /// Encoded as a JSON-formatted `string` as described in RFC 7159. The
-    /// following rules are applied when parsing JSON input:
-    ///
-    /// - Whitespace characters are not preserved.
-    /// - If a JSON object has duplicate keys, only the first key is preserved.
-    /// - Members of a JSON object are not guaranteed to have their order
-    ///   preserved.
-    /// - JSON array elements will have their order preserved.
-    Json = 11,
-}
-/// `TypeAnnotationCode` is used as a part of \[Type][google.spanner.v1.Type\] to
-/// disambiguate SQL types that should be used for a given Cloud Spanner value.
-/// Disambiguation is needed because the same Cloud Spanner type can be mapped to
-/// different SQL types depending on SQL dialect. TypeAnnotationCode doesn't
-/// affect the way value is serialized.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TypeAnnotationCode {
-    /// Not specified.
-    Unspecified = 0,
-    /// PostgreSQL compatible NUMERIC type. This annotation needs to be applied to
-    /// \[Type][google.spanner.v1.Type\] instances having \[NUMERIC][google.spanner.v1.TypeCode.NUMERIC\]
-    /// type code to specify that values of this type should be treated as
-    /// PostgreSQL NUMERIC values. Currently this annotation is always needed for
-    /// \[NUMERIC][google.spanner.v1.TypeCode.NUMERIC\] when a client interacts with PostgreSQL-enabled
-    /// Spanner databases.
-    PgNumeric = 2,
 }
 /// Transactions:
 ///
@@ -945,6 +722,141 @@ pub mod transaction_selector {
         Begin(super::TransactionOptions),
     }
 }
+/// `Type` indicates the type of a Cloud Spanner value, as might be stored in a
+/// table cell or returned from an SQL query.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Type {
+    /// Required. The \[TypeCode][google.spanner.v1.TypeCode\] for this type.
+    #[prost(enumeration="TypeCode", tag="1")]
+    pub code: i32,
+    /// If \[code][google.spanner.v1.Type.code\] == \[ARRAY][google.spanner.v1.TypeCode.ARRAY\], then `array_element_type`
+    /// is the type of the array elements.
+    #[prost(message, optional, boxed, tag="2")]
+    pub array_element_type: ::core::option::Option<::prost::alloc::boxed::Box<Type>>,
+    /// If \[code][google.spanner.v1.Type.code\] == \[STRUCT][google.spanner.v1.TypeCode.STRUCT\], then `struct_type`
+    /// provides type information for the struct's fields.
+    #[prost(message, optional, tag="3")]
+    pub struct_type: ::core::option::Option<StructType>,
+    /// The \[TypeAnnotationCode][google.spanner.v1.TypeAnnotationCode\] that disambiguates SQL type that Spanner will
+    /// use to represent values of this type during query processing. This is
+    /// necessary for some type codes because a single \[TypeCode][google.spanner.v1.TypeCode\] can be mapped
+    /// to different SQL types depending on the SQL dialect. \[type_annotation][google.spanner.v1.Type.type_annotation\]
+    /// typically is not needed to process the content of a value (it doesn't
+    /// affect serialization) and clients can ignore it on the read path.
+    #[prost(enumeration="TypeAnnotationCode", tag="4")]
+    pub type_annotation: i32,
+}
+/// `StructType` defines the fields of a \[STRUCT][google.spanner.v1.TypeCode.STRUCT\] type.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StructType {
+    /// The list of fields that make up this struct. Order is
+    /// significant, because values of this struct type are represented as
+    /// lists, where the order of field values matches the order of
+    /// fields in the \[StructType][google.spanner.v1.StructType\]. In turn, the order of fields
+    /// matches the order of columns in a read request, or the order of
+    /// fields in the `SELECT` clause of a query.
+    #[prost(message, repeated, tag="1")]
+    pub fields: ::prost::alloc::vec::Vec<struct_type::Field>,
+}
+/// Nested message and enum types in `StructType`.
+pub mod struct_type {
+    /// Message representing a single field of a struct.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Field {
+        /// The name of the field. For reads, this is the column name. For
+        /// SQL queries, it is the column alias (e.g., `"Word"` in the
+        /// query `"SELECT 'hello' AS Word"`), or the column name (e.g.,
+        /// `"ColName"` in the query `"SELECT ColName FROM Table"`). Some
+        /// columns might have an empty name (e.g., `"SELECT
+        /// UPPER(ColName)"`). Note that a query result can contain
+        /// multiple fields with the same name.
+        #[prost(string, tag="1")]
+        pub name: ::prost::alloc::string::String,
+        /// The type of the field.
+        #[prost(message, optional, tag="2")]
+        pub r#type: ::core::option::Option<super::Type>,
+    }
+}
+/// `TypeCode` is used as part of \[Type][google.spanner.v1.Type\] to
+/// indicate the type of a Cloud Spanner value.
+///
+/// Each legal value of a type can be encoded to or decoded from a JSON
+/// value, using the encodings described below. All Cloud Spanner values can
+/// be `null`, regardless of type; `null`s are always encoded as a JSON
+/// `null`.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TypeCode {
+    /// Not specified.
+    Unspecified = 0,
+    /// Encoded as JSON `true` or `false`.
+    Bool = 1,
+    /// Encoded as `string`, in decimal format.
+    Int64 = 2,
+    /// Encoded as `number`, or the strings `"NaN"`, `"Infinity"`, or
+    /// `"-Infinity"`.
+    Float64 = 3,
+    /// Encoded as `string` in RFC 3339 timestamp format. The time zone
+    /// must be present, and must be `"Z"`.
+    ///
+    /// If the schema has the column option
+    /// `allow_commit_timestamp=true`, the placeholder string
+    /// `"spanner.commit_timestamp()"` can be used to instruct the system
+    /// to insert the commit timestamp associated with the transaction
+    /// commit.
+    Timestamp = 4,
+    /// Encoded as `string` in RFC 3339 date format.
+    Date = 5,
+    /// Encoded as `string`.
+    String = 6,
+    /// Encoded as a base64-encoded `string`, as described in RFC 4648,
+    /// section 4.
+    Bytes = 7,
+    /// Encoded as `list`, where the list elements are represented
+    /// according to
+    /// \[array_element_type][google.spanner.v1.Type.array_element_type\].
+    Array = 8,
+    /// Encoded as `list`, where list element `i` is represented according
+    /// to \[struct_type.fields[i]][google.spanner.v1.StructType.fields\].
+    Struct = 9,
+    /// Encoded as `string`, in decimal format or scientific notation format.
+    /// <br>Decimal format:
+    /// <br>`\[+-]Digits[.[Digits]\]` or
+    /// <br>`\[+-][Digits\].Digits`
+    ///
+    /// Scientific notation:
+    /// <br>`\[+-]Digits[.[Digits]][ExponentIndicator[+-]Digits\]` or
+    /// <br>`\[+-][Digits].Digits[ExponentIndicator[+-]Digits\]`
+    /// <br>(ExponentIndicator is `"e"` or `"E"`)
+    Numeric = 10,
+    /// Encoded as a JSON-formatted `string` as described in RFC 7159. The
+    /// following rules are applied when parsing JSON input:
+    ///
+    /// - Whitespace characters are not preserved.
+    /// - If a JSON object has duplicate keys, only the first key is preserved.
+    /// - Members of a JSON object are not guaranteed to have their order
+    ///   preserved.
+    /// - JSON array elements will have their order preserved.
+    Json = 11,
+}
+/// `TypeAnnotationCode` is used as a part of \[Type][google.spanner.v1.Type\] to
+/// disambiguate SQL types that should be used for a given Cloud Spanner value.
+/// Disambiguation is needed because the same Cloud Spanner type can be mapped to
+/// different SQL types depending on SQL dialect. TypeAnnotationCode doesn't
+/// affect the way value is serialized.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TypeAnnotationCode {
+    /// Not specified.
+    Unspecified = 0,
+    /// PostgreSQL compatible NUMERIC type. This annotation needs to be applied to
+    /// \[Type][google.spanner.v1.Type\] instances having \[NUMERIC][google.spanner.v1.TypeCode.NUMERIC\]
+    /// type code to specify that values of this type should be treated as
+    /// PostgreSQL NUMERIC values. Currently this annotation is always needed for
+    /// \[NUMERIC][google.spanner.v1.TypeCode.NUMERIC\] when a client interacts with PostgreSQL-enabled
+    /// Spanner databases.
+    PgNumeric = 2,
+}
 /// Results from \[Read][google.spanner.v1.Spanner.Read\] or
 /// \[ExecuteSql][google.spanner.v1.Spanner.ExecuteSql\].
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1127,6 +1039,94 @@ pub mod result_set_stats {
         /// returns a lower bound of the rows modified.
         #[prost(int64, tag="4")]
         RowCountLowerBound(i64),
+    }
+}
+/// A modification to one or more Cloud Spanner rows.  Mutations can be
+/// applied to a Cloud Spanner database by sending them in a
+/// \[Commit][google.spanner.v1.Spanner.Commit\] call.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Mutation {
+    /// Required. The operation to perform.
+    #[prost(oneof="mutation::Operation", tags="1, 2, 3, 4, 5")]
+    pub operation: ::core::option::Option<mutation::Operation>,
+}
+/// Nested message and enum types in `Mutation`.
+pub mod mutation {
+    /// Arguments to \[insert][google.spanner.v1.Mutation.insert\], \[update][google.spanner.v1.Mutation.update\], \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], and
+    /// \[replace][google.spanner.v1.Mutation.replace\] operations.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Write {
+        /// Required. The table whose rows will be written.
+        #[prost(string, tag="1")]
+        pub table: ::prost::alloc::string::String,
+        /// The names of the columns in \[table][google.spanner.v1.Mutation.Write.table\] to be written.
+        ///
+        /// The list of columns must contain enough columns to allow
+        /// Cloud Spanner to derive values for all primary key columns in the
+        /// row(s) to be modified.
+        #[prost(string, repeated, tag="2")]
+        pub columns: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// The values to be written. `values` can contain more than one
+        /// list of values. If it does, then multiple rows are written, one
+        /// for each entry in `values`. Each list in `values` must have
+        /// exactly as many entries as there are entries in \[columns][google.spanner.v1.Mutation.Write.columns\]
+        /// above. Sending multiple lists is equivalent to sending multiple
+        /// `Mutation`s, each containing one `values` entry and repeating
+        /// \[table][google.spanner.v1.Mutation.Write.table\] and \[columns][google.spanner.v1.Mutation.Write.columns\]. Individual values in each list are
+        /// encoded as described \[here][google.spanner.v1.TypeCode\].
+        #[prost(message, repeated, tag="3")]
+        pub values: ::prost::alloc::vec::Vec<::prost_types::ListValue>,
+    }
+    /// Arguments to \[delete][google.spanner.v1.Mutation.delete\] operations.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Delete {
+        /// Required. The table whose rows will be deleted.
+        #[prost(string, tag="1")]
+        pub table: ::prost::alloc::string::String,
+        /// Required. The primary keys of the rows within \[table][google.spanner.v1.Mutation.Delete.table\] to delete.  The
+        /// primary keys must be specified in the order in which they appear in the
+        /// `PRIMARY KEY()` clause of the table's equivalent DDL statement (the DDL
+        /// statement used to create the table).
+        /// Delete is idempotent. The transaction will succeed even if some or all
+        /// rows do not exist.
+        #[prost(message, optional, tag="2")]
+        pub key_set: ::core::option::Option<super::KeySet>,
+    }
+    /// Required. The operation to perform.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Operation {
+        /// Insert new rows in a table. If any of the rows already exist,
+        /// the write or transaction fails with error `ALREADY_EXISTS`.
+        #[prost(message, tag="1")]
+        Insert(Write),
+        /// Update existing rows in a table. If any of the rows does not
+        /// already exist, the transaction fails with error `NOT_FOUND`.
+        #[prost(message, tag="2")]
+        Update(Write),
+        /// Like \[insert][google.spanner.v1.Mutation.insert\], except that if the row already exists, then
+        /// its column values are overwritten with the ones provided. Any
+        /// column values not explicitly written are preserved.
+        ///
+        /// When using \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], just as when using \[insert][google.spanner.v1.Mutation.insert\], all `NOT
+        /// NULL` columns in the table must be given a value. This holds true
+        /// even when the row already exists and will therefore actually be updated.
+        #[prost(message, tag="3")]
+        InsertOrUpdate(Write),
+        /// Like \[insert][google.spanner.v1.Mutation.insert\], except that if the row already exists, it is
+        /// deleted, and the column values provided are inserted
+        /// instead. Unlike \[insert_or_update][google.spanner.v1.Mutation.insert_or_update\], this means any values not
+        /// explicitly written become `NULL`.
+        ///
+        /// In an interleaved table, if you create the child table with the
+        /// `ON DELETE CASCADE` annotation, then replacing a parent row
+        /// also deletes the child rows. Otherwise, you must delete the
+        /// child rows before you replace the parent row.
+        #[prost(message, tag="4")]
+        Replace(Write),
+        /// Delete rows from a table. Succeeds whether or not the named
+        /// rows were present.
+        #[prost(message, tag="5")]
+        Delete(Delete),
     }
 }
 /// The request for \[CreateSession][google.spanner.v1.Spanner.CreateSession\].

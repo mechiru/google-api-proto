@@ -1,294 +1,3 @@
-/// A vertex represents a 2D point in the image.
-/// NOTE: the vertex coordinates are in the same scale as the original image.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Vertex {
-    /// X coordinate.
-    #[prost(int32, tag="1")]
-    pub x: i32,
-    /// Y coordinate.
-    #[prost(int32, tag="2")]
-    pub y: i32,
-}
-/// A vertex represents a 2D point in the image.
-/// NOTE: the normalized vertex coordinates are relative to the original image
-/// and range from 0 to 1.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NormalizedVertex {
-    /// X coordinate.
-    #[prost(float, tag="1")]
-    pub x: f32,
-    /// Y coordinate.
-    #[prost(float, tag="2")]
-    pub y: f32,
-}
-/// A bounding polygon for the detected image annotation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BoundingPoly {
-    /// The bounding polygon vertices.
-    #[prost(message, repeated, tag="1")]
-    pub vertices: ::prost::alloc::vec::Vec<Vertex>,
-    /// The bounding polygon normalized vertices.
-    #[prost(message, repeated, tag="2")]
-    pub normalized_vertices: ::prost::alloc::vec::Vec<NormalizedVertex>,
-}
-/// A 3D position in the image, used primarily for Face detection landmarks.
-/// A valid Position must have both x and y coordinates.
-/// The position coordinates are in the same scale as the original image.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Position {
-    /// X coordinate.
-    #[prost(float, tag="1")]
-    pub x: f32,
-    /// Y coordinate.
-    #[prost(float, tag="2")]
-    pub y: f32,
-    /// Z coordinate (or depth).
-    #[prost(float, tag="3")]
-    pub z: f32,
-}
-/// TextAnnotation contains a structured representation of OCR extracted text.
-/// The hierarchy of an OCR extracted text structure is like this:
-///     TextAnnotation -> Page -> Block -> Paragraph -> Word -> Symbol
-/// Each structural component, starting from Page, may further have their own
-/// properties. Properties describe detected languages, breaks etc.. Please refer
-/// to the
-/// \[TextAnnotation.TextProperty][google.cloud.vision.v1p4beta1.TextAnnotation.TextProperty\]
-/// message definition below for more detail.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextAnnotation {
-    /// List of pages detected by OCR.
-    #[prost(message, repeated, tag="1")]
-    pub pages: ::prost::alloc::vec::Vec<Page>,
-    /// UTF-8 text detected on the pages.
-    #[prost(string, tag="2")]
-    pub text: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `TextAnnotation`.
-pub mod text_annotation {
-    /// Detected language for a structural component.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct DetectedLanguage {
-        /// The BCP-47 language code, such as "en-US" or "sr-Latn". For more
-        /// information, see
-        /// <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.>
-        #[prost(string, tag="1")]
-        pub language_code: ::prost::alloc::string::String,
-        /// Confidence of detected language. Range [0, 1].
-        #[prost(float, tag="2")]
-        pub confidence: f32,
-    }
-    /// Detected start or end of a structural component.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct DetectedBreak {
-        /// Detected break type.
-        #[prost(enumeration="detected_break::BreakType", tag="1")]
-        pub r#type: i32,
-        /// True if break prepends the element.
-        #[prost(bool, tag="2")]
-        pub is_prefix: bool,
-    }
-    /// Nested message and enum types in `DetectedBreak`.
-    pub mod detected_break {
-        /// Enum to denote the type of break found. New line, space etc.
-        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-        #[repr(i32)]
-        pub enum BreakType {
-            /// Unknown break label type.
-            Unknown = 0,
-            /// Regular space.
-            Space = 1,
-            /// Sure space (very wide).
-            SureSpace = 2,
-            /// Line-wrapping break.
-            EolSureSpace = 3,
-            /// End-line hyphen that is not present in text; does not co-occur with
-            /// `SPACE`, `LEADER_SPACE`, or `LINE_BREAK`.
-            Hyphen = 4,
-            /// Line break that ends a paragraph.
-            LineBreak = 5,
-        }
-    }
-    /// Additional information detected on the structural component.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct TextProperty {
-        /// A list of detected languages together with confidence.
-        #[prost(message, repeated, tag="1")]
-        pub detected_languages: ::prost::alloc::vec::Vec<DetectedLanguage>,
-        /// Detected start or end of a text segment.
-        #[prost(message, optional, tag="2")]
-        pub detected_break: ::core::option::Option<DetectedBreak>,
-    }
-}
-/// Detected page from OCR.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Page {
-    /// Additional information detected on the page.
-    #[prost(message, optional, tag="1")]
-    pub property: ::core::option::Option<text_annotation::TextProperty>,
-    /// Page width. For PDFs the unit is points. For images (including
-    /// TIFFs) the unit is pixels.
-    #[prost(int32, tag="2")]
-    pub width: i32,
-    /// Page height. For PDFs the unit is points. For images (including
-    /// TIFFs) the unit is pixels.
-    #[prost(int32, tag="3")]
-    pub height: i32,
-    /// List of blocks of text, images etc on this page.
-    #[prost(message, repeated, tag="4")]
-    pub blocks: ::prost::alloc::vec::Vec<Block>,
-    /// Confidence of the OCR results on the page. Range [0, 1].
-    #[prost(float, tag="5")]
-    pub confidence: f32,
-}
-/// Logical element on the page.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Block {
-    /// Additional information detected for the block.
-    #[prost(message, optional, tag="1")]
-    pub property: ::core::option::Option<text_annotation::TextProperty>,
-    /// The bounding box for the block.
-    /// The vertices are in the order of top-left, top-right, bottom-right,
-    /// bottom-left. When a rotation of the bounding box is detected the rotation
-    /// is represented as around the top-left corner as defined when the text is
-    /// read in the 'natural' orientation.
-    /// For example:
-    ///
-    /// * when the text is horizontal it might look like:
-    ///
-    ///         0----1
-    ///         |    |
-    ///         3----2
-    ///
-    /// * when it's rotated 180 degrees around the top-left corner it becomes:
-    ///
-    ///         2----3
-    ///         |    |
-    ///         1----0
-    ///
-    ///   and the vertex order will still be (0, 1, 2, 3).
-    #[prost(message, optional, tag="2")]
-    pub bounding_box: ::core::option::Option<BoundingPoly>,
-    /// List of paragraphs in this block (if this blocks is of type text).
-    #[prost(message, repeated, tag="3")]
-    pub paragraphs: ::prost::alloc::vec::Vec<Paragraph>,
-    /// Detected block type (text, image etc) for this block.
-    #[prost(enumeration="block::BlockType", tag="4")]
-    pub block_type: i32,
-    /// Confidence of the OCR results on the block. Range [0, 1].
-    #[prost(float, tag="5")]
-    pub confidence: f32,
-}
-/// Nested message and enum types in `Block`.
-pub mod block {
-    /// Type of a block (text, image etc) as identified by OCR.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum BlockType {
-        /// Unknown block type.
-        Unknown = 0,
-        /// Regular text block.
-        Text = 1,
-        /// Table block.
-        Table = 2,
-        /// Image block.
-        Picture = 3,
-        /// Horizontal/vertical line box.
-        Ruler = 4,
-        /// Barcode block.
-        Barcode = 5,
-    }
-}
-/// Structural unit of text representing a number of words in certain order.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Paragraph {
-    /// Additional information detected for the paragraph.
-    #[prost(message, optional, tag="1")]
-    pub property: ::core::option::Option<text_annotation::TextProperty>,
-    /// The bounding box for the paragraph.
-    /// The vertices are in the order of top-left, top-right, bottom-right,
-    /// bottom-left. When a rotation of the bounding box is detected the rotation
-    /// is represented as around the top-left corner as defined when the text is
-    /// read in the 'natural' orientation.
-    /// For example:
-    ///   * when the text is horizontal it might look like:
-    ///      0----1
-    ///      |    |
-    ///      3----2
-    ///   * when it's rotated 180 degrees around the top-left corner it becomes:
-    ///      2----3
-    ///      |    |
-    ///      1----0
-    ///   and the vertex order will still be (0, 1, 2, 3).
-    #[prost(message, optional, tag="2")]
-    pub bounding_box: ::core::option::Option<BoundingPoly>,
-    /// List of all words in this paragraph.
-    #[prost(message, repeated, tag="3")]
-    pub words: ::prost::alloc::vec::Vec<Word>,
-    /// Confidence of the OCR results for the paragraph. Range [0, 1].
-    #[prost(float, tag="4")]
-    pub confidence: f32,
-}
-/// A word representation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Word {
-    /// Additional information detected for the word.
-    #[prost(message, optional, tag="1")]
-    pub property: ::core::option::Option<text_annotation::TextProperty>,
-    /// The bounding box for the word.
-    /// The vertices are in the order of top-left, top-right, bottom-right,
-    /// bottom-left. When a rotation of the bounding box is detected the rotation
-    /// is represented as around the top-left corner as defined when the text is
-    /// read in the 'natural' orientation.
-    /// For example:
-    ///   * when the text is horizontal it might look like:
-    ///      0----1
-    ///      |    |
-    ///      3----2
-    ///   * when it's rotated 180 degrees around the top-left corner it becomes:
-    ///      2----3
-    ///      |    |
-    ///      1----0
-    ///   and the vertex order will still be (0, 1, 2, 3).
-    #[prost(message, optional, tag="2")]
-    pub bounding_box: ::core::option::Option<BoundingPoly>,
-    /// List of symbols in the word.
-    /// The order of the symbols follows the natural reading order.
-    #[prost(message, repeated, tag="3")]
-    pub symbols: ::prost::alloc::vec::Vec<Symbol>,
-    /// Confidence of the OCR results for the word. Range [0, 1].
-    #[prost(float, tag="4")]
-    pub confidence: f32,
-}
-/// A single symbol representation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Symbol {
-    /// Additional information detected for the symbol.
-    #[prost(message, optional, tag="1")]
-    pub property: ::core::option::Option<text_annotation::TextProperty>,
-    /// The bounding box for the symbol.
-    /// The vertices are in the order of top-left, top-right, bottom-right,
-    /// bottom-left. When a rotation of the bounding box is detected the rotation
-    /// is represented as around the top-left corner as defined when the text is
-    /// read in the 'natural' orientation.
-    /// For example:
-    ///   * when the text is horizontal it might look like:
-    ///      0----1
-    ///      |    |
-    ///      3----2
-    ///   * when it's rotated 180 degrees around the top-left corner it becomes:
-    ///      2----3
-    ///      |    |
-    ///      1----0
-    ///   and the vertex order will still be (0, 1, 2, 3).
-    #[prost(message, optional, tag="2")]
-    pub bounding_box: ::core::option::Option<BoundingPoly>,
-    /// The actual UTF-8 representation of the symbol.
-    #[prost(string, tag="3")]
-    pub text: ::prost::alloc::string::String,
-    /// Confidence of the OCR results for the symbol. Range [0, 1].
-    #[prost(float, tag="4")]
-    pub confidence: f32,
-}
 /// Relevant information for the image from the Internet.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct WebDetection {
@@ -376,6 +85,90 @@ pub mod web_detection {
         #[prost(string, tag="2")]
         pub language_code: ::prost::alloc::string::String,
     }
+}
+/// A vertex represents a 2D point in the image.
+/// NOTE: the vertex coordinates are in the same scale as the original image.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Vertex {
+    /// X coordinate.
+    #[prost(int32, tag="1")]
+    pub x: i32,
+    /// Y coordinate.
+    #[prost(int32, tag="2")]
+    pub y: i32,
+}
+/// A vertex represents a 2D point in the image.
+/// NOTE: the normalized vertex coordinates are relative to the original image
+/// and range from 0 to 1.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NormalizedVertex {
+    /// X coordinate.
+    #[prost(float, tag="1")]
+    pub x: f32,
+    /// Y coordinate.
+    #[prost(float, tag="2")]
+    pub y: f32,
+}
+/// A bounding polygon for the detected image annotation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BoundingPoly {
+    /// The bounding polygon vertices.
+    #[prost(message, repeated, tag="1")]
+    pub vertices: ::prost::alloc::vec::Vec<Vertex>,
+    /// The bounding polygon normalized vertices.
+    #[prost(message, repeated, tag="2")]
+    pub normalized_vertices: ::prost::alloc::vec::Vec<NormalizedVertex>,
+}
+/// A 3D position in the image, used primarily for Face detection landmarks.
+/// A valid Position must have both x and y coordinates.
+/// The position coordinates are in the same scale as the original image.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Position {
+    /// X coordinate.
+    #[prost(float, tag="1")]
+    pub x: f32,
+    /// Y coordinate.
+    #[prost(float, tag="2")]
+    pub y: f32,
+    /// Z coordinate (or depth).
+    #[prost(float, tag="3")]
+    pub z: f32,
+}
+/// Parameters for a celebrity recognition request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FaceRecognitionParams {
+    /// The resource names for one or more
+    /// \[CelebritySet][google.cloud.vision.v1p4beta1.CelebritySet\]s. A celebrity
+    /// set is preloaded and can be specified as "builtin/default". If this is
+    /// specified, the algorithm will try to match the faces detected in the input
+    /// image to the Celebrities in the CelebritySets.
+    #[prost(string, repeated, tag="1")]
+    pub celebrity_set: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// A Celebrity is a group of Faces with an identity.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Celebrity {
+    /// The resource name of the preloaded Celebrity. Has the format
+    /// `builtin/{mid}`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The Celebrity's display name.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The Celebrity's description.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+}
+/// Information about a face's identity.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FaceRecognitionResult {
+    /// The \[Celebrity][google.cloud.vision.v1p4beta1.Celebrity\] that this face was
+    /// matched to.
+    #[prost(message, optional, tag="1")]
+    pub celebrity: ::core::option::Option<Celebrity>,
+    /// Recognition confidence. Range [0, 1].
+    #[prost(float, tag="2")]
+    pub confidence: f32,
 }
 /// A Product contains ReferenceImages.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1687,40 +1480,247 @@ pub mod product_search_results {
         pub object_annotations: ::prost::alloc::vec::Vec<ObjectAnnotation>,
     }
 }
-/// Parameters for a celebrity recognition request.
+/// TextAnnotation contains a structured representation of OCR extracted text.
+/// The hierarchy of an OCR extracted text structure is like this:
+///     TextAnnotation -> Page -> Block -> Paragraph -> Word -> Symbol
+/// Each structural component, starting from Page, may further have their own
+/// properties. Properties describe detected languages, breaks etc.. Please refer
+/// to the
+/// \[TextAnnotation.TextProperty][google.cloud.vision.v1p4beta1.TextAnnotation.TextProperty\]
+/// message definition below for more detail.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FaceRecognitionParams {
-    /// The resource names for one or more
-    /// \[CelebritySet][google.cloud.vision.v1p4beta1.CelebritySet\]s. A celebrity
-    /// set is preloaded and can be specified as "builtin/default". If this is
-    /// specified, the algorithm will try to match the faces detected in the input
-    /// image to the Celebrities in the CelebritySets.
-    #[prost(string, repeated, tag="1")]
-    pub celebrity_set: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// A Celebrity is a group of Faces with an identity.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Celebrity {
-    /// The resource name of the preloaded Celebrity. Has the format
-    /// `builtin/{mid}`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The Celebrity's display name.
+pub struct TextAnnotation {
+    /// List of pages detected by OCR.
+    #[prost(message, repeated, tag="1")]
+    pub pages: ::prost::alloc::vec::Vec<Page>,
+    /// UTF-8 text detected on the pages.
     #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The Celebrity's description.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
+    pub text: ::prost::alloc::string::String,
 }
-/// Information about a face's identity.
+/// Nested message and enum types in `TextAnnotation`.
+pub mod text_annotation {
+    /// Detected language for a structural component.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct DetectedLanguage {
+        /// The BCP-47 language code, such as "en-US" or "sr-Latn". For more
+        /// information, see
+        /// <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.>
+        #[prost(string, tag="1")]
+        pub language_code: ::prost::alloc::string::String,
+        /// Confidence of detected language. Range [0, 1].
+        #[prost(float, tag="2")]
+        pub confidence: f32,
+    }
+    /// Detected start or end of a structural component.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct DetectedBreak {
+        /// Detected break type.
+        #[prost(enumeration="detected_break::BreakType", tag="1")]
+        pub r#type: i32,
+        /// True if break prepends the element.
+        #[prost(bool, tag="2")]
+        pub is_prefix: bool,
+    }
+    /// Nested message and enum types in `DetectedBreak`.
+    pub mod detected_break {
+        /// Enum to denote the type of break found. New line, space etc.
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+        #[repr(i32)]
+        pub enum BreakType {
+            /// Unknown break label type.
+            Unknown = 0,
+            /// Regular space.
+            Space = 1,
+            /// Sure space (very wide).
+            SureSpace = 2,
+            /// Line-wrapping break.
+            EolSureSpace = 3,
+            /// End-line hyphen that is not present in text; does not co-occur with
+            /// `SPACE`, `LEADER_SPACE`, or `LINE_BREAK`.
+            Hyphen = 4,
+            /// Line break that ends a paragraph.
+            LineBreak = 5,
+        }
+    }
+    /// Additional information detected on the structural component.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct TextProperty {
+        /// A list of detected languages together with confidence.
+        #[prost(message, repeated, tag="1")]
+        pub detected_languages: ::prost::alloc::vec::Vec<DetectedLanguage>,
+        /// Detected start or end of a text segment.
+        #[prost(message, optional, tag="2")]
+        pub detected_break: ::core::option::Option<DetectedBreak>,
+    }
+}
+/// Detected page from OCR.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FaceRecognitionResult {
-    /// The \[Celebrity][google.cloud.vision.v1p4beta1.Celebrity\] that this face was
-    /// matched to.
+pub struct Page {
+    /// Additional information detected on the page.
     #[prost(message, optional, tag="1")]
-    pub celebrity: ::core::option::Option<Celebrity>,
-    /// Recognition confidence. Range [0, 1].
-    #[prost(float, tag="2")]
+    pub property: ::core::option::Option<text_annotation::TextProperty>,
+    /// Page width. For PDFs the unit is points. For images (including
+    /// TIFFs) the unit is pixels.
+    #[prost(int32, tag="2")]
+    pub width: i32,
+    /// Page height. For PDFs the unit is points. For images (including
+    /// TIFFs) the unit is pixels.
+    #[prost(int32, tag="3")]
+    pub height: i32,
+    /// List of blocks of text, images etc on this page.
+    #[prost(message, repeated, tag="4")]
+    pub blocks: ::prost::alloc::vec::Vec<Block>,
+    /// Confidence of the OCR results on the page. Range [0, 1].
+    #[prost(float, tag="5")]
+    pub confidence: f32,
+}
+/// Logical element on the page.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Block {
+    /// Additional information detected for the block.
+    #[prost(message, optional, tag="1")]
+    pub property: ::core::option::Option<text_annotation::TextProperty>,
+    /// The bounding box for the block.
+    /// The vertices are in the order of top-left, top-right, bottom-right,
+    /// bottom-left. When a rotation of the bounding box is detected the rotation
+    /// is represented as around the top-left corner as defined when the text is
+    /// read in the 'natural' orientation.
+    /// For example:
+    ///
+    /// * when the text is horizontal it might look like:
+    ///
+    ///         0----1
+    ///         |    |
+    ///         3----2
+    ///
+    /// * when it's rotated 180 degrees around the top-left corner it becomes:
+    ///
+    ///         2----3
+    ///         |    |
+    ///         1----0
+    ///
+    ///   and the vertex order will still be (0, 1, 2, 3).
+    #[prost(message, optional, tag="2")]
+    pub bounding_box: ::core::option::Option<BoundingPoly>,
+    /// List of paragraphs in this block (if this blocks is of type text).
+    #[prost(message, repeated, tag="3")]
+    pub paragraphs: ::prost::alloc::vec::Vec<Paragraph>,
+    /// Detected block type (text, image etc) for this block.
+    #[prost(enumeration="block::BlockType", tag="4")]
+    pub block_type: i32,
+    /// Confidence of the OCR results on the block. Range [0, 1].
+    #[prost(float, tag="5")]
+    pub confidence: f32,
+}
+/// Nested message and enum types in `Block`.
+pub mod block {
+    /// Type of a block (text, image etc) as identified by OCR.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum BlockType {
+        /// Unknown block type.
+        Unknown = 0,
+        /// Regular text block.
+        Text = 1,
+        /// Table block.
+        Table = 2,
+        /// Image block.
+        Picture = 3,
+        /// Horizontal/vertical line box.
+        Ruler = 4,
+        /// Barcode block.
+        Barcode = 5,
+    }
+}
+/// Structural unit of text representing a number of words in certain order.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Paragraph {
+    /// Additional information detected for the paragraph.
+    #[prost(message, optional, tag="1")]
+    pub property: ::core::option::Option<text_annotation::TextProperty>,
+    /// The bounding box for the paragraph.
+    /// The vertices are in the order of top-left, top-right, bottom-right,
+    /// bottom-left. When a rotation of the bounding box is detected the rotation
+    /// is represented as around the top-left corner as defined when the text is
+    /// read in the 'natural' orientation.
+    /// For example:
+    ///   * when the text is horizontal it might look like:
+    ///      0----1
+    ///      |    |
+    ///      3----2
+    ///   * when it's rotated 180 degrees around the top-left corner it becomes:
+    ///      2----3
+    ///      |    |
+    ///      1----0
+    ///   and the vertex order will still be (0, 1, 2, 3).
+    #[prost(message, optional, tag="2")]
+    pub bounding_box: ::core::option::Option<BoundingPoly>,
+    /// List of all words in this paragraph.
+    #[prost(message, repeated, tag="3")]
+    pub words: ::prost::alloc::vec::Vec<Word>,
+    /// Confidence of the OCR results for the paragraph. Range [0, 1].
+    #[prost(float, tag="4")]
+    pub confidence: f32,
+}
+/// A word representation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Word {
+    /// Additional information detected for the word.
+    #[prost(message, optional, tag="1")]
+    pub property: ::core::option::Option<text_annotation::TextProperty>,
+    /// The bounding box for the word.
+    /// The vertices are in the order of top-left, top-right, bottom-right,
+    /// bottom-left. When a rotation of the bounding box is detected the rotation
+    /// is represented as around the top-left corner as defined when the text is
+    /// read in the 'natural' orientation.
+    /// For example:
+    ///   * when the text is horizontal it might look like:
+    ///      0----1
+    ///      |    |
+    ///      3----2
+    ///   * when it's rotated 180 degrees around the top-left corner it becomes:
+    ///      2----3
+    ///      |    |
+    ///      1----0
+    ///   and the vertex order will still be (0, 1, 2, 3).
+    #[prost(message, optional, tag="2")]
+    pub bounding_box: ::core::option::Option<BoundingPoly>,
+    /// List of symbols in the word.
+    /// The order of the symbols follows the natural reading order.
+    #[prost(message, repeated, tag="3")]
+    pub symbols: ::prost::alloc::vec::Vec<Symbol>,
+    /// Confidence of the OCR results for the word. Range [0, 1].
+    #[prost(float, tag="4")]
+    pub confidence: f32,
+}
+/// A single symbol representation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Symbol {
+    /// Additional information detected for the symbol.
+    #[prost(message, optional, tag="1")]
+    pub property: ::core::option::Option<text_annotation::TextProperty>,
+    /// The bounding box for the symbol.
+    /// The vertices are in the order of top-left, top-right, bottom-right,
+    /// bottom-left. When a rotation of the bounding box is detected the rotation
+    /// is represented as around the top-left corner as defined when the text is
+    /// read in the 'natural' orientation.
+    /// For example:
+    ///   * when the text is horizontal it might look like:
+    ///      0----1
+    ///      |    |
+    ///      3----2
+    ///   * when it's rotated 180 degrees around the top-left corner it becomes:
+    ///      2----3
+    ///      |    |
+    ///      1----0
+    ///   and the vertex order will still be (0, 1, 2, 3).
+    #[prost(message, optional, tag="2")]
+    pub bounding_box: ::core::option::Option<BoundingPoly>,
+    /// The actual UTF-8 representation of the symbol.
+    #[prost(string, tag="3")]
+    pub text: ::prost::alloc::string::String,
+    /// Confidence of the OCR results for the symbol. Range [0, 1].
+    #[prost(float, tag="4")]
     pub confidence: f32,
 }
 /// The type of Google Cloud Vision API detection to perform, and the maximum

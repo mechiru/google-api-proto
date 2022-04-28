@@ -404,6 +404,102 @@ pub struct LogEntrySourceLocation {
     #[prost(string, tag="3")]
     pub function: ::prost::alloc::string::String,
 }
+/// Represents information regarding an operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Operation {
+    /// Identity of the operation. This must be unique within the scope of the
+    /// service that generated the operation. If the service calls
+    /// Check() and Report() on the same operation, the two calls should carry
+    /// the same id.
+    ///
+    /// UUID version 4 is recommended, though not required.
+    /// In scenarios where an operation is computed from existing information
+    /// and an idempotent id is desirable for deduplication purpose, UUID version 5
+    /// is recommended. See RFC 4122 for details.
+    #[prost(string, tag="1")]
+    pub operation_id: ::prost::alloc::string::String,
+    /// Fully qualified name of the operation. Reserved for future use.
+    #[prost(string, tag="2")]
+    pub operation_name: ::prost::alloc::string::String,
+    /// Identity of the consumer who is using the service.
+    /// This field should be filled in for the operations initiated by a
+    /// consumer, but not for service-initiated operations that are
+    /// not related to a specific consumer.
+    ///
+    /// - This can be in one of the following formats:
+    ///     - project:PROJECT_ID,
+    ///     - project`_`number:PROJECT_NUMBER,
+    ///     - projects/PROJECT_ID or PROJECT_NUMBER,
+    ///     - folders/FOLDER_NUMBER,
+    ///     - organizations/ORGANIZATION_NUMBER,
+    ///     - api`_`key:API_KEY.
+    #[prost(string, tag="3")]
+    pub consumer_id: ::prost::alloc::string::String,
+    /// Required. Start time of the operation.
+    #[prost(message, optional, tag="4")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// End time of the operation.
+    /// Required when the operation is used in
+    /// \[ServiceController.Report][google.api.servicecontrol.v1.ServiceController.Report\],
+    /// but optional when the operation is used in
+    /// \[ServiceController.Check][google.api.servicecontrol.v1.ServiceController.Check\].
+    #[prost(message, optional, tag="5")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Labels describing the operation. Only the following labels are allowed:
+    ///
+    /// - Labels describing monitored resources as defined in
+    ///   the service configuration.
+    /// - Default labels of metric values. When specified, labels defined in the
+    ///   metric value override these default.
+    /// - The following labels defined by Google Cloud Platform:
+    ///     - `cloud.googleapis.com/location` describing the location where the
+    ///        operation happened,
+    ///     - `servicecontrol.googleapis.com/user_agent` describing the user agent
+    ///        of the API request,
+    ///     - `servicecontrol.googleapis.com/service_agent` describing the service
+    ///        used to handle the API request (e.g. ESP),
+    ///     - `servicecontrol.googleapis.com/platform` describing the platform
+    ///        where the API is served, such as App Engine, Compute Engine, or
+    ///        Kubernetes Engine.
+    #[prost(btree_map="string, string", tag="6")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Represents information about this operation. Each MetricValueSet
+    /// corresponds to a metric defined in the service configuration.
+    /// The data type used in the MetricValueSet must agree with
+    /// the data type specified in the metric definition.
+    ///
+    /// Within a single operation, it is not allowed to have more than one
+    /// MetricValue instances that have the same metric names and identical
+    /// label value combinations. If a request has such duplicated MetricValue
+    /// instances, the entire request is rejected with
+    /// an invalid argument error.
+    #[prost(message, repeated, tag="7")]
+    pub metric_value_sets: ::prost::alloc::vec::Vec<MetricValueSet>,
+    /// Represents information to be logged.
+    #[prost(message, repeated, tag="8")]
+    pub log_entries: ::prost::alloc::vec::Vec<LogEntry>,
+    /// DO NOT USE. This is an experimental field.
+    #[prost(enumeration="operation::Importance", tag="11")]
+    pub importance: i32,
+    /// Unimplemented.
+    #[prost(message, repeated, tag="16")]
+    pub extensions: ::prost::alloc::vec::Vec<::prost_types::Any>,
+}
+/// Nested message and enum types in `Operation`.
+pub mod operation {
+    /// Defines the importance of the data contained in the operation.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Importance {
+        /// Allows data caching, batching, and aggregation. It provides
+        /// higher performance with higher data loss risk.
+        Low = 0,
+        /// Disables data aggregation to minimize data loss. It is for operations
+        /// that contains significant monetary value or audit trail. This feature
+        /// only applies to the client libraries.
+        High = 1,
+    }
+}
 /// Request message for the AllocateQuota method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AllocateQuotaRequest {
@@ -758,102 +854,6 @@ pub mod check_error {
         BillingStatusUnavailable = 302,
         /// Cloud Resource Manager backend server is unavailable.
         CloudResourceManagerBackendUnavailable = 305,
-    }
-}
-/// Represents information regarding an operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Operation {
-    /// Identity of the operation. This must be unique within the scope of the
-    /// service that generated the operation. If the service calls
-    /// Check() and Report() on the same operation, the two calls should carry
-    /// the same id.
-    ///
-    /// UUID version 4 is recommended, though not required.
-    /// In scenarios where an operation is computed from existing information
-    /// and an idempotent id is desirable for deduplication purpose, UUID version 5
-    /// is recommended. See RFC 4122 for details.
-    #[prost(string, tag="1")]
-    pub operation_id: ::prost::alloc::string::String,
-    /// Fully qualified name of the operation. Reserved for future use.
-    #[prost(string, tag="2")]
-    pub operation_name: ::prost::alloc::string::String,
-    /// Identity of the consumer who is using the service.
-    /// This field should be filled in for the operations initiated by a
-    /// consumer, but not for service-initiated operations that are
-    /// not related to a specific consumer.
-    ///
-    /// - This can be in one of the following formats:
-    ///     - project:PROJECT_ID,
-    ///     - project`_`number:PROJECT_NUMBER,
-    ///     - projects/PROJECT_ID or PROJECT_NUMBER,
-    ///     - folders/FOLDER_NUMBER,
-    ///     - organizations/ORGANIZATION_NUMBER,
-    ///     - api`_`key:API_KEY.
-    #[prost(string, tag="3")]
-    pub consumer_id: ::prost::alloc::string::String,
-    /// Required. Start time of the operation.
-    #[prost(message, optional, tag="4")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// End time of the operation.
-    /// Required when the operation is used in
-    /// \[ServiceController.Report][google.api.servicecontrol.v1.ServiceController.Report\],
-    /// but optional when the operation is used in
-    /// \[ServiceController.Check][google.api.servicecontrol.v1.ServiceController.Check\].
-    #[prost(message, optional, tag="5")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Labels describing the operation. Only the following labels are allowed:
-    ///
-    /// - Labels describing monitored resources as defined in
-    ///   the service configuration.
-    /// - Default labels of metric values. When specified, labels defined in the
-    ///   metric value override these default.
-    /// - The following labels defined by Google Cloud Platform:
-    ///     - `cloud.googleapis.com/location` describing the location where the
-    ///        operation happened,
-    ///     - `servicecontrol.googleapis.com/user_agent` describing the user agent
-    ///        of the API request,
-    ///     - `servicecontrol.googleapis.com/service_agent` describing the service
-    ///        used to handle the API request (e.g. ESP),
-    ///     - `servicecontrol.googleapis.com/platform` describing the platform
-    ///        where the API is served, such as App Engine, Compute Engine, or
-    ///        Kubernetes Engine.
-    #[prost(btree_map="string, string", tag="6")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Represents information about this operation. Each MetricValueSet
-    /// corresponds to a metric defined in the service configuration.
-    /// The data type used in the MetricValueSet must agree with
-    /// the data type specified in the metric definition.
-    ///
-    /// Within a single operation, it is not allowed to have more than one
-    /// MetricValue instances that have the same metric names and identical
-    /// label value combinations. If a request has such duplicated MetricValue
-    /// instances, the entire request is rejected with
-    /// an invalid argument error.
-    #[prost(message, repeated, tag="7")]
-    pub metric_value_sets: ::prost::alloc::vec::Vec<MetricValueSet>,
-    /// Represents information to be logged.
-    #[prost(message, repeated, tag="8")]
-    pub log_entries: ::prost::alloc::vec::Vec<LogEntry>,
-    /// DO NOT USE. This is an experimental field.
-    #[prost(enumeration="operation::Importance", tag="11")]
-    pub importance: i32,
-    /// Unimplemented.
-    #[prost(message, repeated, tag="16")]
-    pub extensions: ::prost::alloc::vec::Vec<::prost_types::Any>,
-}
-/// Nested message and enum types in `Operation`.
-pub mod operation {
-    /// Defines the importance of the data contained in the operation.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Importance {
-        /// Allows data caching, batching, and aggregation. It provides
-        /// higher performance with higher data loss risk.
-        Low = 0,
-        /// Disables data aggregation to minimize data loss. It is for operations
-        /// that contains significant monetary value or audit trail. This feature
-        /// only applies to the client libraries.
-        High = 1,
     }
 }
 /// Request message for the Check method.

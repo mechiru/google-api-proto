@@ -1,3 +1,34 @@
+/// A representation of the ChannelConnection resource.
+/// A ChannelConnection is a resource which event providers create during the
+/// activation process to establish a connection between the provider and the
+/// subscriber channel.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ChannelConnection {
+    /// Required. The name of the connection.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Server assigned ID of the resource.
+    /// The server guarantees uniqueness and immutability until deleted.
+    #[prost(string, tag="2")]
+    pub uid: ::prost::alloc::string::String,
+    /// Required. The name of the connected subscriber Channel.
+    /// This is a weak reference to avoid cross project and cross accounts
+    /// references. This must be in
+    /// `projects/{project}/location/{location}/channels/{channel_id}` format.
+    #[prost(string, tag="5")]
+    pub channel: ::prost::alloc::string::String,
+    /// Output only. The creation time.
+    #[prost(message, optional, tag="6")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The last-modified time.
+    #[prost(message, optional, tag="7")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Input only. Activation token for the channel. The token will be used
+    /// during the creation of ChannelConnection to bind the channel with the
+    /// provider project. This field will not be stored in the provider resource.
+    #[prost(string, tag="8")]
+    pub activation_token: ::prost::alloc::string::String,
+}
 /// A representation of the Channel resource.
 /// A Channel is a resource on which event providers publish their events.
 /// The published events are delivered through the transport associated with the
@@ -69,37 +100,6 @@ pub mod channel {
         #[prost(string, tag="8")]
         PubsubTopic(::prost::alloc::string::String),
     }
-}
-/// A representation of the ChannelConnection resource.
-/// A ChannelConnection is a resource which event providers create during the
-/// activation process to establish a connection between the provider and the
-/// subscriber channel.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ChannelConnection {
-    /// Required. The name of the connection.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Server assigned ID of the resource.
-    /// The server guarantees uniqueness and immutability until deleted.
-    #[prost(string, tag="2")]
-    pub uid: ::prost::alloc::string::String,
-    /// Required. The name of the connected subscriber Channel.
-    /// This is a weak reference to avoid cross project and cross accounts
-    /// references. This must be in
-    /// `projects/{project}/location/{location}/channels/{channel_id}` format.
-    #[prost(string, tag="5")]
-    pub channel: ::prost::alloc::string::String,
-    /// Output only. The creation time.
-    #[prost(message, optional, tag="6")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The last-modified time.
-    #[prost(message, optional, tag="7")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Input only. Activation token for the channel. The token will be used
-    /// during the creation of ChannelConnection to bind the channel with the
-    /// provider project. This field will not be stored in the provider resource.
-    #[prost(string, tag="8")]
-    pub activation_token: ::prost::alloc::string::String,
 }
 /// A representation of the trigger resource.
 #[derive(Clone, PartialEq, ::prost::Message)]

@@ -1,175 +1,3 @@
-/// The data statistics of a series of values that share the same DataType.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataStats {
-    /// The number of distinct values.
-    #[prost(int64, tag="1")]
-    pub distinct_value_count: i64,
-    /// The number of values that are null.
-    #[prost(int64, tag="2")]
-    pub null_value_count: i64,
-    /// The number of values that are valid.
-    #[prost(int64, tag="9")]
-    pub valid_value_count: i64,
-    /// The data statistics specific to a DataType.
-    #[prost(oneof="data_stats::Stats", tags="3, 4, 5, 6, 7, 8")]
-    pub stats: ::core::option::Option<data_stats::Stats>,
-}
-/// Nested message and enum types in `DataStats`.
-pub mod data_stats {
-    /// The data statistics specific to a DataType.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Stats {
-        /// The statistics for FLOAT64 DataType.
-        #[prost(message, tag="3")]
-        Float64Stats(super::Float64Stats),
-        /// The statistics for STRING DataType.
-        #[prost(message, tag="4")]
-        StringStats(super::StringStats),
-        /// The statistics for TIMESTAMP DataType.
-        #[prost(message, tag="5")]
-        TimestampStats(super::TimestampStats),
-        /// The statistics for ARRAY DataType.
-        #[prost(message, tag="6")]
-        ArrayStats(::prost::alloc::boxed::Box<super::ArrayStats>),
-        /// The statistics for STRUCT DataType.
-        #[prost(message, tag="7")]
-        StructStats(super::StructStats),
-        /// The statistics for CATEGORY DataType.
-        #[prost(message, tag="8")]
-        CategoryStats(super::CategoryStats),
-    }
-}
-/// The data statistics of a series of FLOAT64 values.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Float64Stats {
-    /// The mean of the series.
-    #[prost(double, tag="1")]
-    pub mean: f64,
-    /// The standard deviation of the series.
-    #[prost(double, tag="2")]
-    pub standard_deviation: f64,
-    /// Ordered from 0 to k k-quantile values of the data series of n values.
-    /// The value at index i is, approximately, the i*n/k-th smallest value in the
-    /// series; for i = 0 and i = k these are, respectively, the min and max
-    /// values.
-    #[prost(double, repeated, tag="3")]
-    pub quantiles: ::prost::alloc::vec::Vec<f64>,
-    /// Histogram buckets of the data series. Sorted by the min value of the
-    /// bucket, ascendingly, and the number of the buckets is dynamically
-    /// generated. The buckets are non-overlapping and completely cover whole
-    /// FLOAT64 range with min of first bucket being `"-Infinity"`, and max of
-    /// the last one being `"Infinity"`.
-    #[prost(message, repeated, tag="4")]
-    pub histogram_buckets: ::prost::alloc::vec::Vec<float64_stats::HistogramBucket>,
-}
-/// Nested message and enum types in `Float64Stats`.
-pub mod float64_stats {
-    /// A bucket of a histogram.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct HistogramBucket {
-        /// The minimum value of the bucket, inclusive.
-        #[prost(double, tag="1")]
-        pub min: f64,
-        /// The maximum value of the bucket, exclusive unless max = `"Infinity"`, in
-        /// which case it's inclusive.
-        #[prost(double, tag="2")]
-        pub max: f64,
-        /// The number of data values that are in the bucket, i.e. are between
-        /// min and max values.
-        #[prost(int64, tag="3")]
-        pub count: i64,
-    }
-}
-/// The data statistics of a series of STRING values.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StringStats {
-    /// The statistics of the top 20 unigrams, ordered by
-    /// \[count][google.cloud.automl.v1beta1.StringStats.UnigramStats.count\].
-    #[prost(message, repeated, tag="1")]
-    pub top_unigram_stats: ::prost::alloc::vec::Vec<string_stats::UnigramStats>,
-}
-/// Nested message and enum types in `StringStats`.
-pub mod string_stats {
-    /// The statistics of a unigram.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct UnigramStats {
-        /// The unigram.
-        #[prost(string, tag="1")]
-        pub value: ::prost::alloc::string::String,
-        /// The number of occurrences of this unigram in the series.
-        #[prost(int64, tag="2")]
-        pub count: i64,
-    }
-}
-/// The data statistics of a series of TIMESTAMP values.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TimestampStats {
-    /// The string key is the pre-defined granularity. Currently supported:
-    /// hour_of_day, day_of_week, month_of_year.
-    /// Granularities finer that the granularity of timestamp data are not
-    /// populated (e.g. if timestamps are at day granularity, then hour_of_day
-    /// is not populated).
-    #[prost(btree_map="string, message", tag="1")]
-    pub granular_stats: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, timestamp_stats::GranularStats>,
-}
-/// Nested message and enum types in `TimestampStats`.
-pub mod timestamp_stats {
-    /// Stats split by a defined in context granularity.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct GranularStats {
-        /// A map from granularity key to example count for that key.
-        /// E.g. for hour_of_day `13` means 1pm, or for month_of_year `5` means May).
-        #[prost(btree_map="int32, int64", tag="1")]
-        pub buckets: ::prost::alloc::collections::BTreeMap<i32, i64>,
-    }
-}
-/// The data statistics of a series of ARRAY values.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ArrayStats {
-    /// Stats of all the values of all arrays, as if they were a single long
-    /// series of data. The type depends on the element type of the array.
-    #[prost(message, optional, boxed, tag="2")]
-    pub member_stats: ::core::option::Option<::prost::alloc::boxed::Box<DataStats>>,
-}
-/// The data statistics of a series of STRUCT values.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StructStats {
-    /// Map from a field name of the struct to data stats aggregated over series
-    /// of all data in that field across all the structs.
-    #[prost(btree_map="string, message", tag="1")]
-    pub field_stats: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, DataStats>,
-}
-/// The data statistics of a series of CATEGORY values.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CategoryStats {
-    /// The statistics of the top 20 CATEGORY values, ordered by
-    ///
-    /// \[count][google.cloud.automl.v1beta1.CategoryStats.SingleCategoryStats.count\].
-    #[prost(message, repeated, tag="1")]
-    pub top_category_stats: ::prost::alloc::vec::Vec<category_stats::SingleCategoryStats>,
-}
-/// Nested message and enum types in `CategoryStats`.
-pub mod category_stats {
-    /// The statistics of a single CATEGORY value.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SingleCategoryStats {
-        /// The CATEGORY value.
-        #[prost(string, tag="1")]
-        pub value: ::prost::alloc::string::String,
-        /// The number of occurrences of this value in the series.
-        #[prost(int64, tag="2")]
-        pub count: i64,
-    }
-}
-/// A correlation statistics between two series of DataType values. The series
-/// may have differing DataType-s, but within a single series the DataType must
-/// be the same.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CorrelationStats {
-    /// The correlation value using the Cramer's V measure.
-    #[prost(double, tag="1")]
-    pub cramers_v: f64,
-}
 /// A time period inside of an example that has a time dimension (e.g. video).
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TimeSegment {
@@ -181,6 +9,90 @@ pub struct TimeSegment {
     /// example start.
     #[prost(message, optional, tag="2")]
     pub end_time_offset: ::core::option::Option<::prost_types::Duration>,
+}
+/// Indicated the type of data that can be stored in a structured data entity
+/// (e.g. a table).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataType {
+    /// Required. The \[TypeCode][google.cloud.automl.v1beta1.TypeCode\] for this type.
+    #[prost(enumeration="TypeCode", tag="1")]
+    pub type_code: i32,
+    /// If true, this DataType can also be `NULL`. In .CSV files `NULL` value is
+    /// expressed as an empty string.
+    #[prost(bool, tag="4")]
+    pub nullable: bool,
+    /// Details of DataType-s that need additional specification.
+    #[prost(oneof="data_type::Details", tags="2, 3, 5")]
+    pub details: ::core::option::Option<data_type::Details>,
+}
+/// Nested message and enum types in `DataType`.
+pub mod data_type {
+    /// Details of DataType-s that need additional specification.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Details {
+        /// If \[type_code][google.cloud.automl.v1beta1.DataType.type_code\] == \[ARRAY][google.cloud.automl.v1beta1.TypeCode.ARRAY\],
+        /// then `list_element_type` is the type of the elements.
+        #[prost(message, tag="2")]
+        ListElementType(::prost::alloc::boxed::Box<super::DataType>),
+        /// If \[type_code][google.cloud.automl.v1beta1.DataType.type_code\] == \[STRUCT][google.cloud.automl.v1beta1.TypeCode.STRUCT\], then `struct_type`
+        /// provides type information for the struct's fields.
+        #[prost(message, tag="3")]
+        StructType(super::StructType),
+        /// If \[type_code][google.cloud.automl.v1beta1.DataType.type_code\] == \[TIMESTAMP][google.cloud.automl.v1beta1.TypeCode.TIMESTAMP\]
+        /// then `time_format` provides the format in which that time field is
+        /// expressed. The time_format must either be one of:
+        /// * `UNIX_SECONDS`
+        /// * `UNIX_MILLISECONDS`
+        /// * `UNIX_MICROSECONDS`
+        /// * `UNIX_NANOSECONDS`
+        /// (for respectively number of seconds, milliseconds, microseconds and
+        /// nanoseconds since start of the Unix epoch);
+        /// or be written in `strftime` syntax. If time_format is not set, then the
+        /// default format as described on the type_code is used.
+        #[prost(string, tag="5")]
+        TimeFormat(::prost::alloc::string::String),
+    }
+}
+/// `StructType` defines the DataType-s of a \[STRUCT][google.cloud.automl.v1beta1.TypeCode.STRUCT\] type.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StructType {
+    /// Unordered map of struct field names to their data types.
+    /// Fields cannot be added or removed via Update. Their names and
+    /// data types are still mutable.
+    #[prost(btree_map="string, message", tag="1")]
+    pub fields: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, DataType>,
+}
+/// `TypeCode` is used as a part of
+/// \[DataType][google.cloud.automl.v1beta1.DataType\].
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TypeCode {
+    /// Not specified. Should not be used.
+    Unspecified = 0,
+    /// Encoded as `number`, or the strings `"NaN"`, `"Infinity"`, or
+    /// `"-Infinity"`.
+    Float64 = 3,
+    /// Must be between 0AD and 9999AD. Encoded as `string` according to
+    /// \[time_format][google.cloud.automl.v1beta1.DataType.time_format\], or, if
+    /// that format is not set, then in RFC 3339 `date-time` format, where
+    /// `time-offset` = `"Z"` (e.g. 1985-04-12T23:20:50.52Z).
+    Timestamp = 4,
+    /// Encoded as `string`.
+    String = 6,
+    /// Encoded as `list`, where the list elements are represented according to
+    ///
+    /// \[list_element_type][google.cloud.automl.v1beta1.DataType.list_element_type\].
+    Array = 8,
+    /// Encoded as `struct`, where field values are represented according to
+    /// \[struct_type][google.cloud.automl.v1beta1.DataType.struct_type\].
+    Struct = 9,
+    /// Values of this type are not further understood by AutoML,
+    /// e.g. AutoML is unable to tell the order of values (as it could with
+    /// FLOAT64), or is unable to say if one value contains another (as it
+    /// could with STRING).
+    /// Encoded as `string` (bytes should be base64-encoded, as described in RFC
+    /// 4648, section 4).
+    Category = 10,
 }
 /// Contains annotation details specific to classification.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -384,6 +296,22 @@ pub enum ClassificationType {
     /// Multiple labels are allowed for one example.
     Multilabel = 2,
 }
+/// A contiguous part of a text (string), assuming it has an UTF-8 NFC encoding.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextSegment {
+    /// Output only. The content of the TextSegment.
+    #[prost(string, tag="3")]
+    pub content: ::prost::alloc::string::String,
+    /// Required. Zero-based character index of the first character of the text
+    /// segment (counting characters from the beginning of the text).
+    #[prost(int64, tag="1")]
+    pub start_offset: i64,
+    /// Required. Zero-based character index of the first character past the end of
+    /// the text segment (counting character from the beginning of the text).
+    /// The character at the end_offset is NOT included in the text segment.
+    #[prost(int64, tag="2")]
+    pub end_offset: i64,
+}
 /// Dataset metadata for classification.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TextClassificationDatasetMetadata {
@@ -430,31 +358,227 @@ pub struct TextSentimentDatasetMetadata {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TextSentimentModelMetadata {
 }
-/// A contiguous part of a text (string), assuming it has an UTF-8 NFC encoding.
+/// The data statistics of a series of values that share the same DataType.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextSegment {
-    /// Output only. The content of the TextSegment.
-    #[prost(string, tag="3")]
-    pub content: ::prost::alloc::string::String,
-    /// Required. Zero-based character index of the first character of the text
-    /// segment (counting characters from the beginning of the text).
+pub struct DataStats {
+    /// The number of distinct values.
     #[prost(int64, tag="1")]
-    pub start_offset: i64,
-    /// Required. Zero-based character index of the first character past the end of
-    /// the text segment (counting character from the beginning of the text).
-    /// The character at the end_offset is NOT included in the text segment.
+    pub distinct_value_count: i64,
+    /// The number of values that are null.
     #[prost(int64, tag="2")]
-    pub end_offset: i64,
+    pub null_value_count: i64,
+    /// The number of values that are valid.
+    #[prost(int64, tag="9")]
+    pub valid_value_count: i64,
+    /// The data statistics specific to a DataType.
+    #[prost(oneof="data_stats::Stats", tags="3, 4, 5, 6, 7, 8")]
+    pub stats: ::core::option::Option<data_stats::Stats>,
 }
-/// A range between two double numbers.
+/// Nested message and enum types in `DataStats`.
+pub mod data_stats {
+    /// The data statistics specific to a DataType.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Stats {
+        /// The statistics for FLOAT64 DataType.
+        #[prost(message, tag="3")]
+        Float64Stats(super::Float64Stats),
+        /// The statistics for STRING DataType.
+        #[prost(message, tag="4")]
+        StringStats(super::StringStats),
+        /// The statistics for TIMESTAMP DataType.
+        #[prost(message, tag="5")]
+        TimestampStats(super::TimestampStats),
+        /// The statistics for ARRAY DataType.
+        #[prost(message, tag="6")]
+        ArrayStats(::prost::alloc::boxed::Box<super::ArrayStats>),
+        /// The statistics for STRUCT DataType.
+        #[prost(message, tag="7")]
+        StructStats(super::StructStats),
+        /// The statistics for CATEGORY DataType.
+        #[prost(message, tag="8")]
+        CategoryStats(super::CategoryStats),
+    }
+}
+/// The data statistics of a series of FLOAT64 values.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DoubleRange {
-    /// Start of the range, inclusive.
+pub struct Float64Stats {
+    /// The mean of the series.
     #[prost(double, tag="1")]
-    pub start: f64,
-    /// End of the range, exclusive.
+    pub mean: f64,
+    /// The standard deviation of the series.
     #[prost(double, tag="2")]
-    pub end: f64,
+    pub standard_deviation: f64,
+    /// Ordered from 0 to k k-quantile values of the data series of n values.
+    /// The value at index i is, approximately, the i*n/k-th smallest value in the
+    /// series; for i = 0 and i = k these are, respectively, the min and max
+    /// values.
+    #[prost(double, repeated, tag="3")]
+    pub quantiles: ::prost::alloc::vec::Vec<f64>,
+    /// Histogram buckets of the data series. Sorted by the min value of the
+    /// bucket, ascendingly, and the number of the buckets is dynamically
+    /// generated. The buckets are non-overlapping and completely cover whole
+    /// FLOAT64 range with min of first bucket being `"-Infinity"`, and max of
+    /// the last one being `"Infinity"`.
+    #[prost(message, repeated, tag="4")]
+    pub histogram_buckets: ::prost::alloc::vec::Vec<float64_stats::HistogramBucket>,
+}
+/// Nested message and enum types in `Float64Stats`.
+pub mod float64_stats {
+    /// A bucket of a histogram.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct HistogramBucket {
+        /// The minimum value of the bucket, inclusive.
+        #[prost(double, tag="1")]
+        pub min: f64,
+        /// The maximum value of the bucket, exclusive unless max = `"Infinity"`, in
+        /// which case it's inclusive.
+        #[prost(double, tag="2")]
+        pub max: f64,
+        /// The number of data values that are in the bucket, i.e. are between
+        /// min and max values.
+        #[prost(int64, tag="3")]
+        pub count: i64,
+    }
+}
+/// The data statistics of a series of STRING values.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StringStats {
+    /// The statistics of the top 20 unigrams, ordered by
+    /// \[count][google.cloud.automl.v1beta1.StringStats.UnigramStats.count\].
+    #[prost(message, repeated, tag="1")]
+    pub top_unigram_stats: ::prost::alloc::vec::Vec<string_stats::UnigramStats>,
+}
+/// Nested message and enum types in `StringStats`.
+pub mod string_stats {
+    /// The statistics of a unigram.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct UnigramStats {
+        /// The unigram.
+        #[prost(string, tag="1")]
+        pub value: ::prost::alloc::string::String,
+        /// The number of occurrences of this unigram in the series.
+        #[prost(int64, tag="2")]
+        pub count: i64,
+    }
+}
+/// The data statistics of a series of TIMESTAMP values.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TimestampStats {
+    /// The string key is the pre-defined granularity. Currently supported:
+    /// hour_of_day, day_of_week, month_of_year.
+    /// Granularities finer that the granularity of timestamp data are not
+    /// populated (e.g. if timestamps are at day granularity, then hour_of_day
+    /// is not populated).
+    #[prost(btree_map="string, message", tag="1")]
+    pub granular_stats: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, timestamp_stats::GranularStats>,
+}
+/// Nested message and enum types in `TimestampStats`.
+pub mod timestamp_stats {
+    /// Stats split by a defined in context granularity.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct GranularStats {
+        /// A map from granularity key to example count for that key.
+        /// E.g. for hour_of_day `13` means 1pm, or for month_of_year `5` means May).
+        #[prost(btree_map="int32, int64", tag="1")]
+        pub buckets: ::prost::alloc::collections::BTreeMap<i32, i64>,
+    }
+}
+/// The data statistics of a series of ARRAY values.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ArrayStats {
+    /// Stats of all the values of all arrays, as if they were a single long
+    /// series of data. The type depends on the element type of the array.
+    #[prost(message, optional, boxed, tag="2")]
+    pub member_stats: ::core::option::Option<::prost::alloc::boxed::Box<DataStats>>,
+}
+/// The data statistics of a series of STRUCT values.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StructStats {
+    /// Map from a field name of the struct to data stats aggregated over series
+    /// of all data in that field across all the structs.
+    #[prost(btree_map="string, message", tag="1")]
+    pub field_stats: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, DataStats>,
+}
+/// The data statistics of a series of CATEGORY values.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CategoryStats {
+    /// The statistics of the top 20 CATEGORY values, ordered by
+    ///
+    /// \[count][google.cloud.automl.v1beta1.CategoryStats.SingleCategoryStats.count\].
+    #[prost(message, repeated, tag="1")]
+    pub top_category_stats: ::prost::alloc::vec::Vec<category_stats::SingleCategoryStats>,
+}
+/// Nested message and enum types in `CategoryStats`.
+pub mod category_stats {
+    /// The statistics of a single CATEGORY value.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SingleCategoryStats {
+        /// The CATEGORY value.
+        #[prost(string, tag="1")]
+        pub value: ::prost::alloc::string::String,
+        /// The number of occurrences of this value in the series.
+        #[prost(int64, tag="2")]
+        pub count: i64,
+    }
+}
+/// A correlation statistics between two series of DataType values. The series
+/// may have differing DataType-s, but within a single series the DataType must
+/// be the same.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CorrelationStats {
+    /// The correlation value using the Cramer's V measure.
+    #[prost(double, tag="1")]
+    pub cramers_v: f64,
+}
+/// A representation of a column in a relational table. When listing them, column specs are returned in the same order in which they were
+/// given on import .
+/// Used by:
+///   *   Tables
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ColumnSpec {
+    /// Output only. The resource name of the column specs.
+    /// Form:
+    ///
+    /// `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/tableSpecs/{table_spec_id}/columnSpecs/{column_spec_id}`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The data type of elements stored in the column.
+    #[prost(message, optional, tag="2")]
+    pub data_type: ::core::option::Option<DataType>,
+    /// Output only. The name of the column to show in the interface. The name can
+    /// be up to 100 characters long and can consist only of ASCII Latin letters
+    /// A-Z and a-z, ASCII digits 0-9, underscores(_), and forward slashes(/), and
+    /// must start with a letter or a digit.
+    #[prost(string, tag="3")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Output only. Stats of the series of values in the column.
+    /// This field may be stale, see the ancestor's
+    /// Dataset.tables_dataset_metadata.stats_update_time field
+    /// for the timestamp at which these stats were last updated.
+    #[prost(message, optional, tag="4")]
+    pub data_stats: ::core::option::Option<DataStats>,
+    /// Deprecated.
+    #[prost(message, repeated, tag="5")]
+    pub top_correlated_columns: ::prost::alloc::vec::Vec<column_spec::CorrelatedColumn>,
+    /// Used to perform consistent read-modify-write updates. If not set, a blind
+    /// "overwrite" update happens.
+    #[prost(string, tag="6")]
+    pub etag: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `ColumnSpec`.
+pub mod column_spec {
+    /// Identifies the table's column, and its correlation with the column this
+    /// ColumnSpec describes.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CorrelatedColumn {
+        /// The column_spec_id of the correlated column, which belongs to the same
+        /// table as the in-context column.
+        #[prost(string, tag="1")]
+        pub column_spec_id: ::prost::alloc::string::String,
+        /// Correlation between this and the in-context column.
+        #[prost(message, optional, tag="2")]
+        pub correlation_stats: ::core::option::Option<super::CorrelationStats>,
+    }
 }
 /// A vertex represents a 2D point in the image.
 /// The normalized vertex coordinates are between 0 to 1 fractions relative to
@@ -1878,273 +2002,15 @@ pub mod example_payload {
         Row(super::Row),
     }
 }
-/// Dataset metadata specific to video classification.
-/// All Video Classification datasets are treated as multi label.
+/// A range between two double numbers.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoClassificationDatasetMetadata {
-}
-/// Dataset metadata specific to video object tracking.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoObjectTrackingDatasetMetadata {
-}
-/// Model metadata specific to video classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoClassificationModelMetadata {
-}
-/// Model metadata specific to video object tracking.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoObjectTrackingModelMetadata {
-}
-/// Annotation details for image object detection.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageObjectDetectionAnnotation {
-    /// Output only. The rectangle representing the object location.
-    #[prost(message, optional, tag="1")]
-    pub bounding_box: ::core::option::Option<BoundingPoly>,
-    /// Output only. The confidence that this annotation is positive for the parent example,
-    /// value in [0, 1], higher means higher positivity confidence.
-    #[prost(float, tag="2")]
-    pub score: f32,
-}
-/// Annotation details for video object tracking.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoObjectTrackingAnnotation {
-    /// Optional. The instance of the object, expressed as a positive integer. Used to tell
-    /// apart objects of the same type (i.e. AnnotationSpec) when multiple are
-    /// present on a single example.
-    /// NOTE: Instance ID prediction quality is not a part of model evaluation and
-    /// is done as best effort. Especially in cases when an entity goes
-    /// off-screen for a longer time (minutes), when it comes back it may be given
-    /// a new instance ID.
-    #[prost(string, tag="1")]
-    pub instance_id: ::prost::alloc::string::String,
-    /// Required. A time (frame) of a video to which this annotation pertains.
-    /// Represented as the duration since the video's start.
-    #[prost(message, optional, tag="2")]
-    pub time_offset: ::core::option::Option<::prost_types::Duration>,
-    /// Required. The rectangle representing the object location on the frame (i.e.
-    /// at the time_offset of the video).
-    #[prost(message, optional, tag="3")]
-    pub bounding_box: ::core::option::Option<BoundingPoly>,
-    /// Output only. The confidence that this annotation is positive for the video at
-    /// the time_offset, value in [0, 1], higher means higher positivity
-    /// confidence. For annotations created by the user the score is 1. When
-    /// user approves an annotation, the original float score is kept (and not
-    /// changed to 1).
-    #[prost(float, tag="4")]
-    pub score: f32,
-}
-/// Bounding box matching model metrics for a single intersection-over-union
-/// threshold and multiple label match confidence thresholds.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BoundingBoxMetricsEntry {
-    /// Output only. The intersection-over-union threshold value used to compute
-    /// this metrics entry.
-    #[prost(float, tag="1")]
-    pub iou_threshold: f32,
-    /// Output only. The mean average precision, most often close to au_prc.
-    #[prost(float, tag="2")]
-    pub mean_average_precision: f32,
-    /// Output only. Metrics for each label-match confidence_threshold from
-    /// 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99. Precision-recall curve is
-    /// derived from them.
-    #[prost(message, repeated, tag="3")]
-    pub confidence_metrics_entries: ::prost::alloc::vec::Vec<bounding_box_metrics_entry::ConfidenceMetricsEntry>,
-}
-/// Nested message and enum types in `BoundingBoxMetricsEntry`.
-pub mod bounding_box_metrics_entry {
-    /// Metrics for a single confidence threshold.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ConfidenceMetricsEntry {
-        /// Output only. The confidence threshold value used to compute the metrics.
-        #[prost(float, tag="1")]
-        pub confidence_threshold: f32,
-        /// Output only. Recall under the given confidence threshold.
-        #[prost(float, tag="2")]
-        pub recall: f32,
-        /// Output only. Precision under the given confidence threshold.
-        #[prost(float, tag="3")]
-        pub precision: f32,
-        /// Output only. The harmonic mean of recall and precision.
-        #[prost(float, tag="4")]
-        pub f1_score: f32,
-    }
-}
-/// Model evaluation metrics for image object detection problems.
-/// Evaluates prediction quality of labeled bounding boxes.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageObjectDetectionEvaluationMetrics {
-    /// Output only. The total number of bounding boxes (i.e. summed over all
-    /// images) the ground truth used to create this evaluation had.
-    #[prost(int32, tag="1")]
-    pub evaluated_bounding_box_count: i32,
-    /// Output only. The bounding boxes match metrics for each
-    /// Intersection-over-union threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
-    /// and each label confidence threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
-    /// pair.
-    #[prost(message, repeated, tag="2")]
-    pub bounding_box_metrics_entries: ::prost::alloc::vec::Vec<BoundingBoxMetricsEntry>,
-    /// Output only. The single metric for bounding boxes evaluation:
-    /// the mean_average_precision averaged over all bounding_box_metrics_entries.
-    #[prost(float, tag="3")]
-    pub bounding_box_mean_average_precision: f32,
-}
-/// Model evaluation metrics for video object tracking problems.
-/// Evaluates prediction quality of both labeled bounding boxes and labeled
-/// tracks (i.e. series of bounding boxes sharing same label and instance ID).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoObjectTrackingEvaluationMetrics {
-    /// Output only. The number of video frames used to create this evaluation.
-    #[prost(int32, tag="1")]
-    pub evaluated_frame_count: i32,
-    /// Output only. The total number of bounding boxes (i.e. summed over all
-    /// frames) the ground truth used to create this evaluation had.
-    #[prost(int32, tag="2")]
-    pub evaluated_bounding_box_count: i32,
-    /// Output only. The bounding boxes match metrics for each
-    /// Intersection-over-union threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
-    /// and each label confidence threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
-    /// pair.
-    #[prost(message, repeated, tag="4")]
-    pub bounding_box_metrics_entries: ::prost::alloc::vec::Vec<BoundingBoxMetricsEntry>,
-    /// Output only. The single metric for bounding boxes evaluation:
-    /// the mean_average_precision averaged over all bounding_box_metrics_entries.
-    #[prost(float, tag="6")]
-    pub bounding_box_mean_average_precision: f32,
-}
-/// Indicated the type of data that can be stored in a structured data entity
-/// (e.g. a table).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataType {
-    /// Required. The \[TypeCode][google.cloud.automl.v1beta1.TypeCode\] for this type.
-    #[prost(enumeration="TypeCode", tag="1")]
-    pub type_code: i32,
-    /// If true, this DataType can also be `NULL`. In .CSV files `NULL` value is
-    /// expressed as an empty string.
-    #[prost(bool, tag="4")]
-    pub nullable: bool,
-    /// Details of DataType-s that need additional specification.
-    #[prost(oneof="data_type::Details", tags="2, 3, 5")]
-    pub details: ::core::option::Option<data_type::Details>,
-}
-/// Nested message and enum types in `DataType`.
-pub mod data_type {
-    /// Details of DataType-s that need additional specification.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Details {
-        /// If \[type_code][google.cloud.automl.v1beta1.DataType.type_code\] == \[ARRAY][google.cloud.automl.v1beta1.TypeCode.ARRAY\],
-        /// then `list_element_type` is the type of the elements.
-        #[prost(message, tag="2")]
-        ListElementType(::prost::alloc::boxed::Box<super::DataType>),
-        /// If \[type_code][google.cloud.automl.v1beta1.DataType.type_code\] == \[STRUCT][google.cloud.automl.v1beta1.TypeCode.STRUCT\], then `struct_type`
-        /// provides type information for the struct's fields.
-        #[prost(message, tag="3")]
-        StructType(super::StructType),
-        /// If \[type_code][google.cloud.automl.v1beta1.DataType.type_code\] == \[TIMESTAMP][google.cloud.automl.v1beta1.TypeCode.TIMESTAMP\]
-        /// then `time_format` provides the format in which that time field is
-        /// expressed. The time_format must either be one of:
-        /// * `UNIX_SECONDS`
-        /// * `UNIX_MILLISECONDS`
-        /// * `UNIX_MICROSECONDS`
-        /// * `UNIX_NANOSECONDS`
-        /// (for respectively number of seconds, milliseconds, microseconds and
-        /// nanoseconds since start of the Unix epoch);
-        /// or be written in `strftime` syntax. If time_format is not set, then the
-        /// default format as described on the type_code is used.
-        #[prost(string, tag="5")]
-        TimeFormat(::prost::alloc::string::String),
-    }
-}
-/// `StructType` defines the DataType-s of a \[STRUCT][google.cloud.automl.v1beta1.TypeCode.STRUCT\] type.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StructType {
-    /// Unordered map of struct field names to their data types.
-    /// Fields cannot be added or removed via Update. Their names and
-    /// data types are still mutable.
-    #[prost(btree_map="string, message", tag="1")]
-    pub fields: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, DataType>,
-}
-/// `TypeCode` is used as a part of
-/// \[DataType][google.cloud.automl.v1beta1.DataType\].
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TypeCode {
-    /// Not specified. Should not be used.
-    Unspecified = 0,
-    /// Encoded as `number`, or the strings `"NaN"`, `"Infinity"`, or
-    /// `"-Infinity"`.
-    Float64 = 3,
-    /// Must be between 0AD and 9999AD. Encoded as `string` according to
-    /// \[time_format][google.cloud.automl.v1beta1.DataType.time_format\], or, if
-    /// that format is not set, then in RFC 3339 `date-time` format, where
-    /// `time-offset` = `"Z"` (e.g. 1985-04-12T23:20:50.52Z).
-    Timestamp = 4,
-    /// Encoded as `string`.
-    String = 6,
-    /// Encoded as `list`, where the list elements are represented according to
-    ///
-    /// \[list_element_type][google.cloud.automl.v1beta1.DataType.list_element_type\].
-    Array = 8,
-    /// Encoded as `struct`, where field values are represented according to
-    /// \[struct_type][google.cloud.automl.v1beta1.DataType.struct_type\].
-    Struct = 9,
-    /// Values of this type are not further understood by AutoML,
-    /// e.g. AutoML is unable to tell the order of values (as it could with
-    /// FLOAT64), or is unable to say if one value contains another (as it
-    /// could with STRING).
-    /// Encoded as `string` (bytes should be base64-encoded, as described in RFC
-    /// 4648, section 4).
-    Category = 10,
-}
-/// A representation of a column in a relational table. When listing them, column specs are returned in the same order in which they were
-/// given on import .
-/// Used by:
-///   *   Tables
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ColumnSpec {
-    /// Output only. The resource name of the column specs.
-    /// Form:
-    ///
-    /// `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/tableSpecs/{table_spec_id}/columnSpecs/{column_spec_id}`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The data type of elements stored in the column.
-    #[prost(message, optional, tag="2")]
-    pub data_type: ::core::option::Option<DataType>,
-    /// Output only. The name of the column to show in the interface. The name can
-    /// be up to 100 characters long and can consist only of ASCII Latin letters
-    /// A-Z and a-z, ASCII digits 0-9, underscores(_), and forward slashes(/), and
-    /// must start with a letter or a digit.
-    #[prost(string, tag="3")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Output only. Stats of the series of values in the column.
-    /// This field may be stale, see the ancestor's
-    /// Dataset.tables_dataset_metadata.stats_update_time field
-    /// for the timestamp at which these stats were last updated.
-    #[prost(message, optional, tag="4")]
-    pub data_stats: ::core::option::Option<DataStats>,
-    /// Deprecated.
-    #[prost(message, repeated, tag="5")]
-    pub top_correlated_columns: ::prost::alloc::vec::Vec<column_spec::CorrelatedColumn>,
-    /// Used to perform consistent read-modify-write updates. If not set, a blind
-    /// "overwrite" update happens.
-    #[prost(string, tag="6")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `ColumnSpec`.
-pub mod column_spec {
-    /// Identifies the table's column, and its correlation with the column this
-    /// ColumnSpec describes.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CorrelatedColumn {
-        /// The column_spec_id of the correlated column, which belongs to the same
-        /// table as the in-context column.
-        #[prost(string, tag="1")]
-        pub column_spec_id: ::prost::alloc::string::String,
-        /// Correlation between this and the in-context column.
-        #[prost(message, optional, tag="2")]
-        pub correlation_stats: ::core::option::Option<super::CorrelationStats>,
-    }
+pub struct DoubleRange {
+    /// Start of the range, inclusive.
+    #[prost(double, tag="1")]
+    pub start: f64,
+    /// End of the range, exclusive.
+    #[prost(double, tag="2")]
+    pub end: f64,
 }
 /// Metrics for regression problems.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2436,6 +2302,123 @@ pub struct TablesModelColumnInfo {
     /// Sampled Shapley method.
     #[prost(float, tag="3")]
     pub feature_importance: f32,
+}
+/// Annotation details for image object detection.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImageObjectDetectionAnnotation {
+    /// Output only. The rectangle representing the object location.
+    #[prost(message, optional, tag="1")]
+    pub bounding_box: ::core::option::Option<BoundingPoly>,
+    /// Output only. The confidence that this annotation is positive for the parent example,
+    /// value in [0, 1], higher means higher positivity confidence.
+    #[prost(float, tag="2")]
+    pub score: f32,
+}
+/// Annotation details for video object tracking.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoObjectTrackingAnnotation {
+    /// Optional. The instance of the object, expressed as a positive integer. Used to tell
+    /// apart objects of the same type (i.e. AnnotationSpec) when multiple are
+    /// present on a single example.
+    /// NOTE: Instance ID prediction quality is not a part of model evaluation and
+    /// is done as best effort. Especially in cases when an entity goes
+    /// off-screen for a longer time (minutes), when it comes back it may be given
+    /// a new instance ID.
+    #[prost(string, tag="1")]
+    pub instance_id: ::prost::alloc::string::String,
+    /// Required. A time (frame) of a video to which this annotation pertains.
+    /// Represented as the duration since the video's start.
+    #[prost(message, optional, tag="2")]
+    pub time_offset: ::core::option::Option<::prost_types::Duration>,
+    /// Required. The rectangle representing the object location on the frame (i.e.
+    /// at the time_offset of the video).
+    #[prost(message, optional, tag="3")]
+    pub bounding_box: ::core::option::Option<BoundingPoly>,
+    /// Output only. The confidence that this annotation is positive for the video at
+    /// the time_offset, value in [0, 1], higher means higher positivity
+    /// confidence. For annotations created by the user the score is 1. When
+    /// user approves an annotation, the original float score is kept (and not
+    /// changed to 1).
+    #[prost(float, tag="4")]
+    pub score: f32,
+}
+/// Bounding box matching model metrics for a single intersection-over-union
+/// threshold and multiple label match confidence thresholds.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BoundingBoxMetricsEntry {
+    /// Output only. The intersection-over-union threshold value used to compute
+    /// this metrics entry.
+    #[prost(float, tag="1")]
+    pub iou_threshold: f32,
+    /// Output only. The mean average precision, most often close to au_prc.
+    #[prost(float, tag="2")]
+    pub mean_average_precision: f32,
+    /// Output only. Metrics for each label-match confidence_threshold from
+    /// 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99. Precision-recall curve is
+    /// derived from them.
+    #[prost(message, repeated, tag="3")]
+    pub confidence_metrics_entries: ::prost::alloc::vec::Vec<bounding_box_metrics_entry::ConfidenceMetricsEntry>,
+}
+/// Nested message and enum types in `BoundingBoxMetricsEntry`.
+pub mod bounding_box_metrics_entry {
+    /// Metrics for a single confidence threshold.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConfidenceMetricsEntry {
+        /// Output only. The confidence threshold value used to compute the metrics.
+        #[prost(float, tag="1")]
+        pub confidence_threshold: f32,
+        /// Output only. Recall under the given confidence threshold.
+        #[prost(float, tag="2")]
+        pub recall: f32,
+        /// Output only. Precision under the given confidence threshold.
+        #[prost(float, tag="3")]
+        pub precision: f32,
+        /// Output only. The harmonic mean of recall and precision.
+        #[prost(float, tag="4")]
+        pub f1_score: f32,
+    }
+}
+/// Model evaluation metrics for image object detection problems.
+/// Evaluates prediction quality of labeled bounding boxes.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImageObjectDetectionEvaluationMetrics {
+    /// Output only. The total number of bounding boxes (i.e. summed over all
+    /// images) the ground truth used to create this evaluation had.
+    #[prost(int32, tag="1")]
+    pub evaluated_bounding_box_count: i32,
+    /// Output only. The bounding boxes match metrics for each
+    /// Intersection-over-union threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
+    /// and each label confidence threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
+    /// pair.
+    #[prost(message, repeated, tag="2")]
+    pub bounding_box_metrics_entries: ::prost::alloc::vec::Vec<BoundingBoxMetricsEntry>,
+    /// Output only. The single metric for bounding boxes evaluation:
+    /// the mean_average_precision averaged over all bounding_box_metrics_entries.
+    #[prost(float, tag="3")]
+    pub bounding_box_mean_average_precision: f32,
+}
+/// Model evaluation metrics for video object tracking problems.
+/// Evaluates prediction quality of both labeled bounding boxes and labeled
+/// tracks (i.e. series of bounding boxes sharing same label and instance ID).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoObjectTrackingEvaluationMetrics {
+    /// Output only. The number of video frames used to create this evaluation.
+    #[prost(int32, tag="1")]
+    pub evaluated_frame_count: i32,
+    /// Output only. The total number of bounding boxes (i.e. summed over all
+    /// frames) the ground truth used to create this evaluation had.
+    #[prost(int32, tag="2")]
+    pub evaluated_bounding_box_count: i32,
+    /// Output only. The bounding boxes match metrics for each
+    /// Intersection-over-union threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
+    /// and each label confidence threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
+    /// pair.
+    #[prost(message, repeated, tag="4")]
+    pub bounding_box_metrics_entries: ::prost::alloc::vec::Vec<BoundingBoxMetricsEntry>,
+    /// Output only. The single metric for bounding boxes evaluation:
+    /// the mean_average_precision averaged over all bounding_box_metrics_entries.
+    #[prost(float, tag="6")]
+    pub bounding_box_mean_average_precision: f32,
 }
 /// Annotation for identifying spans of text.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2833,6 +2816,23 @@ pub struct ImageObjectDetectionModelDeploymentMetadata {
     /// Must be between 1 and 100, inclusive on both ends.
     #[prost(int64, tag="1")]
     pub node_count: i64,
+}
+/// Dataset metadata specific to video classification.
+/// All Video Classification datasets are treated as multi label.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoClassificationDatasetMetadata {
+}
+/// Dataset metadata specific to video object tracking.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoObjectTrackingDatasetMetadata {
+}
+/// Model metadata specific to video classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoClassificationModelMetadata {
+}
+/// Model metadata specific to video object tracking.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoObjectTrackingModelMetadata {
 }
 /// A workspace for solving a single, particular machine learning (ML) problem.
 /// A workspace contains examples that may be annotated.

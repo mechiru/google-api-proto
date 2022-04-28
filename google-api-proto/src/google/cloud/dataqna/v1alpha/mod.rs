@@ -1,32 +1,3 @@
-/// Feedback provided by a user.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UserFeedback {
-    /// Required. The unique identifier for the user feedback.
-    /// User feedback is a singleton resource on a Question.
-    /// Example: `projects/foo/locations/bar/questions/1234/userFeedback`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Free form user feedback, such as a text box.
-    #[prost(string, tag="2")]
-    pub free_form_feedback: ::prost::alloc::string::String,
-    /// The user feedback rating
-    #[prost(enumeration="user_feedback::UserFeedbackRating", tag="3")]
-    pub rating: i32,
-}
-/// Nested message and enum types in `UserFeedback`.
-pub mod user_feedback {
-    /// Enumeration of feedback ratings.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum UserFeedbackRating {
-        /// No rating was specified.
-        Unspecified = 0,
-        /// The user provided positive feedback.
-        Positive = 1,
-        /// The user provided negative feedback.
-        Negative = 2,
-    }
-}
 /// Describes string annotation from both semantic and formatting perspectives.
 /// Example:
 ///
@@ -707,6 +678,35 @@ pub enum InterpretEntity {
     Dimension = 1,
     /// A metric entity.
     Metric = 2,
+}
+/// Feedback provided by a user.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UserFeedback {
+    /// Required. The unique identifier for the user feedback.
+    /// User feedback is a singleton resource on a Question.
+    /// Example: `projects/foo/locations/bar/questions/1234/userFeedback`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Free form user feedback, such as a text box.
+    #[prost(string, tag="2")]
+    pub free_form_feedback: ::prost::alloc::string::String,
+    /// The user feedback rating
+    #[prost(enumeration="user_feedback::UserFeedbackRating", tag="3")]
+    pub rating: i32,
+}
+/// Nested message and enum types in `UserFeedback`.
+pub mod user_feedback {
+    /// Enumeration of feedback ratings.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum UserFeedbackRating {
+        /// No rating was specified.
+        Unspecified = 0,
+        /// The user provided positive feedback.
+        Positive = 1,
+        /// The user provided negative feedback.
+        Negative = 2,
+    }
 }
 /// A request to get a previously created question.
 #[derive(Clone, PartialEq, ::prost::Message)]

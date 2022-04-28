@@ -1,3 +1,324 @@
+/// Encapsulates progress related information for a Cloud Bigtable long
+/// running operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationProgress {
+    /// Percent completion of the operation.
+    /// Values are between 0 and 100 inclusive.
+    #[prost(int32, tag="1")]
+    pub progress_percent: i32,
+    /// Time the request was received.
+    #[prost(message, optional, tag="2")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// If set, the time at which this operation failed or was completed
+    /// successfully.
+    #[prost(message, optional, tag="3")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Storage media types for persisting Bigtable data.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum StorageType {
+    /// The user did not specify a storage type.
+    Unspecified = 0,
+    /// Flash (SSD) storage should be used.
+    Ssd = 1,
+    /// Magnetic drive (HDD) storage should be used.
+    Hdd = 2,
+}
+/// A collection of Bigtable \[Tables][google.bigtable.admin.v2.Table\] and
+/// the resources that serve them.
+/// All tables in an instance are served from all
+/// \[Clusters][google.bigtable.admin.v2.Cluster\] in the instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Instance {
+    /// The unique name of the instance. Values are of the form
+    /// `projects/{project}/instances/\[a-z][a-z0-9\\-]+[a-z0-9\]`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The descriptive name for this instance as it appears in UIs.
+    /// Can be changed at any time, but should be kept globally unique
+    /// to avoid confusion.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// (`OutputOnly`)
+    /// The current state of the instance.
+    #[prost(enumeration="instance::State", tag="3")]
+    pub state: i32,
+    /// The type of the instance. Defaults to `PRODUCTION`.
+    #[prost(enumeration="instance::Type", tag="4")]
+    pub r#type: i32,
+    /// Labels are a flexible and lightweight mechanism for organizing cloud
+    /// resources into groups that reflect a customer's organizational needs and
+    /// deployment strategies. They can be used to filter resources and aggregate
+    /// metrics.
+    ///
+    /// * Label keys must be between 1 and 63 characters long and must conform to
+    ///   the regular expression: `\[\p{Ll}\p{Lo}][\p{Ll}\p{Lo}\p{N}_-\]{0,62}`.
+    /// * Label values must be between 0 and 63 characters long and must conform to
+    ///   the regular expression: `\[\p{Ll}\p{Lo}\p{N}_-\]{0,63}`.
+    /// * No more than 64 labels can be associated with a given resource.
+    /// * Keys and values must both be under 128 bytes.
+    #[prost(btree_map="string, string", tag="5")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Output only. A server-assigned timestamp representing when this Instance was created.
+    /// For instances created before this field was added (August 2021), this value
+    /// is `seconds: 0, nanos: 1`.
+    #[prost(message, optional, tag="7")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `Instance`.
+pub mod instance {
+    /// Possible states of an instance.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// The state of the instance could not be determined.
+        NotKnown = 0,
+        /// The instance has been successfully created and can serve requests
+        /// to its tables.
+        Ready = 1,
+        /// The instance is currently being created, and may be destroyed
+        /// if the creation process encounters an error.
+        Creating = 2,
+    }
+    /// The type of the instance.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// The type of the instance is unspecified. If set when creating an
+        /// instance, a `PRODUCTION` instance will be created. If set when updating
+        /// an instance, the type will be left unchanged.
+        Unspecified = 0,
+        /// An instance meant for production use. `serve_nodes` must be set
+        /// on the cluster.
+        Production = 1,
+        /// The instance is meant for development and testing purposes only; it has
+        /// no performance or uptime guarantees and is not covered by SLA.
+        /// After a development instance is created, it can be upgraded by
+        /// updating the instance to type `PRODUCTION`. An instance created
+        /// as a production instance cannot be changed to a development instance.
+        /// When creating a development instance, `serve_nodes` on the cluster must
+        /// not be set.
+        Development = 2,
+    }
+}
+/// The Autoscaling targets for a Cluster. These determine the recommended nodes.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoscalingTargets {
+    /// The cpu utilization that the Autoscaler should be trying to achieve.
+    /// This number is on a scale from 0 (no utilization) to
+    /// 100 (total utilization), and is limited between 10 and 80, otherwise it
+    /// will return INVALID_ARGUMENT error.
+    #[prost(int32, tag="2")]
+    pub cpu_utilization_percent: i32,
+}
+/// Limits for the number of nodes a Cluster can autoscale up/down to.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoscalingLimits {
+    /// Required. Minimum number of nodes to scale down to.
+    #[prost(int32, tag="1")]
+    pub min_serve_nodes: i32,
+    /// Required. Maximum number of nodes to scale up to.
+    #[prost(int32, tag="2")]
+    pub max_serve_nodes: i32,
+}
+/// A resizable group of nodes in a particular cloud location, capable
+/// of serving all \[Tables][google.bigtable.admin.v2.Table\] in the parent
+/// \[Instance][google.bigtable.admin.v2.Instance\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Cluster {
+    /// The unique name of the cluster. Values are of the form
+    /// `projects/{project}/instances/{instance}/clusters/\[a-z][-a-z0-9\]*`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// (`CreationOnly`)
+    /// The location where this cluster's nodes and storage reside. For best
+    /// performance, clients should be located as close as possible to this
+    /// cluster. Currently only zones are supported, so values should be of the
+    /// form `projects/{project}/locations/{zone}`.
+    #[prost(string, tag="2")]
+    pub location: ::prost::alloc::string::String,
+    /// The current state of the cluster.
+    #[prost(enumeration="cluster::State", tag="3")]
+    pub state: i32,
+    /// The number of nodes allocated to this cluster. More nodes enable higher
+    /// throughput and more consistent performance.
+    #[prost(int32, tag="4")]
+    pub serve_nodes: i32,
+    /// (`CreationOnly`)
+    /// The type of storage used by this cluster to serve its
+    /// parent instance's tables, unless explicitly overridden.
+    #[prost(enumeration="StorageType", tag="5")]
+    pub default_storage_type: i32,
+    /// Immutable. The encryption configuration for CMEK-protected clusters.
+    #[prost(message, optional, tag="6")]
+    pub encryption_config: ::core::option::Option<cluster::EncryptionConfig>,
+    #[prost(oneof="cluster::Config", tags="7")]
+    pub config: ::core::option::Option<cluster::Config>,
+}
+/// Nested message and enum types in `Cluster`.
+pub mod cluster {
+    /// Autoscaling config for a cluster.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ClusterAutoscalingConfig {
+        /// Required. Autoscaling limits for this cluster.
+        #[prost(message, optional, tag="1")]
+        pub autoscaling_limits: ::core::option::Option<super::AutoscalingLimits>,
+        /// Required. Autoscaling targets for this cluster.
+        #[prost(message, optional, tag="2")]
+        pub autoscaling_targets: ::core::option::Option<super::AutoscalingTargets>,
+    }
+    /// Configuration for a cluster.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ClusterConfig {
+        /// Autoscaling configuration for this cluster.
+        #[prost(message, optional, tag="1")]
+        pub cluster_autoscaling_config: ::core::option::Option<ClusterAutoscalingConfig>,
+    }
+    /// Cloud Key Management Service (Cloud KMS) settings for a CMEK-protected
+    /// cluster.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct EncryptionConfig {
+        /// Describes the Cloud KMS encryption key that will be used to protect the
+        /// destination Bigtable cluster. The requirements for this key are:
+        ///  1) The Cloud Bigtable service account associated with the project that
+        ///  contains this cluster must be granted the
+        ///  `cloudkms.cryptoKeyEncrypterDecrypter` role on the CMEK key.
+        ///  2) Only regional keys can be used and the region of the CMEK key must
+        ///  match the region of the cluster.
+        #[prost(string, tag="1")]
+        pub kms_key_name: ::prost::alloc::string::String,
+    }
+    /// Possible states of a cluster.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// The state of the cluster could not be determined.
+        NotKnown = 0,
+        /// The cluster has been successfully created and is ready to serve requests.
+        Ready = 1,
+        /// The cluster is currently being created, and may be destroyed
+        /// if the creation process encounters an error.
+        /// A cluster may not be able to serve requests while being created.
+        Creating = 2,
+        /// The cluster is currently being resized, and may revert to its previous
+        /// node count if the process encounters an error.
+        /// A cluster is still capable of serving requests while being resized,
+        /// but may exhibit performance as if its number of allocated nodes is
+        /// between the starting and requested states.
+        Resizing = 3,
+        /// The cluster has no backing nodes. The data (tables) still
+        /// exist, but no operations can be performed on the cluster.
+        Disabled = 4,
+    }
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Config {
+        /// Configuration for this cluster.
+        #[prost(message, tag="7")]
+        ClusterConfig(ClusterConfig),
+    }
+}
+/// A configuration object describing how Cloud Bigtable should treat traffic
+/// from a particular end user application.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AppProfile {
+    /// (`OutputOnly`)
+    /// The unique name of the app profile. Values are of the form
+    /// `projects/{project}/instances/{instance}/appProfiles/\[_a-zA-Z0-9][-_.a-zA-Z0-9\]*`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Strongly validated etag for optimistic concurrency control. Preserve the
+    /// value returned from `GetAppProfile` when calling `UpdateAppProfile` to
+    /// fail the request if there has been a modification in the mean time. The
+    /// `update_mask` of the request need not include `etag` for this protection
+    /// to apply.
+    /// See \[Wikipedia\](<https://en.wikipedia.org/wiki/HTTP_ETag>) and
+    /// [RFC 7232](<https://tools.ietf.org/html/rfc7232#section-2.3>) for more
+    /// details.
+    #[prost(string, tag="2")]
+    pub etag: ::prost::alloc::string::String,
+    /// Optional long form description of the use case for this AppProfile.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    /// The routing policy for all read/write requests that use this app profile.
+    /// A value must be explicitly set.
+    #[prost(oneof="app_profile::RoutingPolicy", tags="5, 6")]
+    pub routing_policy: ::core::option::Option<app_profile::RoutingPolicy>,
+}
+/// Nested message and enum types in `AppProfile`.
+pub mod app_profile {
+    /// Read/write requests are routed to the nearest cluster in the instance, and
+    /// will fail over to the nearest cluster that is available in the event of
+    /// transient errors or delays. Clusters in a region are considered
+    /// equidistant. Choosing this option sacrifices read-your-writes consistency
+    /// to improve availability.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct MultiClusterRoutingUseAny {
+        /// The set of clusters to route to. The order is ignored; clusters will be
+        /// tried in order of distance. If left empty, all clusters are eligible.
+        #[prost(string, repeated, tag="1")]
+        pub cluster_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    }
+    /// Unconditionally routes all read/write requests to a specific cluster.
+    /// This option preserves read-your-writes consistency but does not improve
+    /// availability.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SingleClusterRouting {
+        /// The cluster to which read/write requests should be routed.
+        #[prost(string, tag="1")]
+        pub cluster_id: ::prost::alloc::string::String,
+        /// Whether or not `CheckAndMutateRow` and `ReadModifyWriteRow` requests are
+        /// allowed by this app profile. It is unsafe to send these requests to
+        /// the same table/row/column in multiple clusters.
+        #[prost(bool, tag="2")]
+        pub allow_transactional_writes: bool,
+    }
+    /// The routing policy for all read/write requests that use this app profile.
+    /// A value must be explicitly set.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum RoutingPolicy {
+        /// Use a multi-cluster routing policy.
+        #[prost(message, tag="5")]
+        MultiClusterRoutingUseAny(MultiClusterRoutingUseAny),
+        /// Use a single-cluster routing policy.
+        #[prost(message, tag="6")]
+        SingleClusterRouting(SingleClusterRouting),
+    }
+}
+/// A tablet is a defined by a start and end key and is explained in
+/// <https://cloud.google.com/bigtable/docs/overview#architecture> and
+/// <https://cloud.google.com/bigtable/docs/performance#optimization.>
+/// A Hot tablet is a tablet that exhibits high average cpu usage during the time
+/// interval from start time to end time.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct HotTablet {
+    /// The unique name of the hot tablet. Values are of the form
+    /// `projects/{project}/instances/{instance}/clusters/{cluster}/hotTablets/\[a-zA-Z0-9_-\]*`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Name of the table that contains the tablet. Values are of the form
+    /// `projects/{project}/instances/{instance}/tables/\[_a-zA-Z0-9][-_.a-zA-Z0-9\]*`.
+    #[prost(string, tag="2")]
+    pub table_name: ::prost::alloc::string::String,
+    /// Output only. The start time of the hot tablet.
+    #[prost(message, optional, tag="3")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The end time of the hot tablet.
+    #[prost(message, optional, tag="4")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Tablet Start Key (inclusive).
+    #[prost(string, tag="5")]
+    pub start_key: ::prost::alloc::string::String,
+    /// Tablet End Key (inclusive).
+    #[prost(string, tag="6")]
+    pub end_key: ::prost::alloc::string::String,
+    /// Output only. The average CPU usage spent by a node on this tablet over the start_time to
+    /// end_time time range. The percentage is the amount of CPU used by the node
+    /// to serve the tablet, from 0% (tablet was not interacted with) to 100% (the
+    /// node spent all cycles serving the hot tablet).
+    #[prost(float, tag="7")]
+    pub node_cpu_usage_percent: f32,
+}
 /// Information about a table restore.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RestoreInfo {
@@ -364,33 +685,6 @@ pub enum RestoreSourceType {
     Unspecified = 0,
     /// A backup was used as the source of the restore.
     Backup = 1,
-}
-/// Encapsulates progress related information for a Cloud Bigtable long
-/// running operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationProgress {
-    /// Percent completion of the operation.
-    /// Values are between 0 and 100 inclusive.
-    #[prost(int32, tag="1")]
-    pub progress_percent: i32,
-    /// Time the request was received.
-    #[prost(message, optional, tag="2")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// If set, the time at which this operation failed or was completed
-    /// successfully.
-    #[prost(message, optional, tag="3")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Storage media types for persisting Bigtable data.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum StorageType {
-    /// The user did not specify a storage type.
-    Unspecified = 0,
-    /// Flash (SSD) storage should be used.
-    Ssd = 1,
-    /// Magnetic drive (HDD) storage should be used.
-    Hdd = 2,
 }
 /// The request for
 /// \[RestoreTable][google.bigtable.admin.v2.BigtableTableAdmin.RestoreTable\].
@@ -1619,300 +1913,6 @@ pub mod bigtable_table_admin_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
-}
-/// A collection of Bigtable \[Tables][google.bigtable.admin.v2.Table\] and
-/// the resources that serve them.
-/// All tables in an instance are served from all
-/// \[Clusters][google.bigtable.admin.v2.Cluster\] in the instance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Instance {
-    /// The unique name of the instance. Values are of the form
-    /// `projects/{project}/instances/\[a-z][a-z0-9\\-]+[a-z0-9\]`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The descriptive name for this instance as it appears in UIs.
-    /// Can be changed at any time, but should be kept globally unique
-    /// to avoid confusion.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// (`OutputOnly`)
-    /// The current state of the instance.
-    #[prost(enumeration="instance::State", tag="3")]
-    pub state: i32,
-    /// The type of the instance. Defaults to `PRODUCTION`.
-    #[prost(enumeration="instance::Type", tag="4")]
-    pub r#type: i32,
-    /// Labels are a flexible and lightweight mechanism for organizing cloud
-    /// resources into groups that reflect a customer's organizational needs and
-    /// deployment strategies. They can be used to filter resources and aggregate
-    /// metrics.
-    ///
-    /// * Label keys must be between 1 and 63 characters long and must conform to
-    ///   the regular expression: `\[\p{Ll}\p{Lo}][\p{Ll}\p{Lo}\p{N}_-\]{0,62}`.
-    /// * Label values must be between 0 and 63 characters long and must conform to
-    ///   the regular expression: `\[\p{Ll}\p{Lo}\p{N}_-\]{0,63}`.
-    /// * No more than 64 labels can be associated with a given resource.
-    /// * Keys and values must both be under 128 bytes.
-    #[prost(btree_map="string, string", tag="5")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Output only. A server-assigned timestamp representing when this Instance was created.
-    /// For instances created before this field was added (August 2021), this value
-    /// is `seconds: 0, nanos: 1`.
-    #[prost(message, optional, tag="7")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `Instance`.
-pub mod instance {
-    /// Possible states of an instance.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// The state of the instance could not be determined.
-        NotKnown = 0,
-        /// The instance has been successfully created and can serve requests
-        /// to its tables.
-        Ready = 1,
-        /// The instance is currently being created, and may be destroyed
-        /// if the creation process encounters an error.
-        Creating = 2,
-    }
-    /// The type of the instance.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// The type of the instance is unspecified. If set when creating an
-        /// instance, a `PRODUCTION` instance will be created. If set when updating
-        /// an instance, the type will be left unchanged.
-        Unspecified = 0,
-        /// An instance meant for production use. `serve_nodes` must be set
-        /// on the cluster.
-        Production = 1,
-        /// The instance is meant for development and testing purposes only; it has
-        /// no performance or uptime guarantees and is not covered by SLA.
-        /// After a development instance is created, it can be upgraded by
-        /// updating the instance to type `PRODUCTION`. An instance created
-        /// as a production instance cannot be changed to a development instance.
-        /// When creating a development instance, `serve_nodes` on the cluster must
-        /// not be set.
-        Development = 2,
-    }
-}
-/// The Autoscaling targets for a Cluster. These determine the recommended nodes.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoscalingTargets {
-    /// The cpu utilization that the Autoscaler should be trying to achieve.
-    /// This number is on a scale from 0 (no utilization) to
-    /// 100 (total utilization), and is limited between 10 and 80, otherwise it
-    /// will return INVALID_ARGUMENT error.
-    #[prost(int32, tag="2")]
-    pub cpu_utilization_percent: i32,
-}
-/// Limits for the number of nodes a Cluster can autoscale up/down to.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoscalingLimits {
-    /// Required. Minimum number of nodes to scale down to.
-    #[prost(int32, tag="1")]
-    pub min_serve_nodes: i32,
-    /// Required. Maximum number of nodes to scale up to.
-    #[prost(int32, tag="2")]
-    pub max_serve_nodes: i32,
-}
-/// A resizable group of nodes in a particular cloud location, capable
-/// of serving all \[Tables][google.bigtable.admin.v2.Table\] in the parent
-/// \[Instance][google.bigtable.admin.v2.Instance\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Cluster {
-    /// The unique name of the cluster. Values are of the form
-    /// `projects/{project}/instances/{instance}/clusters/\[a-z][-a-z0-9\]*`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// (`CreationOnly`)
-    /// The location where this cluster's nodes and storage reside. For best
-    /// performance, clients should be located as close as possible to this
-    /// cluster. Currently only zones are supported, so values should be of the
-    /// form `projects/{project}/locations/{zone}`.
-    #[prost(string, tag="2")]
-    pub location: ::prost::alloc::string::String,
-    /// The current state of the cluster.
-    #[prost(enumeration="cluster::State", tag="3")]
-    pub state: i32,
-    /// The number of nodes allocated to this cluster. More nodes enable higher
-    /// throughput and more consistent performance.
-    #[prost(int32, tag="4")]
-    pub serve_nodes: i32,
-    /// (`CreationOnly`)
-    /// The type of storage used by this cluster to serve its
-    /// parent instance's tables, unless explicitly overridden.
-    #[prost(enumeration="StorageType", tag="5")]
-    pub default_storage_type: i32,
-    /// Immutable. The encryption configuration for CMEK-protected clusters.
-    #[prost(message, optional, tag="6")]
-    pub encryption_config: ::core::option::Option<cluster::EncryptionConfig>,
-    #[prost(oneof="cluster::Config", tags="7")]
-    pub config: ::core::option::Option<cluster::Config>,
-}
-/// Nested message and enum types in `Cluster`.
-pub mod cluster {
-    /// Autoscaling config for a cluster.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ClusterAutoscalingConfig {
-        /// Required. Autoscaling limits for this cluster.
-        #[prost(message, optional, tag="1")]
-        pub autoscaling_limits: ::core::option::Option<super::AutoscalingLimits>,
-        /// Required. Autoscaling targets for this cluster.
-        #[prost(message, optional, tag="2")]
-        pub autoscaling_targets: ::core::option::Option<super::AutoscalingTargets>,
-    }
-    /// Configuration for a cluster.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ClusterConfig {
-        /// Autoscaling configuration for this cluster.
-        #[prost(message, optional, tag="1")]
-        pub cluster_autoscaling_config: ::core::option::Option<ClusterAutoscalingConfig>,
-    }
-    /// Cloud Key Management Service (Cloud KMS) settings for a CMEK-protected
-    /// cluster.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct EncryptionConfig {
-        /// Describes the Cloud KMS encryption key that will be used to protect the
-        /// destination Bigtable cluster. The requirements for this key are:
-        ///  1) The Cloud Bigtable service account associated with the project that
-        ///  contains this cluster must be granted the
-        ///  `cloudkms.cryptoKeyEncrypterDecrypter` role on the CMEK key.
-        ///  2) Only regional keys can be used and the region of the CMEK key must
-        ///  match the region of the cluster.
-        #[prost(string, tag="1")]
-        pub kms_key_name: ::prost::alloc::string::String,
-    }
-    /// Possible states of a cluster.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// The state of the cluster could not be determined.
-        NotKnown = 0,
-        /// The cluster has been successfully created and is ready to serve requests.
-        Ready = 1,
-        /// The cluster is currently being created, and may be destroyed
-        /// if the creation process encounters an error.
-        /// A cluster may not be able to serve requests while being created.
-        Creating = 2,
-        /// The cluster is currently being resized, and may revert to its previous
-        /// node count if the process encounters an error.
-        /// A cluster is still capable of serving requests while being resized,
-        /// but may exhibit performance as if its number of allocated nodes is
-        /// between the starting and requested states.
-        Resizing = 3,
-        /// The cluster has no backing nodes. The data (tables) still
-        /// exist, but no operations can be performed on the cluster.
-        Disabled = 4,
-    }
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Config {
-        /// Configuration for this cluster.
-        #[prost(message, tag="7")]
-        ClusterConfig(ClusterConfig),
-    }
-}
-/// A configuration object describing how Cloud Bigtable should treat traffic
-/// from a particular end user application.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AppProfile {
-    /// (`OutputOnly`)
-    /// The unique name of the app profile. Values are of the form
-    /// `projects/{project}/instances/{instance}/appProfiles/\[_a-zA-Z0-9][-_.a-zA-Z0-9\]*`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Strongly validated etag for optimistic concurrency control. Preserve the
-    /// value returned from `GetAppProfile` when calling `UpdateAppProfile` to
-    /// fail the request if there has been a modification in the mean time. The
-    /// `update_mask` of the request need not include `etag` for this protection
-    /// to apply.
-    /// See \[Wikipedia\](<https://en.wikipedia.org/wiki/HTTP_ETag>) and
-    /// [RFC 7232](<https://tools.ietf.org/html/rfc7232#section-2.3>) for more
-    /// details.
-    #[prost(string, tag="2")]
-    pub etag: ::prost::alloc::string::String,
-    /// Optional long form description of the use case for this AppProfile.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    /// The routing policy for all read/write requests that use this app profile.
-    /// A value must be explicitly set.
-    #[prost(oneof="app_profile::RoutingPolicy", tags="5, 6")]
-    pub routing_policy: ::core::option::Option<app_profile::RoutingPolicy>,
-}
-/// Nested message and enum types in `AppProfile`.
-pub mod app_profile {
-    /// Read/write requests are routed to the nearest cluster in the instance, and
-    /// will fail over to the nearest cluster that is available in the event of
-    /// transient errors or delays. Clusters in a region are considered
-    /// equidistant. Choosing this option sacrifices read-your-writes consistency
-    /// to improve availability.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct MultiClusterRoutingUseAny {
-        /// The set of clusters to route to. The order is ignored; clusters will be
-        /// tried in order of distance. If left empty, all clusters are eligible.
-        #[prost(string, repeated, tag="1")]
-        pub cluster_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    }
-    /// Unconditionally routes all read/write requests to a specific cluster.
-    /// This option preserves read-your-writes consistency but does not improve
-    /// availability.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SingleClusterRouting {
-        /// The cluster to which read/write requests should be routed.
-        #[prost(string, tag="1")]
-        pub cluster_id: ::prost::alloc::string::String,
-        /// Whether or not `CheckAndMutateRow` and `ReadModifyWriteRow` requests are
-        /// allowed by this app profile. It is unsafe to send these requests to
-        /// the same table/row/column in multiple clusters.
-        #[prost(bool, tag="2")]
-        pub allow_transactional_writes: bool,
-    }
-    /// The routing policy for all read/write requests that use this app profile.
-    /// A value must be explicitly set.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum RoutingPolicy {
-        /// Use a multi-cluster routing policy.
-        #[prost(message, tag="5")]
-        MultiClusterRoutingUseAny(MultiClusterRoutingUseAny),
-        /// Use a single-cluster routing policy.
-        #[prost(message, tag="6")]
-        SingleClusterRouting(SingleClusterRouting),
-    }
-}
-/// A tablet is a defined by a start and end key and is explained in
-/// <https://cloud.google.com/bigtable/docs/overview#architecture> and
-/// <https://cloud.google.com/bigtable/docs/performance#optimization.>
-/// A Hot tablet is a tablet that exhibits high average cpu usage during the time
-/// interval from start time to end time.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct HotTablet {
-    /// The unique name of the hot tablet. Values are of the form
-    /// `projects/{project}/instances/{instance}/clusters/{cluster}/hotTablets/\[a-zA-Z0-9_-\]*`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Name of the table that contains the tablet. Values are of the form
-    /// `projects/{project}/instances/{instance}/tables/\[_a-zA-Z0-9][-_.a-zA-Z0-9\]*`.
-    #[prost(string, tag="2")]
-    pub table_name: ::prost::alloc::string::String,
-    /// Output only. The start time of the hot tablet.
-    #[prost(message, optional, tag="3")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The end time of the hot tablet.
-    #[prost(message, optional, tag="4")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Tablet Start Key (inclusive).
-    #[prost(string, tag="5")]
-    pub start_key: ::prost::alloc::string::String,
-    /// Tablet End Key (inclusive).
-    #[prost(string, tag="6")]
-    pub end_key: ::prost::alloc::string::String,
-    /// Output only. The average CPU usage spent by a node on this tablet over the start_time to
-    /// end_time time range. The percentage is the amount of CPU used by the node
-    /// to serve the tablet, from 0% (tablet was not interacted with) to 100% (the
-    /// node spent all cycles serving the hot tablet).
-    #[prost(float, tag="7")]
-    pub node_cpu_usage_percent: f32,
 }
 /// Request message for BigtableInstanceAdmin.CreateInstance.
 #[derive(Clone, PartialEq, ::prost::Message)]

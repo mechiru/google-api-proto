@@ -1,3 +1,102 @@
+/// A read group is all the data that's processed the same way by the sequencer.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReadGroup {
+    /// The server-generated read group ID, unique for all read groups.
+    /// Note: This is different than the @RG ID field in the SAM spec. For that
+    /// value, see \[name][google.genomics.v1.ReadGroup.name\].
+    #[prost(string, tag="1")]
+    pub id: ::prost::alloc::string::String,
+    /// The dataset to which this read group belongs.
+    #[prost(string, tag="2")]
+    pub dataset_id: ::prost::alloc::string::String,
+    /// The read group name. This corresponds to the @RG ID field in the SAM spec.
+    #[prost(string, tag="3")]
+    pub name: ::prost::alloc::string::String,
+    /// A free-form text description of this read group.
+    #[prost(string, tag="4")]
+    pub description: ::prost::alloc::string::String,
+    /// A client-supplied sample identifier for the reads in this read group.
+    #[prost(string, tag="5")]
+    pub sample_id: ::prost::alloc::string::String,
+    /// The experiment used to generate this read group.
+    #[prost(message, optional, tag="6")]
+    pub experiment: ::core::option::Option<read_group::Experiment>,
+    /// The predicted insert size of this read group. The insert size is the length
+    /// the sequenced DNA fragment from end-to-end, not including the adapters.
+    #[prost(int32, tag="7")]
+    pub predicted_insert_size: i32,
+    /// The programs used to generate this read group. Programs are always
+    /// identical for all read groups within a read group set. For this reason,
+    /// only the first read group in a returned set will have this field
+    /// populated.
+    #[prost(message, repeated, tag="10")]
+    pub programs: ::prost::alloc::vec::Vec<read_group::Program>,
+    /// The reference set the reads in this read group are aligned to.
+    #[prost(string, tag="11")]
+    pub reference_set_id: ::prost::alloc::string::String,
+    /// A map of additional read group information. This must be of the form
+    /// map<string, string[]> (string key mapping to a list of string values).
+    #[prost(btree_map="string, message", tag="12")]
+    pub info: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::ListValue>,
+}
+/// Nested message and enum types in `ReadGroup`.
+pub mod read_group {
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Experiment {
+        /// A client-supplied library identifier; a library is a collection of DNA
+        /// fragments which have been prepared for sequencing from a sample. This
+        /// field is important for quality control as error or bias can be introduced
+        /// during sample preparation.
+        #[prost(string, tag="1")]
+        pub library_id: ::prost::alloc::string::String,
+        /// The platform unit used as part of this experiment, for example
+        /// flowcell-barcode.lane for Illumina or slide for SOLiD. Corresponds to the
+        /// @RG PU field in the SAM spec.
+        #[prost(string, tag="2")]
+        pub platform_unit: ::prost::alloc::string::String,
+        /// The sequencing center used as part of this experiment.
+        #[prost(string, tag="3")]
+        pub sequencing_center: ::prost::alloc::string::String,
+        /// The instrument model used as part of this experiment. This maps to
+        /// sequencing technology in the SAM spec.
+        #[prost(string, tag="4")]
+        pub instrument_model: ::prost::alloc::string::String,
+    }
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Program {
+        /// The command line used to run this program.
+        #[prost(string, tag="1")]
+        pub command_line: ::prost::alloc::string::String,
+        /// The user specified locally unique ID of the program. Used along with
+        /// `prevProgramId` to define an ordering between programs.
+        #[prost(string, tag="2")]
+        pub id: ::prost::alloc::string::String,
+        /// The display name of the program. This is typically the colloquial name of
+        /// the tool used, for example 'bwa' or 'picard'.
+        #[prost(string, tag="3")]
+        pub name: ::prost::alloc::string::String,
+        /// The ID of the program run before this one.
+        #[prost(string, tag="4")]
+        pub prev_program_id: ::prost::alloc::string::String,
+        /// The version of the program run.
+        #[prost(string, tag="5")]
+        pub version: ::prost::alloc::string::String,
+    }
+}
+/// A 0-based half-open genomic coordinate range for search requests.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Range {
+    /// The reference sequence name, for example `chr1`,
+    /// `1`, or `chrX`.
+    #[prost(string, tag="1")]
+    pub reference_name: ::prost::alloc::string::String,
+    /// The start position of the range on the reference, 0-based inclusive.
+    #[prost(int64, tag="2")]
+    pub start: i64,
+    /// The end position of the range on the reference, 0-based exclusive.
+    #[prost(int64, tag="3")]
+    pub end: i64,
+}
 /// A single CIGAR operation.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CigarUnit {
@@ -66,217 +165,6 @@ pub mod cigar_unit {
         /// `X`.
         SequenceMismatch = 9,
     }
-}
-/// An abstraction for referring to a genomic position, in relation to some
-/// already known reference. For now, represents a genomic position as a
-/// reference name, a base number on that reference (0-based), and a
-/// determination of forward or reverse strand.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Position {
-    /// The name of the reference in whatever reference set is being used.
-    #[prost(string, tag="1")]
-    pub reference_name: ::prost::alloc::string::String,
-    /// The 0-based offset from the start of the forward strand for that reference.
-    #[prost(int64, tag="2")]
-    pub position: i64,
-    /// Whether this position is on the reverse strand, as opposed to the forward
-    /// strand.
-    #[prost(bool, tag="3")]
-    pub reverse_strand: bool,
-}
-/// A linear alignment can be represented by one CIGAR string. Describes the
-/// mapped position and local alignment of the read to the reference.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LinearAlignment {
-    /// The position of this alignment.
-    #[prost(message, optional, tag="1")]
-    pub position: ::core::option::Option<Position>,
-    /// The mapping quality of this alignment. Represents how likely
-    /// the read maps to this position as opposed to other locations.
-    ///
-    /// Specifically, this is -10 log10 Pr(mapping position is wrong), rounded to
-    /// the nearest integer.
-    #[prost(int32, tag="2")]
-    pub mapping_quality: i32,
-    /// Represents the local alignment of this sequence (alignment matches, indels,
-    /// etc) against the reference.
-    #[prost(message, repeated, tag="3")]
-    pub cigar: ::prost::alloc::vec::Vec<CigarUnit>,
-}
-/// A read alignment describes a linear alignment of a string of DNA to a
-/// [reference sequence]\[google.genomics.v1.Reference\], in addition to metadata
-/// about the fragment (the molecule of DNA sequenced) and the read (the bases
-/// which were read by the sequencer). A read is equivalent to a line in a SAM
-/// file. A read belongs to exactly one read group and exactly one
-/// [read group set]\[google.genomics.v1.ReadGroupSet\].
-///
-/// For more genomics resource definitions, see [Fundamentals of Google
-/// Genomics](<https://cloud.google.com/genomics/fundamentals-of-google-genomics>)
-///
-/// ### Reverse-stranded reads
-///
-/// Mapped reads (reads having a non-null `alignment`) can be aligned to either
-/// the forward or the reverse strand of their associated reference. Strandedness
-/// of a mapped read is encoded by `alignment.position.reverseStrand`.
-///
-/// If we consider the reference to be a forward-stranded coordinate space of
-/// `[0, reference.length)` with `0` as the left-most position and
-/// `reference.length` as the right-most position, reads are always aligned left
-/// to right. That is, `alignment.position.position` always refers to the
-/// left-most reference coordinate and `alignment.cigar` describes the alignment
-/// of this read to the reference from left to right. All per-base fields such as
-/// `alignedSequence` and `alignedQuality` share this same left-to-right
-/// orientation; this is true of reads which are aligned to either strand. For
-/// reverse-stranded reads, this means that `alignedSequence` is the reverse
-/// complement of the bases that were originally reported by the sequencing
-/// machine.
-///
-/// ### Generating a reference-aligned sequence string
-///
-/// When interacting with mapped reads, it's often useful to produce a string
-/// representing the local alignment of the read to reference. The following
-/// pseudocode demonstrates one way of doing this:
-///
-///     out = ""
-///     offset = 0
-///     for c in read.alignment.cigar {
-///       switch c.operation {
-///       case "ALIGNMENT_MATCH", "SEQUENCE_MATCH", "SEQUENCE_MISMATCH":
-///         out += read.alignedSequence\[offset:offset+c.operationLength\]
-///         offset += c.operationLength
-///         break
-///       case "CLIP_SOFT", "INSERT":
-///         offset += c.operationLength
-///         break
-///       case "PAD":
-///         out += repeat("*", c.operationLength)
-///         break
-///       case "DELETE":
-///         out += repeat("-", c.operationLength)
-///         break
-///       case "SKIP":
-///         out += repeat(" ", c.operationLength)
-///         break
-///       case "CLIP_HARD":
-///         break
-///       }
-///     }
-///     return out
-///
-/// ### Converting to SAM's CIGAR string
-///
-/// The following pseudocode generates a SAM CIGAR string from the
-/// `cigar` field. Note that this is a lossy conversion
-/// (`cigar.referenceSequence` is lost).
-///
-///     cigarMap = {
-///       "ALIGNMENT_MATCH": "M",
-///       "INSERT": "I",
-///       "DELETE": "D",
-///       "SKIP": "N",
-///       "CLIP_SOFT": "S",
-///       "CLIP_HARD": "H",
-///       "PAD": "P",
-///       "SEQUENCE_MATCH": "=",
-///       "SEQUENCE_MISMATCH": "X",
-///     }
-///     cigarStr = ""
-///     for c in read.alignment.cigar {
-///       cigarStr += c.operationLength + cigarMap\[c.operation\]
-///     }
-///     return cigarStr
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Read {
-    /// The server-generated read ID, unique across all reads. This is different
-    /// from the `fragmentName`.
-    #[prost(string, tag="1")]
-    pub id: ::prost::alloc::string::String,
-    /// The ID of the read group this read belongs to. A read belongs to exactly
-    /// one read group. This is a server-generated ID which is distinct from SAM's
-    /// RG tag (for that value, see
-    /// \[ReadGroup.name][google.genomics.v1.ReadGroup.name\]).
-    #[prost(string, tag="2")]
-    pub read_group_id: ::prost::alloc::string::String,
-    /// The ID of the read group set this read belongs to. A read belongs to
-    /// exactly one read group set.
-    #[prost(string, tag="3")]
-    pub read_group_set_id: ::prost::alloc::string::String,
-    /// The fragment name. Equivalent to QNAME (query template name) in SAM.
-    #[prost(string, tag="4")]
-    pub fragment_name: ::prost::alloc::string::String,
-    /// The orientation and the distance between reads from the fragment are
-    /// consistent with the sequencing protocol (SAM flag 0x2).
-    #[prost(bool, tag="5")]
-    pub proper_placement: bool,
-    /// The fragment is a PCR or optical duplicate (SAM flag 0x400).
-    #[prost(bool, tag="6")]
-    pub duplicate_fragment: bool,
-    /// The observed length of the fragment, equivalent to TLEN in SAM.
-    #[prost(int32, tag="7")]
-    pub fragment_length: i32,
-    /// The read number in sequencing. 0-based and less than numberReads. This
-    /// field replaces SAM flag 0x40 and 0x80.
-    #[prost(int32, tag="8")]
-    pub read_number: i32,
-    /// The number of reads in the fragment (extension to SAM flag 0x1).
-    #[prost(int32, tag="9")]
-    pub number_reads: i32,
-    /// Whether this read did not pass filters, such as platform or vendor quality
-    /// controls (SAM flag 0x200).
-    #[prost(bool, tag="10")]
-    pub failed_vendor_quality_checks: bool,
-    /// The linear alignment for this alignment record. This field is null for
-    /// unmapped reads.
-    #[prost(message, optional, tag="11")]
-    pub alignment: ::core::option::Option<LinearAlignment>,
-    /// Whether this alignment is secondary. Equivalent to SAM flag 0x100.
-    /// A secondary alignment represents an alternative to the primary alignment
-    /// for this read. Aligners may return secondary alignments if a read can map
-    /// ambiguously to multiple coordinates in the genome. By convention, each read
-    /// has one and only one alignment where both `secondaryAlignment`
-    /// and `supplementaryAlignment` are false.
-    #[prost(bool, tag="12")]
-    pub secondary_alignment: bool,
-    /// Whether this alignment is supplementary. Equivalent to SAM flag 0x800.
-    /// Supplementary alignments are used in the representation of a chimeric
-    /// alignment. In a chimeric alignment, a read is split into multiple
-    /// linear alignments that map to different reference contigs. The first
-    /// linear alignment in the read will be designated as the representative
-    /// alignment; the remaining linear alignments will be designated as
-    /// supplementary alignments. These alignments may have different mapping
-    /// quality scores. In each linear alignment in a chimeric alignment, the read
-    /// will be hard clipped. The `alignedSequence` and
-    /// `alignedQuality` fields in the alignment record will only
-    /// represent the bases for its respective linear alignment.
-    #[prost(bool, tag="13")]
-    pub supplementary_alignment: bool,
-    /// The bases of the read sequence contained in this alignment record,
-    /// **without CIGAR operations applied** (equivalent to SEQ in SAM).
-    /// `alignedSequence` and `alignedQuality` may be
-    /// shorter than the full read sequence and quality. This will occur if the
-    /// alignment is part of a chimeric alignment, or if the read was trimmed. When
-    /// this occurs, the CIGAR for this read will begin/end with a hard clip
-    /// operator that will indicate the length of the excised sequence.
-    #[prost(string, tag="14")]
-    pub aligned_sequence: ::prost::alloc::string::String,
-    /// The quality of the read sequence contained in this alignment record
-    /// (equivalent to QUAL in SAM).
-    /// `alignedSequence` and `alignedQuality` may be shorter than the full read
-    /// sequence and quality. This will occur if the alignment is part of a
-    /// chimeric alignment, or if the read was trimmed. When this occurs, the CIGAR
-    /// for this read will begin/end with a hard clip operator that will indicate
-    /// the length of the excised sequence.
-    #[prost(int32, repeated, tag="15")]
-    pub aligned_quality: ::prost::alloc::vec::Vec<i32>,
-    /// The mapping of the primary alignment of the
-    /// `(readNumber+1)%numberReads` read in the fragment. It replaces
-    /// mate position and mate strand in SAM.
-    #[prost(message, optional, tag="16")]
-    pub next_mate_position: ::core::option::Option<Position>,
-    /// A map of additional read alignment information. This must be of the form
-    /// map<string, string[]> (string key mapping to a list of string values).
-    #[prost(btree_map="string, message", tag="17")]
-    pub info: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::ListValue>,
 }
 /// Metadata describes a single piece of variant call metadata.
 /// These data include a top level key and either a single value string (value)
@@ -1584,398 +1472,42 @@ pub mod variant_service_v1_client {
         }
     }
 }
-/// A reference is a canonical assembled DNA sequence, intended to act as a
-/// reference coordinate space for other genomic annotations. A single reference
-/// might represent the human chromosome 1 or mitochandrial DNA, for instance. A
-/// reference belongs to one or more reference sets.
+/// A read group set is a logical collection of read groups, which are
+/// collections of reads produced by a sequencer. A read group set typically
+/// models reads corresponding to one sample, sequenced one way, and aligned one
+/// way.
+///
+/// * A read group set belongs to one dataset.
+/// * A read group belongs to one read group set.
+/// * A read belongs to one read group.
 ///
 /// For more genomics resource definitions, see [Fundamentals of Google
 /// Genomics](<https://cloud.google.com/genomics/fundamentals-of-google-genomics>)
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Reference {
-    /// The server-generated reference ID, unique across all references.
+pub struct ReadGroupSet {
+    /// The server-generated read group set ID, unique for all read group sets.
     #[prost(string, tag="1")]
     pub id: ::prost::alloc::string::String,
-    /// The length of this reference's sequence.
-    #[prost(int64, tag="2")]
-    pub length: i64,
-    /// MD5 of the upper-case sequence excluding all whitespace characters (this
-    /// is equivalent to SQ:M5 in SAM). This value is represented in lower case
-    /// hexadecimal format.
+    /// The dataset to which this read group set belongs.
+    #[prost(string, tag="2")]
+    pub dataset_id: ::prost::alloc::string::String,
+    /// The reference set to which the reads in this read group set are aligned.
     #[prost(string, tag="3")]
-    pub md5checksum: ::prost::alloc::string::String,
-    /// The name of this reference, for example `22`.
+    pub reference_set_id: ::prost::alloc::string::String,
+    /// The read group set name. By default this will be initialized to the sample
+    /// name of the sequenced data contained in this set.
     #[prost(string, tag="4")]
     pub name: ::prost::alloc::string::String,
-    /// The URI from which the sequence was obtained. Typically specifies a FASTA
-    /// format file.
+    /// The filename of the original source file for this read group set, if any.
     #[prost(string, tag="5")]
-    pub source_uri: ::prost::alloc::string::String,
-    /// All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
-    /// with a version number, for example `GCF_000001405.26`.
-    #[prost(string, repeated, tag="6")]
-    pub source_accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// ID from <http://www.ncbi.nlm.nih.gov/taxonomy.> For example, 9606 for human.
-    #[prost(int32, tag="7")]
-    pub ncbi_taxon_id: i32,
-}
-/// A reference set is a set of references which typically comprise a reference
-/// assembly for a species, such as `GRCh38` which is representative
-/// of the human genome. A reference set defines a common coordinate space for
-/// comparing reference-aligned experimental data. A reference set contains 1 or
-/// more references.
-///
-/// For more genomics resource definitions, see [Fundamentals of Google
-/// Genomics](<https://cloud.google.com/genomics/fundamentals-of-google-genomics>)
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReferenceSet {
-    /// The server-generated reference set ID, unique across all reference sets.
-    #[prost(string, tag="1")]
-    pub id: ::prost::alloc::string::String,
-    /// The IDs of the reference objects that are part of this set.
-    /// `Reference.md5checksum` must be unique within this set.
-    #[prost(string, repeated, tag="2")]
-    pub reference_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Order-independent MD5 checksum which identifies this reference set. The
-    /// checksum is computed by sorting all lower case hexidecimal string
-    /// `reference.md5checksum` (for all reference in this set) in
-    /// ascending lexicographic order, concatenating, and taking the MD5 of that
-    /// value. The resulting value is represented in lower case hexadecimal format.
-    #[prost(string, tag="3")]
-    pub md5checksum: ::prost::alloc::string::String,
-    /// ID from <http://www.ncbi.nlm.nih.gov/taxonomy> (for example, 9606 for human)
-    /// indicating the species which this reference set is intended to model. Note
-    /// that contained references may specify a different `ncbiTaxonId`, as
-    /// assemblies may contain reference sequences which do not belong to the
-    /// modeled species, for example EBV in a human reference genome.
-    #[prost(int32, tag="4")]
-    pub ncbi_taxon_id: i32,
-    /// Free text description of this reference set.
-    #[prost(string, tag="5")]
-    pub description: ::prost::alloc::string::String,
-    /// Public id of this reference set, such as `GRCh37`.
-    #[prost(string, tag="6")]
-    pub assembly_id: ::prost::alloc::string::String,
-    /// The URI from which the references were obtained.
-    #[prost(string, tag="7")]
-    pub source_uri: ::prost::alloc::string::String,
-    /// All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
-    /// with a version number, for example `NC_000001.11`.
-    #[prost(string, repeated, tag="8")]
-    pub source_accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchReferenceSetsRequest {
-    /// If present, return reference sets for which the
-    /// \[md5checksum][google.genomics.v1.ReferenceSet.md5checksum\] matches exactly.
-    #[prost(string, repeated, tag="1")]
-    pub md5checksums: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// If present, return reference sets for which a prefix of any of
-    /// \[sourceAccessions][google.genomics.v1.ReferenceSet.source_accessions\]
-    /// match any of these strings. Accession numbers typically have a main number
-    /// and a version, for example `NC_000001.11`.
-    #[prost(string, repeated, tag="2")]
-    pub accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// If present, return reference sets for which a substring of their
-    /// `assemblyId` matches this string (case insensitive).
-    #[prost(string, tag="3")]
-    pub assembly_id: ::prost::alloc::string::String,
-    /// The continuation token, which is used to page through large result sets.
-    /// To get the next page of results, set this parameter to the value of
-    /// `nextPageToken` from the previous response.
-    #[prost(string, tag="4")]
-    pub page_token: ::prost::alloc::string::String,
-    /// The maximum number of results to return in a single page. If unspecified,
-    /// defaults to 1024. The maximum value is 4096.
-    #[prost(int32, tag="5")]
-    pub page_size: i32,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchReferenceSetsResponse {
-    /// The matching references sets.
-    #[prost(message, repeated, tag="1")]
-    pub reference_sets: ::prost::alloc::vec::Vec<ReferenceSet>,
-    /// The continuation token, which is used to page through large result sets.
-    /// Provide this value in a subsequent request to return the next page of
-    /// results. This field will be empty if there aren't any additional results.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetReferenceSetRequest {
-    /// The ID of the reference set.
-    #[prost(string, tag="1")]
-    pub reference_set_id: ::prost::alloc::string::String,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchReferencesRequest {
-    /// If present, return references for which the
-    /// \[md5checksum][google.genomics.v1.Reference.md5checksum\] matches exactly.
-    #[prost(string, repeated, tag="1")]
-    pub md5checksums: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// If present, return references for which a prefix of any of
-    /// \[sourceAccessions][google.genomics.v1.Reference.source_accessions\] match
-    /// any of these strings. Accession numbers typically have a main number and a
-    /// version, for example `GCF_000001405.26`.
-    #[prost(string, repeated, tag="2")]
-    pub accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// If present, return only references which belong to this reference set.
-    #[prost(string, tag="3")]
-    pub reference_set_id: ::prost::alloc::string::String,
-    /// The continuation token, which is used to page through large result sets.
-    /// To get the next page of results, set this parameter to the value of
-    /// `nextPageToken` from the previous response.
-    #[prost(string, tag="4")]
-    pub page_token: ::prost::alloc::string::String,
-    /// The maximum number of results to return in a single page. If unspecified,
-    /// defaults to 1024. The maximum value is 4096.
-    #[prost(int32, tag="5")]
-    pub page_size: i32,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchReferencesResponse {
-    /// The matching references.
-    #[prost(message, repeated, tag="1")]
-    pub references: ::prost::alloc::vec::Vec<Reference>,
-    /// The continuation token, which is used to page through large result sets.
-    /// Provide this value in a subsequent request to return the next page of
-    /// results. This field will be empty if there aren't any additional results.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetReferenceRequest {
-    /// The ID of the reference.
-    #[prost(string, tag="1")]
-    pub reference_id: ::prost::alloc::string::String,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListBasesRequest {
-    /// The ID of the reference.
-    #[prost(string, tag="1")]
-    pub reference_id: ::prost::alloc::string::String,
-    /// The start position (0-based) of this query. Defaults to 0.
-    #[prost(int64, tag="2")]
-    pub start: i64,
-    /// The end position (0-based, exclusive) of this query. Defaults to the length
-    /// of this reference.
-    #[prost(int64, tag="3")]
-    pub end: i64,
-    /// The continuation token, which is used to page through large result sets.
-    /// To get the next page of results, set this parameter to the value of
-    /// `nextPageToken` from the previous response.
-    #[prost(string, tag="4")]
-    pub page_token: ::prost::alloc::string::String,
-    /// The maximum number of bases to return in a single page. If unspecified,
-    /// defaults to 200Kbp (kilo base pairs). The maximum value is 10Mbp (mega base
-    /// pairs).
-    #[prost(int32, tag="5")]
-    pub page_size: i32,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListBasesResponse {
-    /// The offset position (0-based) of the given `sequence` from the
-    /// start of this `Reference`. This value will differ for each page
-    /// in a paginated request.
-    #[prost(int64, tag="1")]
-    pub offset: i64,
-    /// A substring of the bases that make up this reference.
-    #[prost(string, tag="2")]
-    pub sequence: ::prost::alloc::string::String,
-    /// The continuation token, which is used to page through large result sets.
-    /// Provide this value in a subsequent request to return the next page of
-    /// results. This field will be empty if there aren't any additional results.
-    #[prost(string, tag="3")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Generated client implementations.
-pub mod reference_service_v1_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[derive(Debug, Clone)]
-    pub struct ReferenceServiceV1Client<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ReferenceServiceV1Client<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ReferenceServiceV1Client<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            ReferenceServiceV1Client::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Searches for reference sets which match the given criteria.
-        ///
-        /// For the definitions of references and other genomics resources, see
-        /// [Fundamentals of Google
-        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
-        ///
-        /// Implements
-        /// [GlobalAllianceApi.searchReferenceSets](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L71)
-        pub async fn search_reference_sets(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SearchReferenceSetsRequest>,
-        ) -> Result<tonic::Response<super::SearchReferenceSetsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReferenceServiceV1/SearchReferenceSets",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets a reference set.
-        ///
-        /// For the definitions of references and other genomics resources, see
-        /// [Fundamentals of Google
-        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
-        ///
-        /// Implements
-        /// [GlobalAllianceApi.getReferenceSet](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L83).
-        pub async fn get_reference_set(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetReferenceSetRequest>,
-        ) -> Result<tonic::Response<super::ReferenceSet>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReferenceServiceV1/GetReferenceSet",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Searches for references which match the given criteria.
-        ///
-        /// For the definitions of references and other genomics resources, see
-        /// [Fundamentals of Google
-        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
-        ///
-        /// Implements
-        /// [GlobalAllianceApi.searchReferences](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L146).
-        pub async fn search_references(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SearchReferencesRequest>,
-        ) -> Result<tonic::Response<super::SearchReferencesResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReferenceServiceV1/SearchReferences",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets a reference.
-        ///
-        /// For the definitions of references and other genomics resources, see
-        /// [Fundamentals of Google
-        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
-        ///
-        /// Implements
-        /// [GlobalAllianceApi.getReference](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L158).
-        pub async fn get_reference(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetReferenceRequest>,
-        ) -> Result<tonic::Response<super::Reference>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReferenceServiceV1/GetReference",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Lists the bases in a reference, optionally restricted to a range.
-        ///
-        /// For the definitions of references and other genomics resources, see
-        /// [Fundamentals of Google
-        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
-        ///
-        /// Implements
-        /// [GlobalAllianceApi.getReferenceBases](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L221).
-        pub async fn list_bases(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListBasesRequest>,
-        ) -> Result<tonic::Response<super::ListBasesResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReferenceServiceV1/ListBases",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
+    pub filename: ::prost::alloc::string::String,
+    /// The read groups in this set. There are typically 1-10 read groups in a read
+    /// group set.
+    #[prost(message, repeated, tag="6")]
+    pub read_groups: ::prost::alloc::vec::Vec<ReadGroup>,
+    /// A map of additional read group set information.
+    #[prost(btree_map="string, message", tag="7")]
+    pub info: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::ListValue>,
 }
 /// An annotation set is a logical grouping of annotations that share consistent
 /// type information and provenance. Examples of annotation sets include 'all
@@ -2858,6 +2390,57 @@ pub mod annotation_service_v1_client {
         }
     }
 }
+/// Metadata describing an \[Operation][google.longrunning.Operation\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationMetadata {
+    /// The Google Cloud Project in which the job is scoped.
+    #[prost(string, tag="1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The time at which the job was submitted to the Genomics service.
+    #[prost(message, optional, tag="2")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time at which the job began to run.
+    #[prost(message, optional, tag="3")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time at which the job stopped running.
+    #[prost(message, optional, tag="4")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The original request that started the operation. Note that this will be in
+    /// current version of the API. If the operation was started with v1beta2 API
+    /// and a GetOperation is performed on v1 API, a v1 request will be returned.
+    #[prost(message, optional, tag="5")]
+    pub request: ::core::option::Option<::prost_types::Any>,
+    /// Optional event messages that were generated during the job's execution.
+    /// This also contains any warnings that were generated during import
+    /// or export.
+    #[prost(message, repeated, tag="6")]
+    pub events: ::prost::alloc::vec::Vec<OperationEvent>,
+    /// This field is deprecated. Use `labels` instead. Optionally provided by the
+    /// caller when submitting the request that creates the operation.
+    #[prost(string, tag="7")]
+    pub client_id: ::prost::alloc::string::String,
+    /// Runtime metadata on this Operation.
+    #[prost(message, optional, tag="8")]
+    pub runtime_metadata: ::core::option::Option<::prost_types::Any>,
+    /// Optionally provided by the caller when submitting the request that creates
+    /// the operation.
+    #[prost(btree_map="string, string", tag="9")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+}
+/// An event that occurred during an \[Operation][google.longrunning.Operation\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationEvent {
+    /// Optional time of when event started.
+    #[prost(message, optional, tag="1")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional time of when event finished. An event can have a start time and no
+    /// finish time. If an event has a finish time, there must be a start time.
+    #[prost(message, optional, tag="2")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Required description of event.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+}
 /// A Dataset is a collection of genomic data.
 ///
 /// For more genomics resource definitions, see [Fundamentals of Google
@@ -3251,141 +2834,609 @@ pub mod dataset_service_v1_client {
         }
     }
 }
-/// A read group is all the data that's processed the same way by the sequencer.
+/// An abstraction for referring to a genomic position, in relation to some
+/// already known reference. For now, represents a genomic position as a
+/// reference name, a base number on that reference (0-based), and a
+/// determination of forward or reverse strand.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReadGroup {
-    /// The server-generated read group ID, unique for all read groups.
-    /// Note: This is different than the @RG ID field in the SAM spec. For that
-    /// value, see \[name][google.genomics.v1.ReadGroup.name\].
+pub struct Position {
+    /// The name of the reference in whatever reference set is being used.
     #[prost(string, tag="1")]
-    pub id: ::prost::alloc::string::String,
-    /// The dataset to which this read group belongs.
-    #[prost(string, tag="2")]
-    pub dataset_id: ::prost::alloc::string::String,
-    /// The read group name. This corresponds to the @RG ID field in the SAM spec.
-    #[prost(string, tag="3")]
-    pub name: ::prost::alloc::string::String,
-    /// A free-form text description of this read group.
-    #[prost(string, tag="4")]
-    pub description: ::prost::alloc::string::String,
-    /// A client-supplied sample identifier for the reads in this read group.
-    #[prost(string, tag="5")]
-    pub sample_id: ::prost::alloc::string::String,
-    /// The experiment used to generate this read group.
-    #[prost(message, optional, tag="6")]
-    pub experiment: ::core::option::Option<read_group::Experiment>,
-    /// The predicted insert size of this read group. The insert size is the length
-    /// the sequenced DNA fragment from end-to-end, not including the adapters.
-    #[prost(int32, tag="7")]
-    pub predicted_insert_size: i32,
-    /// The programs used to generate this read group. Programs are always
-    /// identical for all read groups within a read group set. For this reason,
-    /// only the first read group in a returned set will have this field
-    /// populated.
-    #[prost(message, repeated, tag="10")]
-    pub programs: ::prost::alloc::vec::Vec<read_group::Program>,
-    /// The reference set the reads in this read group are aligned to.
-    #[prost(string, tag="11")]
-    pub reference_set_id: ::prost::alloc::string::String,
-    /// A map of additional read group information. This must be of the form
-    /// map<string, string[]> (string key mapping to a list of string values).
-    #[prost(btree_map="string, message", tag="12")]
-    pub info: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::ListValue>,
+    pub reference_name: ::prost::alloc::string::String,
+    /// The 0-based offset from the start of the forward strand for that reference.
+    #[prost(int64, tag="2")]
+    pub position: i64,
+    /// Whether this position is on the reverse strand, as opposed to the forward
+    /// strand.
+    #[prost(bool, tag="3")]
+    pub reverse_strand: bool,
 }
-/// Nested message and enum types in `ReadGroup`.
-pub mod read_group {
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Experiment {
-        /// A client-supplied library identifier; a library is a collection of DNA
-        /// fragments which have been prepared for sequencing from a sample. This
-        /// field is important for quality control as error or bias can be introduced
-        /// during sample preparation.
-        #[prost(string, tag="1")]
-        pub library_id: ::prost::alloc::string::String,
-        /// The platform unit used as part of this experiment, for example
-        /// flowcell-barcode.lane for Illumina or slide for SOLiD. Corresponds to the
-        /// @RG PU field in the SAM spec.
-        #[prost(string, tag="2")]
-        pub platform_unit: ::prost::alloc::string::String,
-        /// The sequencing center used as part of this experiment.
-        #[prost(string, tag="3")]
-        pub sequencing_center: ::prost::alloc::string::String,
-        /// The instrument model used as part of this experiment. This maps to
-        /// sequencing technology in the SAM spec.
-        #[prost(string, tag="4")]
-        pub instrument_model: ::prost::alloc::string::String,
-    }
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Program {
-        /// The command line used to run this program.
-        #[prost(string, tag="1")]
-        pub command_line: ::prost::alloc::string::String,
-        /// The user specified locally unique ID of the program. Used along with
-        /// `prevProgramId` to define an ordering between programs.
-        #[prost(string, tag="2")]
-        pub id: ::prost::alloc::string::String,
-        /// The display name of the program. This is typically the colloquial name of
-        /// the tool used, for example 'bwa' or 'picard'.
-        #[prost(string, tag="3")]
-        pub name: ::prost::alloc::string::String,
-        /// The ID of the program run before this one.
-        #[prost(string, tag="4")]
-        pub prev_program_id: ::prost::alloc::string::String,
-        /// The version of the program run.
-        #[prost(string, tag="5")]
-        pub version: ::prost::alloc::string::String,
-    }
-}
-/// A read group set is a logical collection of read groups, which are
-/// collections of reads produced by a sequencer. A read group set typically
-/// models reads corresponding to one sample, sequenced one way, and aligned one
-/// way.
-///
-/// * A read group set belongs to one dataset.
-/// * A read group belongs to one read group set.
-/// * A read belongs to one read group.
+/// A reference is a canonical assembled DNA sequence, intended to act as a
+/// reference coordinate space for other genomic annotations. A single reference
+/// might represent the human chromosome 1 or mitochandrial DNA, for instance. A
+/// reference belongs to one or more reference sets.
 ///
 /// For more genomics resource definitions, see [Fundamentals of Google
 /// Genomics](<https://cloud.google.com/genomics/fundamentals-of-google-genomics>)
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReadGroupSet {
-    /// The server-generated read group set ID, unique for all read group sets.
+pub struct Reference {
+    /// The server-generated reference ID, unique across all references.
     #[prost(string, tag="1")]
     pub id: ::prost::alloc::string::String,
-    /// The dataset to which this read group set belongs.
-    #[prost(string, tag="2")]
-    pub dataset_id: ::prost::alloc::string::String,
-    /// The reference set to which the reads in this read group set are aligned.
+    /// The length of this reference's sequence.
+    #[prost(int64, tag="2")]
+    pub length: i64,
+    /// MD5 of the upper-case sequence excluding all whitespace characters (this
+    /// is equivalent to SQ:M5 in SAM). This value is represented in lower case
+    /// hexadecimal format.
     #[prost(string, tag="3")]
-    pub reference_set_id: ::prost::alloc::string::String,
-    /// The read group set name. By default this will be initialized to the sample
-    /// name of the sequenced data contained in this set.
+    pub md5checksum: ::prost::alloc::string::String,
+    /// The name of this reference, for example `22`.
     #[prost(string, tag="4")]
     pub name: ::prost::alloc::string::String,
-    /// The filename of the original source file for this read group set, if any.
+    /// The URI from which the sequence was obtained. Typically specifies a FASTA
+    /// format file.
     #[prost(string, tag="5")]
-    pub filename: ::prost::alloc::string::String,
-    /// The read groups in this set. There are typically 1-10 read groups in a read
-    /// group set.
-    #[prost(message, repeated, tag="6")]
-    pub read_groups: ::prost::alloc::vec::Vec<ReadGroup>,
-    /// A map of additional read group set information.
-    #[prost(btree_map="string, message", tag="7")]
-    pub info: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::ListValue>,
+    pub source_uri: ::prost::alloc::string::String,
+    /// All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
+    /// with a version number, for example `GCF_000001405.26`.
+    #[prost(string, repeated, tag="6")]
+    pub source_accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// ID from <http://www.ncbi.nlm.nih.gov/taxonomy.> For example, 9606 for human.
+    #[prost(int32, tag="7")]
+    pub ncbi_taxon_id: i32,
 }
-/// A 0-based half-open genomic coordinate range for search requests.
+/// A reference set is a set of references which typically comprise a reference
+/// assembly for a species, such as `GRCh38` which is representative
+/// of the human genome. A reference set defines a common coordinate space for
+/// comparing reference-aligned experimental data. A reference set contains 1 or
+/// more references.
+///
+/// For more genomics resource definitions, see [Fundamentals of Google
+/// Genomics](<https://cloud.google.com/genomics/fundamentals-of-google-genomics>)
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Range {
-    /// The reference sequence name, for example `chr1`,
-    /// `1`, or `chrX`.
+pub struct ReferenceSet {
+    /// The server-generated reference set ID, unique across all reference sets.
     #[prost(string, tag="1")]
-    pub reference_name: ::prost::alloc::string::String,
-    /// The start position of the range on the reference, 0-based inclusive.
+    pub id: ::prost::alloc::string::String,
+    /// The IDs of the reference objects that are part of this set.
+    /// `Reference.md5checksum` must be unique within this set.
+    #[prost(string, repeated, tag="2")]
+    pub reference_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Order-independent MD5 checksum which identifies this reference set. The
+    /// checksum is computed by sorting all lower case hexidecimal string
+    /// `reference.md5checksum` (for all reference in this set) in
+    /// ascending lexicographic order, concatenating, and taking the MD5 of that
+    /// value. The resulting value is represented in lower case hexadecimal format.
+    #[prost(string, tag="3")]
+    pub md5checksum: ::prost::alloc::string::String,
+    /// ID from <http://www.ncbi.nlm.nih.gov/taxonomy> (for example, 9606 for human)
+    /// indicating the species which this reference set is intended to model. Note
+    /// that contained references may specify a different `ncbiTaxonId`, as
+    /// assemblies may contain reference sequences which do not belong to the
+    /// modeled species, for example EBV in a human reference genome.
+    #[prost(int32, tag="4")]
+    pub ncbi_taxon_id: i32,
+    /// Free text description of this reference set.
+    #[prost(string, tag="5")]
+    pub description: ::prost::alloc::string::String,
+    /// Public id of this reference set, such as `GRCh37`.
+    #[prost(string, tag="6")]
+    pub assembly_id: ::prost::alloc::string::String,
+    /// The URI from which the references were obtained.
+    #[prost(string, tag="7")]
+    pub source_uri: ::prost::alloc::string::String,
+    /// All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
+    /// with a version number, for example `NC_000001.11`.
+    #[prost(string, repeated, tag="8")]
+    pub source_accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchReferenceSetsRequest {
+    /// If present, return reference sets for which the
+    /// \[md5checksum][google.genomics.v1.ReferenceSet.md5checksum\] matches exactly.
+    #[prost(string, repeated, tag="1")]
+    pub md5checksums: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// If present, return reference sets for which a prefix of any of
+    /// \[sourceAccessions][google.genomics.v1.ReferenceSet.source_accessions\]
+    /// match any of these strings. Accession numbers typically have a main number
+    /// and a version, for example `NC_000001.11`.
+    #[prost(string, repeated, tag="2")]
+    pub accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// If present, return reference sets for which a substring of their
+    /// `assemblyId` matches this string (case insensitive).
+    #[prost(string, tag="3")]
+    pub assembly_id: ::prost::alloc::string::String,
+    /// The continuation token, which is used to page through large result sets.
+    /// To get the next page of results, set this parameter to the value of
+    /// `nextPageToken` from the previous response.
+    #[prost(string, tag="4")]
+    pub page_token: ::prost::alloc::string::String,
+    /// The maximum number of results to return in a single page. If unspecified,
+    /// defaults to 1024. The maximum value is 4096.
+    #[prost(int32, tag="5")]
+    pub page_size: i32,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchReferenceSetsResponse {
+    /// The matching references sets.
+    #[prost(message, repeated, tag="1")]
+    pub reference_sets: ::prost::alloc::vec::Vec<ReferenceSet>,
+    /// The continuation token, which is used to page through large result sets.
+    /// Provide this value in a subsequent request to return the next page of
+    /// results. This field will be empty if there aren't any additional results.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetReferenceSetRequest {
+    /// The ID of the reference set.
+    #[prost(string, tag="1")]
+    pub reference_set_id: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchReferencesRequest {
+    /// If present, return references for which the
+    /// \[md5checksum][google.genomics.v1.Reference.md5checksum\] matches exactly.
+    #[prost(string, repeated, tag="1")]
+    pub md5checksums: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// If present, return references for which a prefix of any of
+    /// \[sourceAccessions][google.genomics.v1.Reference.source_accessions\] match
+    /// any of these strings. Accession numbers typically have a main number and a
+    /// version, for example `GCF_000001405.26`.
+    #[prost(string, repeated, tag="2")]
+    pub accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// If present, return only references which belong to this reference set.
+    #[prost(string, tag="3")]
+    pub reference_set_id: ::prost::alloc::string::String,
+    /// The continuation token, which is used to page through large result sets.
+    /// To get the next page of results, set this parameter to the value of
+    /// `nextPageToken` from the previous response.
+    #[prost(string, tag="4")]
+    pub page_token: ::prost::alloc::string::String,
+    /// The maximum number of results to return in a single page. If unspecified,
+    /// defaults to 1024. The maximum value is 4096.
+    #[prost(int32, tag="5")]
+    pub page_size: i32,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchReferencesResponse {
+    /// The matching references.
+    #[prost(message, repeated, tag="1")]
+    pub references: ::prost::alloc::vec::Vec<Reference>,
+    /// The continuation token, which is used to page through large result sets.
+    /// Provide this value in a subsequent request to return the next page of
+    /// results. This field will be empty if there aren't any additional results.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetReferenceRequest {
+    /// The ID of the reference.
+    #[prost(string, tag="1")]
+    pub reference_id: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListBasesRequest {
+    /// The ID of the reference.
+    #[prost(string, tag="1")]
+    pub reference_id: ::prost::alloc::string::String,
+    /// The start position (0-based) of this query. Defaults to 0.
     #[prost(int64, tag="2")]
     pub start: i64,
-    /// The end position of the range on the reference, 0-based exclusive.
+    /// The end position (0-based, exclusive) of this query. Defaults to the length
+    /// of this reference.
     #[prost(int64, tag="3")]
     pub end: i64,
+    /// The continuation token, which is used to page through large result sets.
+    /// To get the next page of results, set this parameter to the value of
+    /// `nextPageToken` from the previous response.
+    #[prost(string, tag="4")]
+    pub page_token: ::prost::alloc::string::String,
+    /// The maximum number of bases to return in a single page. If unspecified,
+    /// defaults to 200Kbp (kilo base pairs). The maximum value is 10Mbp (mega base
+    /// pairs).
+    #[prost(int32, tag="5")]
+    pub page_size: i32,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListBasesResponse {
+    /// The offset position (0-based) of the given `sequence` from the
+    /// start of this `Reference`. This value will differ for each page
+    /// in a paginated request.
+    #[prost(int64, tag="1")]
+    pub offset: i64,
+    /// A substring of the bases that make up this reference.
+    #[prost(string, tag="2")]
+    pub sequence: ::prost::alloc::string::String,
+    /// The continuation token, which is used to page through large result sets.
+    /// Provide this value in a subsequent request to return the next page of
+    /// results. This field will be empty if there aren't any additional results.
+    #[prost(string, tag="3")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Generated client implementations.
+pub mod reference_service_v1_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[derive(Debug, Clone)]
+    pub struct ReferenceServiceV1Client<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ReferenceServiceV1Client<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ReferenceServiceV1Client<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            ReferenceServiceV1Client::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Searches for reference sets which match the given criteria.
+        ///
+        /// For the definitions of references and other genomics resources, see
+        /// [Fundamentals of Google
+        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
+        ///
+        /// Implements
+        /// [GlobalAllianceApi.searchReferenceSets](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L71)
+        pub async fn search_reference_sets(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SearchReferenceSetsRequest>,
+        ) -> Result<tonic::Response<super::SearchReferenceSetsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.genomics.v1.ReferenceServiceV1/SearchReferenceSets",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets a reference set.
+        ///
+        /// For the definitions of references and other genomics resources, see
+        /// [Fundamentals of Google
+        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
+        ///
+        /// Implements
+        /// [GlobalAllianceApi.getReferenceSet](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L83).
+        pub async fn get_reference_set(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetReferenceSetRequest>,
+        ) -> Result<tonic::Response<super::ReferenceSet>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.genomics.v1.ReferenceServiceV1/GetReferenceSet",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Searches for references which match the given criteria.
+        ///
+        /// For the definitions of references and other genomics resources, see
+        /// [Fundamentals of Google
+        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
+        ///
+        /// Implements
+        /// [GlobalAllianceApi.searchReferences](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L146).
+        pub async fn search_references(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SearchReferencesRequest>,
+        ) -> Result<tonic::Response<super::SearchReferencesResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.genomics.v1.ReferenceServiceV1/SearchReferences",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets a reference.
+        ///
+        /// For the definitions of references and other genomics resources, see
+        /// [Fundamentals of Google
+        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
+        ///
+        /// Implements
+        /// [GlobalAllianceApi.getReference](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L158).
+        pub async fn get_reference(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetReferenceRequest>,
+        ) -> Result<tonic::Response<super::Reference>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.genomics.v1.ReferenceServiceV1/GetReference",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists the bases in a reference, optionally restricted to a range.
+        ///
+        /// For the definitions of references and other genomics resources, see
+        /// [Fundamentals of Google
+        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
+        ///
+        /// Implements
+        /// [GlobalAllianceApi.getReferenceBases](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L221).
+        pub async fn list_bases(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListBasesRequest>,
+        ) -> Result<tonic::Response<super::ListBasesResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.genomics.v1.ReferenceServiceV1/ListBases",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// A linear alignment can be represented by one CIGAR string. Describes the
+/// mapped position and local alignment of the read to the reference.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LinearAlignment {
+    /// The position of this alignment.
+    #[prost(message, optional, tag="1")]
+    pub position: ::core::option::Option<Position>,
+    /// The mapping quality of this alignment. Represents how likely
+    /// the read maps to this position as opposed to other locations.
+    ///
+    /// Specifically, this is -10 log10 Pr(mapping position is wrong), rounded to
+    /// the nearest integer.
+    #[prost(int32, tag="2")]
+    pub mapping_quality: i32,
+    /// Represents the local alignment of this sequence (alignment matches, indels,
+    /// etc) against the reference.
+    #[prost(message, repeated, tag="3")]
+    pub cigar: ::prost::alloc::vec::Vec<CigarUnit>,
+}
+/// A read alignment describes a linear alignment of a string of DNA to a
+/// [reference sequence]\[google.genomics.v1.Reference\], in addition to metadata
+/// about the fragment (the molecule of DNA sequenced) and the read (the bases
+/// which were read by the sequencer). A read is equivalent to a line in a SAM
+/// file. A read belongs to exactly one read group and exactly one
+/// [read group set]\[google.genomics.v1.ReadGroupSet\].
+///
+/// For more genomics resource definitions, see [Fundamentals of Google
+/// Genomics](<https://cloud.google.com/genomics/fundamentals-of-google-genomics>)
+///
+/// ### Reverse-stranded reads
+///
+/// Mapped reads (reads having a non-null `alignment`) can be aligned to either
+/// the forward or the reverse strand of their associated reference. Strandedness
+/// of a mapped read is encoded by `alignment.position.reverseStrand`.
+///
+/// If we consider the reference to be a forward-stranded coordinate space of
+/// `[0, reference.length)` with `0` as the left-most position and
+/// `reference.length` as the right-most position, reads are always aligned left
+/// to right. That is, `alignment.position.position` always refers to the
+/// left-most reference coordinate and `alignment.cigar` describes the alignment
+/// of this read to the reference from left to right. All per-base fields such as
+/// `alignedSequence` and `alignedQuality` share this same left-to-right
+/// orientation; this is true of reads which are aligned to either strand. For
+/// reverse-stranded reads, this means that `alignedSequence` is the reverse
+/// complement of the bases that were originally reported by the sequencing
+/// machine.
+///
+/// ### Generating a reference-aligned sequence string
+///
+/// When interacting with mapped reads, it's often useful to produce a string
+/// representing the local alignment of the read to reference. The following
+/// pseudocode demonstrates one way of doing this:
+///
+///     out = ""
+///     offset = 0
+///     for c in read.alignment.cigar {
+///       switch c.operation {
+///       case "ALIGNMENT_MATCH", "SEQUENCE_MATCH", "SEQUENCE_MISMATCH":
+///         out += read.alignedSequence\[offset:offset+c.operationLength\]
+///         offset += c.operationLength
+///         break
+///       case "CLIP_SOFT", "INSERT":
+///         offset += c.operationLength
+///         break
+///       case "PAD":
+///         out += repeat("*", c.operationLength)
+///         break
+///       case "DELETE":
+///         out += repeat("-", c.operationLength)
+///         break
+///       case "SKIP":
+///         out += repeat(" ", c.operationLength)
+///         break
+///       case "CLIP_HARD":
+///         break
+///       }
+///     }
+///     return out
+///
+/// ### Converting to SAM's CIGAR string
+///
+/// The following pseudocode generates a SAM CIGAR string from the
+/// `cigar` field. Note that this is a lossy conversion
+/// (`cigar.referenceSequence` is lost).
+///
+///     cigarMap = {
+///       "ALIGNMENT_MATCH": "M",
+///       "INSERT": "I",
+///       "DELETE": "D",
+///       "SKIP": "N",
+///       "CLIP_SOFT": "S",
+///       "CLIP_HARD": "H",
+///       "PAD": "P",
+///       "SEQUENCE_MATCH": "=",
+///       "SEQUENCE_MISMATCH": "X",
+///     }
+///     cigarStr = ""
+///     for c in read.alignment.cigar {
+///       cigarStr += c.operationLength + cigarMap\[c.operation\]
+///     }
+///     return cigarStr
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Read {
+    /// The server-generated read ID, unique across all reads. This is different
+    /// from the `fragmentName`.
+    #[prost(string, tag="1")]
+    pub id: ::prost::alloc::string::String,
+    /// The ID of the read group this read belongs to. A read belongs to exactly
+    /// one read group. This is a server-generated ID which is distinct from SAM's
+    /// RG tag (for that value, see
+    /// \[ReadGroup.name][google.genomics.v1.ReadGroup.name\]).
+    #[prost(string, tag="2")]
+    pub read_group_id: ::prost::alloc::string::String,
+    /// The ID of the read group set this read belongs to. A read belongs to
+    /// exactly one read group set.
+    #[prost(string, tag="3")]
+    pub read_group_set_id: ::prost::alloc::string::String,
+    /// The fragment name. Equivalent to QNAME (query template name) in SAM.
+    #[prost(string, tag="4")]
+    pub fragment_name: ::prost::alloc::string::String,
+    /// The orientation and the distance between reads from the fragment are
+    /// consistent with the sequencing protocol (SAM flag 0x2).
+    #[prost(bool, tag="5")]
+    pub proper_placement: bool,
+    /// The fragment is a PCR or optical duplicate (SAM flag 0x400).
+    #[prost(bool, tag="6")]
+    pub duplicate_fragment: bool,
+    /// The observed length of the fragment, equivalent to TLEN in SAM.
+    #[prost(int32, tag="7")]
+    pub fragment_length: i32,
+    /// The read number in sequencing. 0-based and less than numberReads. This
+    /// field replaces SAM flag 0x40 and 0x80.
+    #[prost(int32, tag="8")]
+    pub read_number: i32,
+    /// The number of reads in the fragment (extension to SAM flag 0x1).
+    #[prost(int32, tag="9")]
+    pub number_reads: i32,
+    /// Whether this read did not pass filters, such as platform or vendor quality
+    /// controls (SAM flag 0x200).
+    #[prost(bool, tag="10")]
+    pub failed_vendor_quality_checks: bool,
+    /// The linear alignment for this alignment record. This field is null for
+    /// unmapped reads.
+    #[prost(message, optional, tag="11")]
+    pub alignment: ::core::option::Option<LinearAlignment>,
+    /// Whether this alignment is secondary. Equivalent to SAM flag 0x100.
+    /// A secondary alignment represents an alternative to the primary alignment
+    /// for this read. Aligners may return secondary alignments if a read can map
+    /// ambiguously to multiple coordinates in the genome. By convention, each read
+    /// has one and only one alignment where both `secondaryAlignment`
+    /// and `supplementaryAlignment` are false.
+    #[prost(bool, tag="12")]
+    pub secondary_alignment: bool,
+    /// Whether this alignment is supplementary. Equivalent to SAM flag 0x800.
+    /// Supplementary alignments are used in the representation of a chimeric
+    /// alignment. In a chimeric alignment, a read is split into multiple
+    /// linear alignments that map to different reference contigs. The first
+    /// linear alignment in the read will be designated as the representative
+    /// alignment; the remaining linear alignments will be designated as
+    /// supplementary alignments. These alignments may have different mapping
+    /// quality scores. In each linear alignment in a chimeric alignment, the read
+    /// will be hard clipped. The `alignedSequence` and
+    /// `alignedQuality` fields in the alignment record will only
+    /// represent the bases for its respective linear alignment.
+    #[prost(bool, tag="13")]
+    pub supplementary_alignment: bool,
+    /// The bases of the read sequence contained in this alignment record,
+    /// **without CIGAR operations applied** (equivalent to SEQ in SAM).
+    /// `alignedSequence` and `alignedQuality` may be
+    /// shorter than the full read sequence and quality. This will occur if the
+    /// alignment is part of a chimeric alignment, or if the read was trimmed. When
+    /// this occurs, the CIGAR for this read will begin/end with a hard clip
+    /// operator that will indicate the length of the excised sequence.
+    #[prost(string, tag="14")]
+    pub aligned_sequence: ::prost::alloc::string::String,
+    /// The quality of the read sequence contained in this alignment record
+    /// (equivalent to QUAL in SAM).
+    /// `alignedSequence` and `alignedQuality` may be shorter than the full read
+    /// sequence and quality. This will occur if the alignment is part of a
+    /// chimeric alignment, or if the read was trimmed. When this occurs, the CIGAR
+    /// for this read will begin/end with a hard clip operator that will indicate
+    /// the length of the excised sequence.
+    #[prost(int32, repeated, tag="15")]
+    pub aligned_quality: ::prost::alloc::vec::Vec<i32>,
+    /// The mapping of the primary alignment of the
+    /// `(readNumber+1)%numberReads` read in the fragment. It replaces
+    /// mate position and mate strand in SAM.
+    #[prost(message, optional, tag="16")]
+    pub next_mate_position: ::core::option::Option<Position>,
+    /// A map of additional read alignment information. This must be of the form
+    /// map<string, string[]> (string key mapping to a list of string values).
+    #[prost(btree_map="string, message", tag="17")]
+    pub info: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::ListValue>,
 }
 /// The read group set search request.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4087,55 +4138,4 @@ pub mod read_service_v1_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
-}
-/// Metadata describing an \[Operation][google.longrunning.Operation\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationMetadata {
-    /// The Google Cloud Project in which the job is scoped.
-    #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The time at which the job was submitted to the Genomics service.
-    #[prost(message, optional, tag="2")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time at which the job began to run.
-    #[prost(message, optional, tag="3")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time at which the job stopped running.
-    #[prost(message, optional, tag="4")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The original request that started the operation. Note that this will be in
-    /// current version of the API. If the operation was started with v1beta2 API
-    /// and a GetOperation is performed on v1 API, a v1 request will be returned.
-    #[prost(message, optional, tag="5")]
-    pub request: ::core::option::Option<::prost_types::Any>,
-    /// Optional event messages that were generated during the job's execution.
-    /// This also contains any warnings that were generated during import
-    /// or export.
-    #[prost(message, repeated, tag="6")]
-    pub events: ::prost::alloc::vec::Vec<OperationEvent>,
-    /// This field is deprecated. Use `labels` instead. Optionally provided by the
-    /// caller when submitting the request that creates the operation.
-    #[prost(string, tag="7")]
-    pub client_id: ::prost::alloc::string::String,
-    /// Runtime metadata on this Operation.
-    #[prost(message, optional, tag="8")]
-    pub runtime_metadata: ::core::option::Option<::prost_types::Any>,
-    /// Optionally provided by the caller when submitting the request that creates
-    /// the operation.
-    #[prost(btree_map="string, string", tag="9")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-}
-/// An event that occurred during an \[Operation][google.longrunning.Operation\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationEvent {
-    /// Optional time of when event started.
-    #[prost(message, optional, tag="1")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional time of when event finished. An event can have a start time and no
-    /// finish time. If an event has a finish time, there must be a start time.
-    #[prost(message, optional, tag="2")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Required description of event.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
 }

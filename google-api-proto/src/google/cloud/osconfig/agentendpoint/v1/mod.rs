@@ -1,286 +1,230 @@
-/// Patch configuration specifications. Contains details on how to
-/// apply patches to a VM instance.
+// OS Config Inventory is a service for collecting and reporting operating
+// system and package information on VM instances.
+
+/// The inventory details of a VM.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PatchConfig {
-    /// Post-patch reboot settings.
-    #[prost(enumeration="patch_config::RebootConfig", tag="1")]
-    pub reboot_config: i32,
-    /// Retry strategy can be defined to have the agent retry patching
-    /// during the window if patching fails. If omitted, the agent will use its
-    /// default retry strategy.
-    #[prost(message, optional, tag="2")]
-    pub retry_strategy: ::core::option::Option<RetryStrategy>,
-    /// Apt update settings. Use this override the default apt patch rules.
-    #[prost(message, optional, tag="3")]
-    pub apt: ::core::option::Option<AptSettings>,
-    /// Yum update settings. Use this override the default yum patch rules.
-    #[prost(message, optional, tag="4")]
-    pub yum: ::core::option::Option<YumSettings>,
-    /// Goo update settings. Use this override the default goo patch rules.
-    #[prost(message, optional, tag="5")]
-    pub goo: ::core::option::Option<GooSettings>,
-    /// Zypper update settings. Use this override the default zypper patch rules.
-    #[prost(message, optional, tag="6")]
-    pub zypper: ::core::option::Option<ZypperSettings>,
-    /// Windows update settings. Use this override the default windows patch rules.
-    #[prost(message, optional, tag="7")]
-    pub windows_update: ::core::option::Option<WindowsUpdateSettings>,
-    /// The ExecStep to run before the patch update.
-    #[prost(message, optional, tag="8")]
-    pub pre_step: ::core::option::Option<ExecStep>,
-    /// The ExecStep to run after the patch update.
-    #[prost(message, optional, tag="9")]
-    pub post_step: ::core::option::Option<ExecStep>,
-    /// Allows the patch job to run on Managed instance groups (MIGs).
-    #[prost(bool, tag="10")]
-    pub mig_instances_allowed: bool,
-}
-/// Nested message and enum types in `PatchConfig`.
-pub mod patch_config {
-    /// Post-patch reboot settings.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RebootConfig {
-        /// The default behavior is DEFAULT.
-        Unspecified = 0,
-        /// The agent decides if a reboot is necessary by checking
-        /// signals such as registry keys on Windows or `/var/run/reboot-required` on
-        /// APT based systems. On RPM based systems, a set of core system package
-        /// install times are compared with system boot time.
-        Default = 1,
-        /// Always reboot the machine after the update completes.
-        Always = 2,
-        /// Never reboot the machine after the update completes.
-        Never = 3,
-    }
-}
-/// Apt patching will be performed by executing `apt-get update && apt-get
-/// upgrade`. Additional options can be set to control how this is executed.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AptSettings {
-    /// By changing the type to DIST, the patching will be performed
-    /// using `apt-get dist-upgrade` instead.
-    #[prost(enumeration="apt_settings::Type", tag="1")]
-    pub r#type: i32,
-    /// List of packages to exclude from update.
-    #[prost(string, repeated, tag="2")]
-    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// An exclusive list of packages to be updated. These are the only packages
-    /// that will be updated. If these packages are not installed, they will be
-    /// ignored. This field cannot be specified with any other patch configuration
-    /// fields.
-    #[prost(string, repeated, tag="3")]
-    pub exclusive_packages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Nested message and enum types in `AptSettings`.
-pub mod apt_settings {
-    /// Apt patch type.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// By default, upgrade will be performed.
-        Unspecified = 0,
-        /// Runs `apt-get dist-upgrade`.
-        Dist = 1,
-        /// Runs `apt-get upgrade`.
-        Upgrade = 2,
-    }
-}
-/// Yum patching will be performed by executing `yum update`. Additional options
-/// can be set to control how this is executed.
-///
-/// Note that not all settings are supported on all platforms.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct YumSettings {
-    /// Adds the `--security` flag to `yum update`. Not supported on
-    /// all platforms.
-    #[prost(bool, tag="1")]
-    pub security: bool,
-    /// Will cause patch to run `yum update-minimal` instead.
-    #[prost(bool, tag="2")]
-    pub minimal: bool,
-    /// List of packages to exclude from update. These packages will be excluded by
-    /// using the yum `--exclude` flag.
-    #[prost(string, repeated, tag="3")]
-    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// An exclusive list of packages to be updated. These are the only packages
-    /// that will be updated. If these packages are not installed, they will be
-    /// ignored. This field must not be specified with any other patch
-    /// configuration fields.
-    #[prost(string, repeated, tag="4")]
-    pub exclusive_packages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Googet patching is performed by running `googet update`.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GooSettings {
-}
-/// Zypper patching is performed by running `zypper patch`.
-/// See also <https://en.opensuse.org/SDB:Zypper_manual.>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ZypperSettings {
-    /// Adds the `--with-optional` flag to `zypper patch`.
-    #[prost(bool, tag="1")]
-    pub with_optional: bool,
-    /// Adds the `--with-update` flag, to `zypper patch`.
-    #[prost(bool, tag="2")]
-    pub with_update: bool,
-    /// Install only patches with these categories.
-    /// Common categories include security, recommended, and feature.
-    #[prost(string, repeated, tag="3")]
-    pub categories: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Install only patches with these severities.
-    /// Common severities include critical, important, moderate, and low.
-    #[prost(string, repeated, tag="4")]
-    pub severities: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// List of patches to exclude from update.
-    #[prost(string, repeated, tag="5")]
-    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// An exclusive list of patches to be updated. These are the only patches
-    /// that will be installed using 'zypper patch patch:<patch_name>' command.
-    /// This field must not be used with any other patch configuration fields.
-    #[prost(string, repeated, tag="6")]
-    pub exclusive_patches: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Windows patching is performed using the Windows Update Agent.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WindowsUpdateSettings {
-    /// Only apply updates of these windows update classifications. If empty, all
-    /// updates will be applied.
-    #[prost(enumeration="windows_update_settings::Classification", repeated, tag="1")]
-    pub classifications: ::prost::alloc::vec::Vec<i32>,
-    /// List of KBs to exclude from update.
-    #[prost(string, repeated, tag="2")]
-    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// An exclusive list of kbs to be updated. These are the only patches
-    /// that will be updated. This field must not be used with other
-    /// patch configurations.
-    #[prost(string, repeated, tag="3")]
-    pub exclusive_patches: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Nested message and enum types in `WindowsUpdateSettings`.
-pub mod windows_update_settings {
-    /// Microsoft Windows update classifications as defined in
-    /// \[1\]
-    /// <https://support.microsoft.com/en-us/help/824684/description-of-the-standard-terminology-that-is-used-to-describe-micro>
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Classification {
-        /// Invalid. If classifications are included, they must be specified.
-        Unspecified = 0,
-        /// "A widely released fix for a specific problem that addresses a critical,
-        /// non-security-related bug." \[1\]
-        Critical = 1,
-        /// "A widely released fix for a product-specific, security-related
-        /// vulnerability. Security vulnerabilities are rated by their severity. The
-        /// severity rating is indicated in the Microsoft security bulletin as
-        /// critical, important, moderate, or low." \[1\]
-        Security = 2,
-        /// "A widely released and frequent software update that contains additions
-        /// to a product’s definition database. Definition databases are often used
-        /// to detect objects that have specific attributes, such as malicious code,
-        /// phishing websites, or junk mail." \[1\]
-        Definition = 3,
-        /// "Software that controls the input and output of a device." \[1\]
-        Driver = 4,
-        /// "New product functionality that is first distributed outside the context
-        /// of a product release and that is typically included in the next full
-        /// product release." \[1\]
-        FeaturePack = 5,
-        /// "A tested, cumulative set of all hotfixes, security updates, critical
-        /// updates, and updates. Additionally, service packs may contain additional
-        /// fixes for problems that are found internally since the release of the
-        /// product. Service packs my also contain a limited number of
-        /// customer-requested design changes or features." \[1\]
-        ServicePack = 6,
-        /// "A utility or feature that helps complete a task or set of tasks." \[1\]
-        Tool = 7,
-        /// "A tested, cumulative set of hotfixes, security updates, critical
-        /// updates, and updates that are packaged together for easy deployment. A
-        /// rollup generally targets a specific area, such as security, or a
-        /// component of a product, such as Internet Information Services (IIS)." \[1\]
-        UpdateRollup = 8,
-        /// "A widely released fix for a specific problem. An update addresses a
-        /// noncritical, non-security-related bug." \[1\]
-        Update = 9,
-    }
-}
-/// The strategy for retrying failed patches during the patch window.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RetryStrategy {
-    /// If true, the agent will continue to try and patch until the window has
-    /// ended.
-    #[prost(bool, tag="1")]
-    pub enabled: bool,
-}
-/// A step that runs an executable for a PatchJob.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExecStep {
-    /// The ExecStepConfig for all Linux VMs targeted by the PatchJob.
+pub struct Inventory {
+    /// Base level operating system information for the VM.
     #[prost(message, optional, tag="1")]
-    pub linux_exec_step_config: ::core::option::Option<ExecStepConfig>,
-    /// The ExecStepConfig for all Windows VMs targeted by the PatchJob.
-    #[prost(message, optional, tag="2")]
-    pub windows_exec_step_config: ::core::option::Option<ExecStepConfig>,
+    pub os_info: ::core::option::Option<inventory::OsInfo>,
+    /// A list of installed packages currently on the VM.
+    #[prost(message, repeated, tag="2")]
+    pub installed_packages: ::prost::alloc::vec::Vec<inventory::SoftwarePackage>,
+    /// A list of software updates available for the VM as reported by the update
+    /// managers.
+    #[prost(message, repeated, tag="3")]
+    pub available_packages: ::prost::alloc::vec::Vec<inventory::SoftwarePackage>,
 }
-/// Common configurations for an ExecStep.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExecStepConfig {
-    /// Defaults to \[0\]. A list of possible return values that the
-    /// execution can return to indicate a success.
-    #[prost(int32, repeated, tag="3")]
-    pub allowed_success_codes: ::prost::alloc::vec::Vec<i32>,
-    /// The script interpreter to use to run the script. If no interpreter is
-    /// specified the script will be executed directly, which will likely
-    /// only succeed for scripts with shebang lines.
-    /// [Wikipedia shebang](<https://en.wikipedia.org/wiki/Shebang_(Unix>)).
-    #[prost(enumeration="exec_step_config::Interpreter", tag="4")]
-    pub interpreter: i32,
-    /// Location of the executable.
-    #[prost(oneof="exec_step_config::Executable", tags="1, 2")]
-    pub executable: ::core::option::Option<exec_step_config::Executable>,
-}
-/// Nested message and enum types in `ExecStepConfig`.
-pub mod exec_step_config {
-    /// The interpreter used to execute the a file.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Interpreter {
-        /// Deprecated, defaults to NONE for compatibility reasons.
-        Unspecified = 0,
-        /// Invalid for a Windows ExecStepConfig. For a Linux ExecStepConfig, the
-        /// interpreter will be parsed from the shebang line of the script if
-        /// unspecified.
-        None = 3,
-        /// Indicates that the script will be run with /bin/sh on Linux and cmd
-        /// on windows.
-        Shell = 1,
-        /// Indicates that the file will be run with PowerShell.
-        Powershell = 2,
-    }
-    /// Location of the executable.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Executable {
-        /// An absolute path to the executable on the VM.
+/// Nested message and enum types in `Inventory`.
+pub mod inventory {
+    /// Operating system information for the VM.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct OsInfo {
+        /// The VM hostname.
         #[prost(string, tag="1")]
-        LocalPath(::prost::alloc::string::String),
-        /// A GCS object containing the executable.
-        #[prost(message, tag="2")]
-        GcsObject(super::GcsObject),
+        pub hostname: ::prost::alloc::string::String,
+        /// The operating system long name.
+        /// For example 'Debian GNU/Linux 9' or 'Microsoft Window Server 2019
+        /// Datacenter'.
+        #[prost(string, tag="2")]
+        pub long_name: ::prost::alloc::string::String,
+        /// The operating system short name.
+        /// For example, 'windows' or 'debian'.
+        #[prost(string, tag="3")]
+        pub short_name: ::prost::alloc::string::String,
+        /// The version of the operating system.
+        #[prost(string, tag="4")]
+        pub version: ::prost::alloc::string::String,
+        /// The system architecture of the operating system.
+        #[prost(string, tag="5")]
+        pub architecture: ::prost::alloc::string::String,
+        /// The kernel version of the operating system.
+        #[prost(string, tag="6")]
+        pub kernel_version: ::prost::alloc::string::String,
+        /// The kernel release of the operating system.
+        #[prost(string, tag="7")]
+        pub kernel_release: ::prost::alloc::string::String,
+        /// The current version of the OS Config agent running on the VM.
+        #[prost(string, tag="8")]
+        pub osconfig_agent_version: ::prost::alloc::string::String,
     }
-}
-/// GCS object representation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GcsObject {
-    /// Bucket of the GCS object.
-    #[prost(string, tag="1")]
-    pub bucket: ::prost::alloc::string::String,
-    /// Name of the GCS object.
-    #[prost(string, tag="2")]
-    pub object: ::prost::alloc::string::String,
-    /// Generation number of the GCS object. This is used to ensure that the
-    /// ExecStep specified by this PatchJob does not change.
-    #[prost(int64, tag="3")]
-    pub generation_number: i64,
+    /// Software package information of the operating system.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SoftwarePackage {
+        /// Information about the different types of software packages.
+        #[prost(oneof="software_package::Details", tags="1, 2, 3, 4, 5, 6, 7, 8, 9")]
+        pub details: ::core::option::Option<software_package::Details>,
+    }
+    /// Nested message and enum types in `SoftwarePackage`.
+    pub mod software_package {
+        /// Information about the different types of software packages.
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Details {
+            /// Yum package info.
+            /// For details about the yum package manager, see
+            /// <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-yum.>
+            #[prost(message, tag="1")]
+            YumPackage(super::VersionedPackage),
+            /// Details of an APT package.
+            /// For details about the apt package manager, see
+            /// <https://wiki.debian.org/Apt.>
+            #[prost(message, tag="2")]
+            AptPackage(super::VersionedPackage),
+            /// Details of a Zypper package.
+            /// For details about the Zypper package manager, see
+            /// <https://en.opensuse.org/SDB:Zypper_manual.>
+            #[prost(message, tag="3")]
+            ZypperPackage(super::VersionedPackage),
+            /// Details of a Googet package.
+            ///  For details about the googet package manager, see
+            ///  <https://github.com/google/googet.>
+            #[prost(message, tag="4")]
+            GoogetPackage(super::VersionedPackage),
+            /// Details of a Zypper patch.
+            /// For details about the Zypper package manager, see
+            /// <https://en.opensuse.org/SDB:Zypper_manual.>
+            #[prost(message, tag="5")]
+            ZypperPatch(super::ZypperPatch),
+            /// Details of a Windows Update package.
+            /// See <https://docs.microsoft.com/en-us/windows/win32/api/_wua/> for
+            /// information about Windows Update.
+            #[prost(message, tag="6")]
+            WuaPackage(super::WindowsUpdatePackage),
+            /// Details of a Windows Quick Fix engineering package.
+            /// See
+            /// <https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering>
+            /// for info in Windows Quick Fix Engineering.
+            #[prost(message, tag="7")]
+            QfePackage(super::WindowsQuickFixEngineeringPackage),
+            /// Details of a COS package.
+            #[prost(message, tag="8")]
+            CosPackage(super::VersionedPackage),
+            /// Details of Windows Application.
+            #[prost(message, tag="9")]
+            WindowsApplication(super::WindowsApplication),
+        }
+    }
+    /// Information related to the a standard versioned package.  This includes
+    /// package info for APT, Yum, Zypper, and Googet package managers.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct VersionedPackage {
+        /// The name of the package.
+        #[prost(string, tag="1")]
+        pub package_name: ::prost::alloc::string::String,
+        /// The system architecture this package is intended for.
+        #[prost(string, tag="2")]
+        pub architecture: ::prost::alloc::string::String,
+        /// The version of the package.
+        #[prost(string, tag="3")]
+        pub version: ::prost::alloc::string::String,
+    }
+    /// Details related to a Zypper Patch.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ZypperPatch {
+        /// The name of the patch.
+        #[prost(string, tag="1")]
+        pub patch_name: ::prost::alloc::string::String,
+        /// The category of the patch.
+        #[prost(string, tag="2")]
+        pub category: ::prost::alloc::string::String,
+        /// The severity specified for this patch
+        #[prost(string, tag="3")]
+        pub severity: ::prost::alloc::string::String,
+        /// Any summary information provided about this patch.
+        #[prost(string, tag="4")]
+        pub summary: ::prost::alloc::string::String,
+    }
+    /// Details related to a Windows Update package.
+    /// Field data and names are taken from Windows Update API IUpdate Interface:
+    /// <https://docs.microsoft.com/en-us/windows/win32/api/_wua/>
+    /// Descriptive fields like title, and description are localized based on
+    /// the locale of the VM being updated.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WindowsUpdatePackage {
+        /// The localized title of the update package.
+        #[prost(string, tag="1")]
+        pub title: ::prost::alloc::string::String,
+        /// The localized description of the update package.
+        #[prost(string, tag="2")]
+        pub description: ::prost::alloc::string::String,
+        /// The categories that are associated with this update package.
+        #[prost(message, repeated, tag="3")]
+        pub categories: ::prost::alloc::vec::Vec<windows_update_package::WindowsUpdateCategory>,
+        /// A collection of Microsoft Knowledge Base article IDs that are associated
+        /// with the update package.
+        #[prost(string, repeated, tag="4")]
+        pub kb_article_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// A hyperlink to the language-specific support information for the update.
+        #[prost(string, tag="5")]
+        pub support_url: ::prost::alloc::string::String,
+        /// A collection of URLs that provide more information about the update
+        /// package.
+        #[prost(string, repeated, tag="6")]
+        pub more_info_urls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Gets the identifier of an update package.  Stays the same across
+        /// revisions.
+        #[prost(string, tag="7")]
+        pub update_id: ::prost::alloc::string::String,
+        /// The revision number of this update package.
+        #[prost(int32, tag="8")]
+        pub revision_number: i32,
+        /// The last published date of the update, in (UTC) date and time.
+        #[prost(message, optional, tag="9")]
+        pub last_deployment_change_time: ::core::option::Option<::prost_types::Timestamp>,
+    }
+    /// Nested message and enum types in `WindowsUpdatePackage`.
+    pub mod windows_update_package {
+        /// Categories specified by the Windows Update.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct WindowsUpdateCategory {
+            /// The identifier of the windows update category.
+            #[prost(string, tag="1")]
+            pub id: ::prost::alloc::string::String,
+            /// The name of the windows update category.
+            #[prost(string, tag="2")]
+            pub name: ::prost::alloc::string::String,
+        }
+    }
+    /// Information related to a Quick Fix Engineering package.
+    /// Fields are taken from Windows QuickFixEngineering Interface and match
+    /// the source names:
+    /// <https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering>
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WindowsQuickFixEngineeringPackage {
+        /// A short textual description of the QFE update.
+        #[prost(string, tag="1")]
+        pub caption: ::prost::alloc::string::String,
+        /// A textual description of the QFE update.
+        #[prost(string, tag="2")]
+        pub description: ::prost::alloc::string::String,
+        /// Unique identifier associated with a particular QFE update.
+        #[prost(string, tag="3")]
+        pub hot_fix_id: ::prost::alloc::string::String,
+        /// Date that the QFE update was installed.  Mapped from installed_on field.
+        #[prost(message, optional, tag="4")]
+        pub install_time: ::core::option::Option<::prost_types::Timestamp>,
+    }
+    /// Details about Windows Application - based on Windows Registry.
+    /// All fields in this message are taken from:
+    /// <https://docs.microsoft.com/en-us/windows/win32/msi/uninstall-registry-key>
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WindowsApplication {
+        /// DisplayName field from Windows Registry.
+        #[prost(string, tag="1")]
+        pub display_name: ::prost::alloc::string::String,
+        /// DisplayVersion field from Windows Registry.
+        #[prost(string, tag="2")]
+        pub display_version: ::prost::alloc::string::String,
+        /// Publisher field from Windows Registry.
+        #[prost(string, tag="3")]
+        pub publisher: ::prost::alloc::string::String,
+        /// Installation date field from Windows Registry.
+        #[prost(message, optional, tag="4")]
+        pub install_date: ::core::option::Option<super::super::super::super::super::r#type::Date>,
+        /// HelpLink field from Windows Registry.
+        #[prost(string, tag="5")]
+        pub help_link: ::prost::alloc::string::String,
+    }
 }
 /// Step performed by the OS Config agent for configuring an `OSPolicyResource`
 /// to its desired state.
@@ -867,6 +811,290 @@ pub mod os_policy {
         Enforcement = 2,
     }
 }
+/// Patch configuration specifications. Contains details on how to
+/// apply patches to a VM instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PatchConfig {
+    /// Post-patch reboot settings.
+    #[prost(enumeration="patch_config::RebootConfig", tag="1")]
+    pub reboot_config: i32,
+    /// Retry strategy can be defined to have the agent retry patching
+    /// during the window if patching fails. If omitted, the agent will use its
+    /// default retry strategy.
+    #[prost(message, optional, tag="2")]
+    pub retry_strategy: ::core::option::Option<RetryStrategy>,
+    /// Apt update settings. Use this override the default apt patch rules.
+    #[prost(message, optional, tag="3")]
+    pub apt: ::core::option::Option<AptSettings>,
+    /// Yum update settings. Use this override the default yum patch rules.
+    #[prost(message, optional, tag="4")]
+    pub yum: ::core::option::Option<YumSettings>,
+    /// Goo update settings. Use this override the default goo patch rules.
+    #[prost(message, optional, tag="5")]
+    pub goo: ::core::option::Option<GooSettings>,
+    /// Zypper update settings. Use this override the default zypper patch rules.
+    #[prost(message, optional, tag="6")]
+    pub zypper: ::core::option::Option<ZypperSettings>,
+    /// Windows update settings. Use this override the default windows patch rules.
+    #[prost(message, optional, tag="7")]
+    pub windows_update: ::core::option::Option<WindowsUpdateSettings>,
+    /// The ExecStep to run before the patch update.
+    #[prost(message, optional, tag="8")]
+    pub pre_step: ::core::option::Option<ExecStep>,
+    /// The ExecStep to run after the patch update.
+    #[prost(message, optional, tag="9")]
+    pub post_step: ::core::option::Option<ExecStep>,
+    /// Allows the patch job to run on Managed instance groups (MIGs).
+    #[prost(bool, tag="10")]
+    pub mig_instances_allowed: bool,
+}
+/// Nested message and enum types in `PatchConfig`.
+pub mod patch_config {
+    /// Post-patch reboot settings.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RebootConfig {
+        /// The default behavior is DEFAULT.
+        Unspecified = 0,
+        /// The agent decides if a reboot is necessary by checking
+        /// signals such as registry keys on Windows or `/var/run/reboot-required` on
+        /// APT based systems. On RPM based systems, a set of core system package
+        /// install times are compared with system boot time.
+        Default = 1,
+        /// Always reboot the machine after the update completes.
+        Always = 2,
+        /// Never reboot the machine after the update completes.
+        Never = 3,
+    }
+}
+/// Apt patching will be performed by executing `apt-get update && apt-get
+/// upgrade`. Additional options can be set to control how this is executed.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AptSettings {
+    /// By changing the type to DIST, the patching will be performed
+    /// using `apt-get dist-upgrade` instead.
+    #[prost(enumeration="apt_settings::Type", tag="1")]
+    pub r#type: i32,
+    /// List of packages to exclude from update.
+    #[prost(string, repeated, tag="2")]
+    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// An exclusive list of packages to be updated. These are the only packages
+    /// that will be updated. If these packages are not installed, they will be
+    /// ignored. This field cannot be specified with any other patch configuration
+    /// fields.
+    #[prost(string, repeated, tag="3")]
+    pub exclusive_packages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `AptSettings`.
+pub mod apt_settings {
+    /// Apt patch type.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// By default, upgrade will be performed.
+        Unspecified = 0,
+        /// Runs `apt-get dist-upgrade`.
+        Dist = 1,
+        /// Runs `apt-get upgrade`.
+        Upgrade = 2,
+    }
+}
+/// Yum patching will be performed by executing `yum update`. Additional options
+/// can be set to control how this is executed.
+///
+/// Note that not all settings are supported on all platforms.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct YumSettings {
+    /// Adds the `--security` flag to `yum update`. Not supported on
+    /// all platforms.
+    #[prost(bool, tag="1")]
+    pub security: bool,
+    /// Will cause patch to run `yum update-minimal` instead.
+    #[prost(bool, tag="2")]
+    pub minimal: bool,
+    /// List of packages to exclude from update. These packages will be excluded by
+    /// using the yum `--exclude` flag.
+    #[prost(string, repeated, tag="3")]
+    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// An exclusive list of packages to be updated. These are the only packages
+    /// that will be updated. If these packages are not installed, they will be
+    /// ignored. This field must not be specified with any other patch
+    /// configuration fields.
+    #[prost(string, repeated, tag="4")]
+    pub exclusive_packages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Googet patching is performed by running `googet update`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GooSettings {
+}
+/// Zypper patching is performed by running `zypper patch`.
+/// See also <https://en.opensuse.org/SDB:Zypper_manual.>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ZypperSettings {
+    /// Adds the `--with-optional` flag to `zypper patch`.
+    #[prost(bool, tag="1")]
+    pub with_optional: bool,
+    /// Adds the `--with-update` flag, to `zypper patch`.
+    #[prost(bool, tag="2")]
+    pub with_update: bool,
+    /// Install only patches with these categories.
+    /// Common categories include security, recommended, and feature.
+    #[prost(string, repeated, tag="3")]
+    pub categories: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Install only patches with these severities.
+    /// Common severities include critical, important, moderate, and low.
+    #[prost(string, repeated, tag="4")]
+    pub severities: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// List of patches to exclude from update.
+    #[prost(string, repeated, tag="5")]
+    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// An exclusive list of patches to be updated. These are the only patches
+    /// that will be installed using 'zypper patch patch:<patch_name>' command.
+    /// This field must not be used with any other patch configuration fields.
+    #[prost(string, repeated, tag="6")]
+    pub exclusive_patches: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Windows patching is performed using the Windows Update Agent.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WindowsUpdateSettings {
+    /// Only apply updates of these windows update classifications. If empty, all
+    /// updates will be applied.
+    #[prost(enumeration="windows_update_settings::Classification", repeated, tag="1")]
+    pub classifications: ::prost::alloc::vec::Vec<i32>,
+    /// List of KBs to exclude from update.
+    #[prost(string, repeated, tag="2")]
+    pub excludes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// An exclusive list of kbs to be updated. These are the only patches
+    /// that will be updated. This field must not be used with other
+    /// patch configurations.
+    #[prost(string, repeated, tag="3")]
+    pub exclusive_patches: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `WindowsUpdateSettings`.
+pub mod windows_update_settings {
+    /// Microsoft Windows update classifications as defined in
+    /// \[1\]
+    /// <https://support.microsoft.com/en-us/help/824684/description-of-the-standard-terminology-that-is-used-to-describe-micro>
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Classification {
+        /// Invalid. If classifications are included, they must be specified.
+        Unspecified = 0,
+        /// "A widely released fix for a specific problem that addresses a critical,
+        /// non-security-related bug." \[1\]
+        Critical = 1,
+        /// "A widely released fix for a product-specific, security-related
+        /// vulnerability. Security vulnerabilities are rated by their severity. The
+        /// severity rating is indicated in the Microsoft security bulletin as
+        /// critical, important, moderate, or low." \[1\]
+        Security = 2,
+        /// "A widely released and frequent software update that contains additions
+        /// to a product’s definition database. Definition databases are often used
+        /// to detect objects that have specific attributes, such as malicious code,
+        /// phishing websites, or junk mail." \[1\]
+        Definition = 3,
+        /// "Software that controls the input and output of a device." \[1\]
+        Driver = 4,
+        /// "New product functionality that is first distributed outside the context
+        /// of a product release and that is typically included in the next full
+        /// product release." \[1\]
+        FeaturePack = 5,
+        /// "A tested, cumulative set of all hotfixes, security updates, critical
+        /// updates, and updates. Additionally, service packs may contain additional
+        /// fixes for problems that are found internally since the release of the
+        /// product. Service packs my also contain a limited number of
+        /// customer-requested design changes or features." \[1\]
+        ServicePack = 6,
+        /// "A utility or feature that helps complete a task or set of tasks." \[1\]
+        Tool = 7,
+        /// "A tested, cumulative set of hotfixes, security updates, critical
+        /// updates, and updates that are packaged together for easy deployment. A
+        /// rollup generally targets a specific area, such as security, or a
+        /// component of a product, such as Internet Information Services (IIS)." \[1\]
+        UpdateRollup = 8,
+        /// "A widely released fix for a specific problem. An update addresses a
+        /// noncritical, non-security-related bug." \[1\]
+        Update = 9,
+    }
+}
+/// The strategy for retrying failed patches during the patch window.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RetryStrategy {
+    /// If true, the agent will continue to try and patch until the window has
+    /// ended.
+    #[prost(bool, tag="1")]
+    pub enabled: bool,
+}
+/// A step that runs an executable for a PatchJob.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExecStep {
+    /// The ExecStepConfig for all Linux VMs targeted by the PatchJob.
+    #[prost(message, optional, tag="1")]
+    pub linux_exec_step_config: ::core::option::Option<ExecStepConfig>,
+    /// The ExecStepConfig for all Windows VMs targeted by the PatchJob.
+    #[prost(message, optional, tag="2")]
+    pub windows_exec_step_config: ::core::option::Option<ExecStepConfig>,
+}
+/// Common configurations for an ExecStep.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExecStepConfig {
+    /// Defaults to \[0\]. A list of possible return values that the
+    /// execution can return to indicate a success.
+    #[prost(int32, repeated, tag="3")]
+    pub allowed_success_codes: ::prost::alloc::vec::Vec<i32>,
+    /// The script interpreter to use to run the script. If no interpreter is
+    /// specified the script will be executed directly, which will likely
+    /// only succeed for scripts with shebang lines.
+    /// [Wikipedia shebang](<https://en.wikipedia.org/wiki/Shebang_(Unix>)).
+    #[prost(enumeration="exec_step_config::Interpreter", tag="4")]
+    pub interpreter: i32,
+    /// Location of the executable.
+    #[prost(oneof="exec_step_config::Executable", tags="1, 2")]
+    pub executable: ::core::option::Option<exec_step_config::Executable>,
+}
+/// Nested message and enum types in `ExecStepConfig`.
+pub mod exec_step_config {
+    /// The interpreter used to execute the a file.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Interpreter {
+        /// Deprecated, defaults to NONE for compatibility reasons.
+        Unspecified = 0,
+        /// Invalid for a Windows ExecStepConfig. For a Linux ExecStepConfig, the
+        /// interpreter will be parsed from the shebang line of the script if
+        /// unspecified.
+        None = 3,
+        /// Indicates that the script will be run with /bin/sh on Linux and cmd
+        /// on windows.
+        Shell = 1,
+        /// Indicates that the file will be run with PowerShell.
+        Powershell = 2,
+    }
+    /// Location of the executable.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Executable {
+        /// An absolute path to the executable on the VM.
+        #[prost(string, tag="1")]
+        LocalPath(::prost::alloc::string::String),
+        /// A GCS object containing the executable.
+        #[prost(message, tag="2")]
+        GcsObject(super::GcsObject),
+    }
+}
+/// GCS object representation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GcsObject {
+    /// Bucket of the GCS object.
+    #[prost(string, tag="1")]
+    pub bucket: ::prost::alloc::string::String,
+    /// Name of the GCS object.
+    #[prost(string, tag="2")]
+    pub object: ::prost::alloc::string::String,
+    /// Generation number of the GCS object. This is used to ensure that the
+    /// ExecStep specified by this PatchJob does not change.
+    #[prost(int64, tag="3")]
+    pub generation_number: i64,
+}
 /// A unit of work to be performed by the agent.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Task {
@@ -1143,234 +1371,6 @@ pub enum TaskType {
     ExecStepTask = 2,
     /// The apply config task
     ApplyConfigTask = 3,
-}
-// OS Config Inventory is a service for collecting and reporting operating
-// system and package information on VM instances.
-
-/// The inventory details of a VM.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Inventory {
-    /// Base level operating system information for the VM.
-    #[prost(message, optional, tag="1")]
-    pub os_info: ::core::option::Option<inventory::OsInfo>,
-    /// A list of installed packages currently on the VM.
-    #[prost(message, repeated, tag="2")]
-    pub installed_packages: ::prost::alloc::vec::Vec<inventory::SoftwarePackage>,
-    /// A list of software updates available for the VM as reported by the update
-    /// managers.
-    #[prost(message, repeated, tag="3")]
-    pub available_packages: ::prost::alloc::vec::Vec<inventory::SoftwarePackage>,
-}
-/// Nested message and enum types in `Inventory`.
-pub mod inventory {
-    /// Operating system information for the VM.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct OsInfo {
-        /// The VM hostname.
-        #[prost(string, tag="1")]
-        pub hostname: ::prost::alloc::string::String,
-        /// The operating system long name.
-        /// For example 'Debian GNU/Linux 9' or 'Microsoft Window Server 2019
-        /// Datacenter'.
-        #[prost(string, tag="2")]
-        pub long_name: ::prost::alloc::string::String,
-        /// The operating system short name.
-        /// For example, 'windows' or 'debian'.
-        #[prost(string, tag="3")]
-        pub short_name: ::prost::alloc::string::String,
-        /// The version of the operating system.
-        #[prost(string, tag="4")]
-        pub version: ::prost::alloc::string::String,
-        /// The system architecture of the operating system.
-        #[prost(string, tag="5")]
-        pub architecture: ::prost::alloc::string::String,
-        /// The kernel version of the operating system.
-        #[prost(string, tag="6")]
-        pub kernel_version: ::prost::alloc::string::String,
-        /// The kernel release of the operating system.
-        #[prost(string, tag="7")]
-        pub kernel_release: ::prost::alloc::string::String,
-        /// The current version of the OS Config agent running on the VM.
-        #[prost(string, tag="8")]
-        pub osconfig_agent_version: ::prost::alloc::string::String,
-    }
-    /// Software package information of the operating system.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SoftwarePackage {
-        /// Information about the different types of software packages.
-        #[prost(oneof="software_package::Details", tags="1, 2, 3, 4, 5, 6, 7, 8, 9")]
-        pub details: ::core::option::Option<software_package::Details>,
-    }
-    /// Nested message and enum types in `SoftwarePackage`.
-    pub mod software_package {
-        /// Information about the different types of software packages.
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum Details {
-            /// Yum package info.
-            /// For details about the yum package manager, see
-            /// <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-yum.>
-            #[prost(message, tag="1")]
-            YumPackage(super::VersionedPackage),
-            /// Details of an APT package.
-            /// For details about the apt package manager, see
-            /// <https://wiki.debian.org/Apt.>
-            #[prost(message, tag="2")]
-            AptPackage(super::VersionedPackage),
-            /// Details of a Zypper package.
-            /// For details about the Zypper package manager, see
-            /// <https://en.opensuse.org/SDB:Zypper_manual.>
-            #[prost(message, tag="3")]
-            ZypperPackage(super::VersionedPackage),
-            /// Details of a Googet package.
-            ///  For details about the googet package manager, see
-            ///  <https://github.com/google/googet.>
-            #[prost(message, tag="4")]
-            GoogetPackage(super::VersionedPackage),
-            /// Details of a Zypper patch.
-            /// For details about the Zypper package manager, see
-            /// <https://en.opensuse.org/SDB:Zypper_manual.>
-            #[prost(message, tag="5")]
-            ZypperPatch(super::ZypperPatch),
-            /// Details of a Windows Update package.
-            /// See <https://docs.microsoft.com/en-us/windows/win32/api/_wua/> for
-            /// information about Windows Update.
-            #[prost(message, tag="6")]
-            WuaPackage(super::WindowsUpdatePackage),
-            /// Details of a Windows Quick Fix engineering package.
-            /// See
-            /// <https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering>
-            /// for info in Windows Quick Fix Engineering.
-            #[prost(message, tag="7")]
-            QfePackage(super::WindowsQuickFixEngineeringPackage),
-            /// Details of a COS package.
-            #[prost(message, tag="8")]
-            CosPackage(super::VersionedPackage),
-            /// Details of Windows Application.
-            #[prost(message, tag="9")]
-            WindowsApplication(super::WindowsApplication),
-        }
-    }
-    /// Information related to the a standard versioned package.  This includes
-    /// package info for APT, Yum, Zypper, and Googet package managers.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct VersionedPackage {
-        /// The name of the package.
-        #[prost(string, tag="1")]
-        pub package_name: ::prost::alloc::string::String,
-        /// The system architecture this package is intended for.
-        #[prost(string, tag="2")]
-        pub architecture: ::prost::alloc::string::String,
-        /// The version of the package.
-        #[prost(string, tag="3")]
-        pub version: ::prost::alloc::string::String,
-    }
-    /// Details related to a Zypper Patch.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ZypperPatch {
-        /// The name of the patch.
-        #[prost(string, tag="1")]
-        pub patch_name: ::prost::alloc::string::String,
-        /// The category of the patch.
-        #[prost(string, tag="2")]
-        pub category: ::prost::alloc::string::String,
-        /// The severity specified for this patch
-        #[prost(string, tag="3")]
-        pub severity: ::prost::alloc::string::String,
-        /// Any summary information provided about this patch.
-        #[prost(string, tag="4")]
-        pub summary: ::prost::alloc::string::String,
-    }
-    /// Details related to a Windows Update package.
-    /// Field data and names are taken from Windows Update API IUpdate Interface:
-    /// <https://docs.microsoft.com/en-us/windows/win32/api/_wua/>
-    /// Descriptive fields like title, and description are localized based on
-    /// the locale of the VM being updated.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WindowsUpdatePackage {
-        /// The localized title of the update package.
-        #[prost(string, tag="1")]
-        pub title: ::prost::alloc::string::String,
-        /// The localized description of the update package.
-        #[prost(string, tag="2")]
-        pub description: ::prost::alloc::string::String,
-        /// The categories that are associated with this update package.
-        #[prost(message, repeated, tag="3")]
-        pub categories: ::prost::alloc::vec::Vec<windows_update_package::WindowsUpdateCategory>,
-        /// A collection of Microsoft Knowledge Base article IDs that are associated
-        /// with the update package.
-        #[prost(string, repeated, tag="4")]
-        pub kb_article_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// A hyperlink to the language-specific support information for the update.
-        #[prost(string, tag="5")]
-        pub support_url: ::prost::alloc::string::String,
-        /// A collection of URLs that provide more information about the update
-        /// package.
-        #[prost(string, repeated, tag="6")]
-        pub more_info_urls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// Gets the identifier of an update package.  Stays the same across
-        /// revisions.
-        #[prost(string, tag="7")]
-        pub update_id: ::prost::alloc::string::String,
-        /// The revision number of this update package.
-        #[prost(int32, tag="8")]
-        pub revision_number: i32,
-        /// The last published date of the update, in (UTC) date and time.
-        #[prost(message, optional, tag="9")]
-        pub last_deployment_change_time: ::core::option::Option<::prost_types::Timestamp>,
-    }
-    /// Nested message and enum types in `WindowsUpdatePackage`.
-    pub mod windows_update_package {
-        /// Categories specified by the Windows Update.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct WindowsUpdateCategory {
-            /// The identifier of the windows update category.
-            #[prost(string, tag="1")]
-            pub id: ::prost::alloc::string::String,
-            /// The name of the windows update category.
-            #[prost(string, tag="2")]
-            pub name: ::prost::alloc::string::String,
-        }
-    }
-    /// Information related to a Quick Fix Engineering package.
-    /// Fields are taken from Windows QuickFixEngineering Interface and match
-    /// the source names:
-    /// <https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering>
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WindowsQuickFixEngineeringPackage {
-        /// A short textual description of the QFE update.
-        #[prost(string, tag="1")]
-        pub caption: ::prost::alloc::string::String,
-        /// A textual description of the QFE update.
-        #[prost(string, tag="2")]
-        pub description: ::prost::alloc::string::String,
-        /// Unique identifier associated with a particular QFE update.
-        #[prost(string, tag="3")]
-        pub hot_fix_id: ::prost::alloc::string::String,
-        /// Date that the QFE update was installed.  Mapped from installed_on field.
-        #[prost(message, optional, tag="4")]
-        pub install_time: ::core::option::Option<::prost_types::Timestamp>,
-    }
-    /// Details about Windows Application - based on Windows Registry.
-    /// All fields in this message are taken from:
-    /// <https://docs.microsoft.com/en-us/windows/win32/msi/uninstall-registry-key>
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WindowsApplication {
-        /// DisplayName field from Windows Registry.
-        #[prost(string, tag="1")]
-        pub display_name: ::prost::alloc::string::String,
-        /// DisplayVersion field from Windows Registry.
-        #[prost(string, tag="2")]
-        pub display_version: ::prost::alloc::string::String,
-        /// Publisher field from Windows Registry.
-        #[prost(string, tag="3")]
-        pub publisher: ::prost::alloc::string::String,
-        /// Installation date field from Windows Registry.
-        #[prost(message, optional, tag="4")]
-        pub install_date: ::core::option::Option<super::super::super::super::super::r#type::Date>,
-        /// HelpLink field from Windows Registry.
-        #[prost(string, tag="5")]
-        pub help_link: ::prost::alloc::string::String,
-    }
 }
 /// A request message to receive task notifications.
 #[derive(Clone, PartialEq, ::prost::Message)]

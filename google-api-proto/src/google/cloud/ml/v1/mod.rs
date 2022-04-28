@@ -1,3 +1,975 @@
+/// Represents a machine learning solution.
+///
+/// A model can have multiple versions, each of which is a deployed, trained
+/// model ready to receive prediction requests. The model itself is just a
+/// container.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Model {
+    /// Required. The name specified for the model when it was created.
+    ///
+    /// The model name must be unique within the project it is created in.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. The description specified for the model when it was created.
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. The default version of the model. This version will be used to
+    /// handle prediction requests that do not specify a version.
+    ///
+    /// You can change the default version by calling
+    /// \[projects.methods.versions.setDefault\](/ml/reference/rest/v1/projects.models.versions/setDefault).
+    #[prost(message, optional, tag="3")]
+    pub default_version: ::core::option::Option<Version>,
+    /// Optional. The list of regions where the model is going to be deployed.
+    /// Currently only one region per model is supported.
+    /// Defaults to 'us-central1' if nothing is set.
+    #[prost(string, repeated, tag="4")]
+    pub regions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. If true, enables StackDriver Logging for online prediction.
+    /// Default is false.
+    #[prost(bool, tag="5")]
+    pub online_prediction_logging: bool,
+}
+/// Represents a version of the model.
+///
+/// Each version is a trained model deployed in the cloud, ready to handle
+/// prediction requests. A model can have multiple versions. You can get
+/// information about all of the versions of a given model by calling
+/// \[projects.models.versions.list\](/ml/reference/rest/v1/projects.models.versions/list).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Version {
+    /// Required.The name specified for the version when it was created.
+    ///
+    /// The version name must be unique within the model it is created in.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. The description specified for the version when it was created.
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. If true, this version will be used to handle prediction
+    /// requests that do not specify a version.
+    ///
+    /// You can change the default version by calling
+    /// \[projects.methods.versions.setDefault\](/ml/reference/rest/v1/projects.models.versions/setDefault).
+    #[prost(bool, tag="3")]
+    pub is_default: bool,
+    /// Required. The Google Cloud Storage location of the trained model used to
+    /// create the version. See the
+    /// [overview of model deployment](/ml/docs/concepts/deployment-overview) for
+    /// more informaiton.
+    ///
+    /// When passing Version to
+    /// \[projects.models.versions.create\](/ml/reference/rest/v1/projects.models.versions/create)
+    /// the model service uses the specified location as the source of the model.
+    /// Once deployed, the model version is hosted by the prediction service, so
+    /// this location is useful only as a historical record.
+    #[prost(string, tag="4")]
+    pub deployment_uri: ::prost::alloc::string::String,
+    /// Output only. The time the version was created.
+    #[prost(message, optional, tag="5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The time the version was last used for prediction.
+    #[prost(message, optional, tag="6")]
+    pub last_use_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. The Google Cloud ML runtime version to use for this deployment.
+    /// If not set, Google Cloud ML will choose a version.
+    #[prost(string, tag="8")]
+    pub runtime_version: ::prost::alloc::string::String,
+    /// Optional. Manually select the number of nodes to use for serving the
+    /// model. If unset (i.e., by default), the number of nodes used to serve
+    /// the model automatically scales with traffic. However, care should be
+    /// taken to ramp up traffic according to the model's ability to scale. If
+    /// your model needs to handle bursts of traffic beyond it's ability to
+    /// scale, it is recommended you set this field appropriately.
+    #[prost(message, optional, tag="9")]
+    pub manual_scaling: ::core::option::Option<ManualScaling>,
+}
+/// Options for manually scaling a model.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ManualScaling {
+    /// The number of nodes to allocate for this model. These nodes are always up,
+    /// starting from the time the model is deployed, so the cost of operating
+    /// this model will be proportional to nodes * number of hours since
+    /// deployment.
+    #[prost(int32, tag="1")]
+    pub nodes: i32,
+}
+/// Request message for the CreateModel method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateModelRequest {
+    /// Required. The project name.
+    ///
+    /// Authorization: requires `Editor` role on the specified project.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The model to create.
+    #[prost(message, optional, tag="2")]
+    pub model: ::core::option::Option<Model>,
+}
+/// Request message for the ListModels method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListModelsRequest {
+    /// Required. The name of the project whose models are to be listed.
+    ///
+    /// Authorization: requires `Viewer` role on the specified project.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. A page token to request the next page of results.
+    ///
+    /// You get the token from the `next_page_token` field of the response from
+    /// the previous call.
+    #[prost(string, tag="4")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. The number of models to retrieve per "page" of results. If there
+    /// are more remaining results than this number, the response message will
+    /// contain a valid value in the `next_page_token` field.
+    ///
+    /// The default value is 20, and the maximum page size is 100.
+    #[prost(int32, tag="5")]
+    pub page_size: i32,
+}
+/// Response message for the ListModels method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListModelsResponse {
+    /// The list of models.
+    #[prost(message, repeated, tag="1")]
+    pub models: ::prost::alloc::vec::Vec<Model>,
+    /// Optional. Pass this token as the `page_token` field of the request for a
+    /// subsequent call.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for the GetModel method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetModelRequest {
+    /// Required. The name of the model.
+    ///
+    /// Authorization: requires `Viewer` role on the parent project.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for the DeleteModel method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteModelRequest {
+    /// Required. The name of the model.
+    ///
+    /// Authorization: requires `Editor` role on the parent project.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Uploads the provided trained model version to Cloud Machine Learning.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateVersionRequest {
+    /// Required. The name of the model.
+    ///
+    /// Authorization: requires `Editor` role on the parent project.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The version details.
+    #[prost(message, optional, tag="2")]
+    pub version: ::core::option::Option<Version>,
+}
+/// Request message for the ListVersions method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListVersionsRequest {
+    /// Required. The name of the model for which to list the version.
+    ///
+    /// Authorization: requires `Viewer` role on the parent project.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. A page token to request the next page of results.
+    ///
+    /// You get the token from the `next_page_token` field of the response from
+    /// the previous call.
+    #[prost(string, tag="4")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. The number of versions to retrieve per "page" of results. If
+    /// there are more remaining results than this number, the response message
+    /// will contain a valid value in the `next_page_token` field.
+    ///
+    /// The default value is 20, and the maximum page size is 100.
+    #[prost(int32, tag="5")]
+    pub page_size: i32,
+}
+/// Response message for the ListVersions method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListVersionsResponse {
+    /// The list of versions.
+    #[prost(message, repeated, tag="1")]
+    pub versions: ::prost::alloc::vec::Vec<Version>,
+    /// Optional. Pass this token as the `page_token` field of the request for a
+    /// subsequent call.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for the GetVersion method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetVersionRequest {
+    /// Required. The name of the version.
+    ///
+    /// Authorization: requires `Viewer` role on the parent project.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for the DeleteVerionRequest method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteVersionRequest {
+    /// Required. The name of the version. You can get the names of all the
+    /// versions of a model by calling
+    /// \[projects.models.versions.list\](/ml/reference/rest/v1/projects.models.versions/list).
+    ///
+    /// Authorization: requires `Editor` role on the parent project.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for the SetDefaultVersion request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SetDefaultVersionRequest {
+    /// Required. The name of the version to make the default for the model. You
+    /// can get the names of all the versions of a model by calling
+    /// \[projects.models.versions.list\](/ml/reference/rest/v1/projects.models.versions/list).
+    ///
+    /// Authorization: requires `Editor` role on the parent project.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Generated client implementations.
+pub mod model_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// Provides methods that create and manage machine learning models and their
+    /// versions.
+    ///
+    /// A model in this context is a container for versions. The model can't provide
+    /// predictions without first having a version created for it.
+    ///
+    /// Each version is a trained machine learning model, and each is assumed to be
+    /// an iteration of the same machine learning problem as the other versions of
+    /// the same model.
+    ///
+    /// Your project can define multiple models, each with multiple versions.
+    ///
+    /// The basic life cycle of a model is:
+    ///
+    /// *   Create and train the machine learning model and save it to a
+    ///     Google Cloud Storage location.
+    /// *   Use
+    ///     [projects.models.create](/ml/reference/rest/v1/projects.models/create)
+    ///     to make a new model in your project.
+    /// *   Use
+    ///     [projects.models.versions.create](/ml/reference/rest/v1/projects.models.versions/create)
+    ///     to deploy your saved model.
+    /// *   Use [projects.predict](/ml/reference/rest/v1/projects/predict to
+    ///     request predictions of a version of your model, or use
+    ///     [projects.jobs.create](/ml/reference/rest/v1/projects.jobs/create)
+    ///     to start a batch prediction job.
+    #[derive(Debug, Clone)]
+    pub struct ModelServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ModelServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ModelServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            ModelServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Creates a model which will later contain one or more versions.
+        ///
+        /// You must add at least one version before you can request predictions from
+        /// the model. Add versions by calling
+        /// [projects.models.versions.create](/ml/reference/rest/v1/projects.models.versions/create).
+        pub async fn create_model(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateModelRequest>,
+        ) -> Result<tonic::Response<super::Model>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.ml.v1.ModelService/CreateModel",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists the models in a project.
+        ///
+        /// Each project can contain multiple models, and each model can have multiple
+        /// versions.
+        pub async fn list_models(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListModelsRequest>,
+        ) -> Result<tonic::Response<super::ListModelsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.ml.v1.ModelService/ListModels",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets information about a model, including its name, the description (if
+        /// set), and the default version (if at least one version of the model has
+        /// been deployed).
+        pub async fn get_model(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetModelRequest>,
+        ) -> Result<tonic::Response<super::Model>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.ml.v1.ModelService/GetModel",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes a model.
+        ///
+        /// You can only delete a model if there are no versions in it. You can delete
+        /// versions by calling
+        /// [projects.models.versions.delete](/ml/reference/rest/v1/projects.models.versions/delete).
+        pub async fn delete_model(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteModelRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::longrunning::Operation>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.ml.v1.ModelService/DeleteModel",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Creates a new version of a model from a trained TensorFlow model.
+        ///
+        /// If the version created in the cloud by this call is the first deployed
+        /// version of the specified model, it will be made the default version of the
+        /// model. When you add a version to a model that already has one or more
+        /// versions, the default version does not automatically change. If you want a
+        /// new version to be the default, you must call
+        /// [projects.models.versions.setDefault](/ml/reference/rest/v1/projects.models.versions/setDefault).
+        pub async fn create_version(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateVersionRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::longrunning::Operation>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.ml.v1.ModelService/CreateVersion",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets basic information about all the versions of a model.
+        ///
+        /// If you expect that a model has a lot of versions, or if you need to handle
+        /// only a limited number of results at a time, you can request that the list
+        /// be retrieved in batches (called pages):
+        pub async fn list_versions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListVersionsRequest>,
+        ) -> Result<tonic::Response<super::ListVersionsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.ml.v1.ModelService/ListVersions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets information about a model version.
+        ///
+        /// Models can have multiple versions. You can call
+        /// [projects.models.versions.list](/ml/reference/rest/v1/projects.models.versions/list)
+        /// to get the same information that this method returns for all of the
+        /// versions of a model.
+        pub async fn get_version(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetVersionRequest>,
+        ) -> Result<tonic::Response<super::Version>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.ml.v1.ModelService/GetVersion",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes a model version.
+        ///
+        /// Each model can have multiple versions deployed and in use at any given
+        /// time. Use this method to remove a single version.
+        ///
+        /// Note: You cannot delete the version that is set as the default version
+        /// of the model unless it is the only remaining version.
+        pub async fn delete_version(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteVersionRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::longrunning::Operation>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.ml.v1.ModelService/DeleteVersion",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Designates a version to be the default for the model.
+        ///
+        /// The default version is used for prediction requests made against the model
+        /// that don't specify a version.
+        ///
+        /// The first version to be created for a model is automatically set as the
+        /// default. You must make any subsequent changes to the default version
+        /// setting manually using this method.
+        pub async fn set_default_version(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SetDefaultVersionRequest>,
+        ) -> Result<tonic::Response<super::Version>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.ml.v1.ModelService/SetDefaultVersion",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+// Copyright 2017 Google Inc. All Rights Reserved.
+//
+// Proto file for the Google Cloud Machine Learning Engine.
+// Describes the metadata for longrunning operations.
+
+/// Represents the metadata of the long-running operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationMetadata {
+    /// The time the operation was submitted.
+    #[prost(message, optional, tag="1")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time operation processing started.
+    #[prost(message, optional, tag="2")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time operation processing completed.
+    #[prost(message, optional, tag="3")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Indicates whether a request to cancel this operation has been made.
+    #[prost(bool, tag="4")]
+    pub is_cancellation_requested: bool,
+    /// The operation type.
+    #[prost(enumeration="operation_metadata::OperationType", tag="5")]
+    pub operation_type: i32,
+    /// Contains the name of the model associated with the operation.
+    #[prost(string, tag="6")]
+    pub model_name: ::prost::alloc::string::String,
+    /// Contains the version associated with the operation.
+    #[prost(message, optional, tag="7")]
+    pub version: ::core::option::Option<Version>,
+}
+/// Nested message and enum types in `OperationMetadata`.
+pub mod operation_metadata {
+    /// The operation type.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum OperationType {
+        /// Unspecified operation type.
+        Unspecified = 0,
+        /// An operation to create a new version.
+        CreateVersion = 1,
+        /// An operation to delete an existing version.
+        DeleteVersion = 2,
+        /// An operation to delete an existing model.
+        DeleteModel = 3,
+    }
+}
+/// Request for predictions to be issued against a trained model.
+///
+/// The body of the request is a single JSON object with a single top-level
+/// field:
+///
+/// <dl>
+///   <dt>instances</dt>
+///   <dd>A JSON array containing values representing the instances to use for
+///       prediction.</dd>
+/// </dl>
+///
+/// The structure of each element of the instances list is determined by your
+/// model's input definition. Instances can include named inputs or can contain
+/// only unlabeled values.
+///
+/// Not all data includes named inputs. Some instances will be simple
+/// JSON values (boolean, number, or string). However, instances are often lists
+/// of simple values, or complex nested lists. Here are some examples of request
+/// bodies:
+///
+/// CSV data with each row encoded as a string value:
+/// <pre>
+/// {"instances": ["1.0,true,\\"x\\"", "-2.0,false,\\"y\\""]}
+/// </pre>
+/// Plain text:
+/// <pre>
+/// {"instances": ["the quick brown fox", "la bruja le dio"]}
+/// </pre>
+/// Sentences encoded as lists of words (vectors of strings):
+/// <pre>
+/// {
+///   "instances": [
+///     \["the","quick","brown"\],
+///     \["la","bruja","le"\],
+///     ...
+///   ]
+/// }
+/// </pre>
+/// Floating point scalar values:
+/// <pre>
+/// {"instances": [0.0, 1.1, 2.2]}
+/// </pre>
+/// Vectors of integers:
+/// <pre>
+/// {
+///   "instances": [
+///     [0, 1, 2],
+///     [3, 4, 5],
+///     ...
+///   ]
+/// }
+/// </pre>
+/// Tensors (in this case, two-dimensional tensors):
+/// <pre>
+/// {
+///   "instances": [
+///     [
+///       [0, 1, 2],
+///       [3, 4, 5]
+///     ],
+///     ...
+///   ]
+/// }
+/// </pre>
+/// Images can be represented different ways. In this encoding scheme the first
+/// two dimensions represent the rows and columns of the image, and the third
+/// contains lists (vectors) of the R, G, and B values for each pixel.
+/// <pre>
+/// {
+///   "instances": [
+///     [
+///       [
+///         [138, 30, 66],
+///         [130, 20, 56],
+///         ...
+///       ],
+///       [
+///         [126, 38, 61],
+///         [122, 24, 57],
+///         ...
+///       ],
+///       ...
+///     ],
+///     ...
+///   ]
+/// }
+/// </pre>
+/// JSON strings must be encoded as UTF-8. To send binary data, you must
+/// base64-encode the data and mark it as binary. To mark a JSON string
+/// as binary, replace it with a JSON object with a single attribute named `b64`:
+/// <pre>{"b64": "..."} </pre>
+/// For example:
+///
+/// Two Serialized tf.Examples (fake data, for illustrative purposes only):
+/// <pre>
+/// {"instances": [{"b64": "X5ad6u"}, {"b64": "IA9j4nx"}]}
+/// </pre>
+/// Two JPEG image byte strings (fake data, for illustrative purposes only):
+/// <pre>
+/// {"instances": [{"b64": "ASa8asdf"}, {"b64": "JLK7ljk3"}]}
+/// </pre>
+/// If your data includes named references, format each instance as a JSON object
+/// with the named references as the keys:
+///
+/// JSON input data to be preprocessed:
+/// <pre>
+/// {
+///   "instances": [
+///     {
+///       "a": 1.0,
+///       "b": true,
+///       "c": "x"
+///     },
+///     {
+///       "a": -2.0,
+///       "b": false,
+///       "c": "y"
+///     }
+///   ]
+/// }
+/// </pre>
+/// Some models have an underlying TensorFlow graph that accepts multiple input
+/// tensors. In this case, you should use the names of JSON name/value pairs to
+/// identify the input tensors, as shown in the following exmaples:
+///
+/// For a graph with input tensor aliases "tag" (string) and "image"
+/// (base64-encoded string):
+/// <pre>
+/// {
+///   "instances": [
+///     {
+///       "tag": "beach",
+///       "image": {"b64": "ASa8asdf"}
+///     },
+///     {
+///       "tag": "car",
+///       "image": {"b64": "JLK7ljk3"}
+///     }
+///   ]
+/// }
+/// </pre>
+/// For a graph with input tensor aliases "tag" (string) and "image"
+/// (3-dimensional array of 8-bit ints):
+/// <pre>
+/// {
+///   "instances": [
+///     {
+///       "tag": "beach",
+///       "image": [
+///         [
+///           [138, 30, 66],
+///           [130, 20, 56],
+///           ...
+///         ],
+///         [
+///           [126, 38, 61],
+///           [122, 24, 57],
+///           ...
+///         ],
+///         ...
+///       ]
+///     },
+///     {
+///       "tag": "car",
+///       "image": [
+///         [
+///           [255, 0, 102],
+///           [255, 0, 97],
+///           ...
+///         ],
+///         [
+///           [254, 1, 101],
+///           [254, 2, 93],
+///           ...
+///         ],
+///         ...
+///       ]
+///     },
+///     ...
+///   ]
+/// }
+/// </pre>
+/// If the call is successful, the response body will contain one prediction
+/// entry per instance in the request body. If prediction fails for any
+/// instance, the response body will contain no predictions and will contian
+/// a single error entry instead.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PredictRequest {
+    /// Required. The resource name of a model or a version.
+    ///
+    /// Authorization: requires `Viewer` role on the parent project.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    ///
+    /// Required. The prediction request body.
+    #[prost(message, optional, tag="2")]
+    pub http_body: ::core::option::Option<super::super::super::api::HttpBody>,
+}
+/// Generated client implementations.
+pub mod online_prediction_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// The Prediction API, which serves predictions for models managed by
+    /// ModelService.
+    #[derive(Debug, Clone)]
+    pub struct OnlinePredictionServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> OnlinePredictionServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> OnlinePredictionServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            OnlinePredictionServiceClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Performs prediction on the data in the request.
+        ///
+        /// **** REMOVE FROM GENERATED DOCUMENTATION
+        pub async fn predict(
+            &mut self,
+            request: impl tonic::IntoRequest<super::PredictRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::api::HttpBody>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.ml.v1.OnlinePredictionService/Predict",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Requests service account information associated with a project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetConfigRequest {
+    /// Required. The project name.
+    ///
+    /// Authorization: requires `Viewer` role on the specified project.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Returns service account information associated with a project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetConfigResponse {
+    /// The service account Cloud ML uses to access resources in the project.
+    #[prost(string, tag="1")]
+    pub service_account: ::prost::alloc::string::String,
+    /// The project number for `service_account`.
+    #[prost(int64, tag="2")]
+    pub service_account_project: i64,
+}
+/// Generated client implementations.
+pub mod project_management_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// Allows retrieving project related information.
+    #[derive(Debug, Clone)]
+    pub struct ProjectManagementServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ProjectManagementServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ProjectManagementServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            ProjectManagementServiceClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Get the service account information associated with your project. You need
+        /// this information in order to grant the service account persmissions for
+        /// the Google Cloud Storage location where you put your model training code
+        /// for training the model with Google Cloud Machine Learning.
+        pub async fn get_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetConfigRequest>,
+        ) -> Result<tonic::Response<super::GetConfigResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.ml.v1.ProjectManagementService/GetConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// Represents input parameters for a training job.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TrainingInput {
@@ -706,977 +1678,5 @@ pub mod job_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-    }
-}
-/// Request for predictions to be issued against a trained model.
-///
-/// The body of the request is a single JSON object with a single top-level
-/// field:
-///
-/// <dl>
-///   <dt>instances</dt>
-///   <dd>A JSON array containing values representing the instances to use for
-///       prediction.</dd>
-/// </dl>
-///
-/// The structure of each element of the instances list is determined by your
-/// model's input definition. Instances can include named inputs or can contain
-/// only unlabeled values.
-///
-/// Not all data includes named inputs. Some instances will be simple
-/// JSON values (boolean, number, or string). However, instances are often lists
-/// of simple values, or complex nested lists. Here are some examples of request
-/// bodies:
-///
-/// CSV data with each row encoded as a string value:
-/// <pre>
-/// {"instances": ["1.0,true,\\"x\\"", "-2.0,false,\\"y\\""]}
-/// </pre>
-/// Plain text:
-/// <pre>
-/// {"instances": ["the quick brown fox", "la bruja le dio"]}
-/// </pre>
-/// Sentences encoded as lists of words (vectors of strings):
-/// <pre>
-/// {
-///   "instances": [
-///     \["the","quick","brown"\],
-///     \["la","bruja","le"\],
-///     ...
-///   ]
-/// }
-/// </pre>
-/// Floating point scalar values:
-/// <pre>
-/// {"instances": [0.0, 1.1, 2.2]}
-/// </pre>
-/// Vectors of integers:
-/// <pre>
-/// {
-///   "instances": [
-///     [0, 1, 2],
-///     [3, 4, 5],
-///     ...
-///   ]
-/// }
-/// </pre>
-/// Tensors (in this case, two-dimensional tensors):
-/// <pre>
-/// {
-///   "instances": [
-///     [
-///       [0, 1, 2],
-///       [3, 4, 5]
-///     ],
-///     ...
-///   ]
-/// }
-/// </pre>
-/// Images can be represented different ways. In this encoding scheme the first
-/// two dimensions represent the rows and columns of the image, and the third
-/// contains lists (vectors) of the R, G, and B values for each pixel.
-/// <pre>
-/// {
-///   "instances": [
-///     [
-///       [
-///         [138, 30, 66],
-///         [130, 20, 56],
-///         ...
-///       ],
-///       [
-///         [126, 38, 61],
-///         [122, 24, 57],
-///         ...
-///       ],
-///       ...
-///     ],
-///     ...
-///   ]
-/// }
-/// </pre>
-/// JSON strings must be encoded as UTF-8. To send binary data, you must
-/// base64-encode the data and mark it as binary. To mark a JSON string
-/// as binary, replace it with a JSON object with a single attribute named `b64`:
-/// <pre>{"b64": "..."} </pre>
-/// For example:
-///
-/// Two Serialized tf.Examples (fake data, for illustrative purposes only):
-/// <pre>
-/// {"instances": [{"b64": "X5ad6u"}, {"b64": "IA9j4nx"}]}
-/// </pre>
-/// Two JPEG image byte strings (fake data, for illustrative purposes only):
-/// <pre>
-/// {"instances": [{"b64": "ASa8asdf"}, {"b64": "JLK7ljk3"}]}
-/// </pre>
-/// If your data includes named references, format each instance as a JSON object
-/// with the named references as the keys:
-///
-/// JSON input data to be preprocessed:
-/// <pre>
-/// {
-///   "instances": [
-///     {
-///       "a": 1.0,
-///       "b": true,
-///       "c": "x"
-///     },
-///     {
-///       "a": -2.0,
-///       "b": false,
-///       "c": "y"
-///     }
-///   ]
-/// }
-/// </pre>
-/// Some models have an underlying TensorFlow graph that accepts multiple input
-/// tensors. In this case, you should use the names of JSON name/value pairs to
-/// identify the input tensors, as shown in the following exmaples:
-///
-/// For a graph with input tensor aliases "tag" (string) and "image"
-/// (base64-encoded string):
-/// <pre>
-/// {
-///   "instances": [
-///     {
-///       "tag": "beach",
-///       "image": {"b64": "ASa8asdf"}
-///     },
-///     {
-///       "tag": "car",
-///       "image": {"b64": "JLK7ljk3"}
-///     }
-///   ]
-/// }
-/// </pre>
-/// For a graph with input tensor aliases "tag" (string) and "image"
-/// (3-dimensional array of 8-bit ints):
-/// <pre>
-/// {
-///   "instances": [
-///     {
-///       "tag": "beach",
-///       "image": [
-///         [
-///           [138, 30, 66],
-///           [130, 20, 56],
-///           ...
-///         ],
-///         [
-///           [126, 38, 61],
-///           [122, 24, 57],
-///           ...
-///         ],
-///         ...
-///       ]
-///     },
-///     {
-///       "tag": "car",
-///       "image": [
-///         [
-///           [255, 0, 102],
-///           [255, 0, 97],
-///           ...
-///         ],
-///         [
-///           [254, 1, 101],
-///           [254, 2, 93],
-///           ...
-///         ],
-///         ...
-///       ]
-///     },
-///     ...
-///   ]
-/// }
-/// </pre>
-/// If the call is successful, the response body will contain one prediction
-/// entry per instance in the request body. If prediction fails for any
-/// instance, the response body will contain no predictions and will contian
-/// a single error entry instead.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PredictRequest {
-    /// Required. The resource name of a model or a version.
-    ///
-    /// Authorization: requires `Viewer` role on the parent project.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    ///
-    /// Required. The prediction request body.
-    #[prost(message, optional, tag="2")]
-    pub http_body: ::core::option::Option<super::super::super::api::HttpBody>,
-}
-/// Generated client implementations.
-pub mod online_prediction_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// The Prediction API, which serves predictions for models managed by
-    /// ModelService.
-    #[derive(Debug, Clone)]
-    pub struct OnlinePredictionServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> OnlinePredictionServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> OnlinePredictionServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            OnlinePredictionServiceClient::new(
-                InterceptedService::new(inner, interceptor),
-            )
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Performs prediction on the data in the request.
-        ///
-        /// **** REMOVE FROM GENERATED DOCUMENTATION
-        pub async fn predict(
-            &mut self,
-            request: impl tonic::IntoRequest<super::PredictRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::api::HttpBody>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.ml.v1.OnlinePredictionService/Predict",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Requests service account information associated with a project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetConfigRequest {
-    /// Required. The project name.
-    ///
-    /// Authorization: requires `Viewer` role on the specified project.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Returns service account information associated with a project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetConfigResponse {
-    /// The service account Cloud ML uses to access resources in the project.
-    #[prost(string, tag="1")]
-    pub service_account: ::prost::alloc::string::String,
-    /// The project number for `service_account`.
-    #[prost(int64, tag="2")]
-    pub service_account_project: i64,
-}
-/// Generated client implementations.
-pub mod project_management_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// Allows retrieving project related information.
-    #[derive(Debug, Clone)]
-    pub struct ProjectManagementServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ProjectManagementServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ProjectManagementServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            ProjectManagementServiceClient::new(
-                InterceptedService::new(inner, interceptor),
-            )
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Get the service account information associated with your project. You need
-        /// this information in order to grant the service account persmissions for
-        /// the Google Cloud Storage location where you put your model training code
-        /// for training the model with Google Cloud Machine Learning.
-        pub async fn get_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetConfigRequest>,
-        ) -> Result<tonic::Response<super::GetConfigResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.ml.v1.ProjectManagementService/GetConfig",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Represents a machine learning solution.
-///
-/// A model can have multiple versions, each of which is a deployed, trained
-/// model ready to receive prediction requests. The model itself is just a
-/// container.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Model {
-    /// Required. The name specified for the model when it was created.
-    ///
-    /// The model name must be unique within the project it is created in.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. The description specified for the model when it was created.
-    #[prost(string, tag="2")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. The default version of the model. This version will be used to
-    /// handle prediction requests that do not specify a version.
-    ///
-    /// You can change the default version by calling
-    /// \[projects.methods.versions.setDefault\](/ml/reference/rest/v1/projects.models.versions/setDefault).
-    #[prost(message, optional, tag="3")]
-    pub default_version: ::core::option::Option<Version>,
-    /// Optional. The list of regions where the model is going to be deployed.
-    /// Currently only one region per model is supported.
-    /// Defaults to 'us-central1' if nothing is set.
-    #[prost(string, repeated, tag="4")]
-    pub regions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. If true, enables StackDriver Logging for online prediction.
-    /// Default is false.
-    #[prost(bool, tag="5")]
-    pub online_prediction_logging: bool,
-}
-/// Represents a version of the model.
-///
-/// Each version is a trained model deployed in the cloud, ready to handle
-/// prediction requests. A model can have multiple versions. You can get
-/// information about all of the versions of a given model by calling
-/// \[projects.models.versions.list\](/ml/reference/rest/v1/projects.models.versions/list).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Version {
-    /// Required.The name specified for the version when it was created.
-    ///
-    /// The version name must be unique within the model it is created in.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. The description specified for the version when it was created.
-    #[prost(string, tag="2")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. If true, this version will be used to handle prediction
-    /// requests that do not specify a version.
-    ///
-    /// You can change the default version by calling
-    /// \[projects.methods.versions.setDefault\](/ml/reference/rest/v1/projects.models.versions/setDefault).
-    #[prost(bool, tag="3")]
-    pub is_default: bool,
-    /// Required. The Google Cloud Storage location of the trained model used to
-    /// create the version. See the
-    /// [overview of model deployment](/ml/docs/concepts/deployment-overview) for
-    /// more informaiton.
-    ///
-    /// When passing Version to
-    /// \[projects.models.versions.create\](/ml/reference/rest/v1/projects.models.versions/create)
-    /// the model service uses the specified location as the source of the model.
-    /// Once deployed, the model version is hosted by the prediction service, so
-    /// this location is useful only as a historical record.
-    #[prost(string, tag="4")]
-    pub deployment_uri: ::prost::alloc::string::String,
-    /// Output only. The time the version was created.
-    #[prost(message, optional, tag="5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The time the version was last used for prediction.
-    #[prost(message, optional, tag="6")]
-    pub last_use_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. The Google Cloud ML runtime version to use for this deployment.
-    /// If not set, Google Cloud ML will choose a version.
-    #[prost(string, tag="8")]
-    pub runtime_version: ::prost::alloc::string::String,
-    /// Optional. Manually select the number of nodes to use for serving the
-    /// model. If unset (i.e., by default), the number of nodes used to serve
-    /// the model automatically scales with traffic. However, care should be
-    /// taken to ramp up traffic according to the model's ability to scale. If
-    /// your model needs to handle bursts of traffic beyond it's ability to
-    /// scale, it is recommended you set this field appropriately.
-    #[prost(message, optional, tag="9")]
-    pub manual_scaling: ::core::option::Option<ManualScaling>,
-}
-/// Options for manually scaling a model.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ManualScaling {
-    /// The number of nodes to allocate for this model. These nodes are always up,
-    /// starting from the time the model is deployed, so the cost of operating
-    /// this model will be proportional to nodes * number of hours since
-    /// deployment.
-    #[prost(int32, tag="1")]
-    pub nodes: i32,
-}
-/// Request message for the CreateModel method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateModelRequest {
-    /// Required. The project name.
-    ///
-    /// Authorization: requires `Editor` role on the specified project.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The model to create.
-    #[prost(message, optional, tag="2")]
-    pub model: ::core::option::Option<Model>,
-}
-/// Request message for the ListModels method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListModelsRequest {
-    /// Required. The name of the project whose models are to be listed.
-    ///
-    /// Authorization: requires `Viewer` role on the specified project.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. A page token to request the next page of results.
-    ///
-    /// You get the token from the `next_page_token` field of the response from
-    /// the previous call.
-    #[prost(string, tag="4")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Optional. The number of models to retrieve per "page" of results. If there
-    /// are more remaining results than this number, the response message will
-    /// contain a valid value in the `next_page_token` field.
-    ///
-    /// The default value is 20, and the maximum page size is 100.
-    #[prost(int32, tag="5")]
-    pub page_size: i32,
-}
-/// Response message for the ListModels method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListModelsResponse {
-    /// The list of models.
-    #[prost(message, repeated, tag="1")]
-    pub models: ::prost::alloc::vec::Vec<Model>,
-    /// Optional. Pass this token as the `page_token` field of the request for a
-    /// subsequent call.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request message for the GetModel method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetModelRequest {
-    /// Required. The name of the model.
-    ///
-    /// Authorization: requires `Viewer` role on the parent project.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for the DeleteModel method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteModelRequest {
-    /// Required. The name of the model.
-    ///
-    /// Authorization: requires `Editor` role on the parent project.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Uploads the provided trained model version to Cloud Machine Learning.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateVersionRequest {
-    /// Required. The name of the model.
-    ///
-    /// Authorization: requires `Editor` role on the parent project.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The version details.
-    #[prost(message, optional, tag="2")]
-    pub version: ::core::option::Option<Version>,
-}
-/// Request message for the ListVersions method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListVersionsRequest {
-    /// Required. The name of the model for which to list the version.
-    ///
-    /// Authorization: requires `Viewer` role on the parent project.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. A page token to request the next page of results.
-    ///
-    /// You get the token from the `next_page_token` field of the response from
-    /// the previous call.
-    #[prost(string, tag="4")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Optional. The number of versions to retrieve per "page" of results. If
-    /// there are more remaining results than this number, the response message
-    /// will contain a valid value in the `next_page_token` field.
-    ///
-    /// The default value is 20, and the maximum page size is 100.
-    #[prost(int32, tag="5")]
-    pub page_size: i32,
-}
-/// Response message for the ListVersions method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListVersionsResponse {
-    /// The list of versions.
-    #[prost(message, repeated, tag="1")]
-    pub versions: ::prost::alloc::vec::Vec<Version>,
-    /// Optional. Pass this token as the `page_token` field of the request for a
-    /// subsequent call.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request message for the GetVersion method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetVersionRequest {
-    /// Required. The name of the version.
-    ///
-    /// Authorization: requires `Viewer` role on the parent project.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for the DeleteVerionRequest method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteVersionRequest {
-    /// Required. The name of the version. You can get the names of all the
-    /// versions of a model by calling
-    /// \[projects.models.versions.list\](/ml/reference/rest/v1/projects.models.versions/list).
-    ///
-    /// Authorization: requires `Editor` role on the parent project.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for the SetDefaultVersion request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SetDefaultVersionRequest {
-    /// Required. The name of the version to make the default for the model. You
-    /// can get the names of all the versions of a model by calling
-    /// \[projects.models.versions.list\](/ml/reference/rest/v1/projects.models.versions/list).
-    ///
-    /// Authorization: requires `Editor` role on the parent project.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Generated client implementations.
-pub mod model_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// Provides methods that create and manage machine learning models and their
-    /// versions.
-    ///
-    /// A model in this context is a container for versions. The model can't provide
-    /// predictions without first having a version created for it.
-    ///
-    /// Each version is a trained machine learning model, and each is assumed to be
-    /// an iteration of the same machine learning problem as the other versions of
-    /// the same model.
-    ///
-    /// Your project can define multiple models, each with multiple versions.
-    ///
-    /// The basic life cycle of a model is:
-    ///
-    /// *   Create and train the machine learning model and save it to a
-    ///     Google Cloud Storage location.
-    /// *   Use
-    ///     [projects.models.create](/ml/reference/rest/v1/projects.models/create)
-    ///     to make a new model in your project.
-    /// *   Use
-    ///     [projects.models.versions.create](/ml/reference/rest/v1/projects.models.versions/create)
-    ///     to deploy your saved model.
-    /// *   Use [projects.predict](/ml/reference/rest/v1/projects/predict to
-    ///     request predictions of a version of your model, or use
-    ///     [projects.jobs.create](/ml/reference/rest/v1/projects.jobs/create)
-    ///     to start a batch prediction job.
-    #[derive(Debug, Clone)]
-    pub struct ModelServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ModelServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ModelServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            ModelServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Creates a model which will later contain one or more versions.
-        ///
-        /// You must add at least one version before you can request predictions from
-        /// the model. Add versions by calling
-        /// [projects.models.versions.create](/ml/reference/rest/v1/projects.models.versions/create).
-        pub async fn create_model(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateModelRequest>,
-        ) -> Result<tonic::Response<super::Model>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.ml.v1.ModelService/CreateModel",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Lists the models in a project.
-        ///
-        /// Each project can contain multiple models, and each model can have multiple
-        /// versions.
-        pub async fn list_models(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListModelsRequest>,
-        ) -> Result<tonic::Response<super::ListModelsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.ml.v1.ModelService/ListModels",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets information about a model, including its name, the description (if
-        /// set), and the default version (if at least one version of the model has
-        /// been deployed).
-        pub async fn get_model(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetModelRequest>,
-        ) -> Result<tonic::Response<super::Model>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.ml.v1.ModelService/GetModel",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes a model.
-        ///
-        /// You can only delete a model if there are no versions in it. You can delete
-        /// versions by calling
-        /// [projects.models.versions.delete](/ml/reference/rest/v1/projects.models.versions/delete).
-        pub async fn delete_model(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteModelRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.ml.v1.ModelService/DeleteModel",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Creates a new version of a model from a trained TensorFlow model.
-        ///
-        /// If the version created in the cloud by this call is the first deployed
-        /// version of the specified model, it will be made the default version of the
-        /// model. When you add a version to a model that already has one or more
-        /// versions, the default version does not automatically change. If you want a
-        /// new version to be the default, you must call
-        /// [projects.models.versions.setDefault](/ml/reference/rest/v1/projects.models.versions/setDefault).
-        pub async fn create_version(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateVersionRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.ml.v1.ModelService/CreateVersion",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets basic information about all the versions of a model.
-        ///
-        /// If you expect that a model has a lot of versions, or if you need to handle
-        /// only a limited number of results at a time, you can request that the list
-        /// be retrieved in batches (called pages):
-        pub async fn list_versions(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListVersionsRequest>,
-        ) -> Result<tonic::Response<super::ListVersionsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.ml.v1.ModelService/ListVersions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets information about a model version.
-        ///
-        /// Models can have multiple versions. You can call
-        /// [projects.models.versions.list](/ml/reference/rest/v1/projects.models.versions/list)
-        /// to get the same information that this method returns for all of the
-        /// versions of a model.
-        pub async fn get_version(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetVersionRequest>,
-        ) -> Result<tonic::Response<super::Version>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.ml.v1.ModelService/GetVersion",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes a model version.
-        ///
-        /// Each model can have multiple versions deployed and in use at any given
-        /// time. Use this method to remove a single version.
-        ///
-        /// Note: You cannot delete the version that is set as the default version
-        /// of the model unless it is the only remaining version.
-        pub async fn delete_version(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteVersionRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.ml.v1.ModelService/DeleteVersion",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Designates a version to be the default for the model.
-        ///
-        /// The default version is used for prediction requests made against the model
-        /// that don't specify a version.
-        ///
-        /// The first version to be created for a model is automatically set as the
-        /// default. You must make any subsequent changes to the default version
-        /// setting manually using this method.
-        pub async fn set_default_version(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SetDefaultVersionRequest>,
-        ) -> Result<tonic::Response<super::Version>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.ml.v1.ModelService/SetDefaultVersion",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-// Copyright 2017 Google Inc. All Rights Reserved.
-//
-// Proto file for the Google Cloud Machine Learning Engine.
-// Describes the metadata for longrunning operations.
-
-/// Represents the metadata of the long-running operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationMetadata {
-    /// The time the operation was submitted.
-    #[prost(message, optional, tag="1")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time operation processing started.
-    #[prost(message, optional, tag="2")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time operation processing completed.
-    #[prost(message, optional, tag="3")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Indicates whether a request to cancel this operation has been made.
-    #[prost(bool, tag="4")]
-    pub is_cancellation_requested: bool,
-    /// The operation type.
-    #[prost(enumeration="operation_metadata::OperationType", tag="5")]
-    pub operation_type: i32,
-    /// Contains the name of the model associated with the operation.
-    #[prost(string, tag="6")]
-    pub model_name: ::prost::alloc::string::String,
-    /// Contains the version associated with the operation.
-    #[prost(message, optional, tag="7")]
-    pub version: ::core::option::Option<Version>,
-}
-/// Nested message and enum types in `OperationMetadata`.
-pub mod operation_metadata {
-    /// The operation type.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum OperationType {
-        /// Unspecified operation type.
-        Unspecified = 0,
-        /// An operation to create a new version.
-        CreateVersion = 1,
-        /// An operation to delete an existing version.
-        DeleteVersion = 2,
-        /// An operation to delete an existing model.
-        DeleteModel = 3,
     }
 }

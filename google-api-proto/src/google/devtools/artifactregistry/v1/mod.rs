@@ -1,96 +1,200 @@
-/// A detailed representation of a Yum artifact.
+/// Packages are named collections of versions.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct YumArtifact {
-    /// Output only. The Artifact Registry resource name of the artifact.
+pub struct Package {
+    /// The name of the package, for example:
+    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1".
+    /// If the package ID part contains slashes, the slashes are escaped.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Output only. The yum package name of the artifact.
+    /// The display name of the package.
     #[prost(string, tag="2")]
-    pub package_name: ::prost::alloc::string::String,
-    /// Output only. An artifact is a binary or source package.
-    #[prost(enumeration="yum_artifact::PackageType", tag="3")]
-    pub package_type: i32,
-    /// Output only. Operating system architecture of the artifact.
-    #[prost(string, tag="4")]
-    pub architecture: ::prost::alloc::string::String,
+    pub display_name: ::prost::alloc::string::String,
+    /// The time when the package was created.
+    #[prost(message, optional, tag="5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time when the package was last updated. This includes publishing a new
+    /// version of the package.
+    #[prost(message, optional, tag="6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
 }
-/// Nested message and enum types in `YumArtifact`.
-pub mod yum_artifact {
-    /// Package type is either binary or source.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum PackageType {
-        /// Package type is not specified.
-        Unspecified = 0,
-        /// Binary package (.rpm).
-        Binary = 1,
-        /// Source package (.srpm).
-        Source = 2,
-    }
-}
-/// Google Cloud Storage location where the artifacts currently reside.
+/// The request to list packages.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportYumArtifactsGcsSource {
-    /// Cloud Storage paths URI (e.g., gs://my_bucket//my_object).
-    #[prost(string, repeated, tag="1")]
-    pub uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Supports URI wildcards for matching multiple objects from a single URI.
-    #[prost(bool, tag="2")]
-    pub use_wildcards: bool,
-}
-/// The request to import new yum artifacts.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportYumArtifactsRequest {
-    /// The name of the parent resource where the artifacts will be imported.
+pub struct ListPackagesRequest {
+    /// Required. The name of the parent resource whose packages will be listed.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// The source location of the package binaries.
-    #[prost(oneof="import_yum_artifacts_request::Source", tags="2")]
-    pub source: ::core::option::Option<import_yum_artifacts_request::Source>,
+    /// The maximum number of packages to return. Maximum page size is 1,000.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request, if any.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
 }
-/// Nested message and enum types in `ImportYumArtifactsRequest`.
-pub mod import_yum_artifacts_request {
-    /// The source location of the package binaries.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Source {
-        /// Google Cloud Storage location where input content is located.
-        #[prost(message, tag="2")]
-        GcsSource(super::ImportYumArtifactsGcsSource),
-    }
-}
-/// Error information explaining why a package was not imported.
+/// The response from listing packages.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportYumArtifactsErrorInfo {
-    /// The detailed error status.
-    #[prost(message, optional, tag="2")]
-    pub error: ::core::option::Option<super::super::super::rpc::Status>,
-    /// The source that was not imported.
-    #[prost(oneof="import_yum_artifacts_error_info::Source", tags="1")]
-    pub source: ::core::option::Option<import_yum_artifacts_error_info::Source>,
-}
-/// Nested message and enum types in `ImportYumArtifactsErrorInfo`.
-pub mod import_yum_artifacts_error_info {
-    /// The source that was not imported.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Source {
-        /// Google Cloud Storage location requested.
-        #[prost(message, tag="1")]
-        GcsSource(super::ImportYumArtifactsGcsSource),
-    }
-}
-/// The response message from importing YUM artifacts.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportYumArtifactsResponse {
-    /// The yum artifacts imported.
+pub struct ListPackagesResponse {
+    /// The packages returned.
     #[prost(message, repeated, tag="1")]
-    pub yum_artifacts: ::prost::alloc::vec::Vec<YumArtifact>,
-    /// Detailed error info for packages that were not imported.
-    #[prost(message, repeated, tag="2")]
-    pub errors: ::prost::alloc::vec::Vec<ImportYumArtifactsErrorInfo>,
+    pub packages: ::prost::alloc::vec::Vec<Package>,
+    /// The token to retrieve the next page of packages, or empty if there are no
+    /// more packages to return.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
 }
-/// The operation metadata for importing artifacts.
+/// The request to retrieve a package.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportYumArtifactsMetadata {
+pub struct GetPackageRequest {
+    /// Required. The name of the package to retrieve.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request to delete a package.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeletePackageRequest {
+    /// Required. The name of the package to delete.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The Artifact Registry settings that apply to a Project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProjectSettings {
+    /// The name of the project's settings.
+    ///
+    /// Always of the form:
+    /// projects/{project-id}/projectSettings
+    ///
+    /// In update request: never set
+    /// In response: always set
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The redirection state of the legacy repositories in this project.
+    #[prost(enumeration="project_settings::RedirectionState", tag="2")]
+    pub legacy_redirection_state: i32,
+}
+/// Nested message and enum types in `ProjectSettings`.
+pub mod project_settings {
+    /// The possible redirection states for legacy repositories.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RedirectionState {
+        /// No redirection status has been set.
+        Unspecified = 0,
+        /// Redirection is disabled.
+        RedirectionFromGcrIoDisabled = 1,
+        /// Redirection is enabled.
+        RedirectionFromGcrIoEnabled = 2,
+        /// Redirection is enabled, and has been finalized so cannot be reverted.
+        RedirectionFromGcrIoFinalized = 3,
+    }
+}
+/// Gets the redirection status for a project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetProjectSettingsRequest {
+    /// Required. The name of the projectSettings resource.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Sets the settings of the project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateProjectSettingsRequest {
+    /// The project settings.
+    #[prost(message, optional, tag="2")]
+    pub project_settings: ::core::option::Option<ProjectSettings>,
+    /// Field mask to support partial updates.
+    #[prost(message, optional, tag="3")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Tags point to a version and represent an alternative name that can be used
+/// to access the version.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Tag {
+    /// The name of the tag, for example:
+    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1".
+    /// If the package part contains slashes, the slashes are escaped.
+    /// The tag part can only have characters in \[a-zA-Z0-9\-._~:@\], anything else
+    /// must be URL encoded.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The name of the version the tag refers to, for example:
+    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/sha256:5243811"
+    /// If the package or version ID parts contain slashes, the slashes are
+    /// escaped.
+    #[prost(string, tag="2")]
+    pub version: ::prost::alloc::string::String,
+}
+/// The request to list tags.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTagsRequest {
+    /// The name of the parent resource whose tags will be listed.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// An expression for filtering the results of the request. Filter rules are
+    /// case insensitive. The fields eligible for filtering are:
+    ///
+    ///   * `version`
+    ///
+    ///  An example of using a filter:
+    ///
+    ///   * `version="projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/1.0"`
+    ///   --> Tags that are applied to the version `1.0` in package `pkg1`.
+    #[prost(string, tag="4")]
+    pub filter: ::prost::alloc::string::String,
+    /// The maximum number of tags to return. Maximum page size is 10,000.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request, if any.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response from listing tags.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTagsResponse {
+    /// The tags returned.
+    #[prost(message, repeated, tag="1")]
+    pub tags: ::prost::alloc::vec::Vec<Tag>,
+    /// The token to retrieve the next page of tags, or empty if there are no
+    /// more tags to return.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request to retrieve a tag.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetTagRequest {
+    /// The name of the tag to retrieve.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request to create a new tag.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateTagRequest {
+    /// The name of the parent resource where the tag will be created.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The tag id to use for this repository.
+    #[prost(string, tag="2")]
+    pub tag_id: ::prost::alloc::string::String,
+    /// The tag to be created.
+    #[prost(message, optional, tag="3")]
+    pub tag: ::core::option::Option<Tag>,
+}
+/// The request to create or update a tag.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateTagRequest {
+    /// The tag that replaces the resource on the server.
+    #[prost(message, optional, tag="1")]
+    pub tag: ::core::option::Option<Tag>,
+    /// The update mask applies to the resource. For the `FieldMask` definition,
+    /// see
+    /// <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask>
+    #[prost(message, optional, tag="2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// The request to delete a tag.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteTagRequest {
+    /// The name of the tag to delete.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
 }
 /// A detailed representation of an Apt artifact. Information in the record
 /// is derived from the archive's control file.
@@ -372,63 +476,6 @@ pub struct GetFileRequest {
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
 }
-/// Packages are named collections of versions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Package {
-    /// The name of the package, for example:
-    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1".
-    /// If the package ID part contains slashes, the slashes are escaped.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The display name of the package.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The time when the package was created.
-    #[prost(message, optional, tag="5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time when the package was last updated. This includes publishing a new
-    /// version of the package.
-    #[prost(message, optional, tag="6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// The request to list packages.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPackagesRequest {
-    /// Required. The name of the parent resource whose packages will be listed.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of packages to return. Maximum page size is 1,000.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request, if any.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response from listing packages.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPackagesResponse {
-    /// The packages returned.
-    #[prost(message, repeated, tag="1")]
-    pub packages: ::prost::alloc::vec::Vec<Package>,
-    /// The token to retrieve the next page of packages, or empty if there are no
-    /// more packages to return.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request to retrieve a package.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetPackageRequest {
-    /// Required. The name of the package to retrieve.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request to delete a package.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeletePackageRequest {
-    /// Required. The name of the package to delete.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
 /// A Repository for storing artifacts with a specific format.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Repository {
@@ -587,147 +634,6 @@ pub struct DeleteRepositoryRequest {
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
 }
-/// The Artifact Registry settings that apply to a Project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProjectSettings {
-    /// The name of the project's settings.
-    ///
-    /// Always of the form:
-    /// projects/{project-id}/projectSettings
-    ///
-    /// In update request: never set
-    /// In response: always set
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The redirection state of the legacy repositories in this project.
-    #[prost(enumeration="project_settings::RedirectionState", tag="2")]
-    pub legacy_redirection_state: i32,
-}
-/// Nested message and enum types in `ProjectSettings`.
-pub mod project_settings {
-    /// The possible redirection states for legacy repositories.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RedirectionState {
-        /// No redirection status has been set.
-        Unspecified = 0,
-        /// Redirection is disabled.
-        RedirectionFromGcrIoDisabled = 1,
-        /// Redirection is enabled.
-        RedirectionFromGcrIoEnabled = 2,
-        /// Redirection is enabled, and has been finalized so cannot be reverted.
-        RedirectionFromGcrIoFinalized = 3,
-    }
-}
-/// Gets the redirection status for a project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetProjectSettingsRequest {
-    /// Required. The name of the projectSettings resource.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Sets the settings of the project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateProjectSettingsRequest {
-    /// The project settings.
-    #[prost(message, optional, tag="2")]
-    pub project_settings: ::core::option::Option<ProjectSettings>,
-    /// Field mask to support partial updates.
-    #[prost(message, optional, tag="3")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Tags point to a version and represent an alternative name that can be used
-/// to access the version.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Tag {
-    /// The name of the tag, for example:
-    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1".
-    /// If the package part contains slashes, the slashes are escaped.
-    /// The tag part can only have characters in \[a-zA-Z0-9\-._~:@\], anything else
-    /// must be URL encoded.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The name of the version the tag refers to, for example:
-    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/sha256:5243811"
-    /// If the package or version ID parts contain slashes, the slashes are
-    /// escaped.
-    #[prost(string, tag="2")]
-    pub version: ::prost::alloc::string::String,
-}
-/// The request to list tags.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTagsRequest {
-    /// The name of the parent resource whose tags will be listed.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// An expression for filtering the results of the request. Filter rules are
-    /// case insensitive. The fields eligible for filtering are:
-    ///
-    ///   * `version`
-    ///
-    ///  An example of using a filter:
-    ///
-    ///   * `version="projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/1.0"`
-    ///   --> Tags that are applied to the version `1.0` in package `pkg1`.
-    #[prost(string, tag="4")]
-    pub filter: ::prost::alloc::string::String,
-    /// The maximum number of tags to return. Maximum page size is 10,000.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request, if any.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response from listing tags.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTagsResponse {
-    /// The tags returned.
-    #[prost(message, repeated, tag="1")]
-    pub tags: ::prost::alloc::vec::Vec<Tag>,
-    /// The token to retrieve the next page of tags, or empty if there are no
-    /// more tags to return.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request to retrieve a tag.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetTagRequest {
-    /// The name of the tag to retrieve.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request to create a new tag.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateTagRequest {
-    /// The name of the parent resource where the tag will be created.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The tag id to use for this repository.
-    #[prost(string, tag="2")]
-    pub tag_id: ::prost::alloc::string::String,
-    /// The tag to be created.
-    #[prost(message, optional, tag="3")]
-    pub tag: ::core::option::Option<Tag>,
-}
-/// The request to create or update a tag.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateTagRequest {
-    /// The tag that replaces the resource on the server.
-    #[prost(message, optional, tag="1")]
-    pub tag: ::core::option::Option<Tag>,
-    /// The update mask applies to the resource. For the `FieldMask` definition,
-    /// see
-    /// <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask>
-    #[prost(message, optional, tag="2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// The request to delete a tag.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteTagRequest {
-    /// The name of the tag to delete.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
 /// The body of a version resource. A version resource represents a
 /// collection of components, such as files and other data. This may correspond
 /// to a version in many package management schemes.
@@ -822,6 +728,100 @@ pub enum VersionView {
     Basic = 1,
     /// Include everything.
     Full = 2,
+}
+/// A detailed representation of a Yum artifact.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct YumArtifact {
+    /// Output only. The Artifact Registry resource name of the artifact.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. The yum package name of the artifact.
+    #[prost(string, tag="2")]
+    pub package_name: ::prost::alloc::string::String,
+    /// Output only. An artifact is a binary or source package.
+    #[prost(enumeration="yum_artifact::PackageType", tag="3")]
+    pub package_type: i32,
+    /// Output only. Operating system architecture of the artifact.
+    #[prost(string, tag="4")]
+    pub architecture: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `YumArtifact`.
+pub mod yum_artifact {
+    /// Package type is either binary or source.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum PackageType {
+        /// Package type is not specified.
+        Unspecified = 0,
+        /// Binary package (.rpm).
+        Binary = 1,
+        /// Source package (.srpm).
+        Source = 2,
+    }
+}
+/// Google Cloud Storage location where the artifacts currently reside.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportYumArtifactsGcsSource {
+    /// Cloud Storage paths URI (e.g., gs://my_bucket//my_object).
+    #[prost(string, repeated, tag="1")]
+    pub uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Supports URI wildcards for matching multiple objects from a single URI.
+    #[prost(bool, tag="2")]
+    pub use_wildcards: bool,
+}
+/// The request to import new yum artifacts.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportYumArtifactsRequest {
+    /// The name of the parent resource where the artifacts will be imported.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The source location of the package binaries.
+    #[prost(oneof="import_yum_artifacts_request::Source", tags="2")]
+    pub source: ::core::option::Option<import_yum_artifacts_request::Source>,
+}
+/// Nested message and enum types in `ImportYumArtifactsRequest`.
+pub mod import_yum_artifacts_request {
+    /// The source location of the package binaries.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Source {
+        /// Google Cloud Storage location where input content is located.
+        #[prost(message, tag="2")]
+        GcsSource(super::ImportYumArtifactsGcsSource),
+    }
+}
+/// Error information explaining why a package was not imported.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportYumArtifactsErrorInfo {
+    /// The detailed error status.
+    #[prost(message, optional, tag="2")]
+    pub error: ::core::option::Option<super::super::super::rpc::Status>,
+    /// The source that was not imported.
+    #[prost(oneof="import_yum_artifacts_error_info::Source", tags="1")]
+    pub source: ::core::option::Option<import_yum_artifacts_error_info::Source>,
+}
+/// Nested message and enum types in `ImportYumArtifactsErrorInfo`.
+pub mod import_yum_artifacts_error_info {
+    /// The source that was not imported.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Source {
+        /// Google Cloud Storage location requested.
+        #[prost(message, tag="1")]
+        GcsSource(super::ImportYumArtifactsGcsSource),
+    }
+}
+/// The response message from importing YUM artifacts.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportYumArtifactsResponse {
+    /// The yum artifacts imported.
+    #[prost(message, repeated, tag="1")]
+    pub yum_artifacts: ::prost::alloc::vec::Vec<YumArtifact>,
+    /// Detailed error info for packages that were not imported.
+    #[prost(message, repeated, tag="2")]
+    pub errors: ::prost::alloc::vec::Vec<ImportYumArtifactsErrorInfo>,
+}
+/// The operation metadata for importing artifacts.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportYumArtifactsMetadata {
 }
 /// Metadata type for longrunning-operations, currently empty.
 #[derive(Clone, PartialEq, ::prost::Message)]

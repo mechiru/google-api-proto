@@ -231,366 +231,6 @@ pub mod time_target {
         EventTime(::prost_types::Timestamp),
     }
 }
-/// The first request that must be sent on a newly-opened stream.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InitialPublishRequest {
-    /// The topic to which messages will be written.
-    #[prost(string, tag="1")]
-    pub topic: ::prost::alloc::string::String,
-    /// The partition within the topic to which messages will be written.
-    /// Partitions are zero indexed, so `partition` must be in the range [0,
-    /// topic.num_partitions).
-    #[prost(int64, tag="2")]
-    pub partition: i64,
-}
-/// Response to an InitialPublishRequest.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InitialPublishResponse {
-}
-/// Request to publish messages to the topic.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MessagePublishRequest {
-    /// The messages to publish.
-    #[prost(message, repeated, tag="1")]
-    pub messages: ::prost::alloc::vec::Vec<PubSubMessage>,
-}
-/// Response to a MessagePublishRequest.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MessagePublishResponse {
-    /// The cursor of the first published message in the batch. The cursors for any
-    /// remaining messages in the batch are guaranteed to be sequential.
-    #[prost(message, optional, tag="1")]
-    pub start_cursor: ::core::option::Option<Cursor>,
-}
-/// Request sent from the client to the server on a stream.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PublishRequest {
-    /// The type of request this is.
-    #[prost(oneof="publish_request::RequestType", tags="1, 2")]
-    pub request_type: ::core::option::Option<publish_request::RequestType>,
-}
-/// Nested message and enum types in `PublishRequest`.
-pub mod publish_request {
-    /// The type of request this is.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum RequestType {
-        /// Initial request on the stream.
-        #[prost(message, tag="1")]
-        InitialRequest(super::InitialPublishRequest),
-        /// Request to publish messages.
-        #[prost(message, tag="2")]
-        MessagePublishRequest(super::MessagePublishRequest),
-    }
-}
-/// Response to a PublishRequest.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PublishResponse {
-    /// The type of response this is.
-    #[prost(oneof="publish_response::ResponseType", tags="1, 2")]
-    pub response_type: ::core::option::Option<publish_response::ResponseType>,
-}
-/// Nested message and enum types in `PublishResponse`.
-pub mod publish_response {
-    /// The type of response this is.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum ResponseType {
-        /// Initial response on the stream.
-        #[prost(message, tag="1")]
-        InitialResponse(super::InitialPublishResponse),
-        /// Response to publishing messages.
-        #[prost(message, tag="2")]
-        MessageResponse(super::MessagePublishResponse),
-    }
-}
-/// Generated client implementations.
-pub mod publisher_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// The service that a publisher client application uses to publish messages to
-    /// topics. Published messages are retained by the service for the duration of
-    /// the retention period configured for the respective topic, and are delivered
-    /// to subscriber clients upon request (via the `SubscriberService`).
-    #[derive(Debug, Clone)]
-    pub struct PublisherServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> PublisherServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> PublisherServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            PublisherServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Establishes a stream with the server for publishing messages. Once the
-        /// stream is initialized, the client publishes messages by sending publish
-        /// requests on the stream. The server responds with a PublishResponse for each
-        /// PublishRequest sent by the client, in the same order that the requests
-        /// were sent. Note that multiple PublishRequests can be in flight
-        /// simultaneously, but they will be processed by the server in the order that
-        /// they are sent by the client on a given stream.
-        pub async fn publish(
-            &mut self,
-            request: impl tonic::IntoStreamingRequest<Message = super::PublishRequest>,
-        ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::PublishResponse>>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.PublisherService/Publish",
-            );
-            self.inner.streaming(request.into_streaming_request(), path, codec).await
-        }
-    }
-}
-/// Compute statistics about a range of messages in a given topic and partition.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ComputeMessageStatsRequest {
-    /// Required. The topic for which we should compute message stats.
-    #[prost(string, tag="1")]
-    pub topic: ::prost::alloc::string::String,
-    /// Required. The partition for which we should compute message stats.
-    #[prost(int64, tag="2")]
-    pub partition: i64,
-    /// The inclusive start of the range.
-    #[prost(message, optional, tag="3")]
-    pub start_cursor: ::core::option::Option<Cursor>,
-    /// The exclusive end of the range. The range is empty if end_cursor <=
-    /// start_cursor. Specifying a start_cursor before the first message and an
-    /// end_cursor after the last message will retrieve all messages.
-    #[prost(message, optional, tag="4")]
-    pub end_cursor: ::core::option::Option<Cursor>,
-}
-/// Response containing stats for messages in the requested topic and partition.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ComputeMessageStatsResponse {
-    /// The count of messages.
-    #[prost(int64, tag="1")]
-    pub message_count: i64,
-    /// The number of quota bytes accounted to these messages.
-    #[prost(int64, tag="2")]
-    pub message_bytes: i64,
-    /// The minimum publish timestamp across these messages. Note that publish
-    /// timestamps within a partition are not guaranteed to be non-decreasing. The
-    /// timestamp will be unset if there are no messages.
-    #[prost(message, optional, tag="3")]
-    pub minimum_publish_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The minimum event timestamp across these messages. For the purposes of this
-    /// computation, if a message does not have an event time, we use the publish
-    /// time. The timestamp will be unset if there are no messages.
-    #[prost(message, optional, tag="4")]
-    pub minimum_event_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Compute the current head cursor for a partition.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ComputeHeadCursorRequest {
-    /// Required. The topic for which we should compute the head cursor.
-    #[prost(string, tag="1")]
-    pub topic: ::prost::alloc::string::String,
-    /// Required. The partition for which we should compute the head cursor.
-    #[prost(int64, tag="2")]
-    pub partition: i64,
-}
-/// Response containing the head cursor for the requested topic and partition.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ComputeHeadCursorResponse {
-    /// The head cursor.
-    #[prost(message, optional, tag="1")]
-    pub head_cursor: ::core::option::Option<Cursor>,
-}
-/// Compute the corresponding cursor for a publish or event time in a topic
-/// partition.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ComputeTimeCursorRequest {
-    /// Required. The topic for which we should compute the cursor.
-    #[prost(string, tag="1")]
-    pub topic: ::prost::alloc::string::String,
-    /// Required. The partition for which we should compute the cursor.
-    #[prost(int64, tag="2")]
-    pub partition: i64,
-    /// Required. The target publish or event time. Specifying a future time will return an
-    /// unset cursor.
-    #[prost(message, optional, tag="3")]
-    pub target: ::core::option::Option<TimeTarget>,
-}
-/// Response containing the cursor corresponding to a publish or event time in a
-/// topic partition.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ComputeTimeCursorResponse {
-    /// If present, the cursor references the first message with time greater than
-    /// or equal to the specified target time. If such a message cannot be found,
-    /// the cursor will be unset (i.e. `cursor` is not present).
-    #[prost(message, optional, tag="1")]
-    pub cursor: ::core::option::Option<Cursor>,
-}
-/// Generated client implementations.
-pub mod topic_stats_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// This service allows users to get stats about messages in their topic.
-    #[derive(Debug, Clone)]
-    pub struct TopicStatsServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> TopicStatsServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> TopicStatsServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            TopicStatsServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Compute statistics about a range of messages in a given topic and
-        /// partition.
-        pub async fn compute_message_stats(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ComputeMessageStatsRequest>,
-        ) -> Result<tonic::Response<super::ComputeMessageStatsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.TopicStatsService/ComputeMessageStats",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Compute the head cursor for the partition.
-        /// The head cursor's offset is guaranteed to be less than or equal to all
-        /// messages which have not yet been acknowledged as published, and
-        /// greater than the offset of any message whose publish has already
-        /// been acknowledged. It is zero if there have never been messages in the
-        /// partition.
-        pub async fn compute_head_cursor(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ComputeHeadCursorRequest>,
-        ) -> Result<tonic::Response<super::ComputeHeadCursorResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.TopicStatsService/ComputeHeadCursor",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Compute the corresponding cursor for a publish or event time in a topic
-        /// partition.
-        pub async fn compute_time_cursor(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ComputeTimeCursorRequest>,
-        ) -> Result<tonic::Response<super::ComputeTimeCursorResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.TopicStatsService/ComputeTimeCursor",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// Request for CreateTopic.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateTopicRequest {
@@ -1423,6 +1063,208 @@ pub mod admin_service_client {
         }
     }
 }
+/// Compute statistics about a range of messages in a given topic and partition.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ComputeMessageStatsRequest {
+    /// Required. The topic for which we should compute message stats.
+    #[prost(string, tag="1")]
+    pub topic: ::prost::alloc::string::String,
+    /// Required. The partition for which we should compute message stats.
+    #[prost(int64, tag="2")]
+    pub partition: i64,
+    /// The inclusive start of the range.
+    #[prost(message, optional, tag="3")]
+    pub start_cursor: ::core::option::Option<Cursor>,
+    /// The exclusive end of the range. The range is empty if end_cursor <=
+    /// start_cursor. Specifying a start_cursor before the first message and an
+    /// end_cursor after the last message will retrieve all messages.
+    #[prost(message, optional, tag="4")]
+    pub end_cursor: ::core::option::Option<Cursor>,
+}
+/// Response containing stats for messages in the requested topic and partition.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ComputeMessageStatsResponse {
+    /// The count of messages.
+    #[prost(int64, tag="1")]
+    pub message_count: i64,
+    /// The number of quota bytes accounted to these messages.
+    #[prost(int64, tag="2")]
+    pub message_bytes: i64,
+    /// The minimum publish timestamp across these messages. Note that publish
+    /// timestamps within a partition are not guaranteed to be non-decreasing. The
+    /// timestamp will be unset if there are no messages.
+    #[prost(message, optional, tag="3")]
+    pub minimum_publish_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The minimum event timestamp across these messages. For the purposes of this
+    /// computation, if a message does not have an event time, we use the publish
+    /// time. The timestamp will be unset if there are no messages.
+    #[prost(message, optional, tag="4")]
+    pub minimum_event_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Compute the current head cursor for a partition.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ComputeHeadCursorRequest {
+    /// Required. The topic for which we should compute the head cursor.
+    #[prost(string, tag="1")]
+    pub topic: ::prost::alloc::string::String,
+    /// Required. The partition for which we should compute the head cursor.
+    #[prost(int64, tag="2")]
+    pub partition: i64,
+}
+/// Response containing the head cursor for the requested topic and partition.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ComputeHeadCursorResponse {
+    /// The head cursor.
+    #[prost(message, optional, tag="1")]
+    pub head_cursor: ::core::option::Option<Cursor>,
+}
+/// Compute the corresponding cursor for a publish or event time in a topic
+/// partition.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ComputeTimeCursorRequest {
+    /// Required. The topic for which we should compute the cursor.
+    #[prost(string, tag="1")]
+    pub topic: ::prost::alloc::string::String,
+    /// Required. The partition for which we should compute the cursor.
+    #[prost(int64, tag="2")]
+    pub partition: i64,
+    /// Required. The target publish or event time. Specifying a future time will return an
+    /// unset cursor.
+    #[prost(message, optional, tag="3")]
+    pub target: ::core::option::Option<TimeTarget>,
+}
+/// Response containing the cursor corresponding to a publish or event time in a
+/// topic partition.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ComputeTimeCursorResponse {
+    /// If present, the cursor references the first message with time greater than
+    /// or equal to the specified target time. If such a message cannot be found,
+    /// the cursor will be unset (i.e. `cursor` is not present).
+    #[prost(message, optional, tag="1")]
+    pub cursor: ::core::option::Option<Cursor>,
+}
+/// Generated client implementations.
+pub mod topic_stats_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// This service allows users to get stats about messages in their topic.
+    #[derive(Debug, Clone)]
+    pub struct TopicStatsServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> TopicStatsServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> TopicStatsServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            TopicStatsServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Compute statistics about a range of messages in a given topic and
+        /// partition.
+        pub async fn compute_message_stats(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ComputeMessageStatsRequest>,
+        ) -> Result<tonic::Response<super::ComputeMessageStatsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.TopicStatsService/ComputeMessageStats",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Compute the head cursor for the partition.
+        /// The head cursor's offset is guaranteed to be less than or equal to all
+        /// messages which have not yet been acknowledged as published, and
+        /// greater than the offset of any message whose publish has already
+        /// been acknowledged. It is zero if there have never been messages in the
+        /// partition.
+        pub async fn compute_head_cursor(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ComputeHeadCursorRequest>,
+        ) -> Result<tonic::Response<super::ComputeHeadCursorResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.TopicStatsService/ComputeHeadCursor",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Compute the corresponding cursor for a publish or event time in a topic
+        /// partition.
+        pub async fn compute_time_cursor(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ComputeTimeCursorRequest>,
+        ) -> Result<tonic::Response<super::ComputeTimeCursorResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.TopicStatsService/ComputeTimeCursor",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// The first streaming request that must be sent on a newly-opened stream. The
 /// client must wait for the response before sending subsequent requests on the
 /// stream.
@@ -1681,6 +1523,164 @@ pub mod cursor_service_client {
                 "/google.cloud.pubsublite.v1.CursorService/ListPartitionCursors",
             );
             self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// The first request that must be sent on a newly-opened stream.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InitialPublishRequest {
+    /// The topic to which messages will be written.
+    #[prost(string, tag="1")]
+    pub topic: ::prost::alloc::string::String,
+    /// The partition within the topic to which messages will be written.
+    /// Partitions are zero indexed, so `partition` must be in the range [0,
+    /// topic.num_partitions).
+    #[prost(int64, tag="2")]
+    pub partition: i64,
+}
+/// Response to an InitialPublishRequest.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InitialPublishResponse {
+}
+/// Request to publish messages to the topic.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MessagePublishRequest {
+    /// The messages to publish.
+    #[prost(message, repeated, tag="1")]
+    pub messages: ::prost::alloc::vec::Vec<PubSubMessage>,
+}
+/// Response to a MessagePublishRequest.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MessagePublishResponse {
+    /// The cursor of the first published message in the batch. The cursors for any
+    /// remaining messages in the batch are guaranteed to be sequential.
+    #[prost(message, optional, tag="1")]
+    pub start_cursor: ::core::option::Option<Cursor>,
+}
+/// Request sent from the client to the server on a stream.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PublishRequest {
+    /// The type of request this is.
+    #[prost(oneof="publish_request::RequestType", tags="1, 2")]
+    pub request_type: ::core::option::Option<publish_request::RequestType>,
+}
+/// Nested message and enum types in `PublishRequest`.
+pub mod publish_request {
+    /// The type of request this is.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum RequestType {
+        /// Initial request on the stream.
+        #[prost(message, tag="1")]
+        InitialRequest(super::InitialPublishRequest),
+        /// Request to publish messages.
+        #[prost(message, tag="2")]
+        MessagePublishRequest(super::MessagePublishRequest),
+    }
+}
+/// Response to a PublishRequest.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PublishResponse {
+    /// The type of response this is.
+    #[prost(oneof="publish_response::ResponseType", tags="1, 2")]
+    pub response_type: ::core::option::Option<publish_response::ResponseType>,
+}
+/// Nested message and enum types in `PublishResponse`.
+pub mod publish_response {
+    /// The type of response this is.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum ResponseType {
+        /// Initial response on the stream.
+        #[prost(message, tag="1")]
+        InitialResponse(super::InitialPublishResponse),
+        /// Response to publishing messages.
+        #[prost(message, tag="2")]
+        MessageResponse(super::MessagePublishResponse),
+    }
+}
+/// Generated client implementations.
+pub mod publisher_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// The service that a publisher client application uses to publish messages to
+    /// topics. Published messages are retained by the service for the duration of
+    /// the retention period configured for the respective topic, and are delivered
+    /// to subscriber clients upon request (via the `SubscriberService`).
+    #[derive(Debug, Clone)]
+    pub struct PublisherServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> PublisherServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> PublisherServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            PublisherServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Establishes a stream with the server for publishing messages. Once the
+        /// stream is initialized, the client publishes messages by sending publish
+        /// requests on the stream. The server responds with a PublishResponse for each
+        /// PublishRequest sent by the client, in the same order that the requests
+        /// were sent. Note that multiple PublishRequests can be in flight
+        /// simultaneously, but they will be processed by the server in the order that
+        /// they are sent by the client on a given stream.
+        pub async fn publish(
+            &mut self,
+            request: impl tonic::IntoStreamingRequest<Message = super::PublishRequest>,
+        ) -> Result<
+                tonic::Response<tonic::codec::Streaming<super::PublishResponse>>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.PublisherService/Publish",
+            );
+            self.inner.streaming(request.into_streaming_request(), path, codec).await
         }
     }
 }
