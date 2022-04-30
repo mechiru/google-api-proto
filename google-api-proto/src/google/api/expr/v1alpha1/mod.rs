@@ -759,7 +759,7 @@ pub mod decl {
             #[prost(message, optional, tag="4")]
             pub result_type: ::core::option::Option<super::super::Type>,
             /// Whether the function is to be used in a method call-style `x.f(...)`
-            /// of a function call-style `f(x, ...)`.
+            /// or a function call-style `f(x, ...)`.
             ///
             /// For methods, the first parameter declaration, `params\[0\]` is the
             /// expected type of the target receiver.
