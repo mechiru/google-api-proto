@@ -493,7 +493,7 @@ pub mod database_instance {
         #[prost(message, optional, tag="2")]
         pub available: ::core::option::Option<bool>,
     }
-    /// Any scheduled maintenancce for this instance.
+    /// Any scheduled maintenance for this instance.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct SqlScheduledMaintenance {
         /// The start time of any upcoming scheduled maintenance for this instance.
