@@ -6,3 +6,5 @@ pub mod credentials;
 pub mod v1;
 #[cfg(any(feature = "google-iam-v1beta"))]
 pub mod v1beta;
+#[cfg(any(feature = "google-iam-v2beta"))]
+pub mod v2beta;

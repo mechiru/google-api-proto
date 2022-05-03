@@ -99,7 +99,7 @@ pub struct EventParameter {
 }
 /// The task configuration details. This is not the implementation of Task.
 /// There might be multiple TaskConfigs for the same Task.
-/// Next available id: 12
+/// (-- Next available id: 12 --)
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TaskConfig {
     /// Optional. The name for the task.

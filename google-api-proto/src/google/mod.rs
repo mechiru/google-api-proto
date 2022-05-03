@@ -419,6 +419,7 @@ pub mod home;
         feature = "google-iam-v1",
         feature = "google-iam-v1-logging",
         feature = "google-iam-v1beta",
+        feature = "google-iam-v2beta",
     )
 )]
 pub mod iam;
