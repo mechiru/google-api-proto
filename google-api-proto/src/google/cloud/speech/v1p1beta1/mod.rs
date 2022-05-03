@@ -258,7 +258,8 @@ pub struct StreamingRecognitionConfig {
 pub struct RecognitionConfig {
     /// Encoding of audio data sent in all `RecognitionAudio` messages.
     /// This field is optional for `FLAC` and `WAV` audio files and required
-    /// for all other audio formats. For details, see \[AudioEncoding][google.cloud.speech.v1p1beta1.RecognitionConfig.AudioEncoding\].
+    /// for all other audio formats. For details, see
+    /// \[AudioEncoding][google.cloud.speech.v1p1beta1.RecognitionConfig.AudioEncoding\].
     #[prost(enumeration="recognition_config::AudioEncoding", tag="1")]
     pub encoding: i32,
     /// Sample rate in Hertz of the audio data sent in all
@@ -267,7 +268,8 @@ pub struct RecognitionConfig {
     /// source to 16000 Hz. If that's not possible, use the native sample rate of
     /// the audio source (instead of re-sampling).
     /// This field is optional for FLAC and WAV audio files, but is
-    /// required for all other audio formats. For details, see \[AudioEncoding][google.cloud.speech.v1p1beta1.RecognitionConfig.AudioEncoding\].
+    /// required for all other audio formats. For details, see
+    /// \[AudioEncoding][google.cloud.speech.v1p1beta1.RecognitionConfig.AudioEncoding\].
     #[prost(int32, tag="2")]
     pub sample_rate_hertz: i32,
     /// The number of channels in the input audio data.
@@ -414,6 +416,15 @@ pub struct RecognitionConfig {
     ///     <td><b>Description</b></td>
     ///   </tr>
     ///   <tr>
+    ///     <td><code>latest_long</code></td>
+    ///     <td>Best for long form content like media or conversation.</td>
+    ///   </tr>
+    ///   <tr>
+    ///     <td><code>latest_short</code></td>
+    ///     <td>Best for short form content like commands or single shot directed
+    ///     speech.</td>
+    ///   </tr>
+    ///   <tr>
     ///     <td><code>command_and_search</code></td>
     ///     <td>Best for short queries such as voice commands or voice search.</td>
     ///   </tr>
@@ -473,7 +484,8 @@ pub mod recognition_config {
     /// an `AudioEncoding` when you send  send `FLAC` or `WAV` audio, the
     /// encoding configuration must match the encoding described in the audio
     /// header; otherwise the request returns an
-    /// \[google.rpc.Code.INVALID_ARGUMENT][google.rpc.Code.INVALID_ARGUMENT\] error code.
+    /// \[google.rpc.Code.INVALID_ARGUMENT][google.rpc.Code.INVALID_ARGUMENT\] error
+    /// code.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum AudioEncoding {
@@ -698,8 +710,8 @@ pub struct SpeechContext {
 }
 /// Contains audio data in the encoding specified in the `RecognitionConfig`.
 /// Either `content` or `uri` must be supplied. Supplying both or neither
-/// returns \[google.rpc.Code.INVALID_ARGUMENT][google.rpc.Code.INVALID_ARGUMENT\]. See
-/// [content limits](<https://cloud.google.com/speech-to-text/quotas#content>).
+/// returns \[google.rpc.Code.INVALID_ARGUMENT][google.rpc.Code.INVALID_ARGUMENT\].
+/// See [content limits](<https://cloud.google.com/speech-to-text/quotas#content>).
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RecognitionAudio {
     /// The audio source, which is either inline content or a Google Cloud
@@ -723,8 +735,9 @@ pub mod recognition_audio {
         /// Currently, only Google Cloud Storage URIs are
         /// supported, which must be specified in the following format:
         /// `gs://bucket_name/object_name` (other URI formats return
-        /// \[google.rpc.Code.INVALID_ARGUMENT][google.rpc.Code.INVALID_ARGUMENT\]). For more information, see
-        /// [Request URIs](<https://cloud.google.com/storage/docs/reference-uris>).
+        /// \[google.rpc.Code.INVALID_ARGUMENT][google.rpc.Code.INVALID_ARGUMENT\]).
+        /// For more information, see [Request
+        /// URIs](<https://cloud.google.com/storage/docs/reference-uris>).
         #[prost(string, tag="2")]
         Uri(::prost::alloc::string::String),
     }
@@ -778,11 +791,12 @@ pub struct LongRunningRecognizeMetadata {
     /// Time of the most recent processing update.
     #[prost(message, optional, tag="3")]
     pub last_update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The URI of the audio file being transcribed. Empty if the audio was sent
-    /// as byte content.
+    /// Output only. The URI of the audio file being transcribed. Empty if the
+    /// audio was sent as byte content.
     #[prost(string, tag="4")]
     pub uri: ::prost::alloc::string::String,
-    /// Output only. A copy of the TranscriptOutputConfig if it was set in the request.
+    /// Output only. A copy of the TranscriptOutputConfig if it was set in the
+    /// request.
     #[prost(message, optional, tag="5")]
     pub output_config: ::core::option::Option<TranscriptOutputConfig>,
 }
@@ -906,9 +920,9 @@ pub struct StreamingRecognitionResult {
     /// For audio_channel_count = N, its output values can range from '1' to 'N'.
     #[prost(int32, tag="5")]
     pub channel_tag: i32,
-    /// Output only. The \[BCP-47\](<https://www.rfc-editor.org/rfc/bcp/bcp47.txt>) language tag
-    /// of the language in this result. This language code was detected to have
-    /// the most likelihood of being spoken in the audio.
+    /// Output only. The \[BCP-47\](<https://www.rfc-editor.org/rfc/bcp/bcp47.txt>)
+    /// language tag of the language in this result. This language code was
+    /// detected to have the most likelihood of being spoken in the audio.
     #[prost(string, tag="6")]
     pub language_code: ::prost::alloc::string::String,
 }
@@ -930,9 +944,9 @@ pub struct SpeechRecognitionResult {
     /// beginning of the audio.
     #[prost(message, optional, tag="4")]
     pub result_end_time: ::core::option::Option<::prost_types::Duration>,
-    /// Output only. The \[BCP-47\](<https://www.rfc-editor.org/rfc/bcp/bcp47.txt>) language tag
-    /// of the language in this result. This language code was detected to have
-    /// the most likelihood of being spoken in the audio.
+    /// Output only. The \[BCP-47\](<https://www.rfc-editor.org/rfc/bcp/bcp47.txt>)
+    /// language tag of the language in this result. This language code was
+    /// detected to have the most likelihood of being spoken in the audio.
     #[prost(string, tag="5")]
     pub language_code: ::prost::alloc::string::String,
 }
