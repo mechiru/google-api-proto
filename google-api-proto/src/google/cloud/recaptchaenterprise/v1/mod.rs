@@ -59,16 +59,16 @@ pub mod annotate_assessment_request {
     pub enum Reason {
         /// Default unspecified reason.
         Unspecified = 0,
-        /// Indicates a chargeback was issued for the transaction associated with the
-        /// assessment, with no other details. When possible, specify the type by
-        /// using CHARGEBACK_FRAUD or CHARGEBACK_DISPUTE instead.
+        /// Indicates a chargeback issued for the transaction with no other details.
+        /// When possible, specify the type by using CHARGEBACK_FRAUD or
+        /// CHARGEBACK_DISPUTE instead.
         Chargeback = 1,
         /// Indicates a chargeback related to an alleged unauthorized transaction
-        /// from the perspective of the cardholder (for example, the card number was
+        /// from the cardholder's perspective (for example, the card number was
         /// stolen).
         ChargebackFraud = 8,
         /// Indicates a chargeback related to the cardholder having provided their
-        /// card but allegedly not being satisfied with the purchase
+        /// card details but allegedly not being satisfied with the purchase
         /// (for example, misrepresentation, attempted cancellation).
         ChargebackDispute = 9,
         /// Indicates the transaction associated with the assessment is suspected of
@@ -372,6 +372,9 @@ pub struct Key {
     /// Options for user acceptance testing.
     #[prost(message, optional, tag="9")]
     pub testing_options: ::core::option::Option<TestingOptions>,
+    /// Settings for WAF
+    #[prost(message, optional, tag="10")]
+    pub waf_settings: ::core::option::Option<WafSettings>,
     /// Platform specific settings for this key. The key can only be used on one
     /// platform, the one it has settings for.
     #[prost(oneof="key::PlatformSettings", tags="3, 4, 5")]
@@ -620,7 +623,7 @@ pub struct SearchRelatedAccountGroupMembershipsRequest {
     /// Required. The name of the project to search related account group memberships from,
     /// in the format "projects/{project}".
     #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
+    pub project: ::prost::alloc::string::String,
     /// Optional. The unique stable hashed user identifier we should search connections to.
     /// The identifier should correspond to a `hashed_account_id` provided in a
     /// previous CreateAssessment or AnnotateAssessment call.
@@ -673,6 +676,44 @@ pub struct RelatedAccountGroup {
     /// `projects/{project}/relatedaccountgroups/{related_account_group}`.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
+}
+/// Settings specific to keys that can be used for WAF (Web Application
+/// Firewall).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WafSettings {
+    /// Required. The WAF service that uses this key.
+    #[prost(enumeration="waf_settings::WafService", tag="1")]
+    pub waf_service: i32,
+    /// Required. The WAF feature for which this key is enabled.
+    #[prost(enumeration="waf_settings::WafFeature", tag="2")]
+    pub waf_feature: i32,
+}
+/// Nested message and enum types in `WafSettings`.
+pub mod waf_settings {
+    /// Supported WAF features. For more information, see
+    /// <https://cloud.google.com/recaptcha-enterprise/docs/usecase#comparison_of_features.>
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum WafFeature {
+        /// Undefined feature.
+        Unspecified = 0,
+        /// Redirects suspicious traffic to reCAPTCHA.
+        ChallengePage = 1,
+        /// Use reCAPTCHA session-tokens to protect the whole user session on the
+        /// site's domain.
+        SessionToken = 2,
+        /// Use reCAPTCHA action-tokens to protect user actions.
+        ActionToken = 3,
+    }
+    /// Web Application Firewalls supported by reCAPTCHA Enterprise.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum WafService {
+        /// Undefined WAF
+        Unspecified = 0,
+        /// Cloud Armor
+        Ca = 1,
+    }
 }
 /// Generated client implementations.
 pub mod recaptcha_enterprise_service_client {
