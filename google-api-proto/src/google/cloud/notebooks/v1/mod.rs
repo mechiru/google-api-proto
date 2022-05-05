@@ -43,7 +43,7 @@ pub mod environment {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VmImage {
     /// Required. The name of the Google Cloud project that this VM image belongs to.
-    /// Format: `projects/{project_id}`
+    /// Format: `{project_id}`
     #[prost(string, tag="1")]
     pub project: ::prost::alloc::string::String,
     /// The reference to an external Compute Engine VM image.
