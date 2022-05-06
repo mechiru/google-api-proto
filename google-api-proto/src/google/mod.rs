@@ -38,6 +38,7 @@ pub mod ads;
 #[cfg(
     any(
         feature = "google-analytics-admin-v1alpha",
+        feature = "google-analytics-data-v1alpha",
         feature = "google-analytics-data-v1beta",
     )
 )]

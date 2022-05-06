@@ -3766,6 +3766,14 @@ pub struct AnalyzeContentRequest {
     /// Parameters for a human assist query.
     #[prost(message, optional, tag="14")]
     pub assist_query_params: ::core::option::Option<AssistQueryParameters>,
+    /// Additional parameters to be put into Dialogflow CX session parameters. To
+    /// remove a parameter from the session, clients should explicitly set the
+    /// parameter value to null.
+    ///
+    /// Note: this field should only be used if you are connecting to a Dialogflow
+    /// CX agent.
+    #[prost(message, optional, tag="18")]
+    pub cx_parameters: ::core::option::Option<::prost_types::Struct>,
     /// A unique identifier for this request. Restricted to 36 ASCII characters.
     /// A random UUID is recommended.
     /// This request is only idempotent if a `request_id` is provided.
@@ -5262,6 +5270,7 @@ pub struct OriginalDetectIntentRequest {
 pub struct Fulfillment {
     /// Required. The unique identifier of the fulfillment.
     /// Supported formats:
+    ///
     /// - `projects/<Project ID>/agent/fulfillment`
     /// - `projects/<Project ID>/locations/<Location ID>/agent/fulfillment`
     ///
@@ -5287,8 +5296,10 @@ pub struct Fulfillment {
 pub mod fulfillment {
     /// Represents configuration for a generic web service.
     /// Dialogflow supports two mechanisms for authentications:
+    ///
     /// - Basic authentication with username and password.
     /// - Authentication with additional authentication headers.
+    ///
     /// More information could be found at:
     /// <https://cloud.google.com/dialogflow/docs/fulfillment-configure.>
     #[derive(Clone, PartialEq, ::prost::Message)]

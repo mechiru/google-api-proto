@@ -30,6 +30,7 @@ pub mod ccc;
         feature = "google-ads-googleads-v9-resources",
         feature = "google-ads-googleads-v9-services",
         feature = "google-analytics-admin-v1alpha",
+        feature = "google-analytics-data-v1alpha",
         feature = "google-analytics-data-v1beta",
         feature = "google-api",
         feature = "google-api-expr-conformance-v1alpha1",
