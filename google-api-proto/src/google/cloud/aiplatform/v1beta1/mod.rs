@@ -527,6 +527,14 @@ pub struct PipelineJob {
     /// with any network.
     #[prost(string, tag="18")]
     pub network: ::prost::alloc::string::String,
+    /// A template uri from where the \[PipelineJob.pipeline_spec][google.cloud.aiplatform.v1beta1.PipelineJob.pipeline_spec\], if empty, will
+    /// be downloaded.
+    #[prost(string, tag="19")]
+    pub template_uri: ::prost::alloc::string::String,
+    /// Output only. Pipeline template metadata. Will fill up fields if
+    /// \[PipelineJob.template_uri][google.cloud.aiplatform.v1beta1.PipelineJob.template_uri\] is from supported template registry.
+    #[prost(message, optional, tag="20")]
+    pub template_metadata: ::core::option::Option<PipelineTemplateMetadata>,
 }
 /// Nested message and enum types in `PipelineJob`.
 pub mod pipeline_job {
@@ -558,6 +566,20 @@ pub mod pipeline_job {
         #[prost(btree_map="string, message", tag="3")]
         pub parameter_values: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::Value>,
     }
+}
+/// Pipeline template metadata if \[PipelineJob.template_uri][google.cloud.aiplatform.v1beta1.PipelineJob.template_uri\] is from supported
+/// template registry. Currently, the only supported registry is Artifact
+/// Registry.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PipelineTemplateMetadata {
+    /// The version_name in artifact registry.
+    ///
+    /// Will always be presented in output if the \[PipelineJob.template_uri][google.cloud.aiplatform.v1beta1.PipelineJob.template_uri\] is
+    /// from supported template registry.
+    ///
+    /// Format is "sha256:abcdef123456...".
+    #[prost(string, tag="3")]
+    pub version: ::prost::alloc::string::String,
 }
 /// The runtime detail of PipelineJob.
 #[derive(Clone, PartialEq, ::prost::Message)]
