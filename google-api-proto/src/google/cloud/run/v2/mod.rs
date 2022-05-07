@@ -23,7 +23,7 @@ pub struct Condition {
     /// The reason for this condition. Depending on the condition type,
     /// it will populate one of these fields.
     /// Successful conditions may not have a reason.
-    #[prost(oneof="condition::Reasons", tags="6, 7, 8, 9, 11")]
+    #[prost(oneof="condition::Reasons", tags="6, 9, 11")]
     pub reasons: ::core::option::Option<condition::Reasons>,
 }
 /// Nested message and enum types in `Condition`.
@@ -64,14 +64,10 @@ pub mod condition {
         Undefined = 0,
         /// Reason unknown. Further details will be in message.
         Unknown = 1,
-        /// The internal route is missing.
-        RouteMissing = 2,
         /// Revision creation process failed.
         RevisionFailed = 3,
         /// Timed out waiting for completion.
         ProgressDeadlineExceeded = 4,
-        /// There was a build error.
-        BuildStepFailed = 5,
         /// The container image path is incorrect.
         ContainerMissing = 6,
         /// Insufficient permissions on the container image.
@@ -92,47 +88,8 @@ pub mod condition {
         ImmediateRetry = 14,
         /// System will retry later; current attempt failed.
         PostponedRetry = 15,
-    }
-    /// Reasons applicable to internal resources not exposed to users. These will
-    /// surface in Service.conditions, and could be useful for further diagnosis.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum InternalReason {
-        /// Default value.
-        Undefined = 0,
-        /// The revision name provided conflicts with an existing one.
-        ConflictingRevisionName = 1,
-        /// Revision is missing; this is usually a transient reason.
-        RevisionMissing = 2,
-        /// Internal configuration is missing; this is usually a transient reason.
-        ConfigurationMissing = 3,
-        /// Assigning traffic; this is a transient reason.
-        AssigningTraffic = 4,
-        /// Updating ingress traffic settings; this is a transient reason.
-        UpdatingIngressTrafficAllowed = 5,
-        /// The revision can't be created because it violates an org policy setting.
-        RevisionOrgPolicyViolation = 6,
-        /// Enabling GCFv2 URI support; this is a transient reason.
-        EnablingGcfv2UriSupport = 7,
-    }
-    /// Reasons specific to DomainMapping resource.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum DomainMappingReason {
-        /// Default value.
-        Undefined = 0,
-        /// Internal route is not yet ready.
-        RouteNotReady = 1,
-        /// Insufficient permissions.
-        PermissionDenied = 2,
-        /// Certificate already exists.
-        CertificateAlreadyExists = 3,
-        /// Mapping already exists.
-        MappingAlreadyExists = 4,
-        /// Certificate issuance pending.
-        CertificatePending = 5,
-        /// Certificate issuance failed.
-        CertificateFailed = 6,
+        /// An internal error occurred. Further information may be in the message.
+        Internal = 16,
     }
     /// Reasons specific to Revision resource.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -189,12 +146,6 @@ pub mod condition {
         /// A common (service-level) reason for this condition.
         #[prost(enumeration="CommonReason", tag="6")]
         Reason(i32),
-        /// A reason for the internal condition.
-        #[prost(enumeration="InternalReason", tag="7")]
-        InternalReason(i32),
-        /// A reason for the domain mapping condition.
-        #[prost(enumeration="DomainMappingReason", tag="8")]
-        DomainMappingReason(i32),
         /// A reason for the revision condition.
         #[prost(enumeration="RevisionReason", tag="9")]
         RevisionReason(i32),
@@ -213,8 +164,8 @@ pub struct Container {
     /// Name of the container specified as a DNS_LABEL.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Required. URL of the Container image in Google Container Registry or Docker
-    /// More info: <https://kubernetes.io/docs/concepts/containers/images>
+    /// Required. URL of the Container image in Google Container Registry or Google Artifact
+    /// Registry. More info: <https://kubernetes.io/docs/concepts/containers/images>
     #[prost(string, tag="2")]
     pub image: ::prost::alloc::string::String,
     /// Entrypoint array. Not executed within a shell.
@@ -450,7 +401,7 @@ pub struct CloudSqlInstance {
     /// how to connect Cloud SQL and Cloud Run. Format:
     /// {project}:{location}:{instance}
     #[prost(string, repeated, tag="1")]
-    pub connections: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    pub instances: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// VPC Access settings. For more information on creating a VPC Connector, visit
 /// <https://cloud.google.com/vpc/docs/configure-serverless-vpc-access> For
@@ -531,8 +482,8 @@ pub enum IngressTraffic {
 pub enum ExecutionEnvironment {
     /// Unspecified
     Unspecified = 0,
-    /// Uses the Google-default environment.
-    Default = 1,
+    /// Uses the First Generation environment.
+    Gen1 = 1,
     /// Uses Second Generation environment.
     Gen2 = 2,
 }
@@ -657,8 +608,8 @@ pub struct Revision {
     #[prost(message, optional, tag="13")]
     pub vpc_access: ::core::option::Option<VpcAccess>,
     /// Sets the maximum number of requests that each serving instance can receive.
-    #[prost(int32, tag="14")]
-    pub container_concurrency: i32,
+    #[prost(int32, tag="34")]
+    pub max_instance_request_concurrency: i32,
     /// Max allowed time for an instance to respond to a request.
     #[prost(message, optional, tag="15")]
     pub timeout: ::core::option::Option<::prost_types::Duration>,
@@ -674,9 +625,6 @@ pub struct Revision {
     /// A list of Volumes to make available to containers.
     #[prost(message, repeated, tag="18")]
     pub volumes: ::prost::alloc::vec::Vec<Volume>,
-    /// Indicates whether Confidential Cloud Run is enabled in this Revision.
-    #[prost(bool, tag="19")]
-    pub confidential: bool,
     /// The execution environment being used to host this Revision.
     #[prost(enumeration="ExecutionEnvironment", tag="20")]
     pub execution_environment: i32,
@@ -846,9 +794,6 @@ pub struct RevisionTemplate {
     /// visit <https://cloud.google.com/run/docs/configuring/connecting-vpc.>
     #[prost(message, optional, tag="6")]
     pub vpc_access: ::core::option::Option<VpcAccess>,
-    /// Sets the maximum number of requests that each serving instance can receive.
-    #[prost(int32, tag="7")]
-    pub container_concurrency: i32,
     /// Max allowed time for an instance to respond to a request.
     #[prost(message, optional, tag="8")]
     pub timeout: ::core::option::Option<::prost_types::Duration>,
@@ -865,9 +810,6 @@ pub struct RevisionTemplate {
     /// A list of Volumes to make available to containers.
     #[prost(message, repeated, tag="11")]
     pub volumes: ::prost::alloc::vec::Vec<Volume>,
-    /// Enables Confidential Cloud Run in Revisions created using this template.
-    #[prost(bool, tag="12")]
-    pub confidential: bool,
     /// The sandbox environment to host this Revision.
     #[prost(enumeration="ExecutionEnvironment", tag="13")]
     pub execution_environment: i32,
@@ -876,6 +818,9 @@ pub struct RevisionTemplate {
     /// <https://cloud.google.com/run/docs/securing/using-cmek>
     #[prost(string, tag="14")]
     pub encryption_key: ::prost::alloc::string::String,
+    /// Sets the maximum number of requests that each serving instance can receive.
+    #[prost(int32, tag="15")]
+    pub max_instance_request_concurrency: i32,
 }
 /// Holds a single traffic routing entry for the Service. Allocations can be done
 /// to a specific Revision name, or pointing to the latest Ready Revision.
@@ -952,9 +897,6 @@ pub struct UpdateServiceRequest {
     /// Required. The Service to be updated.
     #[prost(message, optional, tag="1")]
     pub service: ::core::option::Option<Service>,
-    /// The list of fields to be updated.
-    #[prost(message, optional, tag="2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
     /// Indicates that the request should be validated and default values
     /// populated, without persisting the request or updating any resources.
     #[prost(bool, tag="3")]
@@ -1044,6 +986,8 @@ pub struct Service {
     pub uid: ::prost::alloc::string::String,
     /// Output only. A number that monotonically increases every time the user
     /// modifies the desired state.
+    /// Please note that unlike v1, this is an int64 value. As with most Google
+    /// APIs, its JSON representation will be a `string` instead of an `integer`.
     #[prost(int64, tag="4")]
     pub generation: i64,
     /// Map of string keys and values that can be used to organize and categorize
@@ -1116,6 +1060,8 @@ pub struct Service {
     /// Output only. The generation of this Service currently serving traffic. See comments in
     /// `reconciling` for additional information on reconciliation process in Cloud
     /// Run.
+    /// Please note that unlike v1, this is an int64 value. As with most Google
+    /// APIs, its JSON representation will be a `string` instead of an `integer`.
     #[prost(int64, tag="30")]
     pub observed_generation: i64,
     /// Output only. The Condition of this Service, containing its readiness status, and
