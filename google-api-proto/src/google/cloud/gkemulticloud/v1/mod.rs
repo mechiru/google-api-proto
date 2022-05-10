@@ -405,14 +405,12 @@ pub struct AwsClusterNetworking {
     /// This field cannot be changed after creation.
     #[prost(string, tag="1")]
     pub vpc_id: ::prost::alloc::string::String,
-    /// Required. All pods in the cluster are assigned an RFC1918 IPv4 address
-    /// from these ranges.
+    /// Required. All pods in the cluster are assigned an IPv4 address from these ranges.
     /// Only a single range is supported.
     /// This field cannot be changed after creation.
     #[prost(string, repeated, tag="2")]
     pub pod_address_cidr_blocks: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Required. All services in the cluster are assigned an RFC1918 IPv4 address
-    /// from these ranges.
+    /// Required. All services in the cluster are assigned an IPv4 address from these ranges.
     /// Only a single range is supported.
     /// This field cannot be changed after creation.
     #[prost(string, repeated, tag="3")]
@@ -545,6 +543,7 @@ pub struct AwsNodeConfig {
     /// Optional. The OS image type to use on node pool instances.
     /// Can have a value of `ubuntu`, or `windows` if the cluster enables
     /// the Windows node pool preview feature.
+    ///
     /// When unspecified, it defaults to `ubuntu`.
     #[prost(string, tag="11")]
     pub image_type: ::prost::alloc::string::String,
@@ -627,8 +626,9 @@ pub struct AwsConfigEncryption {
     pub kms_key_arn: ::prost::alloc::string::String,
 }
 /// Details of placement information for an instance.
-/// Limitation for using the `host` tenancy.
-///  * T3 instances that use the unlimited CPU credit option do not support host
+/// Limitations for using the `host` tenancy:
+///
+///  * T3 instances that use the unlimited CPU credit option don't support host
 ///  tenancy.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AwsInstancePlacement {
@@ -648,7 +648,7 @@ pub mod aws_instance_placement {
         Default = 1,
         /// Run a dedicated instance.
         Dedicated = 2,
-        /// Launch this instance to a dedicated Host.
+        /// Launch this instance to a dedicated host.
         Host = 3,
     }
 }
@@ -799,8 +799,8 @@ pub struct AzureClusterNetworking {
     /// Required. The IP address range of the pods in this cluster, in CIDR
     /// notation (e.g. `10.96.0.0/14`).
     ///
-    /// All pods in the cluster get assigned a unique RFC1918 IPv4 address
-    /// from these ranges. Only a single range is supported.
+    /// All pods in the cluster get assigned a unique IPv4 address from these
+    /// ranges. Only a single range is supported.
     ///
     /// This field cannot be changed after creation.
     #[prost(string, repeated, tag="2")]
@@ -808,8 +808,8 @@ pub struct AzureClusterNetworking {
     /// Required. The IP address range for services in this cluster, in CIDR
     /// notation (e.g. `10.96.0.0/14`).
     ///
-    /// All services in the cluster get assigned a unique RFC1918 IPv4 address
-    /// from these ranges. Only a single range is supported.
+    /// All services in the cluster get assigned a unique IPv4 address from these
+    /// ranges. Only a single range is supported.
     ///
     /// This field cannot be changed after creating a cluster.
     #[prost(string, repeated, tag="3")]
@@ -1297,6 +1297,7 @@ pub struct UpdateAzureClusterRequest {
     ///  *   `control_plane.vm_size`.
     ///  *   `authorization.admin_users`.
     ///  *   `control_plane.root_volume.size_gib`.
+    ///  *   `logging_config`
     #[prost(message, optional, tag="4")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
@@ -2154,6 +2155,10 @@ pub struct UpdateAwsClusterRequest {
     ///  *   `control_plane.root_volume.kms_key_arn`.
     ///  *   `control_plane.root_volume.volume_type`.
     ///  *   `control_plane.root_volume.size_gib`.
+    ///  *   `control_plane.ssh_config`.
+    ///  *   `control_plane.ssh_config.ec2_key_pair`.
+    ///  *   `control_plane.instance_placement.tenancy`.
+    ///  *   `logging_config`.
     #[prost(message, optional, tag="4")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
@@ -2282,7 +2287,7 @@ pub struct UpdateAwsNodePoolRequest {
     /// this field. The elements of the repeated paths field can only include these
     /// fields from \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\]:
     ///
-    ///  *.  `annotations`.
+    ///  *   `annotations`.
     ///  *   `version`.
     ///  *   `autoscaling.min_node_count`.
     ///  *   `autoscaling.max_node_count`.
@@ -2295,6 +2300,8 @@ pub struct UpdateAwsNodePoolRequest {
     ///  *   `config.proxy_config`.
     ///  *   `config.proxy_config.secret_arn`.
     ///  *   `config.proxy_config.secret_version`.
+    ///  *   `config.ssh_config`.
+    ///  *   `config.ssh_config.ec2_key_pair`.
     #[prost(message, optional, tag="3")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
