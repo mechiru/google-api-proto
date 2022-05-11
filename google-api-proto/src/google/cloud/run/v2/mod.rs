@@ -487,292 +487,6 @@ pub enum ExecutionEnvironment {
     /// Uses Second Generation environment.
     Gen2 = 2,
 }
-/// Request message for obtaining a Revision by its full name.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetRevisionRequest {
-    /// Required. The full name of the Revision.
-    /// Format:
-    /// projects/{project}/locations/{location}/services/{service}/revisions/{revision}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for retrieving a list of Revisions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListRevisionsRequest {
-    /// Required. The Service from which the Revisions should be listed.
-    /// To list all Revisions across Services, use "-" instead of Service name.
-    /// Format:
-    /// projects/{project}/locations/{location}/services/{service}
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Maximum number of revisions to return in this call.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// A page token received from a previous call to ListRevisions.
-    /// All other parameters must match.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-    /// If true, returns deleted (but unexpired) resources along with active ones.
-    #[prost(bool, tag="4")]
-    pub show_deleted: bool,
-}
-/// Response message containing a list of Revisions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListRevisionsResponse {
-    /// The resulting list of Revisions.
-    #[prost(message, repeated, tag="1")]
-    pub revisions: ::prost::alloc::vec::Vec<Revision>,
-    /// A token indicating there are more items than page_size. Use it in the next
-    /// ListRevisions request to continue.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request message for deleting a retired Revision.
-/// Revision lifecycle is usually managed by making changes to the parent
-/// Service. Only retired revisions can be deleted with this API.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteRevisionRequest {
-    /// Required. The name of the Revision to delete.
-    /// Format:
-    /// projects/{project}/locations/{location}/services/{service}/revisions/{revision}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Indicates that the request should be validated without actually
-    /// deleting any resources.
-    #[prost(bool, tag="2")]
-    pub validate_only: bool,
-    /// A system-generated fingerprint for this version of the
-    /// resource. This may be used to detect modification conflict during updates.
-    #[prost(string, tag="3")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// A Revision is an immutable snapshot of code and configuration.  A Revision
-/// references a container image. Revisions are only created by updates to its
-/// parent Service.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Revision {
-    /// Output only. The unique name of this Revision.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Server assigned unique identifier for the Revision. The value is a UUID4
-    /// string and guaranteed to remain unchanged until the resource is deleted.
-    #[prost(string, tag="2")]
-    pub uid: ::prost::alloc::string::String,
-    /// Output only. A number that monotonically increases every time the user
-    /// modifies the desired state.
-    #[prost(int64, tag="3")]
-    pub generation: i64,
-    /// KRM-style labels for the resource.
-    /// User-provided labels are shared with Google's billing system, so they can
-    /// be used to filter, or break down billing charges by team, component,
-    /// environment, state, etc. For more information, visit
-    /// <https://cloud.google.com/resource-manager/docs/creating-managing-labels> or
-    /// <https://cloud.google.com/run/docs/configuring/labels>
-    /// Cloud Run will populate some labels with 'run.googleapis.com' or
-    /// 'serving.knative.dev' namespaces. Those labels are read-only, and user
-    /// changes will not be preserved.
-    #[prost(btree_map="string, string", tag="4")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// KRM-style annotations for the resource.
-    #[prost(btree_map="string, string", tag="5")]
-    pub annotations: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Output only. The creation time.
-    #[prost(message, optional, tag="6")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The last-modified time.
-    #[prost(message, optional, tag="7")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. For a deleted resource, the deletion time. It is only
-    /// populated as a response to a Delete request.
-    #[prost(message, optional, tag="8")]
-    pub delete_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. For a deleted resource, the time after which it will be
-    /// permamently deleted. It is only populated as a response to a Delete
-    /// request.
-    #[prost(message, optional, tag="9")]
-    pub expire_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Set the launch stage to a preview stage on write to allow use of preview
-    /// features in that stage. On read, describes whether the resource uses
-    /// preview features. Launch Stages are defined at [Google Cloud Platform
-    /// Launch Stages](<https://cloud.google.com/terms/launch-stages>).
-    #[prost(enumeration="super::super::super::api::LaunchStage", tag="10")]
-    pub launch_stage: i32,
-    /// Output only. The name of the parent service.
-    #[prost(string, tag="11")]
-    pub service: ::prost::alloc::string::String,
-    /// Scaling settings for this revision.
-    #[prost(message, optional, tag="12")]
-    pub scaling: ::core::option::Option<RevisionScaling>,
-    /// VPC Access configuration for this Revision. For more information, visit
-    /// <https://cloud.google.com/run/docs/configuring/connecting-vpc.>
-    #[prost(message, optional, tag="13")]
-    pub vpc_access: ::core::option::Option<VpcAccess>,
-    /// Sets the maximum number of requests that each serving instance can receive.
-    #[prost(int32, tag="34")]
-    pub max_instance_request_concurrency: i32,
-    /// Max allowed time for an instance to respond to a request.
-    #[prost(message, optional, tag="15")]
-    pub timeout: ::core::option::Option<::prost_types::Duration>,
-    /// Email address of the IAM service account associated with the revision of
-    /// the service. The service account represents the identity of the running
-    /// revision, and determines what permissions the revision has.
-    #[prost(string, tag="16")]
-    pub service_account: ::prost::alloc::string::String,
-    /// Holds the single container that defines the unit of execution for this
-    /// Revision.
-    #[prost(message, repeated, tag="17")]
-    pub containers: ::prost::alloc::vec::Vec<Container>,
-    /// A list of Volumes to make available to containers.
-    #[prost(message, repeated, tag="18")]
-    pub volumes: ::prost::alloc::vec::Vec<Volume>,
-    /// The execution environment being used to host this Revision.
-    #[prost(enumeration="ExecutionEnvironment", tag="20")]
-    pub execution_environment: i32,
-    /// A reference to a customer managed encryption key (CMEK) to use to encrypt
-    /// this container image. For more information, go to
-    /// <https://cloud.google.com/run/docs/securing/using-cmek>
-    #[prost(string, tag="21")]
-    pub encryption_key: ::prost::alloc::string::String,
-    /// Output only. Indicates whether the resource's reconciliation is still in progress.
-    /// See comments in `Service.reconciling` for additional information on
-    /// reconciliation process in Cloud Run.
-    #[prost(bool, tag="30")]
-    pub reconciling: bool,
-    /// Output only. The Condition of this Revision, containing its readiness status, and
-    /// detailed error information in case it did not reach a serving state.
-    #[prost(message, repeated, tag="31")]
-    pub conditions: ::prost::alloc::vec::Vec<Condition>,
-    /// Output only. The generation of this Revision currently serving traffic. See comments in
-    /// `reconciling` for additional information on reconciliation process in Cloud
-    /// Run.
-    #[prost(int64, tag="32")]
-    pub observed_generation: i64,
-    /// Output only. The Google Console URI to obtain logs for the Revision.
-    #[prost(string, tag="33")]
-    pub log_uri: ::prost::alloc::string::String,
-    /// Output only. A system-generated fingerprint for this version of the
-    /// resource. May be used to detect modification conflict during updates.
-    #[prost(string, tag="99")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// Generated client implementations.
-pub mod revisions_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// Cloud Run Revision Control Plane API.
-    #[derive(Debug, Clone)]
-    pub struct RevisionsClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> RevisionsClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> RevisionsClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            RevisionsClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Gets information about a Revision.
-        pub async fn get_revision(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetRevisionRequest>,
-        ) -> Result<tonic::Response<super::Revision>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.run.v2.Revisions/GetRevision",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// List Revisions from a given Service, or from a given location.
-        pub async fn list_revisions(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListRevisionsRequest>,
-        ) -> Result<tonic::Response<super::ListRevisionsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.run.v2.Revisions/ListRevisions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Delete a Revision.
-        pub async fn delete_revision(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteRevisionRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.run.v2.Revisions/DeleteRevision",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// RevisionTemplate describes the data a revision should have when created from
 /// a template.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1364,6 +1078,292 @@ pub mod services_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.run.v2.Services/TestIamPermissions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Request message for obtaining a Revision by its full name.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetRevisionRequest {
+    /// Required. The full name of the Revision.
+    /// Format:
+    /// projects/{project}/locations/{location}/services/{service}/revisions/{revision}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for retrieving a list of Revisions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListRevisionsRequest {
+    /// Required. The Service from which the Revisions should be listed.
+    /// To list all Revisions across Services, use "-" instead of Service name.
+    /// Format:
+    /// projects/{project}/locations/{location}/services/{service}
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Maximum number of revisions to return in this call.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// A page token received from a previous call to ListRevisions.
+    /// All other parameters must match.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// If true, returns deleted (but unexpired) resources along with active ones.
+    #[prost(bool, tag="4")]
+    pub show_deleted: bool,
+}
+/// Response message containing a list of Revisions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListRevisionsResponse {
+    /// The resulting list of Revisions.
+    #[prost(message, repeated, tag="1")]
+    pub revisions: ::prost::alloc::vec::Vec<Revision>,
+    /// A token indicating there are more items than page_size. Use it in the next
+    /// ListRevisions request to continue.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for deleting a retired Revision.
+/// Revision lifecycle is usually managed by making changes to the parent
+/// Service. Only retired revisions can be deleted with this API.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteRevisionRequest {
+    /// Required. The name of the Revision to delete.
+    /// Format:
+    /// projects/{project}/locations/{location}/services/{service}/revisions/{revision}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Indicates that the request should be validated without actually
+    /// deleting any resources.
+    #[prost(bool, tag="2")]
+    pub validate_only: bool,
+    /// A system-generated fingerprint for this version of the
+    /// resource. This may be used to detect modification conflict during updates.
+    #[prost(string, tag="3")]
+    pub etag: ::prost::alloc::string::String,
+}
+/// A Revision is an immutable snapshot of code and configuration.  A Revision
+/// references a container image. Revisions are only created by updates to its
+/// parent Service.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Revision {
+    /// Output only. The unique name of this Revision.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Server assigned unique identifier for the Revision. The value is a UUID4
+    /// string and guaranteed to remain unchanged until the resource is deleted.
+    #[prost(string, tag="2")]
+    pub uid: ::prost::alloc::string::String,
+    /// Output only. A number that monotonically increases every time the user
+    /// modifies the desired state.
+    #[prost(int64, tag="3")]
+    pub generation: i64,
+    /// KRM-style labels for the resource.
+    /// User-provided labels are shared with Google's billing system, so they can
+    /// be used to filter, or break down billing charges by team, component,
+    /// environment, state, etc. For more information, visit
+    /// <https://cloud.google.com/resource-manager/docs/creating-managing-labels> or
+    /// <https://cloud.google.com/run/docs/configuring/labels>
+    /// Cloud Run will populate some labels with 'run.googleapis.com' or
+    /// 'serving.knative.dev' namespaces. Those labels are read-only, and user
+    /// changes will not be preserved.
+    #[prost(btree_map="string, string", tag="4")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// KRM-style annotations for the resource.
+    #[prost(btree_map="string, string", tag="5")]
+    pub annotations: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Output only. The creation time.
+    #[prost(message, optional, tag="6")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The last-modified time.
+    #[prost(message, optional, tag="7")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. For a deleted resource, the deletion time. It is only
+    /// populated as a response to a Delete request.
+    #[prost(message, optional, tag="8")]
+    pub delete_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. For a deleted resource, the time after which it will be
+    /// permamently deleted. It is only populated as a response to a Delete
+    /// request.
+    #[prost(message, optional, tag="9")]
+    pub expire_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Set the launch stage to a preview stage on write to allow use of preview
+    /// features in that stage. On read, describes whether the resource uses
+    /// preview features. Launch Stages are defined at [Google Cloud Platform
+    /// Launch Stages](<https://cloud.google.com/terms/launch-stages>).
+    #[prost(enumeration="super::super::super::api::LaunchStage", tag="10")]
+    pub launch_stage: i32,
+    /// Output only. The name of the parent service.
+    #[prost(string, tag="11")]
+    pub service: ::prost::alloc::string::String,
+    /// Scaling settings for this revision.
+    #[prost(message, optional, tag="12")]
+    pub scaling: ::core::option::Option<RevisionScaling>,
+    /// VPC Access configuration for this Revision. For more information, visit
+    /// <https://cloud.google.com/run/docs/configuring/connecting-vpc.>
+    #[prost(message, optional, tag="13")]
+    pub vpc_access: ::core::option::Option<VpcAccess>,
+    /// Sets the maximum number of requests that each serving instance can receive.
+    #[prost(int32, tag="34")]
+    pub max_instance_request_concurrency: i32,
+    /// Max allowed time for an instance to respond to a request.
+    #[prost(message, optional, tag="15")]
+    pub timeout: ::core::option::Option<::prost_types::Duration>,
+    /// Email address of the IAM service account associated with the revision of
+    /// the service. The service account represents the identity of the running
+    /// revision, and determines what permissions the revision has.
+    #[prost(string, tag="16")]
+    pub service_account: ::prost::alloc::string::String,
+    /// Holds the single container that defines the unit of execution for this
+    /// Revision.
+    #[prost(message, repeated, tag="17")]
+    pub containers: ::prost::alloc::vec::Vec<Container>,
+    /// A list of Volumes to make available to containers.
+    #[prost(message, repeated, tag="18")]
+    pub volumes: ::prost::alloc::vec::Vec<Volume>,
+    /// The execution environment being used to host this Revision.
+    #[prost(enumeration="ExecutionEnvironment", tag="20")]
+    pub execution_environment: i32,
+    /// A reference to a customer managed encryption key (CMEK) to use to encrypt
+    /// this container image. For more information, go to
+    /// <https://cloud.google.com/run/docs/securing/using-cmek>
+    #[prost(string, tag="21")]
+    pub encryption_key: ::prost::alloc::string::String,
+    /// Output only. Indicates whether the resource's reconciliation is still in progress.
+    /// See comments in `Service.reconciling` for additional information on
+    /// reconciliation process in Cloud Run.
+    #[prost(bool, tag="30")]
+    pub reconciling: bool,
+    /// Output only. The Condition of this Revision, containing its readiness status, and
+    /// detailed error information in case it did not reach a serving state.
+    #[prost(message, repeated, tag="31")]
+    pub conditions: ::prost::alloc::vec::Vec<Condition>,
+    /// Output only. The generation of this Revision currently serving traffic. See comments in
+    /// `reconciling` for additional information on reconciliation process in Cloud
+    /// Run.
+    #[prost(int64, tag="32")]
+    pub observed_generation: i64,
+    /// Output only. The Google Console URI to obtain logs for the Revision.
+    #[prost(string, tag="33")]
+    pub log_uri: ::prost::alloc::string::String,
+    /// Output only. A system-generated fingerprint for this version of the
+    /// resource. May be used to detect modification conflict during updates.
+    #[prost(string, tag="99")]
+    pub etag: ::prost::alloc::string::String,
+}
+/// Generated client implementations.
+pub mod revisions_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// Cloud Run Revision Control Plane API.
+    #[derive(Debug, Clone)]
+    pub struct RevisionsClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> RevisionsClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> RevisionsClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            RevisionsClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Gets information about a Revision.
+        pub async fn get_revision(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetRevisionRequest>,
+        ) -> Result<tonic::Response<super::Revision>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.run.v2.Revisions/GetRevision",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// List Revisions from a given Service, or from a given location.
+        pub async fn list_revisions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListRevisionsRequest>,
+        ) -> Result<tonic::Response<super::ListRevisionsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.run.v2.Revisions/ListRevisions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Delete a Revision.
+        pub async fn delete_revision(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteRevisionRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::longrunning::Operation>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.run.v2.Revisions/DeleteRevision",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

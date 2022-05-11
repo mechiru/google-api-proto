@@ -1,3 +1,20 @@
+/// Note provider assigned severity/impact ranking.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum Severity {
+    /// Unknown.
+    Unspecified = 0,
+    /// Minimal severity.
+    Minimal = 1,
+    /// Low severity.
+    Low = 2,
+    /// Medium severity.
+    Medium = 3,
+    /// High severity.
+    High = 4,
+    /// Critical severity.
+    Critical = 5,
+}
 /// Metadata for any related URL information.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RelatedUrl {
@@ -181,233 +198,72 @@ pub struct AttestationOccurrence {
     #[prost(message, repeated, tag="3")]
     pub jwts: ::prost::alloc::vec::Vec<Jwt>,
 }
-/// This represents a particular channel of distribution for a given package.
-/// E.g., Debian's jessie-backports dpkg mirror.
+/// A note that indicates a type of analysis a provider would perform. This note
+/// exists in a provider's project. A `Discovery` occurrence is created in a
+/// consumer's project at the start of analysis.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Distribution {
-    /// Required. The cpe_uri in [CPE format](<https://cpe.mitre.org/specification/>)
-    /// denoting the package manager version distributing a package.
-    #[prost(string, tag="1")]
-    pub cpe_uri: ::prost::alloc::string::String,
-    /// The CPU architecture for which packages in this distribution channel were
-    /// built.
-    #[prost(enumeration="Architecture", tag="2")]
-    pub architecture: i32,
-    /// The latest available version of this package in this distribution channel.
+pub struct DiscoveryNote {
+    /// Required. Immutable. The kind of analysis that is handled by this
+    /// discovery.
+    #[prost(enumeration="NoteKind", tag="1")]
+    pub analysis_kind: i32,
+}
+/// Provides information about the analysis status of a discovered resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DiscoveryOccurrence {
+    /// Whether the resource is continuously analyzed.
+    #[prost(enumeration="discovery_occurrence::ContinuousAnalysis", tag="1")]
+    pub continuous_analysis: i32,
+    /// The status of discovery for the resource.
+    #[prost(enumeration="discovery_occurrence::AnalysisStatus", tag="2")]
+    pub analysis_status: i32,
+    /// When an error is encountered this will contain a LocalizedMessage under
+    /// details to show to the user. The LocalizedMessage is output only and
+    /// populated by the API.
     #[prost(message, optional, tag="3")]
-    pub latest_version: ::core::option::Option<Version>,
-    /// A freeform string denoting the maintainer of this package.
+    pub analysis_status_error: ::core::option::Option<super::super::google::rpc::Status>,
+    /// The CPE of the resource being scanned.
     #[prost(string, tag="4")]
-    pub maintainer: ::prost::alloc::string::String,
-    /// The distribution channel-specific homepage for this package.
-    #[prost(string, tag="5")]
-    pub url: ::prost::alloc::string::String,
-    /// The distribution channel-specific description of this package.
-    #[prost(string, tag="6")]
-    pub description: ::prost::alloc::string::String,
+    pub cpe: ::prost::alloc::string::String,
+    /// The last time this resource was scanned.
+    #[prost(message, optional, tag="5")]
+    pub last_scan_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time occurrences related to this discovery occurrence were archived.
+    #[prost(message, optional, tag="6")]
+    pub archive_time: ::core::option::Option<::prost_types::Timestamp>,
 }
-/// An occurrence of a particular package installation found within a system's
-/// filesystem. E.g., glibc was found in `/var/lib/dpkg/status`.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Location {
-    /// Required. The CPE URI in [CPE format](<https://cpe.mitre.org/specification/>)
-    /// denoting the package manager version distributing a package.
-    #[prost(string, tag="1")]
-    pub cpe_uri: ::prost::alloc::string::String,
-    /// The version installed at this location.
-    #[prost(message, optional, tag="2")]
-    pub version: ::core::option::Option<Version>,
-    /// The path from which we gathered that this package/version is installed.
-    #[prost(string, tag="3")]
-    pub path: ::prost::alloc::string::String,
-}
-/// This represents a particular package that is distributed over various
-/// channels. E.g., glibc (aka libc6) is distributed by many, at various
-/// versions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PackageNote {
-    /// Required. Immutable. The name of the package.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The various channels by which a package is distributed.
-    #[prost(message, repeated, tag="10")]
-    pub distribution: ::prost::alloc::vec::Vec<Distribution>,
-}
-/// Details on how a particular software package was installed on a system.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PackageOccurrence {
-    /// Output only. The name of the installed package.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. All of the places within the filesystem versions of this package
-    /// have been found.
-    #[prost(message, repeated, tag="2")]
-    pub location: ::prost::alloc::vec::Vec<Location>,
-}
-/// Version contains structured information about the version of a package.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Version {
-    /// Used to correct mistakes in the version numbering scheme.
-    #[prost(int32, tag="1")]
-    pub epoch: i32,
-    /// Required only when version kind is NORMAL. The main part of the version
-    /// name.
-    #[prost(string, tag="2")]
-    pub name: ::prost::alloc::string::String,
-    /// The iteration of the package build from the above version.
-    #[prost(string, tag="3")]
-    pub revision: ::prost::alloc::string::String,
-    /// Whether this version is specifying part of an inclusive range. Grafeas
-    /// does not have the capability to specify version ranges; instead we have
-    /// fields that specify start version and end versions. At times this is
-    /// insufficient - we also need to specify whether the version is included in
-    /// the range or is excluded from the range. This boolean is expected to be set
-    /// to true when the version is included in a range.
-    #[prost(bool, tag="6")]
-    pub inclusive: bool,
-    /// Required. Distinguishes between sentinel MIN/MAX versions and normal
-    /// versions.
-    #[prost(enumeration="version::VersionKind", tag="4")]
-    pub kind: i32,
-    /// Human readable version string. This string is of the form
-    /// <epoch>:<name>-<revision> and is only set when kind is NORMAL.
-    #[prost(string, tag="5")]
-    pub full_name: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `Version`.
-pub mod version {
-    /// Whether this is an ordinary package version or a sentinel MIN/MAX version.
+/// Nested message and enum types in `DiscoveryOccurrence`.
+pub mod discovery_occurrence {
+    /// Whether the resource is continuously analyzed.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum VersionKind {
+    pub enum ContinuousAnalysis {
         /// Unknown.
         Unspecified = 0,
-        /// A standard package version.
-        Normal = 1,
-        /// A special version representing negative infinity.
-        Minimum = 2,
-        /// A special version representing positive infinity.
-        Maximum = 3,
+        /// The resource is continuously analyzed.
+        Active = 1,
+        /// The resource is ignored for continuous analysis.
+        Inactive = 2,
     }
-}
-/// Instruction set architectures supported by various package managers.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum Architecture {
-    /// Unknown architecture.
-    Unspecified = 0,
-    /// X86 architecture.
-    X86 = 1,
-    /// X64 architecture.
-    X64 = 2,
-}
-// Spec defined at
-// <https://github.com/in-toto/attestation/blob/main/spec/predicates/provenance.md>
-
-/// Steps taken to build the artifact.
-/// For a TaskRun, typically each container corresponds to one step in the
-/// recipe.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Recipe {
-    /// URI indicating what type of recipe was performed. It determines the meaning
-    /// of recipe.entryPoint, recipe.arguments, recipe.environment, and materials.
-    #[prost(string, tag="1")]
-    pub r#type: ::prost::alloc::string::String,
-    /// Index in materials containing the recipe steps that are not implied by
-    /// recipe.type. For example, if the recipe type were "make", then this would
-    /// point to the source containing the Makefile, not the make program itself.
-    /// Set to -1 if the recipe doesn't come from a material, as zero is default
-    /// unset value for int64.
-    #[prost(int64, tag="2")]
-    pub defined_in_material: i64,
-    /// String identifying the entry point into the build.
-    /// This is often a path to a configuration file and/or a target label within
-    /// that file. The syntax and meaning are defined by recipe.type. For example,
-    /// if the recipe type were "make", then this would reference the directory in
-    /// which to run make as well as which target to use.
-    #[prost(string, tag="3")]
-    pub entry_point: ::prost::alloc::string::String,
-    /// Collection of all external inputs that influenced the build on top of
-    /// recipe.definedInMaterial and recipe.entryPoint. For example, if the recipe
-    /// type were "make", then this might be the flags passed to make aside from
-    /// the target, which is captured in recipe.entryPoint. Since the arguments
-    /// field can greatly vary in structure, depending on the builder and recipe
-    /// type, this is of form "Any".
-    #[prost(message, repeated, tag="4")]
-    pub arguments: ::prost::alloc::vec::Vec<::prost_types::Any>,
-    /// Any other builder-controlled inputs necessary for correctly evaluating the
-    /// recipe. Usually only needed for reproducing the build but not evaluated as
-    /// part of policy. Since the environment field can greatly vary in structure,
-    /// depending on the builder and recipe type, this is of form "Any".
-    #[prost(message, repeated, tag="5")]
-    pub environment: ::prost::alloc::vec::Vec<::prost_types::Any>,
-}
-/// Indicates that the builder claims certain fields in this message to be
-/// complete.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Completeness {
-    /// If true, the builder claims that recipe.arguments is complete, meaning that
-    /// all external inputs are properly captured in the recipe.
-    #[prost(bool, tag="1")]
-    pub arguments: bool,
-    /// If true, the builder claims that recipe.environment is claimed to be
-    /// complete.
-    #[prost(bool, tag="2")]
-    pub environment: bool,
-    /// If true, the builder claims that materials are complete, usually through
-    /// some controls to prevent network access. Sometimes called "hermetic".
-    #[prost(bool, tag="3")]
-    pub materials: bool,
-}
-/// Other properties of the build.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Metadata {
-    /// Identifies the particular build invocation, which can be useful for finding
-    /// associated logs or other ad-hoc analysis. The value SHOULD be globally
-    /// unique, per in-toto Provenance spec.
-    #[prost(string, tag="1")]
-    pub build_invocation_id: ::prost::alloc::string::String,
-    /// The timestamp of when the build started.
-    #[prost(message, optional, tag="2")]
-    pub build_started_on: ::core::option::Option<::prost_types::Timestamp>,
-    /// The timestamp of when the build completed.
-    #[prost(message, optional, tag="3")]
-    pub build_finished_on: ::core::option::Option<::prost_types::Timestamp>,
-    /// Indicates that the builder claims certain fields in this message to be
-    /// complete.
-    #[prost(message, optional, tag="4")]
-    pub completeness: ::core::option::Option<Completeness>,
-    /// If true, the builder claims that running the recipe on materials will
-    /// produce bit-for-bit identical output.
-    #[prost(bool, tag="5")]
-    pub reproducible: bool,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BuilderConfig {
-    #[prost(string, tag="1")]
-    pub id: ::prost::alloc::string::String,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InTotoProvenance {
-    /// required
-    #[prost(message, optional, tag="1")]
-    pub builder_config: ::core::option::Option<BuilderConfig>,
-    /// Identifies the configuration used for the build.
-    /// When combined with materials, this SHOULD fully describe the build,
-    /// such that re-running this recipe results in bit-for-bit identical output
-    /// (if the build is reproducible).
-    ///
-    /// required
-    #[prost(message, optional, tag="2")]
-    pub recipe: ::core::option::Option<Recipe>,
-    #[prost(message, optional, tag="3")]
-    pub metadata: ::core::option::Option<Metadata>,
-    /// The collection of artifacts that influenced the build including sources,
-    /// dependencies, build tools, base images, and so on. This is considered to be
-    /// incomplete unless metadata.completeness.materials is true. Unset or null is
-    /// equivalent to empty.
-    #[prost(string, repeated, tag="4")]
-    pub materials: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Analysis status for a resource. Currently for initial analysis only (not
+    /// updated in continuous analysis).
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AnalysisStatus {
+        /// Unknown.
+        Unspecified = 0,
+        /// Resource is known but no action has been taken yet.
+        Pending = 1,
+        /// Resource is being analyzed.
+        Scanning = 2,
+        /// Analysis has finished successfully.
+        FinishedSuccess = 3,
+        /// Analysis has finished unsuccessfully, the analysis itself is in a bad
+        /// state.
+        FinishedFailed = 4,
+        /// The resource is known not to be supported
+        FinishedUnsupported = 5,
+    }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SlsaProvenance {
@@ -524,6 +380,114 @@ pub mod slsa_provenance {
         pub digest: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
     }
 }
+// Spec defined at
+// <https://github.com/in-toto/attestation/blob/main/spec/predicates/provenance.md>
+
+/// Steps taken to build the artifact.
+/// For a TaskRun, typically each container corresponds to one step in the
+/// recipe.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Recipe {
+    /// URI indicating what type of recipe was performed. It determines the meaning
+    /// of recipe.entryPoint, recipe.arguments, recipe.environment, and materials.
+    #[prost(string, tag="1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// Index in materials containing the recipe steps that are not implied by
+    /// recipe.type. For example, if the recipe type were "make", then this would
+    /// point to the source containing the Makefile, not the make program itself.
+    /// Set to -1 if the recipe doesn't come from a material, as zero is default
+    /// unset value for int64.
+    #[prost(int64, tag="2")]
+    pub defined_in_material: i64,
+    /// String identifying the entry point into the build.
+    /// This is often a path to a configuration file and/or a target label within
+    /// that file. The syntax and meaning are defined by recipe.type. For example,
+    /// if the recipe type were "make", then this would reference the directory in
+    /// which to run make as well as which target to use.
+    #[prost(string, tag="3")]
+    pub entry_point: ::prost::alloc::string::String,
+    /// Collection of all external inputs that influenced the build on top of
+    /// recipe.definedInMaterial and recipe.entryPoint. For example, if the recipe
+    /// type were "make", then this might be the flags passed to make aside from
+    /// the target, which is captured in recipe.entryPoint. Since the arguments
+    /// field can greatly vary in structure, depending on the builder and recipe
+    /// type, this is of form "Any".
+    #[prost(message, repeated, tag="4")]
+    pub arguments: ::prost::alloc::vec::Vec<::prost_types::Any>,
+    /// Any other builder-controlled inputs necessary for correctly evaluating the
+    /// recipe. Usually only needed for reproducing the build but not evaluated as
+    /// part of policy. Since the environment field can greatly vary in structure,
+    /// depending on the builder and recipe type, this is of form "Any".
+    #[prost(message, repeated, tag="5")]
+    pub environment: ::prost::alloc::vec::Vec<::prost_types::Any>,
+}
+/// Indicates that the builder claims certain fields in this message to be
+/// complete.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Completeness {
+    /// If true, the builder claims that recipe.arguments is complete, meaning that
+    /// all external inputs are properly captured in the recipe.
+    #[prost(bool, tag="1")]
+    pub arguments: bool,
+    /// If true, the builder claims that recipe.environment is claimed to be
+    /// complete.
+    #[prost(bool, tag="2")]
+    pub environment: bool,
+    /// If true, the builder claims that materials are complete, usually through
+    /// some controls to prevent network access. Sometimes called "hermetic".
+    #[prost(bool, tag="3")]
+    pub materials: bool,
+}
+/// Other properties of the build.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Metadata {
+    /// Identifies the particular build invocation, which can be useful for finding
+    /// associated logs or other ad-hoc analysis. The value SHOULD be globally
+    /// unique, per in-toto Provenance spec.
+    #[prost(string, tag="1")]
+    pub build_invocation_id: ::prost::alloc::string::String,
+    /// The timestamp of when the build started.
+    #[prost(message, optional, tag="2")]
+    pub build_started_on: ::core::option::Option<::prost_types::Timestamp>,
+    /// The timestamp of when the build completed.
+    #[prost(message, optional, tag="3")]
+    pub build_finished_on: ::core::option::Option<::prost_types::Timestamp>,
+    /// Indicates that the builder claims certain fields in this message to be
+    /// complete.
+    #[prost(message, optional, tag="4")]
+    pub completeness: ::core::option::Option<Completeness>,
+    /// If true, the builder claims that running the recipe on materials will
+    /// produce bit-for-bit identical output.
+    #[prost(bool, tag="5")]
+    pub reproducible: bool,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BuilderConfig {
+    #[prost(string, tag="1")]
+    pub id: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InTotoProvenance {
+    /// required
+    #[prost(message, optional, tag="1")]
+    pub builder_config: ::core::option::Option<BuilderConfig>,
+    /// Identifies the configuration used for the build.
+    /// When combined with materials, this SHOULD fully describe the build,
+    /// such that re-running this recipe results in bit-for-bit identical output
+    /// (if the build is reproducible).
+    ///
+    /// required
+    #[prost(message, optional, tag="2")]
+    pub recipe: ::core::option::Option<Recipe>,
+    #[prost(message, optional, tag="3")]
+    pub metadata: ::core::option::Option<Metadata>,
+    /// The collection of artifacts that influenced the build including sources,
+    /// dependencies, build tools, base images, and so on. This is considered to be
+    /// incomplete unless metadata.completeness.materials is true. Unset or null is
+    /// equivalent to empty.
+    #[prost(string, repeated, tag="4")]
+    pub materials: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
 /// Spec defined at
 /// <https://github.com/in-toto/attestation/tree/main/spec#statement> The
 /// serialized InTotoStatement will be stored as Envelope.payload.
@@ -561,6 +525,300 @@ pub struct Subject {
     /// <https://github.com/in-toto/attestation/blob/main/spec/field_types.md#DigestSet>
     #[prost(btree_map="string, string", tag="2")]
     pub digest: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DsseAttestationNote {
+    /// DSSEHint hints at the purpose of the attestation authority.
+    #[prost(message, optional, tag="1")]
+    pub hint: ::core::option::Option<dsse_attestation_note::DsseHint>,
+}
+/// Nested message and enum types in `DSSEAttestationNote`.
+pub mod dsse_attestation_note {
+    /// This submessage provides human-readable hints about the purpose of the
+    /// authority. Because the name of a note acts as its resource reference, it is
+    /// important to disambiguate the canonical name of the Note (which might be a
+    /// UUID for security purposes) from "readable" names more suitable for debug
+    /// output. Note that these hints should not be used to look up authorities in
+    /// security sensitive contexts, such as when looking up attestations to
+    /// verify.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct DsseHint {
+        /// Required. The human readable name of this attestation authority, for
+        /// example "cloudbuild-prod".
+        #[prost(string, tag="1")]
+        pub human_readable_name: ::prost::alloc::string::String,
+    }
+}
+/// Deprecated. Prefer to use a regular Occurrence, and populate the
+/// Envelope at the top level of the Occurrence.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DsseAttestationOccurrence {
+    /// If doing something security critical, make sure to verify the signatures in
+    /// this metadata.
+    #[prost(message, optional, tag="1")]
+    pub envelope: ::core::option::Option<Envelope>,
+    #[prost(oneof="dsse_attestation_occurrence::DecodedPayload", tags="2")]
+    pub decoded_payload: ::core::option::Option<dsse_attestation_occurrence::DecodedPayload>,
+}
+/// Nested message and enum types in `DSSEAttestationOccurrence`.
+pub mod dsse_attestation_occurrence {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum DecodedPayload {
+        #[prost(message, tag="2")]
+        Statement(super::InTotoStatement),
+    }
+}
+/// Common Vulnerability Scoring System version 3.
+/// For details, see <https://www.first.org/cvss/specification-document>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CvsSv3 {
+    /// The base score is a function of the base metric scores.
+    #[prost(float, tag="1")]
+    pub base_score: f32,
+    #[prost(float, tag="2")]
+    pub exploitability_score: f32,
+    #[prost(float, tag="3")]
+    pub impact_score: f32,
+    /// Base Metrics
+    /// Represents the intrinsic characteristics of a vulnerability that are
+    /// constant over time and across user environments.
+    #[prost(enumeration="cvs_sv3::AttackVector", tag="5")]
+    pub attack_vector: i32,
+    #[prost(enumeration="cvs_sv3::AttackComplexity", tag="6")]
+    pub attack_complexity: i32,
+    #[prost(enumeration="cvs_sv3::PrivilegesRequired", tag="7")]
+    pub privileges_required: i32,
+    #[prost(enumeration="cvs_sv3::UserInteraction", tag="8")]
+    pub user_interaction: i32,
+    #[prost(enumeration="cvs_sv3::Scope", tag="9")]
+    pub scope: i32,
+    #[prost(enumeration="cvs_sv3::Impact", tag="10")]
+    pub confidentiality_impact: i32,
+    #[prost(enumeration="cvs_sv3::Impact", tag="11")]
+    pub integrity_impact: i32,
+    #[prost(enumeration="cvs_sv3::Impact", tag="12")]
+    pub availability_impact: i32,
+}
+/// Nested message and enum types in `CVSSv3`.
+pub mod cvs_sv3 {
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AttackVector {
+        Unspecified = 0,
+        Network = 1,
+        Adjacent = 2,
+        Local = 3,
+        Physical = 4,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AttackComplexity {
+        Unspecified = 0,
+        Low = 1,
+        High = 2,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum PrivilegesRequired {
+        Unspecified = 0,
+        None = 1,
+        Low = 2,
+        High = 3,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum UserInteraction {
+        Unspecified = 0,
+        None = 1,
+        Required = 2,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Scope {
+        Unspecified = 0,
+        Unchanged = 1,
+        Changed = 2,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Impact {
+        Unspecified = 0,
+        High = 1,
+        Low = 2,
+        None = 3,
+    }
+}
+/// Common Vulnerability Scoring System.
+/// For details, see <https://www.first.org/cvss/specification-document>
+/// This is a message we will try to use for storing multiple versions of
+/// CVSS. The intention is that as new versions of CVSS scores get added, we
+/// will be able to modify this message rather than adding new protos for each
+/// new version of the score.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Cvss {
+    /// The base score is a function of the base metric scores.
+    #[prost(float, tag="1")]
+    pub base_score: f32,
+    #[prost(float, tag="2")]
+    pub exploitability_score: f32,
+    #[prost(float, tag="3")]
+    pub impact_score: f32,
+    /// Base Metrics
+    /// Represents the intrinsic characteristics of a vulnerability that are
+    /// constant over time and across user environments.
+    #[prost(enumeration="cvss::AttackVector", tag="4")]
+    pub attack_vector: i32,
+    #[prost(enumeration="cvss::AttackComplexity", tag="5")]
+    pub attack_complexity: i32,
+    #[prost(enumeration="cvss::Authentication", tag="6")]
+    pub authentication: i32,
+    #[prost(enumeration="cvss::PrivilegesRequired", tag="7")]
+    pub privileges_required: i32,
+    #[prost(enumeration="cvss::UserInteraction", tag="8")]
+    pub user_interaction: i32,
+    #[prost(enumeration="cvss::Scope", tag="9")]
+    pub scope: i32,
+    #[prost(enumeration="cvss::Impact", tag="10")]
+    pub confidentiality_impact: i32,
+    #[prost(enumeration="cvss::Impact", tag="11")]
+    pub integrity_impact: i32,
+    #[prost(enumeration="cvss::Impact", tag="12")]
+    pub availability_impact: i32,
+}
+/// Nested message and enum types in `CVSS`.
+pub mod cvss {
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AttackVector {
+        Unspecified = 0,
+        Network = 1,
+        Adjacent = 2,
+        Local = 3,
+        Physical = 4,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AttackComplexity {
+        Unspecified = 0,
+        Low = 1,
+        High = 2,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Authentication {
+        Unspecified = 0,
+        Multiple = 1,
+        Single = 2,
+        None = 3,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum PrivilegesRequired {
+        Unspecified = 0,
+        None = 1,
+        Low = 2,
+        High = 3,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum UserInteraction {
+        Unspecified = 0,
+        None = 1,
+        Required = 2,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Scope {
+        Unspecified = 0,
+        Unchanged = 1,
+        Changed = 2,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Impact {
+        Unspecified = 0,
+        High = 1,
+        Low = 2,
+        None = 3,
+    }
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ComplianceNote {
+    /// The title that identifies this compliance check.
+    #[prost(string, tag="1")]
+    pub title: ::prost::alloc::string::String,
+    /// A description about this compliance check.
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
+    /// The OS and config versions the benchmark applies to.
+    #[prost(message, repeated, tag="3")]
+    pub version: ::prost::alloc::vec::Vec<ComplianceVersion>,
+    /// A rationale for the existence of this compliance check.
+    #[prost(string, tag="4")]
+    pub rationale: ::prost::alloc::string::String,
+    /// A description of remediation steps if the compliance check fails.
+    #[prost(string, tag="5")]
+    pub remediation: ::prost::alloc::string::String,
+    /// Serialized scan instructions with a predefined format.
+    #[prost(bytes="bytes", tag="7")]
+    pub scan_instructions: ::prost::bytes::Bytes,
+    #[prost(oneof="compliance_note::ComplianceType", tags="6")]
+    pub compliance_type: ::core::option::Option<compliance_note::ComplianceType>,
+}
+/// Nested message and enum types in `ComplianceNote`.
+pub mod compliance_note {
+    /// A compliance check that is a CIS benchmark.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CisBenchmark {
+        #[prost(int32, tag="1")]
+        pub profile_level: i32,
+        #[prost(enumeration="super::Severity", tag="2")]
+        pub severity: i32,
+    }
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum ComplianceType {
+        #[prost(message, tag="6")]
+        CisBenchmark(CisBenchmark),
+    }
+}
+/// Describes the CIS benchmark version that is applicable to a given OS and
+/// os version.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ComplianceVersion {
+    /// The CPE URI (<https://cpe.mitre.org/specification/>) this benchmark is
+    /// applicable to.
+    #[prost(string, tag="1")]
+    pub cpe_uri: ::prost::alloc::string::String,
+    /// The version of the benchmark. This is set to the version of the OS-specific
+    /// CIS document the benchmark is defined in.
+    #[prost(string, tag="2")]
+    pub version: ::prost::alloc::string::String,
+}
+/// An indication that the compliance checks in the associated ComplianceNote
+/// were not satisfied for particular resources or a specified reason.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ComplianceOccurrence {
+    #[prost(message, repeated, tag="2")]
+    pub non_compliant_files: ::prost::alloc::vec::Vec<NonCompliantFile>,
+    #[prost(string, tag="3")]
+    pub non_compliance_reason: ::prost::alloc::string::String,
+}
+/// Details about files that caused a compliance check to fail.
+///
+/// display_command is a single command that can be used to display a list of
+/// non compliant files. When there is no such command, we can also iterate a
+/// list of non compliant file using 'path'.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NonCompliantFile {
+    /// Empty if `display_command` is set.
+    #[prost(string, tag="1")]
+    pub path: ::prost::alloc::string::String,
+    /// Command to display the non-compliant files.
+    #[prost(string, tag="2")]
+    pub display_command: ::prost::alloc::string::String,
+    /// Explains why a file is non compliant for a CIS check.
+    #[prost(string, tag="3")]
+    pub reason: ::prost::alloc::string::String,
 }
 /// Provenance of a build. Contains all information needed to verify the full
 /// details about the build from source to completion.
@@ -890,342 +1148,6 @@ pub struct BuildOccurrence {
     #[prost(message, optional, tag="4")]
     pub intoto_statement: ::core::option::Option<InTotoStatement>,
 }
-/// A note that indicates a type of analysis a provider would perform. This note
-/// exists in a provider's project. A `Discovery` occurrence is created in a
-/// consumer's project at the start of analysis.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DiscoveryNote {
-    /// Required. Immutable. The kind of analysis that is handled by this
-    /// discovery.
-    #[prost(enumeration="NoteKind", tag="1")]
-    pub analysis_kind: i32,
-}
-/// Provides information about the analysis status of a discovered resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DiscoveryOccurrence {
-    /// Whether the resource is continuously analyzed.
-    #[prost(enumeration="discovery_occurrence::ContinuousAnalysis", tag="1")]
-    pub continuous_analysis: i32,
-    /// The status of discovery for the resource.
-    #[prost(enumeration="discovery_occurrence::AnalysisStatus", tag="2")]
-    pub analysis_status: i32,
-    /// When an error is encountered this will contain a LocalizedMessage under
-    /// details to show to the user. The LocalizedMessage is output only and
-    /// populated by the API.
-    #[prost(message, optional, tag="3")]
-    pub analysis_status_error: ::core::option::Option<super::super::google::rpc::Status>,
-    /// The CPE of the resource being scanned.
-    #[prost(string, tag="4")]
-    pub cpe: ::prost::alloc::string::String,
-    /// The last time this resource was scanned.
-    #[prost(message, optional, tag="5")]
-    pub last_scan_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time occurrences related to this discovery occurrence were archived.
-    #[prost(message, optional, tag="6")]
-    pub archive_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `DiscoveryOccurrence`.
-pub mod discovery_occurrence {
-    /// Whether the resource is continuously analyzed.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ContinuousAnalysis {
-        /// Unknown.
-        Unspecified = 0,
-        /// The resource is continuously analyzed.
-        Active = 1,
-        /// The resource is ignored for continuous analysis.
-        Inactive = 2,
-    }
-    /// Analysis status for a resource. Currently for initial analysis only (not
-    /// updated in continuous analysis).
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AnalysisStatus {
-        /// Unknown.
-        Unspecified = 0,
-        /// Resource is known but no action has been taken yet.
-        Pending = 1,
-        /// Resource is being analyzed.
-        Scanning = 2,
-        /// Analysis has finished successfully.
-        FinishedSuccess = 3,
-        /// Analysis has finished unsuccessfully, the analysis itself is in a bad
-        /// state.
-        FinishedFailed = 4,
-        /// The resource is known not to be supported
-        FinishedUnsupported = 5,
-    }
-}
-/// Note provider assigned severity/impact ranking.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum Severity {
-    /// Unknown.
-    Unspecified = 0,
-    /// Minimal severity.
-    Minimal = 1,
-    /// Low severity.
-    Low = 2,
-    /// Medium severity.
-    Medium = 3,
-    /// High severity.
-    High = 4,
-    /// Critical severity.
-    Critical = 5,
-}
-/// Common Vulnerability Scoring System version 3.
-/// For details, see <https://www.first.org/cvss/specification-document>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CvsSv3 {
-    /// The base score is a function of the base metric scores.
-    #[prost(float, tag="1")]
-    pub base_score: f32,
-    #[prost(float, tag="2")]
-    pub exploitability_score: f32,
-    #[prost(float, tag="3")]
-    pub impact_score: f32,
-    /// Base Metrics
-    /// Represents the intrinsic characteristics of a vulnerability that are
-    /// constant over time and across user environments.
-    #[prost(enumeration="cvs_sv3::AttackVector", tag="5")]
-    pub attack_vector: i32,
-    #[prost(enumeration="cvs_sv3::AttackComplexity", tag="6")]
-    pub attack_complexity: i32,
-    #[prost(enumeration="cvs_sv3::PrivilegesRequired", tag="7")]
-    pub privileges_required: i32,
-    #[prost(enumeration="cvs_sv3::UserInteraction", tag="8")]
-    pub user_interaction: i32,
-    #[prost(enumeration="cvs_sv3::Scope", tag="9")]
-    pub scope: i32,
-    #[prost(enumeration="cvs_sv3::Impact", tag="10")]
-    pub confidentiality_impact: i32,
-    #[prost(enumeration="cvs_sv3::Impact", tag="11")]
-    pub integrity_impact: i32,
-    #[prost(enumeration="cvs_sv3::Impact", tag="12")]
-    pub availability_impact: i32,
-}
-/// Nested message and enum types in `CVSSv3`.
-pub mod cvs_sv3 {
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AttackVector {
-        Unspecified = 0,
-        Network = 1,
-        Adjacent = 2,
-        Local = 3,
-        Physical = 4,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AttackComplexity {
-        Unspecified = 0,
-        Low = 1,
-        High = 2,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum PrivilegesRequired {
-        Unspecified = 0,
-        None = 1,
-        Low = 2,
-        High = 3,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum UserInteraction {
-        Unspecified = 0,
-        None = 1,
-        Required = 2,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Scope {
-        Unspecified = 0,
-        Unchanged = 1,
-        Changed = 2,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Impact {
-        Unspecified = 0,
-        High = 1,
-        Low = 2,
-        None = 3,
-    }
-}
-/// Common Vulnerability Scoring System.
-/// For details, see <https://www.first.org/cvss/specification-document>
-/// This is a message we will try to use for storing multiple versions of
-/// CVSS. The intention is that as new versions of CVSS scores get added, we
-/// will be able to modify this message rather than adding new protos for each
-/// new version of the score.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Cvss {
-    /// The base score is a function of the base metric scores.
-    #[prost(float, tag="1")]
-    pub base_score: f32,
-    #[prost(float, tag="2")]
-    pub exploitability_score: f32,
-    #[prost(float, tag="3")]
-    pub impact_score: f32,
-    /// Base Metrics
-    /// Represents the intrinsic characteristics of a vulnerability that are
-    /// constant over time and across user environments.
-    #[prost(enumeration="cvss::AttackVector", tag="4")]
-    pub attack_vector: i32,
-    #[prost(enumeration="cvss::AttackComplexity", tag="5")]
-    pub attack_complexity: i32,
-    #[prost(enumeration="cvss::Authentication", tag="6")]
-    pub authentication: i32,
-    #[prost(enumeration="cvss::PrivilegesRequired", tag="7")]
-    pub privileges_required: i32,
-    #[prost(enumeration="cvss::UserInteraction", tag="8")]
-    pub user_interaction: i32,
-    #[prost(enumeration="cvss::Scope", tag="9")]
-    pub scope: i32,
-    #[prost(enumeration="cvss::Impact", tag="10")]
-    pub confidentiality_impact: i32,
-    #[prost(enumeration="cvss::Impact", tag="11")]
-    pub integrity_impact: i32,
-    #[prost(enumeration="cvss::Impact", tag="12")]
-    pub availability_impact: i32,
-}
-/// Nested message and enum types in `CVSS`.
-pub mod cvss {
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AttackVector {
-        Unspecified = 0,
-        Network = 1,
-        Adjacent = 2,
-        Local = 3,
-        Physical = 4,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AttackComplexity {
-        Unspecified = 0,
-        Low = 1,
-        High = 2,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Authentication {
-        Unspecified = 0,
-        Multiple = 1,
-        Single = 2,
-        None = 3,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum PrivilegesRequired {
-        Unspecified = 0,
-        None = 1,
-        Low = 2,
-        High = 3,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum UserInteraction {
-        Unspecified = 0,
-        None = 1,
-        Required = 2,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Scope {
-        Unspecified = 0,
-        Unchanged = 1,
-        Changed = 2,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Impact {
-        Unspecified = 0,
-        High = 1,
-        Low = 2,
-        None = 3,
-    }
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ComplianceNote {
-    /// The title that identifies this compliance check.
-    #[prost(string, tag="1")]
-    pub title: ::prost::alloc::string::String,
-    /// A description about this compliance check.
-    #[prost(string, tag="2")]
-    pub description: ::prost::alloc::string::String,
-    /// The OS and config versions the benchmark applies to.
-    #[prost(message, repeated, tag="3")]
-    pub version: ::prost::alloc::vec::Vec<ComplianceVersion>,
-    /// A rationale for the existence of this compliance check.
-    #[prost(string, tag="4")]
-    pub rationale: ::prost::alloc::string::String,
-    /// A description of remediation steps if the compliance check fails.
-    #[prost(string, tag="5")]
-    pub remediation: ::prost::alloc::string::String,
-    /// Serialized scan instructions with a predefined format.
-    #[prost(bytes="bytes", tag="7")]
-    pub scan_instructions: ::prost::bytes::Bytes,
-    #[prost(oneof="compliance_note::ComplianceType", tags="6")]
-    pub compliance_type: ::core::option::Option<compliance_note::ComplianceType>,
-}
-/// Nested message and enum types in `ComplianceNote`.
-pub mod compliance_note {
-    /// A compliance check that is a CIS benchmark.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CisBenchmark {
-        #[prost(int32, tag="1")]
-        pub profile_level: i32,
-        #[prost(enumeration="super::Severity", tag="2")]
-        pub severity: i32,
-    }
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum ComplianceType {
-        #[prost(message, tag="6")]
-        CisBenchmark(CisBenchmark),
-    }
-}
-/// Describes the CIS benchmark version that is applicable to a given OS and
-/// os version.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ComplianceVersion {
-    /// The CPE URI (<https://cpe.mitre.org/specification/>) this benchmark is
-    /// applicable to.
-    #[prost(string, tag="1")]
-    pub cpe_uri: ::prost::alloc::string::String,
-    /// The version of the benchmark. This is set to the version of the OS-specific
-    /// CIS document the benchmark is defined in.
-    #[prost(string, tag="2")]
-    pub version: ::prost::alloc::string::String,
-}
-/// An indication that the compliance checks in the associated ComplianceNote
-/// were not satisfied for particular resources or a specified reason.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ComplianceOccurrence {
-    #[prost(message, repeated, tag="2")]
-    pub non_compliant_files: ::prost::alloc::vec::Vec<NonCompliantFile>,
-    #[prost(string, tag="3")]
-    pub non_compliance_reason: ::prost::alloc::string::String,
-}
-/// Details about files that caused a compliance check to fail.
-///
-/// display_command is a single command that can be used to display a list of
-/// non compliant files. When there is no such command, we can also iterate a
-/// list of non compliant file using 'path'.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NonCompliantFile {
-    /// Empty if `display_command` is set.
-    #[prost(string, tag="1")]
-    pub path: ::prost::alloc::string::String,
-    /// Command to display the non-compliant files.
-    #[prost(string, tag="2")]
-    pub display_command: ::prost::alloc::string::String,
-    /// Explains why a file is non compliant for a CIS check.
-    #[prost(string, tag="3")]
-    pub reason: ::prost::alloc::string::String,
-}
 /// An artifact that can be deployed in some runtime.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeploymentNote {
@@ -1273,48 +1195,6 @@ pub mod deployment_occurrence {
         Flex = 2,
         /// Custom user-defined platform.
         Custom = 3,
-    }
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DsseAttestationNote {
-    /// DSSEHint hints at the purpose of the attestation authority.
-    #[prost(message, optional, tag="1")]
-    pub hint: ::core::option::Option<dsse_attestation_note::DsseHint>,
-}
-/// Nested message and enum types in `DSSEAttestationNote`.
-pub mod dsse_attestation_note {
-    /// This submessage provides human-readable hints about the purpose of the
-    /// authority. Because the name of a note acts as its resource reference, it is
-    /// important to disambiguate the canonical name of the Note (which might be a
-    /// UUID for security purposes) from "readable" names more suitable for debug
-    /// output. Note that these hints should not be used to look up authorities in
-    /// security sensitive contexts, such as when looking up attestations to
-    /// verify.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct DsseHint {
-        /// Required. The human readable name of this attestation authority, for
-        /// example "cloudbuild-prod".
-        #[prost(string, tag="1")]
-        pub human_readable_name: ::prost::alloc::string::String,
-    }
-}
-/// Deprecated. Prefer to use a regular Occurrence, and populate the
-/// Envelope at the top level of the Occurrence.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DsseAttestationOccurrence {
-    /// If doing something security critical, make sure to verify the signatures in
-    /// this metadata.
-    #[prost(message, optional, tag="1")]
-    pub envelope: ::core::option::Option<Envelope>,
-    #[prost(oneof="dsse_attestation_occurrence::DecodedPayload", tags="2")]
-    pub decoded_payload: ::core::option::Option<dsse_attestation_occurrence::DecodedPayload>,
-}
-/// Nested message and enum types in `DSSEAttestationOccurrence`.
-pub mod dsse_attestation_occurrence {
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum DecodedPayload {
-        #[prost(message, tag="2")]
-        Statement(super::InTotoStatement),
     }
 }
 /// Layer holds metadata specific to a layer of a Docker image.
@@ -1381,6 +1261,126 @@ pub struct ImageOccurrence {
     /// occurrence.
     #[prost(string, tag="4")]
     pub base_resource_url: ::prost::alloc::string::String,
+}
+/// This represents a particular channel of distribution for a given package.
+/// E.g., Debian's jessie-backports dpkg mirror.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Distribution {
+    /// Required. The cpe_uri in [CPE format](<https://cpe.mitre.org/specification/>)
+    /// denoting the package manager version distributing a package.
+    #[prost(string, tag="1")]
+    pub cpe_uri: ::prost::alloc::string::String,
+    /// The CPU architecture for which packages in this distribution channel were
+    /// built.
+    #[prost(enumeration="Architecture", tag="2")]
+    pub architecture: i32,
+    /// The latest available version of this package in this distribution channel.
+    #[prost(message, optional, tag="3")]
+    pub latest_version: ::core::option::Option<Version>,
+    /// A freeform string denoting the maintainer of this package.
+    #[prost(string, tag="4")]
+    pub maintainer: ::prost::alloc::string::String,
+    /// The distribution channel-specific homepage for this package.
+    #[prost(string, tag="5")]
+    pub url: ::prost::alloc::string::String,
+    /// The distribution channel-specific description of this package.
+    #[prost(string, tag="6")]
+    pub description: ::prost::alloc::string::String,
+}
+/// An occurrence of a particular package installation found within a system's
+/// filesystem. E.g., glibc was found in `/var/lib/dpkg/status`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Location {
+    /// Required. The CPE URI in [CPE format](<https://cpe.mitre.org/specification/>)
+    /// denoting the package manager version distributing a package.
+    #[prost(string, tag="1")]
+    pub cpe_uri: ::prost::alloc::string::String,
+    /// The version installed at this location.
+    #[prost(message, optional, tag="2")]
+    pub version: ::core::option::Option<Version>,
+    /// The path from which we gathered that this package/version is installed.
+    #[prost(string, tag="3")]
+    pub path: ::prost::alloc::string::String,
+}
+/// This represents a particular package that is distributed over various
+/// channels. E.g., glibc (aka libc6) is distributed by many, at various
+/// versions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PackageNote {
+    /// Required. Immutable. The name of the package.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The various channels by which a package is distributed.
+    #[prost(message, repeated, tag="10")]
+    pub distribution: ::prost::alloc::vec::Vec<Distribution>,
+}
+/// Details on how a particular software package was installed on a system.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PackageOccurrence {
+    /// Output only. The name of the installed package.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. All of the places within the filesystem versions of this package
+    /// have been found.
+    #[prost(message, repeated, tag="2")]
+    pub location: ::prost::alloc::vec::Vec<Location>,
+}
+/// Version contains structured information about the version of a package.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Version {
+    /// Used to correct mistakes in the version numbering scheme.
+    #[prost(int32, tag="1")]
+    pub epoch: i32,
+    /// Required only when version kind is NORMAL. The main part of the version
+    /// name.
+    #[prost(string, tag="2")]
+    pub name: ::prost::alloc::string::String,
+    /// The iteration of the package build from the above version.
+    #[prost(string, tag="3")]
+    pub revision: ::prost::alloc::string::String,
+    /// Whether this version is specifying part of an inclusive range. Grafeas
+    /// does not have the capability to specify version ranges; instead we have
+    /// fields that specify start version and end versions. At times this is
+    /// insufficient - we also need to specify whether the version is included in
+    /// the range or is excluded from the range. This boolean is expected to be set
+    /// to true when the version is included in a range.
+    #[prost(bool, tag="6")]
+    pub inclusive: bool,
+    /// Required. Distinguishes between sentinel MIN/MAX versions and normal
+    /// versions.
+    #[prost(enumeration="version::VersionKind", tag="4")]
+    pub kind: i32,
+    /// Human readable version string. This string is of the form
+    /// <epoch>:<name>-<revision> and is only set when kind is NORMAL.
+    #[prost(string, tag="5")]
+    pub full_name: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `Version`.
+pub mod version {
+    /// Whether this is an ordinary package version or a sentinel MIN/MAX version.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum VersionKind {
+        /// Unknown.
+        Unspecified = 0,
+        /// A standard package version.
+        Normal = 1,
+        /// A special version representing negative infinity.
+        Minimum = 2,
+        /// A special version representing positive infinity.
+        Maximum = 3,
+    }
+}
+/// Instruction set architectures supported by various package managers.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum Architecture {
+    /// Unknown architecture.
+    Unspecified = 0,
+    /// X86 architecture.
+    X86 = 1,
+    /// X64 architecture.
+    X64 = 2,
 }
 /// An Upgrade Note represents a potential upgrade of a package to a given
 /// version. For each package version combination (i.e. bash 4.0, bash 4.1,

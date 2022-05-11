@@ -1,3 +1,21 @@
+/// A definition of an annotation spec.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AnnotationSpec {
+    /// Output only. Resource name of the annotation spec.
+    /// Form:
+    ///
+    /// 'projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/annotationSpecs/{annotation_spec_id}'
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The name of the annotation spec to show in the interface. The name can be
+    /// up to 32 characters long and must match the regexp `\[a-zA-Z0-9_\]+`.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Output only. The number of examples in the parent dataset
+    /// labeled by the annotation spec.
+    #[prost(int32, tag="9")]
+    pub example_count: i32,
+}
 /// A time period inside of an example that has a time dimension (e.g. video).
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TimeSegment {
@@ -9,90 +27,6 @@ pub struct TimeSegment {
     /// example start.
     #[prost(message, optional, tag="2")]
     pub end_time_offset: ::core::option::Option<::prost_types::Duration>,
-}
-/// Indicated the type of data that can be stored in a structured data entity
-/// (e.g. a table).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataType {
-    /// Required. The \[TypeCode][google.cloud.automl.v1beta1.TypeCode\] for this type.
-    #[prost(enumeration="TypeCode", tag="1")]
-    pub type_code: i32,
-    /// If true, this DataType can also be `NULL`. In .CSV files `NULL` value is
-    /// expressed as an empty string.
-    #[prost(bool, tag="4")]
-    pub nullable: bool,
-    /// Details of DataType-s that need additional specification.
-    #[prost(oneof="data_type::Details", tags="2, 3, 5")]
-    pub details: ::core::option::Option<data_type::Details>,
-}
-/// Nested message and enum types in `DataType`.
-pub mod data_type {
-    /// Details of DataType-s that need additional specification.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Details {
-        /// If \[type_code][google.cloud.automl.v1beta1.DataType.type_code\] == \[ARRAY][google.cloud.automl.v1beta1.TypeCode.ARRAY\],
-        /// then `list_element_type` is the type of the elements.
-        #[prost(message, tag="2")]
-        ListElementType(::prost::alloc::boxed::Box<super::DataType>),
-        /// If \[type_code][google.cloud.automl.v1beta1.DataType.type_code\] == \[STRUCT][google.cloud.automl.v1beta1.TypeCode.STRUCT\], then `struct_type`
-        /// provides type information for the struct's fields.
-        #[prost(message, tag="3")]
-        StructType(super::StructType),
-        /// If \[type_code][google.cloud.automl.v1beta1.DataType.type_code\] == \[TIMESTAMP][google.cloud.automl.v1beta1.TypeCode.TIMESTAMP\]
-        /// then `time_format` provides the format in which that time field is
-        /// expressed. The time_format must either be one of:
-        /// * `UNIX_SECONDS`
-        /// * `UNIX_MILLISECONDS`
-        /// * `UNIX_MICROSECONDS`
-        /// * `UNIX_NANOSECONDS`
-        /// (for respectively number of seconds, milliseconds, microseconds and
-        /// nanoseconds since start of the Unix epoch);
-        /// or be written in `strftime` syntax. If time_format is not set, then the
-        /// default format as described on the type_code is used.
-        #[prost(string, tag="5")]
-        TimeFormat(::prost::alloc::string::String),
-    }
-}
-/// `StructType` defines the DataType-s of a \[STRUCT][google.cloud.automl.v1beta1.TypeCode.STRUCT\] type.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StructType {
-    /// Unordered map of struct field names to their data types.
-    /// Fields cannot be added or removed via Update. Their names and
-    /// data types are still mutable.
-    #[prost(btree_map="string, message", tag="1")]
-    pub fields: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, DataType>,
-}
-/// `TypeCode` is used as a part of
-/// \[DataType][google.cloud.automl.v1beta1.DataType\].
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TypeCode {
-    /// Not specified. Should not be used.
-    Unspecified = 0,
-    /// Encoded as `number`, or the strings `"NaN"`, `"Infinity"`, or
-    /// `"-Infinity"`.
-    Float64 = 3,
-    /// Must be between 0AD and 9999AD. Encoded as `string` according to
-    /// \[time_format][google.cloud.automl.v1beta1.DataType.time_format\], or, if
-    /// that format is not set, then in RFC 3339 `date-time` format, where
-    /// `time-offset` = `"Z"` (e.g. 1985-04-12T23:20:50.52Z).
-    Timestamp = 4,
-    /// Encoded as `string`.
-    String = 6,
-    /// Encoded as `list`, where the list elements are represented according to
-    ///
-    /// \[list_element_type][google.cloud.automl.v1beta1.DataType.list_element_type\].
-    Array = 8,
-    /// Encoded as `struct`, where field values are represented according to
-    /// \[struct_type][google.cloud.automl.v1beta1.DataType.struct_type\].
-    Struct = 9,
-    /// Values of this type are not further understood by AutoML,
-    /// e.g. AutoML is unable to tell the order of values (as it could with
-    /// FLOAT64), or is unable to say if one value contains another (as it
-    /// could with STRING).
-    /// Encoded as `string` (bytes should be base64-encoded, as described in RFC
-    /// 4648, section 4).
-    Category = 10,
 }
 /// Contains annotation details specific to classification.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -296,67 +230,172 @@ pub enum ClassificationType {
     /// Multiple labels are allowed for one example.
     Multilabel = 2,
 }
-/// A contiguous part of a text (string), assuming it has an UTF-8 NFC encoding.
+/// Dataset metadata that is specific to image classification.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextSegment {
-    /// Output only. The content of the TextSegment.
-    #[prost(string, tag="3")]
-    pub content: ::prost::alloc::string::String,
-    /// Required. Zero-based character index of the first character of the text
-    /// segment (counting characters from the beginning of the text).
-    #[prost(int64, tag="1")]
-    pub start_offset: i64,
-    /// Required. Zero-based character index of the first character past the end of
-    /// the text segment (counting character from the beginning of the text).
-    /// The character at the end_offset is NOT included in the text segment.
-    #[prost(int64, tag="2")]
-    pub end_offset: i64,
-}
-/// Dataset metadata for classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextClassificationDatasetMetadata {
+pub struct ImageClassificationDatasetMetadata {
     /// Required. Type of the classification problem.
     #[prost(enumeration="ClassificationType", tag="1")]
     pub classification_type: i32,
 }
-/// Model metadata that is specific to text classification.
+/// Dataset metadata specific to image object detection.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextClassificationModelMetadata {
-    /// Output only. Classification type of the dataset used to train this model.
-    #[prost(enumeration="ClassificationType", tag="3")]
-    pub classification_type: i32,
+pub struct ImageObjectDetectionDatasetMetadata {
 }
-/// Dataset metadata that is specific to text extraction
+/// Model metadata for image classification.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextExtractionDatasetMetadata {
+pub struct ImageClassificationModelMetadata {
+    /// Optional. The ID of the `base` model. If it is specified, the new model
+    /// will be created based on the `base` model. Otherwise, the new model will be
+    /// created from scratch. The `base` model must be in the same
+    /// `project` and `location` as the new model to create, and have the same
+    /// `model_type`.
+    #[prost(string, tag="1")]
+    pub base_model_id: ::prost::alloc::string::String,
+    /// Required. The train budget of creating this model, expressed in hours. The
+    /// actual `train_cost` will be equal or less than this value.
+    #[prost(int64, tag="2")]
+    pub train_budget: i64,
+    /// Output only. The actual train cost of creating this model, expressed in
+    /// hours. If this model is created from a `base` model, the train cost used
+    /// to create the `base` model are not included.
+    #[prost(int64, tag="3")]
+    pub train_cost: i64,
+    /// Output only. The reason that this create model operation stopped,
+    /// e.g. `BUDGET_REACHED`, `MODEL_CONVERGED`.
+    #[prost(string, tag="5")]
+    pub stop_reason: ::prost::alloc::string::String,
+    /// Optional. Type of the model. The available values are:
+    /// *   `cloud` - Model to be used via prediction calls to AutoML API.
+    ///               This is the default value.
+    /// *   `mobile-low-latency-1` - A model that, in addition to providing
+    ///               prediction via AutoML API, can also be exported (see
+    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile or edge device
+    ///               with TensorFlow afterwards. Expected to have low latency, but
+    ///               may have lower prediction quality than other models.
+    /// *   `mobile-versatile-1` - A model that, in addition to providing
+    ///               prediction via AutoML API, can also be exported (see
+    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile or edge device
+    ///               with TensorFlow afterwards.
+    /// *   `mobile-high-accuracy-1` - A model that, in addition to providing
+    ///               prediction via AutoML API, can also be exported (see
+    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile or edge device
+    ///               with TensorFlow afterwards.  Expected to have a higher
+    ///               latency, but should also have a higher prediction quality
+    ///               than other models.
+    /// *   `mobile-core-ml-low-latency-1` - A model that, in addition to providing
+    ///               prediction via AutoML API, can also be exported (see
+    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile device with Core
+    ///               ML afterwards. Expected to have low latency, but may have
+    ///               lower prediction quality than other models.
+    /// *   `mobile-core-ml-versatile-1` - A model that, in addition to providing
+    ///               prediction via AutoML API, can also be exported (see
+    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile device with Core
+    ///               ML afterwards.
+    /// *   `mobile-core-ml-high-accuracy-1` - A model that, in addition to
+    ///               providing prediction via AutoML API, can also be exported
+    ///               (see \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile device with
+    ///               Core ML afterwards.  Expected to have a higher latency, but
+    ///               should also have a higher prediction quality than other
+    ///               models.
+    #[prost(string, tag="7")]
+    pub model_type: ::prost::alloc::string::String,
+    /// Output only. An approximate number of online prediction QPS that can
+    /// be supported by this model per each node on which it is deployed.
+    #[prost(double, tag="13")]
+    pub node_qps: f64,
+    /// Output only. The number of nodes this model is deployed on. A node is an
+    /// abstraction of a machine resource, which can handle online prediction QPS
+    /// as given in the node_qps field.
+    #[prost(int64, tag="14")]
+    pub node_count: i64,
 }
-/// Model metadata that is specific to text extraction.
+/// Model metadata specific to image object detection.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextExtractionModelMetadata {
-    /// Indicates the scope of model use case.
+pub struct ImageObjectDetectionModelMetadata {
+    /// Optional. Type of the model. The available values are:
+    /// *   `cloud-high-accuracy-1` - (default) A model to be used via prediction
+    ///               calls to AutoML API. Expected to have a higher latency, but
+    ///               should also have a higher prediction quality than other
+    ///               models.
+    /// *   `cloud-low-latency-1` -  A model to be used via prediction
+    ///               calls to AutoML API. Expected to have low latency, but may
+    ///               have lower prediction quality than other models.
+    /// *   `mobile-low-latency-1` - A model that, in addition to providing
+    ///               prediction via AutoML API, can also be exported (see
+    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile or edge device
+    ///               with TensorFlow afterwards. Expected to have low latency, but
+    ///               may have lower prediction quality than other models.
+    /// *   `mobile-versatile-1` - A model that, in addition to providing
+    ///               prediction via AutoML API, can also be exported (see
+    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile or edge device
+    ///               with TensorFlow afterwards.
+    /// *   `mobile-high-accuracy-1` - A model that, in addition to providing
+    ///               prediction via AutoML API, can also be exported (see
+    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile or edge device
+    ///               with TensorFlow afterwards.  Expected to have a higher
+    ///               latency, but should also have a higher prediction quality
+    ///               than other models.
+    #[prost(string, tag="1")]
+    pub model_type: ::prost::alloc::string::String,
+    /// Output only. The number of nodes this model is deployed on. A node is an
+    /// abstraction of a machine resource, which can handle online prediction QPS
+    /// as given in the qps_per_node field.
+    #[prost(int64, tag="3")]
+    pub node_count: i64,
+    /// Output only. An approximate number of online prediction QPS that can
+    /// be supported by this model per each node on which it is deployed.
+    #[prost(double, tag="4")]
+    pub node_qps: f64,
+    /// Output only. The reason that this create model operation stopped,
+    /// e.g. `BUDGET_REACHED`, `MODEL_CONVERGED`.
+    #[prost(string, tag="5")]
+    pub stop_reason: ::prost::alloc::string::String,
+    /// The train budget of creating this model, expressed in milli node
+    /// hours i.e. 1,000 value in this field means 1 node hour. The actual
+    /// `train_cost` will be equal or less than this value. If further model
+    /// training ceases to provide any improvements, it will stop without using
+    /// full budget and the stop_reason will be `MODEL_CONVERGED`.
+    /// Note, node_hour  = actual_hour * number_of_nodes_invovled.
+    /// For model type `cloud-high-accuracy-1`(default) and `cloud-low-latency-1`,
+    /// the train budget must be between 20,000 and 900,000 milli node hours,
+    /// inclusive. The default value is 216, 000 which represents one day in
+    /// wall time.
+    /// For model type `mobile-low-latency-1`, `mobile-versatile-1`,
+    /// `mobile-high-accuracy-1`, `mobile-core-ml-low-latency-1`,
+    /// `mobile-core-ml-versatile-1`, `mobile-core-ml-high-accuracy-1`, the train
+    /// budget must be between 1,000 and 100,000 milli node hours, inclusive.
+    /// The default value is 24, 000 which represents one day in wall time.
+    #[prost(int64, tag="6")]
+    pub train_budget_milli_node_hours: i64,
+    /// Output only. The actual train cost of creating this model, expressed in
+    /// milli node hours, i.e. 1,000 value in this field means 1 node hour.
+    /// Guaranteed to not exceed the train budget.
+    #[prost(int64, tag="7")]
+    pub train_cost_milli_node_hours: i64,
+}
+/// Model deployment metadata specific to Image Classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImageClassificationModelDeploymentMetadata {
+    /// Input only. The number of nodes to deploy the model on. A node is an
+    /// abstraction of a machine resource, which can handle online prediction QPS
+    /// as given in the model's
     ///
-    /// * `default`: Use to train a general text extraction model. Default value.
+    /// \[node_qps][google.cloud.automl.v1beta1.ImageClassificationModelMetadata.node_qps\].
+    /// Must be between 1 and 100, inclusive on both ends.
+    #[prost(int64, tag="1")]
+    pub node_count: i64,
+}
+/// Model deployment metadata specific to Image Object Detection.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImageObjectDetectionModelDeploymentMetadata {
+    /// Input only. The number of nodes to deploy the model on. A node is an
+    /// abstraction of a machine resource, which can handle online prediction QPS
+    /// as given in the model's
     ///
-    /// * `health_care`: Use to train a text extraction model that is tuned for
-    ///   healthcare applications.
-    #[prost(string, tag="3")]
-    pub model_hint: ::prost::alloc::string::String,
-}
-/// Dataset metadata for text sentiment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextSentimentDatasetMetadata {
-    /// Required. A sentiment is expressed as an integer ordinal, where higher value
-    /// means a more positive sentiment. The range of sentiments that will be used
-    /// is between 0 and sentiment_max (inclusive on both ends), and all the values
-    /// in the range must be represented in the dataset before a model can be
-    /// created.
-    /// sentiment_max value must be between 1 and 10 (inclusive).
-    #[prost(int32, tag="1")]
-    pub sentiment_max: i32,
-}
-/// Model metadata that is specific to text sentiment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextSentimentModelMetadata {
+    /// \[qps_per_node][google.cloud.automl.v1beta1.ImageObjectDetectionModelMetadata.qps_per_node\].
+    /// Must be between 1 and 100, inclusive on both ends.
+    #[prost(int64, tag="1")]
+    pub node_count: i64,
 }
 /// The data statistics of a series of values that share the same DataType.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -529,6 +568,90 @@ pub struct CorrelationStats {
     /// The correlation value using the Cramer's V measure.
     #[prost(double, tag="1")]
     pub cramers_v: f64,
+}
+/// Indicated the type of data that can be stored in a structured data entity
+/// (e.g. a table).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataType {
+    /// Required. The \[TypeCode][google.cloud.automl.v1beta1.TypeCode\] for this type.
+    #[prost(enumeration="TypeCode", tag="1")]
+    pub type_code: i32,
+    /// If true, this DataType can also be `NULL`. In .CSV files `NULL` value is
+    /// expressed as an empty string.
+    #[prost(bool, tag="4")]
+    pub nullable: bool,
+    /// Details of DataType-s that need additional specification.
+    #[prost(oneof="data_type::Details", tags="2, 3, 5")]
+    pub details: ::core::option::Option<data_type::Details>,
+}
+/// Nested message and enum types in `DataType`.
+pub mod data_type {
+    /// Details of DataType-s that need additional specification.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Details {
+        /// If \[type_code][google.cloud.automl.v1beta1.DataType.type_code\] == \[ARRAY][google.cloud.automl.v1beta1.TypeCode.ARRAY\],
+        /// then `list_element_type` is the type of the elements.
+        #[prost(message, tag="2")]
+        ListElementType(::prost::alloc::boxed::Box<super::DataType>),
+        /// If \[type_code][google.cloud.automl.v1beta1.DataType.type_code\] == \[STRUCT][google.cloud.automl.v1beta1.TypeCode.STRUCT\], then `struct_type`
+        /// provides type information for the struct's fields.
+        #[prost(message, tag="3")]
+        StructType(super::StructType),
+        /// If \[type_code][google.cloud.automl.v1beta1.DataType.type_code\] == \[TIMESTAMP][google.cloud.automl.v1beta1.TypeCode.TIMESTAMP\]
+        /// then `time_format` provides the format in which that time field is
+        /// expressed. The time_format must either be one of:
+        /// * `UNIX_SECONDS`
+        /// * `UNIX_MILLISECONDS`
+        /// * `UNIX_MICROSECONDS`
+        /// * `UNIX_NANOSECONDS`
+        /// (for respectively number of seconds, milliseconds, microseconds and
+        /// nanoseconds since start of the Unix epoch);
+        /// or be written in `strftime` syntax. If time_format is not set, then the
+        /// default format as described on the type_code is used.
+        #[prost(string, tag="5")]
+        TimeFormat(::prost::alloc::string::String),
+    }
+}
+/// `StructType` defines the DataType-s of a \[STRUCT][google.cloud.automl.v1beta1.TypeCode.STRUCT\] type.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StructType {
+    /// Unordered map of struct field names to their data types.
+    /// Fields cannot be added or removed via Update. Their names and
+    /// data types are still mutable.
+    #[prost(btree_map="string, message", tag="1")]
+    pub fields: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, DataType>,
+}
+/// `TypeCode` is used as a part of
+/// \[DataType][google.cloud.automl.v1beta1.DataType\].
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TypeCode {
+    /// Not specified. Should not be used.
+    Unspecified = 0,
+    /// Encoded as `number`, or the strings `"NaN"`, `"Infinity"`, or
+    /// `"-Infinity"`.
+    Float64 = 3,
+    /// Must be between 0AD and 9999AD. Encoded as `string` according to
+    /// \[time_format][google.cloud.automl.v1beta1.DataType.time_format\], or, if
+    /// that format is not set, then in RFC 3339 `date-time` format, where
+    /// `time-offset` = `"Z"` (e.g. 1985-04-12T23:20:50.52Z).
+    Timestamp = 4,
+    /// Encoded as `string`.
+    String = 6,
+    /// Encoded as `list`, where the list elements are represented according to
+    ///
+    /// \[list_element_type][google.cloud.automl.v1beta1.DataType.list_element_type\].
+    Array = 8,
+    /// Encoded as `struct`, where field values are represented according to
+    /// \[struct_type][google.cloud.automl.v1beta1.DataType.struct_type\].
+    Struct = 9,
+    /// Values of this type are not further understood by AutoML,
+    /// e.g. AutoML is unable to tell the order of values (as it could with
+    /// FLOAT64), or is unable to say if one value contains another (as it
+    /// could with STRING).
+    /// Encoded as `string` (bytes should be base64-encoded, as described in RFC
+    /// 4648, section 4).
+    Category = 10,
 }
 /// A representation of a column in a relational table. When listing them, column specs are returned in the same order in which they were
 /// given on import .
@@ -1790,6 +1913,22 @@ pub struct GcrDestination {
     #[prost(string, tag="1")]
     pub output_uri: ::prost::alloc::string::String,
 }
+/// A contiguous part of a text (string), assuming it has an UTF-8 NFC encoding.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextSegment {
+    /// Output only. The content of the TextSegment.
+    #[prost(string, tag="3")]
+    pub content: ::prost::alloc::string::String,
+    /// Required. Zero-based character index of the first character of the text
+    /// segment (counting characters from the beginning of the text).
+    #[prost(int64, tag="1")]
+    pub start_offset: i64,
+    /// Required. Zero-based character index of the first character past the end of
+    /// the text segment (counting character from the beginning of the text).
+    /// The character at the end_offset is NOT included in the text segment.
+    #[prost(int64, tag="2")]
+    pub end_offset: i64,
+}
 /// A representation of an image.
 /// Only images up to 30MB in size are supported.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2303,6 +2442,194 @@ pub struct TablesModelColumnInfo {
     #[prost(float, tag="3")]
     pub feature_importance: f32,
 }
+/// Dataset metadata for classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextClassificationDatasetMetadata {
+    /// Required. Type of the classification problem.
+    #[prost(enumeration="ClassificationType", tag="1")]
+    pub classification_type: i32,
+}
+/// Model metadata that is specific to text classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextClassificationModelMetadata {
+    /// Output only. Classification type of the dataset used to train this model.
+    #[prost(enumeration="ClassificationType", tag="3")]
+    pub classification_type: i32,
+}
+/// Dataset metadata that is specific to text extraction
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextExtractionDatasetMetadata {
+}
+/// Model metadata that is specific to text extraction.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextExtractionModelMetadata {
+    /// Indicates the scope of model use case.
+    ///
+    /// * `default`: Use to train a general text extraction model. Default value.
+    ///
+    /// * `health_care`: Use to train a text extraction model that is tuned for
+    ///   healthcare applications.
+    #[prost(string, tag="3")]
+    pub model_hint: ::prost::alloc::string::String,
+}
+/// Dataset metadata for text sentiment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextSentimentDatasetMetadata {
+    /// Required. A sentiment is expressed as an integer ordinal, where higher value
+    /// means a more positive sentiment. The range of sentiments that will be used
+    /// is between 0 and sentiment_max (inclusive on both ends), and all the values
+    /// in the range must be represented in the dataset before a model can be
+    /// created.
+    /// sentiment_max value must be between 1 and 10 (inclusive).
+    #[prost(int32, tag="1")]
+    pub sentiment_max: i32,
+}
+/// Model metadata that is specific to text sentiment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextSentimentModelMetadata {
+}
+/// Dataset metadata that is specific to translation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TranslationDatasetMetadata {
+    /// Required. The BCP-47 language code of the source language.
+    #[prost(string, tag="1")]
+    pub source_language_code: ::prost::alloc::string::String,
+    /// Required. The BCP-47 language code of the target language.
+    #[prost(string, tag="2")]
+    pub target_language_code: ::prost::alloc::string::String,
+}
+/// Evaluation metrics for the dataset.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TranslationEvaluationMetrics {
+    /// Output only. BLEU score.
+    #[prost(double, tag="1")]
+    pub bleu_score: f64,
+    /// Output only. BLEU score for base model.
+    #[prost(double, tag="2")]
+    pub base_bleu_score: f64,
+}
+/// Model metadata that is specific to translation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TranslationModelMetadata {
+    /// The resource name of the model to use as a baseline to train the custom
+    /// model. If unset, we use the default base model provided by Google
+    /// Translate. Format:
+    /// `projects/{project_id}/locations/{location_id}/models/{model_id}`
+    #[prost(string, tag="1")]
+    pub base_model: ::prost::alloc::string::String,
+    /// Output only. Inferred from the dataset.
+    /// The source languge (The BCP-47 language code) that is used for training.
+    #[prost(string, tag="2")]
+    pub source_language_code: ::prost::alloc::string::String,
+    /// Output only. The target languge (The BCP-47 language code) that is used for
+    /// training.
+    #[prost(string, tag="3")]
+    pub target_language_code: ::prost::alloc::string::String,
+}
+/// Annotation details specific to translation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TranslationAnnotation {
+    /// Output only . The translated content.
+    #[prost(message, optional, tag="1")]
+    pub translated_content: ::core::option::Option<TextSnippet>,
+}
+/// Dataset metadata specific to video classification.
+/// All Video Classification datasets are treated as multi label.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoClassificationDatasetMetadata {
+}
+/// Dataset metadata specific to video object tracking.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoObjectTrackingDatasetMetadata {
+}
+/// Model metadata specific to video classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoClassificationModelMetadata {
+}
+/// Model metadata specific to video object tracking.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoObjectTrackingModelMetadata {
+}
+/// API proto representing a trained machine learning model.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Model {
+    /// Output only. Resource name of the model.
+    /// Format: `projects/{project_id}/locations/{location_id}/models/{model_id}`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The name of the model to show in the interface. The name can be
+    /// up to 32 characters long and can consist only of ASCII Latin letters A-Z
+    /// and a-z, underscores
+    /// (_), and ASCII digits 0-9. It must start with a letter.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Required. The resource ID of the dataset used to create the model. The dataset must
+    /// come from the same ancestor project and location.
+    #[prost(string, tag="3")]
+    pub dataset_id: ::prost::alloc::string::String,
+    /// Output only. Timestamp when the model training finished  and can be used for prediction.
+    #[prost(message, optional, tag="7")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Timestamp when this model was last updated.
+    #[prost(message, optional, tag="11")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Deployment state of the model. A model can only serve
+    /// prediction requests after it gets deployed.
+    #[prost(enumeration="model::DeploymentState", tag="8")]
+    pub deployment_state: i32,
+    /// Required.
+    /// The model metadata that is specific to the problem type.
+    /// Must match the metadata type of the dataset used to train the model.
+    #[prost(oneof="model::ModelMetadata", tags="15, 13, 14, 20, 23, 21, 19, 24, 22")]
+    pub model_metadata: ::core::option::Option<model::ModelMetadata>,
+}
+/// Nested message and enum types in `Model`.
+pub mod model {
+    /// Deployment state of the model.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum DeploymentState {
+        /// Should not be used, an un-set enum has this value by default.
+        Unspecified = 0,
+        /// Model is deployed.
+        Deployed = 1,
+        /// Model is not deployed.
+        Undeployed = 2,
+    }
+    /// Required.
+    /// The model metadata that is specific to the problem type.
+    /// Must match the metadata type of the dataset used to train the model.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum ModelMetadata {
+        /// Metadata for translation models.
+        #[prost(message, tag="15")]
+        TranslationModelMetadata(super::TranslationModelMetadata),
+        /// Metadata for image classification models.
+        #[prost(message, tag="13")]
+        ImageClassificationModelMetadata(super::ImageClassificationModelMetadata),
+        /// Metadata for text classification models.
+        #[prost(message, tag="14")]
+        TextClassificationModelMetadata(super::TextClassificationModelMetadata),
+        /// Metadata for image object detection models.
+        #[prost(message, tag="20")]
+        ImageObjectDetectionModelMetadata(super::ImageObjectDetectionModelMetadata),
+        /// Metadata for video classification models.
+        #[prost(message, tag="23")]
+        VideoClassificationModelMetadata(super::VideoClassificationModelMetadata),
+        /// Metadata for video object tracking models.
+        #[prost(message, tag="21")]
+        VideoObjectTrackingModelMetadata(super::VideoObjectTrackingModelMetadata),
+        /// Metadata for text extraction models.
+        #[prost(message, tag="19")]
+        TextExtractionModelMetadata(super::TextExtractionModelMetadata),
+        /// Metadata for Tables models.
+        #[prost(message, tag="24")]
+        TablesModelMetadata(super::TablesModelMetadata),
+        /// Metadata for text sentiment models.
+        #[prost(message, tag="22")]
+        TextSentimentModelMetadata(super::TextSentimentModelMetadata),
+    }
+}
 /// Annotation details for image object detection.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ImageObjectDetectionAnnotation {
@@ -2533,51 +2860,6 @@ pub struct TextSentimentEvaluationMetrics {
     #[prost(string, repeated, tag="9")]
     pub annotation_spec_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-/// Dataset metadata that is specific to translation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TranslationDatasetMetadata {
-    /// Required. The BCP-47 language code of the source language.
-    #[prost(string, tag="1")]
-    pub source_language_code: ::prost::alloc::string::String,
-    /// Required. The BCP-47 language code of the target language.
-    #[prost(string, tag="2")]
-    pub target_language_code: ::prost::alloc::string::String,
-}
-/// Evaluation metrics for the dataset.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TranslationEvaluationMetrics {
-    /// Output only. BLEU score.
-    #[prost(double, tag="1")]
-    pub bleu_score: f64,
-    /// Output only. BLEU score for base model.
-    #[prost(double, tag="2")]
-    pub base_bleu_score: f64,
-}
-/// Model metadata that is specific to translation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TranslationModelMetadata {
-    /// The resource name of the model to use as a baseline to train the custom
-    /// model. If unset, we use the default base model provided by Google
-    /// Translate. Format:
-    /// `projects/{project_id}/locations/{location_id}/models/{model_id}`
-    #[prost(string, tag="1")]
-    pub base_model: ::prost::alloc::string::String,
-    /// Output only. Inferred from the dataset.
-    /// The source languge (The BCP-47 language code) that is used for training.
-    #[prost(string, tag="2")]
-    pub source_language_code: ::prost::alloc::string::String,
-    /// Output only. The target languge (The BCP-47 language code) that is used for
-    /// training.
-    #[prost(string, tag="3")]
-    pub target_language_code: ::prost::alloc::string::String,
-}
-/// Annotation details specific to translation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TranslationAnnotation {
-    /// Output only . The translated content.
-    #[prost(message, optional, tag="1")]
-    pub translated_content: ::core::option::Option<TextSnippet>,
-}
 /// Contains annotation information that is relevant to AutoML.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AnnotationPayload {
@@ -2631,208 +2913,6 @@ pub mod annotation_payload {
         #[prost(message, tag="10")]
         Tables(super::TablesAnnotation),
     }
-}
-/// A definition of an annotation spec.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AnnotationSpec {
-    /// Output only. Resource name of the annotation spec.
-    /// Form:
-    ///
-    /// 'projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/annotationSpecs/{annotation_spec_id}'
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The name of the annotation spec to show in the interface. The name can be
-    /// up to 32 characters long and must match the regexp `\[a-zA-Z0-9_\]+`.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Output only. The number of examples in the parent dataset
-    /// labeled by the annotation spec.
-    #[prost(int32, tag="9")]
-    pub example_count: i32,
-}
-/// Dataset metadata that is specific to image classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageClassificationDatasetMetadata {
-    /// Required. Type of the classification problem.
-    #[prost(enumeration="ClassificationType", tag="1")]
-    pub classification_type: i32,
-}
-/// Dataset metadata specific to image object detection.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageObjectDetectionDatasetMetadata {
-}
-/// Model metadata for image classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageClassificationModelMetadata {
-    /// Optional. The ID of the `base` model. If it is specified, the new model
-    /// will be created based on the `base` model. Otherwise, the new model will be
-    /// created from scratch. The `base` model must be in the same
-    /// `project` and `location` as the new model to create, and have the same
-    /// `model_type`.
-    #[prost(string, tag="1")]
-    pub base_model_id: ::prost::alloc::string::String,
-    /// Required. The train budget of creating this model, expressed in hours. The
-    /// actual `train_cost` will be equal or less than this value.
-    #[prost(int64, tag="2")]
-    pub train_budget: i64,
-    /// Output only. The actual train cost of creating this model, expressed in
-    /// hours. If this model is created from a `base` model, the train cost used
-    /// to create the `base` model are not included.
-    #[prost(int64, tag="3")]
-    pub train_cost: i64,
-    /// Output only. The reason that this create model operation stopped,
-    /// e.g. `BUDGET_REACHED`, `MODEL_CONVERGED`.
-    #[prost(string, tag="5")]
-    pub stop_reason: ::prost::alloc::string::String,
-    /// Optional. Type of the model. The available values are:
-    /// *   `cloud` - Model to be used via prediction calls to AutoML API.
-    ///               This is the default value.
-    /// *   `mobile-low-latency-1` - A model that, in addition to providing
-    ///               prediction via AutoML API, can also be exported (see
-    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile or edge device
-    ///               with TensorFlow afterwards. Expected to have low latency, but
-    ///               may have lower prediction quality than other models.
-    /// *   `mobile-versatile-1` - A model that, in addition to providing
-    ///               prediction via AutoML API, can also be exported (see
-    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile or edge device
-    ///               with TensorFlow afterwards.
-    /// *   `mobile-high-accuracy-1` - A model that, in addition to providing
-    ///               prediction via AutoML API, can also be exported (see
-    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile or edge device
-    ///               with TensorFlow afterwards.  Expected to have a higher
-    ///               latency, but should also have a higher prediction quality
-    ///               than other models.
-    /// *   `mobile-core-ml-low-latency-1` - A model that, in addition to providing
-    ///               prediction via AutoML API, can also be exported (see
-    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile device with Core
-    ///               ML afterwards. Expected to have low latency, but may have
-    ///               lower prediction quality than other models.
-    /// *   `mobile-core-ml-versatile-1` - A model that, in addition to providing
-    ///               prediction via AutoML API, can also be exported (see
-    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile device with Core
-    ///               ML afterwards.
-    /// *   `mobile-core-ml-high-accuracy-1` - A model that, in addition to
-    ///               providing prediction via AutoML API, can also be exported
-    ///               (see \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile device with
-    ///               Core ML afterwards.  Expected to have a higher latency, but
-    ///               should also have a higher prediction quality than other
-    ///               models.
-    #[prost(string, tag="7")]
-    pub model_type: ::prost::alloc::string::String,
-    /// Output only. An approximate number of online prediction QPS that can
-    /// be supported by this model per each node on which it is deployed.
-    #[prost(double, tag="13")]
-    pub node_qps: f64,
-    /// Output only. The number of nodes this model is deployed on. A node is an
-    /// abstraction of a machine resource, which can handle online prediction QPS
-    /// as given in the node_qps field.
-    #[prost(int64, tag="14")]
-    pub node_count: i64,
-}
-/// Model metadata specific to image object detection.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageObjectDetectionModelMetadata {
-    /// Optional. Type of the model. The available values are:
-    /// *   `cloud-high-accuracy-1` - (default) A model to be used via prediction
-    ///               calls to AutoML API. Expected to have a higher latency, but
-    ///               should also have a higher prediction quality than other
-    ///               models.
-    /// *   `cloud-low-latency-1` -  A model to be used via prediction
-    ///               calls to AutoML API. Expected to have low latency, but may
-    ///               have lower prediction quality than other models.
-    /// *   `mobile-low-latency-1` - A model that, in addition to providing
-    ///               prediction via AutoML API, can also be exported (see
-    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile or edge device
-    ///               with TensorFlow afterwards. Expected to have low latency, but
-    ///               may have lower prediction quality than other models.
-    /// *   `mobile-versatile-1` - A model that, in addition to providing
-    ///               prediction via AutoML API, can also be exported (see
-    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile or edge device
-    ///               with TensorFlow afterwards.
-    /// *   `mobile-high-accuracy-1` - A model that, in addition to providing
-    ///               prediction via AutoML API, can also be exported (see
-    ///               \[AutoMl.ExportModel][google.cloud.automl.v1beta1.AutoMl.ExportModel\]) and used on a mobile or edge device
-    ///               with TensorFlow afterwards.  Expected to have a higher
-    ///               latency, but should also have a higher prediction quality
-    ///               than other models.
-    #[prost(string, tag="1")]
-    pub model_type: ::prost::alloc::string::String,
-    /// Output only. The number of nodes this model is deployed on. A node is an
-    /// abstraction of a machine resource, which can handle online prediction QPS
-    /// as given in the qps_per_node field.
-    #[prost(int64, tag="3")]
-    pub node_count: i64,
-    /// Output only. An approximate number of online prediction QPS that can
-    /// be supported by this model per each node on which it is deployed.
-    #[prost(double, tag="4")]
-    pub node_qps: f64,
-    /// Output only. The reason that this create model operation stopped,
-    /// e.g. `BUDGET_REACHED`, `MODEL_CONVERGED`.
-    #[prost(string, tag="5")]
-    pub stop_reason: ::prost::alloc::string::String,
-    /// The train budget of creating this model, expressed in milli node
-    /// hours i.e. 1,000 value in this field means 1 node hour. The actual
-    /// `train_cost` will be equal or less than this value. If further model
-    /// training ceases to provide any improvements, it will stop without using
-    /// full budget and the stop_reason will be `MODEL_CONVERGED`.
-    /// Note, node_hour  = actual_hour * number_of_nodes_invovled.
-    /// For model type `cloud-high-accuracy-1`(default) and `cloud-low-latency-1`,
-    /// the train budget must be between 20,000 and 900,000 milli node hours,
-    /// inclusive. The default value is 216, 000 which represents one day in
-    /// wall time.
-    /// For model type `mobile-low-latency-1`, `mobile-versatile-1`,
-    /// `mobile-high-accuracy-1`, `mobile-core-ml-low-latency-1`,
-    /// `mobile-core-ml-versatile-1`, `mobile-core-ml-high-accuracy-1`, the train
-    /// budget must be between 1,000 and 100,000 milli node hours, inclusive.
-    /// The default value is 24, 000 which represents one day in wall time.
-    #[prost(int64, tag="6")]
-    pub train_budget_milli_node_hours: i64,
-    /// Output only. The actual train cost of creating this model, expressed in
-    /// milli node hours, i.e. 1,000 value in this field means 1 node hour.
-    /// Guaranteed to not exceed the train budget.
-    #[prost(int64, tag="7")]
-    pub train_cost_milli_node_hours: i64,
-}
-/// Model deployment metadata specific to Image Classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageClassificationModelDeploymentMetadata {
-    /// Input only. The number of nodes to deploy the model on. A node is an
-    /// abstraction of a machine resource, which can handle online prediction QPS
-    /// as given in the model's
-    ///
-    /// \[node_qps][google.cloud.automl.v1beta1.ImageClassificationModelMetadata.node_qps\].
-    /// Must be between 1 and 100, inclusive on both ends.
-    #[prost(int64, tag="1")]
-    pub node_count: i64,
-}
-/// Model deployment metadata specific to Image Object Detection.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageObjectDetectionModelDeploymentMetadata {
-    /// Input only. The number of nodes to deploy the model on. A node is an
-    /// abstraction of a machine resource, which can handle online prediction QPS
-    /// as given in the model's
-    ///
-    /// \[qps_per_node][google.cloud.automl.v1beta1.ImageObjectDetectionModelMetadata.qps_per_node\].
-    /// Must be between 1 and 100, inclusive on both ends.
-    #[prost(int64, tag="1")]
-    pub node_count: i64,
-}
-/// Dataset metadata specific to video classification.
-/// All Video Classification datasets are treated as multi label.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoClassificationDatasetMetadata {
-}
-/// Dataset metadata specific to video object tracking.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoObjectTrackingDatasetMetadata {
-}
-/// Model metadata specific to video classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoClassificationModelMetadata {
-}
-/// Model metadata specific to video object tracking.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoObjectTrackingModelMetadata {
 }
 /// A workspace for solving a single, particular machine learning (ML) problem.
 /// A workspace contains examples that may be annotated.
@@ -2900,86 +2980,6 @@ pub mod dataset {
         /// Metadata for a dataset used for Tables.
         #[prost(message, tag="33")]
         TablesDatasetMetadata(super::TablesDatasetMetadata),
-    }
-}
-/// API proto representing a trained machine learning model.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Model {
-    /// Output only. Resource name of the model.
-    /// Format: `projects/{project_id}/locations/{location_id}/models/{model_id}`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The name of the model to show in the interface. The name can be
-    /// up to 32 characters long and can consist only of ASCII Latin letters A-Z
-    /// and a-z, underscores
-    /// (_), and ASCII digits 0-9. It must start with a letter.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Required. The resource ID of the dataset used to create the model. The dataset must
-    /// come from the same ancestor project and location.
-    #[prost(string, tag="3")]
-    pub dataset_id: ::prost::alloc::string::String,
-    /// Output only. Timestamp when the model training finished  and can be used for prediction.
-    #[prost(message, optional, tag="7")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Timestamp when this model was last updated.
-    #[prost(message, optional, tag="11")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Deployment state of the model. A model can only serve
-    /// prediction requests after it gets deployed.
-    #[prost(enumeration="model::DeploymentState", tag="8")]
-    pub deployment_state: i32,
-    /// Required.
-    /// The model metadata that is specific to the problem type.
-    /// Must match the metadata type of the dataset used to train the model.
-    #[prost(oneof="model::ModelMetadata", tags="15, 13, 14, 20, 23, 21, 19, 24, 22")]
-    pub model_metadata: ::core::option::Option<model::ModelMetadata>,
-}
-/// Nested message and enum types in `Model`.
-pub mod model {
-    /// Deployment state of the model.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum DeploymentState {
-        /// Should not be used, an un-set enum has this value by default.
-        Unspecified = 0,
-        /// Model is deployed.
-        Deployed = 1,
-        /// Model is not deployed.
-        Undeployed = 2,
-    }
-    /// Required.
-    /// The model metadata that is specific to the problem type.
-    /// Must match the metadata type of the dataset used to train the model.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum ModelMetadata {
-        /// Metadata for translation models.
-        #[prost(message, tag="15")]
-        TranslationModelMetadata(super::TranslationModelMetadata),
-        /// Metadata for image classification models.
-        #[prost(message, tag="13")]
-        ImageClassificationModelMetadata(super::ImageClassificationModelMetadata),
-        /// Metadata for text classification models.
-        #[prost(message, tag="14")]
-        TextClassificationModelMetadata(super::TextClassificationModelMetadata),
-        /// Metadata for image object detection models.
-        #[prost(message, tag="20")]
-        ImageObjectDetectionModelMetadata(super::ImageObjectDetectionModelMetadata),
-        /// Metadata for video classification models.
-        #[prost(message, tag="23")]
-        VideoClassificationModelMetadata(super::VideoClassificationModelMetadata),
-        /// Metadata for video object tracking models.
-        #[prost(message, tag="21")]
-        VideoObjectTrackingModelMetadata(super::VideoObjectTrackingModelMetadata),
-        /// Metadata for text extraction models.
-        #[prost(message, tag="19")]
-        TextExtractionModelMetadata(super::TextExtractionModelMetadata),
-        /// Metadata for Tables models.
-        #[prost(message, tag="24")]
-        TablesModelMetadata(super::TablesModelMetadata),
-        /// Metadata for text sentiment models.
-        #[prost(message, tag="22")]
-        TextSentimentModelMetadata(super::TextSentimentModelMetadata),
     }
 }
 /// Evaluation results of a model.

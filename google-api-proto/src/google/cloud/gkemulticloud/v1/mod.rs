@@ -652,6 +652,672 @@ pub mod aws_instance_placement {
         Host = 3,
     }
 }
+/// Request message for `AwsClusters.CreateAwsCluster` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateAwsClusterRequest {
+    /// Required. The parent location where this \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resource
+    /// will be created.
+    ///
+    /// Location names are formatted as `projects/<project-id>/locations/<region>`.
+    ///
+    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
+    /// for more details on Google Cloud resource names.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The specification of the \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] to create.
+    #[prost(message, optional, tag="2")]
+    pub aws_cluster: ::core::option::Option<AwsCluster>,
+    /// Required. A client provided ID the resource. Must be unique within the parent
+    /// resource.
+    ///
+    /// The provided ID will be part of the \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\]
+    /// resource name formatted as
+    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>`.
+    ///
+    /// Valid characters are `/\[a-z][0-9\]-/`. Cannot be longer than 40 characters.
+    #[prost(string, tag="3")]
+    pub aws_cluster_id: ::prost::alloc::string::String,
+    /// If set, only validate the request, but do not actually create the cluster.
+    #[prost(bool, tag="4")]
+    pub validate_only: bool,
+}
+/// Request message for `AwsClusters.UpdateAwsCluster` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateAwsClusterRequest {
+    /// Required. The \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resource to update.
+    #[prost(message, optional, tag="1")]
+    pub aws_cluster: ::core::option::Option<AwsCluster>,
+    /// If set, only validate the request, but do not actually update the cluster.
+    #[prost(bool, tag="2")]
+    pub validate_only: bool,
+    /// Required. Mask of fields to update. At least one path must be supplied in
+    /// this field. The elements of the repeated paths field can only include these
+    /// fields from \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\]:
+    ///
+    ///  *   `description`.
+    ///  *   `annotations`.
+    ///  *   `control_plane.version`.
+    ///  *   `authorization.admin_users`.
+    ///  *   `control_plane.aws_services_authentication.role_arn`.
+    ///  *   `control_plane.aws_services_authentication.role_session_name`.
+    ///  *   `control_plane.config_encryption.kms_key_arn`.
+    ///  *   `control_plane.instance_type`.
+    ///  *   `control_plane.security_group_ids`.
+    ///  *   `control_plane.proxy_config`.
+    ///  *   `control_plane.proxy_config.secret_arn`.
+    ///  *   `control_plane.proxy_config.secret_version`.
+    ///  *   `control_plane.root_volume.iops`.
+    ///  *   `control_plane.root_volume.kms_key_arn`.
+    ///  *   `control_plane.root_volume.volume_type`.
+    ///  *   `control_plane.root_volume.size_gib`.
+    ///  *   `control_plane.ssh_config`.
+    ///  *   `control_plane.ssh_config.ec2_key_pair`.
+    ///  *   `control_plane.instance_placement.tenancy`.
+    ///  *   `logging_config`.
+    #[prost(message, optional, tag="4")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Request message for `AwsClusters.GetAwsCluster` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetAwsClusterRequest {
+    /// Required. The name of the \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resource to describe.
+    ///
+    /// `AwsCluster` names are formatted as
+    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>`.
+    ///
+    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
+    /// for more details on GCP resource names.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for `AwsClusters.ListAwsClusters` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListAwsClustersRequest {
+    /// Required. The parent location which owns this collection of
+    /// \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resources.
+    ///
+    /// Location names are formatted as `projects/<project-id>/locations/<region>`.
+    ///
+    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
+    /// for more details on GCP resource names.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of items to return.
+    ///
+    /// If not specified, a default value of 50 will be used by the service.
+    /// Regardless of the pageSize value, the response can include a partial list
+    /// and a caller should only rely on response's
+    /// \[nextPageToken][google.cloud.gkemulticloud.v1.ListAwsClustersResponse.next_page_token\] to determine if
+    /// there are more instances left to be queried.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// The `nextPageToken` value returned from a previous
+    /// \[awsClusters.list][google.cloud.gkemulticloud.v1.AwsClusters.ListAwsClusters\] request, if any.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response message for `AwsClusters.ListAwsClusters` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListAwsClustersResponse {
+    /// A list of \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resources in the specified GCP
+    /// project and region region.
+    #[prost(message, repeated, tag="1")]
+    pub aws_clusters: ::prost::alloc::vec::Vec<AwsCluster>,
+    /// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for `AwsClusters.DeleteAwsCluster` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteAwsClusterRequest {
+    /// Required. The resource name the \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] to delete.
+    ///
+    /// `AwsCluster` names are formatted as
+    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>`.
+    ///
+    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
+    /// for more details on GCP resource names.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// If set, only validate the request, but do not actually delete the resource.
+    #[prost(bool, tag="2")]
+    pub validate_only: bool,
+    /// If set to true, and the \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resource is not found,
+    /// the request will succeed but no action will be taken on the server and a
+    /// completed \[Operation][google.longrunning.Operation\] will be returned.
+    ///
+    /// Useful for idempotent deletion.
+    #[prost(bool, tag="3")]
+    pub allow_missing: bool,
+    /// The current etag of the \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\].
+    ///
+    /// Allows clients to perform deletions through optimistic concurrency control.
+    ///
+    /// If the provided etag does not match the current etag of the cluster,
+    /// the request will fail and an ABORTED error will be returned.
+    #[prost(string, tag="4")]
+    pub etag: ::prost::alloc::string::String,
+}
+/// Response message for `AwsClusters.CreateAwsNodePool` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateAwsNodePoolRequest {
+    /// Required. The \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resource where this node pool will be created.
+    ///
+    /// `AwsCluster` names are formatted as
+    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>`.
+    ///
+    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
+    /// for more details on Google Cloud resource names.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The specification of the \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\] to create.
+    #[prost(message, optional, tag="2")]
+    pub aws_node_pool: ::core::option::Option<AwsNodePool>,
+    /// Required. A client provided ID the resource. Must be unique within the parent
+    /// resource.
+    ///
+    /// The provided ID will be part of the \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\]
+    /// resource name formatted as
+    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>/awsNodePools/<node-pool-id>`.
+    ///
+    /// Valid characters are `/\[a-z][0-9\]-/`. Cannot be longer than 40 characters.
+    #[prost(string, tag="3")]
+    pub aws_node_pool_id: ::prost::alloc::string::String,
+    /// If set, only validate the request, but do not actually create the node
+    /// pool.
+    #[prost(bool, tag="4")]
+    pub validate_only: bool,
+}
+/// Request message for `AwsClusters.UpdateAwsNodePool` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateAwsNodePoolRequest {
+    /// Required. The \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\] resource to update.
+    #[prost(message, optional, tag="1")]
+    pub aws_node_pool: ::core::option::Option<AwsNodePool>,
+    /// If set, only validate the request, but don't actually update the node pool.
+    #[prost(bool, tag="2")]
+    pub validate_only: bool,
+    /// Required. Mask of fields to update. At least one path must be supplied in
+    /// this field. The elements of the repeated paths field can only include these
+    /// fields from \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\]:
+    ///
+    ///  *   `annotations`.
+    ///  *   `version`.
+    ///  *   `autoscaling.min_node_count`.
+    ///  *   `autoscaling.max_node_count`.
+    ///  *   `config.config_encryption.kms_key_arn`.
+    ///  *   `config.security_group_ids`.
+    ///  *   `config.root_volume.iops`.
+    ///  *   `config.root_volume.kms_key_arn`.
+    ///  *   `config.root_volume.volume_type`.
+    ///  *   `config.root_volume.size_gib`.
+    ///  *   `config.proxy_config`.
+    ///  *   `config.proxy_config.secret_arn`.
+    ///  *   `config.proxy_config.secret_version`.
+    ///  *   `config.ssh_config`.
+    ///  *   `config.ssh_config.ec2_key_pair`.
+    #[prost(message, optional, tag="3")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Request message for `AwsClusters.GetAwsNodePool` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetAwsNodePoolRequest {
+    /// Required. The name of the \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\] resource to describe.
+    ///
+    /// `AwsNodePool` names are formatted as
+    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>/awsNodePools/<node-pool-id>`.
+    ///
+    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
+    /// for more details on Google Cloud resource names.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for `AwsClusters.ListAwsNodePools` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListAwsNodePoolsRequest {
+    /// Required. The parent `AwsCluster` which owns this collection of
+    /// \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\] resources.
+    ///
+    /// `AwsCluster` names are formatted as
+    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>`.
+    ///
+    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
+    /// for more details on Google Cloud resource names.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of items to return.
+    ///
+    /// If not specified, a default value of 50 will be used by the service.
+    /// Regardless of the pageSize value, the response can include a partial list
+    /// and a caller should only rely on response's
+    /// \[nextPageToken][google.cloud.gkemulticloud.v1.ListAwsNodePoolsResponse.next_page_token\] to determine if
+    /// there are more instances left to be queried.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// The `nextPageToken` value returned from a previous
+    /// \[awsNodePools.list][google.cloud.gkemulticloud.v1.AwsClusters.ListAwsNodePools\] request, if any.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response message for `AwsClusters.ListAwsNodePools` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListAwsNodePoolsResponse {
+    /// A list of \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\] resources in the specified `AwsCluster`.
+    #[prost(message, repeated, tag="1")]
+    pub aws_node_pools: ::prost::alloc::vec::Vec<AwsNodePool>,
+    /// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for `AwsClusters.DeleteNodePool` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteAwsNodePoolRequest {
+    /// Required. The resource name the \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\] to delete.
+    ///
+    /// `AwsNodePool` names are formatted as
+    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>/awsNodePools/<node-pool-id>`.
+    ///
+    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
+    /// for more details on Google Cloud resource names.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// If set, only validate the request, but do not actually delete the node
+    /// pool.
+    #[prost(bool, tag="2")]
+    pub validate_only: bool,
+    /// If set to true, and the \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\] resource is not found,
+    /// the request will succeed but no action will be taken on the server and a
+    /// completed \[Operation][google.longrunning.Operation\] will be returned.
+    ///
+    /// Useful for idempotent deletion.
+    #[prost(bool, tag="3")]
+    pub allow_missing: bool,
+    /// The current ETag of the \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\].
+    ///
+    /// Allows clients to perform deletions through optimistic concurrency control.
+    ///
+    /// If the provided ETag does not match the current etag of the node pool,
+    /// the request will fail and an ABORTED error will be returned.
+    #[prost(string, tag="4")]
+    pub etag: ::prost::alloc::string::String,
+}
+/// GetAwsServerConfigRequest gets the server config of GKE cluster on AWS.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetAwsServerConfigRequest {
+    /// Required. The name of the \[AwsServerConfig][google.cloud.gkemulticloud.v1.AwsServerConfig\] resource to describe.
+    ///
+    /// `AwsServerConfig` names are formatted as
+    /// `projects/<project-id>/locations/<region>/awsServerConfig`.
+    ///
+    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
+    /// for more details on Google Cloud resource names.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for `AwsClusters.GenerateAwsAccessToken` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GenerateAwsAccessTokenRequest {
+    /// Required. The name of the \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resource to authenticate to.
+    ///
+    /// `AwsCluster` names are formatted as
+    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>`.
+    ///
+    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
+    /// for more details on Google Cloud resource names.
+    #[prost(string, tag="1")]
+    pub aws_cluster: ::prost::alloc::string::String,
+}
+/// Response message for `AwsClusters.GenerateAwsAccessToken` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GenerateAwsAccessTokenResponse {
+    /// Output only. Access token to authenticate to k8s api-server.
+    #[prost(string, tag="1")]
+    pub access_token: ::prost::alloc::string::String,
+    /// Output only. Timestamp at which the token will expire.
+    #[prost(message, optional, tag="2")]
+    pub expiration_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Generated client implementations.
+pub mod aws_clusters_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// The AwsClusters API provides a single centrally managed service
+    /// to create and manage Anthos clusters that run on AWS infrastructure.
+    #[derive(Debug, Clone)]
+    pub struct AwsClustersClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> AwsClustersClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> AwsClustersClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            AwsClustersClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Creates a new [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster] resource on a given GCP project and region.
+        ///
+        /// If successful, the response contains a newly created
+        /// [Operation][google.longrunning.Operation] resource that can be
+        /// described to track the status of the operation.
+        pub async fn create_aws_cluster(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateAwsClusterRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::longrunning::Operation>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gkemulticloud.v1.AwsClusters/CreateAwsCluster",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Updates an [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster].
+        pub async fn update_aws_cluster(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateAwsClusterRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::longrunning::Operation>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gkemulticloud.v1.AwsClusters/UpdateAwsCluster",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Describes a specific [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster] resource.
+        pub async fn get_aws_cluster(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetAwsClusterRequest>,
+        ) -> Result<tonic::Response<super::AwsCluster>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gkemulticloud.v1.AwsClusters/GetAwsCluster",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists all [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster] resources on a given Google Cloud project and
+        /// region.
+        pub async fn list_aws_clusters(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListAwsClustersRequest>,
+        ) -> Result<tonic::Response<super::ListAwsClustersResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gkemulticloud.v1.AwsClusters/ListAwsClusters",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes a specific [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster] resource.
+        ///
+        /// Fails if the cluster has one or more associated [AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool]
+        /// resources.
+        ///
+        /// If successful, the response contains a newly created
+        /// [Operation][google.longrunning.Operation] resource that can be
+        /// described to track the status of the operation.
+        pub async fn delete_aws_cluster(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteAwsClusterRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::longrunning::Operation>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gkemulticloud.v1.AwsClusters/DeleteAwsCluster",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Generates a short-lived access token to authenticate to a given
+        /// [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster] resource.
+        pub async fn generate_aws_access_token(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GenerateAwsAccessTokenRequest>,
+        ) -> Result<
+                tonic::Response<super::GenerateAwsAccessTokenResponse>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gkemulticloud.v1.AwsClusters/GenerateAwsAccessToken",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Creates a new [AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool], attached to a given [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster].
+        ///
+        /// If successful, the response contains a newly created
+        /// [Operation][google.longrunning.Operation] resource that can be
+        /// described to track the status of the operation.
+        pub async fn create_aws_node_pool(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateAwsNodePoolRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::longrunning::Operation>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gkemulticloud.v1.AwsClusters/CreateAwsNodePool",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Updates an [AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool].
+        pub async fn update_aws_node_pool(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateAwsNodePoolRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::longrunning::Operation>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gkemulticloud.v1.AwsClusters/UpdateAwsNodePool",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Describes a specific [AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool] resource.
+        pub async fn get_aws_node_pool(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetAwsNodePoolRequest>,
+        ) -> Result<tonic::Response<super::AwsNodePool>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gkemulticloud.v1.AwsClusters/GetAwsNodePool",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists all [AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool] resources on a given [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster].
+        pub async fn list_aws_node_pools(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListAwsNodePoolsRequest>,
+        ) -> Result<tonic::Response<super::ListAwsNodePoolsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gkemulticloud.v1.AwsClusters/ListAwsNodePools",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes a specific [AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool] resource.
+        ///
+        /// If successful, the response contains a newly created
+        /// [Operation][google.longrunning.Operation] resource that can be
+        /// described to track the status of the operation.
+        pub async fn delete_aws_node_pool(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteAwsNodePoolRequest>,
+        ) -> Result<
+                tonic::Response<super::super::super::super::longrunning::Operation>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gkemulticloud.v1.AwsClusters/DeleteAwsNodePool",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Returns information, such as supported AWS regions and Kubernetes
+        /// versions, on a given Google Cloud location.
+        pub async fn get_aws_server_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetAwsServerConfigRequest>,
+        ) -> Result<tonic::Response<super::AwsServerConfig>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.gkemulticloud.v1.AwsClusters/GetAwsServerConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// An Anthos cluster running on Azure.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AzureCluster {
@@ -2092,672 +2758,6 @@ pub mod azure_clusters_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.gkemulticloud.v1.AzureClusters/GetAzureServerConfig",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Request message for `AwsClusters.CreateAwsCluster` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateAwsClusterRequest {
-    /// Required. The parent location where this \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resource
-    /// will be created.
-    ///
-    /// Location names are formatted as `projects/<project-id>/locations/<region>`.
-    ///
-    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
-    /// for more details on Google Cloud resource names.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The specification of the \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] to create.
-    #[prost(message, optional, tag="2")]
-    pub aws_cluster: ::core::option::Option<AwsCluster>,
-    /// Required. A client provided ID the resource. Must be unique within the parent
-    /// resource.
-    ///
-    /// The provided ID will be part of the \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\]
-    /// resource name formatted as
-    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>`.
-    ///
-    /// Valid characters are `/\[a-z][0-9\]-/`. Cannot be longer than 40 characters.
-    #[prost(string, tag="3")]
-    pub aws_cluster_id: ::prost::alloc::string::String,
-    /// If set, only validate the request, but do not actually create the cluster.
-    #[prost(bool, tag="4")]
-    pub validate_only: bool,
-}
-/// Request message for `AwsClusters.UpdateAwsCluster` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateAwsClusterRequest {
-    /// Required. The \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resource to update.
-    #[prost(message, optional, tag="1")]
-    pub aws_cluster: ::core::option::Option<AwsCluster>,
-    /// If set, only validate the request, but do not actually update the cluster.
-    #[prost(bool, tag="2")]
-    pub validate_only: bool,
-    /// Required. Mask of fields to update. At least one path must be supplied in
-    /// this field. The elements of the repeated paths field can only include these
-    /// fields from \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\]:
-    ///
-    ///  *   `description`.
-    ///  *   `annotations`.
-    ///  *   `control_plane.version`.
-    ///  *   `authorization.admin_users`.
-    ///  *   `control_plane.aws_services_authentication.role_arn`.
-    ///  *   `control_plane.aws_services_authentication.role_session_name`.
-    ///  *   `control_plane.config_encryption.kms_key_arn`.
-    ///  *   `control_plane.instance_type`.
-    ///  *   `control_plane.security_group_ids`.
-    ///  *   `control_plane.proxy_config`.
-    ///  *   `control_plane.proxy_config.secret_arn`.
-    ///  *   `control_plane.proxy_config.secret_version`.
-    ///  *   `control_plane.root_volume.iops`.
-    ///  *   `control_plane.root_volume.kms_key_arn`.
-    ///  *   `control_plane.root_volume.volume_type`.
-    ///  *   `control_plane.root_volume.size_gib`.
-    ///  *   `control_plane.ssh_config`.
-    ///  *   `control_plane.ssh_config.ec2_key_pair`.
-    ///  *   `control_plane.instance_placement.tenancy`.
-    ///  *   `logging_config`.
-    #[prost(message, optional, tag="4")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Request message for `AwsClusters.GetAwsCluster` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetAwsClusterRequest {
-    /// Required. The name of the \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resource to describe.
-    ///
-    /// `AwsCluster` names are formatted as
-    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>`.
-    ///
-    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
-    /// for more details on GCP resource names.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for `AwsClusters.ListAwsClusters` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListAwsClustersRequest {
-    /// Required. The parent location which owns this collection of
-    /// \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resources.
-    ///
-    /// Location names are formatted as `projects/<project-id>/locations/<region>`.
-    ///
-    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
-    /// for more details on GCP resource names.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of items to return.
-    ///
-    /// If not specified, a default value of 50 will be used by the service.
-    /// Regardless of the pageSize value, the response can include a partial list
-    /// and a caller should only rely on response's
-    /// \[nextPageToken][google.cloud.gkemulticloud.v1.ListAwsClustersResponse.next_page_token\] to determine if
-    /// there are more instances left to be queried.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// The `nextPageToken` value returned from a previous
-    /// \[awsClusters.list][google.cloud.gkemulticloud.v1.AwsClusters.ListAwsClusters\] request, if any.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response message for `AwsClusters.ListAwsClusters` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListAwsClustersResponse {
-    /// A list of \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resources in the specified GCP
-    /// project and region region.
-    #[prost(message, repeated, tag="1")]
-    pub aws_clusters: ::prost::alloc::vec::Vec<AwsCluster>,
-    /// Token to retrieve the next page of results, or empty if there are no more
-    /// results in the list.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request message for `AwsClusters.DeleteAwsCluster` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteAwsClusterRequest {
-    /// Required. The resource name the \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] to delete.
-    ///
-    /// `AwsCluster` names are formatted as
-    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>`.
-    ///
-    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
-    /// for more details on GCP resource names.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// If set, only validate the request, but do not actually delete the resource.
-    #[prost(bool, tag="2")]
-    pub validate_only: bool,
-    /// If set to true, and the \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resource is not found,
-    /// the request will succeed but no action will be taken on the server and a
-    /// completed \[Operation][google.longrunning.Operation\] will be returned.
-    ///
-    /// Useful for idempotent deletion.
-    #[prost(bool, tag="3")]
-    pub allow_missing: bool,
-    /// The current etag of the \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\].
-    ///
-    /// Allows clients to perform deletions through optimistic concurrency control.
-    ///
-    /// If the provided etag does not match the current etag of the cluster,
-    /// the request will fail and an ABORTED error will be returned.
-    #[prost(string, tag="4")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// Response message for `AwsClusters.CreateAwsNodePool` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateAwsNodePoolRequest {
-    /// Required. The \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resource where this node pool will be created.
-    ///
-    /// `AwsCluster` names are formatted as
-    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>`.
-    ///
-    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
-    /// for more details on Google Cloud resource names.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The specification of the \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\] to create.
-    #[prost(message, optional, tag="2")]
-    pub aws_node_pool: ::core::option::Option<AwsNodePool>,
-    /// Required. A client provided ID the resource. Must be unique within the parent
-    /// resource.
-    ///
-    /// The provided ID will be part of the \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\]
-    /// resource name formatted as
-    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>/awsNodePools/<node-pool-id>`.
-    ///
-    /// Valid characters are `/\[a-z][0-9\]-/`. Cannot be longer than 40 characters.
-    #[prost(string, tag="3")]
-    pub aws_node_pool_id: ::prost::alloc::string::String,
-    /// If set, only validate the request, but do not actually create the node
-    /// pool.
-    #[prost(bool, tag="4")]
-    pub validate_only: bool,
-}
-/// Request message for `AwsClusters.UpdateAwsNodePool` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateAwsNodePoolRequest {
-    /// Required. The \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\] resource to update.
-    #[prost(message, optional, tag="1")]
-    pub aws_node_pool: ::core::option::Option<AwsNodePool>,
-    /// If set, only validate the request, but don't actually update the node pool.
-    #[prost(bool, tag="2")]
-    pub validate_only: bool,
-    /// Required. Mask of fields to update. At least one path must be supplied in
-    /// this field. The elements of the repeated paths field can only include these
-    /// fields from \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\]:
-    ///
-    ///  *   `annotations`.
-    ///  *   `version`.
-    ///  *   `autoscaling.min_node_count`.
-    ///  *   `autoscaling.max_node_count`.
-    ///  *   `config.config_encryption.kms_key_arn`.
-    ///  *   `config.security_group_ids`.
-    ///  *   `config.root_volume.iops`.
-    ///  *   `config.root_volume.kms_key_arn`.
-    ///  *   `config.root_volume.volume_type`.
-    ///  *   `config.root_volume.size_gib`.
-    ///  *   `config.proxy_config`.
-    ///  *   `config.proxy_config.secret_arn`.
-    ///  *   `config.proxy_config.secret_version`.
-    ///  *   `config.ssh_config`.
-    ///  *   `config.ssh_config.ec2_key_pair`.
-    #[prost(message, optional, tag="3")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Request message for `AwsClusters.GetAwsNodePool` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetAwsNodePoolRequest {
-    /// Required. The name of the \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\] resource to describe.
-    ///
-    /// `AwsNodePool` names are formatted as
-    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>/awsNodePools/<node-pool-id>`.
-    ///
-    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
-    /// for more details on Google Cloud resource names.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for `AwsClusters.ListAwsNodePools` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListAwsNodePoolsRequest {
-    /// Required. The parent `AwsCluster` which owns this collection of
-    /// \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\] resources.
-    ///
-    /// `AwsCluster` names are formatted as
-    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>`.
-    ///
-    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
-    /// for more details on Google Cloud resource names.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of items to return.
-    ///
-    /// If not specified, a default value of 50 will be used by the service.
-    /// Regardless of the pageSize value, the response can include a partial list
-    /// and a caller should only rely on response's
-    /// \[nextPageToken][google.cloud.gkemulticloud.v1.ListAwsNodePoolsResponse.next_page_token\] to determine if
-    /// there are more instances left to be queried.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// The `nextPageToken` value returned from a previous
-    /// \[awsNodePools.list][google.cloud.gkemulticloud.v1.AwsClusters.ListAwsNodePools\] request, if any.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response message for `AwsClusters.ListAwsNodePools` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListAwsNodePoolsResponse {
-    /// A list of \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\] resources in the specified `AwsCluster`.
-    #[prost(message, repeated, tag="1")]
-    pub aws_node_pools: ::prost::alloc::vec::Vec<AwsNodePool>,
-    /// Token to retrieve the next page of results, or empty if there are no more
-    /// results in the list.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request message for `AwsClusters.DeleteNodePool` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteAwsNodePoolRequest {
-    /// Required. The resource name the \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\] to delete.
-    ///
-    /// `AwsNodePool` names are formatted as
-    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>/awsNodePools/<node-pool-id>`.
-    ///
-    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
-    /// for more details on Google Cloud resource names.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// If set, only validate the request, but do not actually delete the node
-    /// pool.
-    #[prost(bool, tag="2")]
-    pub validate_only: bool,
-    /// If set to true, and the \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\] resource is not found,
-    /// the request will succeed but no action will be taken on the server and a
-    /// completed \[Operation][google.longrunning.Operation\] will be returned.
-    ///
-    /// Useful for idempotent deletion.
-    #[prost(bool, tag="3")]
-    pub allow_missing: bool,
-    /// The current ETag of the \[AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool\].
-    ///
-    /// Allows clients to perform deletions through optimistic concurrency control.
-    ///
-    /// If the provided ETag does not match the current etag of the node pool,
-    /// the request will fail and an ABORTED error will be returned.
-    #[prost(string, tag="4")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// GetAwsServerConfigRequest gets the server config of GKE cluster on AWS.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetAwsServerConfigRequest {
-    /// Required. The name of the \[AwsServerConfig][google.cloud.gkemulticloud.v1.AwsServerConfig\] resource to describe.
-    ///
-    /// `AwsServerConfig` names are formatted as
-    /// `projects/<project-id>/locations/<region>/awsServerConfig`.
-    ///
-    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
-    /// for more details on Google Cloud resource names.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for `AwsClusters.GenerateAwsAccessToken` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GenerateAwsAccessTokenRequest {
-    /// Required. The name of the \[AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster\] resource to authenticate to.
-    ///
-    /// `AwsCluster` names are formatted as
-    /// `projects/<project-id>/locations/<region>/awsClusters/<cluster-id>`.
-    ///
-    /// See [Resource Names](<https://cloud.google.com/apis/design/resource_names>)
-    /// for more details on Google Cloud resource names.
-    #[prost(string, tag="1")]
-    pub aws_cluster: ::prost::alloc::string::String,
-}
-/// Response message for `AwsClusters.GenerateAwsAccessToken` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GenerateAwsAccessTokenResponse {
-    /// Output only. Access token to authenticate to k8s api-server.
-    #[prost(string, tag="1")]
-    pub access_token: ::prost::alloc::string::String,
-    /// Output only. Timestamp at which the token will expire.
-    #[prost(message, optional, tag="2")]
-    pub expiration_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Generated client implementations.
-pub mod aws_clusters_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// The AwsClusters API provides a single centrally managed service
-    /// to create and manage Anthos clusters that run on AWS infrastructure.
-    #[derive(Debug, Clone)]
-    pub struct AwsClustersClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> AwsClustersClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> AwsClustersClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            AwsClustersClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Creates a new [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster] resource on a given GCP project and region.
-        ///
-        /// If successful, the response contains a newly created
-        /// [Operation][google.longrunning.Operation] resource that can be
-        /// described to track the status of the operation.
-        pub async fn create_aws_cluster(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateAwsClusterRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gkemulticloud.v1.AwsClusters/CreateAwsCluster",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Updates an [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster].
-        pub async fn update_aws_cluster(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateAwsClusterRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gkemulticloud.v1.AwsClusters/UpdateAwsCluster",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Describes a specific [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster] resource.
-        pub async fn get_aws_cluster(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetAwsClusterRequest>,
-        ) -> Result<tonic::Response<super::AwsCluster>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gkemulticloud.v1.AwsClusters/GetAwsCluster",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Lists all [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster] resources on a given Google Cloud project and
-        /// region.
-        pub async fn list_aws_clusters(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListAwsClustersRequest>,
-        ) -> Result<tonic::Response<super::ListAwsClustersResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gkemulticloud.v1.AwsClusters/ListAwsClusters",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes a specific [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster] resource.
-        ///
-        /// Fails if the cluster has one or more associated [AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool]
-        /// resources.
-        ///
-        /// If successful, the response contains a newly created
-        /// [Operation][google.longrunning.Operation] resource that can be
-        /// described to track the status of the operation.
-        pub async fn delete_aws_cluster(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteAwsClusterRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gkemulticloud.v1.AwsClusters/DeleteAwsCluster",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Generates a short-lived access token to authenticate to a given
-        /// [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster] resource.
-        pub async fn generate_aws_access_token(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GenerateAwsAccessTokenRequest>,
-        ) -> Result<
-                tonic::Response<super::GenerateAwsAccessTokenResponse>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gkemulticloud.v1.AwsClusters/GenerateAwsAccessToken",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Creates a new [AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool], attached to a given [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster].
-        ///
-        /// If successful, the response contains a newly created
-        /// [Operation][google.longrunning.Operation] resource that can be
-        /// described to track the status of the operation.
-        pub async fn create_aws_node_pool(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateAwsNodePoolRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gkemulticloud.v1.AwsClusters/CreateAwsNodePool",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Updates an [AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool].
-        pub async fn update_aws_node_pool(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateAwsNodePoolRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gkemulticloud.v1.AwsClusters/UpdateAwsNodePool",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Describes a specific [AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool] resource.
-        pub async fn get_aws_node_pool(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetAwsNodePoolRequest>,
-        ) -> Result<tonic::Response<super::AwsNodePool>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gkemulticloud.v1.AwsClusters/GetAwsNodePool",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Lists all [AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool] resources on a given [AwsCluster][google.cloud.gkemulticloud.v1.AwsCluster].
-        pub async fn list_aws_node_pools(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListAwsNodePoolsRequest>,
-        ) -> Result<tonic::Response<super::ListAwsNodePoolsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gkemulticloud.v1.AwsClusters/ListAwsNodePools",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes a specific [AwsNodePool][google.cloud.gkemulticloud.v1.AwsNodePool] resource.
-        ///
-        /// If successful, the response contains a newly created
-        /// [Operation][google.longrunning.Operation] resource that can be
-        /// described to track the status of the operation.
-        pub async fn delete_aws_node_pool(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteAwsNodePoolRequest>,
-        ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gkemulticloud.v1.AwsClusters/DeleteAwsNodePool",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Returns information, such as supported AWS regions and Kubernetes
-        /// versions, on a given Google Cloud location.
-        pub async fn get_aws_server_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetAwsServerConfigRequest>,
-        ) -> Result<tonic::Response<super::AwsServerConfig>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.gkemulticloud.v1.AwsClusters/GetAwsServerConfig",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

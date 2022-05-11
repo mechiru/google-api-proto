@@ -1,56 +1,3 @@
-/// Container of information about an image.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImagePayload {
-    /// Image format.
-    #[prost(string, tag="1")]
-    pub mime_type: ::prost::alloc::string::String,
-    /// A byte string of a thumbnail image.
-    #[prost(bytes="bytes", tag="2")]
-    pub image_thumbnail: ::prost::bytes::Bytes,
-    /// Image uri from the user bucket.
-    #[prost(string, tag="3")]
-    pub image_uri: ::prost::alloc::string::String,
-    /// Signed uri of the image file in the service bucket.
-    #[prost(string, tag="4")]
-    pub signed_uri: ::prost::alloc::string::String,
-}
-/// Container of information about a piece of text.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextPayload {
-    /// Text content.
-    #[prost(string, tag="1")]
-    pub text_content: ::prost::alloc::string::String,
-}
-/// Container of information of a video thumbnail.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoThumbnail {
-    /// A byte string of the video frame.
-    #[prost(bytes="bytes", tag="1")]
-    pub thumbnail: ::prost::bytes::Bytes,
-    /// Time offset relative to the beginning of the video, corresponding to the
-    /// video frame where the thumbnail has been extracted from.
-    #[prost(message, optional, tag="2")]
-    pub time_offset: ::core::option::Option<::prost_types::Duration>,
-}
-/// Container of information of a video.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoPayload {
-    /// Video format.
-    #[prost(string, tag="1")]
-    pub mime_type: ::prost::alloc::string::String,
-    /// Video uri from the user bucket.
-    #[prost(string, tag="2")]
-    pub video_uri: ::prost::alloc::string::String,
-    /// The list of video thumbnails.
-    #[prost(message, repeated, tag="3")]
-    pub video_thumbnails: ::prost::alloc::vec::Vec<VideoThumbnail>,
-    /// FPS of the video.
-    #[prost(float, tag="4")]
-    pub frame_rate: f32,
-    /// Signed uri of the video file in the service bucket.
-    #[prost(string, tag="5")]
-    pub signed_uri: ::prost::alloc::string::String,
-}
 /// An AnnotationSpecSet is a collection of label definitions. For example, in
 /// image classification tasks, you define a set of possible labels for images as
 /// an AnnotationSpecSet. An AnnotationSpecSet is immutable upon creation.
@@ -444,6 +391,59 @@ pub enum AnnotationType {
     TextEntityExtractionAnnotation = 9,
     /// General classification. Allowed for continuous evaluation.
     GeneralClassificationAnnotation = 14,
+}
+/// Container of information about an image.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImagePayload {
+    /// Image format.
+    #[prost(string, tag="1")]
+    pub mime_type: ::prost::alloc::string::String,
+    /// A byte string of a thumbnail image.
+    #[prost(bytes="bytes", tag="2")]
+    pub image_thumbnail: ::prost::bytes::Bytes,
+    /// Image uri from the user bucket.
+    #[prost(string, tag="3")]
+    pub image_uri: ::prost::alloc::string::String,
+    /// Signed uri of the image file in the service bucket.
+    #[prost(string, tag="4")]
+    pub signed_uri: ::prost::alloc::string::String,
+}
+/// Container of information about a piece of text.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextPayload {
+    /// Text content.
+    #[prost(string, tag="1")]
+    pub text_content: ::prost::alloc::string::String,
+}
+/// Container of information of a video thumbnail.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoThumbnail {
+    /// A byte string of the video frame.
+    #[prost(bytes="bytes", tag="1")]
+    pub thumbnail: ::prost::bytes::Bytes,
+    /// Time offset relative to the beginning of the video, corresponding to the
+    /// video frame where the thumbnail has been extracted from.
+    #[prost(message, optional, tag="2")]
+    pub time_offset: ::core::option::Option<::prost_types::Duration>,
+}
+/// Container of information of a video.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoPayload {
+    /// Video format.
+    #[prost(string, tag="1")]
+    pub mime_type: ::prost::alloc::string::String,
+    /// Video uri from the user bucket.
+    #[prost(string, tag="2")]
+    pub video_uri: ::prost::alloc::string::String,
+    /// The list of video thumbnails.
+    #[prost(message, repeated, tag="3")]
+    pub video_thumbnails: ::prost::alloc::vec::Vec<VideoThumbnail>,
+    /// FPS of the video.
+    #[prost(float, tag="4")]
+    pub frame_rate: f32,
+    /// Signed uri of the video file in the service bucket.
+    #[prost(string, tag="5")]
+    pub signed_uri: ::prost::alloc::string::String,
 }
 /// Configuration for how human labeling task should be done.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -987,6 +987,63 @@ pub enum DataType {
     /// Allowed for continuous evaluation.
     GeneralData = 6,
 }
+/// Instruction of how to perform the labeling task for human operators.
+/// Currently only PDF instruction is supported.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Instruction {
+    /// Output only. Instruction resource name, format:
+    /// projects/{project_id}/instructions/{instruction_id}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The display name of the instruction. Maximum of 64 characters.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Optional. User-provided description of the instruction.
+    /// The description can be up to 10000 characters long.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. Creation time of instruction.
+    #[prost(message, optional, tag="4")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Last update time of instruction.
+    #[prost(message, optional, tag="5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Required. The data type of this instruction.
+    #[prost(enumeration="DataType", tag="6")]
+    pub data_type: i32,
+    /// Deprecated: this instruction format is not supported any more.
+    /// Instruction from a CSV file, such as for classification task.
+    /// The CSV file should have exact two columns, in the following format:
+    ///
+    /// * The first column is labeled data, such as an image reference, text.
+    /// * The second column is comma separated labels associated with data.
+    #[deprecated]
+    #[prost(message, optional, tag="7")]
+    pub csv_instruction: ::core::option::Option<CsvInstruction>,
+    /// Instruction from a PDF document. The PDF should be in a Cloud Storage
+    /// bucket.
+    #[prost(message, optional, tag="9")]
+    pub pdf_instruction: ::core::option::Option<PdfInstruction>,
+    /// Output only. The names of any related resources that are blocking changes
+    /// to the instruction.
+    #[prost(string, repeated, tag="10")]
+    pub blocking_resources: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Deprecated: this instruction format is not supported any more.
+/// Instruction from a CSV file.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsvInstruction {
+    /// CSV file for the instruction. Only gcs path is allowed.
+    #[prost(string, tag="1")]
+    pub gcs_file_uri: ::prost::alloc::string::String,
+}
+/// Instruction from a PDF file.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PdfInstruction {
+    /// PDF file for the instruction. Only gcs path is allowed.
+    #[prost(string, tag="1")]
+    pub gcs_file_uri: ::prost::alloc::string::String,
+}
 /// Describes an evaluation between a machine learning model's predictions and
 /// ground truth labels. Created when an \[EvaluationJob][google.cloud.datalabeling.v1beta1.EvaluationJob\] runs successfully.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1438,63 +1495,6 @@ pub struct Attempt {
     /// Details of errors that occurred.
     #[prost(message, repeated, tag="2")]
     pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-}
-/// Instruction of how to perform the labeling task for human operators.
-/// Currently only PDF instruction is supported.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Instruction {
-    /// Output only. Instruction resource name, format:
-    /// projects/{project_id}/instructions/{instruction_id}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The display name of the instruction. Maximum of 64 characters.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Optional. User-provided description of the instruction.
-    /// The description can be up to 10000 characters long.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. Creation time of instruction.
-    #[prost(message, optional, tag="4")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Last update time of instruction.
-    #[prost(message, optional, tag="5")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Required. The data type of this instruction.
-    #[prost(enumeration="DataType", tag="6")]
-    pub data_type: i32,
-    /// Deprecated: this instruction format is not supported any more.
-    /// Instruction from a CSV file, such as for classification task.
-    /// The CSV file should have exact two columns, in the following format:
-    ///
-    /// * The first column is labeled data, such as an image reference, text.
-    /// * The second column is comma separated labels associated with data.
-    #[deprecated]
-    #[prost(message, optional, tag="7")]
-    pub csv_instruction: ::core::option::Option<CsvInstruction>,
-    /// Instruction from a PDF document. The PDF should be in a Cloud Storage
-    /// bucket.
-    #[prost(message, optional, tag="9")]
-    pub pdf_instruction: ::core::option::Option<PdfInstruction>,
-    /// Output only. The names of any related resources that are blocking changes
-    /// to the instruction.
-    #[prost(string, repeated, tag="10")]
-    pub blocking_resources: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Deprecated: this instruction format is not supported any more.
-/// Instruction from a CSV file.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsvInstruction {
-    /// CSV file for the instruction. Only gcs path is allowed.
-    #[prost(string, tag="1")]
-    pub gcs_file_uri: ::prost::alloc::string::String,
-}
-/// Instruction from a PDF file.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PdfInstruction {
-    /// PDF file for the instruction. Only gcs path is allowed.
-    #[prost(string, tag="1")]
-    pub gcs_file_uri: ::prost::alloc::string::String,
 }
 /// Request message for CreateDataset.
 #[derive(Clone, PartialEq, ::prost::Message)]

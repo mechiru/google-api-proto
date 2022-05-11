@@ -1,180 +1,149 @@
-/// Request object for GetFile
+/// The metadata for a file or an archive file entry.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetFileRequest {
-    /// This corresponds to the uri field in the File message.
+pub struct File {
+    /// The identifier of the file or archive entry.
+    /// User-provided, must be unique for the repeated field it is in. When an
+    /// Append RPC is called with a Files field populated, if a File already exists
+    /// with this ID, that File will be overwritten with the new File proto.
     #[prost(string, tag="1")]
+    pub uid: ::prost::alloc::string::String,
+    /// The URI of a file.
+    /// This could also be the URI of an entire archive.
+    /// Most log data doesn't need to be stored forever, so a ttl is suggested.
+    /// Note that if you ever move or delete the file at this URI, the link from
+    /// the server will be broken.
+    #[prost(string, tag="2")]
     pub uri: ::prost::alloc::string::String,
-    /// The offset for the first byte to return in the read, relative to the start
-    /// of the resource.
-    ///
-    /// A `read_offset` that is negative or greater than the size of the resource
-    /// will cause an `OUT_OF_RANGE` error.
-    #[prost(int64, tag="2")]
-    pub read_offset: i64,
-    /// The maximum number of `data` bytes the server is allowed to return in the
-    /// sum of all `ReadResponse` messages. A `read_limit` of zero indicates that
-    /// there is no limit, and a negative `read_limit` will cause an error.
-    ///
-    /// If the stream returns fewer bytes than allowed by the `read_limit` and no
-    /// error occurred, the stream includes all data from the `read_offset` to the
-    /// end of the resource.
-    #[prost(int64, tag="3")]
-    pub read_limit: i64,
-    /// Only applies if the referenced file is a known archive type (ar, jar, zip)
-    /// The above read_offset and read_limit fields are applied to this entry.
-    /// If this file is not an archive, INVALID_ARGUMENT is thrown.
+    /// The length of the file in bytes.  Allows the filesize to be shown in the
+    /// UI.  Omit if file is still being written or length is not known.  This
+    /// could also be the length of an entire archive.
+    #[prost(message, optional, tag="3")]
+    pub length: ::core::option::Option<i64>,
+    /// The content-type (aka MIME-type) of the file.  This is sent to the web
+    /// browser so it knows how to handle the file. (e.g. text/plain, image/jpeg,
+    /// text/html, etc). For zip archives, use "application/zip".
     #[prost(string, tag="4")]
-    pub archive_entry: ::prost::alloc::string::String,
+    pub content_type: ::prost::alloc::string::String,
+    /// If the above path, length, and content_type are referring to an archive,
+    /// and you wish to refer to a particular entry within that archive, put the
+    /// particular archive entry data here.
+    #[prost(message, optional, tag="5")]
+    pub archive_entry: ::core::option::Option<ArchiveEntry>,
+    /// A url to a content display app/site for this file or archive entry.
+    #[prost(string, tag="6")]
+    pub content_viewer: ::prost::alloc::string::String,
+    /// Whether to hide this file or archive entry in the UI.  Defaults to false.
+    /// A checkbox lets users see hidden files, but they're hidden by default.
+    #[prost(bool, tag="7")]
+    pub hidden: bool,
+    /// A short description of what this file or archive entry contains. This
+    /// description should help someone viewing the list of these files to
+    /// understand the purpose of this file and what they would want to view it
+    /// for.
+    #[prost(string, tag="8")]
+    pub description: ::prost::alloc::string::String,
+    /// The digest of this file in hexadecimal-like string if known.
+    #[prost(string, tag="9")]
+    pub digest: ::prost::alloc::string::String,
+    /// The algorithm corresponding to the digest if known.
+    #[prost(enumeration="file::HashType", tag="10")]
+    pub hash_type: i32,
 }
-/// Response object for GetFile
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetFileResponse {
-    /// The file data.
-    #[prost(bytes="bytes", tag="1")]
-    pub data: ::prost::bytes::Bytes,
+/// Nested message and enum types in `File`.
+pub mod file {
+    /// If known, the hash function used to compute this digest.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum HashType {
+        /// Unknown
+        Unspecified = 0,
+        /// MD5
+        Md5 = 1,
+        /// SHA-1
+        Sha1 = 2,
+        /// SHA-256
+        Sha256 = 3,
+    }
 }
-/// Request object for GetFileTail
+/// Information specific to an entry in an archive.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetFileTailRequest {
-    /// This corresponds to the uri field in the File message.
+pub struct ArchiveEntry {
+    /// The relative path of the entry within the archive.
     #[prost(string, tag="1")]
-    pub uri: ::prost::alloc::string::String,
-    /// The offset for the first byte to return in the read, relative to the end
-    /// of the resource.
-    ///
-    /// A `read_offset` that is negative or greater than the size of the resource
-    /// will cause an `OUT_OF_RANGE` error.
-    #[prost(int64, tag="2")]
-    pub read_offset: i64,
-    /// The maximum number of `data` bytes the server is allowed to return. The
-    /// server will return bytes starting from the tail of the file.
-    ///
-    /// A `read_limit` of zero indicates that there is no limit, and a negative
-    /// `read_limit` will cause an error.
-    #[prost(int64, tag="3")]
-    pub read_limit: i64,
-    /// Only applies if the referenced file is a known archive type (ar, jar, zip)
-    /// The above read_offset and read_limit fields are applied to this entry.
-    /// If this file is not an archive, INVALID_ARGUMENT is thrown.
-    #[prost(string, tag="4")]
-    pub archive_entry: ::prost::alloc::string::String,
+    pub path: ::prost::alloc::string::String,
+    /// The uncompressed length of the archive entry in bytes.  Allows the entry
+    /// size to be shown in the UI.  Omit if the length is not known.
+    #[prost(message, optional, tag="2")]
+    pub length: ::core::option::Option<i64>,
+    /// The content-type (aka MIME-type) of the archive entry. (e.g. text/plain,
+    /// image/jpeg, text/html, etc). This is sent to the web browser so it knows
+    /// how to handle the entry.
+    #[prost(string, tag="3")]
+    pub content_type: ::prost::alloc::string::String,
 }
-/// Response object for GetFileTail
+/// This resource represents a set of Files and other (nested) FileSets.
+/// A FileSet is a node in the graph, and the file_sets field represents the
+/// outgoing edges. A resource may reference various nodes in the graph to
+/// represent the transitive closure of all files from those nodes.
+/// The FileSets must form a directed acyclic graph. The Upload API is unable to
+/// enforce that the graph is acyclic at write time, and if cycles are written,
+/// it may cause issues at read time.
+///
+/// A FileSet may be referenced by other resources in conjunction with Files.
+///
+/// Clients should prefer using Files directly under resources. Clients should
+/// not use FileSets unless their usecase requires a directed acyclic graph of
+/// Files.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetFileTailResponse {
-    /// The file data, encoded with UTF-8.
-    #[prost(bytes="bytes", tag="1")]
-    pub data: ::prost::bytes::Bytes,
+pub struct FileSet {
+    /// The format of this FileSet resource name must be:
+    /// invocations/${INVOCATION_ID}/fileSets/${url_encode(FILE_SET_ID)}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The resource ID components that identify the file set. They must match the
+    /// resource name after proper encoding.
+    #[prost(message, optional, tag="2")]
+    pub id: ::core::option::Option<file_set::Id>,
+    /// List of names of other file sets that are referenced from this one.
+    /// Each name must point to a file set under the same invocation. The name
+    /// format must be: invocations/${INVOCATION_ID}/fileSets/${FILE_SET_ID}
+    #[prost(string, repeated, tag="3")]
+    pub file_sets: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Files that are contained within this file set.
+    /// The uid field in the file should be unique for the Invocation.
+    #[prost(message, repeated, tag="4")]
+    pub files: ::prost::alloc::vec::Vec<File>,
 }
-/// Generated client implementations.
-pub mod result_store_file_download_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// This API allows download of File messages referenced in
-    /// ResultStore resources.
-    #[derive(Debug, Clone)]
-    pub struct ResultStoreFileDownloadClient<T> {
-        inner: tonic::client::Grpc<T>,
+/// Nested message and enum types in `FileSet`.
+pub mod file_set {
+    /// The resource ID components that identify the FileSet.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Id {
+        /// The Invocation ID.
+        #[prost(string, tag="1")]
+        pub invocation_id: ::prost::alloc::string::String,
+        /// The FileSet ID.
+        #[prost(string, tag="2")]
+        pub file_set_id: ::prost::alloc::string::String,
     }
-    impl<T> ResultStoreFileDownloadClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ResultStoreFileDownloadClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            ResultStoreFileDownloadClient::new(
-                InterceptedService::new(inner, interceptor),
-            )
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Retrieves the File with the given uri.
-        /// returns a stream of bytes to be stitched together in order.
-        ///
-        /// An error will be reported in the following cases:
-        /// - If the File is not found.
-        /// - If the given File uri is badly formatted.
-        pub async fn get_file(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetFileRequest>,
-        ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::GetFileResponse>>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreFileDownload/GetFile",
-            );
-            self.inner.server_streaming(request.into_request(), path, codec).await
-        }
-        /// Retrieves the tail of a File with the given uri.
-        ///
-        /// An error will be reported in the following cases:
-        /// - If the File is not found.
-        /// - If the given File uri is badly formatted.
-        pub async fn get_file_tail(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetFileTailRequest>,
-        ) -> Result<tonic::Response<super::GetFileTailResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.resultstore.v2.ResultStoreFileDownload/GetFileTail",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
+}
+/// The upload metadata for an invocation
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UploadMetadata {
+    /// The name of the upload metadata.  Its format will be:
+    /// invocations/${INVOCATION_ID}/uploadMetadata
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The resume token of the last batch that was committed in the most recent
+    /// batch upload.
+    /// More information with resume_token could be found in
+    /// resultstore_upload.proto
+    #[prost(string, tag="2")]
+    pub resume_token: ::prost::alloc::string::String,
+    /// Client-specific data used to resume batch upload if an error occurs and
+    /// retry action is needed.
+    #[prost(bytes="bytes", tag="3")]
+    pub uploader_state: ::prost::bytes::Bytes,
 }
 /// Describes the status of a resource in both enum and string form.
 /// Only use description when conveying additional info not captured in the enum
@@ -353,224 +322,49 @@ pub enum UploadStatus {
     /// All post-processing is complete, and the invocation is now immutable.
     Immutable = 3,
 }
-/// Describes line coverage for a file
+/// Summary of line coverage
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LineCoverage {
-    /// Which source lines in the file represent the start of a statement that was
-    /// instrumented to detect whether it was executed by the test.
-    ///
-    /// This is a bitfield where i-th bit corresponds to the i-th line. Divide line
-    /// number by 8 to get index into byte array. Mod line number by 8 to get bit
-    /// number (0 = LSB, 7 = MSB).
-    ///
-    /// A 1 denotes the line was instrumented.
-    /// A 0 denotes the line was not instrumented.
-    #[prost(bytes="bytes", tag="1")]
-    pub instrumented_lines: ::prost::bytes::Bytes,
-    /// Which of the instrumented source lines were executed by the test. Should
-    /// include lines that were not instrumented.
-    ///
-    /// This is a bitfield where i-th bit corresponds to the i-th line. Divide line
-    /// number by 8 to get index into byte array. Mod line number by 8 to get bit
-    /// number (0 = LSB, 7 = MSB).
-    ///
-    /// A 1 denotes the line was executed.
-    /// A 0 denotes the line was not executed.
-    #[prost(bytes="bytes", tag="2")]
-    pub executed_lines: ::prost::bytes::Bytes,
+pub struct LineCoverageSummary {
+    /// Number of lines instrumented for coverage.
+    #[prost(int32, tag="1")]
+    pub instrumented_line_count: i32,
+    /// Number of instrumented lines that were executed by the test.
+    #[prost(int32, tag="2")]
+    pub executed_line_count: i32,
 }
-/// Describes branch coverage for a file
+/// Summary of branch coverage
+/// A branch may be:
+///  * not executed.  Counted only in total.
+///  * executed but not taken.  Appears in total and executed.
+///  * executed and taken.  Appears in all three fields.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BranchCoverage {
-    /// The field branch_present denotes the lines containing at least one branch.
-    ///
-    /// This is a bitfield where i-th bit corresponds to the i-th line. Divide line
-    /// number by 8 to get index into byte array. Mod line number by 8 to get bit
-    /// number (0 = LSB, 7 = MSB).
-    ///
-    /// A 1 denotes the line contains at least one branch.
-    /// A 0 denotes the line contains no branches.
-    #[prost(bytes="bytes", tag="1")]
-    pub branch_present: ::prost::bytes::Bytes,
-    /// Contains the number of branches present, only for the lines which have the
-    /// corresponding bit set in branch_present, in a relative order ignoring
-    /// lines which do not have any branches.
-    #[prost(int32, repeated, tag="2")]
-    pub branches_in_line: ::prost::alloc::vec::Vec<i32>,
-    /// As each branch can have any one of the following three states: not
-    /// executed, executed but not taken, executed and taken.
-    ///
-    /// This is a bitfield where i-th bit corresponds to the i-th branch. Divide
-    /// branch number by 8 to get index into byte array. Mod branch number by 8 to
-    /// get bit number (0 = LSB, 7 = MSB).
-    ///
-    /// i-th bit of the following two byte arrays are used to denote the above
-    /// mentioned states.
-    ///
-    /// not executed: i-th bit of executed == 0 && i-th bit of taken == 0
-    /// executed but not taken: i-th bit of executed == 1 && i-th bit of taken == 0
-    /// executed and taken: i-th bit of executed == 1 && i-th bit of taken == 1
-    #[prost(bytes="bytes", tag="3")]
-    pub executed: ::prost::bytes::Bytes,
-    /// Described above.
-    #[prost(bytes="bytes", tag="4")]
-    pub taken: ::prost::bytes::Bytes,
+pub struct BranchCoverageSummary {
+    /// The number of branches present in the file.
+    #[prost(int32, tag="1")]
+    pub total_branch_count: i32,
+    /// The number of branches executed out of the total branches present.
+    /// A branch is executed when its condition is evaluated.
+    /// This is <= total_branch_count as not all branches are executed.
+    #[prost(int32, tag="2")]
+    pub executed_branch_count: i32,
+    /// The number of branches taken out of the total branches executed.
+    /// A branch is taken when its condition is satisfied.
+    /// This is <= executed_branch_count as not all executed branches are taken.
+    #[prost(int32, tag="3")]
+    pub taken_branch_count: i32,
 }
-/// Describes code coverage for a particular file under test.
+/// Summary of coverage in each language
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FileCoverage {
-    /// Path of source file within the SourceContext of this Invocation.
-    #[prost(string, tag="1")]
-    pub path: ::prost::alloc::string::String,
-    /// Details of lines in a file for calculating line coverage.
+pub struct LanguageCoverageSummary {
+    /// This summary is for all files written in this programming language.
+    #[prost(enumeration="Language", tag="1")]
+    pub language: i32,
+    /// Summary of lines covered vs instrumented.
     #[prost(message, optional, tag="2")]
-    pub line_coverage: ::core::option::Option<LineCoverage>,
-    /// Details of branches in a file for calculating branch coverage.
+    pub line_summary: ::core::option::Option<LineCoverageSummary>,
+    /// Summary of branch coverage.
     #[prost(message, optional, tag="3")]
-    pub branch_coverage: ::core::option::Option<BranchCoverage>,
-}
-/// Describes code coverage for a build or test Action. This is used to store
-/// baseline coverage for build Actions and test coverage for test Actions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ActionCoverage {
-    /// List of coverage info for all source files that the TestResult covers.
-    #[prost(message, repeated, tag="2")]
-    pub file_coverages: ::prost::alloc::vec::Vec<FileCoverage>,
-}
-/// Describes aggregate code coverage for a collection of build or test Actions.
-/// A line or branch is covered if and only if it is covered in any of the build
-/// or test actions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AggregateCoverage {
-    /// Aggregated coverage info for all source files that the actions cover.
-    #[prost(message, repeated, tag="1")]
-    pub file_coverages: ::prost::alloc::vec::Vec<FileCoverage>,
-}
-/// The metadata for a file or an archive file entry.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct File {
-    /// The identifier of the file or archive entry.
-    /// User-provided, must be unique for the repeated field it is in. When an
-    /// Append RPC is called with a Files field populated, if a File already exists
-    /// with this ID, that File will be overwritten with the new File proto.
-    #[prost(string, tag="1")]
-    pub uid: ::prost::alloc::string::String,
-    /// The URI of a file.
-    /// This could also be the URI of an entire archive.
-    /// Most log data doesn't need to be stored forever, so a ttl is suggested.
-    /// Note that if you ever move or delete the file at this URI, the link from
-    /// the server will be broken.
-    #[prost(string, tag="2")]
-    pub uri: ::prost::alloc::string::String,
-    /// The length of the file in bytes.  Allows the filesize to be shown in the
-    /// UI.  Omit if file is still being written or length is not known.  This
-    /// could also be the length of an entire archive.
-    #[prost(message, optional, tag="3")]
-    pub length: ::core::option::Option<i64>,
-    /// The content-type (aka MIME-type) of the file.  This is sent to the web
-    /// browser so it knows how to handle the file. (e.g. text/plain, image/jpeg,
-    /// text/html, etc). For zip archives, use "application/zip".
-    #[prost(string, tag="4")]
-    pub content_type: ::prost::alloc::string::String,
-    /// If the above path, length, and content_type are referring to an archive,
-    /// and you wish to refer to a particular entry within that archive, put the
-    /// particular archive entry data here.
-    #[prost(message, optional, tag="5")]
-    pub archive_entry: ::core::option::Option<ArchiveEntry>,
-    /// A url to a content display app/site for this file or archive entry.
-    #[prost(string, tag="6")]
-    pub content_viewer: ::prost::alloc::string::String,
-    /// Whether to hide this file or archive entry in the UI.  Defaults to false.
-    /// A checkbox lets users see hidden files, but they're hidden by default.
-    #[prost(bool, tag="7")]
-    pub hidden: bool,
-    /// A short description of what this file or archive entry contains. This
-    /// description should help someone viewing the list of these files to
-    /// understand the purpose of this file and what they would want to view it
-    /// for.
-    #[prost(string, tag="8")]
-    pub description: ::prost::alloc::string::String,
-    /// The digest of this file in hexadecimal-like string if known.
-    #[prost(string, tag="9")]
-    pub digest: ::prost::alloc::string::String,
-    /// The algorithm corresponding to the digest if known.
-    #[prost(enumeration="file::HashType", tag="10")]
-    pub hash_type: i32,
-}
-/// Nested message and enum types in `File`.
-pub mod file {
-    /// If known, the hash function used to compute this digest.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum HashType {
-        /// Unknown
-        Unspecified = 0,
-        /// MD5
-        Md5 = 1,
-        /// SHA-1
-        Sha1 = 2,
-        /// SHA-256
-        Sha256 = 3,
-    }
-}
-/// Information specific to an entry in an archive.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ArchiveEntry {
-    /// The relative path of the entry within the archive.
-    #[prost(string, tag="1")]
-    pub path: ::prost::alloc::string::String,
-    /// The uncompressed length of the archive entry in bytes.  Allows the entry
-    /// size to be shown in the UI.  Omit if the length is not known.
-    #[prost(message, optional, tag="2")]
-    pub length: ::core::option::Option<i64>,
-    /// The content-type (aka MIME-type) of the archive entry. (e.g. text/plain,
-    /// image/jpeg, text/html, etc). This is sent to the web browser so it knows
-    /// how to handle the entry.
-    #[prost(string, tag="3")]
-    pub content_type: ::prost::alloc::string::String,
-}
-/// Stores errors reading or parsing a file during post-processing.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FileProcessingErrors {
-    /// The uid of the File being read or parsed.
-    #[prost(string, tag="1")]
-    pub file_uid: ::prost::alloc::string::String,
-    /// What went wrong.
-    #[prost(message, repeated, tag="3")]
-    pub file_processing_errors: ::prost::alloc::vec::Vec<FileProcessingError>,
-}
-/// Stores an error reading or parsing a file during post-processing.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FileProcessingError {
-    /// The type of error that occurred.
-    #[prost(enumeration="FileProcessingErrorType", tag="1")]
-    pub r#type: i32,
-    /// Error message describing the problem.
-    #[prost(string, tag="2")]
-    pub message: ::prost::alloc::string::String,
-}
-/// Errors in file post-processing are categorized using this enum.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum FileProcessingErrorType {
-    /// Type unspecified or not listed here.
-    Unspecified = 0,
-    /// A read error occurred trying to read the file.
-    GenericReadError = 1,
-    /// There was an error trying to parse the file.
-    GenericParseError = 2,
-    /// File is exceeds size limit.
-    FileTooLarge = 3,
-    /// The result of parsing the file exceeded size limit.
-    OutputTooLarge = 4,
-    /// Read access to the file was denied by file system.
-    AccessDenied = 5,
-    /// Deadline exceeded trying to read the file.
-    DeadlineExceeded = 6,
-    /// File not found.
-    NotFound = 7,
-    /// File is empty but was expected to have content.
-    FileEmpty = 8,
+    pub branch_summary: ::core::option::Option<BranchCoverageSummary>,
 }
 /// The result of running a test suite, as reported in a <testsuite> element of
 /// an XML log.
@@ -754,6 +548,154 @@ pub struct TestError {
     /// exception_type and message.
     #[prost(string, tag="3")]
     pub stack_trace: ::prost::alloc::string::String,
+}
+/// The download metadata for an invocation
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DownloadMetadata {
+    /// The name of the download metadata.  Its format will be:
+    /// invocations/${INVOCATION_ID}/downloadMetadata
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Indicates the upload status of the invocation, whether it is
+    /// post-processing, or immutable, etc.
+    #[prost(enumeration="UploadStatus", tag="2")]
+    pub upload_status: i32,
+}
+/// Describes line coverage for a file
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LineCoverage {
+    /// Which source lines in the file represent the start of a statement that was
+    /// instrumented to detect whether it was executed by the test.
+    ///
+    /// This is a bitfield where i-th bit corresponds to the i-th line. Divide line
+    /// number by 8 to get index into byte array. Mod line number by 8 to get bit
+    /// number (0 = LSB, 7 = MSB).
+    ///
+    /// A 1 denotes the line was instrumented.
+    /// A 0 denotes the line was not instrumented.
+    #[prost(bytes="bytes", tag="1")]
+    pub instrumented_lines: ::prost::bytes::Bytes,
+    /// Which of the instrumented source lines were executed by the test. Should
+    /// include lines that were not instrumented.
+    ///
+    /// This is a bitfield where i-th bit corresponds to the i-th line. Divide line
+    /// number by 8 to get index into byte array. Mod line number by 8 to get bit
+    /// number (0 = LSB, 7 = MSB).
+    ///
+    /// A 1 denotes the line was executed.
+    /// A 0 denotes the line was not executed.
+    #[prost(bytes="bytes", tag="2")]
+    pub executed_lines: ::prost::bytes::Bytes,
+}
+/// Describes branch coverage for a file
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BranchCoverage {
+    /// The field branch_present denotes the lines containing at least one branch.
+    ///
+    /// This is a bitfield where i-th bit corresponds to the i-th line. Divide line
+    /// number by 8 to get index into byte array. Mod line number by 8 to get bit
+    /// number (0 = LSB, 7 = MSB).
+    ///
+    /// A 1 denotes the line contains at least one branch.
+    /// A 0 denotes the line contains no branches.
+    #[prost(bytes="bytes", tag="1")]
+    pub branch_present: ::prost::bytes::Bytes,
+    /// Contains the number of branches present, only for the lines which have the
+    /// corresponding bit set in branch_present, in a relative order ignoring
+    /// lines which do not have any branches.
+    #[prost(int32, repeated, tag="2")]
+    pub branches_in_line: ::prost::alloc::vec::Vec<i32>,
+    /// As each branch can have any one of the following three states: not
+    /// executed, executed but not taken, executed and taken.
+    ///
+    /// This is a bitfield where i-th bit corresponds to the i-th branch. Divide
+    /// branch number by 8 to get index into byte array. Mod branch number by 8 to
+    /// get bit number (0 = LSB, 7 = MSB).
+    ///
+    /// i-th bit of the following two byte arrays are used to denote the above
+    /// mentioned states.
+    ///
+    /// not executed: i-th bit of executed == 0 && i-th bit of taken == 0
+    /// executed but not taken: i-th bit of executed == 1 && i-th bit of taken == 0
+    /// executed and taken: i-th bit of executed == 1 && i-th bit of taken == 1
+    #[prost(bytes="bytes", tag="3")]
+    pub executed: ::prost::bytes::Bytes,
+    /// Described above.
+    #[prost(bytes="bytes", tag="4")]
+    pub taken: ::prost::bytes::Bytes,
+}
+/// Describes code coverage for a particular file under test.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FileCoverage {
+    /// Path of source file within the SourceContext of this Invocation.
+    #[prost(string, tag="1")]
+    pub path: ::prost::alloc::string::String,
+    /// Details of lines in a file for calculating line coverage.
+    #[prost(message, optional, tag="2")]
+    pub line_coverage: ::core::option::Option<LineCoverage>,
+    /// Details of branches in a file for calculating branch coverage.
+    #[prost(message, optional, tag="3")]
+    pub branch_coverage: ::core::option::Option<BranchCoverage>,
+}
+/// Describes code coverage for a build or test Action. This is used to store
+/// baseline coverage for build Actions and test coverage for test Actions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ActionCoverage {
+    /// List of coverage info for all source files that the TestResult covers.
+    #[prost(message, repeated, tag="2")]
+    pub file_coverages: ::prost::alloc::vec::Vec<FileCoverage>,
+}
+/// Describes aggregate code coverage for a collection of build or test Actions.
+/// A line or branch is covered if and only if it is covered in any of the build
+/// or test actions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AggregateCoverage {
+    /// Aggregated coverage info for all source files that the actions cover.
+    #[prost(message, repeated, tag="1")]
+    pub file_coverages: ::prost::alloc::vec::Vec<FileCoverage>,
+}
+/// Stores errors reading or parsing a file during post-processing.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FileProcessingErrors {
+    /// The uid of the File being read or parsed.
+    #[prost(string, tag="1")]
+    pub file_uid: ::prost::alloc::string::String,
+    /// What went wrong.
+    #[prost(message, repeated, tag="3")]
+    pub file_processing_errors: ::prost::alloc::vec::Vec<FileProcessingError>,
+}
+/// Stores an error reading or parsing a file during post-processing.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FileProcessingError {
+    /// The type of error that occurred.
+    #[prost(enumeration="FileProcessingErrorType", tag="1")]
+    pub r#type: i32,
+    /// Error message describing the problem.
+    #[prost(string, tag="2")]
+    pub message: ::prost::alloc::string::String,
+}
+/// Errors in file post-processing are categorized using this enum.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum FileProcessingErrorType {
+    /// Type unspecified or not listed here.
+    Unspecified = 0,
+    /// A read error occurred trying to read the file.
+    GenericReadError = 1,
+    /// There was an error trying to parse the file.
+    GenericParseError = 2,
+    /// File is exceeds size limit.
+    FileTooLarge = 3,
+    /// The result of parsing the file exceeded size limit.
+    OutputTooLarge = 4,
+    /// Read access to the file was denied by file system.
+    AccessDenied = 5,
+    /// Deadline exceeded trying to read the file.
+    DeadlineExceeded = 6,
+    /// File not found.
+    NotFound = 7,
+    /// File is empty but was expected to have content.
+    FileEmpty = 8,
 }
 /// An action that happened as part of a configured target. This action could be
 /// a build, a test, or another type of action, as specified in action_type
@@ -1220,96 +1162,6 @@ pub struct ConfiguredTestAttributes {
     #[prost(message, optional, tag="5")]
     pub timeout_duration: ::core::option::Option<::prost_types::Duration>,
 }
-/// This resource represents a set of Files and other (nested) FileSets.
-/// A FileSet is a node in the graph, and the file_sets field represents the
-/// outgoing edges. A resource may reference various nodes in the graph to
-/// represent the transitive closure of all files from those nodes.
-/// The FileSets must form a directed acyclic graph. The Upload API is unable to
-/// enforce that the graph is acyclic at write time, and if cycles are written,
-/// it may cause issues at read time.
-///
-/// A FileSet may be referenced by other resources in conjunction with Files.
-///
-/// Clients should prefer using Files directly under resources. Clients should
-/// not use FileSets unless their usecase requires a directed acyclic graph of
-/// Files.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FileSet {
-    /// The format of this FileSet resource name must be:
-    /// invocations/${INVOCATION_ID}/fileSets/${url_encode(FILE_SET_ID)}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The resource ID components that identify the file set. They must match the
-    /// resource name after proper encoding.
-    #[prost(message, optional, tag="2")]
-    pub id: ::core::option::Option<file_set::Id>,
-    /// List of names of other file sets that are referenced from this one.
-    /// Each name must point to a file set under the same invocation. The name
-    /// format must be: invocations/${INVOCATION_ID}/fileSets/${FILE_SET_ID}
-    #[prost(string, repeated, tag="3")]
-    pub file_sets: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Files that are contained within this file set.
-    /// The uid field in the file should be unique for the Invocation.
-    #[prost(message, repeated, tag="4")]
-    pub files: ::prost::alloc::vec::Vec<File>,
-}
-/// Nested message and enum types in `FileSet`.
-pub mod file_set {
-    /// The resource ID components that identify the FileSet.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Id {
-        /// The Invocation ID.
-        #[prost(string, tag="1")]
-        pub invocation_id: ::prost::alloc::string::String,
-        /// The FileSet ID.
-        #[prost(string, tag="2")]
-        pub file_set_id: ::prost::alloc::string::String,
-    }
-}
-/// Summary of line coverage
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LineCoverageSummary {
-    /// Number of lines instrumented for coverage.
-    #[prost(int32, tag="1")]
-    pub instrumented_line_count: i32,
-    /// Number of instrumented lines that were executed by the test.
-    #[prost(int32, tag="2")]
-    pub executed_line_count: i32,
-}
-/// Summary of branch coverage
-/// A branch may be:
-///  * not executed.  Counted only in total.
-///  * executed but not taken.  Appears in total and executed.
-///  * executed and taken.  Appears in all three fields.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BranchCoverageSummary {
-    /// The number of branches present in the file.
-    #[prost(int32, tag="1")]
-    pub total_branch_count: i32,
-    /// The number of branches executed out of the total branches present.
-    /// A branch is executed when its condition is evaluated.
-    /// This is <= total_branch_count as not all branches are executed.
-    #[prost(int32, tag="2")]
-    pub executed_branch_count: i32,
-    /// The number of branches taken out of the total branches executed.
-    /// A branch is taken when its condition is satisfied.
-    /// This is <= executed_branch_count as not all executed branches are taken.
-    #[prost(int32, tag="3")]
-    pub taken_branch_count: i32,
-}
-/// Summary of coverage in each language
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LanguageCoverageSummary {
-    /// This summary is for all files written in this programming language.
-    #[prost(enumeration="Language", tag="1")]
-    pub language: i32,
-    /// Summary of lines covered vs instrumented.
-    #[prost(message, optional, tag="2")]
-    pub line_summary: ::core::option::Option<LineCoverageSummary>,
-    /// Summary of branch coverage.
-    #[prost(message, optional, tag="3")]
-    pub branch_summary: ::core::option::Option<BranchCoverageSummary>,
-}
 /// An Invocation typically represents the result of running a tool. Each has a
 /// unique ID, typically generated by the server. Target resources under each
 /// Invocation contain the bulk of the data.
@@ -1595,24 +1447,6 @@ pub enum TestSize {
     Enormous = 4,
     /// Something that doesn't fit into the above categories.
     OtherSize = 5,
-}
-/// The upload metadata for an invocation
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UploadMetadata {
-    /// The name of the upload metadata.  Its format will be:
-    /// invocations/${INVOCATION_ID}/uploadMetadata
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The resume token of the last batch that was committed in the most recent
-    /// batch upload.
-    /// More information with resume_token could be found in
-    /// resultstore_upload.proto
-    #[prost(string, tag="2")]
-    pub resume_token: ::prost::alloc::string::String,
-    /// Client-specific data used to resume batch upload if an error occurs and
-    /// retry action is needed.
-    #[prost(bytes="bytes", tag="3")]
-    pub uploader_state: ::prost::bytes::Bytes,
 }
 /// Request passed into CreateInvocation
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3160,17 +2994,183 @@ pub mod result_store_upload_client {
         }
     }
 }
-/// The download metadata for an invocation
+/// Request object for GetFile
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DownloadMetadata {
-    /// The name of the download metadata.  Its format will be:
-    /// invocations/${INVOCATION_ID}/downloadMetadata
+pub struct GetFileRequest {
+    /// This corresponds to the uri field in the File message.
     #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Indicates the upload status of the invocation, whether it is
-    /// post-processing, or immutable, etc.
-    #[prost(enumeration="UploadStatus", tag="2")]
-    pub upload_status: i32,
+    pub uri: ::prost::alloc::string::String,
+    /// The offset for the first byte to return in the read, relative to the start
+    /// of the resource.
+    ///
+    /// A `read_offset` that is negative or greater than the size of the resource
+    /// will cause an `OUT_OF_RANGE` error.
+    #[prost(int64, tag="2")]
+    pub read_offset: i64,
+    /// The maximum number of `data` bytes the server is allowed to return in the
+    /// sum of all `ReadResponse` messages. A `read_limit` of zero indicates that
+    /// there is no limit, and a negative `read_limit` will cause an error.
+    ///
+    /// If the stream returns fewer bytes than allowed by the `read_limit` and no
+    /// error occurred, the stream includes all data from the `read_offset` to the
+    /// end of the resource.
+    #[prost(int64, tag="3")]
+    pub read_limit: i64,
+    /// Only applies if the referenced file is a known archive type (ar, jar, zip)
+    /// The above read_offset and read_limit fields are applied to this entry.
+    /// If this file is not an archive, INVALID_ARGUMENT is thrown.
+    #[prost(string, tag="4")]
+    pub archive_entry: ::prost::alloc::string::String,
+}
+/// Response object for GetFile
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetFileResponse {
+    /// The file data.
+    #[prost(bytes="bytes", tag="1")]
+    pub data: ::prost::bytes::Bytes,
+}
+/// Request object for GetFileTail
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetFileTailRequest {
+    /// This corresponds to the uri field in the File message.
+    #[prost(string, tag="1")]
+    pub uri: ::prost::alloc::string::String,
+    /// The offset for the first byte to return in the read, relative to the end
+    /// of the resource.
+    ///
+    /// A `read_offset` that is negative or greater than the size of the resource
+    /// will cause an `OUT_OF_RANGE` error.
+    #[prost(int64, tag="2")]
+    pub read_offset: i64,
+    /// The maximum number of `data` bytes the server is allowed to return. The
+    /// server will return bytes starting from the tail of the file.
+    ///
+    /// A `read_limit` of zero indicates that there is no limit, and a negative
+    /// `read_limit` will cause an error.
+    #[prost(int64, tag="3")]
+    pub read_limit: i64,
+    /// Only applies if the referenced file is a known archive type (ar, jar, zip)
+    /// The above read_offset and read_limit fields are applied to this entry.
+    /// If this file is not an archive, INVALID_ARGUMENT is thrown.
+    #[prost(string, tag="4")]
+    pub archive_entry: ::prost::alloc::string::String,
+}
+/// Response object for GetFileTail
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetFileTailResponse {
+    /// The file data, encoded with UTF-8.
+    #[prost(bytes="bytes", tag="1")]
+    pub data: ::prost::bytes::Bytes,
+}
+/// Generated client implementations.
+pub mod result_store_file_download_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// This API allows download of File messages referenced in
+    /// ResultStore resources.
+    #[derive(Debug, Clone)]
+    pub struct ResultStoreFileDownloadClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ResultStoreFileDownloadClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ResultStoreFileDownloadClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            ResultStoreFileDownloadClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Retrieves the File with the given uri.
+        /// returns a stream of bytes to be stitched together in order.
+        ///
+        /// An error will be reported in the following cases:
+        /// - If the File is not found.
+        /// - If the given File uri is badly formatted.
+        pub async fn get_file(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetFileRequest>,
+        ) -> Result<
+                tonic::Response<tonic::codec::Streaming<super::GetFileResponse>>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreFileDownload/GetFile",
+            );
+            self.inner.server_streaming(request.into_request(), path, codec).await
+        }
+        /// Retrieves the tail of a File with the given uri.
+        ///
+        /// An error will be reported in the following cases:
+        /// - If the File is not found.
+        /// - If the given File uri is badly formatted.
+        pub async fn get_file_tail(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetFileTailRequest>,
+        ) -> Result<tonic::Response<super::GetFileTailResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.resultstore.v2.ResultStoreFileDownload/GetFileTail",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
 }
 /// Request passed into GetInvocation
 #[derive(Clone, PartialEq, ::prost::Message)]

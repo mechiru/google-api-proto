@@ -1,54 +1,15 @@
-/// Prediction output format for Tabular Classification.
+/// Prediction output format for Tabular Regression.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TabularClassificationPredictionResult {
-    /// The name of the classes being classified, contains all possible values of
-    /// the target column.
-    #[prost(string, repeated, tag="1")]
-    pub classes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The model's confidence in each class being correct, higher
-    /// value means higher confidence. The N-th score corresponds to
-    /// the N-th class in classes.
-    #[prost(float, repeated, tag="2")]
-    pub scores: ::prost::alloc::vec::Vec<f32>,
-}
-/// Prediction output format for Video Classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoClassificationPredictionResult {
-    /// The resource ID of the AnnotationSpec that had been identified.
-    #[prost(string, tag="1")]
-    pub id: ::prost::alloc::string::String,
-    /// The display name of the AnnotationSpec that had been identified.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The type of the prediction. The requested types can be configured
-    /// via parameters. This will be one of
-    /// - segment-classification
-    /// - shot-classification
-    /// - one-sec-interval-classification
-    #[prost(string, tag="3")]
-    pub r#type: ::prost::alloc::string::String,
-    /// The beginning, inclusive, of the video's time segment in which the
-    /// AnnotationSpec has been identified. Expressed as a number of seconds as
-    /// measured from the start of the video, with fractions up to a microsecond
-    /// precision, and with "s" appended at the end. Note that for
-    /// 'segment-classification' prediction type, this equals the original
-    /// 'timeSegmentStart' from the input instance, for other types it is the
-    /// start of a shot or a 1 second interval respectively.
-    #[prost(message, optional, tag="4")]
-    pub time_segment_start: ::core::option::Option<::prost_types::Duration>,
-    /// The end, exclusive, of the video's time segment in which the
-    /// AnnotationSpec has been identified. Expressed as a number of seconds as
-    /// measured from the start of the video, with fractions up to a microsecond
-    /// precision, and with "s" appended at the end. Note that for
-    /// 'segment-classification' prediction type, this equals the original
-    /// 'timeSegmentEnd' from the input instance, for other types it is the end
-    /// of a shot or a 1 second interval respectively.
-    #[prost(message, optional, tag="5")]
-    pub time_segment_end: ::core::option::Option<::prost_types::Duration>,
-    /// The Model's confidence in correction of this prediction, higher
-    /// value means higher confidence.
-    #[prost(message, optional, tag="6")]
-    pub confidence: ::core::option::Option<f32>,
+pub struct TabularRegressionPredictionResult {
+    /// The regression value.
+    #[prost(float, tag="1")]
+    pub value: f32,
+    /// The lower bound of the prediction interval.
+    #[prost(float, tag="2")]
+    pub lower_bound: f32,
+    /// The upper bound of the prediction interval.
+    #[prost(float, tag="3")]
+    pub upper_bound: f32,
 }
 /// Prediction output format for Image and Text Classification.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -108,45 +69,6 @@ pub struct ImageSegmentationPredictionResult {
     #[prost(string, tag="2")]
     pub confidence_mask: ::prost::alloc::string::String,
 }
-/// Prediction output format for Tabular Regression.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TabularRegressionPredictionResult {
-    /// The regression value.
-    #[prost(float, tag="1")]
-    pub value: f32,
-    /// The lower bound of the prediction interval.
-    #[prost(float, tag="2")]
-    pub lower_bound: f32,
-    /// The upper bound of the prediction interval.
-    #[prost(float, tag="3")]
-    pub upper_bound: f32,
-}
-/// Prediction output format for Video Action Recognition.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoActionRecognitionPredictionResult {
-    /// The resource ID of the AnnotationSpec that had been identified.
-    #[prost(string, tag="1")]
-    pub id: ::prost::alloc::string::String,
-    /// The display name of the AnnotationSpec that had been identified.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The beginning, inclusive, of the video's time segment in which the
-    /// AnnotationSpec has been identified. Expressed as a number of seconds as
-    /// measured from the start of the video, with fractions up to a microsecond
-    /// precision, and with "s" appended at the end.
-    #[prost(message, optional, tag="4")]
-    pub time_segment_start: ::core::option::Option<::prost_types::Duration>,
-    /// The end, exclusive, of the video's time segment in which the
-    /// AnnotationSpec has been identified. Expressed as a number of seconds as
-    /// measured from the start of the video, with fractions up to a microsecond
-    /// precision, and with "s" appended at the end.
-    #[prost(message, optional, tag="5")]
-    pub time_segment_end: ::core::option::Option<::prost_types::Duration>,
-    /// The Model's confidence in correction of this prediction, higher
-    /// value means higher confidence.
-    #[prost(message, optional, tag="6")]
-    pub confidence: ::core::option::Option<f32>,
-}
 /// Prediction output format for Video Object Tracking.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VideoObjectTrackingPredictionResult {
@@ -205,6 +127,95 @@ pub mod video_object_tracking_prediction_result {
         pub y_max: ::core::option::Option<f32>,
     }
 }
+/// Prediction output format for Text Sentiment
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextSentimentPredictionResult {
+    /// The integer sentiment labels between 0 (inclusive) and sentimentMax label
+    /// (inclusive), while 0 maps to the least positive sentiment and
+    /// sentimentMax maps to the most positive one. The higher the score is, the
+    /// more positive the sentiment in the text snippet is. Note: sentimentMax is
+    /// an integer value between 1 (inclusive) and 10 (inclusive).
+    #[prost(int32, tag="1")]
+    pub sentiment: i32,
+}
+/// Prediction output format for Tabular Classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TabularClassificationPredictionResult {
+    /// The name of the classes being classified, contains all possible values of
+    /// the target column.
+    #[prost(string, repeated, tag="1")]
+    pub classes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The model's confidence in each class being correct, higher
+    /// value means higher confidence. The N-th score corresponds to
+    /// the N-th class in classes.
+    #[prost(float, repeated, tag="2")]
+    pub scores: ::prost::alloc::vec::Vec<f32>,
+}
+/// Prediction output format for Video Classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoClassificationPredictionResult {
+    /// The resource ID of the AnnotationSpec that had been identified.
+    #[prost(string, tag="1")]
+    pub id: ::prost::alloc::string::String,
+    /// The display name of the AnnotationSpec that had been identified.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The type of the prediction. The requested types can be configured
+    /// via parameters. This will be one of
+    /// - segment-classification
+    /// - shot-classification
+    /// - one-sec-interval-classification
+    #[prost(string, tag="3")]
+    pub r#type: ::prost::alloc::string::String,
+    /// The beginning, inclusive, of the video's time segment in which the
+    /// AnnotationSpec has been identified. Expressed as a number of seconds as
+    /// measured from the start of the video, with fractions up to a microsecond
+    /// precision, and with "s" appended at the end. Note that for
+    /// 'segment-classification' prediction type, this equals the original
+    /// 'timeSegmentStart' from the input instance, for other types it is the
+    /// start of a shot or a 1 second interval respectively.
+    #[prost(message, optional, tag="4")]
+    pub time_segment_start: ::core::option::Option<::prost_types::Duration>,
+    /// The end, exclusive, of the video's time segment in which the
+    /// AnnotationSpec has been identified. Expressed as a number of seconds as
+    /// measured from the start of the video, with fractions up to a microsecond
+    /// precision, and with "s" appended at the end. Note that for
+    /// 'segment-classification' prediction type, this equals the original
+    /// 'timeSegmentEnd' from the input instance, for other types it is the end
+    /// of a shot or a 1 second interval respectively.
+    #[prost(message, optional, tag="5")]
+    pub time_segment_end: ::core::option::Option<::prost_types::Duration>,
+    /// The Model's confidence in correction of this prediction, higher
+    /// value means higher confidence.
+    #[prost(message, optional, tag="6")]
+    pub confidence: ::core::option::Option<f32>,
+}
+/// Prediction output format for Video Action Recognition.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoActionRecognitionPredictionResult {
+    /// The resource ID of the AnnotationSpec that had been identified.
+    #[prost(string, tag="1")]
+    pub id: ::prost::alloc::string::String,
+    /// The display name of the AnnotationSpec that had been identified.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The beginning, inclusive, of the video's time segment in which the
+    /// AnnotationSpec has been identified. Expressed as a number of seconds as
+    /// measured from the start of the video, with fractions up to a microsecond
+    /// precision, and with "s" appended at the end.
+    #[prost(message, optional, tag="4")]
+    pub time_segment_start: ::core::option::Option<::prost_types::Duration>,
+    /// The end, exclusive, of the video's time segment in which the
+    /// AnnotationSpec has been identified. Expressed as a number of seconds as
+    /// measured from the start of the video, with fractions up to a microsecond
+    /// precision, and with "s" appended at the end.
+    #[prost(message, optional, tag="5")]
+    pub time_segment_end: ::core::option::Option<::prost_types::Duration>,
+    /// The Model's confidence in correction of this prediction, higher
+    /// value means higher confidence.
+    #[prost(message, optional, tag="6")]
+    pub confidence: ::core::option::Option<f32>,
+}
 /// Prediction output format for Text Extraction.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TextExtractionPredictionResult {
@@ -230,15 +241,4 @@ pub struct TextExtractionPredictionResult {
     /// value means higher confidence. Order matches the Ids.
     #[prost(float, repeated, tag="5")]
     pub confidences: ::prost::alloc::vec::Vec<f32>,
-}
-/// Prediction output format for Text Sentiment
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextSentimentPredictionResult {
-    /// The integer sentiment labels between 0 (inclusive) and sentimentMax label
-    /// (inclusive), while 0 maps to the least positive sentiment and
-    /// sentimentMax maps to the most positive one. The higher the score is, the
-    /// more positive the sentiment in the text snippet is. Note: sentimentMax is
-    /// an integer value between 1 (inclusive) and 10 (inclusive).
-    #[prost(int32, tag="1")]
-    pub sentiment: i32,
 }

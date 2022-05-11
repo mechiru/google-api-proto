@@ -1,174 +1,3 @@
-/// Defines a custom error message used by CreateScanConfig and UpdateScanConfig
-/// APIs when scan configuration validation fails. It is also reported as part of
-/// a ScanRunErrorTrace message if scan validation fails due to a scan
-/// configuration error.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ScanConfigError {
-    /// Output only. Indicates the reason code for a configuration failure.
-    #[prost(enumeration="scan_config_error::Code", tag="1")]
-    pub code: i32,
-    /// Output only. Indicates the full name of the ScanConfig field that triggers this error,
-    /// for example "scan_config.max_qps". This field is provided for
-    /// troubleshooting purposes only and its actual value can change in the
-    /// future.
-    #[prost(string, tag="2")]
-    pub field_name: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `ScanConfigError`.
-pub mod scan_config_error {
-    /// Output only.
-    /// Defines an error reason code.
-    /// Next id: 44
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Code {
-        /// There is no error.
-        Unspecified = 0,
-        /// Indicates an internal server error.
-        /// Please DO NOT USE THIS ERROR CODE unless the root cause is truly unknown.
-        InternalError = 1,
-        /// One of the seed URLs is an App Engine URL but we cannot validate the scan
-        /// settings due to an App Engine API backend error.
-        AppengineApiBackendError = 2,
-        /// One of the seed URLs is an App Engine URL but we cannot access the
-        /// App Engine API to validate scan settings.
-        AppengineApiNotAccessible = 3,
-        /// One of the seed URLs is an App Engine URL but the Default Host of the
-        /// App Engine is not set.
-        AppengineDefaultHostMissing = 4,
-        /// Google corporate accounts can not be used for scanning.
-        CannotUseGoogleComAccount = 6,
-        /// The account of the scan creator can not be used for scanning.
-        CannotUseOwnerAccount = 7,
-        /// This scan targets Compute Engine, but we cannot validate scan settings
-        /// due to a Compute Engine API backend error.
-        ComputeApiBackendError = 8,
-        /// This scan targets Compute Engine, but we cannot access the Compute Engine
-        /// API to validate the scan settings.
-        ComputeApiNotAccessible = 9,
-        /// The Custom Login URL does not belong to the current project.
-        CustomLoginUrlDoesNotBelongToCurrentProject = 10,
-        /// The Custom Login URL is malformed (can not be parsed).
-        CustomLoginUrlMalformed = 11,
-        /// The Custom Login URL is mapped to a non-routable IP address in DNS.
-        CustomLoginUrlMappedToNonRoutableAddress = 12,
-        /// The Custom Login URL is mapped to an IP address which is not reserved for
-        /// the current project.
-        CustomLoginUrlMappedToUnreservedAddress = 13,
-        /// The Custom Login URL has a non-routable IP address.
-        CustomLoginUrlHasNonRoutableIpAddress = 14,
-        /// The Custom Login URL has an IP address which is not reserved for the
-        /// current project.
-        CustomLoginUrlHasUnreservedIpAddress = 15,
-        /// Another scan with the same name (case-sensitive) already exists.
-        DuplicateScanName = 16,
-        /// A field is set to an invalid value.
-        InvalidFieldValue = 18,
-        /// There was an error trying to authenticate to the scan target.
-        FailedToAuthenticateToTarget = 19,
-        /// Finding type value is not specified in the list findings request.
-        FindingTypeUnspecified = 20,
-        /// Scan targets Compute Engine, yet current project was not whitelisted for
-        /// Google Compute Engine Scanning Alpha access.
-        ForbiddenToScanCompute = 21,
-        /// User tries to update managed scan
-        ForbiddenUpdateToManagedScan = 43,
-        /// The supplied filter is malformed. For example, it can not be parsed, does
-        /// not have a filter type in expression, or the same filter type appears
-        /// more than once.
-        MalformedFilter = 22,
-        /// The supplied resource name is malformed (can not be parsed).
-        MalformedResourceName = 23,
-        /// The current project is not in an active state.
-        ProjectInactive = 24,
-        /// A required field is not set.
-        RequiredField = 25,
-        /// Project id, scanconfig id, scanrun id, or finding id are not consistent
-        /// with each other in resource name.
-        ResourceNameInconsistent = 26,
-        /// The scan being requested to start is already running.
-        ScanAlreadyRunning = 27,
-        /// The scan that was requested to be stopped is not running.
-        ScanNotRunning = 28,
-        /// One of the seed URLs does not belong to the current project.
-        SeedUrlDoesNotBelongToCurrentProject = 29,
-        /// One of the seed URLs is malformed (can not be parsed).
-        SeedUrlMalformed = 30,
-        /// One of the seed URLs is mapped to a non-routable IP address in DNS.
-        SeedUrlMappedToNonRoutableAddress = 31,
-        /// One of the seed URLs is mapped to an IP address which is not reserved
-        /// for the current project.
-        SeedUrlMappedToUnreservedAddress = 32,
-        /// One of the seed URLs has on-routable IP address.
-        SeedUrlHasNonRoutableIpAddress = 33,
-        /// One of the seed URLs has an IP address that is not reserved
-        /// for the current project.
-        SeedUrlHasUnreservedIpAddress = 35,
-        /// The Web Security Scanner service account is not configured under the
-        /// project.
-        ServiceAccountNotConfigured = 36,
-        /// A project has reached the maximum number of scans.
-        TooManyScans = 37,
-        /// Resolving the details of the current project fails.
-        UnableToResolveProjectInfo = 38,
-        /// One or more blacklist patterns were in the wrong format.
-        UnsupportedBlacklistPatternFormat = 39,
-        /// The supplied filter is not supported.
-        UnsupportedFilter = 40,
-        /// The supplied finding type is not supported. For example, we do not
-        /// provide findings of the given finding type.
-        UnsupportedFindingType = 41,
-        /// The URL scheme of one or more of the supplied URLs is not supported.
-        UnsupportedUrlScheme = 42,
-    }
-}
-/// Output only.
-/// Defines an error trace message for a ScanRun.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ScanRunErrorTrace {
-    /// Output only. Indicates the error reason code.
-    #[prost(enumeration="scan_run_error_trace::Code", tag="1")]
-    pub code: i32,
-    /// Output only. If the scan encounters SCAN_CONFIG_ISSUE error, this field has the error
-    /// message encountered during scan configuration validation that is performed
-    /// before each scan run.
-    #[prost(message, optional, tag="2")]
-    pub scan_config_error: ::core::option::Option<ScanConfigError>,
-    /// Output only. If the scan encounters TOO_MANY_HTTP_ERRORS, this field indicates the most
-    /// common HTTP error code, if such is available. For example, if this code is
-    /// 404, the scan has encountered too many NOT_FOUND responses.
-    #[prost(int32, tag="3")]
-    pub most_common_http_error_code: i32,
-}
-/// Nested message and enum types in `ScanRunErrorTrace`.
-pub mod scan_run_error_trace {
-    /// Output only.
-    /// Defines an error reason code.
-    /// Next id: 7
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Code {
-        /// Default value is never used.
-        Unspecified = 0,
-        /// Indicates that the scan run failed due to an internal server error.
-        InternalError = 1,
-        /// Indicates a scan configuration error, usually due to outdated ScanConfig
-        /// settings, such as starting_urls or the DNS configuration.
-        ScanConfigIssue = 2,
-        /// Indicates an authentication error, usually due to outdated ScanConfig
-        /// authentication settings.
-        AuthenticationConfigIssue = 3,
-        /// Indicates a scan operation timeout, usually caused by a very large site.
-        TimedOutWhileScanning = 4,
-        /// Indicates that a scan encountered excessive redirects, either to
-        /// authentication or some other page outside of the scan scope.
-        TooManyRedirects = 5,
-        /// Indicates that a scan encountered numerous errors from the web site
-        /// pages. When available, most_common_http_error_code field indicates the
-        /// most common HTTP error code encountered during the scan.
-        TooManyHttpErrors = 6,
-    }
-}
 /// Output only.
 /// Defines a warning trace message for ScanRun. Warning traces provide customers
 /// with useful information that helps make the scanning process more effective.
@@ -201,268 +30,6 @@ pub mod scan_run_warning_trace {
         TooManyFuzzTasks = 3,
         /// Indicates that a scan is blocked by IAP.
         BlockedByIap = 4,
-    }
-}
-/// A ScanRun is a output-only resource representing an actual run of the scan.
-/// Next id: 12
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ScanRun {
-    /// Output only. The resource name of the ScanRun. The name follows the format of
-    /// 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'.
-    /// The ScanRun IDs are generated by the system.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. The execution state of the ScanRun.
-    #[prost(enumeration="scan_run::ExecutionState", tag="2")]
-    pub execution_state: i32,
-    /// Output only. The result state of the ScanRun. This field is only available after the
-    /// execution state reaches "FINISHED".
-    #[prost(enumeration="scan_run::ResultState", tag="3")]
-    pub result_state: i32,
-    /// Output only. The time at which the ScanRun started.
-    #[prost(message, optional, tag="4")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The time at which the ScanRun reached termination state - that the ScanRun
-    /// is either finished or stopped by user.
-    #[prost(message, optional, tag="5")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The number of URLs crawled during this ScanRun. If the scan is in progress,
-    /// the value represents the number of URLs crawled up to now.
-    #[prost(int64, tag="6")]
-    pub urls_crawled_count: i64,
-    /// Output only. The number of URLs tested during this ScanRun. If the scan is in progress,
-    /// the value represents the number of URLs tested up to now. The number of
-    /// URLs tested is usually larger than the number URLS crawled because
-    /// typically a crawled URL is tested with multiple test payloads.
-    #[prost(int64, tag="7")]
-    pub urls_tested_count: i64,
-    /// Output only. Whether the scan run has found any vulnerabilities.
-    #[prost(bool, tag="8")]
-    pub has_vulnerabilities: bool,
-    /// Output only. The percentage of total completion ranging from 0 to 100.
-    /// If the scan is in queue, the value is 0.
-    /// If the scan is running, the value ranges from 0 to 100.
-    /// If the scan is finished, the value is 100.
-    #[prost(int32, tag="9")]
-    pub progress_percent: i32,
-    /// Output only. If result_state is an ERROR, this field provides the primary reason for
-    /// scan's termination and more details, if such are available.
-    #[prost(message, optional, tag="10")]
-    pub error_trace: ::core::option::Option<ScanRunErrorTrace>,
-    /// Output only. A list of warnings, if such are encountered during this scan run.
-    #[prost(message, repeated, tag="11")]
-    pub warning_traces: ::prost::alloc::vec::Vec<ScanRunWarningTrace>,
-}
-/// Nested message and enum types in `ScanRun`.
-pub mod scan_run {
-    /// Types of ScanRun execution state.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ExecutionState {
-        /// Represents an invalid state caused by internal server error. This value
-        /// should never be returned.
-        Unspecified = 0,
-        /// The scan is waiting in the queue.
-        Queued = 1,
-        /// The scan is in progress.
-        Scanning = 2,
-        /// The scan is either finished or stopped by user.
-        Finished = 3,
-    }
-    /// Types of ScanRun result state.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ResultState {
-        /// Default value. This value is returned when the ScanRun is not yet
-        /// finished.
-        Unspecified = 0,
-        /// The scan finished without errors.
-        Success = 1,
-        /// The scan finished with errors.
-        Error = 2,
-        /// The scan was terminated by user.
-        Killed = 3,
-    }
-}
-/// A ScanConfig resource contains the configurations to launch a scan.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ScanConfig {
-    /// The resource name of the ScanConfig. The name follows the format of
-    /// 'projects/{projectId}/scanConfigs/{scanConfigId}'. The ScanConfig IDs are
-    /// generated by the system.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The user provided display name of the ScanConfig.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The maximum QPS during scanning. A valid value ranges from 5 to 20
-    /// inclusively. If the field is unspecified or its value is set 0, server will
-    /// default to 15. Other values outside of [5, 20] range will be rejected with
-    /// INVALID_ARGUMENT error.
-    #[prost(int32, tag="3")]
-    pub max_qps: i32,
-    /// Required. The starting URLs from which the scanner finds site pages.
-    #[prost(string, repeated, tag="4")]
-    pub starting_urls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The authentication configuration. If specified, service will use the
-    /// authentication configuration during scanning.
-    #[prost(message, optional, tag="5")]
-    pub authentication: ::core::option::Option<scan_config::Authentication>,
-    /// The user agent used during scanning.
-    #[prost(enumeration="scan_config::UserAgent", tag="6")]
-    pub user_agent: i32,
-    /// The excluded URL patterns as described in
-    /// <https://cloud.google.com/security-command-center/docs/how-to-use-web-security-scanner#excluding_urls>
-    #[prost(string, repeated, tag="7")]
-    pub blacklist_patterns: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The schedule of the ScanConfig.
-    #[prost(message, optional, tag="8")]
-    pub schedule: ::core::option::Option<scan_config::Schedule>,
-    /// Controls export of scan configurations and results to Security
-    /// Command Center.
-    #[prost(enumeration="scan_config::ExportToSecurityCommandCenter", tag="10")]
-    pub export_to_security_command_center: i32,
-    /// The risk level selected for the scan
-    #[prost(enumeration="scan_config::RiskLevel", tag="12")]
-    pub risk_level: i32,
-    /// Whether the scan config is managed by Web Security Scanner, output
-    /// only.
-    #[prost(bool, tag="13")]
-    pub managed_scan: bool,
-    /// Whether the scan configuration has enabled static IP address scan feature.
-    /// If enabled, the scanner will access applications from static IP addresses.
-    #[prost(bool, tag="14")]
-    pub static_ip_scan: bool,
-}
-/// Nested message and enum types in `ScanConfig`.
-pub mod scan_config {
-    /// Scan authentication configuration.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Authentication {
-        /// Required.
-        /// Authentication configuration
-        #[prost(oneof="authentication::Authentication", tags="1, 2, 4")]
-        pub authentication: ::core::option::Option<authentication::Authentication>,
-    }
-    /// Nested message and enum types in `Authentication`.
-    pub mod authentication {
-        /// Describes authentication configuration that uses a Google account.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct GoogleAccount {
-            /// Required. The user name of the Google account.
-            #[prost(string, tag="1")]
-            pub username: ::prost::alloc::string::String,
-            /// Required. Input only. The password of the Google account. The credential is stored encrypted
-            /// and not returned in any response nor included in audit logs.
-            #[prost(string, tag="2")]
-            pub password: ::prost::alloc::string::String,
-        }
-        /// Describes authentication configuration that uses a custom account.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct CustomAccount {
-            /// Required. The user name of the custom account.
-            #[prost(string, tag="1")]
-            pub username: ::prost::alloc::string::String,
-            /// Required. Input only. The password of the custom account. The credential is stored encrypted
-            /// and not returned in any response nor included in audit logs.
-            #[prost(string, tag="2")]
-            pub password: ::prost::alloc::string::String,
-            /// Required. The login form URL of the website.
-            #[prost(string, tag="3")]
-            pub login_url: ::prost::alloc::string::String,
-        }
-        /// Describes authentication configuration for Identity-Aware-Proxy (IAP).
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct IapCredential {
-            /// Identity-Aware-Proxy (IAP) Authentication Configuration
-            #[prost(oneof="iap_credential::IapCredentials", tags="1")]
-            pub iap_credentials: ::core::option::Option<iap_credential::IapCredentials>,
-        }
-        /// Nested message and enum types in `IapCredential`.
-        pub mod iap_credential {
-            /// Describes authentication configuration when Web-Security-Scanner
-            /// service account is added in Identity-Aware-Proxy (IAP) access policies.
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            pub struct IapTestServiceAccountInfo {
-                /// Required. Describes OAuth2 client id of resources protected by
-                /// Identity-Aware-Proxy (IAP).
-                #[prost(string, tag="1")]
-                pub target_audience_client_id: ::prost::alloc::string::String,
-            }
-            /// Identity-Aware-Proxy (IAP) Authentication Configuration
-            #[derive(Clone, PartialEq, ::prost::Oneof)]
-            pub enum IapCredentials {
-                /// Authentication configuration when Web-Security-Scanner service
-                /// account is added in Identity-Aware-Proxy (IAP) access policies.
-                #[prost(message, tag="1")]
-                IapTestServiceAccountInfo(IapTestServiceAccountInfo),
-            }
-        }
-        /// Required.
-        /// Authentication configuration
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum Authentication {
-            /// Authentication using a Google account.
-            #[prost(message, tag="1")]
-            GoogleAccount(GoogleAccount),
-            /// Authentication using a custom account.
-            #[prost(message, tag="2")]
-            CustomAccount(CustomAccount),
-            /// Authentication using Identity-Aware-Proxy (IAP).
-            #[prost(message, tag="4")]
-            IapCredential(IapCredential),
-        }
-    }
-    /// Scan schedule configuration.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Schedule {
-        /// A timestamp indicates when the next run will be scheduled. The value is
-        /// refreshed by the server after each run. If unspecified, it will default
-        /// to current server time, which means the scan will be scheduled to start
-        /// immediately.
-        #[prost(message, optional, tag="1")]
-        pub schedule_time: ::core::option::Option<::prost_types::Timestamp>,
-        /// Required. The duration of time between executions in days.
-        #[prost(int32, tag="2")]
-        pub interval_duration_days: i32,
-    }
-    /// Type of user agents used for scanning.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum UserAgent {
-        /// The user agent is unknown. Service will default to CHROME_LINUX.
-        Unspecified = 0,
-        /// Chrome on Linux. This is the service default if unspecified.
-        ChromeLinux = 1,
-        /// Chrome on Android.
-        ChromeAndroid = 2,
-        /// Safari on IPhone.
-        SafariIphone = 3,
-    }
-    /// Scan risk levels supported by Web Security Scanner. LOW impact
-    /// scanning will minimize requests with the potential to modify data. To
-    /// achieve the maximum scan coverage, NORMAL risk level is recommended.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RiskLevel {
-        /// Use default, which is NORMAL.
-        Unspecified = 0,
-        /// Normal scanning (Recommended)
-        Normal = 1,
-        /// Lower impact scanning
-        Low = 2,
-    }
-    /// Controls export of scan configurations and results to Security
-    /// Command Center.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ExportToSecurityCommandCenter {
-        /// Use default, which is ENABLED.
-        Unspecified = 0,
-        /// Export results of this scan to Security Command Center.
-        Enabled = 1,
-        /// Do not export results of this scan to Security Command Center.
-        Disabled = 2,
     }
 }
 /// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web
@@ -698,6 +265,439 @@ pub struct FindingTypeStats {
     /// Output only. The count of findings belonging to this finding type.
     #[prost(int32, tag="2")]
     pub finding_count: i32,
+}
+/// A ScanConfig resource contains the configurations to launch a scan.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ScanConfig {
+    /// The resource name of the ScanConfig. The name follows the format of
+    /// 'projects/{projectId}/scanConfigs/{scanConfigId}'. The ScanConfig IDs are
+    /// generated by the system.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The user provided display name of the ScanConfig.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The maximum QPS during scanning. A valid value ranges from 5 to 20
+    /// inclusively. If the field is unspecified or its value is set 0, server will
+    /// default to 15. Other values outside of [5, 20] range will be rejected with
+    /// INVALID_ARGUMENT error.
+    #[prost(int32, tag="3")]
+    pub max_qps: i32,
+    /// Required. The starting URLs from which the scanner finds site pages.
+    #[prost(string, repeated, tag="4")]
+    pub starting_urls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The authentication configuration. If specified, service will use the
+    /// authentication configuration during scanning.
+    #[prost(message, optional, tag="5")]
+    pub authentication: ::core::option::Option<scan_config::Authentication>,
+    /// The user agent used during scanning.
+    #[prost(enumeration="scan_config::UserAgent", tag="6")]
+    pub user_agent: i32,
+    /// The excluded URL patterns as described in
+    /// <https://cloud.google.com/security-command-center/docs/how-to-use-web-security-scanner#excluding_urls>
+    #[prost(string, repeated, tag="7")]
+    pub blacklist_patterns: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The schedule of the ScanConfig.
+    #[prost(message, optional, tag="8")]
+    pub schedule: ::core::option::Option<scan_config::Schedule>,
+    /// Controls export of scan configurations and results to Security
+    /// Command Center.
+    #[prost(enumeration="scan_config::ExportToSecurityCommandCenter", tag="10")]
+    pub export_to_security_command_center: i32,
+    /// The risk level selected for the scan
+    #[prost(enumeration="scan_config::RiskLevel", tag="12")]
+    pub risk_level: i32,
+    /// Whether the scan config is managed by Web Security Scanner, output
+    /// only.
+    #[prost(bool, tag="13")]
+    pub managed_scan: bool,
+    /// Whether the scan configuration has enabled static IP address scan feature.
+    /// If enabled, the scanner will access applications from static IP addresses.
+    #[prost(bool, tag="14")]
+    pub static_ip_scan: bool,
+}
+/// Nested message and enum types in `ScanConfig`.
+pub mod scan_config {
+    /// Scan authentication configuration.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Authentication {
+        /// Required.
+        /// Authentication configuration
+        #[prost(oneof="authentication::Authentication", tags="1, 2, 4")]
+        pub authentication: ::core::option::Option<authentication::Authentication>,
+    }
+    /// Nested message and enum types in `Authentication`.
+    pub mod authentication {
+        /// Describes authentication configuration that uses a Google account.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct GoogleAccount {
+            /// Required. The user name of the Google account.
+            #[prost(string, tag="1")]
+            pub username: ::prost::alloc::string::String,
+            /// Required. Input only. The password of the Google account. The credential is stored encrypted
+            /// and not returned in any response nor included in audit logs.
+            #[prost(string, tag="2")]
+            pub password: ::prost::alloc::string::String,
+        }
+        /// Describes authentication configuration that uses a custom account.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct CustomAccount {
+            /// Required. The user name of the custom account.
+            #[prost(string, tag="1")]
+            pub username: ::prost::alloc::string::String,
+            /// Required. Input only. The password of the custom account. The credential is stored encrypted
+            /// and not returned in any response nor included in audit logs.
+            #[prost(string, tag="2")]
+            pub password: ::prost::alloc::string::String,
+            /// Required. The login form URL of the website.
+            #[prost(string, tag="3")]
+            pub login_url: ::prost::alloc::string::String,
+        }
+        /// Describes authentication configuration for Identity-Aware-Proxy (IAP).
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct IapCredential {
+            /// Identity-Aware-Proxy (IAP) Authentication Configuration
+            #[prost(oneof="iap_credential::IapCredentials", tags="1")]
+            pub iap_credentials: ::core::option::Option<iap_credential::IapCredentials>,
+        }
+        /// Nested message and enum types in `IapCredential`.
+        pub mod iap_credential {
+            /// Describes authentication configuration when Web-Security-Scanner
+            /// service account is added in Identity-Aware-Proxy (IAP) access policies.
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            pub struct IapTestServiceAccountInfo {
+                /// Required. Describes OAuth2 client id of resources protected by
+                /// Identity-Aware-Proxy (IAP).
+                #[prost(string, tag="1")]
+                pub target_audience_client_id: ::prost::alloc::string::String,
+            }
+            /// Identity-Aware-Proxy (IAP) Authentication Configuration
+            #[derive(Clone, PartialEq, ::prost::Oneof)]
+            pub enum IapCredentials {
+                /// Authentication configuration when Web-Security-Scanner service
+                /// account is added in Identity-Aware-Proxy (IAP) access policies.
+                #[prost(message, tag="1")]
+                IapTestServiceAccountInfo(IapTestServiceAccountInfo),
+            }
+        }
+        /// Required.
+        /// Authentication configuration
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Authentication {
+            /// Authentication using a Google account.
+            #[prost(message, tag="1")]
+            GoogleAccount(GoogleAccount),
+            /// Authentication using a custom account.
+            #[prost(message, tag="2")]
+            CustomAccount(CustomAccount),
+            /// Authentication using Identity-Aware-Proxy (IAP).
+            #[prost(message, tag="4")]
+            IapCredential(IapCredential),
+        }
+    }
+    /// Scan schedule configuration.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Schedule {
+        /// A timestamp indicates when the next run will be scheduled. The value is
+        /// refreshed by the server after each run. If unspecified, it will default
+        /// to current server time, which means the scan will be scheduled to start
+        /// immediately.
+        #[prost(message, optional, tag="1")]
+        pub schedule_time: ::core::option::Option<::prost_types::Timestamp>,
+        /// Required. The duration of time between executions in days.
+        #[prost(int32, tag="2")]
+        pub interval_duration_days: i32,
+    }
+    /// Type of user agents used for scanning.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum UserAgent {
+        /// The user agent is unknown. Service will default to CHROME_LINUX.
+        Unspecified = 0,
+        /// Chrome on Linux. This is the service default if unspecified.
+        ChromeLinux = 1,
+        /// Chrome on Android.
+        ChromeAndroid = 2,
+        /// Safari on IPhone.
+        SafariIphone = 3,
+    }
+    /// Scan risk levels supported by Web Security Scanner. LOW impact
+    /// scanning will minimize requests with the potential to modify data. To
+    /// achieve the maximum scan coverage, NORMAL risk level is recommended.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RiskLevel {
+        /// Use default, which is NORMAL.
+        Unspecified = 0,
+        /// Normal scanning (Recommended)
+        Normal = 1,
+        /// Lower impact scanning
+        Low = 2,
+    }
+    /// Controls export of scan configurations and results to Security
+    /// Command Center.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ExportToSecurityCommandCenter {
+        /// Use default, which is ENABLED.
+        Unspecified = 0,
+        /// Export results of this scan to Security Command Center.
+        Enabled = 1,
+        /// Do not export results of this scan to Security Command Center.
+        Disabled = 2,
+    }
+}
+/// Defines a custom error message used by CreateScanConfig and UpdateScanConfig
+/// APIs when scan configuration validation fails. It is also reported as part of
+/// a ScanRunErrorTrace message if scan validation fails due to a scan
+/// configuration error.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ScanConfigError {
+    /// Output only. Indicates the reason code for a configuration failure.
+    #[prost(enumeration="scan_config_error::Code", tag="1")]
+    pub code: i32,
+    /// Output only. Indicates the full name of the ScanConfig field that triggers this error,
+    /// for example "scan_config.max_qps". This field is provided for
+    /// troubleshooting purposes only and its actual value can change in the
+    /// future.
+    #[prost(string, tag="2")]
+    pub field_name: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `ScanConfigError`.
+pub mod scan_config_error {
+    /// Output only.
+    /// Defines an error reason code.
+    /// Next id: 44
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Code {
+        /// There is no error.
+        Unspecified = 0,
+        /// Indicates an internal server error.
+        /// Please DO NOT USE THIS ERROR CODE unless the root cause is truly unknown.
+        InternalError = 1,
+        /// One of the seed URLs is an App Engine URL but we cannot validate the scan
+        /// settings due to an App Engine API backend error.
+        AppengineApiBackendError = 2,
+        /// One of the seed URLs is an App Engine URL but we cannot access the
+        /// App Engine API to validate scan settings.
+        AppengineApiNotAccessible = 3,
+        /// One of the seed URLs is an App Engine URL but the Default Host of the
+        /// App Engine is not set.
+        AppengineDefaultHostMissing = 4,
+        /// Google corporate accounts can not be used for scanning.
+        CannotUseGoogleComAccount = 6,
+        /// The account of the scan creator can not be used for scanning.
+        CannotUseOwnerAccount = 7,
+        /// This scan targets Compute Engine, but we cannot validate scan settings
+        /// due to a Compute Engine API backend error.
+        ComputeApiBackendError = 8,
+        /// This scan targets Compute Engine, but we cannot access the Compute Engine
+        /// API to validate the scan settings.
+        ComputeApiNotAccessible = 9,
+        /// The Custom Login URL does not belong to the current project.
+        CustomLoginUrlDoesNotBelongToCurrentProject = 10,
+        /// The Custom Login URL is malformed (can not be parsed).
+        CustomLoginUrlMalformed = 11,
+        /// The Custom Login URL is mapped to a non-routable IP address in DNS.
+        CustomLoginUrlMappedToNonRoutableAddress = 12,
+        /// The Custom Login URL is mapped to an IP address which is not reserved for
+        /// the current project.
+        CustomLoginUrlMappedToUnreservedAddress = 13,
+        /// The Custom Login URL has a non-routable IP address.
+        CustomLoginUrlHasNonRoutableIpAddress = 14,
+        /// The Custom Login URL has an IP address which is not reserved for the
+        /// current project.
+        CustomLoginUrlHasUnreservedIpAddress = 15,
+        /// Another scan with the same name (case-sensitive) already exists.
+        DuplicateScanName = 16,
+        /// A field is set to an invalid value.
+        InvalidFieldValue = 18,
+        /// There was an error trying to authenticate to the scan target.
+        FailedToAuthenticateToTarget = 19,
+        /// Finding type value is not specified in the list findings request.
+        FindingTypeUnspecified = 20,
+        /// Scan targets Compute Engine, yet current project was not whitelisted for
+        /// Google Compute Engine Scanning Alpha access.
+        ForbiddenToScanCompute = 21,
+        /// User tries to update managed scan
+        ForbiddenUpdateToManagedScan = 43,
+        /// The supplied filter is malformed. For example, it can not be parsed, does
+        /// not have a filter type in expression, or the same filter type appears
+        /// more than once.
+        MalformedFilter = 22,
+        /// The supplied resource name is malformed (can not be parsed).
+        MalformedResourceName = 23,
+        /// The current project is not in an active state.
+        ProjectInactive = 24,
+        /// A required field is not set.
+        RequiredField = 25,
+        /// Project id, scanconfig id, scanrun id, or finding id are not consistent
+        /// with each other in resource name.
+        ResourceNameInconsistent = 26,
+        /// The scan being requested to start is already running.
+        ScanAlreadyRunning = 27,
+        /// The scan that was requested to be stopped is not running.
+        ScanNotRunning = 28,
+        /// One of the seed URLs does not belong to the current project.
+        SeedUrlDoesNotBelongToCurrentProject = 29,
+        /// One of the seed URLs is malformed (can not be parsed).
+        SeedUrlMalformed = 30,
+        /// One of the seed URLs is mapped to a non-routable IP address in DNS.
+        SeedUrlMappedToNonRoutableAddress = 31,
+        /// One of the seed URLs is mapped to an IP address which is not reserved
+        /// for the current project.
+        SeedUrlMappedToUnreservedAddress = 32,
+        /// One of the seed URLs has on-routable IP address.
+        SeedUrlHasNonRoutableIpAddress = 33,
+        /// One of the seed URLs has an IP address that is not reserved
+        /// for the current project.
+        SeedUrlHasUnreservedIpAddress = 35,
+        /// The Web Security Scanner service account is not configured under the
+        /// project.
+        ServiceAccountNotConfigured = 36,
+        /// A project has reached the maximum number of scans.
+        TooManyScans = 37,
+        /// Resolving the details of the current project fails.
+        UnableToResolveProjectInfo = 38,
+        /// One or more blacklist patterns were in the wrong format.
+        UnsupportedBlacklistPatternFormat = 39,
+        /// The supplied filter is not supported.
+        UnsupportedFilter = 40,
+        /// The supplied finding type is not supported. For example, we do not
+        /// provide findings of the given finding type.
+        UnsupportedFindingType = 41,
+        /// The URL scheme of one or more of the supplied URLs is not supported.
+        UnsupportedUrlScheme = 42,
+    }
+}
+/// Output only.
+/// Defines an error trace message for a ScanRun.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ScanRunErrorTrace {
+    /// Output only. Indicates the error reason code.
+    #[prost(enumeration="scan_run_error_trace::Code", tag="1")]
+    pub code: i32,
+    /// Output only. If the scan encounters SCAN_CONFIG_ISSUE error, this field has the error
+    /// message encountered during scan configuration validation that is performed
+    /// before each scan run.
+    #[prost(message, optional, tag="2")]
+    pub scan_config_error: ::core::option::Option<ScanConfigError>,
+    /// Output only. If the scan encounters TOO_MANY_HTTP_ERRORS, this field indicates the most
+    /// common HTTP error code, if such is available. For example, if this code is
+    /// 404, the scan has encountered too many NOT_FOUND responses.
+    #[prost(int32, tag="3")]
+    pub most_common_http_error_code: i32,
+}
+/// Nested message and enum types in `ScanRunErrorTrace`.
+pub mod scan_run_error_trace {
+    /// Output only.
+    /// Defines an error reason code.
+    /// Next id: 7
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Code {
+        /// Default value is never used.
+        Unspecified = 0,
+        /// Indicates that the scan run failed due to an internal server error.
+        InternalError = 1,
+        /// Indicates a scan configuration error, usually due to outdated ScanConfig
+        /// settings, such as starting_urls or the DNS configuration.
+        ScanConfigIssue = 2,
+        /// Indicates an authentication error, usually due to outdated ScanConfig
+        /// authentication settings.
+        AuthenticationConfigIssue = 3,
+        /// Indicates a scan operation timeout, usually caused by a very large site.
+        TimedOutWhileScanning = 4,
+        /// Indicates that a scan encountered excessive redirects, either to
+        /// authentication or some other page outside of the scan scope.
+        TooManyRedirects = 5,
+        /// Indicates that a scan encountered numerous errors from the web site
+        /// pages. When available, most_common_http_error_code field indicates the
+        /// most common HTTP error code encountered during the scan.
+        TooManyHttpErrors = 6,
+    }
+}
+/// A ScanRun is a output-only resource representing an actual run of the scan.
+/// Next id: 12
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ScanRun {
+    /// Output only. The resource name of the ScanRun. The name follows the format of
+    /// 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'.
+    /// The ScanRun IDs are generated by the system.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. The execution state of the ScanRun.
+    #[prost(enumeration="scan_run::ExecutionState", tag="2")]
+    pub execution_state: i32,
+    /// Output only. The result state of the ScanRun. This field is only available after the
+    /// execution state reaches "FINISHED".
+    #[prost(enumeration="scan_run::ResultState", tag="3")]
+    pub result_state: i32,
+    /// Output only. The time at which the ScanRun started.
+    #[prost(message, optional, tag="4")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The time at which the ScanRun reached termination state - that the ScanRun
+    /// is either finished or stopped by user.
+    #[prost(message, optional, tag="5")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The number of URLs crawled during this ScanRun. If the scan is in progress,
+    /// the value represents the number of URLs crawled up to now.
+    #[prost(int64, tag="6")]
+    pub urls_crawled_count: i64,
+    /// Output only. The number of URLs tested during this ScanRun. If the scan is in progress,
+    /// the value represents the number of URLs tested up to now. The number of
+    /// URLs tested is usually larger than the number URLS crawled because
+    /// typically a crawled URL is tested with multiple test payloads.
+    #[prost(int64, tag="7")]
+    pub urls_tested_count: i64,
+    /// Output only. Whether the scan run has found any vulnerabilities.
+    #[prost(bool, tag="8")]
+    pub has_vulnerabilities: bool,
+    /// Output only. The percentage of total completion ranging from 0 to 100.
+    /// If the scan is in queue, the value is 0.
+    /// If the scan is running, the value ranges from 0 to 100.
+    /// If the scan is finished, the value is 100.
+    #[prost(int32, tag="9")]
+    pub progress_percent: i32,
+    /// Output only. If result_state is an ERROR, this field provides the primary reason for
+    /// scan's termination and more details, if such are available.
+    #[prost(message, optional, tag="10")]
+    pub error_trace: ::core::option::Option<ScanRunErrorTrace>,
+    /// Output only. A list of warnings, if such are encountered during this scan run.
+    #[prost(message, repeated, tag="11")]
+    pub warning_traces: ::prost::alloc::vec::Vec<ScanRunWarningTrace>,
+}
+/// Nested message and enum types in `ScanRun`.
+pub mod scan_run {
+    /// Types of ScanRun execution state.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ExecutionState {
+        /// Represents an invalid state caused by internal server error. This value
+        /// should never be returned.
+        Unspecified = 0,
+        /// The scan is waiting in the queue.
+        Queued = 1,
+        /// The scan is in progress.
+        Scanning = 2,
+        /// The scan is either finished or stopped by user.
+        Finished = 3,
+    }
+    /// Types of ScanRun result state.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ResultState {
+        /// Default value. This value is returned when the ScanRun is not yet
+        /// finished.
+        Unspecified = 0,
+        /// The scan finished without errors.
+        Success = 1,
+        /// The scan finished with errors.
+        Error = 2,
+        /// The scan was terminated by user.
+        Killed = 3,
+    }
 }
 /// Request for the `CreateScanConfig` method.
 #[derive(Clone, PartialEq, ::prost::Message)]

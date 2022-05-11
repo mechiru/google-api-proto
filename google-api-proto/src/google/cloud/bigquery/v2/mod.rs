@@ -1,3 +1,11 @@
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EncryptionConfiguration {
+    /// Optional. Describes the Cloud KMS encryption key that will be used to
+    /// protect destination BigQuery table. The BigQuery Service Account associated
+    /// with your project requires access to this encryption key.
+    #[prost(message, optional, tag="1")]
+    pub kms_key_name: ::core::option::Option<::prost::alloc::string::String>,
+}
 /// Id path of a model.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ModelReference {
@@ -12,14 +20,6 @@ pub struct ModelReference {
     /// length is 1,024 characters.
     #[prost(string, tag="3")]
     pub model_id: ::prost::alloc::string::String,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EncryptionConfiguration {
-    /// Optional. Describes the Cloud KMS encryption key that will be used to
-    /// protect destination BigQuery table. The BigQuery Service Account associated
-    /// with your project requires access to this encryption key.
-    #[prost(message, optional, tag="1")]
-    pub kms_key_name: ::core::option::Option<::prost::alloc::string::String>,
 }
 /// The type of a variable, e.g., a function argument.
 /// Examples:

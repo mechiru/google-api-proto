@@ -1,48 +1,3 @@
-/// Restore as stored in Platform log. It's used to log the update details of a
-/// updateRestore request, so only mutable and non-output_only fields are
-/// included here..
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LoggedRestore {
-    /// Full name of the Backup resource this Restore resource used to restore
-    /// from. Format: projects/*/locations/*/backupPlans/*/backups/*.
-    #[prost(string, tag="1")]
-    pub backup: ::prost::alloc::string::String,
-    /// GCP Labels.
-    #[prost(btree_map="string, string", tag="2")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// User specified descriptive string for this Restore.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    /// The current state of the Restore.
-    #[prost(enumeration="logged_restore::State", tag="4")]
-    pub state: i32,
-    /// Human-readable description of why the Restore is in its current state.
-    #[prost(string, tag="5")]
-    pub state_reason: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `LoggedRestore`.
-pub mod logged_restore {
-    /// Possible values for state of the Restore.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// The Restore resource is in the process of being created.
-        Unspecified = 0,
-        /// The Restore resource has been created and the associated RestoreJob
-        /// Kubernetes resource has been injected into target cluster.
-        Creating = 1,
-        /// The gkebackup agent in the cluster has begun executing the restore
-        /// operation.
-        InProgress = 2,
-        /// The restore operation has completed successfully. Restored workloads may
-        /// not yet be operational.
-        Succeeded = 3,
-        /// The restore operation has failed.
-        Failed = 4,
-        /// This Restore resource is in the process of being deleted.
-        Deleting = 5,
-    }
-}
 /// Namespaces, list of namespaces
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Namespaces {
@@ -291,6 +246,51 @@ pub mod restore_config {
         /// restored.
         #[prost(message, tag="7")]
         SelectedApplications(super::NamespacedNames),
+    }
+}
+/// Restore as stored in Platform log. It's used to log the update details of a
+/// updateRestore request, so only mutable and non-output_only fields are
+/// included here..
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LoggedRestore {
+    /// Full name of the Backup resource this Restore resource used to restore
+    /// from. Format: projects/*/locations/*/backupPlans/*/backups/*.
+    #[prost(string, tag="1")]
+    pub backup: ::prost::alloc::string::String,
+    /// GCP Labels.
+    #[prost(btree_map="string, string", tag="2")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// User specified descriptive string for this Restore.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    /// The current state of the Restore.
+    #[prost(enumeration="logged_restore::State", tag="4")]
+    pub state: i32,
+    /// Human-readable description of why the Restore is in its current state.
+    #[prost(string, tag="5")]
+    pub state_reason: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `LoggedRestore`.
+pub mod logged_restore {
+    /// Possible values for state of the Restore.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// The Restore resource is in the process of being created.
+        Unspecified = 0,
+        /// The Restore resource has been created and the associated RestoreJob
+        /// Kubernetes resource has been injected into target cluster.
+        Creating = 1,
+        /// The gkebackup agent in the cluster has begun executing the restore
+        /// operation.
+        InProgress = 2,
+        /// The restore operation has completed successfully. Restored workloads may
+        /// not yet be operational.
+        Succeeded = 3,
+        /// The restore operation has failed.
+        Failed = 4,
+        /// This Restore resource is in the process of being deleted.
+        Deleting = 5,
     }
 }
 /// Backup as stored in Platform log. It's used to log the details of

@@ -310,6 +310,75 @@ pub mod literal {
         BytesValue(::prost::bytes::Bytes),
     }
 }
+/// A declaration.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Decl {
+    /// The id of the declaration.
+    #[prost(int32, tag="1")]
+    pub id: i32,
+    /// The name of the declaration.
+    #[prost(string, tag="2")]
+    pub name: ::prost::alloc::string::String,
+    /// The documentation string for the declaration.
+    #[prost(string, tag="3")]
+    pub doc: ::prost::alloc::string::String,
+    /// The kind of declaration.
+    #[prost(oneof="decl::Kind", tags="4, 5")]
+    pub kind: ::core::option::Option<decl::Kind>,
+}
+/// Nested message and enum types in `Decl`.
+pub mod decl {
+    /// The kind of declaration.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Kind {
+        /// An identifier declaration.
+        #[prost(message, tag="4")]
+        Ident(super::IdentDecl),
+        /// A function declaration.
+        #[prost(message, tag="5")]
+        Function(super::FunctionDecl),
+    }
+}
+/// The declared type of a variable.
+///
+/// Extends runtime type values with extra information used for type checking
+/// and dispatching.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeclType {
+    /// The expression id of the declared type, if applicable.
+    #[prost(int32, tag="1")]
+    pub id: i32,
+    /// The type name, e.g. 'int', 'my.type.Type' or 'T'
+    #[prost(string, tag="2")]
+    pub r#type: ::prost::alloc::string::String,
+    /// An ordered list of type parameters, e.g. `<string, int>`.
+    /// Only applies to a subset of types, e.g. `map`, `list`.
+    #[prost(message, repeated, tag="4")]
+    pub type_params: ::prost::alloc::vec::Vec<DeclType>,
+}
+/// An identifier declaration.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct IdentDecl {
+    /// Optional type of the identifier.
+    #[prost(message, optional, tag="3")]
+    pub r#type: ::core::option::Option<DeclType>,
+    /// Optional value of the identifier.
+    #[prost(message, optional, tag="4")]
+    pub value: ::core::option::Option<Expr>,
+}
+/// A function declaration.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FunctionDecl {
+    /// The function arguments.
+    #[prost(message, repeated, tag="1")]
+    pub args: ::prost::alloc::vec::Vec<IdentDecl>,
+    /// Optional declared return type.
+    #[prost(message, optional, tag="2")]
+    pub return_type: ::core::option::Option<DeclType>,
+    /// If the first argument of the function is the receiver.
+    #[prost(bool, tag="3")]
+    pub receiver_function: bool,
+}
 /// Represents a CEL value.
 ///
 /// This is similar to `google.protobuf.Value`, but can represent CEL's full
@@ -525,73 +594,4 @@ pub struct IdRef {
     /// The expression id.
     #[prost(int32, tag="1")]
     pub id: i32,
-}
-/// A declaration.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Decl {
-    /// The id of the declaration.
-    #[prost(int32, tag="1")]
-    pub id: i32,
-    /// The name of the declaration.
-    #[prost(string, tag="2")]
-    pub name: ::prost::alloc::string::String,
-    /// The documentation string for the declaration.
-    #[prost(string, tag="3")]
-    pub doc: ::prost::alloc::string::String,
-    /// The kind of declaration.
-    #[prost(oneof="decl::Kind", tags="4, 5")]
-    pub kind: ::core::option::Option<decl::Kind>,
-}
-/// Nested message and enum types in `Decl`.
-pub mod decl {
-    /// The kind of declaration.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Kind {
-        /// An identifier declaration.
-        #[prost(message, tag="4")]
-        Ident(super::IdentDecl),
-        /// A function declaration.
-        #[prost(message, tag="5")]
-        Function(super::FunctionDecl),
-    }
-}
-/// The declared type of a variable.
-///
-/// Extends runtime type values with extra information used for type checking
-/// and dispatching.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeclType {
-    /// The expression id of the declared type, if applicable.
-    #[prost(int32, tag="1")]
-    pub id: i32,
-    /// The type name, e.g. 'int', 'my.type.Type' or 'T'
-    #[prost(string, tag="2")]
-    pub r#type: ::prost::alloc::string::String,
-    /// An ordered list of type parameters, e.g. `<string, int>`.
-    /// Only applies to a subset of types, e.g. `map`, `list`.
-    #[prost(message, repeated, tag="4")]
-    pub type_params: ::prost::alloc::vec::Vec<DeclType>,
-}
-/// An identifier declaration.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct IdentDecl {
-    /// Optional type of the identifier.
-    #[prost(message, optional, tag="3")]
-    pub r#type: ::core::option::Option<DeclType>,
-    /// Optional value of the identifier.
-    #[prost(message, optional, tag="4")]
-    pub value: ::core::option::Option<Expr>,
-}
-/// A function declaration.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FunctionDecl {
-    /// The function arguments.
-    #[prost(message, repeated, tag="1")]
-    pub args: ::prost::alloc::vec::Vec<IdentDecl>,
-    /// Optional declared return type.
-    #[prost(message, optional, tag="2")]
-    pub return_type: ::core::option::Option<DeclType>,
-    /// If the first argument of the function is the receiver.
-    #[prost(bool, tag="3")]
-    pub receiver_function: bool,
 }
