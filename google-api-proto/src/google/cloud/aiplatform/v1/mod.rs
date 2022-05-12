@@ -9569,6 +9569,9 @@ pub struct ModelEvaluation {
     /// Output only. The resource name of the ModelEvaluation.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
+    /// The display name of the ModelEvaluation.
+    #[prost(string, tag="10")]
+    pub display_name: ::prost::alloc::string::String,
     /// Points to a YAML file stored on Google Cloud Storage describing the
     /// \[metrics][google.cloud.aiplatform.v1.ModelEvaluation.metrics\] of this ModelEvaluation. The schema is
     /// defined as an OpenAPI 3.0.2 [Schema
@@ -9620,6 +9623,12 @@ pub struct ModelEvaluation {
     /// the predicted values on the evaluated data.
     #[prost(message, repeated, tag="9")]
     pub explanation_specs: ::prost::alloc::vec::Vec<model_evaluation::ModelEvaluationExplanationSpec>,
+    /// The metadata of the ModelEvaluation.
+    /// For the ModelEvaluation uploaded from Managed Pipeline, metadata contains a
+    /// structured value with keys of "pipeline_job_id", "evaluation_dataset_type",
+    /// "evaluation_dataset_path".
+    #[prost(message, optional, tag="11")]
+    pub metadata: ::core::option::Option<::prost_types::Value>,
 }
 /// Nested message and enum types in `ModelEvaluation`.
 pub mod model_evaluation {
