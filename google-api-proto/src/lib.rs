@@ -196,7 +196,6 @@ pub mod ccc;
         feature = "google-cloud-metastore-v1",
         feature = "google-cloud-metastore-v1alpha",
         feature = "google-cloud-metastore-v1beta",
-        feature = "google-cloud-ml-v1",
         feature = "google-cloud-networkconnectivity-v1",
         feature = "google-cloud-networkconnectivity-v1alpha1",
         feature = "google-cloud-networkmanagement-v1",

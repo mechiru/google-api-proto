@@ -275,8 +275,6 @@ pub mod memcache;
     )
 )]
 pub mod metastore;
-#[cfg(any(feature = "google-cloud-ml-v1"))]
-pub mod ml;
 #[cfg(
     any(
         feature = "google-cloud-networkconnectivity-v1",
