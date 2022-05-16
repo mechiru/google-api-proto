@@ -35,20 +35,18 @@ pub struct Table {
     /// Views: `REPLICATION_VIEW`, `ENCRYPTION_VIEW`, `FULL`
     #[prost(btree_map="string, message", tag="2")]
     pub cluster_states: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, table::ClusterState>,
-    /// (`CreationOnly`)
     /// The column families configured for this table, mapped by column family ID.
     /// Views: `SCHEMA_VIEW`, `FULL`
     #[prost(btree_map="string, message", tag="3")]
     pub column_families: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ColumnFamily>,
-    /// (`CreationOnly`)
-    /// The granularity (i.e. `MILLIS`) at which timestamps are stored in
-    /// this table. Timestamps not matching the granularity will be rejected.
+    /// Immutable. The granularity (i.e. `MILLIS`) at which timestamps are stored in this
+    /// table. Timestamps not matching the granularity will be rejected.
     /// If unspecified at creation time, the value will be set to `MILLIS`.
     /// Views: `SCHEMA_VIEW`, `FULL`.
     #[prost(enumeration="table::TimestampGranularity", tag="4")]
     pub granularity: i32,
-    /// Output only. If this table was restored from another data source (e.g. a
-    /// backup), this field will be populated with information about the restore.
+    /// Output only. If this table was restored from another data source (e.g. a backup), this
+    /// field will be populated with information about the restore.
     #[prost(message, optional, tag="6")]
     pub restore_info: ::core::option::Option<RestoreInfo>,
 }
@@ -120,7 +118,7 @@ pub mod table {
         /// Only populates `name` and fields related to the table's replication
         /// state.
         ReplicationView = 3,
-        /// Only populates 'name' and fields related to the table's encryption state.
+        /// Only populates `name` and fields related to the table's encryption state.
         EncryptionView = 5,
         /// Populates all fields.
         Full = 4,
@@ -189,13 +187,12 @@ pub struct EncryptionInfo {
     /// Output only. The type of encryption used to protect this resource.
     #[prost(enumeration="encryption_info::EncryptionType", tag="3")]
     pub encryption_type: i32,
-    /// Output only. The status of encrypt/decrypt calls on underlying data for
-    /// this resource. Regardless of status, the existing data is always encrypted
-    /// at rest.
+    /// Output only. The status of encrypt/decrypt calls on underlying data for this resource.
+    /// Regardless of status, the existing data is always encrypted at rest.
     #[prost(message, optional, tag="4")]
     pub encryption_status: ::core::option::Option<super::super::super::rpc::Status>,
-    /// Output only. The version of the Cloud KMS key specified in the parent
-    /// cluster that is in use for the data underlying this table.
+    /// Output only. The version of the Cloud KMS key specified in the parent cluster that is
+    /// in use for the data underlying this table.
     #[prost(string, tag="2")]
     pub kms_key_version: ::prost::alloc::string::String,
 }
@@ -278,7 +275,7 @@ pub mod snapshot {
 /// A backup of a Cloud Bigtable table.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Backup {
-    /// Output only. A globally unique identifier for the backup which cannot be
+    /// A globally unique identifier for the backup which cannot be
     /// changed. Values are of the form
     /// `projects/{project}/instances/{instance}/clusters/{cluster}/
     ///    backups/\[_a-zA-Z0-9][-_.a-zA-Z0-9\]*`
@@ -290,8 +287,8 @@ pub struct Backup {
     /// `projects/{project}/instances/{instance}/clusters/{cluster}`.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Required. Immutable. Name of the table from which this backup was created.
-    /// This needs to be in the same instance as the backup. Values are of the form
+    /// Required. Immutable. Name of the table from which this backup was created. This needs
+    /// to be in the same instance as the backup. Values are of the form
     /// `projects/{project}/instances/{instance}/tables/{source_table}`.
     #[prost(string, tag="2")]
     pub source_table: ::prost::alloc::string::String,
@@ -304,9 +301,8 @@ pub struct Backup {
     pub expire_time: ::core::option::Option<::prost_types::Timestamp>,
     /// Output only. `start_time` is the time that the backup was started
     /// (i.e. approximately the time the
-    /// \[CreateBackup][google.bigtable.admin.v2.BigtableTableAdmin.CreateBackup\]
-    /// request is received).  The row data in this backup will be no older than
-    /// this timestamp.
+    /// \[CreateBackup][google.bigtable.admin.v2.BigtableTableAdmin.CreateBackup\] request is received).  The
+    /// row data in this backup will be no older than this timestamp.
     #[prost(message, optional, tag="4")]
     pub start_time: ::core::option::Option<::prost_types::Timestamp>,
     /// Output only. `end_time` is the time that the backup was finished. The row
@@ -459,13 +455,8 @@ pub mod instance {
         /// An instance meant for production use. `serve_nodes` must be set
         /// on the cluster.
         Production = 1,
-        /// The instance is meant for development and testing purposes only; it has
-        /// no performance or uptime guarantees and is not covered by SLA.
-        /// After a development instance is created, it can be upgraded by
-        /// updating the instance to type `PRODUCTION`. An instance created
-        /// as a production instance cannot be changed to a development instance.
-        /// When creating a development instance, `serve_nodes` on the cluster must
-        /// not be set.
+        /// DEPRECATED: Prefer PRODUCTION for all use cases, as it no longer enforces
+        /// a higher minimum node count than DEVELOPMENT.
         Development = 2,
     }
 }
@@ -498,22 +489,20 @@ pub struct Cluster {
     /// `projects/{project}/instances/{instance}/clusters/\[a-z][-a-z0-9\]*`.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// (`CreationOnly`)
-    /// The location where this cluster's nodes and storage reside. For best
+    /// Immutable. The location where this cluster's nodes and storage reside. For best
     /// performance, clients should be located as close as possible to this
     /// cluster. Currently only zones are supported, so values should be of the
     /// form `projects/{project}/locations/{zone}`.
     #[prost(string, tag="2")]
     pub location: ::prost::alloc::string::String,
-    /// The current state of the cluster.
+    /// Output only. The current state of the cluster.
     #[prost(enumeration="cluster::State", tag="3")]
     pub state: i32,
     /// The number of nodes allocated to this cluster. More nodes enable higher
     /// throughput and more consistent performance.
     #[prost(int32, tag="4")]
     pub serve_nodes: i32,
-    /// (`CreationOnly`)
-    /// The type of storage used by this cluster to serve its
+    /// Immutable. The type of storage used by this cluster to serve its
     /// parent instance's tables, unless explicitly overridden.
     #[prost(enumeration="StorageType", tag="5")]
     pub default_storage_type: i32,
@@ -553,6 +542,9 @@ pub mod cluster {
         ///  `cloudkms.cryptoKeyEncrypterDecrypter` role on the CMEK key.
         ///  2) Only regional keys can be used and the region of the CMEK key must
         ///  match the region of the cluster.
+        ///  3) All clusters within an instance must use the same CMEK key.
+        /// Values are of the form
+        /// `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}`
         #[prost(string, tag="1")]
         pub kms_key_name: ::prost::alloc::string::String,
     }
@@ -589,7 +581,6 @@ pub mod cluster {
 /// from a particular end user application.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AppProfile {
-    /// (`OutputOnly`)
     /// The unique name of the app profile. Values are of the form
     /// `projects/{project}/instances/{instance}/appProfiles/\[_a-zA-Z0-9][-_.a-zA-Z0-9\]*`.
     #[prost(string, tag="1")]
@@ -604,7 +595,7 @@ pub struct AppProfile {
     /// details.
     #[prost(string, tag="2")]
     pub etag: ::prost::alloc::string::String,
-    /// Optional long form description of the use case for this AppProfile.
+    /// Long form description of the use case for this AppProfile.
     #[prost(string, tag="3")]
     pub description: ::prost::alloc::string::String,
     /// The routing policy for all read/write requests that use this app profile.
@@ -2096,6 +2087,51 @@ pub struct CreateClusterMetadata {
     /// The time at which the operation failed or was completed successfully.
     #[prost(message, optional, tag="3")]
     pub finish_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Keys: the full `name` of each table that existed in the instance when
+    /// CreateCluster was first called, i.e.
+    /// `projects/<project>/instances/<instance>/tables/<table>`. Any table added
+    /// to the instance by a later API call will be created in the new cluster by
+    /// that API call, not this one.
+    ///
+    /// Values: information on how much of a table's data has been copied to the
+    /// newly-created cluster so far.
+    #[prost(btree_map="string, message", tag="4")]
+    pub tables: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, create_cluster_metadata::TableProgress>,
+}
+/// Nested message and enum types in `CreateClusterMetadata`.
+pub mod create_cluster_metadata {
+    /// Progress info for copying a table's data to the new cluster.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct TableProgress {
+        /// Estimate of the size of the table to be copied.
+        #[prost(int64, tag="2")]
+        pub estimated_size_bytes: i64,
+        /// Estimate of the number of bytes copied so far for this table.
+        /// This will eventually reach 'estimated_size_bytes' unless the table copy
+        /// is CANCELLED.
+        #[prost(int64, tag="3")]
+        pub estimated_copied_bytes: i64,
+        #[prost(enumeration="table_progress::State", tag="4")]
+        pub state: i32,
+    }
+    /// Nested message and enum types in `TableProgress`.
+    pub mod table_progress {
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+        #[repr(i32)]
+        pub enum State {
+            Unspecified = 0,
+            /// The table has not yet begun copying to the new cluster.
+            Pending = 1,
+            /// The table is actively being copied to the new cluster.
+            Copying = 2,
+            /// The table has been fully copied to the new cluster.
+            Completed = 3,
+            /// The table was deleted before it finished copying to the new cluster.
+            /// Note that tables deleted after completion will stay marked as
+            /// COMPLETED, not CANCELLED.
+            Cancelled = 4,
+        }
+    }
 }
 /// The metadata for the Operation returned by UpdateCluster.
 #[derive(Clone, PartialEq, ::prost::Message)]
