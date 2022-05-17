@@ -54,12 +54,10 @@ pub struct Restore {
     /// User specified descriptive string for this Restore.
     #[prost(string, tag="5")]
     pub description: ::prost::alloc::string::String,
-    /// Required. Immutable. A reference to the
-    /// \[Backup][google.cloud.gkebackup.v1.Backup\] used as the source from which
-    /// this Restore will restore. Note that this Backup must be a sub-resource of
-    /// the RestorePlan's
-    /// \[backup_plan][google.cloud.gkebackup.v1.RestorePlan.backup_plan\]. Format:
-    /// projects/*/locations/*/backupPlans/*/backups/*.
+    /// Required. Immutable. A reference to the \[Backup][google.cloud.gkebackup.v1.Backup\] used as the source from which this Restore
+    /// will restore. Note that this Backup must be a sub-resource of the
+    /// RestorePlan's \[backup_plan][google.cloud.gkebackup.v1.RestorePlan.backup_plan\].
+    /// Format: projects/*/locations/*/backupPlans/*/backups/*.
     #[prost(string, tag="6")]
     pub backup: ::prost::alloc::string::String,
     /// Output only. The target cluster into which this Restore will restore data.
@@ -68,12 +66,10 @@ pub struct Restore {
     ///   - projects/*/locations/*/clusters/*
     ///   - projects/*/zones/*/clusters/*
     ///
-    /// Inherited from parent RestorePlan's
-    /// \[cluster][google.cloud.gkebackup.v1.RestorePlan.cluster\] value.
+    /// Inherited from parent RestorePlan's \[cluster][google.cloud.gkebackup.v1.RestorePlan.cluster\] value.
     #[prost(string, tag="7")]
     pub cluster: ::prost::alloc::string::String,
-    /// Output only. Configuration of the Restore.  Inherited from parent
-    /// RestorePlan's
+    /// Output only. Configuration of the Restore.  Inherited from parent RestorePlan's
     /// \[restore_config][google.cloud.gkebackup.v1.RestorePlan.restore_config\].
     #[prost(message, optional, tag="8")]
     pub restore_config: ::core::option::Option<RestoreConfig>,
@@ -83,8 +79,7 @@ pub struct Restore {
     /// Output only. The current state of the Restore.
     #[prost(enumeration="restore::State", tag="10")]
     pub state: i32,
-    /// Output only. Human-readable description of why the Restore is in its
-    /// current state.
+    /// Output only. Human-readable description of why the Restore is in its current state.
     #[prost(string, tag="11")]
     pub state_reason: ::prost::alloc::string::String,
     /// Output only. Timestamp of when the restore operation completed.
@@ -96,15 +91,15 @@ pub struct Restore {
     /// Output only. Number of resources excluded during the restore execution.
     #[prost(int32, tag="14")]
     pub resources_excluded_count: i32,
-    /// Output only. Number of resources that failed to be restored during the
-    /// restore execution.
+    /// Output only. Number of resources that failed to be restored during the restore
+    /// execution.
     #[prost(int32, tag="15")]
     pub resources_failed_count: i32,
     /// Output only. Number of volumes restored during the restore execution.
     #[prost(int32, tag="16")]
     pub volumes_restored_count: i32,
-    /// Output only. `etag` is used for optimistic concurrency control as a way to
-    /// help prevent simultaneous updates of a restore from overwriting each other.
+    /// Output only. `etag` is used for optimistic concurrency control as a way to help
+    /// prevent simultaneous updates of a restore from overwriting each other.
     /// It is strongly suggested that systems make use of the `etag` in the
     /// read-modify-write cycle to perform restore updates in order to avoid
     /// race conditions: An `etag` is returned in the response to `GetRestore`,
@@ -149,8 +144,7 @@ pub struct RestoreConfig {
     /// Defines the behavior for handling the situation where cluster-scoped
     /// resources being restored already exist in the target cluster. This MUST be
     /// set to a value other than CLUSTER_RESOURCE_CONFLICT_POLICY_UNSPECIFIED if
-    /// \[cluster_resource_restore_scope][google.cloud.gkebackup.v1.RestoreConfig.cluster_resource_restore_scope\]
-    /// is not empty.
+    /// \[cluster_resource_restore_scope][google.cloud.gkebackup.v1.RestoreConfig.cluster_resource_restore_scope\] is not empty.
     #[prost(enumeration="restore_config::ClusterResourceConflictPolicy", tag="2")]
     pub cluster_resource_conflict_policy: i32,
     /// Defines the behavior for handling the situation where sets of namespaced
@@ -350,15 +344,15 @@ pub struct RestorePlan {
     /// User specified descriptive string for this RestorePlan.
     #[prost(string, tag="5")]
     pub description: ::prost::alloc::string::String,
-    /// Required. Immutable. A reference to the
-    /// \[BackupPlan][google.cloud.gkebackup.v1.BackupPlan\] from which Backups may
-    /// be used as the source for Restores created via this RestorePlan. Format:
-    /// projects/*/locations/*/backupPlans/*.
+    /// Required. Immutable. A reference to the \[BackupPlan][google.cloud.gkebackup.v1.BackupPlan\] from which Backups may be used as the
+    /// source for Restores created via this RestorePlan.
+    /// Format: projects/*/locations/*/backupPlans/*.
     #[prost(string, tag="6")]
     pub backup_plan: ::prost::alloc::string::String,
-    /// Required. Immutable. The target cluster into which Restores created via
-    /// this RestorePlan will restore data. NOTE: the cluster's region must be the
-    /// same as the RestorePlan. Valid formats:
+    /// Required. Immutable. The target cluster into which Restores created via this RestorePlan
+    /// will restore data. NOTE: the cluster's region must be the same as the
+    /// RestorePlan.
+    /// Valid formats:
     ///
     ///   - projects/*/locations/*/clusters/*
     ///   - projects/*/zones/*/clusters/*
@@ -370,8 +364,8 @@ pub struct RestorePlan {
     /// A set of custom labels supplied by user.
     #[prost(btree_map="string, string", tag="9")]
     pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Output only. `etag` is used for optimistic concurrency control as a way to
-    /// help prevent simultaneous updates of a restore from overwriting each other.
+    /// Output only. `etag` is used for optimistic concurrency control as a way to help
+    /// prevent simultaneous updates of a restore from overwriting each other.
     /// It is strongly suggested that systems make use of the `etag` in the
     /// read-modify-write cycle to perform restore updates in order to avoid
     /// race conditions: An `etag` is returned in the response to `GetRestorePlan`,
@@ -403,26 +397,24 @@ pub struct VolumeBackup {
     /// updated.
     #[prost(message, optional, tag="4")]
     pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. A reference to the source Kubernetes PVC from which this
-    /// VolumeBackup was created.
+    /// Output only. A reference to the source Kubernetes PVC from which this VolumeBackup
+    /// was created.
     #[prost(message, optional, tag="5")]
     pub source_pvc: ::core::option::Option<NamespacedName>,
-    /// Output only. A storage system-specific opaque handle to the underlying
-    /// volume backup.
+    /// Output only. A storage system-specific opaque handle to the underlying volume backup.
     #[prost(string, tag="6")]
     pub volume_backup_handle: ::prost::alloc::string::String,
     /// Output only. The format used for the volume backup.
     #[prost(enumeration="volume_backup::VolumeBackupFormat", tag="7")]
     pub format: i32,
-    /// Output only. The aggregate size of the underlying artifacts associated with
-    /// this VolumeBackup in the backup storage. This may change over time when
+    /// Output only. The aggregate size of the underlying artifacts associated with this
+    /// VolumeBackup in the backup storage. This may change over time when
     /// multiple backups of the same volume share the same backup storage
     /// location. In particular, this is likely to increase in size when
     /// the immediately preceding backup of the same volume is deleted.
     #[prost(int64, tag="8")]
     pub storage_bytes: i64,
-    /// Output only. The minimum size of the disk to which this VolumeBackup can be
-    /// restored.
+    /// Output only. The minimum size of the disk to which this VolumeBackup can be restored.
     #[prost(int64, tag="9")]
     pub disk_size_bytes: i64,
     /// Output only. The timestamp when the associated underlying volume backup
@@ -432,12 +424,12 @@ pub struct VolumeBackup {
     /// Output only. The current state of this VolumeBackup.
     #[prost(enumeration="volume_backup::State", tag="11")]
     pub state: i32,
-    /// Output only. A human readable message explaining why the VolumeBackup is in
-    /// its current state.
+    /// Output only. A human readable message explaining why the VolumeBackup is in its current
+    /// state.
     #[prost(string, tag="12")]
     pub state_message: ::prost::alloc::string::String,
-    /// Output only. `etag` is used for optimistic concurrency control as a way to
-    /// help prevent simultaneous updates of a volume backup from overwriting each
+    /// Output only. `etag` is used for optimistic concurrency control as a way to help
+    /// prevent simultaneous updates of a volume backup from overwriting each
     /// other. It is strongly suggested that systems make use of the `etag` in the
     /// read-modify-write cycle to perform volume backup updates in order to avoid
     /// race conditions.
@@ -501,16 +493,15 @@ pub struct VolumeRestore {
     /// updated.
     #[prost(message, optional, tag="4")]
     pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The full name of the VolumeBackup from which the volume will
-    /// be restored. Format:
-    /// projects/*/locations/*/backupPlans/*/backups/*/volumeBackups/*.
+    /// Output only. The full name of the VolumeBackup from which the volume will be restored.
+    /// Format: projects/*/locations/*/backupPlans/*/backups/*/volumeBackups/*.
     #[prost(string, tag="5")]
     pub volume_backup: ::prost::alloc::string::String,
     /// Output only. The reference to the target Kubernetes PVC to be restored.
     #[prost(message, optional, tag="6")]
     pub target_pvc: ::core::option::Option<NamespacedName>,
-    /// Output only. A storage system-specific opaque handler to the underlying
-    /// volume created for the target PVC from the volume backup.
+    /// Output only. A storage system-specific opaque handler to the underlying volume created
+    /// for the target PVC from the volume backup.
     #[prost(string, tag="7")]
     pub volume_handle: ::prost::alloc::string::String,
     /// Output only. The type of volume provisioned
@@ -523,12 +514,12 @@ pub struct VolumeRestore {
     /// Output only. The current state of this VolumeRestore.
     #[prost(enumeration="volume_restore::State", tag="10")]
     pub state: i32,
-    /// Output only. A human readable message explaining why the VolumeRestore is
-    /// in its current state.
+    /// Output only. A human readable message explaining why the VolumeRestore is in its
+    /// current state.
     #[prost(string, tag="11")]
     pub state_message: ::prost::alloc::string::String,
-    /// Output only. `etag` is used for optimistic concurrency control as a way to
-    /// help prevent simultaneous updates of a volume restore from overwriting each
+    /// Output only. `etag` is used for optimistic concurrency control as a way to help
+    /// prevent simultaneous updates of a volume restore from overwriting each
     /// other. It is strongly suggested that systems make use of the `etag` in the
     /// read-modify-write cycle to perform volume restore updates in order to avoid
     /// race conditions.
@@ -586,9 +577,9 @@ pub struct Backup {
     /// Output only. The timestamp when this Backup resource was last updated.
     #[prost(message, optional, tag="4")]
     pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. This flag indicates whether this Backup resource was created
-    /// manually by a user or via a schedule in the BackupPlan. A value of True
-    /// means that the Backup was created manually.
+    /// Output only. This flag indicates whether this Backup resource was created manually
+    /// by a user or via a schedule in the BackupPlan. A value of True means that
+    /// the Backup was created manually.
     #[prost(bool, tag="5")]
     pub manual: bool,
     /// A set of custom labels supplied by user.
@@ -606,75 +597,65 @@ pub struct Backup {
     /// (either at creation time or in a subsequent update).
     #[prost(int32, tag="7")]
     pub delete_lock_days: i32,
-    /// Output only. The time at which an existing delete lock will expire for this
-    /// backup (calculated from create_time +
-    /// \[delete_lock_days][google.cloud.gkebackup.v1.Backup.delete_lock_days\]).
+    /// Output only. The time at which an existing delete lock will expire for this backup
+    /// (calculated from create_time + \[delete_lock_days][google.cloud.gkebackup.v1.Backup.delete_lock_days\]).
     #[prost(message, optional, tag="8")]
     pub delete_lock_expire_time: ::core::option::Option<::prost_types::Timestamp>,
     /// The age (in days) after which this Backup will be automatically deleted.
     /// Must be an integer value >= 0:
     ///
     /// - If 0, no automatic deletion will occur for this Backup.
-    /// - If not 0, this must be >=
-    /// \[delete_lock_days][google.cloud.gkebackup.v1.Backup.delete_lock_days\].
+    /// - If not 0, this must be >= \[delete_lock_days][google.cloud.gkebackup.v1.Backup.delete_lock_days\].
     ///
     /// Once a Backup is created, this value may only be increased.
     ///
     /// Defaults to the parent BackupPlan's
-    /// \[backup_retain_days][google.cloud.gkebackup.v1.BackupPlan.RetentionPolicy.backup_retain_days\]
-    /// value.
+    /// \[backup_retain_days][google.cloud.gkebackup.v1.BackupPlan.RetentionPolicy.backup_retain_days\] value.
     #[prost(int32, tag="9")]
     pub retain_days: i32,
-    /// Output only. The time at which this Backup will be automatically deleted
-    /// (calculated from create_time +
-    /// \[retain_days][google.cloud.gkebackup.v1.Backup.retain_days\]).
+    /// Output only. The time at which this Backup will be automatically deleted (calculated
+    /// from create_time + \[retain_days][google.cloud.gkebackup.v1.Backup.retain_days\]).
     #[prost(message, optional, tag="10")]
     pub retain_expire_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The customer managed encryption key that was used to encrypt
-    /// the Backup's artifacts.  Inherited from the parent BackupPlan's
-    /// \[encryption_key][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.encryption_key\]
-    /// value.
+    /// Output only. The customer managed encryption key that was used to encrypt the Backup's
+    /// artifacts.  Inherited from the parent BackupPlan's
+    /// \[encryption_key][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.encryption_key\] value.
     #[prost(message, optional, tag="11")]
     pub encryption_key: ::core::option::Option<EncryptionKey>,
-    /// Output only. Whether or not the Backup contains volume data.  Controlled by
-    /// the parent BackupPlan's
-    /// \[include_volume_data][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.include_volume_data\]
-    /// value.
+    /// Output only. Whether or not the Backup contains volume data.  Controlled by the parent
+    /// BackupPlan's
+    /// \[include_volume_data][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.include_volume_data\] value.
     #[prost(bool, tag="15")]
     pub contains_volume_data: bool,
-    /// Output only. Whether or not the Backup contains Kubernetes Secrets.
-    /// Controlled by the parent BackupPlan's
-    /// \[include_secrets][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.include_secrets\]
-    /// value.
+    /// Output only. Whether or not the Backup contains Kubernetes Secrets.  Controlled by the
+    /// parent BackupPlan's
+    /// \[include_secrets][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.include_secrets\] value.
     #[prost(bool, tag="16")]
     pub contains_secrets: bool,
-    /// Output only. Information about the GKE cluster from which this Backup was
-    /// created.
+    /// Output only. Information about the GKE cluster from which this Backup was created.
     #[prost(message, optional, tag="17")]
     pub cluster_metadata: ::core::option::Option<backup::ClusterMetadata>,
     /// Output only. Current state of the Backup
     #[prost(enumeration="backup::State", tag="18")]
     pub state: i32,
-    /// Output only. Human-readable description of why the backup is in the current
-    /// `state`.
+    /// Output only. Human-readable description of why the backup is in the current `state`.
     #[prost(string, tag="19")]
     pub state_reason: ::prost::alloc::string::String,
     /// Output only. Completion time of the Backup
     #[prost(message, optional, tag="20")]
     pub complete_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The total number of Kubernetes resources included in the
-    /// Backup.
+    /// Output only. The total number of Kubernetes resources included in the Backup.
     #[prost(int32, tag="21")]
     pub resource_count: i32,
     /// Output only. The total number of volume backups contained in the Backup.
     #[prost(int32, tag="22")]
     pub volume_count: i32,
-    /// Output only. The total size of the Backup in bytes = config backup size +
-    /// sum(volume backup sizes)
+    /// Output only. The total size of the Backup in bytes = config backup size + sum(volume
+    /// backup sizes)
     #[prost(int64, tag="23")]
     pub size_bytes: i64,
-    /// Output only. `etag` is used for optimistic concurrency control as a way to
-    /// help prevent simultaneous updates of a backup from overwriting each other.
+    /// Output only. `etag` is used for optimistic concurrency control as a way to help
+    /// prevent simultaneous updates of a backup from overwriting each other.
     /// It is strongly suggested that systems make use of the `etag` in the
     /// read-modify-write cycle to perform backup updates in order to avoid
     /// race conditions: An `etag` is returned in the response to `GetBackup`,
@@ -694,9 +675,7 @@ pub struct Backup {
     pub config_backup_size_bytes: i64,
     /// Defines the "scope" of the Backup - which namespaced resources in the
     /// cluster were included in the Backup.  Inherited from the parent
-    /// BackupPlan's
-    /// \[backup_scope][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.backup_scope\]
-    /// value.
+    /// BackupPlan's \[backup_scope][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.backup_scope\] value.
     #[prost(oneof="backup::BackupScope", tags="12, 13, 14")]
     pub backup_scope: ::core::option::Option<backup::BackupScope>,
 }
@@ -760,20 +739,17 @@ pub mod backup {
     }
     /// Defines the "scope" of the Backup - which namespaced resources in the
     /// cluster were included in the Backup.  Inherited from the parent
-    /// BackupPlan's
-    /// \[backup_scope][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.backup_scope\]
-    /// value.
+    /// BackupPlan's \[backup_scope][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.backup_scope\] value.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum BackupScope {
         /// Output only. If True, all namespaces were included in the Backup.
         #[prost(bool, tag="12")]
         AllNamespaces(bool),
-        /// Output only. If set, the list of namespaces that were included in the
-        /// Backup.
+        /// Output only. If set, the list of namespaces that were included in the Backup.
         #[prost(message, tag="13")]
         SelectedNamespaces(super::Namespaces),
-        /// Output only. If set, the list of ProtectedApplications whose resources
-        /// were included in the Backup.
+        /// Output only. If set, the list of ProtectedApplications whose resources were included
+        /// in the Backup.
         #[prost(message, tag="14")]
         SelectedApplications(super::NamespacedNames),
     }
@@ -799,8 +775,9 @@ pub struct BackupPlan {
     /// User specified descriptive string for this BackupPlan.
     #[prost(string, tag="5")]
     pub description: ::prost::alloc::string::String,
-    /// Required. Immutable. The source cluster from which Backups will be created
-    /// via this BackupPlan. Valid formats:
+    /// Required. Immutable. The source cluster from which Backups will be created via
+    /// this BackupPlan.
+    /// Valid formats:
     ///
     /// - projects/*/locations/*/clusters/*
     /// - projects/*/zones/*/clusters/*
@@ -815,9 +792,9 @@ pub struct BackupPlan {
     /// Defines a schedule for automatic Backup creation via this BackupPlan.
     #[prost(message, optional, tag="9")]
     pub backup_schedule: ::core::option::Option<backup_plan::Schedule>,
-    /// Output only. `etag` is used for optimistic concurrency control as a way to
-    /// help prevent simultaneous updates of a backup plan from overwriting each
-    /// other. It is strongly suggested that systems make use of the 'etag' in the
+    /// Output only. `etag` is used for optimistic concurrency control as a way to help
+    /// prevent simultaneous updates of a backup plan from overwriting each other.
+    /// It is strongly suggested that systems make use of the 'etag' in the
     /// read-modify-write cycle to perform BackupPlan updates in order to avoid
     /// race conditions: An `etag` is returned in the response to `GetBackupPlan`,
     /// and systems are expected to put that etag in the request to
@@ -868,8 +845,7 @@ pub mod backup_plan {
         /// Updating this field does NOT affect existing Backups under it. Backups
         /// created AFTER a successful update will automatically pick up the new
         /// value.
-        /// NOTE: backup_retain_days must be >=
-        /// \[backup_delete_lock_days][google.cloud.gkebackup.v1.BackupPlan.RetentionPolicy.backup_delete_lock_days\].
+        /// NOTE: backup_retain_days must be >= \[backup_delete_lock_days][google.cloud.gkebackup.v1.BackupPlan.RetentionPolicy.backup_delete_lock_days\].
         ///
         /// Default: 0 (no automatic deletion)
         #[prost(int32, tag="2")]
@@ -968,9 +944,8 @@ pub struct OperationMetadata {
     pub status_message: ::prost::alloc::string::String,
     /// Output only. Identifies whether the user has requested cancellation
     /// of the operation. Operations that have successfully been cancelled
-    /// have \[Operation.error][\] value with a
-    /// \[google.rpc.Status.code][google.rpc.Status.code\] of 1, corresponding to
-    /// `Code.CANCELLED`.
+    /// have \[Operation.error][\] value with a \[google.rpc.Status.code][google.rpc.Status.code\] of 1,
+    /// corresponding to `Code.CANCELLED`.
     #[prost(bool, tag="6")]
     pub requested_cancellation: bool,
     /// Output only. API version used to start the operation.
@@ -1035,10 +1010,10 @@ pub struct ListBackupPlansResponse {
     #[prost(message, repeated, tag="1")]
     pub backup_plans: ::prost::alloc::vec::Vec<BackupPlan>,
     /// A token which may be sent as
-    /// \[page_token][google.cloud.gkebackup.v1.ListBackupPlansRequest.page_token\]
-    /// in a subsequent `ListBackupPlans` call to retrieve the next page of
-    /// results. If this field is omitted or empty, then there are no more results
-    /// to return.
+    /// \[page_token][google.cloud.gkebackup.v1.ListBackupPlansRequest.page_token\] in a subsequent
+    /// `ListBackupPlans` call to retrieve the next page of results.
+    /// If this field is omitted or empty, then there are no more results to
+    /// return.
     #[prost(string, tag="2")]
     pub next_page_token: ::prost::alloc::string::String,
     /// Locations that could not be reached.
@@ -1056,8 +1031,8 @@ pub struct GetBackupPlanRequest {
 /// Request message for UpdateBackupPlan.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateBackupPlanRequest {
-    /// Required. A new version of the BackupPlan resource that contains updated
-    /// fields. This may be sparsely populated if an `update_mask` is provided.
+    /// Required. A new version of the BackupPlan resource that contains updated fields.
+    /// This may be sparsely populated if an `update_mask` is provided.
     #[prost(message, optional, tag="1")]
     pub backup_plan: ::core::option::Option<BackupPlan>,
     /// This is used to specify the fields to be overwritten in the
@@ -1080,8 +1055,8 @@ pub struct DeleteBackupPlanRequest {
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
     /// If provided, this value must match the current value of the
-    /// target BackupPlan's \[etag][google.cloud.gkebackup.v1.BackupPlan.etag\] field
-    /// or the request is rejected.
+    /// target BackupPlan's \[etag][google.cloud.gkebackup.v1.BackupPlan.etag\] field or the request is
+    /// rejected.
     #[prost(string, tag="2")]
     pub etag: ::prost::alloc::string::String,
 }
@@ -1142,10 +1117,9 @@ pub struct ListBackupsResponse {
     /// The list of Backups matching the given criteria.
     #[prost(message, repeated, tag="1")]
     pub backups: ::prost::alloc::vec::Vec<Backup>,
-    /// A token which may be sent as
-    /// \[page_token][google.cloud.gkebackup.v1.ListBackupsRequest.page_token\] in a
-    /// subsequent `ListBackups` call to retrieve the next page of results. If this
-    /// field is omitted or empty, then there are no more results to return.
+    /// A token which may be sent as \[page_token][google.cloud.gkebackup.v1.ListBackupsRequest.page_token\] in
+    /// a subsequent `ListBackups` call to retrieve the next page of results. If
+    /// this field is omitted or empty, then there are no more results to return.
     #[prost(string, tag="2")]
     pub next_page_token: ::prost::alloc::string::String,
 }
@@ -1160,8 +1134,8 @@ pub struct GetBackupRequest {
 /// Request message for UpdateBackup.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateBackupRequest {
-    /// Required. A new version of the Backup resource that contains updated
-    /// fields. This may be sparsely populated if an `update_mask` is provided.
+    /// Required. A new version of the Backup resource that contains updated fields.
+    /// This may be sparsely populated if an `update_mask` is provided.
     #[prost(message, optional, tag="1")]
     pub backup: ::core::option::Option<Backup>,
     /// This is used to specify the fields to be overwritten in the
@@ -1183,8 +1157,8 @@ pub struct DeleteBackupRequest {
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
     /// If provided, this value must match the current value of the
-    /// target Backup's \[etag][google.cloud.gkebackup.v1.Backup.etag\] field or the
-    /// request is rejected.
+    /// target Backup's \[etag][google.cloud.gkebackup.v1.Backup.etag\] field or the request is
+    /// rejected.
     #[prost(string, tag="2")]
     pub etag: ::prost::alloc::string::String,
     /// If set to true, any VolumeBackups below this Backup will also be deleted.
@@ -1230,10 +1204,10 @@ pub struct ListVolumeBackupsResponse {
     #[prost(message, repeated, tag="1")]
     pub volume_backups: ::prost::alloc::vec::Vec<VolumeBackup>,
     /// A token which may be sent as
-    /// \[page_token][google.cloud.gkebackup.v1.ListVolumeBackupsRequest.page_token\]
-    /// in a subsequent `ListVolumeBackups` call to retrieve the next page of
-    /// results. If this field is omitted or empty, then there are no more results
-    /// to return.
+    /// \[page_token][google.cloud.gkebackup.v1.ListVolumeBackupsRequest.page_token\] in a subsequent
+    /// `ListVolumeBackups` call to retrieve the next page of results.
+    /// If this field is omitted or empty, then there are no more results to
+    /// return.
     #[prost(string, tag="2")]
     pub next_page_token: ::prost::alloc::string::String,
 }
@@ -1303,10 +1277,10 @@ pub struct ListRestorePlansResponse {
     #[prost(message, repeated, tag="1")]
     pub restore_plans: ::prost::alloc::vec::Vec<RestorePlan>,
     /// A token which may be sent as
-    /// \[page_token][google.cloud.gkebackup.v1.ListRestorePlansRequest.page_token\]
-    /// in a subsequent `ListRestorePlans` call to retrieve the next page of
-    /// results. If this field is omitted or empty, then there are no more results
-    /// to return.
+    /// \[page_token][google.cloud.gkebackup.v1.ListRestorePlansRequest.page_token\] in a subsequent
+    /// `ListRestorePlans` call to retrieve the next page of results.
+    /// If this field is omitted or empty, then there are no more results to
+    /// return.
     #[prost(string, tag="2")]
     pub next_page_token: ::prost::alloc::string::String,
     /// Locations that could not be reached.
@@ -1324,8 +1298,8 @@ pub struct GetRestorePlanRequest {
 /// Request message for UpdateRestorePlan.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateRestorePlanRequest {
-    /// Required. A new version of the RestorePlan resource that contains updated
-    /// fields. This may be sparsely populated if an `update_mask` is provided.
+    /// Required. A new version of the RestorePlan resource that contains updated fields.
+    /// This may be sparsely populated if an `update_mask` is provided.
     #[prost(message, optional, tag="1")]
     pub restore_plan: ::core::option::Option<RestorePlan>,
     /// This is used to specify the fields to be overwritten in the
@@ -1347,8 +1321,8 @@ pub struct DeleteRestorePlanRequest {
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
     /// If provided, this value must match the current value of the
-    /// target RestorePlan's \[etag][google.cloud.gkebackup.v1.RestorePlan.etag\]
-    /// field or the request is rejected.
+    /// target RestorePlan's \[etag][google.cloud.gkebackup.v1.RestorePlan.etag\] field or the request is
+    /// rejected.
     #[prost(string, tag="2")]
     pub etag: ::prost::alloc::string::String,
     /// If set to true, any Restores below this RestorePlan will also be deleted.
@@ -1414,10 +1388,10 @@ pub struct ListRestoresResponse {
     /// The list of Restores matching the given criteria.
     #[prost(message, repeated, tag="1")]
     pub restores: ::prost::alloc::vec::Vec<Restore>,
-    /// A token which may be sent as
-    /// \[page_token][google.cloud.gkebackup.v1.ListRestoresRequest.page_token\] in a
-    /// subsequent `ListRestores` call to retrieve the next page of results. If
-    /// this field is omitted or empty, then there are no more results to return.
+    /// A token which may be sent as \[page_token][google.cloud.gkebackup.v1.ListRestoresRequest.page_token\]
+    /// in a subsequent `ListRestores` call to retrieve the next page of results.
+    /// If this field is omitted or empty, then there are no more results to
+    /// return.
     #[prost(string, tag="2")]
     pub next_page_token: ::prost::alloc::string::String,
     /// Locations that could not be reached.
@@ -1435,8 +1409,8 @@ pub struct GetRestoreRequest {
 /// Request message for UpdateRestore.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateRestoreRequest {
-    /// Required. A new version of the Restore resource that contains updated
-    /// fields. This may be sparsely populated if an `update_mask` is provided.
+    /// Required. A new version of the Restore resource that contains updated fields.
+    /// This may be sparsely populated if an `update_mask` is provided.
     #[prost(message, optional, tag="1")]
     pub restore: ::core::option::Option<Restore>,
     /// This is used to specify the fields to be overwritten in the
@@ -1458,8 +1432,8 @@ pub struct DeleteRestoreRequest {
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
     /// If provided, this value must match the current value of the
-    /// target Restore's \[etag][google.cloud.gkebackup.v1.Restore.etag\] field or
-    /// the request is rejected.
+    /// target Restore's \[etag][google.cloud.gkebackup.v1.Restore.etag\] field or the request is
+    /// rejected.
     #[prost(string, tag="2")]
     pub etag: ::prost::alloc::string::String,
     /// If set to true, any VolumeRestores below this restore will also be deleted.
@@ -1505,10 +1479,10 @@ pub struct ListVolumeRestoresResponse {
     #[prost(message, repeated, tag="1")]
     pub volume_restores: ::prost::alloc::vec::Vec<VolumeRestore>,
     /// A token which may be sent as
-    /// \[page_token][google.cloud.gkebackup.v1.ListVolumeRestoresRequest.page_token\]
-    /// in a subsequent `ListVolumeRestores` call to retrieve the next page of
-    /// results. If this field is omitted or empty, then there are no more results
-    /// to return.
+    /// \[page_token][google.cloud.gkebackup.v1.ListVolumeRestoresRequest.page_token\] in a subsequent
+    /// `ListVolumeRestores` call to retrieve the next page of results.
+    /// If this field is omitted or empty, then there are no more results to
+    /// return.
     #[prost(string, tag="2")]
     pub next_page_token: ::prost::alloc::string::String,
 }

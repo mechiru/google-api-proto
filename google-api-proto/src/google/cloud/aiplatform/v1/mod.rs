@@ -4739,7 +4739,7 @@ pub struct StreamingReadFeatureValuesRequest {
     pub feature_selector: ::core::option::Option<FeatureSelector>,
 }
 /// Value for a feature.
-/// NEXT ID: 15
+/// (-- NEXT ID: 15 --)
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FeatureValue {
     /// Metadata of feature value.
