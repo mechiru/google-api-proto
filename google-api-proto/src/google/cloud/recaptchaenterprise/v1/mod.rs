@@ -16,16 +16,17 @@ pub struct AnnotateAssessmentRequest {
     /// "projects/{project}/assessments/{assessment}".
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Optional. The annotation that will be assigned to the Event. This field can be left
-    /// empty to provide reasons that apply to an event without concluding whether
-    /// the event is legitimate or fraudulent.
+    /// Optional. The annotation that will be assigned to the Event. This field can
+    /// be left empty to provide reasons that apply to an event without concluding
+    /// whether the event is legitimate or fraudulent.
     #[prost(enumeration="annotate_assessment_request::Annotation", tag="2")]
     pub annotation: i32,
-    /// Optional. Optional reasons for the annotation that will be assigned to the Event.
+    /// Optional. Optional reasons for the annotation that will be assigned to the
+    /// Event.
     #[prost(enumeration="annotate_assessment_request::Reason", repeated, packed="false", tag="3")]
     pub reasons: ::prost::alloc::vec::Vec<i32>,
-    /// Optional. Optional unique stable hashed user identifier to apply to the assessment.
-    /// This is an alternative to setting the hashed_account_id in
+    /// Optional. Optional unique stable hashed user identifier to apply to the
+    /// assessment. This is an alternative to setting the hashed_account_id in
     /// CreateAssessment, for example when the account identifier is not yet known
     /// in the initial request. It is recommended that the identifier is hashed
     /// using hmac-sha256 with stable secret.
@@ -114,31 +115,35 @@ pub struct Assessment {
     /// provided.
     #[prost(message, optional, tag="6")]
     pub account_defender_assessment: ::core::option::Option<AccountDefenderAssessment>,
+    /// Password leak verification info.
+    #[prost(message, optional, tag="7")]
+    pub private_password_leak_verification: ::core::option::Option<PrivatePasswordLeakVerification>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Event {
-    /// Optional. The user response token provided by the reCAPTCHA client-side integration
-    /// on your site.
+    /// Optional. The user response token provided by the reCAPTCHA client-side
+    /// integration on your site.
     #[prost(string, tag="1")]
     pub token: ::prost::alloc::string::String,
-    /// Optional. The site key that was used to invoke reCAPTCHA on your site and generate
-    /// the token.
+    /// Optional. The site key that was used to invoke reCAPTCHA on your site and
+    /// generate the token.
     #[prost(string, tag="2")]
     pub site_key: ::prost::alloc::string::String,
-    /// Optional. The user agent present in the request from the user's device related to
-    /// this event.
+    /// Optional. The user agent present in the request from the user's device
+    /// related to this event.
     #[prost(string, tag="3")]
     pub user_agent: ::prost::alloc::string::String,
-    /// Optional. The IP address in the request from the user's device related to this event.
+    /// Optional. The IP address in the request from the user's device related to
+    /// this event.
     #[prost(string, tag="4")]
     pub user_ip_address: ::prost::alloc::string::String,
-    /// Optional. The expected action for this type of event. This should be the same action
-    /// provided at token generation time on client-side platforms already
-    /// integrated with recaptcha enterprise.
+    /// Optional. The expected action for this type of event. This should be the
+    /// same action provided at token generation time on client-side platforms
+    /// already integrated with recaptcha enterprise.
     #[prost(string, tag="5")]
     pub expected_action: ::prost::alloc::string::String,
-    /// Optional. Optional unique stable hashed user identifier for the request. The
-    /// identifier should ideally be hashed using sha256 with stable secret.
+    /// Optional. Optional unique stable hashed user identifier for the request.
+    /// The identifier should ideally be hashed using sha256 with stable secret.
     #[prost(bytes="bytes", tag="6")]
     pub hashed_account_id: ::prost::bytes::Bytes,
 }
@@ -250,6 +255,29 @@ pub mod account_defender_assessment {
         RelatedAccountsNumberHigh = 4,
     }
 }
+/// Private password leak verification info.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PrivatePasswordLeakVerification {
+    /// Exactly 26-bit prefix of the SHA-256 hash of the canonicalized username. It
+    /// is used to look up password leaks associated with that hash prefix.
+    #[prost(bytes="bytes", tag="1")]
+    pub lookup_hash_prefix: ::prost::bytes::Bytes,
+    /// Encrypted Scrypt hash of the canonicalized username+password. It is
+    /// re-encrypted by the server and returned through
+    /// `reencrypted_user_credentials_hash`.
+    #[prost(bytes="bytes", tag="2")]
+    pub encrypted_user_credentials_hash: ::prost::bytes::Bytes,
+    /// List of prefixes of the encrypted potential password leaks that matched the
+    /// given parameters. They should be compared with the client-side decryption
+    /// prefix of `reencrypted_user_credentials_hash`
+    #[prost(bytes="bytes", repeated, tag="3")]
+    pub encrypted_leak_match_prefixes: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
+    /// Corresponds to the re-encryption of the `encrypted_user_credentials_hash`
+    /// field. Used to match potential password leaks within
+    /// `encrypted_leak_match_prefixes`.
+    #[prost(bytes="bytes", tag="4")]
+    pub reencrypted_user_credentials_hash: ::prost::bytes::Bytes,
+}
 /// The create key request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateKeyRequest {
@@ -302,8 +330,8 @@ pub struct UpdateKeyRequest {
     /// Required. The key to update.
     #[prost(message, optional, tag="1")]
     pub key: ::core::option::Option<Key>,
-    /// Optional. The mask to control which fields of the key get updated. If the mask is not
-    /// present, all fields will be updated.
+    /// Optional. The mask to control which fields of the key get updated. If the
+    /// mask is not present, all fields will be updated.
     #[prost(message, optional, tag="2")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
@@ -558,14 +586,14 @@ pub struct ListRelatedAccountGroupMembershipsRequest {
     /// `projects/{project}/relatedaccountgroups/{relatedaccountgroup}`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of accounts to return. The service may return fewer than
-    /// this value.
-    /// If unspecified, at most 50 accounts will be returned.
-    /// The maximum value is 1000; values above 1000 will be coerced to 1000.
+    /// Optional. The maximum number of accounts to return. The service may return
+    /// fewer than this value. If unspecified, at most 50 accounts will be
+    /// returned. The maximum value is 1000; values above 1000 will be coerced to
+    /// 1000.
     #[prost(int32, tag="2")]
     pub page_size: i32,
-    /// Optional. A page token, received from a previous `ListRelatedAccountGroupMemberships`
-    /// call.
+    /// Optional. A page token, received from a previous
+    /// `ListRelatedAccountGroupMemberships` call.
     ///
     /// When paginating, all other parameters provided to
     /// `ListRelatedAccountGroupMemberships` must match the call that provided the
@@ -587,18 +615,17 @@ pub struct ListRelatedAccountGroupMembershipsResponse {
 /// The request message to list related account groups.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListRelatedAccountGroupsRequest {
-    /// Required. The name of the project to list related account groups from, in the format
-    /// "projects/{project}".
+    /// Required. The name of the project to list related account groups from, in
+    /// the format "projects/{project}".
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of groups to return. The service may return fewer than
-    /// this value.
-    /// If unspecified, at most 50 groups will be returned.
+    /// Optional. The maximum number of groups to return. The service may return
+    /// fewer than this value. If unspecified, at most 50 groups will be returned.
     /// The maximum value is 1000; values above 1000 will be coerced to 1000.
     #[prost(int32, tag="2")]
     pub page_size: i32,
-    /// Optional. A page token, received from a previous `ListRelatedAccountGroups` call.
-    /// Provide this to retrieve the subsequent page.
+    /// Optional. A page token, received from a previous `ListRelatedAccountGroups`
+    /// call. Provide this to retrieve the subsequent page.
     ///
     /// When paginating, all other parameters provided to
     /// `ListRelatedAccountGroups` must match the call that provided the page
@@ -620,18 +647,17 @@ pub struct ListRelatedAccountGroupsResponse {
 /// The request message to search related account group memberships.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SearchRelatedAccountGroupMembershipsRequest {
-    /// Required. The name of the project to search related account group memberships from,
-    /// in the format "projects/{project}".
+    /// Required. The name of the project to search related account group
+    /// memberships from, in the format "projects/{project}".
     #[prost(string, tag="1")]
     pub project: ::prost::alloc::string::String,
-    /// Optional. The unique stable hashed user identifier we should search connections to.
-    /// The identifier should correspond to a `hashed_account_id` provided in a
-    /// previous CreateAssessment or AnnotateAssessment call.
+    /// Optional. The unique stable hashed user identifier we should search
+    /// connections to. The identifier should correspond to a `hashed_account_id`
+    /// provided in a previous CreateAssessment or AnnotateAssessment call.
     #[prost(bytes="bytes", tag="2")]
     pub hashed_account_id: ::prost::bytes::Bytes,
-    /// Optional. The maximum number of groups to return. The service may return fewer than
-    /// this value.
-    /// If unspecified, at most 50 groups will be returned.
+    /// Optional. The maximum number of groups to return. The service may return
+    /// fewer than this value. If unspecified, at most 50 groups will be returned.
     /// The maximum value is 1000; values above 1000 will be coerced to 1000.
     #[prost(int32, tag="3")]
     pub page_size: i32,
