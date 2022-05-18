@@ -11,9 +11,6 @@ pub struct DeleteBucketRequest {
     /// value.
     #[prost(int64, optional, tag="3")]
     pub if_metageneration_not_match: ::core::option::Option<i64>,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="5")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// Request message for GetBucket.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -29,9 +26,6 @@ pub struct GetBucketRequest {
     /// value, the request will return an error.
     #[prost(int64, optional, tag="3")]
     pub if_metageneration_not_match: ::core::option::Option<i64>,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="4")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
     /// Mask specifying which fields to read.
     /// A "*" field may be used to indicate all fields.
     /// If no mask is specified, will default to all fields.
@@ -45,8 +39,9 @@ pub struct CreateBucketRequest {
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
     /// Required. Properties of the new bucket being inserted.
-    /// The project and name of the bucket are specified in this request, not in
-    /// the bucket resource.
+    /// The project and name of the bucket are specified in the parent and
+    /// bucket_id fields, respectively. Populating those fields in `bucket` will
+    /// result in an error.
     #[prost(message, optional, tag="2")]
     pub bucket: ::core::option::Option<Bucket>,
     /// Required. The ID to use for this bucket, which will become the final component of
@@ -90,9 +85,6 @@ pub struct ListBucketsRequest {
     /// * may be used to mean "all fields".
     #[prost(message, optional, tag="5")]
     pub read_mask: ::core::option::Option<::prost_types::FieldMask>,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="6")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// The result of a call to Buckets.ListBuckets
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -115,9 +107,6 @@ pub struct LockBucketRetentionPolicyRequest {
     /// matches the given value. Must be positive.
     #[prost(int64, tag="2")]
     pub if_metageneration_match: i64,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="3")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// Request for UpdateBucket method.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -156,9 +145,6 @@ pub struct UpdateBucketRequest {
     /// an error.
     #[prost(message, optional, tag="6")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="7")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// Request message for DeleteNotification.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -248,9 +234,6 @@ pub struct ComposeObjectRequest {
     /// A set of parameters common to Storage API requests concerning an object.
     #[prost(message, optional, tag="7")]
     pub common_object_request_params: ::core::option::Option<CommonObjectRequestParams>,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="8")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// Nested message and enum types in `ComposeObjectRequest`.
 pub mod compose_object_request {
@@ -322,9 +305,6 @@ pub struct DeleteObjectRequest {
     /// A set of parameters common to Storage API requests concerning an object.
     #[prost(message, optional, tag="10")]
     pub common_object_request_params: ::core::option::Option<CommonObjectRequestParams>,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="11")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// Request message for ReadObject.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -381,9 +361,6 @@ pub struct ReadObjectRequest {
     /// A set of parameters common to Storage API requests concerning an object.
     #[prost(message, optional, tag="10")]
     pub common_object_request_params: ::core::option::Option<CommonObjectRequestParams>,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="11")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
     /// Mask specifying which fields to read.
     /// The checksummed_data field and its children will always be present.
     /// If no mask is specified, will default to all fields except metadata.owner
@@ -427,9 +404,6 @@ pub struct GetObjectRequest {
     /// A set of parameters common to Storage API requests concerning an object.
     #[prost(message, optional, tag="8")]
     pub common_object_request_params: ::core::option::Option<CommonObjectRequestParams>,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="9")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
     /// Mask specifying which fields to read.
     /// If no mask is specified, will default to all fields except metadata.acl and
     /// metadata.owner.
@@ -527,9 +501,6 @@ pub struct WriteObjectRequest {
     /// A set of parameters common to Storage API requests concerning an object.
     #[prost(message, optional, tag="8")]
     pub common_object_request_params: ::core::option::Option<CommonObjectRequestParams>,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="9")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
     /// The first message of each stream should set one of the following.
     #[prost(oneof="write_object_request::FirstMessage", tags="1, 2")]
     pub first_message: ::core::option::Option<write_object_request::FirstMessage>,
@@ -638,9 +609,6 @@ pub struct ListObjectsRequest {
     /// (exclusive).
     #[prost(string, tag="11")]
     pub lexicographic_end: ::prost::alloc::string::String,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="9")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// Request object for `QueryWriteStatus`.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -652,9 +620,6 @@ pub struct QueryWriteStatusRequest {
     /// A set of parameters common to Storage API requests concerning an object.
     #[prost(message, optional, tag="2")]
     pub common_object_request_params: ::core::option::Option<CommonObjectRequestParams>,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="3")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// Response object for `QueryWriteStatus`.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -802,9 +767,6 @@ pub struct RewriteObjectRequest {
     /// A set of parameters common to Storage API requests concerning an object.
     #[prost(message, optional, tag="19")]
     pub common_object_request_params: ::core::option::Option<CommonObjectRequestParams>,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="20")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// A rewrite response.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -839,9 +801,6 @@ pub struct StartResumableWriteRequest {
     /// A set of parameters common to Storage API requests concerning an object.
     #[prost(message, optional, tag="3")]
     pub common_object_request_params: ::core::option::Option<CommonObjectRequestParams>,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="4")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// Response object for `StartResumableWrite`.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -900,9 +859,6 @@ pub struct UpdateObjectRequest {
     /// A set of parameters common to Storage API requests concerning an object.
     #[prost(message, optional, tag="8")]
     pub common_object_request_params: ::core::option::Option<CommonObjectRequestParams>,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="9")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// Request message for GetServiceAccount.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -910,9 +866,6 @@ pub struct GetServiceAccountRequest {
     /// Required. Project ID.
     #[prost(string, tag="1")]
     pub project: ::prost::alloc::string::String,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="2")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// Request message for CreateHmacKey.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -923,9 +876,6 @@ pub struct CreateHmacKeyRequest {
     /// Required. The service account to create the HMAC for.
     #[prost(string, tag="2")]
     pub service_account_email: ::prost::alloc::string::String,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="3")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// Create hmac response.  The only time the secret for an HMAC will be returned.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -947,9 +897,6 @@ pub struct DeleteHmacKeyRequest {
     /// Required. The project id the HMAC key lies in.
     #[prost(string, tag="2")]
     pub project: ::prost::alloc::string::String,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="3")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// Request object to get metadata on a given HMAC key.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -960,9 +907,6 @@ pub struct GetHmacKeyRequest {
     /// Required. The project id the HMAC key lies in.
     #[prost(string, tag="2")]
     pub project: ::prost::alloc::string::String,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="3")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// Request to fetch a list of HMAC keys under a given project.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -982,9 +926,6 @@ pub struct ListHmacKeysRequest {
     /// Optional. If set, return deleted keys that have not yet been wiped out.
     #[prost(bool, tag="5")]
     pub show_deleted_keys: bool,
-    /// Optional. A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="6")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
 }
 /// Hmac key list response with next page information.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1006,9 +947,6 @@ pub struct UpdateHmacKeyRequest {
     /// identify the key.
     #[prost(message, optional, tag="1")]
     pub hmac_key: ::core::option::Option<HmacKeyMetadata>,
-    /// A set of parameters common to all Storage API requests.
-    #[prost(message, optional, tag="2")]
-    pub common_request_params: ::core::option::Option<CommonRequestParams>,
     /// Update mask for hmac_key.
     #[prost(message, optional, tag="3")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
@@ -1028,13 +966,6 @@ pub struct CommonObjectRequestParams {
     /// Keys feature.
     #[prost(bytes="bytes", tag="5")]
     pub encryption_key_sha256_bytes: ::prost::bytes::Bytes,
-}
-/// Parameters that can be passed to any request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CommonRequestParams {
-    /// Required. Required when using buckets with Requestor Pays feature enabled.
-    #[prost(string, tag="1")]
-    pub user_project: ::prost::alloc::string::String,
 }
 /// Shared constants.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1156,8 +1087,7 @@ pub struct Bucket {
     /// for more information.
     #[prost(message, optional, tag="10")]
     pub lifecycle: ::core::option::Option<bucket::Lifecycle>,
-    /// Output only. The creation time of the bucket in
-    /// \[<https://tools.ietf.org/html/rfc3339\][RFC> 3339] format.
+    /// Output only. The creation time of the bucket.
     /// Attempting to set or update this field will result in a
     /// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].
     #[prost(message, optional, tag="11")]
@@ -1298,8 +1228,7 @@ pub mod bucket {
             #[prost(bool, tag="1")]
             pub enabled: bool,
             /// The deadline time for changing
-            /// `iamConfig.uniformBucketLevelAccess.enabled` from
-            /// true to false in [RFC 3339](<https://tools.ietf.org/html/rfc3339>).
+            /// `iamConfig.uniformBucketLevelAccess.enabled` from `true` to `false`.
             /// Mutable until the specified deadline is reached, but not afterward.
             #[prost(message, optional, tag="2")]
             pub lock_time: ::core::option::Option<::prost_types::Timestamp>,
@@ -1416,8 +1345,7 @@ pub mod bucket {
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct RetentionPolicy {
         /// Server-determined value that indicates the time from which policy was
-        /// enforced and effective. This value is in
-        /// \[<https://tools.ietf.org/html/rfc3339\][RFC> 3339] format.
+        /// enforced and effective.
         #[prost(message, optional, tag="1")]
         pub effective_time: ::core::option::Option<::prost_types::Timestamp>,
         /// Once locked, an object retention policy cannot be modified.
@@ -1559,10 +1487,10 @@ pub struct HmacKeyMetadata {
     /// State of the key. One of ACTIVE, INACTIVE, or DELETED.
     #[prost(string, tag="5")]
     pub state: ::prost::alloc::string::String,
-    /// The creation time of the HMAC key in RFC 3339 format.
+    /// The creation time of the HMAC key.
     #[prost(message, optional, tag="6")]
     pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The last modification time of the HMAC key metadata in RFC 3339 format.
+    /// The last modification time of the HMAC key metadata.
     #[prost(message, optional, tag="7")]
     pub update_time: ::core::option::Option<::prost_types::Timestamp>,
 }
@@ -1716,8 +1644,7 @@ pub struct Object {
     #[prost(bool, tag="20")]
     pub temporary_hold: bool,
     /// A server-determined value that specifies the earliest time that the
-    /// object's retention period expires. This value is in
-    /// \[<https://tools.ietf.org/html/rfc3339\][RFC> 3339] format.
+    /// object's retention period expires.
     /// Note 1: This field is not provided for objects with an active event-based
     /// hold, since retention expiration is unknown until the hold is removed.
     /// Note 2: This value can be provided even when temporary hold is set (so that
