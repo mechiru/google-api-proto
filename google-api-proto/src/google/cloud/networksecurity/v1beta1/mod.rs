@@ -26,187 +26,6 @@ pub struct OperationMetadata {
     #[prost(string, tag="7")]
     pub api_version: ::prost::alloc::string::String,
 }
-/// Specification of the GRPC Endpoint.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GrpcEndpoint {
-    /// Required. The target URI of the gRPC endpoint. Only UDS path is supported, and
-    /// should start with “unix:”.
-    #[prost(string, tag="1")]
-    pub target_uri: ::prost::alloc::string::String,
-}
-/// Specification of ValidationCA. Defines the mechanism to obtain the
-/// Certificate Authority certificate to validate the peer certificate.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ValidationCa {
-    /// The type of certificate provider which provides the CA certificate.
-    #[prost(oneof="validation_ca::Type", tags="2, 3")]
-    pub r#type: ::core::option::Option<validation_ca::Type>,
-}
-/// Nested message and enum types in `ValidationCA`.
-pub mod validation_ca {
-    /// The type of certificate provider which provides the CA certificate.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Type {
-        /// gRPC specific configuration to access the gRPC server to
-        /// obtain the CA certificate.
-        #[prost(message, tag="2")]
-        GrpcEndpoint(super::GrpcEndpoint),
-        /// The certificate provider instance specification that will be passed to
-        /// the data plane, which will be used to load necessary credential
-        /// information.
-        #[prost(message, tag="3")]
-        CertificateProviderInstance(super::CertificateProviderInstance),
-    }
-}
-/// Specification of a TLS certificate provider instance. Workloads may have one
-/// or more CertificateProvider instances (plugins) and one of them is enabled
-/// and configured by specifying this message. Workloads use the values from this
-/// message to locate and load the CertificateProvider instance configuration.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CertificateProviderInstance {
-    /// Required. Plugin instance name, used to locate and load CertificateProvider instance
-    /// configuration. Set to "google_cloud_private_spiffe" to use Certificate
-    /// Authority Service certificate provider instance.
-    #[prost(string, tag="1")]
-    pub plugin_instance: ::prost::alloc::string::String,
-}
-/// Specification of certificate provider. Defines the mechanism to obtain the
-/// certificate and private key for peer to peer authentication.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CertificateProvider {
-    /// The type of certificate provider which provides the certificates and
-    /// private keys.
-    #[prost(oneof="certificate_provider::Type", tags="2, 3")]
-    pub r#type: ::core::option::Option<certificate_provider::Type>,
-}
-/// Nested message and enum types in `CertificateProvider`.
-pub mod certificate_provider {
-    /// The type of certificate provider which provides the certificates and
-    /// private keys.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Type {
-        /// gRPC specific configuration to access the gRPC server to
-        /// obtain the cert and private key.
-        #[prost(message, tag="2")]
-        GrpcEndpoint(super::GrpcEndpoint),
-        /// The certificate provider instance specification that will be passed to
-        /// the data plane, which will be used to load necessary credential
-        /// information.
-        #[prost(message, tag="3")]
-        CertificateProviderInstance(super::CertificateProviderInstance),
-    }
-}
-/// ClientTlsPolicy is a resource that specifies how a client should authenticate
-/// connections to backends of a service. This resource itself does not affect
-/// configuration unless it is attached to a backend service resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ClientTlsPolicy {
-    /// Required. Name of the ClientTlsPolicy resource. It matches the pattern
-    /// `projects/*/locations/{location}/clientTlsPolicies/{client_tls_policy}`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. Free-text description of the resource.
-    #[prost(string, tag="2")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. The timestamp when the resource was created.
-    #[prost(message, optional, tag="3")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The timestamp when the resource was updated.
-    #[prost(message, optional, tag="4")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. Set of label tags associated with the resource.
-    #[prost(btree_map="string, string", tag="5")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. Server Name Indication string to present to the server during TLS
-    /// handshake. E.g: "secure.example.com".
-    #[prost(string, tag="6")]
-    pub sni: ::prost::alloc::string::String,
-    /// Optional. Defines a mechanism to provision client identity (public and private keys)
-    /// for peer to peer authentication. The presence of this dictates mTLS.
-    #[prost(message, optional, tag="7")]
-    pub client_certificate: ::core::option::Option<CertificateProvider>,
-    /// Optional. Defines the mechanism to obtain the Certificate Authority certificate to
-    /// validate the server certificate. If empty, client does not validate the
-    /// server certificate.
-    #[prost(message, repeated, tag="8")]
-    pub server_validation_ca: ::prost::alloc::vec::Vec<ValidationCa>,
-}
-/// Request used by the ListClientTlsPolicies method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListClientTlsPoliciesRequest {
-    /// Required. The project and location from which the ClientTlsPolicies should
-    /// be listed, specified in the format `projects/*/locations/{location}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Maximum number of ClientTlsPolicies to return per call.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// The value returned by the last `ListClientTlsPoliciesResponse`
-    /// Indicates that this is a continuation of a prior
-    /// `ListClientTlsPolicies` call, and that the system
-    /// should return the next page of data.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response returned by the ListClientTlsPolicies method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListClientTlsPoliciesResponse {
-    /// List of ClientTlsPolicy resources.
-    #[prost(message, repeated, tag="1")]
-    pub client_tls_policies: ::prost::alloc::vec::Vec<ClientTlsPolicy>,
-    /// If there might be more results than those appearing in this response, then
-    /// `next_page_token` is included. To get the next set of results, call this
-    /// method again using the value of `next_page_token` as `page_token`.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request used by the GetClientTlsPolicy method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetClientTlsPolicyRequest {
-    /// Required. A name of the ClientTlsPolicy to get. Must be in the format
-    /// `projects/*/locations/{location}/clientTlsPolicies/*`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request used by the CreateClientTlsPolicy method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateClientTlsPolicyRequest {
-    /// Required. The parent resource of the ClientTlsPolicy. Must be in
-    /// the format `projects/*/locations/{location}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Short name of the ClientTlsPolicy resource to be created. This value should
-    /// be 1-63 characters long, containing only letters, numbers, hyphens, and
-    /// underscores, and should not start with a number. E.g. "client_mtls_policy".
-    #[prost(string, tag="2")]
-    pub client_tls_policy_id: ::prost::alloc::string::String,
-    /// Required. ClientTlsPolicy resource to be created.
-    #[prost(message, optional, tag="3")]
-    pub client_tls_policy: ::core::option::Option<ClientTlsPolicy>,
-}
-/// Request used by UpdateClientTlsPolicy method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateClientTlsPolicyRequest {
-    /// Optional. Field mask is used to specify the fields to be overwritten in the
-    /// ClientTlsPolicy resource by the update.  The fields
-    /// specified in the update_mask are relative to the resource, not
-    /// the full request. A field will be overwritten if it is in the
-    /// mask. If the user does not provide a mask then all fields will be
-    /// overwritten.
-    #[prost(message, optional, tag="1")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-    /// Required. Updated ClientTlsPolicy resource.
-    #[prost(message, optional, tag="2")]
-    pub client_tls_policy: ::core::option::Option<ClientTlsPolicy>,
-}
-/// Request used by the DeleteClientTlsPolicy method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteClientTlsPolicyRequest {
-    /// Required. A name of the ClientTlsPolicy to delete. Must be in
-    /// the format `projects/*/locations/{location}/clientTlsPolicies/*`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
 /// AuthorizationPolicy is a resource that specifies how a server
 /// should authorize incoming connections. This resource in itself does
 /// not change the configuration unless it's attached to a target https
@@ -426,6 +245,76 @@ pub struct DeleteAuthorizationPolicyRequest {
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
 }
+/// Specification of the GRPC Endpoint.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GrpcEndpoint {
+    /// Required. The target URI of the gRPC endpoint. Only UDS path is supported, and
+    /// should start with “unix:”.
+    #[prost(string, tag="1")]
+    pub target_uri: ::prost::alloc::string::String,
+}
+/// Specification of ValidationCA. Defines the mechanism to obtain the
+/// Certificate Authority certificate to validate the peer certificate.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ValidationCa {
+    /// The type of certificate provider which provides the CA certificate.
+    #[prost(oneof="validation_ca::Type", tags="2, 3")]
+    pub r#type: ::core::option::Option<validation_ca::Type>,
+}
+/// Nested message and enum types in `ValidationCA`.
+pub mod validation_ca {
+    /// The type of certificate provider which provides the CA certificate.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Type {
+        /// gRPC specific configuration to access the gRPC server to
+        /// obtain the CA certificate.
+        #[prost(message, tag="2")]
+        GrpcEndpoint(super::GrpcEndpoint),
+        /// The certificate provider instance specification that will be passed to
+        /// the data plane, which will be used to load necessary credential
+        /// information.
+        #[prost(message, tag="3")]
+        CertificateProviderInstance(super::CertificateProviderInstance),
+    }
+}
+/// Specification of a TLS certificate provider instance. Workloads may have one
+/// or more CertificateProvider instances (plugins) and one of them is enabled
+/// and configured by specifying this message. Workloads use the values from this
+/// message to locate and load the CertificateProvider instance configuration.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CertificateProviderInstance {
+    /// Required. Plugin instance name, used to locate and load CertificateProvider instance
+    /// configuration. Set to "google_cloud_private_spiffe" to use Certificate
+    /// Authority Service certificate provider instance.
+    #[prost(string, tag="1")]
+    pub plugin_instance: ::prost::alloc::string::String,
+}
+/// Specification of certificate provider. Defines the mechanism to obtain the
+/// certificate and private key for peer to peer authentication.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CertificateProvider {
+    /// The type of certificate provider which provides the certificates and
+    /// private keys.
+    #[prost(oneof="certificate_provider::Type", tags="2, 3")]
+    pub r#type: ::core::option::Option<certificate_provider::Type>,
+}
+/// Nested message and enum types in `CertificateProvider`.
+pub mod certificate_provider {
+    /// The type of certificate provider which provides the certificates and
+    /// private keys.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Type {
+        /// gRPC specific configuration to access the gRPC server to
+        /// obtain the cert and private key.
+        #[prost(message, tag="2")]
+        GrpcEndpoint(super::GrpcEndpoint),
+        /// The certificate provider instance specification that will be passed to
+        /// the data plane, which will be used to load necessary credential
+        /// information.
+        #[prost(message, tag="3")]
+        CertificateProviderInstance(super::CertificateProviderInstance),
+    }
+}
 /// ServerTlsPolicy is a resource that specifies how a server should authenticate
 /// incoming requests. This resource itself does not affect configuration unless
 /// it is attached to a target https proxy or endpoint config selector resource.
@@ -557,6 +446,117 @@ pub struct UpdateServerTlsPolicyRequest {
 pub struct DeleteServerTlsPolicyRequest {
     /// Required. A name of the ServerTlsPolicy to delete. Must be in
     /// the format `projects/*/locations/{location}/serverTlsPolicies/*`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// ClientTlsPolicy is a resource that specifies how a client should authenticate
+/// connections to backends of a service. This resource itself does not affect
+/// configuration unless it is attached to a backend service resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ClientTlsPolicy {
+    /// Required. Name of the ClientTlsPolicy resource. It matches the pattern
+    /// `projects/*/locations/{location}/clientTlsPolicies/{client_tls_policy}`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Free-text description of the resource.
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. The timestamp when the resource was created.
+    #[prost(message, optional, tag="3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The timestamp when the resource was updated.
+    #[prost(message, optional, tag="4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. Set of label tags associated with the resource.
+    #[prost(btree_map="string, string", tag="5")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Optional. Server Name Indication string to present to the server during TLS
+    /// handshake. E.g: "secure.example.com".
+    #[prost(string, tag="6")]
+    pub sni: ::prost::alloc::string::String,
+    /// Optional. Defines a mechanism to provision client identity (public and private keys)
+    /// for peer to peer authentication. The presence of this dictates mTLS.
+    #[prost(message, optional, tag="7")]
+    pub client_certificate: ::core::option::Option<CertificateProvider>,
+    /// Optional. Defines the mechanism to obtain the Certificate Authority certificate to
+    /// validate the server certificate. If empty, client does not validate the
+    /// server certificate.
+    #[prost(message, repeated, tag="8")]
+    pub server_validation_ca: ::prost::alloc::vec::Vec<ValidationCa>,
+}
+/// Request used by the ListClientTlsPolicies method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListClientTlsPoliciesRequest {
+    /// Required. The project and location from which the ClientTlsPolicies should
+    /// be listed, specified in the format `projects/*/locations/{location}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Maximum number of ClientTlsPolicies to return per call.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// The value returned by the last `ListClientTlsPoliciesResponse`
+    /// Indicates that this is a continuation of a prior
+    /// `ListClientTlsPolicies` call, and that the system
+    /// should return the next page of data.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response returned by the ListClientTlsPolicies method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListClientTlsPoliciesResponse {
+    /// List of ClientTlsPolicy resources.
+    #[prost(message, repeated, tag="1")]
+    pub client_tls_policies: ::prost::alloc::vec::Vec<ClientTlsPolicy>,
+    /// If there might be more results than those appearing in this response, then
+    /// `next_page_token` is included. To get the next set of results, call this
+    /// method again using the value of `next_page_token` as `page_token`.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request used by the GetClientTlsPolicy method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetClientTlsPolicyRequest {
+    /// Required. A name of the ClientTlsPolicy to get. Must be in the format
+    /// `projects/*/locations/{location}/clientTlsPolicies/*`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request used by the CreateClientTlsPolicy method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateClientTlsPolicyRequest {
+    /// Required. The parent resource of the ClientTlsPolicy. Must be in
+    /// the format `projects/*/locations/{location}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Short name of the ClientTlsPolicy resource to be created. This value should
+    /// be 1-63 characters long, containing only letters, numbers, hyphens, and
+    /// underscores, and should not start with a number. E.g. "client_mtls_policy".
+    #[prost(string, tag="2")]
+    pub client_tls_policy_id: ::prost::alloc::string::String,
+    /// Required. ClientTlsPolicy resource to be created.
+    #[prost(message, optional, tag="3")]
+    pub client_tls_policy: ::core::option::Option<ClientTlsPolicy>,
+}
+/// Request used by UpdateClientTlsPolicy method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateClientTlsPolicyRequest {
+    /// Optional. Field mask is used to specify the fields to be overwritten in the
+    /// ClientTlsPolicy resource by the update.  The fields
+    /// specified in the update_mask are relative to the resource, not
+    /// the full request. A field will be overwritten if it is in the
+    /// mask. If the user does not provide a mask then all fields will be
+    /// overwritten.
+    #[prost(message, optional, tag="1")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// Required. Updated ClientTlsPolicy resource.
+    #[prost(message, optional, tag="2")]
+    pub client_tls_policy: ::core::option::Option<ClientTlsPolicy>,
+}
+/// Request used by the DeleteClientTlsPolicy method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteClientTlsPolicyRequest {
+    /// Required. A name of the ClientTlsPolicy to delete. Must be in
+    /// the format `projects/*/locations/{location}/clientTlsPolicies/*`.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
 }

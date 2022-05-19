@@ -1,84 +1,3 @@
-/// Defines the errors to be returned in
-/// \[google.api.servicecontrol.v1.CheckResponse.check_errors][google.api.servicecontrol.v1.CheckResponse.check_errors\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CheckError {
-    /// The error code.
-    #[prost(enumeration="check_error::Code", tag="1")]
-    pub code: i32,
-    /// Subject to whom this error applies. See the specific code enum for more
-    /// details on this field. For example:
-    ///
-    /// - "project:<project-id or project-number>"
-    /// - "folder:<folder-id>"
-    /// - "organization:<organization-id>"
-    #[prost(string, tag="4")]
-    pub subject: ::prost::alloc::string::String,
-    /// Free-form text providing details on the error cause of the error.
-    #[prost(string, tag="2")]
-    pub detail: ::prost::alloc::string::String,
-    /// Contains public information about the check error. If available,
-    /// `status.code` will be non zero and client can propagate it out as public
-    /// error.
-    #[prost(message, optional, tag="3")]
-    pub status: ::core::option::Option<super::super::super::rpc::Status>,
-}
-/// Nested message and enum types in `CheckError`.
-pub mod check_error {
-    /// Error codes for Check responses.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Code {
-        /// This is never used in `CheckResponse`.
-        ErrorCodeUnspecified = 0,
-        /// The consumer's project id, network container, or resource container was
-        /// not found. Same as \[google.rpc.Code.NOT_FOUND][google.rpc.Code.NOT_FOUND\].
-        NotFound = 5,
-        /// The consumer doesn't have access to the specified resource.
-        /// Same as \[google.rpc.Code.PERMISSION_DENIED][google.rpc.Code.PERMISSION_DENIED\].
-        PermissionDenied = 7,
-        /// Quota check failed. Same as \[google.rpc.Code.RESOURCE_EXHAUSTED][google.rpc.Code.RESOURCE_EXHAUSTED\].
-        ResourceExhausted = 8,
-        /// The consumer hasn't activated the service.
-        ServiceNotActivated = 104,
-        /// The consumer cannot access the service because billing is disabled.
-        BillingDisabled = 107,
-        /// The consumer's project has been marked as deleted (soft deletion).
-        ProjectDeleted = 108,
-        /// The consumer's project number or id does not represent a valid project.
-        ProjectInvalid = 114,
-        /// The input consumer info does not represent a valid consumer folder or
-        /// organization.
-        ConsumerInvalid = 125,
-        /// The IP address of the consumer is invalid for the specific consumer
-        /// project.
-        IpAddressBlocked = 109,
-        /// The referer address of the consumer request is invalid for the specific
-        /// consumer project.
-        RefererBlocked = 110,
-        /// The client application of the consumer request is invalid for the
-        /// specific consumer project.
-        ClientAppBlocked = 111,
-        /// The API targeted by this request is invalid for the specified consumer
-        /// project.
-        ApiTargetBlocked = 122,
-        /// The consumer's API key is invalid.
-        ApiKeyInvalid = 105,
-        /// The consumer's API Key has expired.
-        ApiKeyExpired = 112,
-        /// The consumer's API Key was not found in config record.
-        ApiKeyNotFound = 113,
-        /// The credential in the request can not be verified.
-        InvalidCredential = 123,
-        /// The backend server for looking up project id/number is unavailable.
-        NamespaceLookupUnavailable = 300,
-        /// The backend server for checking service status is unavailable.
-        ServiceStatusUnavailable = 301,
-        /// The backend server for checking billing status is unavailable.
-        BillingStatusUnavailable = 302,
-        /// Cloud Resource Manager backend server is unavailable.
-        CloudResourceManagerBackendUnavailable = 305,
-    }
-}
 /// A common proto for logging HTTP requests. Only contains semantics
 /// defined by the HTTP specification. Product-specific logging
 /// information MUST be defined in a separate message.
@@ -581,6 +500,362 @@ pub mod operation {
         High = 1,
     }
 }
+/// Defines the errors to be returned in
+/// \[google.api.servicecontrol.v1.CheckResponse.check_errors][google.api.servicecontrol.v1.CheckResponse.check_errors\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CheckError {
+    /// The error code.
+    #[prost(enumeration="check_error::Code", tag="1")]
+    pub code: i32,
+    /// Subject to whom this error applies. See the specific code enum for more
+    /// details on this field. For example:
+    ///
+    /// - "project:<project-id or project-number>"
+    /// - "folder:<folder-id>"
+    /// - "organization:<organization-id>"
+    #[prost(string, tag="4")]
+    pub subject: ::prost::alloc::string::String,
+    /// Free-form text providing details on the error cause of the error.
+    #[prost(string, tag="2")]
+    pub detail: ::prost::alloc::string::String,
+    /// Contains public information about the check error. If available,
+    /// `status.code` will be non zero and client can propagate it out as public
+    /// error.
+    #[prost(message, optional, tag="3")]
+    pub status: ::core::option::Option<super::super::super::rpc::Status>,
+}
+/// Nested message and enum types in `CheckError`.
+pub mod check_error {
+    /// Error codes for Check responses.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Code {
+        /// This is never used in `CheckResponse`.
+        ErrorCodeUnspecified = 0,
+        /// The consumer's project id, network container, or resource container was
+        /// not found. Same as \[google.rpc.Code.NOT_FOUND][google.rpc.Code.NOT_FOUND\].
+        NotFound = 5,
+        /// The consumer doesn't have access to the specified resource.
+        /// Same as \[google.rpc.Code.PERMISSION_DENIED][google.rpc.Code.PERMISSION_DENIED\].
+        PermissionDenied = 7,
+        /// Quota check failed. Same as \[google.rpc.Code.RESOURCE_EXHAUSTED][google.rpc.Code.RESOURCE_EXHAUSTED\].
+        ResourceExhausted = 8,
+        /// The consumer hasn't activated the service.
+        ServiceNotActivated = 104,
+        /// The consumer cannot access the service because billing is disabled.
+        BillingDisabled = 107,
+        /// The consumer's project has been marked as deleted (soft deletion).
+        ProjectDeleted = 108,
+        /// The consumer's project number or id does not represent a valid project.
+        ProjectInvalid = 114,
+        /// The input consumer info does not represent a valid consumer folder or
+        /// organization.
+        ConsumerInvalid = 125,
+        /// The IP address of the consumer is invalid for the specific consumer
+        /// project.
+        IpAddressBlocked = 109,
+        /// The referer address of the consumer request is invalid for the specific
+        /// consumer project.
+        RefererBlocked = 110,
+        /// The client application of the consumer request is invalid for the
+        /// specific consumer project.
+        ClientAppBlocked = 111,
+        /// The API targeted by this request is invalid for the specified consumer
+        /// project.
+        ApiTargetBlocked = 122,
+        /// The consumer's API key is invalid.
+        ApiKeyInvalid = 105,
+        /// The consumer's API Key has expired.
+        ApiKeyExpired = 112,
+        /// The consumer's API Key was not found in config record.
+        ApiKeyNotFound = 113,
+        /// The credential in the request can not be verified.
+        InvalidCredential = 123,
+        /// The backend server for looking up project id/number is unavailable.
+        NamespaceLookupUnavailable = 300,
+        /// The backend server for checking service status is unavailable.
+        ServiceStatusUnavailable = 301,
+        /// The backend server for checking billing status is unavailable.
+        BillingStatusUnavailable = 302,
+        /// Cloud Resource Manager backend server is unavailable.
+        CloudResourceManagerBackendUnavailable = 305,
+    }
+}
+/// Request message for the AllocateQuota method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AllocateQuotaRequest {
+    /// Name of the service as specified in the service configuration. For example,
+    /// `"pubsub.googleapis.com"`.
+    ///
+    /// See \[google.api.Service][google.api.Service\] for the definition of a service name.
+    #[prost(string, tag="1")]
+    pub service_name: ::prost::alloc::string::String,
+    /// Operation that describes the quota allocation.
+    #[prost(message, optional, tag="2")]
+    pub allocate_operation: ::core::option::Option<QuotaOperation>,
+    /// Specifies which version of service configuration should be used to process
+    /// the request. If unspecified or no matching version can be found, the latest
+    /// one will be used.
+    #[prost(string, tag="4")]
+    pub service_config_id: ::prost::alloc::string::String,
+}
+/// Represents information regarding a quota operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QuotaOperation {
+    /// Identity of the operation. This is expected to be unique within the scope
+    /// of the service that generated the operation, and guarantees idempotency in
+    /// case of retries.
+    ///
+    /// In order to ensure best performance and latency in the Quota backends,
+    /// operation_ids are optimally associated with time, so that related
+    /// operations can be accessed fast in storage. For this reason, the
+    /// recommended token for services that intend to operate at a high QPS is
+    /// Unix time in nanos + UUID
+    #[prost(string, tag="1")]
+    pub operation_id: ::prost::alloc::string::String,
+    /// Fully qualified name of the API method for which this quota operation is
+    /// requested. This name is used for matching quota rules or metric rules and
+    /// billing status rules defined in service configuration.
+    ///
+    /// This field should not be set if any of the following is true:
+    /// (1) the quota operation is performed on non-API resources.
+    /// (2) quota_metrics is set because the caller is doing quota override.
+    ///
+    ///
+    /// Example of an RPC method name:
+    ///     google.example.library.v1.LibraryService.CreateShelf
+    #[prost(string, tag="2")]
+    pub method_name: ::prost::alloc::string::String,
+    /// Identity of the consumer for whom this quota operation is being performed.
+    ///
+    /// This can be in one of the following formats:
+    ///   project:<project_id>,
+    ///   project_number:<project_number>,
+    ///   api_key:<api_key>.
+    #[prost(string, tag="3")]
+    pub consumer_id: ::prost::alloc::string::String,
+    /// Labels describing the operation.
+    #[prost(btree_map="string, string", tag="4")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Represents information about this operation. Each MetricValueSet
+    /// corresponds to a metric defined in the service configuration.
+    /// The data type used in the MetricValueSet must agree with
+    /// the data type specified in the metric definition.
+    ///
+    /// Within a single operation, it is not allowed to have more than one
+    /// MetricValue instances that have the same metric names and identical
+    /// label value combinations. If a request has such duplicated MetricValue
+    /// instances, the entire request is rejected with
+    /// an invalid argument error.
+    ///
+    /// This field is mutually exclusive with method_name.
+    #[prost(message, repeated, tag="5")]
+    pub quota_metrics: ::prost::alloc::vec::Vec<MetricValueSet>,
+    /// Quota mode for this operation.
+    #[prost(enumeration="quota_operation::QuotaMode", tag="6")]
+    pub quota_mode: i32,
+}
+/// Nested message and enum types in `QuotaOperation`.
+pub mod quota_operation {
+    /// Supported quota modes.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum QuotaMode {
+        /// Guard against implicit default. Must not be used.
+        Unspecified = 0,
+        /// For AllocateQuota request, allocates quota for the amount specified in
+        /// the service configuration or specified using the quota metrics. If the
+        /// amount is higher than the available quota, allocation error will be
+        /// returned and no quota will be allocated.
+        /// If multiple quotas are part of the request, and one fails, none of the
+        /// quotas are allocated or released.
+        Normal = 1,
+        /// The operation allocates quota for the amount specified in the service
+        /// configuration or specified using the quota metrics. If the amount is
+        /// higher than the available quota, request does not fail but all available
+        /// quota will be allocated.
+        /// For rate quota, BEST_EFFORT will continue to deduct from other groups
+        /// even if one does not have enough quota. For allocation, it will find the
+        /// minimum available amount across all groups and deduct that amount from
+        /// all the affected groups.
+        BestEffort = 2,
+        /// For AllocateQuota request, only checks if there is enough quota
+        /// available and does not change the available quota. No lock is placed on
+        /// the available quota either.
+        CheckOnly = 3,
+        /// Unimplemented. When used in AllocateQuotaRequest, this returns the
+        /// effective quota limit(s) in the response, and no quota check will be
+        /// performed. Not supported for other requests, and even for
+        /// AllocateQuotaRequest, this is currently supported only for allowlisted
+        /// services.
+        QueryOnly = 4,
+        /// The operation allocates quota for the amount specified in the service
+        /// configuration or specified using the quota metrics. If the requested
+        /// amount is higher than the available quota, request does not fail and
+        /// remaining quota would become negative (going over the limit).
+        /// Not supported for Rate Quota.
+        AdjustOnly = 5,
+    }
+}
+/// Response message for the AllocateQuota method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AllocateQuotaResponse {
+    /// The same operation_id value used in the AllocateQuotaRequest. Used for
+    /// logging and diagnostics purposes.
+    #[prost(string, tag="1")]
+    pub operation_id: ::prost::alloc::string::String,
+    /// Indicates the decision of the allocate.
+    #[prost(message, repeated, tag="2")]
+    pub allocate_errors: ::prost::alloc::vec::Vec<QuotaError>,
+    /// Quota metrics to indicate the result of allocation. Depending on the
+    /// request, one or more of the following metrics will be included:
+    ///
+    /// 1. Per quota group or per quota metric incremental usage will be specified
+    /// using the following delta metric :
+    ///   "serviceruntime.googleapis.com/api/consumer/quota_used_count"
+    ///
+    /// 2. The quota limit reached condition will be specified using the following
+    /// boolean metric :
+    ///   "serviceruntime.googleapis.com/quota/exceeded"
+    #[prost(message, repeated, tag="3")]
+    pub quota_metrics: ::prost::alloc::vec::Vec<MetricValueSet>,
+    /// ID of the actual config used to process the request.
+    #[prost(string, tag="4")]
+    pub service_config_id: ::prost::alloc::string::String,
+}
+/// Represents error information for \[QuotaOperation][google.api.servicecontrol.v1.QuotaOperation\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QuotaError {
+    /// Error code.
+    #[prost(enumeration="quota_error::Code", tag="1")]
+    pub code: i32,
+    /// Subject to whom this error applies. See the specific enum for more details
+    /// on this field. For example, "clientip:<ip address of client>" or
+    /// "project:<Google developer project id>".
+    #[prost(string, tag="2")]
+    pub subject: ::prost::alloc::string::String,
+    /// Free-form text that provides details on the cause of the error.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    /// Contains additional information about the quota error.
+    /// If available, `status.code` will be non zero.
+    #[prost(message, optional, tag="4")]
+    pub status: ::core::option::Option<super::super::super::rpc::Status>,
+}
+/// Nested message and enum types in `QuotaError`.
+pub mod quota_error {
+    /// Error codes related to project config validations are deprecated since the
+    /// quota controller methods do not perform these validations. Instead services
+    /// have to call the Check method, without quota_properties field, to perform
+    /// these validations before calling the quota controller methods. These
+    /// methods check only for project deletion to be wipe out compliant.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Code {
+        /// This is never used.
+        Unspecified = 0,
+        /// Quota allocation failed.
+        /// Same as \[google.rpc.Code.RESOURCE_EXHAUSTED][google.rpc.Code.RESOURCE_EXHAUSTED\].
+        ResourceExhausted = 8,
+        /// Consumer cannot access the service because the service requires active
+        /// billing.
+        BillingNotActive = 107,
+        /// Consumer's project has been marked as deleted (soft deletion).
+        ProjectDeleted = 108,
+        /// Specified API key is invalid.
+        ApiKeyInvalid = 105,
+        /// Specified API Key has expired.
+        ApiKeyExpired = 112,
+    }
+}
+/// Generated client implementations.
+pub mod quota_controller_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// [Google Quota Control API](/service-control/overview)
+    ///
+    /// Allows clients to allocate and release quota against a [managed
+    /// service](https://cloud.google.com/service-management/reference/rpc/google.api/servicemanagement.v1#google.api.servicemanagement.v1.ManagedService).
+    #[derive(Debug, Clone)]
+    pub struct QuotaControllerClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> QuotaControllerClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> QuotaControllerClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            QuotaControllerClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Attempts to allocate quota for the specified consumer. It should be called
+        /// before the operation is executed.
+        ///
+        /// This method requires the `servicemanagement.services.quota`
+        /// permission on the specified service. For more information, see
+        /// [Cloud IAM](https://cloud.google.com/iam).
+        ///
+        /// **NOTE:** The client **must** fail-open on server errors `INTERNAL`,
+        /// `UNKNOWN`, `DEADLINE_EXCEEDED`, and `UNAVAILABLE`. To ensure system
+        /// reliability, the server may inject these errors to prohibit any hard
+        /// dependency on the quota functionality.
+        pub async fn allocate_quota(
+            &mut self,
+            request: impl tonic::IntoRequest<super::AllocateQuotaRequest>,
+        ) -> Result<tonic::Response<super::AllocateQuotaResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.api.servicecontrol.v1.QuotaController/AllocateQuota",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// Request message for the Check method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CheckRequest {
@@ -882,281 +1157,6 @@ pub mod service_controller_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.api.servicecontrol.v1.ServiceController/Report",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Request message for the AllocateQuota method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AllocateQuotaRequest {
-    /// Name of the service as specified in the service configuration. For example,
-    /// `"pubsub.googleapis.com"`.
-    ///
-    /// See \[google.api.Service][google.api.Service\] for the definition of a service name.
-    #[prost(string, tag="1")]
-    pub service_name: ::prost::alloc::string::String,
-    /// Operation that describes the quota allocation.
-    #[prost(message, optional, tag="2")]
-    pub allocate_operation: ::core::option::Option<QuotaOperation>,
-    /// Specifies which version of service configuration should be used to process
-    /// the request. If unspecified or no matching version can be found, the latest
-    /// one will be used.
-    #[prost(string, tag="4")]
-    pub service_config_id: ::prost::alloc::string::String,
-}
-/// Represents information regarding a quota operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QuotaOperation {
-    /// Identity of the operation. This is expected to be unique within the scope
-    /// of the service that generated the operation, and guarantees idempotency in
-    /// case of retries.
-    ///
-    /// In order to ensure best performance and latency in the Quota backends,
-    /// operation_ids are optimally associated with time, so that related
-    /// operations can be accessed fast in storage. For this reason, the
-    /// recommended token for services that intend to operate at a high QPS is
-    /// Unix time in nanos + UUID
-    #[prost(string, tag="1")]
-    pub operation_id: ::prost::alloc::string::String,
-    /// Fully qualified name of the API method for which this quota operation is
-    /// requested. This name is used for matching quota rules or metric rules and
-    /// billing status rules defined in service configuration.
-    ///
-    /// This field should not be set if any of the following is true:
-    /// (1) the quota operation is performed on non-API resources.
-    /// (2) quota_metrics is set because the caller is doing quota override.
-    ///
-    ///
-    /// Example of an RPC method name:
-    ///     google.example.library.v1.LibraryService.CreateShelf
-    #[prost(string, tag="2")]
-    pub method_name: ::prost::alloc::string::String,
-    /// Identity of the consumer for whom this quota operation is being performed.
-    ///
-    /// This can be in one of the following formats:
-    ///   project:<project_id>,
-    ///   project_number:<project_number>,
-    ///   api_key:<api_key>.
-    #[prost(string, tag="3")]
-    pub consumer_id: ::prost::alloc::string::String,
-    /// Labels describing the operation.
-    #[prost(btree_map="string, string", tag="4")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Represents information about this operation. Each MetricValueSet
-    /// corresponds to a metric defined in the service configuration.
-    /// The data type used in the MetricValueSet must agree with
-    /// the data type specified in the metric definition.
-    ///
-    /// Within a single operation, it is not allowed to have more than one
-    /// MetricValue instances that have the same metric names and identical
-    /// label value combinations. If a request has such duplicated MetricValue
-    /// instances, the entire request is rejected with
-    /// an invalid argument error.
-    ///
-    /// This field is mutually exclusive with method_name.
-    #[prost(message, repeated, tag="5")]
-    pub quota_metrics: ::prost::alloc::vec::Vec<MetricValueSet>,
-    /// Quota mode for this operation.
-    #[prost(enumeration="quota_operation::QuotaMode", tag="6")]
-    pub quota_mode: i32,
-}
-/// Nested message and enum types in `QuotaOperation`.
-pub mod quota_operation {
-    /// Supported quota modes.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum QuotaMode {
-        /// Guard against implicit default. Must not be used.
-        Unspecified = 0,
-        /// For AllocateQuota request, allocates quota for the amount specified in
-        /// the service configuration or specified using the quota metrics. If the
-        /// amount is higher than the available quota, allocation error will be
-        /// returned and no quota will be allocated.
-        /// If multiple quotas are part of the request, and one fails, none of the
-        /// quotas are allocated or released.
-        Normal = 1,
-        /// The operation allocates quota for the amount specified in the service
-        /// configuration or specified using the quota metrics. If the amount is
-        /// higher than the available quota, request does not fail but all available
-        /// quota will be allocated.
-        /// For rate quota, BEST_EFFORT will continue to deduct from other groups
-        /// even if one does not have enough quota. For allocation, it will find the
-        /// minimum available amount across all groups and deduct that amount from
-        /// all the affected groups.
-        BestEffort = 2,
-        /// For AllocateQuota request, only checks if there is enough quota
-        /// available and does not change the available quota. No lock is placed on
-        /// the available quota either.
-        CheckOnly = 3,
-        /// Unimplemented. When used in AllocateQuotaRequest, this returns the
-        /// effective quota limit(s) in the response, and no quota check will be
-        /// performed. Not supported for other requests, and even for
-        /// AllocateQuotaRequest, this is currently supported only for allowlisted
-        /// services.
-        QueryOnly = 4,
-        /// The operation allocates quota for the amount specified in the service
-        /// configuration or specified using the quota metrics. If the requested
-        /// amount is higher than the available quota, request does not fail and
-        /// remaining quota would become negative (going over the limit).
-        /// Not supported for Rate Quota.
-        AdjustOnly = 5,
-    }
-}
-/// Response message for the AllocateQuota method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AllocateQuotaResponse {
-    /// The same operation_id value used in the AllocateQuotaRequest. Used for
-    /// logging and diagnostics purposes.
-    #[prost(string, tag="1")]
-    pub operation_id: ::prost::alloc::string::String,
-    /// Indicates the decision of the allocate.
-    #[prost(message, repeated, tag="2")]
-    pub allocate_errors: ::prost::alloc::vec::Vec<QuotaError>,
-    /// Quota metrics to indicate the result of allocation. Depending on the
-    /// request, one or more of the following metrics will be included:
-    ///
-    /// 1. Per quota group or per quota metric incremental usage will be specified
-    /// using the following delta metric :
-    ///   "serviceruntime.googleapis.com/api/consumer/quota_used_count"
-    ///
-    /// 2. The quota limit reached condition will be specified using the following
-    /// boolean metric :
-    ///   "serviceruntime.googleapis.com/quota/exceeded"
-    #[prost(message, repeated, tag="3")]
-    pub quota_metrics: ::prost::alloc::vec::Vec<MetricValueSet>,
-    /// ID of the actual config used to process the request.
-    #[prost(string, tag="4")]
-    pub service_config_id: ::prost::alloc::string::String,
-}
-/// Represents error information for \[QuotaOperation][google.api.servicecontrol.v1.QuotaOperation\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QuotaError {
-    /// Error code.
-    #[prost(enumeration="quota_error::Code", tag="1")]
-    pub code: i32,
-    /// Subject to whom this error applies. See the specific enum for more details
-    /// on this field. For example, "clientip:<ip address of client>" or
-    /// "project:<Google developer project id>".
-    #[prost(string, tag="2")]
-    pub subject: ::prost::alloc::string::String,
-    /// Free-form text that provides details on the cause of the error.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    /// Contains additional information about the quota error.
-    /// If available, `status.code` will be non zero.
-    #[prost(message, optional, tag="4")]
-    pub status: ::core::option::Option<super::super::super::rpc::Status>,
-}
-/// Nested message and enum types in `QuotaError`.
-pub mod quota_error {
-    /// Error codes related to project config validations are deprecated since the
-    /// quota controller methods do not perform these validations. Instead services
-    /// have to call the Check method, without quota_properties field, to perform
-    /// these validations before calling the quota controller methods. These
-    /// methods check only for project deletion to be wipe out compliant.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Code {
-        /// This is never used.
-        Unspecified = 0,
-        /// Quota allocation failed.
-        /// Same as \[google.rpc.Code.RESOURCE_EXHAUSTED][google.rpc.Code.RESOURCE_EXHAUSTED\].
-        ResourceExhausted = 8,
-        /// Consumer cannot access the service because the service requires active
-        /// billing.
-        BillingNotActive = 107,
-        /// Consumer's project has been marked as deleted (soft deletion).
-        ProjectDeleted = 108,
-        /// Specified API key is invalid.
-        ApiKeyInvalid = 105,
-        /// Specified API Key has expired.
-        ApiKeyExpired = 112,
-    }
-}
-/// Generated client implementations.
-pub mod quota_controller_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// [Google Quota Control API](/service-control/overview)
-    ///
-    /// Allows clients to allocate and release quota against a [managed
-    /// service](https://cloud.google.com/service-management/reference/rpc/google.api/servicemanagement.v1#google.api.servicemanagement.v1.ManagedService).
-    #[derive(Debug, Clone)]
-    pub struct QuotaControllerClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> QuotaControllerClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> QuotaControllerClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            QuotaControllerClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Attempts to allocate quota for the specified consumer. It should be called
-        /// before the operation is executed.
-        ///
-        /// This method requires the `servicemanagement.services.quota`
-        /// permission on the specified service. For more information, see
-        /// [Cloud IAM](https://cloud.google.com/iam).
-        ///
-        /// **NOTE:** The client **must** fail-open on server errors `INTERNAL`,
-        /// `UNKNOWN`, `DEADLINE_EXCEEDED`, and `UNAVAILABLE`. To ensure system
-        /// reliability, the server may inject these errors to prohibit any hard
-        /// dependency on the quota functionality.
-        pub async fn allocate_quota(
-            &mut self,
-            request: impl tonic::IntoRequest<super::AllocateQuotaRequest>,
-        ) -> Result<tonic::Response<super::AllocateQuotaResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.api.servicecontrol.v1.QuotaController/AllocateQuota",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

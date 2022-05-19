@@ -1,3 +1,48 @@
+/// Restore as stored in Platform log. It's used to log the update details of a
+/// updateRestore request, so only mutable and non-output_only fields are
+/// included here..
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LoggedRestore {
+    /// Full name of the Backup resource this Restore resource used to restore
+    /// from. Format: projects/*/locations/*/backupPlans/*/backups/*.
+    #[prost(string, tag="1")]
+    pub backup: ::prost::alloc::string::String,
+    /// GCP Labels.
+    #[prost(btree_map="string, string", tag="2")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// User specified descriptive string for this Restore.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    /// The current state of the Restore.
+    #[prost(enumeration="logged_restore::State", tag="4")]
+    pub state: i32,
+    /// Human-readable description of why the Restore is in its current state.
+    #[prost(string, tag="5")]
+    pub state_reason: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `LoggedRestore`.
+pub mod logged_restore {
+    /// Possible values for state of the Restore.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// The Restore resource is in the process of being created.
+        Unspecified = 0,
+        /// The Restore resource has been created and the associated RestoreJob
+        /// Kubernetes resource has been injected into target cluster.
+        Creating = 1,
+        /// The gkebackup agent in the cluster has begun executing the restore
+        /// operation.
+        InProgress = 2,
+        /// The restore operation has completed successfully. Restored workloads may
+        /// not yet be operational.
+        Succeeded = 3,
+        /// The restore operation has failed.
+        Failed = 4,
+        /// This Restore resource is in the process of being deleted.
+        Deleting = 5,
+    }
+}
 /// Namespaces, list of namespaces
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Namespaces {
@@ -30,6 +75,101 @@ pub struct EncryptionKey {
     /// projects/<project>/locations/<location>/keyRings/<key-ring>/cryptoKeys/<key>
     #[prost(string, tag="1")]
     pub gcp_kms_encryption_key: ::prost::alloc::string::String,
+}
+/// BackupPlan as stored in Platform log. It's used to log the details of
+/// a createBackupPlan/updateBackupPlan request, so only fields that can be taken
+/// from user input are included here.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LoggedBackupPlan {
+    /// User specified descriptive string for this BackupPlan.
+    #[prost(string, tag="1")]
+    pub description: ::prost::alloc::string::String,
+    /// GCP resource name of the source cluster for this BackupPlan.
+    #[prost(string, tag="2")]
+    pub cluster: ::prost::alloc::string::String,
+    /// RetentionPolicy governs lifecycle of Backups created under this plan.
+    #[prost(message, optional, tag="3")]
+    pub retention_policy: ::core::option::Option<logged_backup_plan::RetentionPolicy>,
+    /// A set of custom labels supplied by user.
+    #[prost(btree_map="string, string", tag="4")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Defines scheduled Backup creation under this BackupPlan.
+    #[prost(message, optional, tag="5")]
+    pub backup_schedule: ::core::option::Option<logged_backup_plan::Schedule>,
+    /// A flag indicates whether the plan has been deactivated.
+    #[prost(bool, tag="6")]
+    pub deactivated: bool,
+    /// Defines backup configuration of this BackupPlan.
+    #[prost(message, optional, tag="7")]
+    pub backup_config: ::core::option::Option<logged_backup_plan::BackupConfig>,
+}
+/// Nested message and enum types in `LoggedBackupPlan`.
+pub mod logged_backup_plan {
+    /// RentionPolicy is an inner message type to define:
+    /// 1. When to automatically delete Backups created under this BackupPlan
+    /// 2. A plan level minimum Backup retain days which blocks deletion
+    /// 3. Lock to disallow any policy updates
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct RetentionPolicy {
+        /// Number of days during which deletion of a Backup created under this
+        /// BackupPlan will be blocked.
+        #[prost(int32, tag="1")]
+        pub backup_delete_lock_days: i32,
+        /// Number of days after which the service will delete a Backup.
+        /// If specified, a Backup created under this BackupPlan will be
+        /// automatically deleted after its age reaches create_time +
+        /// backup_retain_days.
+        #[prost(int32, tag="2")]
+        pub backup_retain_days: i32,
+        /// A flag denotes that the retention policy of this BackupPlan is locked.
+        /// If set to True, no further update is allowed on this policy, including
+        /// the 'locked' field itself.
+        /// Default to False.
+        #[prost(bool, tag="3")]
+        pub locked: bool,
+    }
+    /// Schedule, an inner message type defines a cron schedule.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Schedule {
+        /// A cron style string schedule on which an operation will be executed.
+        #[prost(string, tag="1")]
+        pub cron_schedule: ::prost::alloc::string::String,
+        /// A flag to toggle scheduled operation.
+        #[prost(bool, tag="2")]
+        pub paused: bool,
+    }
+    /// BackupConfig, an inner message type defines the configuration of creating
+    /// a backup from this BackupPlan
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct BackupConfig {
+        /// A boolean flag specifies whether volume data should be backed up
+        #[prost(bool, tag="4")]
+        pub include_volume_data: bool,
+        /// A boolean flag specifies whether secrets should be backed up
+        #[prost(bool, tag="5")]
+        pub include_secrets: bool,
+        /// Custom encryption key. For preview, support GCP KMS only.
+        /// This only contains the key metadata, and no key material.
+        #[prost(message, optional, tag="6")]
+        pub encryption_key: ::core::option::Option<super::EncryptionKey>,
+        #[prost(oneof="backup_config::BackupScope", tags="1, 2, 3")]
+        pub backup_scope: ::core::option::Option<backup_config::BackupScope>,
+    }
+    /// Nested message and enum types in `BackupConfig`.
+    pub mod backup_config {
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum BackupScope {
+            /// If set to true, backup whole cluster
+            #[prost(bool, tag="1")]
+            AllNamespaces(bool),
+            /// If set, backup the list of namespaces
+            #[prost(message, tag="2")]
+            SelectedNamespaces(super::super::Namespaces),
+            /// If set, backup the list of applications
+            #[prost(message, tag="3")]
+            SelectedApplications(super::super::NamespacedNames),
+        }
+    }
 }
 /// RestorePlan as stored in Platform log. It's used to log the details of
 /// a createRestorePlan/updateRestorePlan request, so only fields that can be
@@ -248,51 +388,6 @@ pub mod restore_config {
         SelectedApplications(super::NamespacedNames),
     }
 }
-/// Restore as stored in Platform log. It's used to log the update details of a
-/// updateRestore request, so only mutable and non-output_only fields are
-/// included here..
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LoggedRestore {
-    /// Full name of the Backup resource this Restore resource used to restore
-    /// from. Format: projects/*/locations/*/backupPlans/*/backups/*.
-    #[prost(string, tag="1")]
-    pub backup: ::prost::alloc::string::String,
-    /// GCP Labels.
-    #[prost(btree_map="string, string", tag="2")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// User specified descriptive string for this Restore.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    /// The current state of the Restore.
-    #[prost(enumeration="logged_restore::State", tag="4")]
-    pub state: i32,
-    /// Human-readable description of why the Restore is in its current state.
-    #[prost(string, tag="5")]
-    pub state_reason: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `LoggedRestore`.
-pub mod logged_restore {
-    /// Possible values for state of the Restore.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// The Restore resource is in the process of being created.
-        Unspecified = 0,
-        /// The Restore resource has been created and the associated RestoreJob
-        /// Kubernetes resource has been injected into target cluster.
-        Creating = 1,
-        /// The gkebackup agent in the cluster has begun executing the restore
-        /// operation.
-        InProgress = 2,
-        /// The restore operation has completed successfully. Restored workloads may
-        /// not yet be operational.
-        Succeeded = 3,
-        /// The restore operation has failed.
-        Failed = 4,
-        /// This Restore resource is in the process of being deleted.
-        Deleting = 5,
-    }
-}
 /// Backup as stored in Platform log. It's used to log the details of
 /// a createBackup/updateBackup request, so only fields that can be taken
 /// from API calls are included here.
@@ -340,101 +435,6 @@ pub mod logged_backup {
         /// This Backup resource (and its associated artifacts) is in the process
         /// of being deleted.
         Deleting = 5,
-    }
-}
-/// BackupPlan as stored in Platform log. It's used to log the details of
-/// a createBackupPlan/updateBackupPlan request, so only fields that can be taken
-/// from user input are included here.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LoggedBackupPlan {
-    /// User specified descriptive string for this BackupPlan.
-    #[prost(string, tag="1")]
-    pub description: ::prost::alloc::string::String,
-    /// GCP resource name of the source cluster for this BackupPlan.
-    #[prost(string, tag="2")]
-    pub cluster: ::prost::alloc::string::String,
-    /// RetentionPolicy governs lifecycle of Backups created under this plan.
-    #[prost(message, optional, tag="3")]
-    pub retention_policy: ::core::option::Option<logged_backup_plan::RetentionPolicy>,
-    /// A set of custom labels supplied by user.
-    #[prost(btree_map="string, string", tag="4")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Defines scheduled Backup creation under this BackupPlan.
-    #[prost(message, optional, tag="5")]
-    pub backup_schedule: ::core::option::Option<logged_backup_plan::Schedule>,
-    /// A flag indicates whether the plan has been deactivated.
-    #[prost(bool, tag="6")]
-    pub deactivated: bool,
-    /// Defines backup configuration of this BackupPlan.
-    #[prost(message, optional, tag="7")]
-    pub backup_config: ::core::option::Option<logged_backup_plan::BackupConfig>,
-}
-/// Nested message and enum types in `LoggedBackupPlan`.
-pub mod logged_backup_plan {
-    /// RentionPolicy is an inner message type to define:
-    /// 1. When to automatically delete Backups created under this BackupPlan
-    /// 2. A plan level minimum Backup retain days which blocks deletion
-    /// 3. Lock to disallow any policy updates
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct RetentionPolicy {
-        /// Number of days during which deletion of a Backup created under this
-        /// BackupPlan will be blocked.
-        #[prost(int32, tag="1")]
-        pub backup_delete_lock_days: i32,
-        /// Number of days after which the service will delete a Backup.
-        /// If specified, a Backup created under this BackupPlan will be
-        /// automatically deleted after its age reaches create_time +
-        /// backup_retain_days.
-        #[prost(int32, tag="2")]
-        pub backup_retain_days: i32,
-        /// A flag denotes that the retention policy of this BackupPlan is locked.
-        /// If set to True, no further update is allowed on this policy, including
-        /// the 'locked' field itself.
-        /// Default to False.
-        #[prost(bool, tag="3")]
-        pub locked: bool,
-    }
-    /// Schedule, an inner message type defines a cron schedule.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Schedule {
-        /// A cron style string schedule on which an operation will be executed.
-        #[prost(string, tag="1")]
-        pub cron_schedule: ::prost::alloc::string::String,
-        /// A flag to toggle scheduled operation.
-        #[prost(bool, tag="2")]
-        pub paused: bool,
-    }
-    /// BackupConfig, an inner message type defines the configuration of creating
-    /// a backup from this BackupPlan
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct BackupConfig {
-        /// A boolean flag specifies whether volume data should be backed up
-        #[prost(bool, tag="4")]
-        pub include_volume_data: bool,
-        /// A boolean flag specifies whether secrets should be backed up
-        #[prost(bool, tag="5")]
-        pub include_secrets: bool,
-        /// Custom encryption key. For preview, support GCP KMS only.
-        /// This only contains the key metadata, and no key material.
-        #[prost(message, optional, tag="6")]
-        pub encryption_key: ::core::option::Option<super::EncryptionKey>,
-        #[prost(oneof="backup_config::BackupScope", tags="1, 2, 3")]
-        pub backup_scope: ::core::option::Option<backup_config::BackupScope>,
-    }
-    /// Nested message and enum types in `BackupConfig`.
-    pub mod backup_config {
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum BackupScope {
-            /// If set to true, backup whole cluster
-            #[prost(bool, tag="1")]
-            AllNamespaces(bool),
-            /// If set, backup the list of namespaces
-            #[prost(message, tag="2")]
-            SelectedNamespaces(super::super::Namespaces),
-            /// If set, backup the list of applications
-            #[prost(message, tag="3")]
-            SelectedApplications(super::super::NamespacedNames),
-        }
     }
 }
 /// use case 1

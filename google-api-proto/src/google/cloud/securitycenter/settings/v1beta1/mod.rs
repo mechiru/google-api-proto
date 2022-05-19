@@ -73,17 +73,6 @@ pub struct Detector {
     #[prost(string, repeated, tag="4")]
     pub detector_labels: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-/// Sink Settings for Security Command Center
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SinkSettings {
-    /// The resource name of the project to send logs to. This project must be
-    /// part of the same organization where the Security Center API is
-    /// enabled. The format is `projects/{project}`. If it is empty, we do
-    /// not output logs. If a project ID is provided it will be normalized to a
-    /// project number.
-    #[prost(string, tag="1")]
-    pub logging_sink_project: ::prost::alloc::string::String,
-}
 /// Component Settings for Security Command Center
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ComponentSettings {
@@ -223,6 +212,17 @@ pub enum ComponentEnablementState {
     Enable = 2,
     /// Inherit the state from resources parent folder or organization.
     Inherit = 3,
+}
+/// Sink Settings for Security Command Center
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SinkSettings {
+    /// The resource name of the project to send logs to. This project must be
+    /// part of the same organization where the Security Center API is
+    /// enabled. The format is `projects/{project}`. If it is empty, we do
+    /// not output logs. If a project ID is provided it will be normalized to a
+    /// project number.
+    #[prost(string, tag="1")]
+    pub logging_sink_project: ::prost::alloc::string::String,
 }
 /// Common configuration settings for all of Security Center.
 #[derive(Clone, PartialEq, ::prost::Message)]

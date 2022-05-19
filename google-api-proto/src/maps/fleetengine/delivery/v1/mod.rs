@@ -1,81 +1,3 @@
-/// A RequestHeader contains fields common to all Delivery RPC requests.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeliveryRequestHeader {
-    /// The BCP-47 language code, such as en-US or sr-Latn. For more information,
-    /// see <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.> If none
-    /// is specified, the response may be in any language, with a preference for
-    /// English if such a name exists. Field value example: `en-US`.
-    #[prost(string, tag="1")]
-    pub language_code: ::prost::alloc::string::String,
-    /// Required. CLDR region code of the region where the request originates.
-    /// Field value example: `US`.
-    #[prost(string, tag="2")]
-    pub region_code: ::prost::alloc::string::String,
-    /// Version of the calling SDK, if applicable.
-    /// The version format is "major.minor.patch", example: `1.1.2`.
-    #[prost(string, tag="3")]
-    pub sdk_version: ::prost::alloc::string::String,
-    /// Version of the operating system on which the calling SDK is running.
-    /// Field value examples: `4.4.1`, `12.1`.
-    #[prost(string, tag="4")]
-    pub os_version: ::prost::alloc::string::String,
-    /// Model of the device on which the calling SDK is running.
-    /// Field value examples: `iPhone12,1`, `SM-G920F`.
-    #[prost(string, tag="5")]
-    pub device_model: ::prost::alloc::string::String,
-    /// The type of SDK sending the request.
-    #[prost(enumeration="delivery_request_header::SdkType", tag="6")]
-    pub sdk_type: i32,
-    /// Version of the MapSDK which the calling SDK depends on, if applicable.
-    /// The version format is "major.minor.patch", example: `5.2.1`.
-    #[prost(string, tag="7")]
-    pub maps_sdk_version: ::prost::alloc::string::String,
-    /// Version of the NavSDK which the calling SDK depends on, if applicable.
-    /// The version format is "major.minor.patch", example: `2.1.0`.
-    #[prost(string, tag="8")]
-    pub nav_sdk_version: ::prost::alloc::string::String,
-    /// Platform of the calling SDK.
-    #[prost(enumeration="delivery_request_header::Platform", tag="9")]
-    pub platform: i32,
-    /// Manufacturer of the Android device from the calling SDK, only applicable
-    /// for the Android SDKs.
-    /// Field value example: `Samsung`.
-    #[prost(string, tag="10")]
-    pub manufacturer: ::prost::alloc::string::String,
-    /// Android API level of the calling SDK, only applicable for the Android SDKs.
-    /// Field value example: `23`.
-    #[prost(int32, tag="11")]
-    pub android_api_level: i32,
-}
-/// Nested message and enum types in `DeliveryRequestHeader`.
-pub mod delivery_request_header {
-    /// Possible types of SDK.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum SdkType {
-        /// The default value. This value is used if the `sdk_type` is omitted.
-        Unspecified = 0,
-        /// The calling SDK is Consumer.
-        Consumer = 1,
-        /// The calling SDK is Driver.
-        Driver = 2,
-        /// The calling SDK is JavaScript.
-        Javascript = 3,
-    }
-    /// The platform of the calling SDK.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Platform {
-        /// The default value. This value is used if the platform is omitted.
-        Unspecified = 0,
-        /// The request is coming from Android.
-        Android = 1,
-        /// The request is coming from iOS.
-        Ios = 2,
-        /// The request is coming from the web.
-        Web = 3,
-    }
-}
 /// Describes a vehicle attribute as a key-value pair. The "key:value" string
 /// length cannot exceed 256 characters.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -426,6 +348,84 @@ pub mod vehicle_stop {
         /// Arrived at stop. Assumes that when the Vehicle is routing to the next
         /// stop, that all previous stops have been completed.
         Arrived = 3,
+    }
+}
+/// A RequestHeader contains fields common to all Delivery RPC requests.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeliveryRequestHeader {
+    /// The BCP-47 language code, such as en-US or sr-Latn. For more information,
+    /// see <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.> If none
+    /// is specified, the response may be in any language, with a preference for
+    /// English if such a name exists. Field value example: `en-US`.
+    #[prost(string, tag="1")]
+    pub language_code: ::prost::alloc::string::String,
+    /// Required. CLDR region code of the region where the request originates.
+    /// Field value example: `US`.
+    #[prost(string, tag="2")]
+    pub region_code: ::prost::alloc::string::String,
+    /// Version of the calling SDK, if applicable.
+    /// The version format is "major.minor.patch", example: `1.1.2`.
+    #[prost(string, tag="3")]
+    pub sdk_version: ::prost::alloc::string::String,
+    /// Version of the operating system on which the calling SDK is running.
+    /// Field value examples: `4.4.1`, `12.1`.
+    #[prost(string, tag="4")]
+    pub os_version: ::prost::alloc::string::String,
+    /// Model of the device on which the calling SDK is running.
+    /// Field value examples: `iPhone12,1`, `SM-G920F`.
+    #[prost(string, tag="5")]
+    pub device_model: ::prost::alloc::string::String,
+    /// The type of SDK sending the request.
+    #[prost(enumeration="delivery_request_header::SdkType", tag="6")]
+    pub sdk_type: i32,
+    /// Version of the MapSDK which the calling SDK depends on, if applicable.
+    /// The version format is "major.minor.patch", example: `5.2.1`.
+    #[prost(string, tag="7")]
+    pub maps_sdk_version: ::prost::alloc::string::String,
+    /// Version of the NavSDK which the calling SDK depends on, if applicable.
+    /// The version format is "major.minor.patch", example: `2.1.0`.
+    #[prost(string, tag="8")]
+    pub nav_sdk_version: ::prost::alloc::string::String,
+    /// Platform of the calling SDK.
+    #[prost(enumeration="delivery_request_header::Platform", tag="9")]
+    pub platform: i32,
+    /// Manufacturer of the Android device from the calling SDK, only applicable
+    /// for the Android SDKs.
+    /// Field value example: `Samsung`.
+    #[prost(string, tag="10")]
+    pub manufacturer: ::prost::alloc::string::String,
+    /// Android API level of the calling SDK, only applicable for the Android SDKs.
+    /// Field value example: `23`.
+    #[prost(int32, tag="11")]
+    pub android_api_level: i32,
+}
+/// Nested message and enum types in `DeliveryRequestHeader`.
+pub mod delivery_request_header {
+    /// Possible types of SDK.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SdkType {
+        /// The default value. This value is used if the `sdk_type` is omitted.
+        Unspecified = 0,
+        /// The calling SDK is Consumer.
+        Consumer = 1,
+        /// The calling SDK is Driver.
+        Driver = 2,
+        /// The calling SDK is JavaScript.
+        Javascript = 3,
+    }
+    /// The platform of the calling SDK.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Platform {
+        /// The default value. This value is used if the platform is omitted.
+        Unspecified = 0,
+        /// The request is coming from Android.
+        Android = 1,
+        /// The request is coming from iOS.
+        Ios = 2,
+        /// The request is coming from the web.
+        Web = 3,
     }
 }
 /// A Task in the Delivery API represents a single action to track. In general,

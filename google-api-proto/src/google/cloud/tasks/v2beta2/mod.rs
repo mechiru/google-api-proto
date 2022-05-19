@@ -351,6 +351,168 @@ pub enum HttpMethod {
     /// HTTP DELETE
     Delete = 5,
 }
+/// A unit of scheduled work.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Task {
+    /// Optionally caller-specified in \[CreateTask][google.cloud.tasks.v2beta2.CloudTasks.CreateTask\].
+    ///
+    /// The task name.
+    ///
+    /// The task name must have the following format:
+    /// `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID`
+    ///
+    /// * `PROJECT_ID` can contain letters (\[A-Za-z\]), numbers (\[0-9\]),
+    ///    hyphens (-), colons (:), or periods (.).
+    ///    For more information, see
+    ///    [Identifying
+    ///    projects](<https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects>)
+    /// * `LOCATION_ID` is the canonical ID for the task's location.
+    ///    The list of available locations can be obtained by calling
+    ///    \[ListLocations][google.cloud.location.Locations.ListLocations\].
+    ///    For more information, see <https://cloud.google.com/about/locations/.>
+    /// * `QUEUE_ID` can contain letters (\[A-Za-z\]), numbers (\[0-9\]), or
+    ///   hyphens (-). The maximum length is 100 characters.
+    /// * `TASK_ID` can contain only letters (\[A-Za-z\]), numbers (\[0-9\]),
+    ///   hyphens (-), or underscores (_). The maximum length is 500 characters.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The time when the task is scheduled to be attempted.
+    ///
+    /// For App Engine queues, this is when the task will be attempted or retried.
+    ///
+    /// For pull queues, this is the time when the task is available to
+    /// be leased; if a task is currently leased, this is the time when
+    /// the current lease expires, that is, the time that the task was
+    /// leased plus the \[lease_duration][google.cloud.tasks.v2beta2.LeaseTasksRequest.lease_duration\].
+    ///
+    /// `schedule_time` will be truncated to the nearest microsecond.
+    #[prost(message, optional, tag="5")]
+    pub schedule_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The time that the task was created.
+    ///
+    /// `create_time` will be truncated to the nearest second.
+    #[prost(message, optional, tag="6")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The task status.
+    #[prost(message, optional, tag="7")]
+    pub status: ::core::option::Option<TaskStatus>,
+    /// Output only. The view specifies which subset of the \[Task][google.cloud.tasks.v2beta2.Task\] has
+    /// been returned.
+    #[prost(enumeration="task::View", tag="8")]
+    pub view: i32,
+    /// Required.
+    ///
+    /// The task's payload is used by the task's target to process the task.
+    /// A payload is valid only if it is compatible with the queue's target.
+    #[prost(oneof="task::PayloadType", tags="3, 4")]
+    pub payload_type: ::core::option::Option<task::PayloadType>,
+}
+/// Nested message and enum types in `Task`.
+pub mod task {
+    /// The view specifies a subset of \[Task][google.cloud.tasks.v2beta2.Task\] data.
+    ///
+    /// When a task is returned in a response, not all
+    /// information is retrieved by default because some data, such as
+    /// payloads, might be desirable to return only when needed because
+    /// of its large size or because of the sensitivity of data that it
+    /// contains.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum View {
+        /// Unspecified. Defaults to BASIC.
+        Unspecified = 0,
+        /// The basic view omits fields which can be large or can contain
+        /// sensitive data.
+        ///
+        /// This view does not include the
+        /// ([payload in AppEngineHttpRequest]\[google.cloud.tasks.v2beta2.AppEngineHttpRequest\] and
+        /// [payload in PullMessage]\[google.cloud.tasks.v2beta2.PullMessage.payload\]). These payloads are
+        /// desirable to return only when needed, because they can be large
+        /// and because of the sensitivity of the data that you choose to
+        /// store in it.
+        Basic = 1,
+        /// All information is returned.
+        ///
+        /// Authorization for \[FULL][google.cloud.tasks.v2beta2.Task.View.FULL\] requires
+        /// `cloudtasks.tasks.fullView` [Google IAM](<https://cloud.google.com/iam/>)
+        /// permission on the \[Queue][google.cloud.tasks.v2beta2.Queue\] resource.
+        Full = 2,
+    }
+    /// Required.
+    ///
+    /// The task's payload is used by the task's target to process the task.
+    /// A payload is valid only if it is compatible with the queue's target.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum PayloadType {
+        /// App Engine HTTP request that is sent to the task's target. Can
+        /// be set only if
+        /// \[app_engine_http_target][google.cloud.tasks.v2beta2.Queue.app_engine_http_target\] is set
+        /// on the queue.
+        ///
+        /// An App Engine task is a task that has \[AppEngineHttpRequest][google.cloud.tasks.v2beta2.AppEngineHttpRequest\] set.
+        #[prost(message, tag="3")]
+        AppEngineHttpRequest(super::AppEngineHttpRequest),
+        /// \[LeaseTasks][google.cloud.tasks.v2beta2.CloudTasks.LeaseTasks\] to process the task. Can be
+        /// set only if \[pull_target][google.cloud.tasks.v2beta2.Queue.pull_target\] is set on the queue.
+        ///
+        /// A pull task is a task that has \[PullMessage][google.cloud.tasks.v2beta2.PullMessage\] set.
+        #[prost(message, tag="4")]
+        PullMessage(super::PullMessage),
+    }
+}
+/// Status of the task.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TaskStatus {
+    /// Output only. The number of attempts dispatched.
+    ///
+    /// This count includes attempts which have been dispatched but haven't
+    /// received a response.
+    #[prost(int32, tag="1")]
+    pub attempt_dispatch_count: i32,
+    /// Output only. The number of attempts which have received a response.
+    ///
+    /// This field is not calculated for [pull tasks]\[google.cloud.tasks.v2beta2.PullMessage\].
+    #[prost(int32, tag="2")]
+    pub attempt_response_count: i32,
+    /// Output only. The status of the task's first attempt.
+    ///
+    /// Only \[dispatch_time][google.cloud.tasks.v2beta2.AttemptStatus.dispatch_time\] will be set.
+    /// The other \[AttemptStatus][google.cloud.tasks.v2beta2.AttemptStatus\] information is not retained by Cloud Tasks.
+    ///
+    /// This field is not calculated for [pull tasks]\[google.cloud.tasks.v2beta2.PullMessage\].
+    #[prost(message, optional, tag="3")]
+    pub first_attempt_status: ::core::option::Option<AttemptStatus>,
+    /// Output only. The status of the task's last attempt.
+    ///
+    /// This field is not calculated for [pull tasks]\[google.cloud.tasks.v2beta2.PullMessage\].
+    #[prost(message, optional, tag="4")]
+    pub last_attempt_status: ::core::option::Option<AttemptStatus>,
+}
+/// The status of a task attempt.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AttemptStatus {
+    /// Output only. The time that this attempt was scheduled.
+    ///
+    /// `schedule_time` will be truncated to the nearest microsecond.
+    #[prost(message, optional, tag="1")]
+    pub schedule_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The time that this attempt was dispatched.
+    ///
+    /// `dispatch_time` will be truncated to the nearest microsecond.
+    #[prost(message, optional, tag="2")]
+    pub dispatch_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The time that this attempt response was received.
+    ///
+    /// `response_time` will be truncated to the nearest microsecond.
+    #[prost(message, optional, tag="3")]
+    pub response_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The response from the target for this attempt.
+    ///
+    /// If the task has not been attempted or the task is currently running
+    /// then the response status is unset.
+    #[prost(message, optional, tag="4")]
+    pub response_status: ::core::option::Option<super::super::super::rpc::Status>,
+}
 /// A queue is a container of related tasks. Queues are configured to manage
 /// how those tasks are dispatched. Configurable properties include rate limits,
 /// retry options, target types, and others.
@@ -776,168 +938,6 @@ pub struct QueueStats {
     /// tasks in the queue are targeting.
     #[prost(double, tag="5")]
     pub effective_execution_rate: f64,
-}
-/// A unit of scheduled work.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Task {
-    /// Optionally caller-specified in \[CreateTask][google.cloud.tasks.v2beta2.CloudTasks.CreateTask\].
-    ///
-    /// The task name.
-    ///
-    /// The task name must have the following format:
-    /// `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID`
-    ///
-    /// * `PROJECT_ID` can contain letters (\[A-Za-z\]), numbers (\[0-9\]),
-    ///    hyphens (-), colons (:), or periods (.).
-    ///    For more information, see
-    ///    [Identifying
-    ///    projects](<https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects>)
-    /// * `LOCATION_ID` is the canonical ID for the task's location.
-    ///    The list of available locations can be obtained by calling
-    ///    \[ListLocations][google.cloud.location.Locations.ListLocations\].
-    ///    For more information, see <https://cloud.google.com/about/locations/.>
-    /// * `QUEUE_ID` can contain letters (\[A-Za-z\]), numbers (\[0-9\]), or
-    ///   hyphens (-). The maximum length is 100 characters.
-    /// * `TASK_ID` can contain only letters (\[A-Za-z\]), numbers (\[0-9\]),
-    ///   hyphens (-), or underscores (_). The maximum length is 500 characters.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The time when the task is scheduled to be attempted.
-    ///
-    /// For App Engine queues, this is when the task will be attempted or retried.
-    ///
-    /// For pull queues, this is the time when the task is available to
-    /// be leased; if a task is currently leased, this is the time when
-    /// the current lease expires, that is, the time that the task was
-    /// leased plus the \[lease_duration][google.cloud.tasks.v2beta2.LeaseTasksRequest.lease_duration\].
-    ///
-    /// `schedule_time` will be truncated to the nearest microsecond.
-    #[prost(message, optional, tag="5")]
-    pub schedule_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The time that the task was created.
-    ///
-    /// `create_time` will be truncated to the nearest second.
-    #[prost(message, optional, tag="6")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The task status.
-    #[prost(message, optional, tag="7")]
-    pub status: ::core::option::Option<TaskStatus>,
-    /// Output only. The view specifies which subset of the \[Task][google.cloud.tasks.v2beta2.Task\] has
-    /// been returned.
-    #[prost(enumeration="task::View", tag="8")]
-    pub view: i32,
-    /// Required.
-    ///
-    /// The task's payload is used by the task's target to process the task.
-    /// A payload is valid only if it is compatible with the queue's target.
-    #[prost(oneof="task::PayloadType", tags="3, 4")]
-    pub payload_type: ::core::option::Option<task::PayloadType>,
-}
-/// Nested message and enum types in `Task`.
-pub mod task {
-    /// The view specifies a subset of \[Task][google.cloud.tasks.v2beta2.Task\] data.
-    ///
-    /// When a task is returned in a response, not all
-    /// information is retrieved by default because some data, such as
-    /// payloads, might be desirable to return only when needed because
-    /// of its large size or because of the sensitivity of data that it
-    /// contains.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum View {
-        /// Unspecified. Defaults to BASIC.
-        Unspecified = 0,
-        /// The basic view omits fields which can be large or can contain
-        /// sensitive data.
-        ///
-        /// This view does not include the
-        /// ([payload in AppEngineHttpRequest]\[google.cloud.tasks.v2beta2.AppEngineHttpRequest\] and
-        /// [payload in PullMessage]\[google.cloud.tasks.v2beta2.PullMessage.payload\]). These payloads are
-        /// desirable to return only when needed, because they can be large
-        /// and because of the sensitivity of the data that you choose to
-        /// store in it.
-        Basic = 1,
-        /// All information is returned.
-        ///
-        /// Authorization for \[FULL][google.cloud.tasks.v2beta2.Task.View.FULL\] requires
-        /// `cloudtasks.tasks.fullView` [Google IAM](<https://cloud.google.com/iam/>)
-        /// permission on the \[Queue][google.cloud.tasks.v2beta2.Queue\] resource.
-        Full = 2,
-    }
-    /// Required.
-    ///
-    /// The task's payload is used by the task's target to process the task.
-    /// A payload is valid only if it is compatible with the queue's target.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum PayloadType {
-        /// App Engine HTTP request that is sent to the task's target. Can
-        /// be set only if
-        /// \[app_engine_http_target][google.cloud.tasks.v2beta2.Queue.app_engine_http_target\] is set
-        /// on the queue.
-        ///
-        /// An App Engine task is a task that has \[AppEngineHttpRequest][google.cloud.tasks.v2beta2.AppEngineHttpRequest\] set.
-        #[prost(message, tag="3")]
-        AppEngineHttpRequest(super::AppEngineHttpRequest),
-        /// \[LeaseTasks][google.cloud.tasks.v2beta2.CloudTasks.LeaseTasks\] to process the task. Can be
-        /// set only if \[pull_target][google.cloud.tasks.v2beta2.Queue.pull_target\] is set on the queue.
-        ///
-        /// A pull task is a task that has \[PullMessage][google.cloud.tasks.v2beta2.PullMessage\] set.
-        #[prost(message, tag="4")]
-        PullMessage(super::PullMessage),
-    }
-}
-/// Status of the task.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TaskStatus {
-    /// Output only. The number of attempts dispatched.
-    ///
-    /// This count includes attempts which have been dispatched but haven't
-    /// received a response.
-    #[prost(int32, tag="1")]
-    pub attempt_dispatch_count: i32,
-    /// Output only. The number of attempts which have received a response.
-    ///
-    /// This field is not calculated for [pull tasks]\[google.cloud.tasks.v2beta2.PullMessage\].
-    #[prost(int32, tag="2")]
-    pub attempt_response_count: i32,
-    /// Output only. The status of the task's first attempt.
-    ///
-    /// Only \[dispatch_time][google.cloud.tasks.v2beta2.AttemptStatus.dispatch_time\] will be set.
-    /// The other \[AttemptStatus][google.cloud.tasks.v2beta2.AttemptStatus\] information is not retained by Cloud Tasks.
-    ///
-    /// This field is not calculated for [pull tasks]\[google.cloud.tasks.v2beta2.PullMessage\].
-    #[prost(message, optional, tag="3")]
-    pub first_attempt_status: ::core::option::Option<AttemptStatus>,
-    /// Output only. The status of the task's last attempt.
-    ///
-    /// This field is not calculated for [pull tasks]\[google.cloud.tasks.v2beta2.PullMessage\].
-    #[prost(message, optional, tag="4")]
-    pub last_attempt_status: ::core::option::Option<AttemptStatus>,
-}
-/// The status of a task attempt.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AttemptStatus {
-    /// Output only. The time that this attempt was scheduled.
-    ///
-    /// `schedule_time` will be truncated to the nearest microsecond.
-    #[prost(message, optional, tag="1")]
-    pub schedule_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The time that this attempt was dispatched.
-    ///
-    /// `dispatch_time` will be truncated to the nearest microsecond.
-    #[prost(message, optional, tag="2")]
-    pub dispatch_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The time that this attempt response was received.
-    ///
-    /// `response_time` will be truncated to the nearest microsecond.
-    #[prost(message, optional, tag="3")]
-    pub response_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The response from the target for this attempt.
-    ///
-    /// If the task has not been attempted or the task is currently running
-    /// then the response status is unset.
-    #[prost(message, optional, tag="4")]
-    pub response_status: ::core::option::Option<super::super::super::rpc::Status>,
 }
 /// Request message for \[ListQueues][google.cloud.tasks.v2beta2.CloudTasks.ListQueues\].
 #[derive(Clone, PartialEq, ::prost::Message)]

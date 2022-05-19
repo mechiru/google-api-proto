@@ -1,3 +1,30 @@
+/// Encapsulates progress related information for a Cloud Bigtable long
+/// running operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationProgress {
+    /// Percent completion of the operation.
+    /// Values are between 0 and 100 inclusive.
+    #[prost(int32, tag="1")]
+    pub progress_percent: i32,
+    /// Time the request was received.
+    #[prost(message, optional, tag="2")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// If set, the time at which this operation failed or was completed
+    /// successfully.
+    #[prost(message, optional, tag="3")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Storage media types for persisting Bigtable data.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum StorageType {
+    /// The user did not specify a storage type.
+    Unspecified = 0,
+    /// Flash (SSD) storage should be used.
+    Ssd = 1,
+    /// Magnetic drive (HDD) storage should be used.
+    Hdd = 2,
+}
 /// Information about a table restore.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RestoreInfo {
@@ -360,33 +387,6 @@ pub enum RestoreSourceType {
     Unspecified = 0,
     /// A backup was used as the source of the restore.
     Backup = 1,
-}
-/// Encapsulates progress related information for a Cloud Bigtable long
-/// running operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationProgress {
-    /// Percent completion of the operation.
-    /// Values are between 0 and 100 inclusive.
-    #[prost(int32, tag="1")]
-    pub progress_percent: i32,
-    /// Time the request was received.
-    #[prost(message, optional, tag="2")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// If set, the time at which this operation failed or was completed
-    /// successfully.
-    #[prost(message, optional, tag="3")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Storage media types for persisting Bigtable data.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum StorageType {
-    /// The user did not specify a storage type.
-    Unspecified = 0,
-    /// Flash (SSD) storage should be used.
-    Ssd = 1,
-    /// Magnetic drive (HDD) storage should be used.
-    Hdd = 2,
 }
 /// A collection of Bigtable \[Tables][google.bigtable.admin.v2.Table\] and
 /// the resources that serve them.
