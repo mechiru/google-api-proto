@@ -1,66 +1,3 @@
-/// Assessment task config.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AssessmentTaskDetails {
-    /// Required. The Cloud Storage path for assessment input files.
-    #[prost(string, tag="1")]
-    pub input_path: ::prost::alloc::string::String,
-    /// Required. The BigQuery dataset for output.
-    #[prost(string, tag="2")]
-    pub output_dataset: ::prost::alloc::string::String,
-    /// Optional. An optional Cloud Storage path to write the query logs (which is
-    /// then used as an input path on the translation task)
-    #[prost(string, tag="3")]
-    pub querylogs_path: ::prost::alloc::string::String,
-    /// Required. The data source or data warehouse type (eg: TERADATA/REDSHIFT)
-    /// from which the input data is extracted.
-    #[prost(string, tag="4")]
-    pub data_source: ::prost::alloc::string::String,
-}
-/// Details for an assessment task orchestration result.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AssessmentOrchestrationResultDetails {
-    /// Optional. The version used for the output table schemas.
-    #[prost(string, tag="1")]
-    pub output_tables_schema_version: ::prost::alloc::string::String,
-}
-/// Provides details for errors and the corresponding resources.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResourceErrorDetail {
-    /// Required. Information about the resource where the error is located.
-    #[prost(message, optional, tag="1")]
-    pub resource_info: ::core::option::Option<super::super::super::super::rpc::ResourceInfo>,
-    /// Required. The error details for the resource.
-    #[prost(message, repeated, tag="2")]
-    pub error_details: ::prost::alloc::vec::Vec<ErrorDetail>,
-    /// Required. How many errors there are in total for the resource. Truncation can be
-    /// indicated by having an `error_count` that is higher than the size of
-    /// `error_details`.
-    #[prost(int32, tag="3")]
-    pub error_count: i32,
-}
-/// Provides details for errors, e.g. issues that where encountered when
-/// processing a subtask.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ErrorDetail {
-    /// Optional. The exact location within the resource (if applicable).
-    #[prost(message, optional, tag="1")]
-    pub location: ::core::option::Option<ErrorLocation>,
-    /// Required. Describes the cause of the error with structured detail.
-    #[prost(message, optional, tag="2")]
-    pub error_info: ::core::option::Option<super::super::super::super::rpc::ErrorInfo>,
-}
-/// Holds information about where the error is located.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ErrorLocation {
-    /// Optional. If applicable, denotes the line where the error occurred. A zero value
-    /// means that there is no line information.
-    #[prost(int32, tag="1")]
-    pub line: i32,
-    /// Optional. If applicable, denotes the column where the error occurred. A zero value
-    /// means that there is no columns information.
-    #[prost(int32, tag="2")]
-    pub column: i32,
-}
 /// The metrics object for a SubTask.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TimeSeries {
@@ -153,6 +90,69 @@ pub mod typed_value {
         #[prost(message, tag="5")]
         DistributionValue(super::super::super::super::super::api::Distribution),
     }
+}
+/// Assessment task config.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssessmentTaskDetails {
+    /// Required. The Cloud Storage path for assessment input files.
+    #[prost(string, tag="1")]
+    pub input_path: ::prost::alloc::string::String,
+    /// Required. The BigQuery dataset for output.
+    #[prost(string, tag="2")]
+    pub output_dataset: ::prost::alloc::string::String,
+    /// Optional. An optional Cloud Storage path to write the query logs (which is
+    /// then used as an input path on the translation task)
+    #[prost(string, tag="3")]
+    pub querylogs_path: ::prost::alloc::string::String,
+    /// Required. The data source or data warehouse type (eg: TERADATA/REDSHIFT)
+    /// from which the input data is extracted.
+    #[prost(string, tag="4")]
+    pub data_source: ::prost::alloc::string::String,
+}
+/// Details for an assessment task orchestration result.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssessmentOrchestrationResultDetails {
+    /// Optional. The version used for the output table schemas.
+    #[prost(string, tag="1")]
+    pub output_tables_schema_version: ::prost::alloc::string::String,
+}
+/// Provides details for errors and the corresponding resources.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResourceErrorDetail {
+    /// Required. Information about the resource where the error is located.
+    #[prost(message, optional, tag="1")]
+    pub resource_info: ::core::option::Option<super::super::super::super::rpc::ResourceInfo>,
+    /// Required. The error details for the resource.
+    #[prost(message, repeated, tag="2")]
+    pub error_details: ::prost::alloc::vec::Vec<ErrorDetail>,
+    /// Required. How many errors there are in total for the resource. Truncation can be
+    /// indicated by having an `error_count` that is higher than the size of
+    /// `error_details`.
+    #[prost(int32, tag="3")]
+    pub error_count: i32,
+}
+/// Provides details for errors, e.g. issues that where encountered when
+/// processing a subtask.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ErrorDetail {
+    /// Optional. The exact location within the resource (if applicable).
+    #[prost(message, optional, tag="1")]
+    pub location: ::core::option::Option<ErrorLocation>,
+    /// Required. Describes the cause of the error with structured detail.
+    #[prost(message, optional, tag="2")]
+    pub error_info: ::core::option::Option<super::super::super::super::rpc::ErrorInfo>,
+}
+/// Holds information about where the error is located.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ErrorLocation {
+    /// Optional. If applicable, denotes the line where the error occurred. A zero value
+    /// means that there is no line information.
+    #[prost(int32, tag="1")]
+    pub line: i32,
+    /// Optional. If applicable, denotes the column where the error occurred. A zero value
+    /// means that there is no columns information.
+    #[prost(int32, tag="2")]
+    pub column: i32,
 }
 /// Mapping between an input and output file to be translated in a subtask.
 #[derive(Clone, PartialEq, ::prost::Message)]

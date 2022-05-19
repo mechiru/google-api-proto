@@ -1,88 +1,3 @@
-/// Represents an auditing event from Continuous Validation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ContinuousValidationEvent {
-    /// Type of CV event.
-    #[prost(oneof="continuous_validation_event::EventType", tags="1, 2")]
-    pub event_type: ::core::option::Option<continuous_validation_event::EventType>,
-}
-/// Nested message and enum types in `ContinuousValidationEvent`.
-pub mod continuous_validation_event {
-    /// An auditing event for one Pod.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ContinuousValidationPodEvent {
-        /// The name of the Pod.
-        #[prost(string, tag="1")]
-        pub pod: ::prost::alloc::string::String,
-        /// Deploy time of the Pod from k8s.
-        #[prost(message, optional, tag="2")]
-        pub deploy_time: ::core::option::Option<::prost_types::Timestamp>,
-        /// Termination time of the Pod from k8s, or nothing if still running.
-        #[prost(message, optional, tag="3")]
-        pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-        /// Auditing verdict for this Pod.
-        #[prost(enumeration="continuous_validation_pod_event::PolicyConformanceVerdict", tag="4")]
-        pub verdict: i32,
-        /// List of images with auditing details.
-        #[prost(message, repeated, tag="5")]
-        pub images: ::prost::alloc::vec::Vec<continuous_validation_pod_event::ImageDetails>,
-    }
-    /// Nested message and enum types in `ContinuousValidationPodEvent`.
-    pub mod continuous_validation_pod_event {
-        /// Container image with auditing details.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct ImageDetails {
-            /// The name of the image.
-            #[prost(string, tag="1")]
-            pub image: ::prost::alloc::string::String,
-            /// The result of the audit for this image.
-            #[prost(enumeration="image_details::AuditResult", tag="2")]
-            pub result: i32,
-            /// Description of the above result.
-            #[prost(string, tag="3")]
-            pub description: ::prost::alloc::string::String,
-        }
-        /// Nested message and enum types in `ImageDetails`.
-        pub mod image_details {
-            /// Result of the audit.
-            #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-            #[repr(i32)]
-            pub enum AuditResult {
-                /// Unspecified result. This is an error.
-                Unspecified = 0,
-                /// Image is allowed.
-                Allow = 1,
-                /// Image is denied.
-                Deny = 2,
-            }
-        }
-        /// Audit time policy conformance verdict.
-        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-        #[repr(i32)]
-        pub enum PolicyConformanceVerdict {
-            /// We should always have a verdict. This is an error.
-            Unspecified = 0,
-            /// The pod violates the policy.
-            ViolatesPolicy = 1,
-        }
-    }
-    /// An event describing that the project policy is unsupported by CV.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct UnsupportedPolicyEvent {
-        /// A description of the unsupported policy.
-        #[prost(string, tag="1")]
-        pub description: ::prost::alloc::string::String,
-    }
-    /// Type of CV event.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum EventType {
-        /// Pod event.
-        #[prost(message, tag="1")]
-        PodEvent(ContinuousValidationPodEvent),
-        /// Unsupported policy event.
-        #[prost(message, tag="2")]
-        UnsupportedPolicyEvent(UnsupportedPolicyEvent),
-    }
-}
 /// A \[policy][google.cloud.binaryauthorization.v1beta1.Policy\] for Binary Authorization.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Policy {
@@ -782,5 +697,90 @@ pub mod system_policy_v1_beta1_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+    }
+}
+/// Represents an auditing event from Continuous Validation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ContinuousValidationEvent {
+    /// Type of CV event.
+    #[prost(oneof="continuous_validation_event::EventType", tags="1, 2")]
+    pub event_type: ::core::option::Option<continuous_validation_event::EventType>,
+}
+/// Nested message and enum types in `ContinuousValidationEvent`.
+pub mod continuous_validation_event {
+    /// An auditing event for one Pod.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ContinuousValidationPodEvent {
+        /// The name of the Pod.
+        #[prost(string, tag="1")]
+        pub pod: ::prost::alloc::string::String,
+        /// Deploy time of the Pod from k8s.
+        #[prost(message, optional, tag="2")]
+        pub deploy_time: ::core::option::Option<::prost_types::Timestamp>,
+        /// Termination time of the Pod from k8s, or nothing if still running.
+        #[prost(message, optional, tag="3")]
+        pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+        /// Auditing verdict for this Pod.
+        #[prost(enumeration="continuous_validation_pod_event::PolicyConformanceVerdict", tag="4")]
+        pub verdict: i32,
+        /// List of images with auditing details.
+        #[prost(message, repeated, tag="5")]
+        pub images: ::prost::alloc::vec::Vec<continuous_validation_pod_event::ImageDetails>,
+    }
+    /// Nested message and enum types in `ContinuousValidationPodEvent`.
+    pub mod continuous_validation_pod_event {
+        /// Container image with auditing details.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct ImageDetails {
+            /// The name of the image.
+            #[prost(string, tag="1")]
+            pub image: ::prost::alloc::string::String,
+            /// The result of the audit for this image.
+            #[prost(enumeration="image_details::AuditResult", tag="2")]
+            pub result: i32,
+            /// Description of the above result.
+            #[prost(string, tag="3")]
+            pub description: ::prost::alloc::string::String,
+        }
+        /// Nested message and enum types in `ImageDetails`.
+        pub mod image_details {
+            /// Result of the audit.
+            #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+            #[repr(i32)]
+            pub enum AuditResult {
+                /// Unspecified result. This is an error.
+                Unspecified = 0,
+                /// Image is allowed.
+                Allow = 1,
+                /// Image is denied.
+                Deny = 2,
+            }
+        }
+        /// Audit time policy conformance verdict.
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+        #[repr(i32)]
+        pub enum PolicyConformanceVerdict {
+            /// We should always have a verdict. This is an error.
+            Unspecified = 0,
+            /// The pod violates the policy.
+            ViolatesPolicy = 1,
+        }
+    }
+    /// An event describing that the project policy is unsupported by CV.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct UnsupportedPolicyEvent {
+        /// A description of the unsupported policy.
+        #[prost(string, tag="1")]
+        pub description: ::prost::alloc::string::String,
+    }
+    /// Type of CV event.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum EventType {
+        /// Pod event.
+        #[prost(message, tag="1")]
+        PodEvent(ContinuousValidationPodEvent),
+        /// Unsupported policy event.
+        #[prost(message, tag="2")]
+        UnsupportedPolicyEvent(UnsupportedPolicyEvent),
     }
 }

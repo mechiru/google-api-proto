@@ -1,3 +1,238 @@
+/// Step performed by the OS Config agent for configuring an `OSPolicyResource`
+/// to its desired state.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OsPolicyResourceConfigStep {
+    /// Configuration step type.
+    #[prost(enumeration="os_policy_resource_config_step::Type", tag="1")]
+    pub r#type: i32,
+    /// Outcome of the configuration step.
+    #[prost(enumeration="os_policy_resource_config_step::Outcome", tag="2")]
+    pub outcome: i32,
+    /// An error message recorded during the execution of this step.
+    /// Only populated when outcome is FAILED.
+    #[prost(string, tag="3")]
+    pub error_message: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `OSPolicyResourceConfigStep`.
+pub mod os_policy_resource_config_step {
+    /// Supported configuration step types
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// Default value. This value is unused.
+        Unspecified = 0,
+        /// Validation to detect resource conflicts, schema errors, etc.
+        Validation = 1,
+        /// Check the current desired state status of the resource.
+        DesiredStateCheck = 2,
+        /// Enforce the desired state for a resource that is not in desired state.
+        DesiredStateEnforcement = 3,
+        /// Re-check desired state status for a resource after enforcement of all
+        /// resources in the current configuration run.
+        ///
+        /// This step is used to determine the final desired state status for the
+        /// resource. It accounts for any resources that might have drifted from
+        /// their desired state due to side effects from configuring other resources
+        /// during the current configuration run.
+        DesiredStateCheckPostEnforcement = 4,
+    }
+    /// Supported outcomes for a configuration step.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Outcome {
+        /// Default value. This value is unused.
+        Unspecified = 0,
+        /// The step succeeded.
+        Succeeded = 1,
+        /// The step failed.
+        Failed = 2,
+    }
+}
+/// Compliance data for an OS policy resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OsPolicyResourceCompliance {
+    /// The id of the OS policy resource.
+    #[prost(string, tag="1")]
+    pub os_policy_resource_id: ::prost::alloc::string::String,
+    /// Ordered list of configuration steps taken by the agent for the OS policy
+    /// resource.
+    #[prost(message, repeated, tag="2")]
+    pub config_steps: ::prost::alloc::vec::Vec<OsPolicyResourceConfigStep>,
+    /// Compliance state of the OS policy resource.
+    #[prost(enumeration="OsPolicyComplianceState", tag="3")]
+    pub state: i32,
+    /// Resource specific output.
+    #[prost(oneof="os_policy_resource_compliance::Output", tags="4")]
+    pub output: ::core::option::Option<os_policy_resource_compliance::Output>,
+}
+/// Nested message and enum types in `OSPolicyResourceCompliance`.
+pub mod os_policy_resource_compliance {
+    /// ExecResource specific output.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ExecResourceOutput {
+        /// Output from Enforcement phase output file (if run).
+        /// Output size is limited to 100K bytes.
+        #[prost(bytes="bytes", tag="2")]
+        pub enforcement_output: ::prost::bytes::Bytes,
+    }
+    /// Resource specific output.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Output {
+        /// ExecResource specific output.
+        #[prost(message, tag="4")]
+        ExecResourceOutput(ExecResourceOutput),
+    }
+}
+/// Supported OSPolicy compliance states.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum OsPolicyComplianceState {
+    /// Default value. This value is unused.
+    Unspecified = 0,
+    /// Compliant state.
+    Compliant = 1,
+    /// Non-compliant state
+    NonCompliant = 2,
+    /// Unknown compliance state.
+    Unknown = 3,
+    /// No applicable OS policies were found for the instance.
+    /// This state is only applicable to the instance.
+    NoOsPoliciesApplicable = 4,
+}
+/// This API resource represents the OS policies compliance data for a Compute
+/// Engine virtual machine (VM) instance at a given point in time.
+///
+/// A Compute Engine VM can have multiple OS policy assignments, and each
+/// assignment can have multiple OS policies. As a result, multiple OS policies
+/// could be applied to a single VM.
+///
+/// You can use this API resource to determine both the compliance state of your
+/// VM as well as the compliance state of an individual OS policy.
+///
+/// For more information, see [View
+/// compliance](<https://cloud.google.com/compute/docs/os-configuration-management/view-compliance>).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InstanceOsPoliciesCompliance {
+    /// Output only. The `InstanceOSPoliciesCompliance` API resource name.
+    ///
+    /// Format:
+    /// `projects/{project_number}/locations/{location}/instanceOSPoliciesCompliances/{instance_id}`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. The Compute Engine VM instance name.
+    #[prost(string, tag="2")]
+    pub instance: ::prost::alloc::string::String,
+    /// Output only. Compliance state of the VM.
+    #[prost(enumeration="OsPolicyComplianceState", tag="3")]
+    pub state: i32,
+    /// Output only. Detailed compliance state of the VM.
+    /// This field is populated only when compliance state is `UNKNOWN`.
+    ///
+    /// It may contain one of the following values:
+    ///
+    /// * `no-compliance-data`: Compliance data is not available for this VM.
+    /// * `no-agent-detected`: OS Config agent is not detected for this VM.
+    /// * `config-not-supported-by-agent`: The version of the OS Config agent
+    /// running on this VM does not support configuration management.
+    /// * `inactive`: VM is not running.
+    /// * `internal-service-errors`: There were internal service errors encountered
+    /// while enforcing compliance.
+    /// * `agent-errors`: OS config agent encountered errors while enforcing
+    /// compliance.
+    #[prost(string, tag="4")]
+    pub detailed_state: ::prost::alloc::string::String,
+    /// Output only. The reason for the `detailed_state` of the VM (if any).
+    #[prost(string, tag="5")]
+    pub detailed_state_reason: ::prost::alloc::string::String,
+    /// Output only. Compliance data for each `OSPolicy` that is applied to the VM.
+    #[prost(message, repeated, tag="6")]
+    pub os_policy_compliances: ::prost::alloc::vec::Vec<instance_os_policies_compliance::OsPolicyCompliance>,
+    /// Output only. Timestamp of the last compliance check for the VM.
+    #[prost(message, optional, tag="7")]
+    pub last_compliance_check_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Unique identifier for the last compliance run.
+    /// This id will be logged by the OS config agent during a compliance run and
+    /// can be used for debugging and tracing purpose.
+    #[prost(string, tag="8")]
+    pub last_compliance_run_id: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `InstanceOSPoliciesCompliance`.
+pub mod instance_os_policies_compliance {
+    /// Compliance data for an OS policy
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct OsPolicyCompliance {
+        /// The OS policy id
+        #[prost(string, tag="1")]
+        pub os_policy_id: ::prost::alloc::string::String,
+        /// Reference to the `OSPolicyAssignment` API resource that the `OSPolicy`
+        /// belongs to.
+        ///
+        /// Format:
+        /// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}`
+        #[prost(string, tag="2")]
+        pub os_policy_assignment: ::prost::alloc::string::String,
+        /// Compliance state of the OS policy.
+        #[prost(enumeration="super::OsPolicyComplianceState", tag="4")]
+        pub state: i32,
+        /// Compliance data for each `OSPolicyResource` that is applied to the
+        /// VM.
+        #[prost(message, repeated, tag="5")]
+        pub os_policy_resource_compliances: ::prost::alloc::vec::Vec<super::OsPolicyResourceCompliance>,
+    }
+}
+/// A request message for getting OS policies compliance data for the given
+/// Compute Engine VM instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetInstanceOsPoliciesComplianceRequest {
+    /// Required. API resource name for instance OS policies compliance resource.
+    ///
+    /// Format:
+    /// `projects/{project}/locations/{location}/instanceOSPoliciesCompliances/{instance}`
+    ///
+    /// For `{project}`, either Compute Engine project-number or project-id can be
+    /// provided.
+    /// For `{instance}`, either Compute Engine VM instance-id or instance-name can
+    /// be provided.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// A request message for listing OS policies compliance data for all Compute
+/// Engine VMs in the given location.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListInstanceOsPoliciesCompliancesRequest {
+    /// Required. The parent resource name.
+    ///
+    /// Format: `projects/{project}/locations/{location}`
+    ///
+    /// For `{project}`, either Compute Engine project-number or project-id can be
+    /// provided.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of results to return.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// A pagination token returned from a previous call to
+    /// `ListInstanceOSPoliciesCompliances` that indicates where this listing
+    /// should continue from.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// If provided, this field specifies the criteria that must be met by a
+    /// `InstanceOSPoliciesCompliance` API resource to be included in the response.
+    #[prost(string, tag="4")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// A response message for listing OS policies compliance data for all Compute
+/// Engine VMs in the given location.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListInstanceOsPoliciesCompliancesResponse {
+    /// List of instance OS policies compliance objects.
+    #[prost(message, repeated, tag="1")]
+    pub instance_os_policies_compliances: ::prost::alloc::vec::Vec<InstanceOsPoliciesCompliance>,
+    /// The pagination token to retrieve the next page of instance OS policies
+    /// compliance objects.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
 /// An OS policy defines the desired state configuration for a VM.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OsPolicy {
@@ -627,270 +862,339 @@ pub mod fixed_or_percent {
         Percent(i32),
     }
 }
-/// Get a report of the OS policy assignment for a VM instance.
+/// OS policy assignment is an API resource that is used to
+/// apply a set of OS policies to a dynamically targeted group of Compute Engine
+/// VM instances.
+///
+/// An OS policy is used to define the desired state configuration for a
+/// Compute Engine VM instance through a set of configuration resources that
+/// provide capabilities such as installing or removing software packages, or
+/// executing a script.
+///
+/// For more information, see [OS policy and OS policy
+/// assignment](<https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies>).
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetOsPolicyAssignmentReportRequest {
-    /// Required. API resource name for OS policy assignment report.
+pub struct OsPolicyAssignment {
+    /// Resource name.
     ///
     /// Format:
-    /// `/projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/report`
+    /// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}`
     ///
-    /// For `{project}`, either `project-number` or `project-id` can be provided.
-    /// For `{instance_id}`, either Compute Engine `instance-id` or `instance-name`
-    /// can be provided.
-    /// For `{assignment_id}`, the OSPolicyAssignment id must be provided.
+    /// This field is ignored when you create an OS policy assignment.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-}
-/// List the OS policy assignment reports for VM instances.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListOsPolicyAssignmentReportsRequest {
-    /// Required. The parent resource name.
-    ///
-    /// Format:
-    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/reports`
-    ///
-    /// For `{project}`, either `project-number` or `project-id` can be provided.
-    /// For `{instance}`, either `instance-name`, `instance-id`, or `-` can be
-    /// provided. If '-' is provided, the response will include
-    /// OSPolicyAssignmentReports for all instances in the project/location.
-    /// For `{assignment}`, either `assignment-id` or `-` can be provided. If '-'
-    /// is provided, the response will include OSPolicyAssignmentReports for all
-    /// OSPolicyAssignments in the project/location.
-    /// Either {instance} or {assignment} must be `-`.
-    ///
-    /// For example:
-    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/-/reports`
-    ///  returns all reports for the instance
-    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/{assignment-id}/reports`
-    ///  returns all the reports for the given assignment across all instances.
-    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/-/reports`
-    ///  returns all the reports for all assignments across all instances.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of results to return.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// If provided, this field specifies the criteria that must be met by the
-    /// `OSPolicyAssignmentReport` API resource that is included in the response.
-    #[prost(string, tag="3")]
-    pub filter: ::prost::alloc::string::String,
-    /// A pagination token returned from a previous call to the
-    /// `ListOSPolicyAssignmentReports` method that indicates where this listing
-    /// should continue from.
-    #[prost(string, tag="4")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// A response message for listing OS Policy assignment reports including the
-/// page of results and page token.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListOsPolicyAssignmentReportsResponse {
-    /// List of OS policy assignment reports.
-    #[prost(message, repeated, tag="1")]
-    pub os_policy_assignment_reports: ::prost::alloc::vec::Vec<OsPolicyAssignmentReport>,
-    /// The pagination token to retrieve the next page of OS policy assignment
-    /// report objects.
+    /// OS policy assignment description.
+    /// Length of the description is limited to 1024 characters.
     #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// A report of the OS policy assignment status for a given instance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OsPolicyAssignmentReport {
-    /// The `OSPolicyAssignmentReport` API resource name.
+    pub description: ::prost::alloc::string::String,
+    /// Required. List of OS policies to be applied to the VMs.
+    #[prost(message, repeated, tag="3")]
+    pub os_policies: ::prost::alloc::vec::Vec<OsPolicy>,
+    /// Required. Filter to select VMs.
+    #[prost(message, optional, tag="4")]
+    pub instance_filter: ::core::option::Option<os_policy_assignment::InstanceFilter>,
+    /// Required. Rollout to deploy the OS policy assignment.
+    /// A rollout is triggered in the following situations:
+    /// 1) OSPolicyAssignment is created.
+    /// 2) OSPolicyAssignment is updated and the update contains changes to one of
+    /// the following fields:
+    ///    - instance_filter
+    ///    - os_policies
+    /// 3) OSPolicyAssignment is deleted.
+    #[prost(message, optional, tag="5")]
+    pub rollout: ::core::option::Option<os_policy_assignment::Rollout>,
+    /// Output only. The assignment revision ID
+    /// A new revision is committed whenever a rollout is triggered for a OS policy
+    /// assignment
+    #[prost(string, tag="6")]
+    pub revision_id: ::prost::alloc::string::String,
+    /// Output only. The timestamp that the revision was created.
+    #[prost(message, optional, tag="7")]
+    pub revision_create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The etag for this OS policy assignment.
+    /// If this is provided on update, it must match the server's etag.
+    #[prost(string, tag="8")]
+    pub etag: ::prost::alloc::string::String,
+    /// Output only. OS policy assignment rollout state
+    #[prost(enumeration="os_policy_assignment::RolloutState", tag="9")]
+    pub rollout_state: i32,
+    /// Output only. Indicates that this revision has been successfully rolled out in this zone
+    /// and new VMs will be assigned OS policies from this revision.
     ///
-    /// Format:
-    /// `projects/{project_number}/locations/{location}/instances/{instance_id}/osPolicyAssignments/{os_policy_assignment_id}/report`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The Compute Engine VM instance name.
-    #[prost(string, tag="2")]
-    pub instance: ::prost::alloc::string::String,
-    /// Reference to the `OSPolicyAssignment` API resource that the `OSPolicy`
-    /// belongs to.
+    /// For a given OS policy assignment, there is only one revision with a value
+    /// of `true` for this field.
+    #[prost(bool, tag="10")]
+    pub baseline: bool,
+    /// Output only. Indicates that this revision deletes the OS policy assignment.
+    #[prost(bool, tag="11")]
+    pub deleted: bool,
+    /// Output only. Indicates that reconciliation is in progress for the revision.
+    /// This value is `true` when the `rollout_state` is one of:
+    /// * IN_PROGRESS
+    /// * CANCELLING
+    #[prost(bool, tag="12")]
+    pub reconciling: bool,
+    /// Output only. Server generated unique id for the OS policy assignment resource.
+    #[prost(string, tag="13")]
+    pub uid: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `OSPolicyAssignment`.
+pub mod os_policy_assignment {
+    /// Message representing label set.
+    /// * A label is a key value pair set for a VM.
+    /// * A LabelSet is a set of labels.
+    /// * Labels within a LabelSet are ANDed. In other words, a LabelSet is
+    ///   applicable for a VM only if it matches all the labels in the
+    ///   LabelSet.
+    /// * Example: A LabelSet with 2 labels: `env=prod` and `type=webserver` will
+    ///            only be applicable for those VMs with both labels
+    ///            present.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct LabelSet {
+        /// Labels are identified by key/value pairs in this map.
+        /// A VM should contain all the key/value pairs specified in this
+        /// map to be selected.
+        #[prost(btree_map="string, string", tag="1")]
+        pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    }
+    /// Filters to select target VMs for an assignment.
+    ///
+    /// If more than one filter criteria is specified below, a VM will be selected
+    /// if and only if it satisfies all of them.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct InstanceFilter {
+        /// Target all VMs in the project. If true, no other criteria is
+        /// permitted.
+        #[prost(bool, tag="1")]
+        pub all: bool,
+        /// Deprecated. Use the `inventories` field instead.
+        /// A VM is selected if it's OS short name matches with any of the
+        /// values provided in this list.
+        #[deprecated]
+        #[prost(string, repeated, tag="2")]
+        pub os_short_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// List of label sets used for VM inclusion.
+        ///
+        /// If the list has more than one `LabelSet`, the VM is included if any
+        /// of the label sets are applicable for the VM.
+        #[prost(message, repeated, tag="3")]
+        pub inclusion_labels: ::prost::alloc::vec::Vec<LabelSet>,
+        /// List of label sets used for VM exclusion.
+        ///
+        /// If the list has more than one label set, the VM is excluded if any
+        /// of the label sets are applicable for the VM.
+        #[prost(message, repeated, tag="4")]
+        pub exclusion_labels: ::prost::alloc::vec::Vec<LabelSet>,
+        /// List of inventories to select VMs.
+        ///
+        /// A VM is selected if its inventory data matches at least one of the
+        /// following inventories.
+        #[prost(message, repeated, tag="5")]
+        pub inventories: ::prost::alloc::vec::Vec<instance_filter::Inventory>,
+    }
+    /// Nested message and enum types in `InstanceFilter`.
+    pub mod instance_filter {
+        /// VM inventory details.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Inventory {
+            /// Required. The OS short name
+            #[prost(string, tag="1")]
+            pub os_short_name: ::prost::alloc::string::String,
+            /// The OS version
+            ///
+            /// Prefix matches are supported if asterisk(*) is provided as the
+            /// last character. For example, to match all versions with a major
+            /// version of `7`, specify the following value for this field `7.*`
+            ///
+            /// An empty string matches all OS versions.
+            #[prost(string, tag="2")]
+            pub os_version: ::prost::alloc::string::String,
+        }
+    }
+    /// Message to configure the rollout at the zonal level for the OS policy
+    /// assignment.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Rollout {
+        /// Required. The maximum number (or percentage) of VMs per zone to disrupt at
+        /// any given moment.
+        #[prost(message, optional, tag="1")]
+        pub disruption_budget: ::core::option::Option<super::FixedOrPercent>,
+        /// Required. This determines the minimum duration of time to wait after the
+        /// configuration changes are applied through the current rollout. A
+        /// VM continues to count towards the `disruption_budget` at least
+        /// until this duration of time has passed after configuration changes are
+        /// applied.
+        #[prost(message, optional, tag="2")]
+        pub min_wait_duration: ::core::option::Option<::prost_types::Duration>,
+    }
+    /// OS policy assignment rollout state
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RolloutState {
+        /// Invalid value
+        Unspecified = 0,
+        /// The rollout is in progress.
+        InProgress = 1,
+        /// The rollout is being cancelled.
+        Cancelling = 2,
+        /// The rollout is cancelled.
+        Cancelled = 3,
+        /// The rollout has completed successfully.
+        Succeeded = 4,
+    }
+}
+/// OS policy assignment operation metadata provided by OS policy assignment API
+/// methods that return long running operations.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OsPolicyAssignmentOperationMetadata {
+    /// Reference to the `OSPolicyAssignment` API resource.
     ///
     /// Format:
     /// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}`
-    #[prost(string, tag="3")]
+    #[prost(string, tag="1")]
     pub os_policy_assignment: ::prost::alloc::string::String,
-    /// Compliance data for each `OSPolicy` that is applied to the VM.
-    #[prost(message, repeated, tag="4")]
-    pub os_policy_compliances: ::prost::alloc::vec::Vec<os_policy_assignment_report::OsPolicyCompliance>,
-    /// Timestamp for when the report was last generated.
+    /// The OS policy assignment API method.
+    #[prost(enumeration="os_policy_assignment_operation_metadata::ApiMethod", tag="2")]
+    pub api_method: i32,
+    /// State of the rollout
+    #[prost(enumeration="os_policy_assignment_operation_metadata::RolloutState", tag="3")]
+    pub rollout_state: i32,
+    /// Rollout start time
+    #[prost(message, optional, tag="4")]
+    pub rollout_start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Rollout update time
     #[prost(message, optional, tag="5")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Unique identifier of the last attempted run to apply the OS policies
-    /// associated with this assignment on the VM.
-    ///
-    /// This ID is logged by the OS Config agent while applying the OS
-    /// policies associated with this assignment on the VM.
-    /// NOTE: If the service is unable to successfully connect to the agent for
-    /// this run, then this id will not be available in the agent logs.
-    #[prost(string, tag="6")]
-    pub last_run_id: ::prost::alloc::string::String,
+    pub rollout_update_time: ::core::option::Option<::prost_types::Timestamp>,
 }
-/// Nested message and enum types in `OSPolicyAssignmentReport`.
-pub mod os_policy_assignment_report {
-    /// Compliance data for an OS policy
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct OsPolicyCompliance {
-        /// The OS policy id
-        #[prost(string, tag="1")]
-        pub os_policy_id: ::prost::alloc::string::String,
-        /// The compliance state of the OS policy.
-        #[prost(enumeration="os_policy_compliance::ComplianceState", tag="2")]
-        pub compliance_state: i32,
-        /// The reason for the OS policy to be in an unknown compliance state.
-        /// This field is always populated when `compliance_state` is `UNKNOWN`.
-        ///
-        /// If populated, the field can contain one of the following values:
-        ///
-        /// * `vm-not-running`: The VM was not running.
-        /// * `os-policies-not-supported-by-agent`: The version of the OS Config
-        /// agent running on the VM does not support running OS policies.
-        /// * `no-agent-detected`: The OS Config agent is not detected for the VM.
-        /// * `resource-execution-errors`: The OS Config agent encountered errors
-        /// while executing one or more resources in the policy. See
-        /// `os_policy_resource_compliances` for details.
-        /// * `task-timeout`: The task sent to the agent to apply the policy timed
-        /// out.
-        /// * `unexpected-agent-state`: The OS Config agent did not report the final
-        /// status of the task that attempted to apply the policy. Instead, the agent
-        /// unexpectedly started working on a different task. This mostly happens
-        /// when the agent or VM unexpectedly restarts while applying OS policies.
-        /// * `internal-service-errors`: Internal service errors were encountered
-        /// while attempting to apply the policy.
-        #[prost(string, tag="3")]
-        pub compliance_state_reason: ::prost::alloc::string::String,
-        /// Compliance data for each resource within the policy that is applied to
-        /// the VM.
-        #[prost(message, repeated, tag="4")]
-        pub os_policy_resource_compliances: ::prost::alloc::vec::Vec<os_policy_compliance::OsPolicyResourceCompliance>,
+/// Nested message and enum types in `OSPolicyAssignmentOperationMetadata`.
+pub mod os_policy_assignment_operation_metadata {
+    /// The OS policy assignment API method.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ApiMethod {
+        /// Invalid value
+        Unspecified = 0,
+        /// Create OS policy assignment API method
+        Create = 1,
+        /// Update OS policy assignment API method
+        Update = 2,
+        /// Delete OS policy assignment API method
+        Delete = 3,
     }
-    /// Nested message and enum types in `OSPolicyCompliance`.
-    pub mod os_policy_compliance {
-        /// Compliance data for an OS policy resource.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct OsPolicyResourceCompliance {
-            /// The ID of the OS policy resource.
-            #[prost(string, tag="1")]
-            pub os_policy_resource_id: ::prost::alloc::string::String,
-            /// Ordered list of configuration completed by the agent for the OS policy
-            /// resource.
-            #[prost(message, repeated, tag="2")]
-            pub config_steps: ::prost::alloc::vec::Vec<os_policy_resource_compliance::OsPolicyResourceConfigStep>,
-            /// The compliance state of the resource.
-            #[prost(enumeration="os_policy_resource_compliance::ComplianceState", tag="3")]
-            pub compliance_state: i32,
-            /// A reason for the resource to be in the given compliance state.
-            /// This field is always populated when `compliance_state` is `UNKNOWN`.
-            ///
-            /// The following values are supported when `compliance_state == UNKNOWN`
-            ///
-            /// * `execution-errors`: Errors were encountered by the agent while
-            /// executing the resource and the compliance state couldn't be
-            /// determined.
-            /// * `execution-skipped-by-agent`: Resource execution was skipped by the
-            /// agent because errors were encountered while executing prior resources
-            /// in the OS policy.
-            /// * `os-policy-execution-attempt-failed`: The execution of the OS policy
-            /// containing this resource failed and the compliance state couldn't be
-            /// determined.
-            #[prost(string, tag="4")]
-            pub compliance_state_reason: ::prost::alloc::string::String,
-            /// Resource specific output.
-            #[prost(oneof="os_policy_resource_compliance::Output", tags="5")]
-            pub output: ::core::option::Option<os_policy_resource_compliance::Output>,
-        }
-        /// Nested message and enum types in `OSPolicyResourceCompliance`.
-        pub mod os_policy_resource_compliance {
-            /// Step performed by the OS Config agent for configuring an
-            /// `OSPolicy` resource to its desired state.
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            pub struct OsPolicyResourceConfigStep {
-                /// Configuration step type.
-                #[prost(enumeration="os_policy_resource_config_step::Type", tag="1")]
-                pub r#type: i32,
-                /// An error message recorded during the execution of this step.
-                /// Only populated if errors were encountered during this step execution.
-                #[prost(string, tag="2")]
-                pub error_message: ::prost::alloc::string::String,
-            }
-            /// Nested message and enum types in `OSPolicyResourceConfigStep`.
-            pub mod os_policy_resource_config_step {
-                /// Supported configuration step types
-                #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-                #[repr(i32)]
-                pub enum Type {
-                    /// Default value. This value is unused.
-                    Unspecified = 0,
-                    /// Checks for resource conflicts such as schema errors.
-                    Validation = 1,
-                    /// Checks the current status of the desired state for a resource.
-                    DesiredStateCheck = 2,
-                    /// Enforces the desired state for a resource that is not in desired
-                    /// state.
-                    DesiredStateEnforcement = 3,
-                    /// Re-checks the status of the desired state. This check is done
-                    /// for a resource after the enforcement of all OS policies.
-                    ///
-                    /// This step is used to determine the final desired state status for
-                    /// the resource. It accounts for any resources that might have drifted
-                    /// from their desired state due to side effects from executing other
-                    /// resources.
-                    DesiredStateCheckPostEnforcement = 4,
-                }
-            }
-            /// ExecResource specific output.
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            pub struct ExecResourceOutput {
-                /// Output from enforcement phase output file (if run).
-                /// Output size is limited to 100K bytes.
-                #[prost(bytes="bytes", tag="2")]
-                pub enforcement_output: ::prost::bytes::Bytes,
-            }
-            /// Possible compliance states for a resource.
-            #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-            #[repr(i32)]
-            pub enum ComplianceState {
-                /// The resource is in an unknown compliance state.
-                ///
-                /// To get more details about why the policy is in this state, review
-                /// the output of the `compliance_state_reason` field.
-                Unknown = 0,
-                /// Resource is compliant.
-                Compliant = 1,
-                /// Resource is non-compliant.
-                NonCompliant = 2,
-            }
-            /// Resource specific output.
-            #[derive(Clone, PartialEq, ::prost::Oneof)]
-            pub enum Output {
-                /// ExecResource specific output.
-                #[prost(message, tag="5")]
-                ExecResourceOutput(ExecResourceOutput),
-            }
-        }
-        /// Possible compliance states for an os policy.
-        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-        #[repr(i32)]
-        pub enum ComplianceState {
-            /// The policy is in an unknown compliance state.
-            ///
-            /// Refer to the field `compliance_state_reason` to learn the exact reason
-            /// for the policy to be in this compliance state.
-            Unknown = 0,
-            /// Policy is compliant.
-            ///
-            /// The policy is compliant if all the underlying resources are also
-            /// compliant.
-            Compliant = 1,
-            /// Policy is non-compliant.
-            ///
-            /// The policy is non-compliant if one or more underlying resources are
-            /// non-compliant.
-            NonCompliant = 2,
-        }
+    /// State of the rollout
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RolloutState {
+        /// Invalid value
+        Unspecified = 0,
+        /// The rollout is in progress.
+        InProgress = 1,
+        /// The rollout is being cancelled.
+        Cancelling = 2,
+        /// The rollout is cancelled.
+        Cancelled = 3,
+        /// The rollout has completed successfully.
+        Succeeded = 4,
     }
+}
+/// A request message to create an OS policy assignment
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateOsPolicyAssignmentRequest {
+    /// Required. The parent resource name in the form:
+    /// projects/{project}/locations/{location}
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The OS policy assignment to be created.
+    #[prost(message, optional, tag="2")]
+    pub os_policy_assignment: ::core::option::Option<OsPolicyAssignment>,
+    /// Required. The logical name of the OS policy assignment in the project
+    /// with the following restrictions:
+    ///
+    /// * Must contain only lowercase letters, numbers, and hyphens.
+    /// * Must start with a letter.
+    /// * Must be between 1-63 characters.
+    /// * Must end with a number or a letter.
+    /// * Must be unique within the project.
+    #[prost(string, tag="3")]
+    pub os_policy_assignment_id: ::prost::alloc::string::String,
+}
+/// A request message to update an OS policy assignment
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateOsPolicyAssignmentRequest {
+    /// Required. The updated OS policy assignment.
+    #[prost(message, optional, tag="1")]
+    pub os_policy_assignment: ::core::option::Option<OsPolicyAssignment>,
+    /// Optional. Field mask that controls which fields of the assignment should be updated.
+    #[prost(message, optional, tag="2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// A request message to get an OS policy assignment
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetOsPolicyAssignmentRequest {
+    /// Required. The resource name of OS policy assignment.
+    ///
+    /// Format:
+    /// `projects/{project}/locations/{location}/osPolicyAssignments/{os_policy_assignment}@{revisionId}`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// A request message to list OS policy assignments for a parent resource
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListOsPolicyAssignmentsRequest {
+    /// Required. The parent resource name.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of assignments to return.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// A pagination token returned from a previous call to
+    /// `ListOSPolicyAssignments` that indicates where this listing should continue
+    /// from.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// A response message for listing all assignments under given parent.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListOsPolicyAssignmentsResponse {
+    /// The list of assignments
+    #[prost(message, repeated, tag="1")]
+    pub os_policy_assignments: ::prost::alloc::vec::Vec<OsPolicyAssignment>,
+    /// The pagination token to retrieve the next page of OS policy assignments.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// A request message to list revisions for a OS policy assignment
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListOsPolicyAssignmentRevisionsRequest {
+    /// Required. The name of the OS policy assignment to list revisions for.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The maximum number of revisions to return.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// A pagination token returned from a previous call to
+    /// `ListOSPolicyAssignmentRevisions` that indicates where this listing should
+    /// continue from.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// A response message for listing all revisions for a OS policy assignment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListOsPolicyAssignmentRevisionsResponse {
+    /// The OS policy assignment revisions
+    #[prost(message, repeated, tag="1")]
+    pub os_policy_assignments: ::prost::alloc::vec::Vec<OsPolicyAssignment>,
+    /// The pagination token to retrieve the next page of OS policy assignment
+    /// revisions.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// A request message for deleting a OS policy assignment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteOsPolicyAssignmentRequest {
+    /// Required. The name of the OS policy assignment to be deleted
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
 }
 // OS Inventory is a service for collecting and reporting operating
 // system and package information on VM instances.
@@ -1261,574 +1565,270 @@ pub enum InventoryView {
     /// Returns all fields.
     Full = 2,
 }
-/// Step performed by the OS Config agent for configuring an `OSPolicyResource`
-/// to its desired state.
+/// Get a report of the OS policy assignment for a VM instance.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OsPolicyResourceConfigStep {
-    /// Configuration step type.
-    #[prost(enumeration="os_policy_resource_config_step::Type", tag="1")]
-    pub r#type: i32,
-    /// Outcome of the configuration step.
-    #[prost(enumeration="os_policy_resource_config_step::Outcome", tag="2")]
-    pub outcome: i32,
-    /// An error message recorded during the execution of this step.
-    /// Only populated when outcome is FAILED.
-    #[prost(string, tag="3")]
-    pub error_message: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `OSPolicyResourceConfigStep`.
-pub mod os_policy_resource_config_step {
-    /// Supported configuration step types
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// Default value. This value is unused.
-        Unspecified = 0,
-        /// Validation to detect resource conflicts, schema errors, etc.
-        Validation = 1,
-        /// Check the current desired state status of the resource.
-        DesiredStateCheck = 2,
-        /// Enforce the desired state for a resource that is not in desired state.
-        DesiredStateEnforcement = 3,
-        /// Re-check desired state status for a resource after enforcement of all
-        /// resources in the current configuration run.
-        ///
-        /// This step is used to determine the final desired state status for the
-        /// resource. It accounts for any resources that might have drifted from
-        /// their desired state due to side effects from configuring other resources
-        /// during the current configuration run.
-        DesiredStateCheckPostEnforcement = 4,
-    }
-    /// Supported outcomes for a configuration step.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Outcome {
-        /// Default value. This value is unused.
-        Unspecified = 0,
-        /// The step succeeded.
-        Succeeded = 1,
-        /// The step failed.
-        Failed = 2,
-    }
-}
-/// Compliance data for an OS policy resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OsPolicyResourceCompliance {
-    /// The id of the OS policy resource.
-    #[prost(string, tag="1")]
-    pub os_policy_resource_id: ::prost::alloc::string::String,
-    /// Ordered list of configuration steps taken by the agent for the OS policy
-    /// resource.
-    #[prost(message, repeated, tag="2")]
-    pub config_steps: ::prost::alloc::vec::Vec<OsPolicyResourceConfigStep>,
-    /// Compliance state of the OS policy resource.
-    #[prost(enumeration="OsPolicyComplianceState", tag="3")]
-    pub state: i32,
-    /// Resource specific output.
-    #[prost(oneof="os_policy_resource_compliance::Output", tags="4")]
-    pub output: ::core::option::Option<os_policy_resource_compliance::Output>,
-}
-/// Nested message and enum types in `OSPolicyResourceCompliance`.
-pub mod os_policy_resource_compliance {
-    /// ExecResource specific output.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ExecResourceOutput {
-        /// Output from Enforcement phase output file (if run).
-        /// Output size is limited to 100K bytes.
-        #[prost(bytes="bytes", tag="2")]
-        pub enforcement_output: ::prost::bytes::Bytes,
-    }
-    /// Resource specific output.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Output {
-        /// ExecResource specific output.
-        #[prost(message, tag="4")]
-        ExecResourceOutput(ExecResourceOutput),
-    }
-}
-/// Supported OSPolicy compliance states.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum OsPolicyComplianceState {
-    /// Default value. This value is unused.
-    Unspecified = 0,
-    /// Compliant state.
-    Compliant = 1,
-    /// Non-compliant state
-    NonCompliant = 2,
-    /// Unknown compliance state.
-    Unknown = 3,
-    /// No applicable OS policies were found for the instance.
-    /// This state is only applicable to the instance.
-    NoOsPoliciesApplicable = 4,
-}
-/// This API resource represents the OS policies compliance data for a Compute
-/// Engine virtual machine (VM) instance at a given point in time.
-///
-/// A Compute Engine VM can have multiple OS policy assignments, and each
-/// assignment can have multiple OS policies. As a result, multiple OS policies
-/// could be applied to a single VM.
-///
-/// You can use this API resource to determine both the compliance state of your
-/// VM as well as the compliance state of an individual OS policy.
-///
-/// For more information, see [View
-/// compliance](<https://cloud.google.com/compute/docs/os-configuration-management/view-compliance>).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InstanceOsPoliciesCompliance {
-    /// Output only. The `InstanceOSPoliciesCompliance` API resource name.
+pub struct GetOsPolicyAssignmentReportRequest {
+    /// Required. API resource name for OS policy assignment report.
     ///
     /// Format:
-    /// `projects/{project_number}/locations/{location}/instanceOSPoliciesCompliances/{instance_id}`
+    /// `/projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/report`
+    ///
+    /// For `{project}`, either `project-number` or `project-id` can be provided.
+    /// For `{instance_id}`, either Compute Engine `instance-id` or `instance-name`
+    /// can be provided.
+    /// For `{assignment_id}`, the OSPolicyAssignment id must be provided.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Output only. The Compute Engine VM instance name.
+}
+/// List the OS policy assignment reports for VM instances.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListOsPolicyAssignmentReportsRequest {
+    /// Required. The parent resource name.
+    ///
+    /// Format:
+    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/reports`
+    ///
+    /// For `{project}`, either `project-number` or `project-id` can be provided.
+    /// For `{instance}`, either `instance-name`, `instance-id`, or `-` can be
+    /// provided. If '-' is provided, the response will include
+    /// OSPolicyAssignmentReports for all instances in the project/location.
+    /// For `{assignment}`, either `assignment-id` or `-` can be provided. If '-'
+    /// is provided, the response will include OSPolicyAssignmentReports for all
+    /// OSPolicyAssignments in the project/location.
+    /// Either {instance} or {assignment} must be `-`.
+    ///
+    /// For example:
+    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/-/reports`
+    ///  returns all reports for the instance
+    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/{assignment-id}/reports`
+    ///  returns all the reports for the given assignment across all instances.
+    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/-/reports`
+    ///  returns all the reports for all assignments across all instances.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of results to return.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// If provided, this field specifies the criteria that must be met by the
+    /// `OSPolicyAssignmentReport` API resource that is included in the response.
+    #[prost(string, tag="3")]
+    pub filter: ::prost::alloc::string::String,
+    /// A pagination token returned from a previous call to the
+    /// `ListOSPolicyAssignmentReports` method that indicates where this listing
+    /// should continue from.
+    #[prost(string, tag="4")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// A response message for listing OS Policy assignment reports including the
+/// page of results and page token.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListOsPolicyAssignmentReportsResponse {
+    /// List of OS policy assignment reports.
+    #[prost(message, repeated, tag="1")]
+    pub os_policy_assignment_reports: ::prost::alloc::vec::Vec<OsPolicyAssignmentReport>,
+    /// The pagination token to retrieve the next page of OS policy assignment
+    /// report objects.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// A report of the OS policy assignment status for a given instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OsPolicyAssignmentReport {
+    /// The `OSPolicyAssignmentReport` API resource name.
+    ///
+    /// Format:
+    /// `projects/{project_number}/locations/{location}/instances/{instance_id}/osPolicyAssignments/{os_policy_assignment_id}/report`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The Compute Engine VM instance name.
     #[prost(string, tag="2")]
     pub instance: ::prost::alloc::string::String,
-    /// Output only. Compliance state of the VM.
-    #[prost(enumeration="OsPolicyComplianceState", tag="3")]
-    pub state: i32,
-    /// Output only. Detailed compliance state of the VM.
-    /// This field is populated only when compliance state is `UNKNOWN`.
+    /// Reference to the `OSPolicyAssignment` API resource that the `OSPolicy`
+    /// belongs to.
     ///
-    /// It may contain one of the following values:
+    /// Format:
+    /// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}`
+    #[prost(string, tag="3")]
+    pub os_policy_assignment: ::prost::alloc::string::String,
+    /// Compliance data for each `OSPolicy` that is applied to the VM.
+    #[prost(message, repeated, tag="4")]
+    pub os_policy_compliances: ::prost::alloc::vec::Vec<os_policy_assignment_report::OsPolicyCompliance>,
+    /// Timestamp for when the report was last generated.
+    #[prost(message, optional, tag="5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Unique identifier of the last attempted run to apply the OS policies
+    /// associated with this assignment on the VM.
     ///
-    /// * `no-compliance-data`: Compliance data is not available for this VM.
-    /// * `no-agent-detected`: OS Config agent is not detected for this VM.
-    /// * `config-not-supported-by-agent`: The version of the OS Config agent
-    /// running on this VM does not support configuration management.
-    /// * `inactive`: VM is not running.
-    /// * `internal-service-errors`: There were internal service errors encountered
-    /// while enforcing compliance.
-    /// * `agent-errors`: OS config agent encountered errors while enforcing
-    /// compliance.
-    #[prost(string, tag="4")]
-    pub detailed_state: ::prost::alloc::string::String,
-    /// Output only. The reason for the `detailed_state` of the VM (if any).
-    #[prost(string, tag="5")]
-    pub detailed_state_reason: ::prost::alloc::string::String,
-    /// Output only. Compliance data for each `OSPolicy` that is applied to the VM.
-    #[prost(message, repeated, tag="6")]
-    pub os_policy_compliances: ::prost::alloc::vec::Vec<instance_os_policies_compliance::OsPolicyCompliance>,
-    /// Output only. Timestamp of the last compliance check for the VM.
-    #[prost(message, optional, tag="7")]
-    pub last_compliance_check_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Unique identifier for the last compliance run.
-    /// This id will be logged by the OS config agent during a compliance run and
-    /// can be used for debugging and tracing purpose.
-    #[prost(string, tag="8")]
-    pub last_compliance_run_id: ::prost::alloc::string::String,
+    /// This ID is logged by the OS Config agent while applying the OS
+    /// policies associated with this assignment on the VM.
+    /// NOTE: If the service is unable to successfully connect to the agent for
+    /// this run, then this id will not be available in the agent logs.
+    #[prost(string, tag="6")]
+    pub last_run_id: ::prost::alloc::string::String,
 }
-/// Nested message and enum types in `InstanceOSPoliciesCompliance`.
-pub mod instance_os_policies_compliance {
+/// Nested message and enum types in `OSPolicyAssignmentReport`.
+pub mod os_policy_assignment_report {
     /// Compliance data for an OS policy
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct OsPolicyCompliance {
         /// The OS policy id
         #[prost(string, tag="1")]
         pub os_policy_id: ::prost::alloc::string::String,
-        /// Reference to the `OSPolicyAssignment` API resource that the `OSPolicy`
-        /// belongs to.
+        /// The compliance state of the OS policy.
+        #[prost(enumeration="os_policy_compliance::ComplianceState", tag="2")]
+        pub compliance_state: i32,
+        /// The reason for the OS policy to be in an unknown compliance state.
+        /// This field is always populated when `compliance_state` is `UNKNOWN`.
         ///
-        /// Format:
-        /// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}`
-        #[prost(string, tag="2")]
-        pub os_policy_assignment: ::prost::alloc::string::String,
-        /// Compliance state of the OS policy.
-        #[prost(enumeration="super::OsPolicyComplianceState", tag="4")]
-        pub state: i32,
-        /// Compliance data for each `OSPolicyResource` that is applied to the
-        /// VM.
-        #[prost(message, repeated, tag="5")]
-        pub os_policy_resource_compliances: ::prost::alloc::vec::Vec<super::OsPolicyResourceCompliance>,
-    }
-}
-/// A request message for getting OS policies compliance data for the given
-/// Compute Engine VM instance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetInstanceOsPoliciesComplianceRequest {
-    /// Required. API resource name for instance OS policies compliance resource.
-    ///
-    /// Format:
-    /// `projects/{project}/locations/{location}/instanceOSPoliciesCompliances/{instance}`
-    ///
-    /// For `{project}`, either Compute Engine project-number or project-id can be
-    /// provided.
-    /// For `{instance}`, either Compute Engine VM instance-id or instance-name can
-    /// be provided.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// A request message for listing OS policies compliance data for all Compute
-/// Engine VMs in the given location.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListInstanceOsPoliciesCompliancesRequest {
-    /// Required. The parent resource name.
-    ///
-    /// Format: `projects/{project}/locations/{location}`
-    ///
-    /// For `{project}`, either Compute Engine project-number or project-id can be
-    /// provided.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of results to return.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// A pagination token returned from a previous call to
-    /// `ListInstanceOSPoliciesCompliances` that indicates where this listing
-    /// should continue from.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-    /// If provided, this field specifies the criteria that must be met by a
-    /// `InstanceOSPoliciesCompliance` API resource to be included in the response.
-    #[prost(string, tag="4")]
-    pub filter: ::prost::alloc::string::String,
-}
-/// A response message for listing OS policies compliance data for all Compute
-/// Engine VMs in the given location.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListInstanceOsPoliciesCompliancesResponse {
-    /// List of instance OS policies compliance objects.
-    #[prost(message, repeated, tag="1")]
-    pub instance_os_policies_compliances: ::prost::alloc::vec::Vec<InstanceOsPoliciesCompliance>,
-    /// The pagination token to retrieve the next page of instance OS policies
-    /// compliance objects.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// OS policy assignment is an API resource that is used to
-/// apply a set of OS policies to a dynamically targeted group of Compute Engine
-/// VM instances.
-///
-/// An OS policy is used to define the desired state configuration for a
-/// Compute Engine VM instance through a set of configuration resources that
-/// provide capabilities such as installing or removing software packages, or
-/// executing a script.
-///
-/// For more information, see [OS policy and OS policy
-/// assignment](<https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies>).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OsPolicyAssignment {
-    /// Resource name.
-    ///
-    /// Format:
-    /// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}`
-    ///
-    /// This field is ignored when you create an OS policy assignment.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// OS policy assignment description.
-    /// Length of the description is limited to 1024 characters.
-    #[prost(string, tag="2")]
-    pub description: ::prost::alloc::string::String,
-    /// Required. List of OS policies to be applied to the VMs.
-    #[prost(message, repeated, tag="3")]
-    pub os_policies: ::prost::alloc::vec::Vec<OsPolicy>,
-    /// Required. Filter to select VMs.
-    #[prost(message, optional, tag="4")]
-    pub instance_filter: ::core::option::Option<os_policy_assignment::InstanceFilter>,
-    /// Required. Rollout to deploy the OS policy assignment.
-    /// A rollout is triggered in the following situations:
-    /// 1) OSPolicyAssignment is created.
-    /// 2) OSPolicyAssignment is updated and the update contains changes to one of
-    /// the following fields:
-    ///    - instance_filter
-    ///    - os_policies
-    /// 3) OSPolicyAssignment is deleted.
-    #[prost(message, optional, tag="5")]
-    pub rollout: ::core::option::Option<os_policy_assignment::Rollout>,
-    /// Output only. The assignment revision ID
-    /// A new revision is committed whenever a rollout is triggered for a OS policy
-    /// assignment
-    #[prost(string, tag="6")]
-    pub revision_id: ::prost::alloc::string::String,
-    /// Output only. The timestamp that the revision was created.
-    #[prost(message, optional, tag="7")]
-    pub revision_create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The etag for this OS policy assignment.
-    /// If this is provided on update, it must match the server's etag.
-    #[prost(string, tag="8")]
-    pub etag: ::prost::alloc::string::String,
-    /// Output only. OS policy assignment rollout state
-    #[prost(enumeration="os_policy_assignment::RolloutState", tag="9")]
-    pub rollout_state: i32,
-    /// Output only. Indicates that this revision has been successfully rolled out in this zone
-    /// and new VMs will be assigned OS policies from this revision.
-    ///
-    /// For a given OS policy assignment, there is only one revision with a value
-    /// of `true` for this field.
-    #[prost(bool, tag="10")]
-    pub baseline: bool,
-    /// Output only. Indicates that this revision deletes the OS policy assignment.
-    #[prost(bool, tag="11")]
-    pub deleted: bool,
-    /// Output only. Indicates that reconciliation is in progress for the revision.
-    /// This value is `true` when the `rollout_state` is one of:
-    /// * IN_PROGRESS
-    /// * CANCELLING
-    #[prost(bool, tag="12")]
-    pub reconciling: bool,
-    /// Output only. Server generated unique id for the OS policy assignment resource.
-    #[prost(string, tag="13")]
-    pub uid: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `OSPolicyAssignment`.
-pub mod os_policy_assignment {
-    /// Message representing label set.
-    /// * A label is a key value pair set for a VM.
-    /// * A LabelSet is a set of labels.
-    /// * Labels within a LabelSet are ANDed. In other words, a LabelSet is
-    ///   applicable for a VM only if it matches all the labels in the
-    ///   LabelSet.
-    /// * Example: A LabelSet with 2 labels: `env=prod` and `type=webserver` will
-    ///            only be applicable for those VMs with both labels
-    ///            present.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct LabelSet {
-        /// Labels are identified by key/value pairs in this map.
-        /// A VM should contain all the key/value pairs specified in this
-        /// map to be selected.
-        #[prost(btree_map="string, string", tag="1")]
-        pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    }
-    /// Filters to select target VMs for an assignment.
-    ///
-    /// If more than one filter criteria is specified below, a VM will be selected
-    /// if and only if it satisfies all of them.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct InstanceFilter {
-        /// Target all VMs in the project. If true, no other criteria is
-        /// permitted.
-        #[prost(bool, tag="1")]
-        pub all: bool,
-        /// Deprecated. Use the `inventories` field instead.
-        /// A VM is selected if it's OS short name matches with any of the
-        /// values provided in this list.
-        #[deprecated]
-        #[prost(string, repeated, tag="2")]
-        pub os_short_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// List of label sets used for VM inclusion.
+        /// If populated, the field can contain one of the following values:
         ///
-        /// If the list has more than one `LabelSet`, the VM is included if any
-        /// of the label sets are applicable for the VM.
-        #[prost(message, repeated, tag="3")]
-        pub inclusion_labels: ::prost::alloc::vec::Vec<LabelSet>,
-        /// List of label sets used for VM exclusion.
-        ///
-        /// If the list has more than one label set, the VM is excluded if any
-        /// of the label sets are applicable for the VM.
+        /// * `vm-not-running`: The VM was not running.
+        /// * `os-policies-not-supported-by-agent`: The version of the OS Config
+        /// agent running on the VM does not support running OS policies.
+        /// * `no-agent-detected`: The OS Config agent is not detected for the VM.
+        /// * `resource-execution-errors`: The OS Config agent encountered errors
+        /// while executing one or more resources in the policy. See
+        /// `os_policy_resource_compliances` for details.
+        /// * `task-timeout`: The task sent to the agent to apply the policy timed
+        /// out.
+        /// * `unexpected-agent-state`: The OS Config agent did not report the final
+        /// status of the task that attempted to apply the policy. Instead, the agent
+        /// unexpectedly started working on a different task. This mostly happens
+        /// when the agent or VM unexpectedly restarts while applying OS policies.
+        /// * `internal-service-errors`: Internal service errors were encountered
+        /// while attempting to apply the policy.
+        #[prost(string, tag="3")]
+        pub compliance_state_reason: ::prost::alloc::string::String,
+        /// Compliance data for each resource within the policy that is applied to
+        /// the VM.
         #[prost(message, repeated, tag="4")]
-        pub exclusion_labels: ::prost::alloc::vec::Vec<LabelSet>,
-        /// List of inventories to select VMs.
-        ///
-        /// A VM is selected if its inventory data matches at least one of the
-        /// following inventories.
-        #[prost(message, repeated, tag="5")]
-        pub inventories: ::prost::alloc::vec::Vec<instance_filter::Inventory>,
+        pub os_policy_resource_compliances: ::prost::alloc::vec::Vec<os_policy_compliance::OsPolicyResourceCompliance>,
     }
-    /// Nested message and enum types in `InstanceFilter`.
-    pub mod instance_filter {
-        /// VM inventory details.
+    /// Nested message and enum types in `OSPolicyCompliance`.
+    pub mod os_policy_compliance {
+        /// Compliance data for an OS policy resource.
         #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Inventory {
-            /// Required. The OS short name
+        pub struct OsPolicyResourceCompliance {
+            /// The ID of the OS policy resource.
             #[prost(string, tag="1")]
-            pub os_short_name: ::prost::alloc::string::String,
-            /// The OS version
+            pub os_policy_resource_id: ::prost::alloc::string::String,
+            /// Ordered list of configuration completed by the agent for the OS policy
+            /// resource.
+            #[prost(message, repeated, tag="2")]
+            pub config_steps: ::prost::alloc::vec::Vec<os_policy_resource_compliance::OsPolicyResourceConfigStep>,
+            /// The compliance state of the resource.
+            #[prost(enumeration="os_policy_resource_compliance::ComplianceState", tag="3")]
+            pub compliance_state: i32,
+            /// A reason for the resource to be in the given compliance state.
+            /// This field is always populated when `compliance_state` is `UNKNOWN`.
             ///
-            /// Prefix matches are supported if asterisk(*) is provided as the
-            /// last character. For example, to match all versions with a major
-            /// version of `7`, specify the following value for this field `7.*`
+            /// The following values are supported when `compliance_state == UNKNOWN`
             ///
-            /// An empty string matches all OS versions.
-            #[prost(string, tag="2")]
-            pub os_version: ::prost::alloc::string::String,
+            /// * `execution-errors`: Errors were encountered by the agent while
+            /// executing the resource and the compliance state couldn't be
+            /// determined.
+            /// * `execution-skipped-by-agent`: Resource execution was skipped by the
+            /// agent because errors were encountered while executing prior resources
+            /// in the OS policy.
+            /// * `os-policy-execution-attempt-failed`: The execution of the OS policy
+            /// containing this resource failed and the compliance state couldn't be
+            /// determined.
+            #[prost(string, tag="4")]
+            pub compliance_state_reason: ::prost::alloc::string::String,
+            /// Resource specific output.
+            #[prost(oneof="os_policy_resource_compliance::Output", tags="5")]
+            pub output: ::core::option::Option<os_policy_resource_compliance::Output>,
+        }
+        /// Nested message and enum types in `OSPolicyResourceCompliance`.
+        pub mod os_policy_resource_compliance {
+            /// Step performed by the OS Config agent for configuring an
+            /// `OSPolicy` resource to its desired state.
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            pub struct OsPolicyResourceConfigStep {
+                /// Configuration step type.
+                #[prost(enumeration="os_policy_resource_config_step::Type", tag="1")]
+                pub r#type: i32,
+                /// An error message recorded during the execution of this step.
+                /// Only populated if errors were encountered during this step execution.
+                #[prost(string, tag="2")]
+                pub error_message: ::prost::alloc::string::String,
+            }
+            /// Nested message and enum types in `OSPolicyResourceConfigStep`.
+            pub mod os_policy_resource_config_step {
+                /// Supported configuration step types
+                #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+                #[repr(i32)]
+                pub enum Type {
+                    /// Default value. This value is unused.
+                    Unspecified = 0,
+                    /// Checks for resource conflicts such as schema errors.
+                    Validation = 1,
+                    /// Checks the current status of the desired state for a resource.
+                    DesiredStateCheck = 2,
+                    /// Enforces the desired state for a resource that is not in desired
+                    /// state.
+                    DesiredStateEnforcement = 3,
+                    /// Re-checks the status of the desired state. This check is done
+                    /// for a resource after the enforcement of all OS policies.
+                    ///
+                    /// This step is used to determine the final desired state status for
+                    /// the resource. It accounts for any resources that might have drifted
+                    /// from their desired state due to side effects from executing other
+                    /// resources.
+                    DesiredStateCheckPostEnforcement = 4,
+                }
+            }
+            /// ExecResource specific output.
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            pub struct ExecResourceOutput {
+                /// Output from enforcement phase output file (if run).
+                /// Output size is limited to 100K bytes.
+                #[prost(bytes="bytes", tag="2")]
+                pub enforcement_output: ::prost::bytes::Bytes,
+            }
+            /// Possible compliance states for a resource.
+            #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+            #[repr(i32)]
+            pub enum ComplianceState {
+                /// The resource is in an unknown compliance state.
+                ///
+                /// To get more details about why the policy is in this state, review
+                /// the output of the `compliance_state_reason` field.
+                Unknown = 0,
+                /// Resource is compliant.
+                Compliant = 1,
+                /// Resource is non-compliant.
+                NonCompliant = 2,
+            }
+            /// Resource specific output.
+            #[derive(Clone, PartialEq, ::prost::Oneof)]
+            pub enum Output {
+                /// ExecResource specific output.
+                #[prost(message, tag="5")]
+                ExecResourceOutput(ExecResourceOutput),
+            }
+        }
+        /// Possible compliance states for an os policy.
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+        #[repr(i32)]
+        pub enum ComplianceState {
+            /// The policy is in an unknown compliance state.
+            ///
+            /// Refer to the field `compliance_state_reason` to learn the exact reason
+            /// for the policy to be in this compliance state.
+            Unknown = 0,
+            /// Policy is compliant.
+            ///
+            /// The policy is compliant if all the underlying resources are also
+            /// compliant.
+            Compliant = 1,
+            /// Policy is non-compliant.
+            ///
+            /// The policy is non-compliant if one or more underlying resources are
+            /// non-compliant.
+            NonCompliant = 2,
         }
     }
-    /// Message to configure the rollout at the zonal level for the OS policy
-    /// assignment.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Rollout {
-        /// Required. The maximum number (or percentage) of VMs per zone to disrupt at
-        /// any given moment.
-        #[prost(message, optional, tag="1")]
-        pub disruption_budget: ::core::option::Option<super::FixedOrPercent>,
-        /// Required. This determines the minimum duration of time to wait after the
-        /// configuration changes are applied through the current rollout. A
-        /// VM continues to count towards the `disruption_budget` at least
-        /// until this duration of time has passed after configuration changes are
-        /// applied.
-        #[prost(message, optional, tag="2")]
-        pub min_wait_duration: ::core::option::Option<::prost_types::Duration>,
-    }
-    /// OS policy assignment rollout state
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RolloutState {
-        /// Invalid value
-        Unspecified = 0,
-        /// The rollout is in progress.
-        InProgress = 1,
-        /// The rollout is being cancelled.
-        Cancelling = 2,
-        /// The rollout is cancelled.
-        Cancelled = 3,
-        /// The rollout has completed successfully.
-        Succeeded = 4,
-    }
-}
-/// OS policy assignment operation metadata provided by OS policy assignment API
-/// methods that return long running operations.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OsPolicyAssignmentOperationMetadata {
-    /// Reference to the `OSPolicyAssignment` API resource.
-    ///
-    /// Format:
-    /// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}`
-    #[prost(string, tag="1")]
-    pub os_policy_assignment: ::prost::alloc::string::String,
-    /// The OS policy assignment API method.
-    #[prost(enumeration="os_policy_assignment_operation_metadata::ApiMethod", tag="2")]
-    pub api_method: i32,
-    /// State of the rollout
-    #[prost(enumeration="os_policy_assignment_operation_metadata::RolloutState", tag="3")]
-    pub rollout_state: i32,
-    /// Rollout start time
-    #[prost(message, optional, tag="4")]
-    pub rollout_start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Rollout update time
-    #[prost(message, optional, tag="5")]
-    pub rollout_update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `OSPolicyAssignmentOperationMetadata`.
-pub mod os_policy_assignment_operation_metadata {
-    /// The OS policy assignment API method.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ApiMethod {
-        /// Invalid value
-        Unspecified = 0,
-        /// Create OS policy assignment API method
-        Create = 1,
-        /// Update OS policy assignment API method
-        Update = 2,
-        /// Delete OS policy assignment API method
-        Delete = 3,
-    }
-    /// State of the rollout
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RolloutState {
-        /// Invalid value
-        Unspecified = 0,
-        /// The rollout is in progress.
-        InProgress = 1,
-        /// The rollout is being cancelled.
-        Cancelling = 2,
-        /// The rollout is cancelled.
-        Cancelled = 3,
-        /// The rollout has completed successfully.
-        Succeeded = 4,
-    }
-}
-/// A request message to create an OS policy assignment
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateOsPolicyAssignmentRequest {
-    /// Required. The parent resource name in the form:
-    /// projects/{project}/locations/{location}
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The OS policy assignment to be created.
-    #[prost(message, optional, tag="2")]
-    pub os_policy_assignment: ::core::option::Option<OsPolicyAssignment>,
-    /// Required. The logical name of the OS policy assignment in the project
-    /// with the following restrictions:
-    ///
-    /// * Must contain only lowercase letters, numbers, and hyphens.
-    /// * Must start with a letter.
-    /// * Must be between 1-63 characters.
-    /// * Must end with a number or a letter.
-    /// * Must be unique within the project.
-    #[prost(string, tag="3")]
-    pub os_policy_assignment_id: ::prost::alloc::string::String,
-}
-/// A request message to update an OS policy assignment
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateOsPolicyAssignmentRequest {
-    /// Required. The updated OS policy assignment.
-    #[prost(message, optional, tag="1")]
-    pub os_policy_assignment: ::core::option::Option<OsPolicyAssignment>,
-    /// Optional. Field mask that controls which fields of the assignment should be updated.
-    #[prost(message, optional, tag="2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// A request message to get an OS policy assignment
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetOsPolicyAssignmentRequest {
-    /// Required. The resource name of OS policy assignment.
-    ///
-    /// Format:
-    /// `projects/{project}/locations/{location}/osPolicyAssignments/{os_policy_assignment}@{revisionId}`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// A request message to list OS policy assignments for a parent resource
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListOsPolicyAssignmentsRequest {
-    /// Required. The parent resource name.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of assignments to return.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// A pagination token returned from a previous call to
-    /// `ListOSPolicyAssignments` that indicates where this listing should continue
-    /// from.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// A response message for listing all assignments under given parent.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListOsPolicyAssignmentsResponse {
-    /// The list of assignments
-    #[prost(message, repeated, tag="1")]
-    pub os_policy_assignments: ::prost::alloc::vec::Vec<OsPolicyAssignment>,
-    /// The pagination token to retrieve the next page of OS policy assignments.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// A request message to list revisions for a OS policy assignment
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListOsPolicyAssignmentRevisionsRequest {
-    /// Required. The name of the OS policy assignment to list revisions for.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The maximum number of revisions to return.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// A pagination token returned from a previous call to
-    /// `ListOSPolicyAssignmentRevisions` that indicates where this listing should
-    /// continue from.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// A response message for listing all revisions for a OS policy assignment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListOsPolicyAssignmentRevisionsResponse {
-    /// The OS policy assignment revisions
-    #[prost(message, repeated, tag="1")]
-    pub os_policy_assignments: ::prost::alloc::vec::Vec<OsPolicyAssignment>,
-    /// The pagination token to retrieve the next page of OS policy assignment
-    /// revisions.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// A request message for deleting a OS policy assignment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteOsPolicyAssignmentRequest {
-    /// Required. The name of the OS policy assignment to be deleted
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
 }
 /// This API resource represents the vulnerability report for a specified
 /// Compute Engine virtual machine (VM) instance at a given point in time.

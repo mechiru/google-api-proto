@@ -1,91 +1,3 @@
-/// Relevant information for the image from the Internet.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WebDetection {
-    /// Deduced entities from similar images on the Internet.
-    #[prost(message, repeated, tag="1")]
-    pub web_entities: ::prost::alloc::vec::Vec<web_detection::WebEntity>,
-    /// Fully matching images from the Internet.
-    /// Can include resized copies of the query image.
-    #[prost(message, repeated, tag="2")]
-    pub full_matching_images: ::prost::alloc::vec::Vec<web_detection::WebImage>,
-    /// Partial matching images from the Internet.
-    /// Those images are similar enough to share some key-point features. For
-    /// example an original image will likely have partial matching for its crops.
-    #[prost(message, repeated, tag="3")]
-    pub partial_matching_images: ::prost::alloc::vec::Vec<web_detection::WebImage>,
-    /// Web pages containing the matching images from the Internet.
-    #[prost(message, repeated, tag="4")]
-    pub pages_with_matching_images: ::prost::alloc::vec::Vec<web_detection::WebPage>,
-    /// The visually similar image results.
-    #[prost(message, repeated, tag="6")]
-    pub visually_similar_images: ::prost::alloc::vec::Vec<web_detection::WebImage>,
-    /// The service's best guess as to the topic of the request image.
-    /// Inferred from similar images on the open web.
-    #[prost(message, repeated, tag="8")]
-    pub best_guess_labels: ::prost::alloc::vec::Vec<web_detection::WebLabel>,
-}
-/// Nested message and enum types in `WebDetection`.
-pub mod web_detection {
-    /// Entity deduced from similar images on the Internet.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WebEntity {
-        /// Opaque entity ID.
-        #[prost(string, tag="1")]
-        pub entity_id: ::prost::alloc::string::String,
-        /// Overall relevancy score for the entity.
-        /// Not normalized and not comparable across different image queries.
-        #[prost(float, tag="2")]
-        pub score: f32,
-        /// Canonical description of the entity, in English.
-        #[prost(string, tag="3")]
-        pub description: ::prost::alloc::string::String,
-    }
-    /// Metadata for online images.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WebImage {
-        /// The result image URL.
-        #[prost(string, tag="1")]
-        pub url: ::prost::alloc::string::String,
-        /// (Deprecated) Overall relevancy score for the image.
-        #[prost(float, tag="2")]
-        pub score: f32,
-    }
-    /// Metadata for web pages.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WebPage {
-        /// The result web page URL.
-        #[prost(string, tag="1")]
-        pub url: ::prost::alloc::string::String,
-        /// (Deprecated) Overall relevancy score for the web page.
-        #[prost(float, tag="2")]
-        pub score: f32,
-        /// Title for the web page, may contain HTML markups.
-        #[prost(string, tag="3")]
-        pub page_title: ::prost::alloc::string::String,
-        /// Fully matching images on the page.
-        /// Can include resized copies of the query image.
-        #[prost(message, repeated, tag="4")]
-        pub full_matching_images: ::prost::alloc::vec::Vec<WebImage>,
-        /// Partial matching images on the page.
-        /// Those images are similar enough to share some key-point features. For
-        /// example an original image will likely have partial matching for its
-        /// crops.
-        #[prost(message, repeated, tag="5")]
-        pub partial_matching_images: ::prost::alloc::vec::Vec<WebImage>,
-    }
-    /// Label to provide extra metadata for the web detection.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WebLabel {
-        /// Label for extra metadata.
-        #[prost(string, tag="1")]
-        pub label: ::prost::alloc::string::String,
-        /// The BCP-47 language code for `label`, such as "en-US" or "sr-Latn".
-        /// For more information, see
-        /// <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.>
-        #[prost(string, tag="2")]
-        pub language_code: ::prost::alloc::string::String,
-    }
-}
 /// A vertex represents a 2D point in the image.
 /// NOTE: the vertex coordinates are in the same scale as the original image.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -133,42 +45,6 @@ pub struct Position {
     /// Z coordinate (or depth).
     #[prost(float, tag="3")]
     pub z: f32,
-}
-/// Parameters for a celebrity recognition request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FaceRecognitionParams {
-    /// The resource names for one or more
-    /// \[CelebritySet][google.cloud.vision.v1p4beta1.CelebritySet\]s. A celebrity
-    /// set is preloaded and can be specified as "builtin/default". If this is
-    /// specified, the algorithm will try to match the faces detected in the input
-    /// image to the Celebrities in the CelebritySets.
-    #[prost(string, repeated, tag="1")]
-    pub celebrity_set: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// A Celebrity is a group of Faces with an identity.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Celebrity {
-    /// The resource name of the preloaded Celebrity. Has the format
-    /// `builtin/{mid}`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The Celebrity's display name.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The Celebrity's description.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-}
-/// Information about a face's identity.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FaceRecognitionResult {
-    /// The \[Celebrity][google.cloud.vision.v1p4beta1.Celebrity\] that this face was
-    /// matched to.
-    #[prost(message, optional, tag="1")]
-    pub celebrity: ::core::option::Option<Celebrity>,
-    /// Recognition confidence. Range [0, 1].
-    #[prost(float, tag="2")]
-    pub confidence: f32,
 }
 /// A Product contains ReferenceImages.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1479,6 +1355,130 @@ pub mod product_search_results {
         #[prost(message, repeated, tag="3")]
         pub object_annotations: ::prost::alloc::vec::Vec<ObjectAnnotation>,
     }
+}
+/// Relevant information for the image from the Internet.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WebDetection {
+    /// Deduced entities from similar images on the Internet.
+    #[prost(message, repeated, tag="1")]
+    pub web_entities: ::prost::alloc::vec::Vec<web_detection::WebEntity>,
+    /// Fully matching images from the Internet.
+    /// Can include resized copies of the query image.
+    #[prost(message, repeated, tag="2")]
+    pub full_matching_images: ::prost::alloc::vec::Vec<web_detection::WebImage>,
+    /// Partial matching images from the Internet.
+    /// Those images are similar enough to share some key-point features. For
+    /// example an original image will likely have partial matching for its crops.
+    #[prost(message, repeated, tag="3")]
+    pub partial_matching_images: ::prost::alloc::vec::Vec<web_detection::WebImage>,
+    /// Web pages containing the matching images from the Internet.
+    #[prost(message, repeated, tag="4")]
+    pub pages_with_matching_images: ::prost::alloc::vec::Vec<web_detection::WebPage>,
+    /// The visually similar image results.
+    #[prost(message, repeated, tag="6")]
+    pub visually_similar_images: ::prost::alloc::vec::Vec<web_detection::WebImage>,
+    /// The service's best guess as to the topic of the request image.
+    /// Inferred from similar images on the open web.
+    #[prost(message, repeated, tag="8")]
+    pub best_guess_labels: ::prost::alloc::vec::Vec<web_detection::WebLabel>,
+}
+/// Nested message and enum types in `WebDetection`.
+pub mod web_detection {
+    /// Entity deduced from similar images on the Internet.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WebEntity {
+        /// Opaque entity ID.
+        #[prost(string, tag="1")]
+        pub entity_id: ::prost::alloc::string::String,
+        /// Overall relevancy score for the entity.
+        /// Not normalized and not comparable across different image queries.
+        #[prost(float, tag="2")]
+        pub score: f32,
+        /// Canonical description of the entity, in English.
+        #[prost(string, tag="3")]
+        pub description: ::prost::alloc::string::String,
+    }
+    /// Metadata for online images.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WebImage {
+        /// The result image URL.
+        #[prost(string, tag="1")]
+        pub url: ::prost::alloc::string::String,
+        /// (Deprecated) Overall relevancy score for the image.
+        #[prost(float, tag="2")]
+        pub score: f32,
+    }
+    /// Metadata for web pages.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WebPage {
+        /// The result web page URL.
+        #[prost(string, tag="1")]
+        pub url: ::prost::alloc::string::String,
+        /// (Deprecated) Overall relevancy score for the web page.
+        #[prost(float, tag="2")]
+        pub score: f32,
+        /// Title for the web page, may contain HTML markups.
+        #[prost(string, tag="3")]
+        pub page_title: ::prost::alloc::string::String,
+        /// Fully matching images on the page.
+        /// Can include resized copies of the query image.
+        #[prost(message, repeated, tag="4")]
+        pub full_matching_images: ::prost::alloc::vec::Vec<WebImage>,
+        /// Partial matching images on the page.
+        /// Those images are similar enough to share some key-point features. For
+        /// example an original image will likely have partial matching for its
+        /// crops.
+        #[prost(message, repeated, tag="5")]
+        pub partial_matching_images: ::prost::alloc::vec::Vec<WebImage>,
+    }
+    /// Label to provide extra metadata for the web detection.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WebLabel {
+        /// Label for extra metadata.
+        #[prost(string, tag="1")]
+        pub label: ::prost::alloc::string::String,
+        /// The BCP-47 language code for `label`, such as "en-US" or "sr-Latn".
+        /// For more information, see
+        /// <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.>
+        #[prost(string, tag="2")]
+        pub language_code: ::prost::alloc::string::String,
+    }
+}
+/// Parameters for a celebrity recognition request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FaceRecognitionParams {
+    /// The resource names for one or more
+    /// \[CelebritySet][google.cloud.vision.v1p4beta1.CelebritySet\]s. A celebrity
+    /// set is preloaded and can be specified as "builtin/default". If this is
+    /// specified, the algorithm will try to match the faces detected in the input
+    /// image to the Celebrities in the CelebritySets.
+    #[prost(string, repeated, tag="1")]
+    pub celebrity_set: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// A Celebrity is a group of Faces with an identity.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Celebrity {
+    /// The resource name of the preloaded Celebrity. Has the format
+    /// `builtin/{mid}`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The Celebrity's display name.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The Celebrity's description.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+}
+/// Information about a face's identity.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FaceRecognitionResult {
+    /// The \[Celebrity][google.cloud.vision.v1p4beta1.Celebrity\] that this face was
+    /// matched to.
+    #[prost(message, optional, tag="1")]
+    pub celebrity: ::core::option::Option<Celebrity>,
+    /// Recognition confidence. Range [0, 1].
+    #[prost(float, tag="2")]
+    pub confidence: f32,
 }
 /// TextAnnotation contains a structured representation of OCR extracted text.
 /// The hierarchy of an OCR extracted text structure is like this:

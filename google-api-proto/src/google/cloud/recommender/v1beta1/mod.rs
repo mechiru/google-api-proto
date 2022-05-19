@@ -1,3 +1,122 @@
+/// An insight along with the information used to derive the insight. The insight
+/// may have associated recomendations as well.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Insight {
+    /// Name of the insight.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Free-form human readable summary in English. The maximum length is 500
+    /// characters.
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
+    /// Fully qualified resource names that this insight is targeting.
+    #[prost(string, repeated, tag="9")]
+    pub target_resources: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Insight subtype. Insight content schema will be stable for a given subtype.
+    #[prost(string, tag="10")]
+    pub insight_subtype: ::prost::alloc::string::String,
+    /// A struct of custom fields to explain the insight.
+    /// Example: "grantedPermissionsCount": "1000"
+    #[prost(message, optional, tag="3")]
+    pub content: ::core::option::Option<::prost_types::Struct>,
+    /// Timestamp of the latest data used to generate the insight.
+    #[prost(message, optional, tag="4")]
+    pub last_refresh_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Observation period that led to the insight. The source data used to
+    /// generate the insight ends at last_refresh_time and begins at
+    /// (last_refresh_time - observation_period).
+    #[prost(message, optional, tag="5")]
+    pub observation_period: ::core::option::Option<::prost_types::Duration>,
+    /// Information state and metadata.
+    #[prost(message, optional, tag="6")]
+    pub state_info: ::core::option::Option<InsightStateInfo>,
+    /// Category being targeted by the insight.
+    #[prost(enumeration="insight::Category", tag="7")]
+    pub category: i32,
+    /// Insight's severity.
+    #[prost(enumeration="insight::Severity", tag="15")]
+    pub severity: i32,
+    /// Fingerprint of the Insight. Provides optimistic locking when updating
+    /// states.
+    #[prost(string, tag="11")]
+    pub etag: ::prost::alloc::string::String,
+    /// Recommendations derived from this insight.
+    #[prost(message, repeated, tag="8")]
+    pub associated_recommendations: ::prost::alloc::vec::Vec<insight::RecommendationReference>,
+}
+/// Nested message and enum types in `Insight`.
+pub mod insight {
+    /// Reference to an associated recommendation.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct RecommendationReference {
+        /// Recommendation resource name, e.g.
+        /// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/recommendations/[RECOMMENDATION_ID\]
+        #[prost(string, tag="1")]
+        pub recommendation: ::prost::alloc::string::String,
+    }
+    /// Insight category.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Category {
+        /// Unspecified category.
+        Unspecified = 0,
+        /// The insight is related to cost.
+        Cost = 1,
+        /// The insight is related to security.
+        Security = 2,
+        /// The insight is related to performance.
+        Performance = 3,
+        /// This insight is related to manageability.
+        Manageability = 4,
+    }
+    /// Insight severity levels.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Severity {
+        /// Insight has unspecified severity.
+        Unspecified = 0,
+        /// Insight has low severity.
+        Low = 1,
+        /// Insight has medium severity.
+        Medium = 2,
+        /// Insight has high severity.
+        High = 3,
+        /// Insight has critical severity.
+        Critical = 4,
+    }
+}
+/// Information related to insight state.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InsightStateInfo {
+    /// Insight state.
+    #[prost(enumeration="insight_state_info::State", tag="1")]
+    pub state: i32,
+    /// A map of metadata for the state, provided by user or automations systems.
+    #[prost(btree_map="string, string", tag="2")]
+    pub state_metadata: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `InsightStateInfo`.
+pub mod insight_state_info {
+    /// Represents insight state.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Unspecified state.
+        Unspecified = 0,
+        /// Insight is active. Content for ACTIVE insights can be updated by Google.
+        /// ACTIVE insights can be marked DISMISSED OR ACCEPTED.
+        Active = 1,
+        /// Some action has been taken based on this insight. Insights become
+        /// accepted when a recommendation derived from the insight has been marked
+        /// CLAIMED, SUCCEEDED, or FAILED. ACTIVE insights can also be marked
+        /// ACCEPTED explicitly. Content for ACCEPTED insights is immutable. ACCEPTED
+        /// insights can only be marked ACCEPTED (which may update state metadata).
+        Accepted = 2,
+        /// Insight is dismissed. Content for DISMISSED insights can be updated by
+        /// Google. DISMISSED insights can be marked as ACTIVE.
+        Dismissed = 3,
+    }
+}
 /// A recommendation along with a suggested action. E.g., a rightsizing
 /// recommendation for an underutilized VM, IAM role recommendations, etc
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -342,174 +461,6 @@ pub mod recommendation_state_info {
         Dismissed = 5,
     }
 }
-/// Configuration for a Recommender.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RecommenderConfig {
-    /// Name of recommender config.
-    /// Eg,
-    /// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]/config
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// RecommenderGenerationConfig which configures the Generation of
-    /// recommendations for this recommender.
-    #[prost(message, optional, tag="2")]
-    pub recommender_generation_config: ::core::option::Option<RecommenderGenerationConfig>,
-    /// Fingerprint of the RecommenderConfig. Provides optimistic locking when
-    /// updating.
-    #[prost(string, tag="3")]
-    pub etag: ::prost::alloc::string::String,
-    /// Last time when the config was updated.
-    #[prost(message, optional, tag="4")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Immutable. The revision ID of the config.
-    /// A new revision is committed whenever the config is changed in any way.
-    /// The format is an 8-character hexadecimal string.
-    #[prost(string, tag="5")]
-    pub revision_id: ::prost::alloc::string::String,
-    /// Allows clients to store small amounts of arbitrary data. Annotations must
-    /// follow the Kubernetes syntax.
-    /// The total size of all keys and values combined is limited to 256k.
-    /// Key can have 2 segments: prefix (optional) and name (required),
-    /// separated by a slash (/).
-    /// Prefix must be a DNS subdomain.
-    /// Name must be 63 characters or less, begin and end with alphanumerics,
-    /// with dashes (-), underscores (_), dots (.), and alphanumerics between.
-    #[prost(btree_map="string, string", tag="6")]
-    pub annotations: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// A user-settable field to provide a human-readable name to be used in user
-    /// interfaces.
-    #[prost(string, tag="7")]
-    pub display_name: ::prost::alloc::string::String,
-}
-/// A Configuration to customize the generation of recommendations.
-/// Eg, customizing the lookback period considered when generating a
-/// recommendation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RecommenderGenerationConfig {
-    /// Parameters for this RecommenderGenerationConfig. These configs can be used
-    /// by or are applied to all subtypes.
-    #[prost(message, optional, tag="1")]
-    pub params: ::core::option::Option<::prost_types::Struct>,
-}
-/// An insight along with the information used to derive the insight. The insight
-/// may have associated recomendations as well.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Insight {
-    /// Name of the insight.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Free-form human readable summary in English. The maximum length is 500
-    /// characters.
-    #[prost(string, tag="2")]
-    pub description: ::prost::alloc::string::String,
-    /// Fully qualified resource names that this insight is targeting.
-    #[prost(string, repeated, tag="9")]
-    pub target_resources: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Insight subtype. Insight content schema will be stable for a given subtype.
-    #[prost(string, tag="10")]
-    pub insight_subtype: ::prost::alloc::string::String,
-    /// A struct of custom fields to explain the insight.
-    /// Example: "grantedPermissionsCount": "1000"
-    #[prost(message, optional, tag="3")]
-    pub content: ::core::option::Option<::prost_types::Struct>,
-    /// Timestamp of the latest data used to generate the insight.
-    #[prost(message, optional, tag="4")]
-    pub last_refresh_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Observation period that led to the insight. The source data used to
-    /// generate the insight ends at last_refresh_time and begins at
-    /// (last_refresh_time - observation_period).
-    #[prost(message, optional, tag="5")]
-    pub observation_period: ::core::option::Option<::prost_types::Duration>,
-    /// Information state and metadata.
-    #[prost(message, optional, tag="6")]
-    pub state_info: ::core::option::Option<InsightStateInfo>,
-    /// Category being targeted by the insight.
-    #[prost(enumeration="insight::Category", tag="7")]
-    pub category: i32,
-    /// Insight's severity.
-    #[prost(enumeration="insight::Severity", tag="15")]
-    pub severity: i32,
-    /// Fingerprint of the Insight. Provides optimistic locking when updating
-    /// states.
-    #[prost(string, tag="11")]
-    pub etag: ::prost::alloc::string::String,
-    /// Recommendations derived from this insight.
-    #[prost(message, repeated, tag="8")]
-    pub associated_recommendations: ::prost::alloc::vec::Vec<insight::RecommendationReference>,
-}
-/// Nested message and enum types in `Insight`.
-pub mod insight {
-    /// Reference to an associated recommendation.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct RecommendationReference {
-        /// Recommendation resource name, e.g.
-        /// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/recommendations/[RECOMMENDATION_ID\]
-        #[prost(string, tag="1")]
-        pub recommendation: ::prost::alloc::string::String,
-    }
-    /// Insight category.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Category {
-        /// Unspecified category.
-        Unspecified = 0,
-        /// The insight is related to cost.
-        Cost = 1,
-        /// The insight is related to security.
-        Security = 2,
-        /// The insight is related to performance.
-        Performance = 3,
-        /// This insight is related to manageability.
-        Manageability = 4,
-    }
-    /// Insight severity levels.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Severity {
-        /// Insight has unspecified severity.
-        Unspecified = 0,
-        /// Insight has low severity.
-        Low = 1,
-        /// Insight has medium severity.
-        Medium = 2,
-        /// Insight has high severity.
-        High = 3,
-        /// Insight has critical severity.
-        Critical = 4,
-    }
-}
-/// Information related to insight state.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InsightStateInfo {
-    /// Insight state.
-    #[prost(enumeration="insight_state_info::State", tag="1")]
-    pub state: i32,
-    /// A map of metadata for the state, provided by user or automations systems.
-    #[prost(btree_map="string, string", tag="2")]
-    pub state_metadata: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-}
-/// Nested message and enum types in `InsightStateInfo`.
-pub mod insight_state_info {
-    /// Represents insight state.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Unspecified state.
-        Unspecified = 0,
-        /// Insight is active. Content for ACTIVE insights can be updated by Google.
-        /// ACTIVE insights can be marked DISMISSED OR ACCEPTED.
-        Active = 1,
-        /// Some action has been taken based on this insight. Insights become
-        /// accepted when a recommendation derived from the insight has been marked
-        /// CLAIMED, SUCCEEDED, or FAILED. ACTIVE insights can also be marked
-        /// ACCEPTED explicitly. Content for ACCEPTED insights is immutable. ACCEPTED
-        /// insights can only be marked ACCEPTED (which may update state metadata).
-        Accepted = 2,
-        /// Insight is dismissed. Content for DISMISSED insights can be updated by
-        /// Google. DISMISSED insights can be marked as ACTIVE.
-        Dismissed = 3,
-    }
-}
 /// Configuration for an InsightType.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InsightTypeConfig {
@@ -555,6 +506,55 @@ pub struct InsightTypeConfig {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InsightTypeGenerationConfig {
     /// Parameters for this InsightTypeGenerationConfig. These configs can be used
+    /// by or are applied to all subtypes.
+    #[prost(message, optional, tag="1")]
+    pub params: ::core::option::Option<::prost_types::Struct>,
+}
+/// Configuration for a Recommender.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RecommenderConfig {
+    /// Name of recommender config.
+    /// Eg,
+    /// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]/config
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// RecommenderGenerationConfig which configures the Generation of
+    /// recommendations for this recommender.
+    #[prost(message, optional, tag="2")]
+    pub recommender_generation_config: ::core::option::Option<RecommenderGenerationConfig>,
+    /// Fingerprint of the RecommenderConfig. Provides optimistic locking when
+    /// updating.
+    #[prost(string, tag="3")]
+    pub etag: ::prost::alloc::string::String,
+    /// Last time when the config was updated.
+    #[prost(message, optional, tag="4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Immutable. The revision ID of the config.
+    /// A new revision is committed whenever the config is changed in any way.
+    /// The format is an 8-character hexadecimal string.
+    #[prost(string, tag="5")]
+    pub revision_id: ::prost::alloc::string::String,
+    /// Allows clients to store small amounts of arbitrary data. Annotations must
+    /// follow the Kubernetes syntax.
+    /// The total size of all keys and values combined is limited to 256k.
+    /// Key can have 2 segments: prefix (optional) and name (required),
+    /// separated by a slash (/).
+    /// Prefix must be a DNS subdomain.
+    /// Name must be 63 characters or less, begin and end with alphanumerics,
+    /// with dashes (-), underscores (_), dots (.), and alphanumerics between.
+    #[prost(btree_map="string, string", tag="6")]
+    pub annotations: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// A user-settable field to provide a human-readable name to be used in user
+    /// interfaces.
+    #[prost(string, tag="7")]
+    pub display_name: ::prost::alloc::string::String,
+}
+/// A Configuration to customize the generation of recommendations.
+/// Eg, customizing the lookback period considered when generating a
+/// recommendation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RecommenderGenerationConfig {
+    /// Parameters for this RecommenderGenerationConfig. These configs can be used
     /// by or are applied to all subtypes.
     #[prost(message, optional, tag="1")]
     pub params: ::core::option::Option<::prost_types::Struct>,

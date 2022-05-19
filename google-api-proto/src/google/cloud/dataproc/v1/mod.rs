@@ -1,103 +1,3 @@
-/// Metadata describing the Batch operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchOperationMetadata {
-    /// Name of the batch for the operation.
-    #[prost(string, tag="1")]
-    pub batch: ::prost::alloc::string::String,
-    /// Batch UUID for the operation.
-    #[prost(string, tag="2")]
-    pub batch_uuid: ::prost::alloc::string::String,
-    /// The time when the operation was created.
-    #[prost(message, optional, tag="3")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time when the operation finished.
-    #[prost(message, optional, tag="4")]
-    pub done_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The operation type.
-    #[prost(enumeration="batch_operation_metadata::BatchOperationType", tag="6")]
-    pub operation_type: i32,
-    /// Short description of the operation.
-    #[prost(string, tag="7")]
-    pub description: ::prost::alloc::string::String,
-    /// Labels associated with the operation.
-    #[prost(btree_map="string, string", tag="8")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Warnings encountered during operation execution.
-    #[prost(string, repeated, tag="9")]
-    pub warnings: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Nested message and enum types in `BatchOperationMetadata`.
-pub mod batch_operation_metadata {
-    /// Operation type for Batch resources
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum BatchOperationType {
-        /// Batch operation type is unknown.
-        Unspecified = 0,
-        /// Batch operation type.
-        Batch = 1,
-    }
-}
-/// The status of the operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ClusterOperationStatus {
-    /// Output only. A message containing the operation state.
-    #[prost(enumeration="cluster_operation_status::State", tag="1")]
-    pub state: i32,
-    /// Output only. A message containing the detailed operation state.
-    #[prost(string, tag="2")]
-    pub inner_state: ::prost::alloc::string::String,
-    /// Output only. A message containing any operation metadata details.
-    #[prost(string, tag="3")]
-    pub details: ::prost::alloc::string::String,
-    /// Output only. The time this state was entered.
-    #[prost(message, optional, tag="4")]
-    pub state_start_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `ClusterOperationStatus`.
-pub mod cluster_operation_status {
-    /// The operation state.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Unused.
-        Unknown = 0,
-        /// The operation has been created.
-        Pending = 1,
-        /// The operation is running.
-        Running = 2,
-        /// The operation is done; either cancelled or completed.
-        Done = 3,
-    }
-}
-/// Metadata describing the operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ClusterOperationMetadata {
-    /// Output only. Name of the cluster for the operation.
-    #[prost(string, tag="7")]
-    pub cluster_name: ::prost::alloc::string::String,
-    /// Output only. Cluster UUID for the operation.
-    #[prost(string, tag="8")]
-    pub cluster_uuid: ::prost::alloc::string::String,
-    /// Output only. Current operation status.
-    #[prost(message, optional, tag="9")]
-    pub status: ::core::option::Option<ClusterOperationStatus>,
-    /// Output only. The previous operation status.
-    #[prost(message, repeated, tag="10")]
-    pub status_history: ::prost::alloc::vec::Vec<ClusterOperationStatus>,
-    /// Output only. The operation type.
-    #[prost(string, tag="11")]
-    pub operation_type: ::prost::alloc::string::String,
-    /// Output only. Short description of operation.
-    #[prost(string, tag="12")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. Labels associated with the operation
-    #[prost(btree_map="string, string", tag="13")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Output only. Errors encountered during operation execution.
-    #[prost(string, repeated, tag="14")]
-    pub warnings: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
 /// Runtime configuration for a workload.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RuntimeConfig {
@@ -425,903 +325,312 @@ pub enum FailureAction {
     /// Delete the failed cluster resource.
     Delete = 2,
 }
-/// The runtime logging config of the job.
+/// A request to create a batch workload.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LoggingConfig {
-    /// The per-package log levels for the driver. This may include
-    /// "root" package name to configure rootLogger.
-    /// Examples:
-    ///   'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
-    #[prost(btree_map="string, enumeration(logging_config::Level)", tag="2")]
-    pub driver_log_levels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, i32>,
-}
-/// Nested message and enum types in `LoggingConfig`.
-pub mod logging_config {
-    /// The Log4j level for job execution. When running an
-    /// [Apache Hive](<https://hive.apache.org/>) job, Cloud
-    /// Dataproc configures the Hive client to an equivalent verbosity level.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Level {
-        /// Level is unspecified. Use default level for log4j.
-        Unspecified = 0,
-        /// Use ALL level for log4j.
-        All = 1,
-        /// Use TRACE level for log4j.
-        Trace = 2,
-        /// Use DEBUG level for log4j.
-        Debug = 3,
-        /// Use INFO level for log4j.
-        Info = 4,
-        /// Use WARN level for log4j.
-        Warn = 5,
-        /// Use ERROR level for log4j.
-        Error = 6,
-        /// Use FATAL level for log4j.
-        Fatal = 7,
-        /// Turn off log4j.
-        Off = 8,
-    }
-}
-/// A Dataproc job for running
-/// [Apache Hadoop
-/// MapReduce](<https://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html>)
-/// jobs on [Apache Hadoop
-/// YARN](<https://hadoop.apache.org/docs/r2.7.1/hadoop-yarn/hadoop-yarn-site/YARN.html>).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct HadoopJob {
-    /// Optional. The arguments to pass to the driver. Do not
-    /// include arguments, such as `-libjars` or `-Dfoo=bar`, that can be set as
-    /// job properties, since a collision may occur that causes an incorrect job
-    /// submission.
-    #[prost(string, repeated, tag="3")]
-    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. Jar file URIs to add to the CLASSPATHs of the
-    /// Hadoop driver and tasks.
-    #[prost(string, repeated, tag="4")]
-    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS (Hadoop Compatible Filesystem) URIs of files to be copied
-    /// to the working directory of Hadoop drivers and distributed tasks. Useful
-    /// for naively parallel tasks.
-    #[prost(string, repeated, tag="5")]
-    pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of archives to be extracted in the working directory of
-    /// Hadoop drivers and tasks. Supported file types:
-    /// .jar, .tar, .tar.gz, .tgz, or .zip.
-    #[prost(string, repeated, tag="6")]
-    pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. A mapping of property names to values, used to configure Hadoop.
-    /// Properties that conflict with values set by the Dataproc API may be
-    /// overwritten. Can include properties set in /etc/hadoop/conf/*-site and
-    /// classes in user code.
-    #[prost(btree_map="string, string", tag="7")]
-    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. The runtime log config for job execution.
-    #[prost(message, optional, tag="8")]
-    pub logging_config: ::core::option::Option<LoggingConfig>,
-    /// Required. Indicates the location of the driver's main class. Specify
-    /// either the jar file that contains the main class or the main class name.
-    /// To specify both, add the jar file to `jar_file_uris`, and then specify
-    /// the main class name in this property.
-    #[prost(oneof="hadoop_job::Driver", tags="1, 2")]
-    pub driver: ::core::option::Option<hadoop_job::Driver>,
-}
-/// Nested message and enum types in `HadoopJob`.
-pub mod hadoop_job {
-    /// Required. Indicates the location of the driver's main class. Specify
-    /// either the jar file that contains the main class or the main class name.
-    /// To specify both, add the jar file to `jar_file_uris`, and then specify
-    /// the main class name in this property.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Driver {
-        /// The HCFS URI of the jar file containing the main class.
-        /// Examples:
-        ///     'gs://foo-bucket/analytics-binaries/extract-useful-metrics-mr.jar'
-        ///     'hdfs:/tmp/test-samples/custom-wordcount.jar'
-        ///     'file:///home/usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar'
-        #[prost(string, tag="1")]
-        MainJarFileUri(::prost::alloc::string::String),
-        /// The name of the driver's main class. The jar file containing the class
-        /// must be in the default CLASSPATH or specified in `jar_file_uris`.
-        #[prost(string, tag="2")]
-        MainClass(::prost::alloc::string::String),
-    }
-}
-/// A Dataproc job for running [Apache Spark](<http://spark.apache.org/>)
-/// applications on YARN.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SparkJob {
-    /// Optional. The arguments to pass to the driver. Do not include arguments,
-    /// such as `--conf`, that can be set as job properties, since a collision may
-    /// occur that causes an incorrect job submission.
-    #[prost(string, repeated, tag="3")]
-    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of jar files to add to the CLASSPATHs of the
-    /// Spark driver and tasks.
-    #[prost(string, repeated, tag="4")]
-    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of files to be placed in the working directory of
-    /// each executor. Useful for naively parallel tasks.
-    #[prost(string, repeated, tag="5")]
-    pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of archives to be extracted into the working directory
-    /// of each executor. Supported file types:
-    /// .jar, .tar, .tar.gz, .tgz, and .zip.
-    #[prost(string, repeated, tag="6")]
-    pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. A mapping of property names to values, used to configure Spark.
-    /// Properties that conflict with values set by the Dataproc API may be
-    /// overwritten. Can include properties set in
-    /// /etc/spark/conf/spark-defaults.conf and classes in user code.
-    #[prost(btree_map="string, string", tag="7")]
-    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. The runtime log config for job execution.
-    #[prost(message, optional, tag="8")]
-    pub logging_config: ::core::option::Option<LoggingConfig>,
-    /// Required. The specification of the main method to call to drive the job.
-    /// Specify either the jar file that contains the main class or the main class
-    /// name. To pass both a main jar and a main class in that jar, add the jar to
-    /// `CommonJob.jar_file_uris`, and then specify the main class name in
-    /// `main_class`.
-    #[prost(oneof="spark_job::Driver", tags="1, 2")]
-    pub driver: ::core::option::Option<spark_job::Driver>,
-}
-/// Nested message and enum types in `SparkJob`.
-pub mod spark_job {
-    /// Required. The specification of the main method to call to drive the job.
-    /// Specify either the jar file that contains the main class or the main class
-    /// name. To pass both a main jar and a main class in that jar, add the jar to
-    /// `CommonJob.jar_file_uris`, and then specify the main class name in
-    /// `main_class`.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Driver {
-        /// The HCFS URI of the jar file that contains the main class.
-        #[prost(string, tag="1")]
-        MainJarFileUri(::prost::alloc::string::String),
-        /// The name of the driver's main class. The jar file that contains the class
-        /// must be in the default CLASSPATH or specified in `jar_file_uris`.
-        #[prost(string, tag="2")]
-        MainClass(::prost::alloc::string::String),
-    }
-}
-/// A Dataproc job for running
-/// [Apache
-/// PySpark](<https://spark.apache.org/docs/0.9.0/python-programming-guide.html>)
-/// applications on YARN.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PySparkJob {
-    /// Required. The HCFS URI of the main Python file to use as the driver. Must
-    /// be a .py file.
+pub struct CreateBatchRequest {
+    /// Required. The parent resource where this batch will be created.
     #[prost(string, tag="1")]
-    pub main_python_file_uri: ::prost::alloc::string::String,
-    /// Optional. The arguments to pass to the driver.  Do not include arguments,
-    /// such as `--conf`, that can be set as job properties, since a collision may
-    /// occur that causes an incorrect job submission.
-    #[prost(string, repeated, tag="2")]
-    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS file URIs of Python files to pass to the PySpark
-    /// framework. Supported file types: .py, .egg, and .zip.
-    #[prost(string, repeated, tag="3")]
-    pub python_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of jar files to add to the CLASSPATHs of the
-    /// Python driver and tasks.
-    #[prost(string, repeated, tag="4")]
-    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of files to be placed in the working directory of
-    /// each executor. Useful for naively parallel tasks.
-    #[prost(string, repeated, tag="5")]
-    pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of archives to be extracted into the working directory
-    /// of each executor. Supported file types:
-    /// .jar, .tar, .tar.gz, .tgz, and .zip.
-    #[prost(string, repeated, tag="6")]
-    pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. A mapping of property names to values, used to configure PySpark.
-    /// Properties that conflict with values set by the Dataproc API may be
-    /// overwritten. Can include properties set in
-    /// /etc/spark/conf/spark-defaults.conf and classes in user code.
-    #[prost(btree_map="string, string", tag="7")]
-    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. The runtime log config for job execution.
-    #[prost(message, optional, tag="8")]
-    pub logging_config: ::core::option::Option<LoggingConfig>,
-}
-/// A list of queries to run on a cluster.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryList {
-    /// Required. The queries to execute. You do not need to end a query expression
-    /// with a semicolon. Multiple queries can be specified in one
-    /// string by separating each with a semicolon. Here is an example of a
-    /// Dataproc API snippet that uses a QueryList to specify a HiveJob:
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The batch to create.
+    #[prost(message, optional, tag="2")]
+    pub batch: ::core::option::Option<Batch>,
+    /// Optional. The ID to use for the batch, which will become the final component of
+    /// the batch's resource name.
     ///
-    ///     "hiveJob": {
-    ///       "queryList": {
-    ///         "queries": [
-    ///           "query1",
-    ///           "query2",
-    ///           "query3;query4",
-    ///         ]
-    ///       }
-    ///     }
-    #[prost(string, repeated, tag="1")]
-    pub queries: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// A Dataproc job for running [Apache Hive](<https://hive.apache.org/>)
-/// queries on YARN.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct HiveJob {
-    /// Optional. Whether to continue executing queries if a query fails.
-    /// The default value is `false`. Setting to `true` can be useful when
-    /// executing independent parallel queries.
-    #[prost(bool, tag="3")]
-    pub continue_on_failure: bool,
-    /// Optional. Mapping of query variable names to values (equivalent to the
-    /// Hive command: `SET name="value";`).
-    #[prost(btree_map="string, string", tag="4")]
-    pub script_variables: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. A mapping of property names and values, used to configure Hive.
-    /// Properties that conflict with values set by the Dataproc API may be
-    /// overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml,
-    /// /etc/hive/conf/hive-site.xml, and classes in user code.
-    #[prost(btree_map="string, string", tag="5")]
-    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of jar files to add to the CLASSPATH of the
-    /// Hive server and Hadoop MapReduce (MR) tasks. Can contain Hive SerDes
-    /// and UDFs.
-    #[prost(string, repeated, tag="6")]
-    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Required. The sequence of Hive queries to execute, specified as either
-    /// an HCFS file URI or a list of queries.
-    #[prost(oneof="hive_job::Queries", tags="1, 2")]
-    pub queries: ::core::option::Option<hive_job::Queries>,
-}
-/// Nested message and enum types in `HiveJob`.
-pub mod hive_job {
-    /// Required. The sequence of Hive queries to execute, specified as either
-    /// an HCFS file URI or a list of queries.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Queries {
-        /// The HCFS URI of the script that contains Hive queries.
-        #[prost(string, tag="1")]
-        QueryFileUri(::prost::alloc::string::String),
-        /// A list of queries.
-        #[prost(message, tag="2")]
-        QueryList(super::QueryList),
-    }
-}
-/// A Dataproc job for running [Apache Spark
-/// SQL](<http://spark.apache.org/sql/>) queries.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SparkSqlJob {
-    /// Optional. Mapping of query variable names to values (equivalent to the
-    /// Spark SQL command: SET `name="value";`).
-    #[prost(btree_map="string, string", tag="3")]
-    pub script_variables: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. A mapping of property names to values, used to configure
-    /// Spark SQL's SparkConf. Properties that conflict with values set by the
-    /// Dataproc API may be overwritten.
-    #[prost(btree_map="string, string", tag="4")]
-    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
-    #[prost(string, repeated, tag="56")]
-    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. The runtime log config for job execution.
-    #[prost(message, optional, tag="6")]
-    pub logging_config: ::core::option::Option<LoggingConfig>,
-    /// Required. The sequence of Spark SQL queries to execute, specified as
-    /// either an HCFS file URI or as a list of queries.
-    #[prost(oneof="spark_sql_job::Queries", tags="1, 2")]
-    pub queries: ::core::option::Option<spark_sql_job::Queries>,
-}
-/// Nested message and enum types in `SparkSqlJob`.
-pub mod spark_sql_job {
-    /// Required. The sequence of Spark SQL queries to execute, specified as
-    /// either an HCFS file URI or as a list of queries.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Queries {
-        /// The HCFS URI of the script that contains SQL queries.
-        #[prost(string, tag="1")]
-        QueryFileUri(::prost::alloc::string::String),
-        /// A list of queries.
-        #[prost(message, tag="2")]
-        QueryList(super::QueryList),
-    }
-}
-/// A Dataproc job for running [Apache Pig](<https://pig.apache.org/>)
-/// queries on YARN.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PigJob {
-    /// Optional. Whether to continue executing queries if a query fails.
-    /// The default value is `false`. Setting to `true` can be useful when
-    /// executing independent parallel queries.
-    #[prost(bool, tag="3")]
-    pub continue_on_failure: bool,
-    /// Optional. Mapping of query variable names to values (equivalent to the Pig
-    /// command: `name=\[value\]`).
-    #[prost(btree_map="string, string", tag="4")]
-    pub script_variables: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. A mapping of property names to values, used to configure Pig.
-    /// Properties that conflict with values set by the Dataproc API may be
-    /// overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml,
-    /// /etc/pig/conf/pig.properties, and classes in user code.
-    #[prost(btree_map="string, string", tag="5")]
-    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of jar files to add to the CLASSPATH of
-    /// the Pig Client and Hadoop MapReduce (MR) tasks. Can contain Pig UDFs.
-    #[prost(string, repeated, tag="6")]
-    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. The runtime log config for job execution.
-    #[prost(message, optional, tag="7")]
-    pub logging_config: ::core::option::Option<LoggingConfig>,
-    /// Required. The sequence of Pig queries to execute, specified as an HCFS
-    /// file URI or a list of queries.
-    #[prost(oneof="pig_job::Queries", tags="1, 2")]
-    pub queries: ::core::option::Option<pig_job::Queries>,
-}
-/// Nested message and enum types in `PigJob`.
-pub mod pig_job {
-    /// Required. The sequence of Pig queries to execute, specified as an HCFS
-    /// file URI or a list of queries.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Queries {
-        /// The HCFS URI of the script that contains the Pig queries.
-        #[prost(string, tag="1")]
-        QueryFileUri(::prost::alloc::string::String),
-        /// A list of queries.
-        #[prost(message, tag="2")]
-        QueryList(super::QueryList),
-    }
-}
-/// A Dataproc job for running
-/// [Apache SparkR](<https://spark.apache.org/docs/latest/sparkr.html>)
-/// applications on YARN.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SparkRJob {
-    /// Required. The HCFS URI of the main R file to use as the driver.
-    /// Must be a .R file.
-    #[prost(string, tag="1")]
-    pub main_r_file_uri: ::prost::alloc::string::String,
-    /// Optional. The arguments to pass to the driver.  Do not include arguments,
-    /// such as `--conf`, that can be set as job properties, since a collision may
-    /// occur that causes an incorrect job submission.
-    #[prost(string, repeated, tag="2")]
-    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of files to be placed in the working directory of
-    /// each executor. Useful for naively parallel tasks.
-    #[prost(string, repeated, tag="3")]
-    pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of archives to be extracted into the working directory
-    /// of each executor. Supported file types:
-    /// .jar, .tar, .tar.gz, .tgz, and .zip.
-    #[prost(string, repeated, tag="4")]
-    pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. A mapping of property names to values, used to configure SparkR.
-    /// Properties that conflict with values set by the Dataproc API may be
-    /// overwritten. Can include properties set in
-    /// /etc/spark/conf/spark-defaults.conf and classes in user code.
-    #[prost(btree_map="string, string", tag="5")]
-    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. The runtime log config for job execution.
-    #[prost(message, optional, tag="6")]
-    pub logging_config: ::core::option::Option<LoggingConfig>,
-}
-/// A Dataproc job for running \[Presto\](<https://prestosql.io/>) queries.
-/// **IMPORTANT**: The [Dataproc Presto Optional
-/// Component](<https://cloud.google.com/dataproc/docs/concepts/components/presto>)
-/// must be enabled when the cluster is created to submit a Presto job to the
-/// cluster.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PrestoJob {
-    /// Optional. Whether to continue executing queries if a query fails.
-    /// The default value is `false`. Setting to `true` can be useful when
-    /// executing independent parallel queries.
-    #[prost(bool, tag="3")]
-    pub continue_on_failure: bool,
-    /// Optional. The format in which query output will be displayed. See the
-    /// Presto documentation for supported output formats
+    /// This value must be 4-63 characters. Valid characters are `/\[a-z][0-9\]-/`.
+    #[prost(string, tag="3")]
+    pub batch_id: ::prost::alloc::string::String,
+    /// Optional. A unique ID used to identify the request. If the service
+    /// receives two
+    /// \[CreateBatchRequest\](<https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateBatchRequest>)s
+    /// with the same request_id, the second request is ignored and the
+    /// Operation that corresponds to the first Batch created and stored
+    /// in the backend is returned.
+    ///
+    /// Recommendation: Set this value to a
+    /// \[UUID\](<https://en.wikipedia.org/wiki/Universally_unique_identifier>).
+    ///
+    /// The value must contain only letters (a-z, A-Z), numbers (0-9),
+    /// underscores (_), and hyphens (-). The maximum length is 40 characters.
     #[prost(string, tag="4")]
-    pub output_format: ::prost::alloc::string::String,
-    /// Optional. Presto client tags to attach to this query
-    #[prost(string, repeated, tag="5")]
-    pub client_tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. A mapping of property names to values. Used to set Presto
-    /// [session properties](<https://prestodb.io/docs/current/sql/set-session.html>)
-    /// Equivalent to using the --session flag in the Presto CLI
-    #[prost(btree_map="string, string", tag="6")]
-    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. The runtime log config for job execution.
-    #[prost(message, optional, tag="7")]
-    pub logging_config: ::core::option::Option<LoggingConfig>,
-    /// Required. The sequence of Presto queries to execute, specified as
-    /// either an HCFS file URI or as a list of queries.
-    #[prost(oneof="presto_job::Queries", tags="1, 2")]
-    pub queries: ::core::option::Option<presto_job::Queries>,
+    pub request_id: ::prost::alloc::string::String,
 }
-/// Nested message and enum types in `PrestoJob`.
-pub mod presto_job {
-    /// Required. The sequence of Presto queries to execute, specified as
-    /// either an HCFS file URI or as a list of queries.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Queries {
-        /// The HCFS URI of the script that contains SQL queries.
-        #[prost(string, tag="1")]
-        QueryFileUri(::prost::alloc::string::String),
-        /// A list of queries.
-        #[prost(message, tag="2")]
-        QueryList(super::QueryList),
-    }
-}
-/// Dataproc job config.
+/// A request to get the resource representation for a batch workload.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct JobPlacement {
-    /// Required. The name of the cluster where the job will be submitted.
-    #[prost(string, tag="1")]
-    pub cluster_name: ::prost::alloc::string::String,
-    /// Output only. A cluster UUID generated by the Dataproc service when
-    /// the job is submitted.
-    #[prost(string, tag="2")]
-    pub cluster_uuid: ::prost::alloc::string::String,
-    /// Optional. Cluster labels to identify a cluster where the job will be submitted.
-    #[prost(btree_map="string, string", tag="3")]
-    pub cluster_labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-}
-/// Dataproc job status.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct JobStatus {
-    /// Output only. A state message specifying the overall job state.
-    #[prost(enumeration="job_status::State", tag="1")]
-    pub state: i32,
-    /// Optional. Output only. Job state details, such as an error
-    /// description if the state is <code>ERROR</code>.
-    #[prost(string, tag="2")]
-    pub details: ::prost::alloc::string::String,
-    /// Output only. The time when this state was entered.
-    #[prost(message, optional, tag="6")]
-    pub state_start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Additional state information, which includes
-    /// status reported by the agent.
-    #[prost(enumeration="job_status::Substate", tag="7")]
-    pub substate: i32,
-}
-/// Nested message and enum types in `JobStatus`.
-pub mod job_status {
-    /// The job state.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// The job state is unknown.
-        Unspecified = 0,
-        /// The job is pending; it has been submitted, but is not yet running.
-        Pending = 1,
-        /// Job has been received by the service and completed initial setup;
-        /// it will soon be submitted to the cluster.
-        SetupDone = 8,
-        /// The job is running on the cluster.
-        Running = 2,
-        /// A CancelJob request has been received, but is pending.
-        CancelPending = 3,
-        /// Transient in-flight resources have been canceled, and the request to
-        /// cancel the running job has been issued to the cluster.
-        CancelStarted = 7,
-        /// The job cancellation was successful.
-        Cancelled = 4,
-        /// The job has completed successfully.
-        Done = 5,
-        /// The job has completed, but encountered an error.
-        Error = 6,
-        /// Job attempt has failed. The detail field contains failure details for
-        /// this attempt.
-        ///
-        /// Applies to restartable jobs only.
-        AttemptFailure = 9,
-    }
-    /// The job substate.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Substate {
-        /// The job substate is unknown.
-        Unspecified = 0,
-        /// The Job is submitted to the agent.
-        ///
-        /// Applies to RUNNING state.
-        Submitted = 1,
-        /// The Job has been received and is awaiting execution (it may be waiting
-        /// for a condition to be met). See the "details" field for the reason for
-        /// the delay.
-        ///
-        /// Applies to RUNNING state.
-        Queued = 2,
-        /// The agent-reported status is out of date, which may be caused by a
-        /// loss of communication between the agent and Dataproc. If the
-        /// agent does not send a timely update, the job will fail.
-        ///
-        /// Applies to RUNNING state.
-        StaleStatus = 3,
-    }
-}
-/// Encapsulates the full scoping used to reference a job.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct JobReference {
-    /// Optional. The ID of the Google Cloud Platform project that the job belongs to. If
-    /// specified, must match the request project ID.
-    #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// Optional. The job ID, which must be unique within the project.
-    ///
-    /// The ID must contain only letters (a-z, A-Z), numbers (0-9),
-    /// underscores (_), or hyphens (-). The maximum length is 100 characters.
-    ///
-    /// If not specified by the caller, the job ID will be provided by the server.
-    #[prost(string, tag="2")]
-    pub job_id: ::prost::alloc::string::String,
-}
-/// A YARN application created by a job. Application information is a subset of
-/// <code>org.apache.hadoop.yarn.proto.YarnProtos.ApplicationReportProto</code>.
-///
-/// **Beta Feature**: This report is available for testing purposes only. It may
-/// be changed before final release.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct YarnApplication {
-    /// Required. The application name.
+pub struct GetBatchRequest {
+    /// Required. The name of the batch to retrieve.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Required. The application state.
-    #[prost(enumeration="yarn_application::State", tag="2")]
-    pub state: i32,
-    /// Required. The numerical progress of the application, from 1 to 100.
-    #[prost(float, tag="3")]
-    pub progress: f32,
-    /// Optional. The HTTP URL of the ApplicationMaster, HistoryServer, or
-    /// TimelineServer that provides application-specific information. The URL uses
-    /// the internal hostname, and requires a proxy server for resolution and,
-    /// possibly, access.
-    #[prost(string, tag="4")]
-    pub tracking_url: ::prost::alloc::string::String,
 }
-/// Nested message and enum types in `YarnApplication`.
-pub mod yarn_application {
-    /// The application state, corresponding to
-    /// <code>YarnProtos.YarnApplicationStateProto</code>.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Status is unspecified.
-        Unspecified = 0,
-        /// Status is NEW.
-        New = 1,
-        /// Status is NEW_SAVING.
-        NewSaving = 2,
-        /// Status is SUBMITTED.
-        Submitted = 3,
-        /// Status is ACCEPTED.
-        Accepted = 4,
-        /// Status is RUNNING.
-        Running = 5,
-        /// Status is FINISHED.
-        Finished = 6,
-        /// Status is FAILED.
-        Failed = 7,
-        /// Status is KILLED.
-        Killed = 8,
-    }
-}
-/// A Dataproc job resource.
+/// A request to list batch workloads in a project.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Job {
-    /// Optional. The fully qualified reference to the job, which can be used to
-    /// obtain the equivalent REST path of the job resource. If this property
-    /// is not specified when a job is created, the server generates a
-    /// <code>job_id</code>.
-    #[prost(message, optional, tag="1")]
-    pub reference: ::core::option::Option<JobReference>,
-    /// Required. Job information, including how, when, and where to
-    /// run the job.
-    #[prost(message, optional, tag="2")]
-    pub placement: ::core::option::Option<JobPlacement>,
-    /// Output only. The job status. Additional application-specific
-    /// status information may be contained in the <code>type_job</code>
-    /// and <code>yarn_applications</code> fields.
+pub struct ListBatchesRequest {
+    /// Required. The parent, which owns this collection of batches.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The maximum number of batches to return in each response.
+    /// The service may return fewer than this value.
+    /// The default page size is 20; the maximum page size is 1000.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// Optional. A page token received from a previous `ListBatches` call.
+    /// Provide this token to retrieve the subsequent page.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// A list of batch workloads.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListBatchesResponse {
+    /// The batches from the specified collection.
+    #[prost(message, repeated, tag="1")]
+    pub batches: ::prost::alloc::vec::Vec<Batch>,
+    /// A token, which can be sent as `page_token` to retrieve the next page.
+    /// If this field is omitted, there are no subsequent pages.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// A request to delete a batch workload.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteBatchRequest {
+    /// Required. The name of the batch resource to delete.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// A representation of a batch workload in the service.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Batch {
+    /// Output only. The resource name of the batch.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. A batch UUID (Unique Universal Identifier). The service
+    /// generates this value when it creates the batch.
+    #[prost(string, tag="2")]
+    pub uuid: ::prost::alloc::string::String,
+    /// Output only. The time when the batch was created.
+    #[prost(message, optional, tag="3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Runtime information about batch execution.
     #[prost(message, optional, tag="8")]
-    pub status: ::core::option::Option<JobStatus>,
-    /// Output only. The previous job status.
-    #[prost(message, repeated, tag="13")]
-    pub status_history: ::prost::alloc::vec::Vec<JobStatus>,
-    /// Output only. The collection of YARN applications spun up by this job.
-    ///
-    /// **Beta** Feature: This report is available for testing purposes only. It
-    /// may be changed before final release.
-    #[prost(message, repeated, tag="9")]
-    pub yarn_applications: ::prost::alloc::vec::Vec<YarnApplication>,
-    /// Output only. A URI pointing to the location of the stdout of the job's
-    /// driver program.
-    #[prost(string, tag="17")]
-    pub driver_output_resource_uri: ::prost::alloc::string::String,
-    /// Output only. If present, the location of miscellaneous control files
-    /// which may be used as part of job setup and handling. If not present,
-    /// control files may be placed in the same location as `driver_output_uri`.
-    #[prost(string, tag="15")]
-    pub driver_control_files_uri: ::prost::alloc::string::String,
-    /// Optional. The labels to associate with this job.
+    pub runtime_info: ::core::option::Option<RuntimeInfo>,
+    /// Output only. The state of the batch.
+    #[prost(enumeration="batch::State", tag="9")]
+    pub state: i32,
+    /// Output only. Batch state details, such as a failure
+    /// description if the state is `FAILED`.
+    #[prost(string, tag="10")]
+    pub state_message: ::prost::alloc::string::String,
+    /// Output only. The time when the batch entered a current state.
+    #[prost(message, optional, tag="11")]
+    pub state_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The email address of the user who created the batch.
+    #[prost(string, tag="12")]
+    pub creator: ::prost::alloc::string::String,
+    /// Optional. The labels to associate with this batch.
     /// Label **keys** must contain 1 to 63 characters, and must conform to
     /// [RFC 1035](<https://www.ietf.org/rfc/rfc1035.txt>).
     /// Label **values** may be empty, but, if present, must contain 1 to 63
     /// characters, and must conform to [RFC
     /// 1035](<https://www.ietf.org/rfc/rfc1035.txt>). No more than 32 labels can be
-    /// associated with a job.
-    #[prost(btree_map="string, string", tag="18")]
+    /// associated with a batch.
+    #[prost(btree_map="string, string", tag="13")]
     pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. Job scheduling configuration.
-    #[prost(message, optional, tag="20")]
-    pub scheduling: ::core::option::Option<JobScheduling>,
-    /// Output only. A UUID that uniquely identifies a job within the project
-    /// over time. This is in contrast to a user-settable reference.job_id that
-    /// may be reused over time.
-    #[prost(string, tag="22")]
-    pub job_uuid: ::prost::alloc::string::String,
-    /// Output only. Indicates whether the job is completed. If the value is `false`,
-    /// the job is still in progress. If `true`, the job is completed, and
-    /// `status.state` field will indicate if it was successful, failed,
-    /// or cancelled.
-    #[prost(bool, tag="24")]
-    pub done: bool,
-    /// Required. The application/framework-specific portion of the job.
-    #[prost(oneof="job::TypeJob", tags="3, 4, 5, 6, 7, 21, 12, 23")]
-    pub type_job: ::core::option::Option<job::TypeJob>,
+    /// Optional. Runtime configuration for the batch execution.
+    #[prost(message, optional, tag="14")]
+    pub runtime_config: ::core::option::Option<RuntimeConfig>,
+    /// Optional. Environment configuration for the batch execution.
+    #[prost(message, optional, tag="15")]
+    pub environment_config: ::core::option::Option<EnvironmentConfig>,
+    /// Output only. The resource name of the operation associated with this batch.
+    #[prost(string, tag="16")]
+    pub operation: ::prost::alloc::string::String,
+    /// Output only. Historical state information for the batch.
+    #[prost(message, repeated, tag="17")]
+    pub state_history: ::prost::alloc::vec::Vec<batch::StateHistory>,
+    /// The application/framework-specific portion of the batch configuration.
+    #[prost(oneof="batch::BatchConfig", tags="4, 5, 6, 7")]
+    pub batch_config: ::core::option::Option<batch::BatchConfig>,
 }
-/// Nested message and enum types in `Job`.
-pub mod job {
-    /// Required. The application/framework-specific portion of the job.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum TypeJob {
-        /// Optional. Job is a Hadoop job.
-        #[prost(message, tag="3")]
-        HadoopJob(super::HadoopJob),
-        /// Optional. Job is a Spark job.
-        #[prost(message, tag="4")]
-        SparkJob(super::SparkJob),
-        /// Optional. Job is a PySpark job.
-        #[prost(message, tag="5")]
-        PysparkJob(super::PySparkJob),
-        /// Optional. Job is a Hive job.
-        #[prost(message, tag="6")]
-        HiveJob(super::HiveJob),
-        /// Optional. Job is a Pig job.
-        #[prost(message, tag="7")]
-        PigJob(super::PigJob),
-        /// Optional. Job is a SparkR job.
-        #[prost(message, tag="21")]
-        SparkRJob(super::SparkRJob),
-        /// Optional. Job is a SparkSql job.
-        #[prost(message, tag="12")]
-        SparkSqlJob(super::SparkSqlJob),
-        /// Optional. Job is a Presto job.
-        #[prost(message, tag="23")]
-        PrestoJob(super::PrestoJob),
+/// Nested message and enum types in `Batch`.
+pub mod batch {
+    /// Historical state information.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct StateHistory {
+        /// Output only. The state of the batch at this point in history.
+        #[prost(enumeration="State", tag="1")]
+        pub state: i32,
+        /// Output only. Details about the state at this point in history.
+        #[prost(string, tag="2")]
+        pub state_message: ::prost::alloc::string::String,
+        /// Output only. The time when the batch entered the historical state.
+        #[prost(message, optional, tag="3")]
+        pub state_start_time: ::core::option::Option<::prost_types::Timestamp>,
     }
-}
-/// Job scheduling options.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct JobScheduling {
-    /// Optional. Maximum number of times per hour a driver may be restarted as
-    /// a result of driver exiting with non-zero code before job is
-    /// reported failed.
-    ///
-    /// A job may be reported as thrashing if driver exits with non-zero code
-    /// 4 times within 10 minute window.
-    ///
-    /// Maximum value is 10.
-    ///
-    /// **Note:** Currently, this restartable job option is
-    /// not supported in Dataproc
-    /// [workflow
-    /// template](<https://cloud.google.com/dataproc/docs/concepts/workflows/using-workflows#adding_jobs_to_a_template>)
-    /// jobs.
-    #[prost(int32, tag="1")]
-    pub max_failures_per_hour: i32,
-    /// Optional. Maximum number of times in total a driver may be restarted as a result of
-    /// driver exiting with non-zero code before job is reported failed.
-    /// Maximum value is 240.
-    ///
-    /// **Note:** Currently, this restartable job option is
-    /// not supported in Dataproc
-    /// [workflow
-    /// template](<https://cloud.google.com/dataproc/docs/concepts/workflows/using-workflows#adding_jobs_to_a_template>)
-    /// jobs.
-    #[prost(int32, tag="2")]
-    pub max_failures_total: i32,
-}
-/// A request to submit a job.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SubmitJobRequest {
-    /// Required. The ID of the Google Cloud Platform project that the job
-    /// belongs to.
-    #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// Required. The Dataproc region in which to handle the request.
-    #[prost(string, tag="3")]
-    pub region: ::prost::alloc::string::String,
-    /// Required. The job resource.
-    #[prost(message, optional, tag="2")]
-    pub job: ::core::option::Option<Job>,
-    /// Optional. A unique id used to identify the request. If the server
-    /// receives two
-    /// \[SubmitJobRequest\](<https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.SubmitJobRequest>)s
-    /// with the same id, then the second request will be ignored and the
-    /// first \[Job][google.cloud.dataproc.v1.Job\] created and stored in the backend
-    /// is returned.
-    ///
-    /// It is recommended to always set this value to a
-    /// \[UUID\](<https://en.wikipedia.org/wiki/Universally_unique_identifier>).
-    ///
-    /// The id must contain only letters (a-z, A-Z), numbers (0-9),
-    /// underscores (_), and hyphens (-). The maximum length is 40 characters.
-    #[prost(string, tag="4")]
-    pub request_id: ::prost::alloc::string::String,
-}
-/// Job Operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct JobMetadata {
-    /// Output only. The job id.
-    #[prost(string, tag="1")]
-    pub job_id: ::prost::alloc::string::String,
-    /// Output only. Most recent job status.
-    #[prost(message, optional, tag="2")]
-    pub status: ::core::option::Option<JobStatus>,
-    /// Output only. Operation type.
-    #[prost(string, tag="3")]
-    pub operation_type: ::prost::alloc::string::String,
-    /// Output only. Job submission time.
-    #[prost(message, optional, tag="4")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// A request to get the resource representation for a job in a project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetJobRequest {
-    /// Required. The ID of the Google Cloud Platform project that the job
-    /// belongs to.
-    #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// Required. The Dataproc region in which to handle the request.
-    #[prost(string, tag="3")]
-    pub region: ::prost::alloc::string::String,
-    /// Required. The job ID.
-    #[prost(string, tag="2")]
-    pub job_id: ::prost::alloc::string::String,
-}
-/// A request to list jobs in a project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListJobsRequest {
-    /// Required. The ID of the Google Cloud Platform project that the job
-    /// belongs to.
-    #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// Required. The Dataproc region in which to handle the request.
-    #[prost(string, tag="6")]
-    pub region: ::prost::alloc::string::String,
-    /// Optional. The number of results to return in each response.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// Optional. The page token, returned by a previous call, to request the
-    /// next page of results.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Optional. If set, the returned jobs list includes only jobs that were
-    /// submitted to the named cluster.
-    #[prost(string, tag="4")]
-    pub cluster_name: ::prost::alloc::string::String,
-    /// Optional. Specifies enumerated categories of jobs to list.
-    /// (default = match ALL jobs).
-    ///
-    /// If `filter` is provided, `jobStateMatcher` will be ignored.
-    #[prost(enumeration="list_jobs_request::JobStateMatcher", tag="5")]
-    pub job_state_matcher: i32,
-    /// Optional. A filter constraining the jobs to list. Filters are
-    /// case-sensitive and have the following syntax:
-    ///
-    /// [field = value] AND [field [= value]] ...
-    ///
-    /// where **field** is `status.state` or `labels.\[KEY\]`, and `\[KEY\]` is a label
-    /// key. **value** can be `*` to match all values.
-    /// `status.state` can be either `ACTIVE` or `NON_ACTIVE`.
-    /// Only the logical `AND` operator is supported; space-separated items are
-    /// treated as having an implicit `AND` operator.
-    ///
-    /// Example filter:
-    ///
-    /// status.state = ACTIVE AND labels.env = staging AND labels.starred = *
-    #[prost(string, tag="7")]
-    pub filter: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `ListJobsRequest`.
-pub mod list_jobs_request {
-    /// A matcher that specifies categories of job states.
+    /// The batch state.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum JobStateMatcher {
-        /// Match all jobs, regardless of state.
-        All = 0,
-        /// Only match jobs in non-terminal states: PENDING, RUNNING, or
-        /// CANCEL_PENDING.
-        Active = 1,
-        /// Only match jobs in terminal states: CANCELLED, DONE, or ERROR.
-        NonActive = 2,
+    pub enum State {
+        /// The batch state is unknown.
+        Unspecified = 0,
+        /// The batch is created before running.
+        Pending = 1,
+        /// The batch is running.
+        Running = 2,
+        /// The batch is cancelling.
+        Cancelling = 3,
+        /// The batch cancellation was successful.
+        Cancelled = 4,
+        /// The batch completed successfully.
+        Succeeded = 5,
+        /// The batch is no longer running due to an error.
+        Failed = 6,
+    }
+    /// The application/framework-specific portion of the batch configuration.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum BatchConfig {
+        /// Optional. PySpark batch config.
+        #[prost(message, tag="4")]
+        PysparkBatch(super::PySparkBatch),
+        /// Optional. Spark batch config.
+        #[prost(message, tag="5")]
+        SparkBatch(super::SparkBatch),
+        /// Optional. SparkR batch config.
+        #[prost(message, tag="6")]
+        SparkRBatch(super::SparkRBatch),
+        /// Optional. SparkSql batch config.
+        #[prost(message, tag="7")]
+        SparkSqlBatch(super::SparkSqlBatch),
     }
 }
-/// A request to update a job.
+/// A configuration for running an
+/// [Apache
+/// PySpark](<https://spark.apache.org/docs/latest/api/python/getting_started/quickstart.html>)
+/// batch workload.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateJobRequest {
-    /// Required. The ID of the Google Cloud Platform project that the job
-    /// belongs to.
+pub struct PySparkBatch {
+    /// Required. The HCFS URI of the main Python file to use as the Spark driver. Must
+    /// be a .py file.
     #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// Required. The Dataproc region in which to handle the request.
-    #[prost(string, tag="2")]
-    pub region: ::prost::alloc::string::String,
-    /// Required. The job ID.
-    #[prost(string, tag="3")]
-    pub job_id: ::prost::alloc::string::String,
-    /// Required. The changes to the job.
-    #[prost(message, optional, tag="4")]
-    pub job: ::core::option::Option<Job>,
-    /// Required. Specifies the path, relative to <code>Job</code>, of
-    /// the field to update. For example, to update the labels of a Job the
-    /// <code>update_mask</code> parameter would be specified as
-    /// <code>labels</code>, and the `PATCH` request body would specify the new
-    /// value. <strong>Note:</strong> Currently, <code>labels</code> is the only
-    /// field that can be updated.
-    #[prost(message, optional, tag="5")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    pub main_python_file_uri: ::prost::alloc::string::String,
+    /// Optional. The arguments to pass to the driver. Do not include arguments
+    /// that can be set as batch properties, such as `--conf`, since a collision
+    /// can occur that causes an incorrect batch submission.
+    #[prost(string, repeated, tag="2")]
+    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS file URIs of Python files to pass to the PySpark
+    /// framework. Supported file types: `.py`, `.egg`, and `.zip`.
+    #[prost(string, repeated, tag="3")]
+    pub python_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of jar files to add to the classpath of the
+    /// Spark driver and tasks.
+    #[prost(string, repeated, tag="4")]
+    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of files to be placed in the working directory of
+    /// each executor.
+    #[prost(string, repeated, tag="5")]
+    pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of archives to be extracted into the working directory
+    /// of each executor. Supported file types:
+    /// `.jar`, `.tar`, `.tar.gz`, `.tgz`, and `.zip`.
+    #[prost(string, repeated, tag="6")]
+    pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-/// A list of jobs in a project.
+/// A configuration for running an [Apache Spark](<http://spark.apache.org/>)
+/// batch workload.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListJobsResponse {
-    /// Output only. Jobs list.
-    #[prost(message, repeated, tag="1")]
-    pub jobs: ::prost::alloc::vec::Vec<Job>,
-    /// Optional. This token is included in the response if there are more results
-    /// to fetch. To fetch additional results, provide this value as the
-    /// `page_token` in a subsequent <code>ListJobsRequest</code>.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
+pub struct SparkBatch {
+    /// Optional. The arguments to pass to the driver. Do not include arguments
+    /// that can be set as batch properties, such as `--conf`, since a collision
+    /// can occur that causes an incorrect batch submission.
+    #[prost(string, repeated, tag="3")]
+    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of jar files to add to the classpath of the
+    /// Spark driver and tasks.
+    #[prost(string, repeated, tag="4")]
+    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of files to be placed in the working directory of
+    /// each executor.
+    #[prost(string, repeated, tag="5")]
+    pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of archives to be extracted into the working directory
+    /// of each executor. Supported file types:
+    /// `.jar`, `.tar`, `.tar.gz`, `.tgz`, and `.zip`.
+    #[prost(string, repeated, tag="6")]
+    pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The specification of the main method to call to drive the Spark
+    /// workload. Specify either the jar file that contains the main class or the
+    /// main class name. To pass both a main jar and a main class in that jar, add
+    /// the jar to `jar_file_uris`, and then specify the main class
+    /// name in `main_class`.
+    #[prost(oneof="spark_batch::Driver", tags="1, 2")]
+    pub driver: ::core::option::Option<spark_batch::Driver>,
 }
-/// A request to cancel a job.
+/// Nested message and enum types in `SparkBatch`.
+pub mod spark_batch {
+    /// The specification of the main method to call to drive the Spark
+    /// workload. Specify either the jar file that contains the main class or the
+    /// main class name. To pass both a main jar and a main class in that jar, add
+    /// the jar to `jar_file_uris`, and then specify the main class
+    /// name in `main_class`.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Driver {
+        /// Optional. The HCFS URI of the jar file that contains the main class.
+        #[prost(string, tag="1")]
+        MainJarFileUri(::prost::alloc::string::String),
+        /// Optional. The name of the driver main class. The jar file that contains the class
+        /// must be in the classpath or specified in `jar_file_uris`.
+        #[prost(string, tag="2")]
+        MainClass(::prost::alloc::string::String),
+    }
+}
+/// A configuration for running an
+/// [Apache SparkR](<https://spark.apache.org/docs/latest/sparkr.html>)
+/// batch workload.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CancelJobRequest {
-    /// Required. The ID of the Google Cloud Platform project that the job
-    /// belongs to.
+pub struct SparkRBatch {
+    /// Required. The HCFS URI of the main R file to use as the driver.
+    /// Must be a `.R` or `.r` file.
     #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// Required. The Dataproc region in which to handle the request.
-    #[prost(string, tag="3")]
-    pub region: ::prost::alloc::string::String,
-    /// Required. The job ID.
-    #[prost(string, tag="2")]
-    pub job_id: ::prost::alloc::string::String,
+    pub main_r_file_uri: ::prost::alloc::string::String,
+    /// Optional. The arguments to pass to the Spark driver. Do not include arguments
+    /// that can be set as batch properties, such as `--conf`, since a collision
+    /// can occur that causes an incorrect batch submission.
+    #[prost(string, repeated, tag="2")]
+    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of files to be placed in the working directory of
+    /// each executor.
+    #[prost(string, repeated, tag="3")]
+    pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of archives to be extracted into the working directory
+    /// of each executor. Supported file types:
+    /// `.jar`, `.tar`, `.tar.gz`, `.tgz`, and `.zip`.
+    #[prost(string, repeated, tag="4")]
+    pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-/// A request to delete a job.
+/// A configuration for running
+/// [Apache Spark SQL](<http://spark.apache.org/sql/>) queries as a batch workload.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteJobRequest {
-    /// Required. The ID of the Google Cloud Platform project that the job
-    /// belongs to.
+pub struct SparkSqlBatch {
+    /// Required. The HCFS URI of the script that contains Spark SQL queries to execute.
     #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// Required. The Dataproc region in which to handle the request.
-    #[prost(string, tag="3")]
-    pub region: ::prost::alloc::string::String,
-    /// Required. The job ID.
-    #[prost(string, tag="2")]
-    pub job_id: ::prost::alloc::string::String,
+    pub query_file_uri: ::prost::alloc::string::String,
+    /// Optional. Mapping of query variable names to values (equivalent to the
+    /// Spark SQL command: `SET name="value";`).
+    #[prost(btree_map="string, string", tag="2")]
+    pub query_variables: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
+    #[prost(string, repeated, tag="3")]
+    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Generated client implementations.
-pub mod job_controller_client {
+pub mod batch_controller_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    /// The JobController provides methods to manage jobs.
+    /// The BatchController provides methods to manage batch workloads.
     #[derive(Debug, Clone)]
-    pub struct JobControllerClient<T> {
+    pub struct BatchControllerClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl<T> JobControllerClient<T>
+    impl<T> BatchControllerClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::Error: Into<StdError>,
@@ -1335,7 +644,7 @@ pub mod job_controller_client {
         pub fn with_interceptor<F>(
             inner: T,
             interceptor: F,
-        ) -> JobControllerClient<InterceptedService<T, F>>
+        ) -> BatchControllerClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T: tonic::codegen::Service<
@@ -1348,7 +657,7 @@ pub mod job_controller_client {
                 http::Request<tonic::body::BoxBody>,
             >>::Error: Into<StdError> + Send + Sync,
         {
-            JobControllerClient::new(InterceptedService::new(inner, interceptor))
+            BatchControllerClient::new(InterceptedService::new(inner, interceptor))
         }
         /// Compress requests with `gzip`.
         ///
@@ -1365,30 +674,10 @@ pub mod job_controller_client {
             self.inner = self.inner.accept_gzip();
             self
         }
-        /// Submits a job to a cluster.
-        pub async fn submit_job(
+        /// Creates a batch workload that executes asynchronously.
+        pub async fn create_batch(
             &mut self,
-            request: impl tonic::IntoRequest<super::SubmitJobRequest>,
-        ) -> Result<tonic::Response<super::Job>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.JobController/SubmitJob",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Submits job to a cluster.
-        pub async fn submit_job_as_operation(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SubmitJobRequest>,
+            request: impl tonic::IntoRequest<super::CreateBatchRequest>,
         ) -> Result<
                 tonic::Response<super::super::super::super::longrunning::Operation>,
                 tonic::Status,
@@ -1404,15 +693,15 @@ pub mod job_controller_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.JobController/SubmitJobAsOperation",
+                "/google.cloud.dataproc.v1.BatchController/CreateBatch",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        /// Gets the resource representation for a job in a project.
-        pub async fn get_job(
+        /// Gets the batch workload resource representation.
+        pub async fn get_batch(
             &mut self,
-            request: impl tonic::IntoRequest<super::GetJobRequest>,
-        ) -> Result<tonic::Response<super::Job>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::GetBatchRequest>,
+        ) -> Result<tonic::Response<super::Batch>, tonic::Status> {
             self.inner
                 .ready()
                 .await
@@ -1424,15 +713,15 @@ pub mod job_controller_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.JobController/GetJob",
+                "/google.cloud.dataproc.v1.BatchController/GetBatch",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        /// Lists regions/{region}/jobs in a project.
-        pub async fn list_jobs(
+        /// Lists batch workloads.
+        pub async fn list_batches(
             &mut self,
-            request: impl tonic::IntoRequest<super::ListJobsRequest>,
-        ) -> Result<tonic::Response<super::ListJobsResponse>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::ListBatchesRequest>,
+        ) -> Result<tonic::Response<super::ListBatchesResponse>, tonic::Status> {
             self.inner
                 .ready()
                 .await
@@ -1444,59 +733,15 @@ pub mod job_controller_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.JobController/ListJobs",
+                "/google.cloud.dataproc.v1.BatchController/ListBatches",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        /// Updates a job in a project.
-        pub async fn update_job(
+        /// Deletes the batch workload resource. If the batch is not in terminal state,
+        /// the delete fails and the response returns `FAILED_PRECONDITION`.
+        pub async fn delete_batch(
             &mut self,
-            request: impl tonic::IntoRequest<super::UpdateJobRequest>,
-        ) -> Result<tonic::Response<super::Job>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.JobController/UpdateJob",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Starts a job cancellation request. To access the job resource
-        /// after cancellation, call
-        /// [regions/{region}/jobs.list](https://cloud.google.com/dataproc/docs/reference/rest/v1/projects.regions.jobs/list)
-        /// or
-        /// [regions/{region}/jobs.get](https://cloud.google.com/dataproc/docs/reference/rest/v1/projects.regions.jobs/get).
-        pub async fn cancel_job(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CancelJobRequest>,
-        ) -> Result<tonic::Response<super::Job>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.JobController/CancelJob",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes the job from the project. If the job is active, the delete fails,
-        /// and the response returns `FAILED_PRECONDITION`.
-        pub async fn delete_job(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteJobRequest>,
+            request: impl tonic::IntoRequest<super::DeleteBatchRequest>,
         ) -> Result<tonic::Response<()>, tonic::Status> {
             self.inner
                 .ready()
@@ -1509,432 +754,7 @@ pub mod job_controller_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.JobController/DeleteJob",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Describes an autoscaling policy for Dataproc cluster autoscaler.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoscalingPolicy {
-    /// Required. The policy id.
-    ///
-    /// The id must contain only letters (a-z, A-Z), numbers (0-9),
-    /// underscores (_), and hyphens (-). Cannot begin or end with underscore
-    /// or hyphen. Must consist of between 3 and 50 characters.
-    ///
-    #[prost(string, tag="1")]
-    pub id: ::prost::alloc::string::String,
-    /// Output only. The "resource name" of the autoscaling policy, as described
-    /// in <https://cloud.google.com/apis/design/resource_names.>
-    ///
-    /// * For `projects.regions.autoscalingPolicies`, the resource name of the
-    ///   policy has the following format:
-    ///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`
-    ///
-    /// * For `projects.locations.autoscalingPolicies`, the resource name of the
-    ///   policy has the following format:
-    ///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`
-    #[prost(string, tag="2")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. Describes how the autoscaler will operate for primary workers.
-    #[prost(message, optional, tag="4")]
-    pub worker_config: ::core::option::Option<InstanceGroupAutoscalingPolicyConfig>,
-    /// Optional. Describes how the autoscaler will operate for secondary workers.
-    #[prost(message, optional, tag="5")]
-    pub secondary_worker_config: ::core::option::Option<InstanceGroupAutoscalingPolicyConfig>,
-    /// Optional. The labels to associate with this autoscaling policy.
-    /// Label **keys** must contain 1 to 63 characters, and must conform to
-    /// [RFC 1035](<https://www.ietf.org/rfc/rfc1035.txt>).
-    /// Label **values** may be empty, but, if present, must contain 1 to 63
-    /// characters, and must conform to [RFC
-    /// 1035](<https://www.ietf.org/rfc/rfc1035.txt>). No more than 32 labels can be
-    /// associated with an autoscaling policy.
-    #[prost(btree_map="string, string", tag="6")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Autoscaling algorithm for policy.
-    #[prost(oneof="autoscaling_policy::Algorithm", tags="3")]
-    pub algorithm: ::core::option::Option<autoscaling_policy::Algorithm>,
-}
-/// Nested message and enum types in `AutoscalingPolicy`.
-pub mod autoscaling_policy {
-    /// Autoscaling algorithm for policy.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Algorithm {
-        #[prost(message, tag="3")]
-        BasicAlgorithm(super::BasicAutoscalingAlgorithm),
-    }
-}
-/// Basic algorithm for autoscaling.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BasicAutoscalingAlgorithm {
-    /// Optional. Duration between scaling events. A scaling period starts after
-    /// the update operation from the previous event has completed.
-    ///
-    /// Bounds: [2m, 1d]. Default: 2m.
-    #[prost(message, optional, tag="2")]
-    pub cooldown_period: ::core::option::Option<::prost_types::Duration>,
-    #[prost(oneof="basic_autoscaling_algorithm::Config", tags="1")]
-    pub config: ::core::option::Option<basic_autoscaling_algorithm::Config>,
-}
-/// Nested message and enum types in `BasicAutoscalingAlgorithm`.
-pub mod basic_autoscaling_algorithm {
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Config {
-        /// Required. YARN autoscaling configuration.
-        #[prost(message, tag="1")]
-        YarnConfig(super::BasicYarnAutoscalingConfig),
-    }
-}
-/// Basic autoscaling configurations for YARN.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BasicYarnAutoscalingConfig {
-    /// Required. Timeout for YARN graceful decommissioning of Node Managers.
-    /// Specifies the duration to wait for jobs to complete before forcefully
-    /// removing workers (and potentially interrupting jobs). Only applicable to
-    /// downscaling operations.
-    ///
-    /// Bounds: [0s, 1d].
-    #[prost(message, optional, tag="5")]
-    pub graceful_decommission_timeout: ::core::option::Option<::prost_types::Duration>,
-    /// Required. Fraction of average YARN pending memory in the last cooldown period
-    /// for which to add workers. A scale-up factor of 1.0 will result in scaling
-    /// up so that there is no pending memory remaining after the update (more
-    /// aggressive scaling). A scale-up factor closer to 0 will result in a smaller
-    /// magnitude of scaling up (less aggressive scaling).
-    /// See [How autoscaling
-    /// works](<https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works>)
-    /// for more information.
-    ///
-    /// Bounds: [0.0, 1.0].
-    #[prost(double, tag="1")]
-    pub scale_up_factor: f64,
-    /// Required. Fraction of average YARN pending memory in the last cooldown period
-    /// for which to remove workers. A scale-down factor of 1 will result in
-    /// scaling down so that there is no available memory remaining after the
-    /// update (more aggressive scaling). A scale-down factor of 0 disables
-    /// removing workers, which can be beneficial for autoscaling a single job.
-    /// See [How autoscaling
-    /// works](<https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works>)
-    /// for more information.
-    ///
-    /// Bounds: [0.0, 1.0].
-    #[prost(double, tag="2")]
-    pub scale_down_factor: f64,
-    /// Optional. Minimum scale-up threshold as a fraction of total cluster size
-    /// before scaling occurs. For example, in a 20-worker cluster, a threshold of
-    /// 0.1 means the autoscaler must recommend at least a 2-worker scale-up for
-    /// the cluster to scale. A threshold of 0 means the autoscaler will scale up
-    /// on any recommended change.
-    ///
-    /// Bounds: [0.0, 1.0]. Default: 0.0.
-    #[prost(double, tag="3")]
-    pub scale_up_min_worker_fraction: f64,
-    /// Optional. Minimum scale-down threshold as a fraction of total cluster size
-    /// before scaling occurs. For example, in a 20-worker cluster, a threshold of
-    /// 0.1 means the autoscaler must recommend at least a 2 worker scale-down for
-    /// the cluster to scale. A threshold of 0 means the autoscaler will scale down
-    /// on any recommended change.
-    ///
-    /// Bounds: [0.0, 1.0]. Default: 0.0.
-    #[prost(double, tag="4")]
-    pub scale_down_min_worker_fraction: f64,
-}
-/// Configuration for the size bounds of an instance group, including its
-/// proportional size to other groups.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InstanceGroupAutoscalingPolicyConfig {
-    /// Optional. Minimum number of instances for this group.
-    ///
-    /// Primary workers - Bounds: [2, max_instances]. Default: 2.
-    /// Secondary workers - Bounds: [0, max_instances]. Default: 0.
-    #[prost(int32, tag="1")]
-    pub min_instances: i32,
-    /// Required. Maximum number of instances for this group. Required for primary
-    /// workers. Note that by default, clusters will not use secondary workers.
-    /// Required for secondary workers if the minimum secondary instances is set.
-    ///
-    /// Primary workers - Bounds: [min_instances, ).
-    /// Secondary workers - Bounds: [min_instances, ). Default: 0.
-    #[prost(int32, tag="2")]
-    pub max_instances: i32,
-    /// Optional. Weight for the instance group, which is used to determine the
-    /// fraction of total workers in the cluster from this instance group.
-    /// For example, if primary workers have weight 2, and secondary workers have
-    /// weight 1, the cluster will have approximately 2 primary workers for each
-    /// secondary worker.
-    ///
-    /// The cluster may not reach the specified balance if constrained
-    /// by min/max bounds or other autoscaling settings. For example, if
-    /// `max_instances` for secondary workers is 0, then only primary workers will
-    /// be added. The cluster can also be out of balance when created.
-    ///
-    /// If weight is not set on any instance group, the cluster will default to
-    /// equal weight for all groups: the cluster will attempt to maintain an equal
-    /// number of workers in each group within the configured size bounds for each
-    /// group. If weight is set for one group only, the cluster will default to
-    /// zero weight on the unset group. For example if weight is set only on
-    /// primary workers, the cluster will use primary workers only and no
-    /// secondary workers.
-    #[prost(int32, tag="3")]
-    pub weight: i32,
-}
-/// A request to create an autoscaling policy.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateAutoscalingPolicyRequest {
-    /// Required. The "resource name" of the region or location, as described
-    /// in <https://cloud.google.com/apis/design/resource_names.>
-    ///
-    /// * For `projects.regions.autoscalingPolicies.create`, the resource name
-    ///   of the region has the following format:
-    ///   `projects/{project_id}/regions/{region}`
-    ///
-    /// * For `projects.locations.autoscalingPolicies.create`, the resource name
-    ///   of the location has the following format:
-    ///   `projects/{project_id}/locations/{location}`
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The autoscaling policy to create.
-    #[prost(message, optional, tag="2")]
-    pub policy: ::core::option::Option<AutoscalingPolicy>,
-}
-/// A request to fetch an autoscaling policy.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetAutoscalingPolicyRequest {
-    /// Required. The "resource name" of the autoscaling policy, as described
-    /// in <https://cloud.google.com/apis/design/resource_names.>
-    ///
-    /// * For `projects.regions.autoscalingPolicies.get`, the resource name
-    ///   of the policy has the following format:
-    ///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`
-    ///
-    /// * For `projects.locations.autoscalingPolicies.get`, the resource name
-    ///   of the policy has the following format:
-    ///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// A request to update an autoscaling policy.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateAutoscalingPolicyRequest {
-    /// Required. The updated autoscaling policy.
-    #[prost(message, optional, tag="1")]
-    pub policy: ::core::option::Option<AutoscalingPolicy>,
-}
-/// A request to delete an autoscaling policy.
-///
-/// Autoscaling policies in use by one or more clusters will not be deleted.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteAutoscalingPolicyRequest {
-    /// Required. The "resource name" of the autoscaling policy, as described
-    /// in <https://cloud.google.com/apis/design/resource_names.>
-    ///
-    /// * For `projects.regions.autoscalingPolicies.delete`, the resource name
-    ///   of the policy has the following format:
-    ///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`
-    ///
-    /// * For `projects.locations.autoscalingPolicies.delete`, the resource name
-    ///   of the policy has the following format:
-    ///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// A request to list autoscaling policies in a project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListAutoscalingPoliciesRequest {
-    /// Required. The "resource name" of the region or location, as described
-    /// in <https://cloud.google.com/apis/design/resource_names.>
-    ///
-    /// * For `projects.regions.autoscalingPolicies.list`, the resource name
-    ///   of the region has the following format:
-    ///   `projects/{project_id}/regions/{region}`
-    ///
-    /// * For `projects.locations.autoscalingPolicies.list`, the resource name
-    ///   of the location has the following format:
-    ///   `projects/{project_id}/locations/{location}`
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of results to return in each response.
-    /// Must be less than or equal to 1000. Defaults to 100.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// Optional. The page token, returned by a previous call, to request the
-    /// next page of results.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// A response to a request to list autoscaling policies in a project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListAutoscalingPoliciesResponse {
-    /// Output only. Autoscaling policies list.
-    #[prost(message, repeated, tag="1")]
-    pub policies: ::prost::alloc::vec::Vec<AutoscalingPolicy>,
-    /// Output only. This token is included in the response if there are more
-    /// results to fetch.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Generated client implementations.
-pub mod autoscaling_policy_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// The API interface for managing autoscaling policies in the
-    /// Dataproc API.
-    #[derive(Debug, Clone)]
-    pub struct AutoscalingPolicyServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> AutoscalingPolicyServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> AutoscalingPolicyServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            AutoscalingPolicyServiceClient::new(
-                InterceptedService::new(inner, interceptor),
-            )
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Creates new autoscaling policy.
-        pub async fn create_autoscaling_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateAutoscalingPolicyRequest>,
-        ) -> Result<tonic::Response<super::AutoscalingPolicy>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.AutoscalingPolicyService/CreateAutoscalingPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Updates (replaces) autoscaling policy.
-        ///
-        /// Disabled check for update_mask, because all updates will be full
-        /// replacements.
-        pub async fn update_autoscaling_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateAutoscalingPolicyRequest>,
-        ) -> Result<tonic::Response<super::AutoscalingPolicy>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.AutoscalingPolicyService/UpdateAutoscalingPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Retrieves autoscaling policy.
-        pub async fn get_autoscaling_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetAutoscalingPolicyRequest>,
-        ) -> Result<tonic::Response<super::AutoscalingPolicy>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.AutoscalingPolicyService/GetAutoscalingPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Lists autoscaling policies in the project.
-        pub async fn list_autoscaling_policies(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListAutoscalingPoliciesRequest>,
-        ) -> Result<
-                tonic::Response<super::ListAutoscalingPoliciesResponse>,
-                tonic::Status,
-            > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.AutoscalingPolicyService/ListAutoscalingPolicies",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes an autoscaling policy. It is an error to delete an autoscaling
-        /// policy that is in use by one or more clusters.
-        pub async fn delete_autoscaling_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteAutoscalingPolicyRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.AutoscalingPolicyService/DeleteAutoscalingPolicy",
+                "/google.cloud.dataproc.v1.BatchController/DeleteBatch",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -3354,312 +2174,903 @@ pub mod cluster_controller_client {
         }
     }
 }
-/// A request to create a batch workload.
+/// The runtime logging config of the job.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateBatchRequest {
-    /// Required. The parent resource where this batch will be created.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The batch to create.
-    #[prost(message, optional, tag="2")]
-    pub batch: ::core::option::Option<Batch>,
-    /// Optional. The ID to use for the batch, which will become the final component of
-    /// the batch's resource name.
-    ///
-    /// This value must be 4-63 characters. Valid characters are `/\[a-z][0-9\]-/`.
-    #[prost(string, tag="3")]
-    pub batch_id: ::prost::alloc::string::String,
-    /// Optional. A unique ID used to identify the request. If the service
-    /// receives two
-    /// \[CreateBatchRequest\](<https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateBatchRequest>)s
-    /// with the same request_id, the second request is ignored and the
-    /// Operation that corresponds to the first Batch created and stored
-    /// in the backend is returned.
-    ///
-    /// Recommendation: Set this value to a
-    /// \[UUID\](<https://en.wikipedia.org/wiki/Universally_unique_identifier>).
-    ///
-    /// The value must contain only letters (a-z, A-Z), numbers (0-9),
-    /// underscores (_), and hyphens (-). The maximum length is 40 characters.
-    #[prost(string, tag="4")]
-    pub request_id: ::prost::alloc::string::String,
+pub struct LoggingConfig {
+    /// The per-package log levels for the driver. This may include
+    /// "root" package name to configure rootLogger.
+    /// Examples:
+    ///   'com.google = FATAL', 'root = INFO', 'org.apache = DEBUG'
+    #[prost(btree_map="string, enumeration(logging_config::Level)", tag="2")]
+    pub driver_log_levels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, i32>,
 }
-/// A request to get the resource representation for a batch workload.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetBatchRequest {
-    /// Required. The name of the batch to retrieve.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
+/// Nested message and enum types in `LoggingConfig`.
+pub mod logging_config {
+    /// The Log4j level for job execution. When running an
+    /// [Apache Hive](<https://hive.apache.org/>) job, Cloud
+    /// Dataproc configures the Hive client to an equivalent verbosity level.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Level {
+        /// Level is unspecified. Use default level for log4j.
+        Unspecified = 0,
+        /// Use ALL level for log4j.
+        All = 1,
+        /// Use TRACE level for log4j.
+        Trace = 2,
+        /// Use DEBUG level for log4j.
+        Debug = 3,
+        /// Use INFO level for log4j.
+        Info = 4,
+        /// Use WARN level for log4j.
+        Warn = 5,
+        /// Use ERROR level for log4j.
+        Error = 6,
+        /// Use FATAL level for log4j.
+        Fatal = 7,
+        /// Turn off log4j.
+        Off = 8,
+    }
 }
-/// A request to list batch workloads in a project.
+/// A Dataproc job for running
+/// [Apache Hadoop
+/// MapReduce](<https://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html>)
+/// jobs on [Apache Hadoop
+/// YARN](<https://hadoop.apache.org/docs/r2.7.1/hadoop-yarn/hadoop-yarn-site/YARN.html>).
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListBatchesRequest {
-    /// Required. The parent, which owns this collection of batches.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of batches to return in each response.
-    /// The service may return fewer than this value.
-    /// The default page size is 20; the maximum page size is 1000.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// Optional. A page token received from a previous `ListBatches` call.
-    /// Provide this token to retrieve the subsequent page.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// A list of batch workloads.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListBatchesResponse {
-    /// The batches from the specified collection.
-    #[prost(message, repeated, tag="1")]
-    pub batches: ::prost::alloc::vec::Vec<Batch>,
-    /// A token, which can be sent as `page_token` to retrieve the next page.
-    /// If this field is omitted, there are no subsequent pages.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// A request to delete a batch workload.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteBatchRequest {
-    /// Required. The name of the batch resource to delete.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// A representation of a batch workload in the service.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Batch {
-    /// Output only. The resource name of the batch.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. A batch UUID (Unique Universal Identifier). The service
-    /// generates this value when it creates the batch.
-    #[prost(string, tag="2")]
-    pub uuid: ::prost::alloc::string::String,
-    /// Output only. The time when the batch was created.
-    #[prost(message, optional, tag="3")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Runtime information about batch execution.
+pub struct HadoopJob {
+    /// Optional. The arguments to pass to the driver. Do not
+    /// include arguments, such as `-libjars` or `-Dfoo=bar`, that can be set as
+    /// job properties, since a collision may occur that causes an incorrect job
+    /// submission.
+    #[prost(string, repeated, tag="3")]
+    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. Jar file URIs to add to the CLASSPATHs of the
+    /// Hadoop driver and tasks.
+    #[prost(string, repeated, tag="4")]
+    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS (Hadoop Compatible Filesystem) URIs of files to be copied
+    /// to the working directory of Hadoop drivers and distributed tasks. Useful
+    /// for naively parallel tasks.
+    #[prost(string, repeated, tag="5")]
+    pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of archives to be extracted in the working directory of
+    /// Hadoop drivers and tasks. Supported file types:
+    /// .jar, .tar, .tar.gz, .tgz, or .zip.
+    #[prost(string, repeated, tag="6")]
+    pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. A mapping of property names to values, used to configure Hadoop.
+    /// Properties that conflict with values set by the Dataproc API may be
+    /// overwritten. Can include properties set in /etc/hadoop/conf/*-site and
+    /// classes in user code.
+    #[prost(btree_map="string, string", tag="7")]
+    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Optional. The runtime log config for job execution.
     #[prost(message, optional, tag="8")]
-    pub runtime_info: ::core::option::Option<RuntimeInfo>,
-    /// Output only. The state of the batch.
-    #[prost(enumeration="batch::State", tag="9")]
+    pub logging_config: ::core::option::Option<LoggingConfig>,
+    /// Required. Indicates the location of the driver's main class. Specify
+    /// either the jar file that contains the main class or the main class name.
+    /// To specify both, add the jar file to `jar_file_uris`, and then specify
+    /// the main class name in this property.
+    #[prost(oneof="hadoop_job::Driver", tags="1, 2")]
+    pub driver: ::core::option::Option<hadoop_job::Driver>,
+}
+/// Nested message and enum types in `HadoopJob`.
+pub mod hadoop_job {
+    /// Required. Indicates the location of the driver's main class. Specify
+    /// either the jar file that contains the main class or the main class name.
+    /// To specify both, add the jar file to `jar_file_uris`, and then specify
+    /// the main class name in this property.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Driver {
+        /// The HCFS URI of the jar file containing the main class.
+        /// Examples:
+        ///     'gs://foo-bucket/analytics-binaries/extract-useful-metrics-mr.jar'
+        ///     'hdfs:/tmp/test-samples/custom-wordcount.jar'
+        ///     'file:///home/usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar'
+        #[prost(string, tag="1")]
+        MainJarFileUri(::prost::alloc::string::String),
+        /// The name of the driver's main class. The jar file containing the class
+        /// must be in the default CLASSPATH or specified in `jar_file_uris`.
+        #[prost(string, tag="2")]
+        MainClass(::prost::alloc::string::String),
+    }
+}
+/// A Dataproc job for running [Apache Spark](<http://spark.apache.org/>)
+/// applications on YARN.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SparkJob {
+    /// Optional. The arguments to pass to the driver. Do not include arguments,
+    /// such as `--conf`, that can be set as job properties, since a collision may
+    /// occur that causes an incorrect job submission.
+    #[prost(string, repeated, tag="3")]
+    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of jar files to add to the CLASSPATHs of the
+    /// Spark driver and tasks.
+    #[prost(string, repeated, tag="4")]
+    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of files to be placed in the working directory of
+    /// each executor. Useful for naively parallel tasks.
+    #[prost(string, repeated, tag="5")]
+    pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of archives to be extracted into the working directory
+    /// of each executor. Supported file types:
+    /// .jar, .tar, .tar.gz, .tgz, and .zip.
+    #[prost(string, repeated, tag="6")]
+    pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. A mapping of property names to values, used to configure Spark.
+    /// Properties that conflict with values set by the Dataproc API may be
+    /// overwritten. Can include properties set in
+    /// /etc/spark/conf/spark-defaults.conf and classes in user code.
+    #[prost(btree_map="string, string", tag="7")]
+    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Optional. The runtime log config for job execution.
+    #[prost(message, optional, tag="8")]
+    pub logging_config: ::core::option::Option<LoggingConfig>,
+    /// Required. The specification of the main method to call to drive the job.
+    /// Specify either the jar file that contains the main class or the main class
+    /// name. To pass both a main jar and a main class in that jar, add the jar to
+    /// `CommonJob.jar_file_uris`, and then specify the main class name in
+    /// `main_class`.
+    #[prost(oneof="spark_job::Driver", tags="1, 2")]
+    pub driver: ::core::option::Option<spark_job::Driver>,
+}
+/// Nested message and enum types in `SparkJob`.
+pub mod spark_job {
+    /// Required. The specification of the main method to call to drive the job.
+    /// Specify either the jar file that contains the main class or the main class
+    /// name. To pass both a main jar and a main class in that jar, add the jar to
+    /// `CommonJob.jar_file_uris`, and then specify the main class name in
+    /// `main_class`.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Driver {
+        /// The HCFS URI of the jar file that contains the main class.
+        #[prost(string, tag="1")]
+        MainJarFileUri(::prost::alloc::string::String),
+        /// The name of the driver's main class. The jar file that contains the class
+        /// must be in the default CLASSPATH or specified in `jar_file_uris`.
+        #[prost(string, tag="2")]
+        MainClass(::prost::alloc::string::String),
+    }
+}
+/// A Dataproc job for running
+/// [Apache
+/// PySpark](<https://spark.apache.org/docs/0.9.0/python-programming-guide.html>)
+/// applications on YARN.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PySparkJob {
+    /// Required. The HCFS URI of the main Python file to use as the driver. Must
+    /// be a .py file.
+    #[prost(string, tag="1")]
+    pub main_python_file_uri: ::prost::alloc::string::String,
+    /// Optional. The arguments to pass to the driver.  Do not include arguments,
+    /// such as `--conf`, that can be set as job properties, since a collision may
+    /// occur that causes an incorrect job submission.
+    #[prost(string, repeated, tag="2")]
+    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS file URIs of Python files to pass to the PySpark
+    /// framework. Supported file types: .py, .egg, and .zip.
+    #[prost(string, repeated, tag="3")]
+    pub python_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of jar files to add to the CLASSPATHs of the
+    /// Python driver and tasks.
+    #[prost(string, repeated, tag="4")]
+    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of files to be placed in the working directory of
+    /// each executor. Useful for naively parallel tasks.
+    #[prost(string, repeated, tag="5")]
+    pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of archives to be extracted into the working directory
+    /// of each executor. Supported file types:
+    /// .jar, .tar, .tar.gz, .tgz, and .zip.
+    #[prost(string, repeated, tag="6")]
+    pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. A mapping of property names to values, used to configure PySpark.
+    /// Properties that conflict with values set by the Dataproc API may be
+    /// overwritten. Can include properties set in
+    /// /etc/spark/conf/spark-defaults.conf and classes in user code.
+    #[prost(btree_map="string, string", tag="7")]
+    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Optional. The runtime log config for job execution.
+    #[prost(message, optional, tag="8")]
+    pub logging_config: ::core::option::Option<LoggingConfig>,
+}
+/// A list of queries to run on a cluster.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryList {
+    /// Required. The queries to execute. You do not need to end a query expression
+    /// with a semicolon. Multiple queries can be specified in one
+    /// string by separating each with a semicolon. Here is an example of a
+    /// Dataproc API snippet that uses a QueryList to specify a HiveJob:
+    ///
+    ///     "hiveJob": {
+    ///       "queryList": {
+    ///         "queries": [
+    ///           "query1",
+    ///           "query2",
+    ///           "query3;query4",
+    ///         ]
+    ///       }
+    ///     }
+    #[prost(string, repeated, tag="1")]
+    pub queries: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// A Dataproc job for running [Apache Hive](<https://hive.apache.org/>)
+/// queries on YARN.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct HiveJob {
+    /// Optional. Whether to continue executing queries if a query fails.
+    /// The default value is `false`. Setting to `true` can be useful when
+    /// executing independent parallel queries.
+    #[prost(bool, tag="3")]
+    pub continue_on_failure: bool,
+    /// Optional. Mapping of query variable names to values (equivalent to the
+    /// Hive command: `SET name="value";`).
+    #[prost(btree_map="string, string", tag="4")]
+    pub script_variables: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Optional. A mapping of property names and values, used to configure Hive.
+    /// Properties that conflict with values set by the Dataproc API may be
+    /// overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml,
+    /// /etc/hive/conf/hive-site.xml, and classes in user code.
+    #[prost(btree_map="string, string", tag="5")]
+    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of jar files to add to the CLASSPATH of the
+    /// Hive server and Hadoop MapReduce (MR) tasks. Can contain Hive SerDes
+    /// and UDFs.
+    #[prost(string, repeated, tag="6")]
+    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Required. The sequence of Hive queries to execute, specified as either
+    /// an HCFS file URI or a list of queries.
+    #[prost(oneof="hive_job::Queries", tags="1, 2")]
+    pub queries: ::core::option::Option<hive_job::Queries>,
+}
+/// Nested message and enum types in `HiveJob`.
+pub mod hive_job {
+    /// Required. The sequence of Hive queries to execute, specified as either
+    /// an HCFS file URI or a list of queries.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Queries {
+        /// The HCFS URI of the script that contains Hive queries.
+        #[prost(string, tag="1")]
+        QueryFileUri(::prost::alloc::string::String),
+        /// A list of queries.
+        #[prost(message, tag="2")]
+        QueryList(super::QueryList),
+    }
+}
+/// A Dataproc job for running [Apache Spark
+/// SQL](<http://spark.apache.org/sql/>) queries.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SparkSqlJob {
+    /// Optional. Mapping of query variable names to values (equivalent to the
+    /// Spark SQL command: SET `name="value";`).
+    #[prost(btree_map="string, string", tag="3")]
+    pub script_variables: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Optional. A mapping of property names to values, used to configure
+    /// Spark SQL's SparkConf. Properties that conflict with values set by the
+    /// Dataproc API may be overwritten.
+    #[prost(btree_map="string, string", tag="4")]
+    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
+    #[prost(string, repeated, tag="56")]
+    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. The runtime log config for job execution.
+    #[prost(message, optional, tag="6")]
+    pub logging_config: ::core::option::Option<LoggingConfig>,
+    /// Required. The sequence of Spark SQL queries to execute, specified as
+    /// either an HCFS file URI or as a list of queries.
+    #[prost(oneof="spark_sql_job::Queries", tags="1, 2")]
+    pub queries: ::core::option::Option<spark_sql_job::Queries>,
+}
+/// Nested message and enum types in `SparkSqlJob`.
+pub mod spark_sql_job {
+    /// Required. The sequence of Spark SQL queries to execute, specified as
+    /// either an HCFS file URI or as a list of queries.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Queries {
+        /// The HCFS URI of the script that contains SQL queries.
+        #[prost(string, tag="1")]
+        QueryFileUri(::prost::alloc::string::String),
+        /// A list of queries.
+        #[prost(message, tag="2")]
+        QueryList(super::QueryList),
+    }
+}
+/// A Dataproc job for running [Apache Pig](<https://pig.apache.org/>)
+/// queries on YARN.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PigJob {
+    /// Optional. Whether to continue executing queries if a query fails.
+    /// The default value is `false`. Setting to `true` can be useful when
+    /// executing independent parallel queries.
+    #[prost(bool, tag="3")]
+    pub continue_on_failure: bool,
+    /// Optional. Mapping of query variable names to values (equivalent to the Pig
+    /// command: `name=\[value\]`).
+    #[prost(btree_map="string, string", tag="4")]
+    pub script_variables: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Optional. A mapping of property names to values, used to configure Pig.
+    /// Properties that conflict with values set by the Dataproc API may be
+    /// overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml,
+    /// /etc/pig/conf/pig.properties, and classes in user code.
+    #[prost(btree_map="string, string", tag="5")]
+    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of jar files to add to the CLASSPATH of
+    /// the Pig Client and Hadoop MapReduce (MR) tasks. Can contain Pig UDFs.
+    #[prost(string, repeated, tag="6")]
+    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. The runtime log config for job execution.
+    #[prost(message, optional, tag="7")]
+    pub logging_config: ::core::option::Option<LoggingConfig>,
+    /// Required. The sequence of Pig queries to execute, specified as an HCFS
+    /// file URI or a list of queries.
+    #[prost(oneof="pig_job::Queries", tags="1, 2")]
+    pub queries: ::core::option::Option<pig_job::Queries>,
+}
+/// Nested message and enum types in `PigJob`.
+pub mod pig_job {
+    /// Required. The sequence of Pig queries to execute, specified as an HCFS
+    /// file URI or a list of queries.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Queries {
+        /// The HCFS URI of the script that contains the Pig queries.
+        #[prost(string, tag="1")]
+        QueryFileUri(::prost::alloc::string::String),
+        /// A list of queries.
+        #[prost(message, tag="2")]
+        QueryList(super::QueryList),
+    }
+}
+/// A Dataproc job for running
+/// [Apache SparkR](<https://spark.apache.org/docs/latest/sparkr.html>)
+/// applications on YARN.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SparkRJob {
+    /// Required. The HCFS URI of the main R file to use as the driver.
+    /// Must be a .R file.
+    #[prost(string, tag="1")]
+    pub main_r_file_uri: ::prost::alloc::string::String,
+    /// Optional. The arguments to pass to the driver.  Do not include arguments,
+    /// such as `--conf`, that can be set as job properties, since a collision may
+    /// occur that causes an incorrect job submission.
+    #[prost(string, repeated, tag="2")]
+    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of files to be placed in the working directory of
+    /// each executor. Useful for naively parallel tasks.
+    #[prost(string, repeated, tag="3")]
+    pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. HCFS URIs of archives to be extracted into the working directory
+    /// of each executor. Supported file types:
+    /// .jar, .tar, .tar.gz, .tgz, and .zip.
+    #[prost(string, repeated, tag="4")]
+    pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. A mapping of property names to values, used to configure SparkR.
+    /// Properties that conflict with values set by the Dataproc API may be
+    /// overwritten. Can include properties set in
+    /// /etc/spark/conf/spark-defaults.conf and classes in user code.
+    #[prost(btree_map="string, string", tag="5")]
+    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Optional. The runtime log config for job execution.
+    #[prost(message, optional, tag="6")]
+    pub logging_config: ::core::option::Option<LoggingConfig>,
+}
+/// A Dataproc job for running \[Presto\](<https://prestosql.io/>) queries.
+/// **IMPORTANT**: The [Dataproc Presto Optional
+/// Component](<https://cloud.google.com/dataproc/docs/concepts/components/presto>)
+/// must be enabled when the cluster is created to submit a Presto job to the
+/// cluster.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PrestoJob {
+    /// Optional. Whether to continue executing queries if a query fails.
+    /// The default value is `false`. Setting to `true` can be useful when
+    /// executing independent parallel queries.
+    #[prost(bool, tag="3")]
+    pub continue_on_failure: bool,
+    /// Optional. The format in which query output will be displayed. See the
+    /// Presto documentation for supported output formats
+    #[prost(string, tag="4")]
+    pub output_format: ::prost::alloc::string::String,
+    /// Optional. Presto client tags to attach to this query
+    #[prost(string, repeated, tag="5")]
+    pub client_tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. A mapping of property names to values. Used to set Presto
+    /// [session properties](<https://prestodb.io/docs/current/sql/set-session.html>)
+    /// Equivalent to using the --session flag in the Presto CLI
+    #[prost(btree_map="string, string", tag="6")]
+    pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Optional. The runtime log config for job execution.
+    #[prost(message, optional, tag="7")]
+    pub logging_config: ::core::option::Option<LoggingConfig>,
+    /// Required. The sequence of Presto queries to execute, specified as
+    /// either an HCFS file URI or as a list of queries.
+    #[prost(oneof="presto_job::Queries", tags="1, 2")]
+    pub queries: ::core::option::Option<presto_job::Queries>,
+}
+/// Nested message and enum types in `PrestoJob`.
+pub mod presto_job {
+    /// Required. The sequence of Presto queries to execute, specified as
+    /// either an HCFS file URI or as a list of queries.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Queries {
+        /// The HCFS URI of the script that contains SQL queries.
+        #[prost(string, tag="1")]
+        QueryFileUri(::prost::alloc::string::String),
+        /// A list of queries.
+        #[prost(message, tag="2")]
+        QueryList(super::QueryList),
+    }
+}
+/// Dataproc job config.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct JobPlacement {
+    /// Required. The name of the cluster where the job will be submitted.
+    #[prost(string, tag="1")]
+    pub cluster_name: ::prost::alloc::string::String,
+    /// Output only. A cluster UUID generated by the Dataproc service when
+    /// the job is submitted.
+    #[prost(string, tag="2")]
+    pub cluster_uuid: ::prost::alloc::string::String,
+    /// Optional. Cluster labels to identify a cluster where the job will be submitted.
+    #[prost(btree_map="string, string", tag="3")]
+    pub cluster_labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+}
+/// Dataproc job status.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct JobStatus {
+    /// Output only. A state message specifying the overall job state.
+    #[prost(enumeration="job_status::State", tag="1")]
     pub state: i32,
-    /// Output only. Batch state details, such as a failure
-    /// description if the state is `FAILED`.
-    #[prost(string, tag="10")]
-    pub state_message: ::prost::alloc::string::String,
-    /// Output only. The time when the batch entered a current state.
-    #[prost(message, optional, tag="11")]
-    pub state_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The email address of the user who created the batch.
-    #[prost(string, tag="12")]
-    pub creator: ::prost::alloc::string::String,
-    /// Optional. The labels to associate with this batch.
+    /// Optional. Output only. Job state details, such as an error
+    /// description if the state is <code>ERROR</code>.
+    #[prost(string, tag="2")]
+    pub details: ::prost::alloc::string::String,
+    /// Output only. The time when this state was entered.
+    #[prost(message, optional, tag="6")]
+    pub state_start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Additional state information, which includes
+    /// status reported by the agent.
+    #[prost(enumeration="job_status::Substate", tag="7")]
+    pub substate: i32,
+}
+/// Nested message and enum types in `JobStatus`.
+pub mod job_status {
+    /// The job state.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// The job state is unknown.
+        Unspecified = 0,
+        /// The job is pending; it has been submitted, but is not yet running.
+        Pending = 1,
+        /// Job has been received by the service and completed initial setup;
+        /// it will soon be submitted to the cluster.
+        SetupDone = 8,
+        /// The job is running on the cluster.
+        Running = 2,
+        /// A CancelJob request has been received, but is pending.
+        CancelPending = 3,
+        /// Transient in-flight resources have been canceled, and the request to
+        /// cancel the running job has been issued to the cluster.
+        CancelStarted = 7,
+        /// The job cancellation was successful.
+        Cancelled = 4,
+        /// The job has completed successfully.
+        Done = 5,
+        /// The job has completed, but encountered an error.
+        Error = 6,
+        /// Job attempt has failed. The detail field contains failure details for
+        /// this attempt.
+        ///
+        /// Applies to restartable jobs only.
+        AttemptFailure = 9,
+    }
+    /// The job substate.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Substate {
+        /// The job substate is unknown.
+        Unspecified = 0,
+        /// The Job is submitted to the agent.
+        ///
+        /// Applies to RUNNING state.
+        Submitted = 1,
+        /// The Job has been received and is awaiting execution (it may be waiting
+        /// for a condition to be met). See the "details" field for the reason for
+        /// the delay.
+        ///
+        /// Applies to RUNNING state.
+        Queued = 2,
+        /// The agent-reported status is out of date, which may be caused by a
+        /// loss of communication between the agent and Dataproc. If the
+        /// agent does not send a timely update, the job will fail.
+        ///
+        /// Applies to RUNNING state.
+        StaleStatus = 3,
+    }
+}
+/// Encapsulates the full scoping used to reference a job.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct JobReference {
+    /// Optional. The ID of the Google Cloud Platform project that the job belongs to. If
+    /// specified, must match the request project ID.
+    #[prost(string, tag="1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// Optional. The job ID, which must be unique within the project.
+    ///
+    /// The ID must contain only letters (a-z, A-Z), numbers (0-9),
+    /// underscores (_), or hyphens (-). The maximum length is 100 characters.
+    ///
+    /// If not specified by the caller, the job ID will be provided by the server.
+    #[prost(string, tag="2")]
+    pub job_id: ::prost::alloc::string::String,
+}
+/// A YARN application created by a job. Application information is a subset of
+/// <code>org.apache.hadoop.yarn.proto.YarnProtos.ApplicationReportProto</code>.
+///
+/// **Beta Feature**: This report is available for testing purposes only. It may
+/// be changed before final release.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct YarnApplication {
+    /// Required. The application name.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The application state.
+    #[prost(enumeration="yarn_application::State", tag="2")]
+    pub state: i32,
+    /// Required. The numerical progress of the application, from 1 to 100.
+    #[prost(float, tag="3")]
+    pub progress: f32,
+    /// Optional. The HTTP URL of the ApplicationMaster, HistoryServer, or
+    /// TimelineServer that provides application-specific information. The URL uses
+    /// the internal hostname, and requires a proxy server for resolution and,
+    /// possibly, access.
+    #[prost(string, tag="4")]
+    pub tracking_url: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `YarnApplication`.
+pub mod yarn_application {
+    /// The application state, corresponding to
+    /// <code>YarnProtos.YarnApplicationStateProto</code>.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Status is unspecified.
+        Unspecified = 0,
+        /// Status is NEW.
+        New = 1,
+        /// Status is NEW_SAVING.
+        NewSaving = 2,
+        /// Status is SUBMITTED.
+        Submitted = 3,
+        /// Status is ACCEPTED.
+        Accepted = 4,
+        /// Status is RUNNING.
+        Running = 5,
+        /// Status is FINISHED.
+        Finished = 6,
+        /// Status is FAILED.
+        Failed = 7,
+        /// Status is KILLED.
+        Killed = 8,
+    }
+}
+/// A Dataproc job resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Job {
+    /// Optional. The fully qualified reference to the job, which can be used to
+    /// obtain the equivalent REST path of the job resource. If this property
+    /// is not specified when a job is created, the server generates a
+    /// <code>job_id</code>.
+    #[prost(message, optional, tag="1")]
+    pub reference: ::core::option::Option<JobReference>,
+    /// Required. Job information, including how, when, and where to
+    /// run the job.
+    #[prost(message, optional, tag="2")]
+    pub placement: ::core::option::Option<JobPlacement>,
+    /// Output only. The job status. Additional application-specific
+    /// status information may be contained in the <code>type_job</code>
+    /// and <code>yarn_applications</code> fields.
+    #[prost(message, optional, tag="8")]
+    pub status: ::core::option::Option<JobStatus>,
+    /// Output only. The previous job status.
+    #[prost(message, repeated, tag="13")]
+    pub status_history: ::prost::alloc::vec::Vec<JobStatus>,
+    /// Output only. The collection of YARN applications spun up by this job.
+    ///
+    /// **Beta** Feature: This report is available for testing purposes only. It
+    /// may be changed before final release.
+    #[prost(message, repeated, tag="9")]
+    pub yarn_applications: ::prost::alloc::vec::Vec<YarnApplication>,
+    /// Output only. A URI pointing to the location of the stdout of the job's
+    /// driver program.
+    #[prost(string, tag="17")]
+    pub driver_output_resource_uri: ::prost::alloc::string::String,
+    /// Output only. If present, the location of miscellaneous control files
+    /// which may be used as part of job setup and handling. If not present,
+    /// control files may be placed in the same location as `driver_output_uri`.
+    #[prost(string, tag="15")]
+    pub driver_control_files_uri: ::prost::alloc::string::String,
+    /// Optional. The labels to associate with this job.
     /// Label **keys** must contain 1 to 63 characters, and must conform to
     /// [RFC 1035](<https://www.ietf.org/rfc/rfc1035.txt>).
     /// Label **values** may be empty, but, if present, must contain 1 to 63
     /// characters, and must conform to [RFC
     /// 1035](<https://www.ietf.org/rfc/rfc1035.txt>). No more than 32 labels can be
-    /// associated with a batch.
-    #[prost(btree_map="string, string", tag="13")]
+    /// associated with a job.
+    #[prost(btree_map="string, string", tag="18")]
     pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. Runtime configuration for the batch execution.
-    #[prost(message, optional, tag="14")]
-    pub runtime_config: ::core::option::Option<RuntimeConfig>,
-    /// Optional. Environment configuration for the batch execution.
-    #[prost(message, optional, tag="15")]
-    pub environment_config: ::core::option::Option<EnvironmentConfig>,
-    /// Output only. The resource name of the operation associated with this batch.
-    #[prost(string, tag="16")]
-    pub operation: ::prost::alloc::string::String,
-    /// Output only. Historical state information for the batch.
-    #[prost(message, repeated, tag="17")]
-    pub state_history: ::prost::alloc::vec::Vec<batch::StateHistory>,
-    /// The application/framework-specific portion of the batch configuration.
-    #[prost(oneof="batch::BatchConfig", tags="4, 5, 6, 7")]
-    pub batch_config: ::core::option::Option<batch::BatchConfig>,
+    /// Optional. Job scheduling configuration.
+    #[prost(message, optional, tag="20")]
+    pub scheduling: ::core::option::Option<JobScheduling>,
+    /// Output only. A UUID that uniquely identifies a job within the project
+    /// over time. This is in contrast to a user-settable reference.job_id that
+    /// may be reused over time.
+    #[prost(string, tag="22")]
+    pub job_uuid: ::prost::alloc::string::String,
+    /// Output only. Indicates whether the job is completed. If the value is `false`,
+    /// the job is still in progress. If `true`, the job is completed, and
+    /// `status.state` field will indicate if it was successful, failed,
+    /// or cancelled.
+    #[prost(bool, tag="24")]
+    pub done: bool,
+    /// Required. The application/framework-specific portion of the job.
+    #[prost(oneof="job::TypeJob", tags="3, 4, 5, 6, 7, 21, 12, 23")]
+    pub type_job: ::core::option::Option<job::TypeJob>,
 }
-/// Nested message and enum types in `Batch`.
-pub mod batch {
-    /// Historical state information.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct StateHistory {
-        /// Output only. The state of the batch at this point in history.
-        #[prost(enumeration="State", tag="1")]
-        pub state: i32,
-        /// Output only. Details about the state at this point in history.
-        #[prost(string, tag="2")]
-        pub state_message: ::prost::alloc::string::String,
-        /// Output only. The time when the batch entered the historical state.
-        #[prost(message, optional, tag="3")]
-        pub state_start_time: ::core::option::Option<::prost_types::Timestamp>,
+/// Nested message and enum types in `Job`.
+pub mod job {
+    /// Required. The application/framework-specific portion of the job.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum TypeJob {
+        /// Optional. Job is a Hadoop job.
+        #[prost(message, tag="3")]
+        HadoopJob(super::HadoopJob),
+        /// Optional. Job is a Spark job.
+        #[prost(message, tag="4")]
+        SparkJob(super::SparkJob),
+        /// Optional. Job is a PySpark job.
+        #[prost(message, tag="5")]
+        PysparkJob(super::PySparkJob),
+        /// Optional. Job is a Hive job.
+        #[prost(message, tag="6")]
+        HiveJob(super::HiveJob),
+        /// Optional. Job is a Pig job.
+        #[prost(message, tag="7")]
+        PigJob(super::PigJob),
+        /// Optional. Job is a SparkR job.
+        #[prost(message, tag="21")]
+        SparkRJob(super::SparkRJob),
+        /// Optional. Job is a SparkSql job.
+        #[prost(message, tag="12")]
+        SparkSqlJob(super::SparkSqlJob),
+        /// Optional. Job is a Presto job.
+        #[prost(message, tag="23")]
+        PrestoJob(super::PrestoJob),
     }
-    /// The batch state.
+}
+/// Job scheduling options.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct JobScheduling {
+    /// Optional. Maximum number of times per hour a driver may be restarted as
+    /// a result of driver exiting with non-zero code before job is
+    /// reported failed.
+    ///
+    /// A job may be reported as thrashing if driver exits with non-zero code
+    /// 4 times within 10 minute window.
+    ///
+    /// Maximum value is 10.
+    ///
+    /// **Note:** Currently, this restartable job option is
+    /// not supported in Dataproc
+    /// [workflow
+    /// template](<https://cloud.google.com/dataproc/docs/concepts/workflows/using-workflows#adding_jobs_to_a_template>)
+    /// jobs.
+    #[prost(int32, tag="1")]
+    pub max_failures_per_hour: i32,
+    /// Optional. Maximum number of times in total a driver may be restarted as a result of
+    /// driver exiting with non-zero code before job is reported failed.
+    /// Maximum value is 240.
+    ///
+    /// **Note:** Currently, this restartable job option is
+    /// not supported in Dataproc
+    /// [workflow
+    /// template](<https://cloud.google.com/dataproc/docs/concepts/workflows/using-workflows#adding_jobs_to_a_template>)
+    /// jobs.
+    #[prost(int32, tag="2")]
+    pub max_failures_total: i32,
+}
+/// A request to submit a job.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SubmitJobRequest {
+    /// Required. The ID of the Google Cloud Platform project that the job
+    /// belongs to.
+    #[prost(string, tag="1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// Required. The Dataproc region in which to handle the request.
+    #[prost(string, tag="3")]
+    pub region: ::prost::alloc::string::String,
+    /// Required. The job resource.
+    #[prost(message, optional, tag="2")]
+    pub job: ::core::option::Option<Job>,
+    /// Optional. A unique id used to identify the request. If the server
+    /// receives two
+    /// \[SubmitJobRequest\](<https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.SubmitJobRequest>)s
+    /// with the same id, then the second request will be ignored and the
+    /// first \[Job][google.cloud.dataproc.v1.Job\] created and stored in the backend
+    /// is returned.
+    ///
+    /// It is recommended to always set this value to a
+    /// \[UUID\](<https://en.wikipedia.org/wiki/Universally_unique_identifier>).
+    ///
+    /// The id must contain only letters (a-z, A-Z), numbers (0-9),
+    /// underscores (_), and hyphens (-). The maximum length is 40 characters.
+    #[prost(string, tag="4")]
+    pub request_id: ::prost::alloc::string::String,
+}
+/// Job Operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct JobMetadata {
+    /// Output only. The job id.
+    #[prost(string, tag="1")]
+    pub job_id: ::prost::alloc::string::String,
+    /// Output only. Most recent job status.
+    #[prost(message, optional, tag="2")]
+    pub status: ::core::option::Option<JobStatus>,
+    /// Output only. Operation type.
+    #[prost(string, tag="3")]
+    pub operation_type: ::prost::alloc::string::String,
+    /// Output only. Job submission time.
+    #[prost(message, optional, tag="4")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// A request to get the resource representation for a job in a project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetJobRequest {
+    /// Required. The ID of the Google Cloud Platform project that the job
+    /// belongs to.
+    #[prost(string, tag="1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// Required. The Dataproc region in which to handle the request.
+    #[prost(string, tag="3")]
+    pub region: ::prost::alloc::string::String,
+    /// Required. The job ID.
+    #[prost(string, tag="2")]
+    pub job_id: ::prost::alloc::string::String,
+}
+/// A request to list jobs in a project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListJobsRequest {
+    /// Required. The ID of the Google Cloud Platform project that the job
+    /// belongs to.
+    #[prost(string, tag="1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// Required. The Dataproc region in which to handle the request.
+    #[prost(string, tag="6")]
+    pub region: ::prost::alloc::string::String,
+    /// Optional. The number of results to return in each response.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// Optional. The page token, returned by a previous call, to request the
+    /// next page of results.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. If set, the returned jobs list includes only jobs that were
+    /// submitted to the named cluster.
+    #[prost(string, tag="4")]
+    pub cluster_name: ::prost::alloc::string::String,
+    /// Optional. Specifies enumerated categories of jobs to list.
+    /// (default = match ALL jobs).
+    ///
+    /// If `filter` is provided, `jobStateMatcher` will be ignored.
+    #[prost(enumeration="list_jobs_request::JobStateMatcher", tag="5")]
+    pub job_state_matcher: i32,
+    /// Optional. A filter constraining the jobs to list. Filters are
+    /// case-sensitive and have the following syntax:
+    ///
+    /// [field = value] AND [field [= value]] ...
+    ///
+    /// where **field** is `status.state` or `labels.\[KEY\]`, and `\[KEY\]` is a label
+    /// key. **value** can be `*` to match all values.
+    /// `status.state` can be either `ACTIVE` or `NON_ACTIVE`.
+    /// Only the logical `AND` operator is supported; space-separated items are
+    /// treated as having an implicit `AND` operator.
+    ///
+    /// Example filter:
+    ///
+    /// status.state = ACTIVE AND labels.env = staging AND labels.starred = *
+    #[prost(string, tag="7")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `ListJobsRequest`.
+pub mod list_jobs_request {
+    /// A matcher that specifies categories of job states.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum State {
-        /// The batch state is unknown.
-        Unspecified = 0,
-        /// The batch is created before running.
-        Pending = 1,
-        /// The batch is running.
-        Running = 2,
-        /// The batch is cancelling.
-        Cancelling = 3,
-        /// The batch cancellation was successful.
-        Cancelled = 4,
-        /// The batch completed successfully.
-        Succeeded = 5,
-        /// The batch is no longer running due to an error.
-        Failed = 6,
-    }
-    /// The application/framework-specific portion of the batch configuration.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum BatchConfig {
-        /// Optional. PySpark batch config.
-        #[prost(message, tag="4")]
-        PysparkBatch(super::PySparkBatch),
-        /// Optional. Spark batch config.
-        #[prost(message, tag="5")]
-        SparkBatch(super::SparkBatch),
-        /// Optional. SparkR batch config.
-        #[prost(message, tag="6")]
-        SparkRBatch(super::SparkRBatch),
-        /// Optional. SparkSql batch config.
-        #[prost(message, tag="7")]
-        SparkSqlBatch(super::SparkSqlBatch),
+    pub enum JobStateMatcher {
+        /// Match all jobs, regardless of state.
+        All = 0,
+        /// Only match jobs in non-terminal states: PENDING, RUNNING, or
+        /// CANCEL_PENDING.
+        Active = 1,
+        /// Only match jobs in terminal states: CANCELLED, DONE, or ERROR.
+        NonActive = 2,
     }
 }
-/// A configuration for running an
-/// [Apache
-/// PySpark](<https://spark.apache.org/docs/latest/api/python/getting_started/quickstart.html>)
-/// batch workload.
+/// A request to update a job.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PySparkBatch {
-    /// Required. The HCFS URI of the main Python file to use as the Spark driver. Must
-    /// be a .py file.
+pub struct UpdateJobRequest {
+    /// Required. The ID of the Google Cloud Platform project that the job
+    /// belongs to.
     #[prost(string, tag="1")]
-    pub main_python_file_uri: ::prost::alloc::string::String,
-    /// Optional. The arguments to pass to the driver. Do not include arguments
-    /// that can be set as batch properties, such as `--conf`, since a collision
-    /// can occur that causes an incorrect batch submission.
-    #[prost(string, repeated, tag="2")]
-    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS file URIs of Python files to pass to the PySpark
-    /// framework. Supported file types: `.py`, `.egg`, and `.zip`.
-    #[prost(string, repeated, tag="3")]
-    pub python_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of jar files to add to the classpath of the
-    /// Spark driver and tasks.
-    #[prost(string, repeated, tag="4")]
-    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of files to be placed in the working directory of
-    /// each executor.
-    #[prost(string, repeated, tag="5")]
-    pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of archives to be extracted into the working directory
-    /// of each executor. Supported file types:
-    /// `.jar`, `.tar`, `.tar.gz`, `.tgz`, and `.zip`.
-    #[prost(string, repeated, tag="6")]
-    pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    pub project_id: ::prost::alloc::string::String,
+    /// Required. The Dataproc region in which to handle the request.
+    #[prost(string, tag="2")]
+    pub region: ::prost::alloc::string::String,
+    /// Required. The job ID.
+    #[prost(string, tag="3")]
+    pub job_id: ::prost::alloc::string::String,
+    /// Required. The changes to the job.
+    #[prost(message, optional, tag="4")]
+    pub job: ::core::option::Option<Job>,
+    /// Required. Specifies the path, relative to <code>Job</code>, of
+    /// the field to update. For example, to update the labels of a Job the
+    /// <code>update_mask</code> parameter would be specified as
+    /// <code>labels</code>, and the `PATCH` request body would specify the new
+    /// value. <strong>Note:</strong> Currently, <code>labels</code> is the only
+    /// field that can be updated.
+    #[prost(message, optional, tag="5")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
-/// A configuration for running an [Apache Spark](<http://spark.apache.org/>)
-/// batch workload.
+/// A list of jobs in a project.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SparkBatch {
-    /// Optional. The arguments to pass to the driver. Do not include arguments
-    /// that can be set as batch properties, such as `--conf`, since a collision
-    /// can occur that causes an incorrect batch submission.
-    #[prost(string, repeated, tag="3")]
-    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of jar files to add to the classpath of the
-    /// Spark driver and tasks.
-    #[prost(string, repeated, tag="4")]
-    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of files to be placed in the working directory of
-    /// each executor.
-    #[prost(string, repeated, tag="5")]
-    pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of archives to be extracted into the working directory
-    /// of each executor. Supported file types:
-    /// `.jar`, `.tar`, `.tar.gz`, `.tgz`, and `.zip`.
-    #[prost(string, repeated, tag="6")]
-    pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The specification of the main method to call to drive the Spark
-    /// workload. Specify either the jar file that contains the main class or the
-    /// main class name. To pass both a main jar and a main class in that jar, add
-    /// the jar to `jar_file_uris`, and then specify the main class
-    /// name in `main_class`.
-    #[prost(oneof="spark_batch::Driver", tags="1, 2")]
-    pub driver: ::core::option::Option<spark_batch::Driver>,
+pub struct ListJobsResponse {
+    /// Output only. Jobs list.
+    #[prost(message, repeated, tag="1")]
+    pub jobs: ::prost::alloc::vec::Vec<Job>,
+    /// Optional. This token is included in the response if there are more results
+    /// to fetch. To fetch additional results, provide this value as the
+    /// `page_token` in a subsequent <code>ListJobsRequest</code>.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
 }
-/// Nested message and enum types in `SparkBatch`.
-pub mod spark_batch {
-    /// The specification of the main method to call to drive the Spark
-    /// workload. Specify either the jar file that contains the main class or the
-    /// main class name. To pass both a main jar and a main class in that jar, add
-    /// the jar to `jar_file_uris`, and then specify the main class
-    /// name in `main_class`.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Driver {
-        /// Optional. The HCFS URI of the jar file that contains the main class.
-        #[prost(string, tag="1")]
-        MainJarFileUri(::prost::alloc::string::String),
-        /// Optional. The name of the driver main class. The jar file that contains the class
-        /// must be in the classpath or specified in `jar_file_uris`.
-        #[prost(string, tag="2")]
-        MainClass(::prost::alloc::string::String),
-    }
-}
-/// A configuration for running an
-/// [Apache SparkR](<https://spark.apache.org/docs/latest/sparkr.html>)
-/// batch workload.
+/// A request to cancel a job.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SparkRBatch {
-    /// Required. The HCFS URI of the main R file to use as the driver.
-    /// Must be a `.R` or `.r` file.
+pub struct CancelJobRequest {
+    /// Required. The ID of the Google Cloud Platform project that the job
+    /// belongs to.
     #[prost(string, tag="1")]
-    pub main_r_file_uri: ::prost::alloc::string::String,
-    /// Optional. The arguments to pass to the Spark driver. Do not include arguments
-    /// that can be set as batch properties, such as `--conf`, since a collision
-    /// can occur that causes an incorrect batch submission.
-    #[prost(string, repeated, tag="2")]
-    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of files to be placed in the working directory of
-    /// each executor.
-    #[prost(string, repeated, tag="3")]
-    pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of archives to be extracted into the working directory
-    /// of each executor. Supported file types:
-    /// `.jar`, `.tar`, `.tar.gz`, `.tgz`, and `.zip`.
-    #[prost(string, repeated, tag="4")]
-    pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    pub project_id: ::prost::alloc::string::String,
+    /// Required. The Dataproc region in which to handle the request.
+    #[prost(string, tag="3")]
+    pub region: ::prost::alloc::string::String,
+    /// Required. The job ID.
+    #[prost(string, tag="2")]
+    pub job_id: ::prost::alloc::string::String,
 }
-/// A configuration for running
-/// [Apache Spark SQL](<http://spark.apache.org/sql/>) queries as a batch workload.
+/// A request to delete a job.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SparkSqlBatch {
-    /// Required. The HCFS URI of the script that contains Spark SQL queries to execute.
+pub struct DeleteJobRequest {
+    /// Required. The ID of the Google Cloud Platform project that the job
+    /// belongs to.
     #[prost(string, tag="1")]
-    pub query_file_uri: ::prost::alloc::string::String,
-    /// Optional. Mapping of query variable names to values (equivalent to the
-    /// Spark SQL command: `SET name="value";`).
-    #[prost(btree_map="string, string", tag="2")]
-    pub query_variables: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH.
-    #[prost(string, repeated, tag="3")]
-    pub jar_file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    pub project_id: ::prost::alloc::string::String,
+    /// Required. The Dataproc region in which to handle the request.
+    #[prost(string, tag="3")]
+    pub region: ::prost::alloc::string::String,
+    /// Required. The job ID.
+    #[prost(string, tag="2")]
+    pub job_id: ::prost::alloc::string::String,
 }
 /// Generated client implementations.
-pub mod batch_controller_client {
+pub mod job_controller_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    /// The BatchController provides methods to manage batch workloads.
+    /// The JobController provides methods to manage jobs.
     #[derive(Debug, Clone)]
-    pub struct BatchControllerClient<T> {
+    pub struct JobControllerClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl<T> BatchControllerClient<T>
+    impl<T> JobControllerClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::Error: Into<StdError>,
@@ -3673,7 +3084,7 @@ pub mod batch_controller_client {
         pub fn with_interceptor<F>(
             inner: T,
             interceptor: F,
-        ) -> BatchControllerClient<InterceptedService<T, F>>
+        ) -> JobControllerClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T: tonic::codegen::Service<
@@ -3686,7 +3097,7 @@ pub mod batch_controller_client {
                 http::Request<tonic::body::BoxBody>,
             >>::Error: Into<StdError> + Send + Sync,
         {
-            BatchControllerClient::new(InterceptedService::new(inner, interceptor))
+            JobControllerClient::new(InterceptedService::new(inner, interceptor))
         }
         /// Compress requests with `gzip`.
         ///
@@ -3703,10 +3114,30 @@ pub mod batch_controller_client {
             self.inner = self.inner.accept_gzip();
             self
         }
-        /// Creates a batch workload that executes asynchronously.
-        pub async fn create_batch(
+        /// Submits a job to a cluster.
+        pub async fn submit_job(
             &mut self,
-            request: impl tonic::IntoRequest<super::CreateBatchRequest>,
+            request: impl tonic::IntoRequest<super::SubmitJobRequest>,
+        ) -> Result<tonic::Response<super::Job>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataproc.v1.JobController/SubmitJob",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Submits job to a cluster.
+        pub async fn submit_job_as_operation(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SubmitJobRequest>,
         ) -> Result<
                 tonic::Response<super::super::super::super::longrunning::Operation>,
                 tonic::Status,
@@ -3722,15 +3153,15 @@ pub mod batch_controller_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.BatchController/CreateBatch",
+                "/google.cloud.dataproc.v1.JobController/SubmitJobAsOperation",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        /// Gets the batch workload resource representation.
-        pub async fn get_batch(
+        /// Gets the resource representation for a job in a project.
+        pub async fn get_job(
             &mut self,
-            request: impl tonic::IntoRequest<super::GetBatchRequest>,
-        ) -> Result<tonic::Response<super::Batch>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::GetJobRequest>,
+        ) -> Result<tonic::Response<super::Job>, tonic::Status> {
             self.inner
                 .ready()
                 .await
@@ -3742,15 +3173,15 @@ pub mod batch_controller_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.BatchController/GetBatch",
+                "/google.cloud.dataproc.v1.JobController/GetJob",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        /// Lists batch workloads.
-        pub async fn list_batches(
+        /// Lists regions/{region}/jobs in a project.
+        pub async fn list_jobs(
             &mut self,
-            request: impl tonic::IntoRequest<super::ListBatchesRequest>,
-        ) -> Result<tonic::Response<super::ListBatchesResponse>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::ListJobsRequest>,
+        ) -> Result<tonic::Response<super::ListJobsResponse>, tonic::Status> {
             self.inner
                 .ready()
                 .await
@@ -3762,15 +3193,59 @@ pub mod batch_controller_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.BatchController/ListBatches",
+                "/google.cloud.dataproc.v1.JobController/ListJobs",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        /// Deletes the batch workload resource. If the batch is not in terminal state,
-        /// the delete fails and the response returns `FAILED_PRECONDITION`.
-        pub async fn delete_batch(
+        /// Updates a job in a project.
+        pub async fn update_job(
             &mut self,
-            request: impl tonic::IntoRequest<super::DeleteBatchRequest>,
+            request: impl tonic::IntoRequest<super::UpdateJobRequest>,
+        ) -> Result<tonic::Response<super::Job>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataproc.v1.JobController/UpdateJob",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Starts a job cancellation request. To access the job resource
+        /// after cancellation, call
+        /// [regions/{region}/jobs.list](https://cloud.google.com/dataproc/docs/reference/rest/v1/projects.regions.jobs/list)
+        /// or
+        /// [regions/{region}/jobs.get](https://cloud.google.com/dataproc/docs/reference/rest/v1/projects.regions.jobs/get).
+        pub async fn cancel_job(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CancelJobRequest>,
+        ) -> Result<tonic::Response<super::Job>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataproc.v1.JobController/CancelJob",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes the job from the project. If the job is active, the delete fails,
+        /// and the response returns `FAILED_PRECONDITION`.
+        pub async fn delete_job(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteJobRequest>,
         ) -> Result<tonic::Response<()>, tonic::Status> {
             self.inner
                 .ready()
@@ -3783,7 +3258,7 @@ pub mod batch_controller_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataproc.v1.BatchController/DeleteBatch",
+                "/google.cloud.dataproc.v1.JobController/DeleteJob",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -4676,4 +4151,529 @@ pub mod workflow_template_service_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
+}
+/// Describes an autoscaling policy for Dataproc cluster autoscaler.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoscalingPolicy {
+    /// Required. The policy id.
+    ///
+    /// The id must contain only letters (a-z, A-Z), numbers (0-9),
+    /// underscores (_), and hyphens (-). Cannot begin or end with underscore
+    /// or hyphen. Must consist of between 3 and 50 characters.
+    ///
+    #[prost(string, tag="1")]
+    pub id: ::prost::alloc::string::String,
+    /// Output only. The "resource name" of the autoscaling policy, as described
+    /// in <https://cloud.google.com/apis/design/resource_names.>
+    ///
+    /// * For `projects.regions.autoscalingPolicies`, the resource name of the
+    ///   policy has the following format:
+    ///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`
+    ///
+    /// * For `projects.locations.autoscalingPolicies`, the resource name of the
+    ///   policy has the following format:
+    ///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`
+    #[prost(string, tag="2")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. Describes how the autoscaler will operate for primary workers.
+    #[prost(message, optional, tag="4")]
+    pub worker_config: ::core::option::Option<InstanceGroupAutoscalingPolicyConfig>,
+    /// Optional. Describes how the autoscaler will operate for secondary workers.
+    #[prost(message, optional, tag="5")]
+    pub secondary_worker_config: ::core::option::Option<InstanceGroupAutoscalingPolicyConfig>,
+    /// Optional. The labels to associate with this autoscaling policy.
+    /// Label **keys** must contain 1 to 63 characters, and must conform to
+    /// [RFC 1035](<https://www.ietf.org/rfc/rfc1035.txt>).
+    /// Label **values** may be empty, but, if present, must contain 1 to 63
+    /// characters, and must conform to [RFC
+    /// 1035](<https://www.ietf.org/rfc/rfc1035.txt>). No more than 32 labels can be
+    /// associated with an autoscaling policy.
+    #[prost(btree_map="string, string", tag="6")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Autoscaling algorithm for policy.
+    #[prost(oneof="autoscaling_policy::Algorithm", tags="3")]
+    pub algorithm: ::core::option::Option<autoscaling_policy::Algorithm>,
+}
+/// Nested message and enum types in `AutoscalingPolicy`.
+pub mod autoscaling_policy {
+    /// Autoscaling algorithm for policy.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Algorithm {
+        #[prost(message, tag="3")]
+        BasicAlgorithm(super::BasicAutoscalingAlgorithm),
+    }
+}
+/// Basic algorithm for autoscaling.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BasicAutoscalingAlgorithm {
+    /// Optional. Duration between scaling events. A scaling period starts after
+    /// the update operation from the previous event has completed.
+    ///
+    /// Bounds: [2m, 1d]. Default: 2m.
+    #[prost(message, optional, tag="2")]
+    pub cooldown_period: ::core::option::Option<::prost_types::Duration>,
+    #[prost(oneof="basic_autoscaling_algorithm::Config", tags="1")]
+    pub config: ::core::option::Option<basic_autoscaling_algorithm::Config>,
+}
+/// Nested message and enum types in `BasicAutoscalingAlgorithm`.
+pub mod basic_autoscaling_algorithm {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Config {
+        /// Required. YARN autoscaling configuration.
+        #[prost(message, tag="1")]
+        YarnConfig(super::BasicYarnAutoscalingConfig),
+    }
+}
+/// Basic autoscaling configurations for YARN.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BasicYarnAutoscalingConfig {
+    /// Required. Timeout for YARN graceful decommissioning of Node Managers.
+    /// Specifies the duration to wait for jobs to complete before forcefully
+    /// removing workers (and potentially interrupting jobs). Only applicable to
+    /// downscaling operations.
+    ///
+    /// Bounds: [0s, 1d].
+    #[prost(message, optional, tag="5")]
+    pub graceful_decommission_timeout: ::core::option::Option<::prost_types::Duration>,
+    /// Required. Fraction of average YARN pending memory in the last cooldown period
+    /// for which to add workers. A scale-up factor of 1.0 will result in scaling
+    /// up so that there is no pending memory remaining after the update (more
+    /// aggressive scaling). A scale-up factor closer to 0 will result in a smaller
+    /// magnitude of scaling up (less aggressive scaling).
+    /// See [How autoscaling
+    /// works](<https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works>)
+    /// for more information.
+    ///
+    /// Bounds: [0.0, 1.0].
+    #[prost(double, tag="1")]
+    pub scale_up_factor: f64,
+    /// Required. Fraction of average YARN pending memory in the last cooldown period
+    /// for which to remove workers. A scale-down factor of 1 will result in
+    /// scaling down so that there is no available memory remaining after the
+    /// update (more aggressive scaling). A scale-down factor of 0 disables
+    /// removing workers, which can be beneficial for autoscaling a single job.
+    /// See [How autoscaling
+    /// works](<https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works>)
+    /// for more information.
+    ///
+    /// Bounds: [0.0, 1.0].
+    #[prost(double, tag="2")]
+    pub scale_down_factor: f64,
+    /// Optional. Minimum scale-up threshold as a fraction of total cluster size
+    /// before scaling occurs. For example, in a 20-worker cluster, a threshold of
+    /// 0.1 means the autoscaler must recommend at least a 2-worker scale-up for
+    /// the cluster to scale. A threshold of 0 means the autoscaler will scale up
+    /// on any recommended change.
+    ///
+    /// Bounds: [0.0, 1.0]. Default: 0.0.
+    #[prost(double, tag="3")]
+    pub scale_up_min_worker_fraction: f64,
+    /// Optional. Minimum scale-down threshold as a fraction of total cluster size
+    /// before scaling occurs. For example, in a 20-worker cluster, a threshold of
+    /// 0.1 means the autoscaler must recommend at least a 2 worker scale-down for
+    /// the cluster to scale. A threshold of 0 means the autoscaler will scale down
+    /// on any recommended change.
+    ///
+    /// Bounds: [0.0, 1.0]. Default: 0.0.
+    #[prost(double, tag="4")]
+    pub scale_down_min_worker_fraction: f64,
+}
+/// Configuration for the size bounds of an instance group, including its
+/// proportional size to other groups.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InstanceGroupAutoscalingPolicyConfig {
+    /// Optional. Minimum number of instances for this group.
+    ///
+    /// Primary workers - Bounds: [2, max_instances]. Default: 2.
+    /// Secondary workers - Bounds: [0, max_instances]. Default: 0.
+    #[prost(int32, tag="1")]
+    pub min_instances: i32,
+    /// Required. Maximum number of instances for this group. Required for primary
+    /// workers. Note that by default, clusters will not use secondary workers.
+    /// Required for secondary workers if the minimum secondary instances is set.
+    ///
+    /// Primary workers - Bounds: [min_instances, ).
+    /// Secondary workers - Bounds: [min_instances, ). Default: 0.
+    #[prost(int32, tag="2")]
+    pub max_instances: i32,
+    /// Optional. Weight for the instance group, which is used to determine the
+    /// fraction of total workers in the cluster from this instance group.
+    /// For example, if primary workers have weight 2, and secondary workers have
+    /// weight 1, the cluster will have approximately 2 primary workers for each
+    /// secondary worker.
+    ///
+    /// The cluster may not reach the specified balance if constrained
+    /// by min/max bounds or other autoscaling settings. For example, if
+    /// `max_instances` for secondary workers is 0, then only primary workers will
+    /// be added. The cluster can also be out of balance when created.
+    ///
+    /// If weight is not set on any instance group, the cluster will default to
+    /// equal weight for all groups: the cluster will attempt to maintain an equal
+    /// number of workers in each group within the configured size bounds for each
+    /// group. If weight is set for one group only, the cluster will default to
+    /// zero weight on the unset group. For example if weight is set only on
+    /// primary workers, the cluster will use primary workers only and no
+    /// secondary workers.
+    #[prost(int32, tag="3")]
+    pub weight: i32,
+}
+/// A request to create an autoscaling policy.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateAutoscalingPolicyRequest {
+    /// Required. The "resource name" of the region or location, as described
+    /// in <https://cloud.google.com/apis/design/resource_names.>
+    ///
+    /// * For `projects.regions.autoscalingPolicies.create`, the resource name
+    ///   of the region has the following format:
+    ///   `projects/{project_id}/regions/{region}`
+    ///
+    /// * For `projects.locations.autoscalingPolicies.create`, the resource name
+    ///   of the location has the following format:
+    ///   `projects/{project_id}/locations/{location}`
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The autoscaling policy to create.
+    #[prost(message, optional, tag="2")]
+    pub policy: ::core::option::Option<AutoscalingPolicy>,
+}
+/// A request to fetch an autoscaling policy.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetAutoscalingPolicyRequest {
+    /// Required. The "resource name" of the autoscaling policy, as described
+    /// in <https://cloud.google.com/apis/design/resource_names.>
+    ///
+    /// * For `projects.regions.autoscalingPolicies.get`, the resource name
+    ///   of the policy has the following format:
+    ///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`
+    ///
+    /// * For `projects.locations.autoscalingPolicies.get`, the resource name
+    ///   of the policy has the following format:
+    ///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// A request to update an autoscaling policy.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateAutoscalingPolicyRequest {
+    /// Required. The updated autoscaling policy.
+    #[prost(message, optional, tag="1")]
+    pub policy: ::core::option::Option<AutoscalingPolicy>,
+}
+/// A request to delete an autoscaling policy.
+///
+/// Autoscaling policies in use by one or more clusters will not be deleted.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteAutoscalingPolicyRequest {
+    /// Required. The "resource name" of the autoscaling policy, as described
+    /// in <https://cloud.google.com/apis/design/resource_names.>
+    ///
+    /// * For `projects.regions.autoscalingPolicies.delete`, the resource name
+    ///   of the policy has the following format:
+    ///   `projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id}`
+    ///
+    /// * For `projects.locations.autoscalingPolicies.delete`, the resource name
+    ///   of the policy has the following format:
+    ///   `projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// A request to list autoscaling policies in a project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListAutoscalingPoliciesRequest {
+    /// Required. The "resource name" of the region or location, as described
+    /// in <https://cloud.google.com/apis/design/resource_names.>
+    ///
+    /// * For `projects.regions.autoscalingPolicies.list`, the resource name
+    ///   of the region has the following format:
+    ///   `projects/{project_id}/regions/{region}`
+    ///
+    /// * For `projects.locations.autoscalingPolicies.list`, the resource name
+    ///   of the location has the following format:
+    ///   `projects/{project_id}/locations/{location}`
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The maximum number of results to return in each response.
+    /// Must be less than or equal to 1000. Defaults to 100.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// Optional. The page token, returned by a previous call, to request the
+    /// next page of results.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// A response to a request to list autoscaling policies in a project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListAutoscalingPoliciesResponse {
+    /// Output only. Autoscaling policies list.
+    #[prost(message, repeated, tag="1")]
+    pub policies: ::prost::alloc::vec::Vec<AutoscalingPolicy>,
+    /// Output only. This token is included in the response if there are more
+    /// results to fetch.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Generated client implementations.
+pub mod autoscaling_policy_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// The API interface for managing autoscaling policies in the
+    /// Dataproc API.
+    #[derive(Debug, Clone)]
+    pub struct AutoscalingPolicyServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> AutoscalingPolicyServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Default + Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> AutoscalingPolicyServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            AutoscalingPolicyServiceClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Creates new autoscaling policy.
+        pub async fn create_autoscaling_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateAutoscalingPolicyRequest>,
+        ) -> Result<tonic::Response<super::AutoscalingPolicy>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataproc.v1.AutoscalingPolicyService/CreateAutoscalingPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Updates (replaces) autoscaling policy.
+        ///
+        /// Disabled check for update_mask, because all updates will be full
+        /// replacements.
+        pub async fn update_autoscaling_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateAutoscalingPolicyRequest>,
+        ) -> Result<tonic::Response<super::AutoscalingPolicy>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataproc.v1.AutoscalingPolicyService/UpdateAutoscalingPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Retrieves autoscaling policy.
+        pub async fn get_autoscaling_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetAutoscalingPolicyRequest>,
+        ) -> Result<tonic::Response<super::AutoscalingPolicy>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataproc.v1.AutoscalingPolicyService/GetAutoscalingPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists autoscaling policies in the project.
+        pub async fn list_autoscaling_policies(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListAutoscalingPoliciesRequest>,
+        ) -> Result<
+                tonic::Response<super::ListAutoscalingPoliciesResponse>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataproc.v1.AutoscalingPolicyService/ListAutoscalingPolicies",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes an autoscaling policy. It is an error to delete an autoscaling
+        /// policy that is in use by one or more clusters.
+        pub async fn delete_autoscaling_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteAutoscalingPolicyRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataproc.v1.AutoscalingPolicyService/DeleteAutoscalingPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Metadata describing the Batch operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchOperationMetadata {
+    /// Name of the batch for the operation.
+    #[prost(string, tag="1")]
+    pub batch: ::prost::alloc::string::String,
+    /// Batch UUID for the operation.
+    #[prost(string, tag="2")]
+    pub batch_uuid: ::prost::alloc::string::String,
+    /// The time when the operation was created.
+    #[prost(message, optional, tag="3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time when the operation finished.
+    #[prost(message, optional, tag="4")]
+    pub done_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The operation type.
+    #[prost(enumeration="batch_operation_metadata::BatchOperationType", tag="6")]
+    pub operation_type: i32,
+    /// Short description of the operation.
+    #[prost(string, tag="7")]
+    pub description: ::prost::alloc::string::String,
+    /// Labels associated with the operation.
+    #[prost(btree_map="string, string", tag="8")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Warnings encountered during operation execution.
+    #[prost(string, repeated, tag="9")]
+    pub warnings: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `BatchOperationMetadata`.
+pub mod batch_operation_metadata {
+    /// Operation type for Batch resources
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum BatchOperationType {
+        /// Batch operation type is unknown.
+        Unspecified = 0,
+        /// Batch operation type.
+        Batch = 1,
+    }
+}
+/// The status of the operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ClusterOperationStatus {
+    /// Output only. A message containing the operation state.
+    #[prost(enumeration="cluster_operation_status::State", tag="1")]
+    pub state: i32,
+    /// Output only. A message containing the detailed operation state.
+    #[prost(string, tag="2")]
+    pub inner_state: ::prost::alloc::string::String,
+    /// Output only. A message containing any operation metadata details.
+    #[prost(string, tag="3")]
+    pub details: ::prost::alloc::string::String,
+    /// Output only. The time this state was entered.
+    #[prost(message, optional, tag="4")]
+    pub state_start_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `ClusterOperationStatus`.
+pub mod cluster_operation_status {
+    /// The operation state.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Unused.
+        Unknown = 0,
+        /// The operation has been created.
+        Pending = 1,
+        /// The operation is running.
+        Running = 2,
+        /// The operation is done; either cancelled or completed.
+        Done = 3,
+    }
+}
+/// Metadata describing the operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ClusterOperationMetadata {
+    /// Output only. Name of the cluster for the operation.
+    #[prost(string, tag="7")]
+    pub cluster_name: ::prost::alloc::string::String,
+    /// Output only. Cluster UUID for the operation.
+    #[prost(string, tag="8")]
+    pub cluster_uuid: ::prost::alloc::string::String,
+    /// Output only. Current operation status.
+    #[prost(message, optional, tag="9")]
+    pub status: ::core::option::Option<ClusterOperationStatus>,
+    /// Output only. The previous operation status.
+    #[prost(message, repeated, tag="10")]
+    pub status_history: ::prost::alloc::vec::Vec<ClusterOperationStatus>,
+    /// Output only. The operation type.
+    #[prost(string, tag="11")]
+    pub operation_type: ::prost::alloc::string::String,
+    /// Output only. Short description of operation.
+    #[prost(string, tag="12")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. Labels associated with the operation
+    #[prost(btree_map="string, string", tag="13")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Output only. Errors encountered during operation execution.
+    #[prost(string, repeated, tag="14")]
+    pub warnings: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }

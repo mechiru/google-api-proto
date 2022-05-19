@@ -1,3 +1,60 @@
+/// A representation of the Provider resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Provider {
+    /// Output only. In `projects/{project}/locations/{location}/providers/{provider_id}`
+    /// format.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Human friendly name for the Provider. For example "Cloud Storage".
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Output only. Event types for this provider.
+    #[prost(message, repeated, tag="3")]
+    pub event_types: ::prost::alloc::vec::Vec<EventType>,
+}
+/// A representation of the event type resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventType {
+    /// Output only. The full name of the event type (for example,
+    /// "google.cloud.storage.object.v1.finalized"). In the form of
+    /// {provider-specific-prefix}.{resource}.{version}.{verb}. Types MUST be
+    /// versioned and event schemas are guaranteed to remain backward compatible
+    /// within one version. Note that event type versions and API versions do not
+    /// need to match.
+    #[prost(string, tag="1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// Output only. Human friendly description of what the event type is about.
+    /// For example "Bucket created in Cloud Storage".
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. Filtering attributes for the event type.
+    #[prost(message, repeated, tag="3")]
+    pub filtering_attributes: ::prost::alloc::vec::Vec<FilteringAttribute>,
+    /// Output only. URI for the event schema.
+    /// For example
+    /// "<https://github.com/googleapis/google-cloudevents/blob/master/proto/google/events/cloud/storage/v1/events.proto">
+    #[prost(string, tag="4")]
+    pub event_schema_uri: ::prost::alloc::string::String,
+}
+/// A representation of the FilteringAttribute resource.
+/// Filtering attributes are per event type.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FilteringAttribute {
+    /// Output only. Attribute used for filtering the event type.
+    #[prost(string, tag="1")]
+    pub attribute: ::prost::alloc::string::String,
+    /// Output only. Description of the purpose of the attribute.
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. If true, the triggers for this provider should always specify a filter
+    /// on these attributes. Trigger creation will fail otherwise.
+    #[prost(bool, tag="3")]
+    pub required: bool,
+    /// Output only. If true, the attribute accepts matching expressions in the Eventarc
+    /// PathPattern format.
+    #[prost(bool, tag="4")]
+    pub path_pattern_supported: bool,
+}
 /// A representation of the trigger resource.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Trigger {
@@ -182,6 +239,37 @@ pub struct Pubsub {
     #[prost(string, tag="2")]
     pub subscription: ::prost::alloc::string::String,
 }
+/// A representation of the ChannelConnection resource.
+/// A ChannelConnection is a resource which event providers create during the
+/// activation process to establish a connection between the provider and the
+/// subscriber channel.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ChannelConnection {
+    /// Required. The name of the connection.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Server assigned ID of the resource.
+    /// The server guarantees uniqueness and immutability until deleted.
+    #[prost(string, tag="2")]
+    pub uid: ::prost::alloc::string::String,
+    /// Required. The name of the connected subscriber Channel.
+    /// This is a weak reference to avoid cross project and cross accounts
+    /// references. This must be in
+    /// `projects/{project}/location/{location}/channels/{channel_id}` format.
+    #[prost(string, tag="5")]
+    pub channel: ::prost::alloc::string::String,
+    /// Output only. The creation time.
+    #[prost(message, optional, tag="6")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The last-modified time.
+    #[prost(message, optional, tag="7")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Input only. Activation token for the channel. The token will be used
+    /// during the creation of ChannelConnection to bind the channel with the
+    /// provider project. This field will not be stored in the provider resource.
+    #[prost(string, tag="8")]
+    pub activation_token: ::prost::alloc::string::String,
+}
 /// A representation of the Channel resource.
 /// A Channel is a resource on which event providers publish their events.
 /// The published events are delivered through the transport associated with the
@@ -253,37 +341,6 @@ pub mod channel {
         #[prost(string, tag="8")]
         PubsubTopic(::prost::alloc::string::String),
     }
-}
-/// A representation of the ChannelConnection resource.
-/// A ChannelConnection is a resource which event providers create during the
-/// activation process to establish a connection between the provider and the
-/// subscriber channel.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ChannelConnection {
-    /// Required. The name of the connection.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Server assigned ID of the resource.
-    /// The server guarantees uniqueness and immutability until deleted.
-    #[prost(string, tag="2")]
-    pub uid: ::prost::alloc::string::String,
-    /// Required. The name of the connected subscriber Channel.
-    /// This is a weak reference to avoid cross project and cross accounts
-    /// references. This must be in
-    /// `projects/{project}/location/{location}/channels/{channel_id}` format.
-    #[prost(string, tag="5")]
-    pub channel: ::prost::alloc::string::String,
-    /// Output only. The creation time.
-    #[prost(message, optional, tag="6")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The last-modified time.
-    #[prost(message, optional, tag="7")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Input only. Activation token for the channel. The token will be used
-    /// during the creation of ChannelConnection to bind the channel with the
-    /// provider project. This field will not be stored in the provider resource.
-    #[prost(string, tag="8")]
-    pub activation_token: ::prost::alloc::string::String,
 }
 /// The request message for the GetTrigger method.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -474,6 +531,53 @@ pub struct DeleteChannelRequest {
     /// post it.
     #[prost(bool, tag="2")]
     pub validate_only: bool,
+}
+/// The request message for the GetProvider method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetProviderRequest {
+    /// Required. The name of the provider to get.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request message for the ListProviders method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListProvidersRequest {
+    /// Required. The parent of the provider to get.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of providers to return on each page.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// The page token; provide the value from the `next_page_token` field in a
+    /// previous `ListProviders` call to retrieve the subsequent page.
+    ///
+    /// When paginating, all other parameters provided to `ListProviders` must
+    /// match the call that provided the page token.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// The sorting order of the resources returned. Value should be a
+    /// comma-separated list of fields. The default sorting oder is ascending. To
+    /// specify descending order for a field, append a `desc` suffix; for example:
+    /// `name desc, _id`.
+    #[prost(string, tag="4")]
+    pub order_by: ::prost::alloc::string::String,
+    /// The filter field that the list request will filter on.
+    #[prost(string, tag="5")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// The response message for the `ListProviders` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListProvidersResponse {
+    /// The requested providers, up to the number specified in `page_size`.
+    #[prost(message, repeated, tag="1")]
+    pub providers: ::prost::alloc::vec::Vec<Provider>,
+    /// A page token that can be sent to ListProviders to request the next page.
+    /// If this is empty, then there are no more pages.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+    /// Unreachable resources, if any.
+    #[prost(string, repeated, tag="3")]
+    pub unreachable: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// The request message for the GetChannelConnection method.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -833,6 +937,46 @@ pub mod eventarc_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.eventarc.v1.Eventarc/DeleteChannel",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Get a single Provider.
+        pub async fn get_provider(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetProviderRequest>,
+        ) -> Result<tonic::Response<super::Provider>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.eventarc.v1.Eventarc/GetProvider",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// List providers.
+        pub async fn list_providers(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListProvidersRequest>,
+        ) -> Result<tonic::Response<super::ListProvidersResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.eventarc.v1.Eventarc/ListProviders",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

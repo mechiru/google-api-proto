@@ -534,184 +534,6 @@ pub struct ProductDetail {
     #[prost(message, optional, tag="8")]
     pub item_attributes: ::core::option::Option<FeatureMap>,
 }
-/// Google Cloud Storage location for input content.
-/// format.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GcsSource {
-    /// Required. Google Cloud Storage URIs to input files. URI can be up to
-    /// 2000 characters long. URIs can match the full object path (for example,
-    /// `gs://bucket/directory/object.json`) or a pattern matching one or more
-    /// files, such as `gs://bucket/directory/*.json`. A request can
-    /// contain at most 100 files, and each file can be up to 2 GB. See
-    /// [Importing catalog information](/recommendations-ai/docs/upload-catalog)
-    /// for the expected file format and setup instructions.
-    #[prost(string, repeated, tag="1")]
-    pub input_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// The inline source for the input config for ImportCatalogItems method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CatalogInlineSource {
-    /// Optional. A list of catalog items to update/create. Recommended max of 10k
-    /// items.
-    #[prost(message, repeated, tag="1")]
-    pub catalog_items: ::prost::alloc::vec::Vec<CatalogItem>,
-}
-/// The inline source for the input config for ImportUserEvents method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UserEventInlineSource {
-    /// Optional. A list of user events to import. Recommended max of 10k items.
-    #[prost(message, repeated, tag="1")]
-    pub user_events: ::prost::alloc::vec::Vec<UserEvent>,
-}
-/// Configuration of destination for Import related errors.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportErrorsConfig {
-    /// Required. Errors destination.
-    #[prost(oneof="import_errors_config::Destination", tags="1")]
-    pub destination: ::core::option::Option<import_errors_config::Destination>,
-}
-/// Nested message and enum types in `ImportErrorsConfig`.
-pub mod import_errors_config {
-    /// Required. Errors destination.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Destination {
-        /// Google Cloud Storage path for import errors. This must be an empty,
-        /// existing Cloud Storage bucket. Import errors will be written to a file in
-        /// this bucket, one per line, as a JSON-encoded
-        /// `google.rpc.Status` message.
-        #[prost(string, tag="1")]
-        GcsPrefix(::prost::alloc::string::String),
-    }
-}
-/// Request message for Import methods.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportCatalogItemsRequest {
-    /// Required. `projects/1234/locations/global/catalogs/default_catalog`
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. Unique identifier provided by client, within the ancestor
-    /// dataset scope. Ensures idempotency and used for request deduplication.
-    /// Server-generated if unspecified. Up to 128 characters long. This is
-    /// returned as google.longrunning.Operation.name in the response.
-    #[prost(string, tag="2")]
-    pub request_id: ::prost::alloc::string::String,
-    /// Required. The desired input location of the data.
-    #[prost(message, optional, tag="3")]
-    pub input_config: ::core::option::Option<InputConfig>,
-    /// Optional. The desired location of errors incurred during the Import.
-    #[prost(message, optional, tag="4")]
-    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
-}
-/// Request message for the ImportUserEvents request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportUserEventsRequest {
-    /// Required.
-    /// `projects/1234/locations/global/catalogs/default_catalog/eventStores/default_event_store`
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. Unique identifier provided by client, within the ancestor
-    /// dataset scope. Ensures idempotency for expensive long running operations.
-    /// Server-generated if unspecified. Up to 128 characters long. This is
-    /// returned as google.longrunning.Operation.name in the response. Note that
-    /// this field must not be set if the desired input config is
-    /// catalog_inline_source.
-    #[prost(string, tag="2")]
-    pub request_id: ::prost::alloc::string::String,
-    /// Required. The desired input location of the data.
-    #[prost(message, optional, tag="3")]
-    pub input_config: ::core::option::Option<InputConfig>,
-    /// Optional. The desired location of errors incurred during the Import.
-    #[prost(message, optional, tag="4")]
-    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
-}
-/// The input config source.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InputConfig {
-    /// Required. The source of the input.
-    #[prost(oneof="input_config::Source", tags="1, 2, 3")]
-    pub source: ::core::option::Option<input_config::Source>,
-}
-/// Nested message and enum types in `InputConfig`.
-pub mod input_config {
-    /// Required. The source of the input.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Source {
-        /// The Inline source for the input content for Catalog items.
-        #[prost(message, tag="1")]
-        CatalogInlineSource(super::CatalogInlineSource),
-        /// Google Cloud Storage location for the input content.
-        #[prost(message, tag="2")]
-        GcsSource(super::GcsSource),
-        /// The Inline source for the input content for UserEvents.
-        #[prost(message, tag="3")]
-        UserEventInlineSource(super::UserEventInlineSource),
-    }
-}
-/// Metadata related to the progress of the Import operation. This will be
-/// returned by the google.longrunning.Operation.metadata field.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportMetadata {
-    /// Name of the operation.
-    #[prost(string, tag="5")]
-    pub operation_name: ::prost::alloc::string::String,
-    /// Id of the request / operation. This is parroting back the requestId that
-    /// was passed in the request.
-    #[prost(string, tag="3")]
-    pub request_id: ::prost::alloc::string::String,
-    /// Operation create time.
-    #[prost(message, optional, tag="4")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Count of entries that were processed successfully.
-    #[prost(int64, tag="1")]
-    pub success_count: i64,
-    /// Count of entries that encountered errors while processing.
-    #[prost(int64, tag="2")]
-    pub failure_count: i64,
-    /// Operation last update time. If the operation is done, this is also the
-    /// finish time.
-    #[prost(message, optional, tag="6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Response of the ImportCatalogItemsRequest. If the long running
-/// operation is done, then this message is returned by the
-/// google.longrunning.Operations.response field if the operation was successful.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportCatalogItemsResponse {
-    /// A sample of errors encountered while processing the request.
-    #[prost(message, repeated, tag="1")]
-    pub error_samples: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Echoes the destination for the complete errors in the request if set.
-    #[prost(message, optional, tag="2")]
-    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
-}
-/// Response of the ImportUserEventsRequest. If the long running
-/// operation was successful, then this message is returned by the
-/// google.longrunning.Operations.response field if the operation was successful.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportUserEventsResponse {
-    /// A sample of errors encountered while processing the request.
-    #[prost(message, repeated, tag="1")]
-    pub error_samples: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Echoes the destination for the complete errors if this field was set in
-    /// the request.
-    #[prost(message, optional, tag="2")]
-    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
-    /// Aggregated statistics of user event import status.
-    #[prost(message, optional, tag="3")]
-    pub import_summary: ::core::option::Option<UserEventImportSummary>,
-}
-/// A summary of import result. The UserEventImportSummary summarizes
-/// the import status for user events.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UserEventImportSummary {
-    /// Count of user events imported with complete existing catalog information.
-    #[prost(int64, tag="1")]
-    pub joined_events_count: i64,
-    /// Count of user events imported, but with catalog information not found
-    /// in the imported catalog.
-    #[prost(int64, tag="2")]
-    pub unjoined_events_count: i64,
-}
 /// Request message for Predict method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PredictRequest {
@@ -1121,6 +943,184 @@ pub mod prediction_api_key_registry_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
+}
+/// Google Cloud Storage location for input content.
+/// format.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GcsSource {
+    /// Required. Google Cloud Storage URIs to input files. URI can be up to
+    /// 2000 characters long. URIs can match the full object path (for example,
+    /// `gs://bucket/directory/object.json`) or a pattern matching one or more
+    /// files, such as `gs://bucket/directory/*.json`. A request can
+    /// contain at most 100 files, and each file can be up to 2 GB. See
+    /// [Importing catalog information](/recommendations-ai/docs/upload-catalog)
+    /// for the expected file format and setup instructions.
+    #[prost(string, repeated, tag="1")]
+    pub input_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// The inline source for the input config for ImportCatalogItems method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CatalogInlineSource {
+    /// Optional. A list of catalog items to update/create. Recommended max of 10k
+    /// items.
+    #[prost(message, repeated, tag="1")]
+    pub catalog_items: ::prost::alloc::vec::Vec<CatalogItem>,
+}
+/// The inline source for the input config for ImportUserEvents method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UserEventInlineSource {
+    /// Optional. A list of user events to import. Recommended max of 10k items.
+    #[prost(message, repeated, tag="1")]
+    pub user_events: ::prost::alloc::vec::Vec<UserEvent>,
+}
+/// Configuration of destination for Import related errors.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportErrorsConfig {
+    /// Required. Errors destination.
+    #[prost(oneof="import_errors_config::Destination", tags="1")]
+    pub destination: ::core::option::Option<import_errors_config::Destination>,
+}
+/// Nested message and enum types in `ImportErrorsConfig`.
+pub mod import_errors_config {
+    /// Required. Errors destination.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Destination {
+        /// Google Cloud Storage path for import errors. This must be an empty,
+        /// existing Cloud Storage bucket. Import errors will be written to a file in
+        /// this bucket, one per line, as a JSON-encoded
+        /// `google.rpc.Status` message.
+        #[prost(string, tag="1")]
+        GcsPrefix(::prost::alloc::string::String),
+    }
+}
+/// Request message for Import methods.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportCatalogItemsRequest {
+    /// Required. `projects/1234/locations/global/catalogs/default_catalog`
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. Unique identifier provided by client, within the ancestor
+    /// dataset scope. Ensures idempotency and used for request deduplication.
+    /// Server-generated if unspecified. Up to 128 characters long. This is
+    /// returned as google.longrunning.Operation.name in the response.
+    #[prost(string, tag="2")]
+    pub request_id: ::prost::alloc::string::String,
+    /// Required. The desired input location of the data.
+    #[prost(message, optional, tag="3")]
+    pub input_config: ::core::option::Option<InputConfig>,
+    /// Optional. The desired location of errors incurred during the Import.
+    #[prost(message, optional, tag="4")]
+    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
+}
+/// Request message for the ImportUserEvents request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportUserEventsRequest {
+    /// Required.
+    /// `projects/1234/locations/global/catalogs/default_catalog/eventStores/default_event_store`
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. Unique identifier provided by client, within the ancestor
+    /// dataset scope. Ensures idempotency for expensive long running operations.
+    /// Server-generated if unspecified. Up to 128 characters long. This is
+    /// returned as google.longrunning.Operation.name in the response. Note that
+    /// this field must not be set if the desired input config is
+    /// catalog_inline_source.
+    #[prost(string, tag="2")]
+    pub request_id: ::prost::alloc::string::String,
+    /// Required. The desired input location of the data.
+    #[prost(message, optional, tag="3")]
+    pub input_config: ::core::option::Option<InputConfig>,
+    /// Optional. The desired location of errors incurred during the Import.
+    #[prost(message, optional, tag="4")]
+    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
+}
+/// The input config source.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InputConfig {
+    /// Required. The source of the input.
+    #[prost(oneof="input_config::Source", tags="1, 2, 3")]
+    pub source: ::core::option::Option<input_config::Source>,
+}
+/// Nested message and enum types in `InputConfig`.
+pub mod input_config {
+    /// Required. The source of the input.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Source {
+        /// The Inline source for the input content for Catalog items.
+        #[prost(message, tag="1")]
+        CatalogInlineSource(super::CatalogInlineSource),
+        /// Google Cloud Storage location for the input content.
+        #[prost(message, tag="2")]
+        GcsSource(super::GcsSource),
+        /// The Inline source for the input content for UserEvents.
+        #[prost(message, tag="3")]
+        UserEventInlineSource(super::UserEventInlineSource),
+    }
+}
+/// Metadata related to the progress of the Import operation. This will be
+/// returned by the google.longrunning.Operation.metadata field.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportMetadata {
+    /// Name of the operation.
+    #[prost(string, tag="5")]
+    pub operation_name: ::prost::alloc::string::String,
+    /// Id of the request / operation. This is parroting back the requestId that
+    /// was passed in the request.
+    #[prost(string, tag="3")]
+    pub request_id: ::prost::alloc::string::String,
+    /// Operation create time.
+    #[prost(message, optional, tag="4")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Count of entries that were processed successfully.
+    #[prost(int64, tag="1")]
+    pub success_count: i64,
+    /// Count of entries that encountered errors while processing.
+    #[prost(int64, tag="2")]
+    pub failure_count: i64,
+    /// Operation last update time. If the operation is done, this is also the
+    /// finish time.
+    #[prost(message, optional, tag="6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Response of the ImportCatalogItemsRequest. If the long running
+/// operation is done, then this message is returned by the
+/// google.longrunning.Operations.response field if the operation was successful.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportCatalogItemsResponse {
+    /// A sample of errors encountered while processing the request.
+    #[prost(message, repeated, tag="1")]
+    pub error_samples: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Echoes the destination for the complete errors in the request if set.
+    #[prost(message, optional, tag="2")]
+    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
+}
+/// Response of the ImportUserEventsRequest. If the long running
+/// operation was successful, then this message is returned by the
+/// google.longrunning.Operations.response field if the operation was successful.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportUserEventsResponse {
+    /// A sample of errors encountered while processing the request.
+    #[prost(message, repeated, tag="1")]
+    pub error_samples: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Echoes the destination for the complete errors if this field was set in
+    /// the request.
+    #[prost(message, optional, tag="2")]
+    pub errors_config: ::core::option::Option<ImportErrorsConfig>,
+    /// Aggregated statistics of user event import status.
+    #[prost(message, optional, tag="3")]
+    pub import_summary: ::core::option::Option<UserEventImportSummary>,
+}
+/// A summary of import result. The UserEventImportSummary summarizes
+/// the import status for user events.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UserEventImportSummary {
+    /// Count of user events imported with complete existing catalog information.
+    #[prost(int64, tag="1")]
+    pub joined_events_count: i64,
+    /// Count of user events imported, but with catalog information not found
+    /// in the imported catalog.
+    #[prost(int64, tag="2")]
+    pub unjoined_events_count: i64,
 }
 /// Request message for PurgeUserEvents method.
 #[derive(Clone, PartialEq, ::prost::Message)]

@@ -626,264 +626,6 @@ pub struct ResourceReference {
     #[prost(string, tag="2")]
     pub child_type: ::prost::alloc::string::String,
 }
-/// Message that represents an arbitrary HTTP body. It should only be used for
-/// payload formats that can't be represented as JSON, such as raw binary or
-/// an HTML page.
-///
-///
-/// This message can be used both in streaming and non-streaming API methods in
-/// the request as well as the response.
-///
-/// It can be used as a top-level request field, which is convenient if one
-/// wants to extract parameters from either the URL or HTTP template into the
-/// request fields and also want access to the raw HTTP body.
-///
-/// Example:
-///
-///     message GetResourceRequest {
-///       // A unique request id.
-///       string request_id = 1;
-///
-///       // The raw HTTP body is bound to this field.
-///       google.api.HttpBody http_body = 2;
-///
-///     }
-///
-///     service ResourceService {
-///       rpc GetResource(GetResourceRequest)
-///         returns (google.api.HttpBody);
-///       rpc UpdateResource(google.api.HttpBody)
-///         returns (google.protobuf.Empty);
-///
-///     }
-///
-/// Example with streaming methods:
-///
-///     service CaldavService {
-///       rpc GetCalendar(stream google.api.HttpBody)
-///         returns (stream google.api.HttpBody);
-///       rpc UpdateCalendar(stream google.api.HttpBody)
-///         returns (stream google.api.HttpBody);
-///
-///     }
-///
-/// Use of this type only changes how the request and response bodies are
-/// handled, all other features will continue to work unchanged.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct HttpBody {
-    /// The HTTP Content-Type header value specifying the content type of the body.
-    #[prost(string, tag="1")]
-    pub content_type: ::prost::alloc::string::String,
-    /// The HTTP request/response body as raw binary.
-    #[prost(bytes="bytes", tag="2")]
-    pub data: ::prost::bytes::Bytes,
-    /// Application specific response metadata. Must be set in the first response
-    /// for streaming APIs.
-    #[prost(message, repeated, tag="3")]
-    pub extensions: ::prost::alloc::vec::Vec<::prost_types::Any>,
-}
-/// `Distribution` contains summary statistics for a population of values. It
-/// optionally contains a histogram representing the distribution of those values
-/// across a set of buckets.
-///
-/// The summary statistics are the count, mean, sum of the squared deviation from
-/// the mean, the minimum, and the maximum of the set of population of values.
-/// The histogram is based on a sequence of buckets and gives a count of values
-/// that fall into each bucket. The boundaries of the buckets are given either
-/// explicitly or by formulas for buckets of fixed or exponentially increasing
-/// widths.
-///
-/// Although it is not forbidden, it is generally a bad idea to include
-/// non-finite values (infinities or NaNs) in the population of values, as this
-/// will render the `mean` and `sum_of_squared_deviation` fields meaningless.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Distribution {
-    /// The number of values in the population. Must be non-negative. This value
-    /// must equal the sum of the values in `bucket_counts` if a histogram is
-    /// provided.
-    #[prost(int64, tag="1")]
-    pub count: i64,
-    /// The arithmetic mean of the values in the population. If `count` is zero
-    /// then this field must be zero.
-    #[prost(double, tag="2")]
-    pub mean: f64,
-    /// The sum of squared deviations from the mean of the values in the
-    /// population. For values x_i this is:
-    ///
-    ///     Sum\[i=1..n\]((x_i - mean)^2)
-    ///
-    /// Knuth, "The Art of Computer Programming", Vol. 2, page 232, 3rd edition
-    /// describes Welford's method for accumulating this sum in one pass.
-    ///
-    /// If `count` is zero then this field must be zero.
-    #[prost(double, tag="3")]
-    pub sum_of_squared_deviation: f64,
-    /// If specified, contains the range of the population values. The field
-    /// must not be present if the `count` is zero.
-    #[prost(message, optional, tag="4")]
-    pub range: ::core::option::Option<distribution::Range>,
-    /// Defines the histogram bucket boundaries. If the distribution does not
-    /// contain a histogram, then omit this field.
-    #[prost(message, optional, tag="6")]
-    pub bucket_options: ::core::option::Option<distribution::BucketOptions>,
-    /// The number of values in each bucket of the histogram, as described in
-    /// `bucket_options`. If the distribution does not have a histogram, then omit
-    /// this field. If there is a histogram, then the sum of the values in
-    /// `bucket_counts` must equal the value in the `count` field of the
-    /// distribution.
-    ///
-    /// If present, `bucket_counts` should contain N values, where N is the number
-    /// of buckets specified in `bucket_options`. If you supply fewer than N
-    /// values, the remaining values are assumed to be 0.
-    ///
-    /// The order of the values in `bucket_counts` follows the bucket numbering
-    /// schemes described for the three bucket types. The first value must be the
-    /// count for the underflow bucket (number 0). The next N-2 values are the
-    /// counts for the finite buckets (number 1 through N-2). The N'th value in
-    /// `bucket_counts` is the count for the overflow bucket (number N-1).
-    #[prost(int64, repeated, tag="7")]
-    pub bucket_counts: ::prost::alloc::vec::Vec<i64>,
-    /// Must be in increasing order of `value` field.
-    #[prost(message, repeated, tag="10")]
-    pub exemplars: ::prost::alloc::vec::Vec<distribution::Exemplar>,
-}
-/// Nested message and enum types in `Distribution`.
-pub mod distribution {
-    /// The range of the population values.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Range {
-        /// The minimum of the population values.
-        #[prost(double, tag="1")]
-        pub min: f64,
-        /// The maximum of the population values.
-        #[prost(double, tag="2")]
-        pub max: f64,
-    }
-    /// `BucketOptions` describes the bucket boundaries used to create a histogram
-    /// for the distribution. The buckets can be in a linear sequence, an
-    /// exponential sequence, or each bucket can be specified explicitly.
-    /// `BucketOptions` does not include the number of values in each bucket.
-    ///
-    /// A bucket has an inclusive lower bound and exclusive upper bound for the
-    /// values that are counted for that bucket. The upper bound of a bucket must
-    /// be strictly greater than the lower bound. The sequence of N buckets for a
-    /// distribution consists of an underflow bucket (number 0), zero or more
-    /// finite buckets (number 1 through N - 2) and an overflow bucket (number N -
-    /// 1). The buckets are contiguous: the lower bound of bucket i (i > 0) is the
-    /// same as the upper bound of bucket i - 1. The buckets span the whole range
-    /// of finite values: lower bound of the underflow bucket is -infinity and the
-    /// upper bound of the overflow bucket is +infinity. The finite buckets are
-    /// so-called because both bounds are finite.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct BucketOptions {
-        /// Exactly one of these three fields must be set.
-        #[prost(oneof="bucket_options::Options", tags="1, 2, 3")]
-        pub options: ::core::option::Option<bucket_options::Options>,
-    }
-    /// Nested message and enum types in `BucketOptions`.
-    pub mod bucket_options {
-        /// Specifies a linear sequence of buckets that all have the same width
-        /// (except overflow and underflow). Each bucket represents a constant
-        /// absolute uncertainty on the specific value in the bucket.
-        ///
-        /// There are `num_finite_buckets + 2` (= N) buckets. Bucket `i` has the
-        /// following boundaries:
-        ///
-        ///    Upper bound (0 <= i < N-1):     offset + (width * i).
-        ///    Lower bound (1 <= i < N):       offset + (width * (i - 1)).
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Linear {
-            /// Must be greater than 0.
-            #[prost(int32, tag="1")]
-            pub num_finite_buckets: i32,
-            /// Must be greater than 0.
-            #[prost(double, tag="2")]
-            pub width: f64,
-            /// Lower bound of the first bucket.
-            #[prost(double, tag="3")]
-            pub offset: f64,
-        }
-        /// Specifies an exponential sequence of buckets that have a width that is
-        /// proportional to the value of the lower bound. Each bucket represents a
-        /// constant relative uncertainty on a specific value in the bucket.
-        ///
-        /// There are `num_finite_buckets + 2` (= N) buckets. Bucket `i` has the
-        /// following boundaries:
-        ///
-        ///    Upper bound (0 <= i < N-1):     scale * (growth_factor ^ i).
-        ///    Lower bound (1 <= i < N):       scale * (growth_factor ^ (i - 1)).
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Exponential {
-            /// Must be greater than 0.
-            #[prost(int32, tag="1")]
-            pub num_finite_buckets: i32,
-            /// Must be greater than 1.
-            #[prost(double, tag="2")]
-            pub growth_factor: f64,
-            /// Must be greater than 0.
-            #[prost(double, tag="3")]
-            pub scale: f64,
-        }
-        /// Specifies a set of buckets with arbitrary widths.
-        ///
-        /// There are `size(bounds) + 1` (= N) buckets. Bucket `i` has the following
-        /// boundaries:
-        ///
-        ///    Upper bound (0 <= i < N-1):     bounds\[i\]
-        ///    Lower bound (1 <= i < N);       bounds[i - 1]
-        ///
-        /// The `bounds` field must contain at least one element. If `bounds` has
-        /// only one element, then there are no finite buckets, and that single
-        /// element is the common boundary of the overflow and underflow buckets.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Explicit {
-            /// The values must be monotonically increasing.
-            #[prost(double, repeated, tag="1")]
-            pub bounds: ::prost::alloc::vec::Vec<f64>,
-        }
-        /// Exactly one of these three fields must be set.
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum Options {
-            /// The linear bucket.
-            #[prost(message, tag="1")]
-            LinearBuckets(Linear),
-            /// The exponential buckets.
-            #[prost(message, tag="2")]
-            ExponentialBuckets(Exponential),
-            /// The explicit buckets.
-            #[prost(message, tag="3")]
-            ExplicitBuckets(Explicit),
-        }
-    }
-    /// Exemplars are example points that may be used to annotate aggregated
-    /// distribution values. They are metadata that gives information about a
-    /// particular value added to a Distribution bucket, such as a trace ID that
-    /// was active when a value was added. They may contain further information,
-    /// such as a example values and timestamps, origin, etc.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Exemplar {
-        /// Value of the exemplar point. This value determines to which bucket the
-        /// exemplar belongs.
-        #[prost(double, tag="1")]
-        pub value: f64,
-        /// The observation (sampling) time of the above value.
-        #[prost(message, optional, tag="2")]
-        pub timestamp: ::core::option::Option<::prost_types::Timestamp>,
-        /// Contextual information about the example value. Examples are:
-        ///
-        ///   Trace: type.googleapis.com/google.monitoring.v3.SpanContext
-        ///
-        ///   Literal string: type.googleapis.com/google.protobuf.StringValue
-        ///
-        ///   Labels dropped during aggregation:
-        ///     type.googleapis.com/google.monitoring.v3.DroppedLabels
-        ///
-        /// There may be only a single attachment of any given message type in a
-        /// single exemplar, and this is enforced by the system.
-        #[prost(message, repeated, tag="3")]
-        pub attachments: ::prost::alloc::vec::Vec<::prost_types::Any>,
-    }
-}
 /// A description of a label.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LabelDescriptor {
@@ -953,99 +695,6 @@ pub enum LaunchStage {
     /// and the [Google Cloud Platform Subject to the Deprecation
     /// Policy](<https://cloud.google.com/terms/deprecation>) documentation.
     Deprecated = 5,
-}
-/// An object that describes the schema of a \[MonitoredResource][google.api.MonitoredResource\] object using a
-/// type name and a set of labels.  For example, the monitored resource
-/// descriptor for Google Compute Engine VM instances has a type of
-/// `"gce_instance"` and specifies the use of the labels `"instance_id"` and
-/// `"zone"` to identify particular VM instances.
-///
-/// Different APIs can support different monitored resource types. APIs generally
-/// provide a `list` method that returns the monitored resource descriptors used
-/// by the API.
-///
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MonitoredResourceDescriptor {
-    /// Optional. The resource name of the monitored resource descriptor:
-    /// `"projects/{project_id}/monitoredResourceDescriptors/{type}"` where
-    /// {type} is the value of the `type` field in this object and
-    /// {project_id} is a project ID that provides API-specific context for
-    /// accessing the type.  APIs that do not use project information can use the
-    /// resource name format `"monitoredResourceDescriptors/{type}"`.
-    #[prost(string, tag="5")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The monitored resource type. For example, the type
-    /// `"cloudsql_database"` represents databases in Google Cloud SQL.
-    #[prost(string, tag="1")]
-    pub r#type: ::prost::alloc::string::String,
-    /// Optional. A concise name for the monitored resource type that might be
-    /// displayed in user interfaces. It should be a Title Cased Noun Phrase,
-    /// without any article or other determiners. For example,
-    /// `"Google Cloud SQL Database"`.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Optional. A detailed description of the monitored resource type that might
-    /// be used in documentation.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    /// Required. A set of labels used to describe instances of this monitored
-    /// resource type. For example, an individual Google Cloud SQL database is
-    /// identified by values for the labels `"database_id"` and `"zone"`.
-    #[prost(message, repeated, tag="4")]
-    pub labels: ::prost::alloc::vec::Vec<LabelDescriptor>,
-    /// Optional. The launch stage of the monitored resource definition.
-    #[prost(enumeration="LaunchStage", tag="7")]
-    pub launch_stage: i32,
-}
-/// An object representing a resource that can be used for monitoring, logging,
-/// billing, or other purposes. Examples include virtual machine instances,
-/// databases, and storage devices such as disks. The `type` field identifies a
-/// \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] object that describes the resource's
-/// schema. Information in the `labels` field identifies the actual resource and
-/// its attributes according to the schema. For example, a particular Compute
-/// Engine VM instance could be represented by the following object, because the
-/// \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] for `"gce_instance"` has labels
-/// `"instance_id"` and `"zone"`:
-///
-///     { "type": "gce_instance",
-///       "labels": { "instance_id": "12345678901234",
-///                   "zone": "us-central1-a" }}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MonitoredResource {
-    /// Required. The monitored resource type. This field must match
-    /// the `type` field of a \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] object. For
-    /// example, the type of a Compute Engine VM instance is `gce_instance`.
-    #[prost(string, tag="1")]
-    pub r#type: ::prost::alloc::string::String,
-    /// Required. Values for all of the labels listed in the associated monitored
-    /// resource descriptor. For example, Compute Engine VM instances use the
-    /// labels `"project_id"`, `"instance_id"`, and `"zone"`.
-    #[prost(btree_map="string, string", tag="2")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-}
-/// Auxiliary metadata for a \[MonitoredResource][google.api.MonitoredResource\] object.
-/// \[MonitoredResource][google.api.MonitoredResource\] objects contain the minimum set of information to
-/// uniquely identify a monitored resource instance. There is some other useful
-/// auxiliary metadata. Monitoring and Logging use an ingestion
-/// pipeline to extract metadata for cloud resources of all types, and store
-/// the metadata in this message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MonitoredResourceMetadata {
-    /// Output only. Values for predefined system metadata labels.
-    /// System labels are a kind of metadata extracted by Google, including
-    /// "machine_image", "vpc", "subnet_id",
-    /// "security_group", "name", etc.
-    /// System label values can be only strings, Boolean values, or a list of
-    /// strings. For example:
-    ///
-    ///     { "name": "my-test-instance",
-    ///       "security_group": ["a", "b", "c"],
-    ///       "spot_instance": false }
-    #[prost(message, optional, tag="1")]
-    pub system_labels: ::core::option::Option<::prost_types::Struct>,
-    /// Output only. A map of user-defined metadata labels.
-    #[prost(btree_map="string, string", tag="2")]
-    pub user_labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
 }
 /// Defines a metric type and its schema. Once a metric descriptor is created,
 /// deleting or altering it stops data collection and makes the metric type's
@@ -1284,818 +933,300 @@ pub struct Metric {
     #[prost(btree_map="string, string", tag="2")]
     pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
 }
-/// Specifies the routing information that should be sent along with the request
-/// in the form of routing header.
-/// **NOTE:** All service configuration rules follow the "last one wins" order.
+/// An object that describes the schema of a \[MonitoredResource][google.api.MonitoredResource\] object using a
+/// type name and a set of labels.  For example, the monitored resource
+/// descriptor for Google Compute Engine VM instances has a type of
+/// `"gce_instance"` and specifies the use of the labels `"instance_id"` and
+/// `"zone"` to identify particular VM instances.
+///
+/// Different APIs can support different monitored resource types. APIs generally
+/// provide a `list` method that returns the monitored resource descriptors used
+/// by the API.
 ///
-/// The examples below will apply to an RPC which has the following request type:
-///
-/// Message Definition:
-///
-///     message Request {
-///       // The name of the Table
-///       // Values can be of the following formats:
-///       // - `projects/<project>/tables/<table>`
-///       // - `projects/<project>/instances/<instance>/tables/<table>`
-///       // - `region/<region>/zones/<zone>/tables/<table>`
-///       string table_name = 1;
-///
-///       // This value specifies routing for replication.
-///       // It can be in the following formats:
-///       // - `profiles/<profile_id>`
-///       // - a legacy `profile_id` that can be any string
-///       string app_profile_id = 2;
-///     }
-///
-/// Example message:
-///
-///     {
-///       table_name: projects/proj_foo/instances/instance_bar/table/table_baz,
-///       app_profile_id: profiles/prof_qux
-///     }
-///
-/// The routing header consists of one or multiple key-value pairs. Every key
-/// and value must be percent-encoded, and joined together in the format of
-/// `key1=value1&key2=value2`.
-/// In the examples below I am skipping the percent-encoding for readablity.
-///
-/// Example 1
-///
-/// Extracting a field from the request to put into the routing header
-/// unchanged, with the key equal to the field name.
-///
-/// annotation:
-///
-///     option (google.api.routing) = {
-///       // Take the `app_profile_id`.
-///       routing_parameters {
-///         field: "app_profile_id"
-///       }
-///     };
-///
-/// result:
-///
-///     x-goog-request-params: app_profile_id=profiles/prof_qux
-///
-/// Example 2
-///
-/// Extracting a field from the request to put into the routing header
-/// unchanged, with the key different from the field name.
-///
-/// annotation:
-///
-///     option (google.api.routing) = {
-///       // Take the `app_profile_id`, but name it `routing_id` in the header.
-///       routing_parameters {
-///         field: "app_profile_id"
-///         path_template: "{routing_id=**}"
-///       }
-///     };
-///
-/// result:
-///
-///     x-goog-request-params: routing_id=profiles/prof_qux
-///
-/// Example 3
-///
-/// Extracting a field from the request to put into the routing
-/// header, while matching a path template syntax on the field's value.
-///
-/// NB: it is more useful to send nothing than to send garbage for the purpose
-/// of dynamic routing, since garbage pollutes cache. Thus the matching.
-///
-/// Sub-example 3a
-///
-/// The field matches the template.
-///
-/// annotation:
-///
-///     option (google.api.routing) = {
-///       // Take the `table_name`, if it's well-formed (with project-based
-///       // syntax).
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "{table_name=projects/*/instances/*/**}"
-///       }
-///     };
-///
-/// result:
-///
-///     x-goog-request-params:
-///     table_name=projects/proj_foo/instances/instance_bar/table/table_baz
-///
-/// Sub-example 3b
-///
-/// The field does not match the template.
-///
-/// annotation:
-///
-///     option (google.api.routing) = {
-///       // Take the `table_name`, if it's well-formed (with region-based
-///       // syntax).
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "{table_name=regions/*/zones/*/**}"
-///       }
-///     };
-///
-/// result:
-///
-///     <no routing header will be sent>
-///
-/// Sub-example 3c
-///
-/// Multiple alternative conflictingly named path templates are
-/// specified. The one that matches is used to construct the header.
-///
-/// annotation:
-///
-///     option (google.api.routing) = {
-///       // Take the `table_name`, if it's well-formed, whether
-///       // using the region- or projects-based syntax.
-///
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "{table_name=regions/*/zones/*/**}"
-///       }
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "{table_name=projects/*/instances/*/**}"
-///       }
-///     };
-///
-/// result:
-///
-///     x-goog-request-params:
-///     table_name=projects/proj_foo/instances/instance_bar/table/table_baz
-///
-/// Example 4
-///
-/// Extracting a single routing header key-value pair by matching a
-/// template syntax on (a part of) a single request field.
-///
-/// annotation:
-///
-///     option (google.api.routing) = {
-///       // Take just the project id from the `table_name` field.
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "{routing_id=projects/*}/**"
-///       }
-///     };
-///
-/// result:
-///
-///     x-goog-request-params: routing_id=projects/proj_foo
-///
-/// Example 5
-///
-/// Extracting a single routing header key-value pair by matching
-/// several conflictingly named path templates on (parts of) a single request
-/// field. The last template to match "wins" the conflict.
-///
-/// annotation:
-///
-///     option (google.api.routing) = {
-///       // If the `table_name` does not have instances information,
-///       // take just the project id for routing.
-///       // Otherwise take project + instance.
-///
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "{routing_id=projects/*}/**"
-///       }
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "{routing_id=projects/*/instances/*}/**"
-///       }
-///     };
-///
-/// result:
-///
-///     x-goog-request-params:
-///     routing_id=projects/proj_foo/instances/instance_bar
-///
-/// Example 6
-///
-/// Extracting multiple routing header key-value pairs by matching
-/// several non-conflicting path templates on (parts of) a single request field.
-///
-/// Sub-example 6a
-///
-/// Make the templates strict, so that if the `table_name` does not
-/// have an instance information, nothing is sent.
-///
-/// annotation:
-///
-///     option (google.api.routing) = {
-///       // The routing code needs two keys instead of one composite
-///       // but works only for the tables with the "project-instance" name
-///       // syntax.
-///
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "{project_id=projects/*}/instances/*/**"
-///       }
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "projects/*/{instance_id=instances/*}/**"
-///       }
-///     };
-///
-/// result:
-///
-///     x-goog-request-params:
-///     project_id=projects/proj_foo&instance_id=instances/instance_bar
-///
-/// Sub-example 6b
-///
-/// Make the templates loose, so that if the `table_name` does not
-/// have an instance information, just the project id part is sent.
-///
-/// annotation:
-///
-///     option (google.api.routing) = {
-///       // The routing code wants two keys instead of one composite
-///       // but will work with just the `project_id` for tables without
-///       // an instance in the `table_name`.
-///
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "{project_id=projects/*}/**"
-///       }
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "projects/*/{instance_id=instances/*}/**"
-///       }
-///     };
-///
-/// result (is the same as 6a for our example message because it has the instance
-/// information):
-///
-///     x-goog-request-params:
-///     project_id=projects/proj_foo&instance_id=instances/instance_bar
-///
-/// Example 7
-///
-/// Extracting multiple routing header key-value pairs by matching
-/// several path templates on multiple request fields.
-///
-/// NB: note that here there is no way to specify sending nothing if one of the
-/// fields does not match its template. E.g. if the `table_name` is in the wrong
-/// format, the `project_id` will not be sent, but the `routing_id` will be.
-/// The backend routing code has to be aware of that and be prepared to not
-/// receive a full complement of keys if it expects multiple.
-///
-/// annotation:
-///
-///     option (google.api.routing) = {
-///       // The routing needs both `project_id` and `routing_id`
-///       // (from the `app_profile_id` field) for routing.
-///
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "{project_id=projects/*}/**"
-///       }
-///       routing_parameters {
-///         field: "app_profile_id"
-///         path_template: "{routing_id=**}"
-///       }
-///     };
-///
-/// result:
-///
-///     x-goog-request-params:
-///     project_id=projects/proj_foo&routing_id=profiles/prof_qux
-///
-/// Example 8
-///
-/// Extracting a single routing header key-value pair by matching
-/// several conflictingly named path templates on several request fields. The
-/// last template to match "wins" the conflict.
-///
-/// annotation:
-///
-///     option (google.api.routing) = {
-///       // The `routing_id` can be a project id or a region id depending on
-///       // the table name format, but only if the `app_profile_id` is not set.
-///       // If `app_profile_id` is set it should be used instead.
-///
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "{routing_id=projects/*}/**"
-///       }
-///       routing_parameters {
-///          field: "table_name"
-///          path_template: "{routing_id=regions/*}/**"
-///       }
-///       routing_parameters {
-///         field: "app_profile_id"
-///         path_template: "{routing_id=**}"
-///       }
-///     };
-///
-/// result:
-///
-///     x-goog-request-params: routing_id=profiles/prof_qux
-///
-/// Example 9
-///
-/// Bringing it all together.
-///
-/// annotation:
-///
-///     option (google.api.routing) = {
-///       // For routing both `table_location` and a `routing_id` are needed.
-///       //
-///       // table_location can be either an instance id or a region+zone id.
-///       //
-///       // For `routing_id`, take the value of `app_profile_id`
-///       // - If it's in the format `profiles/<profile_id>`, send
-///       // just the `<profile_id>` part.
-///       // - If it's any other literal, send it as is.
-///       // If the `app_profile_id` is empty, and the `table_name` starts with
-///       // the project_id, send that instead.
-///
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "projects/*/{table_location=instances/*}/tables/*"
-///       }
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "{table_location=regions/*/zones/*}/tables/*"
-///       }
-///       routing_parameters {
-///         field: "table_name"
-///         path_template: "{routing_id=projects/*}/**"
-///       }
-///       routing_parameters {
-///         field: "app_profile_id"
-///         path_template: "{routing_id=**}"
-///       }
-///       routing_parameters {
-///         field: "app_profile_id"
-///         path_template: "profiles/{routing_id=*}"
-///       }
-///     };
-///
-/// result:
-///
-///     x-goog-request-params:
-///     table_location=instances/instance_bar&routing_id=prof_qux
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RoutingRule {
-    /// A collection of Routing Parameter specifications.
-    /// **NOTE:** If multiple Routing Parameters describe the same key
-    /// (via the `path_template` field or via the `field` field when
-    /// `path_template` is not provided), "last one wins" rule
-    /// determines which Parameter gets used.
-    /// See the examples for more details.
-    #[prost(message, repeated, tag="2")]
-    pub routing_parameters: ::prost::alloc::vec::Vec<RoutingParameter>,
-}
-/// A projection from an input message to the GRPC or REST header.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RoutingParameter {
-    /// A request field to extract the header key-value pair from.
-    #[prost(string, tag="1")]
-    pub field: ::prost::alloc::string::String,
-    /// A pattern matching the key-value field. Optional.
-    /// If not specified, the whole field specified in the `field` field will be
-    /// taken as value, and its name used as key. If specified, it MUST contain
-    /// exactly one named segment (along with any number of unnamed segments) The
-    /// pattern will be matched over the field specified in the `field` field, then
-    /// if the match is successful:
-    /// - the name of the single named segment will be used as a header name,
-    /// - the match value of the segment will be used as a header value;
-    /// if the match is NOT successful, nothing will be sent.
-    ///
-    /// Example:
-    ///
-    ///               -- This is a field in the request message
-    ///              |   that the header value will be extracted from.
-    ///              |
-    ///              |                     -- This is the key name in the
-    ///              |                    |   routing header.
-    ///              V                    |
-    ///     field: "table_name"           v
-    ///     path_template: "projects/*/{table_location=instances/*}/tables/*"
-    ///                                                ^            ^
-    ///                                                |            |
-    ///       In the {} brackets is the pattern that --             |
-    ///       specifies what to extract from the                    |
-    ///       field as a value to be sent.                          |
-    ///                                                             |
-    ///      The string in the field must match the whole pattern --
-    ///      before brackets, inside brackets, after brackets.
-    ///
-    /// When looking at this specific example, we can see that:
-    /// - A key-value pair with the key `table_location`
-    ///   and the value matching `instances/*` should be added
-    ///   to the x-goog-request-params routing header.
-    /// - The value is extracted from the request message's `table_name` field
-    ///   if it matches the full pattern specified:
-    ///   `projects/*/instances/*/tables/*`.
-    ///
-    /// **NB:** If the `path_template` field is not provided, the key name is
-    /// equal to the field name, and the whole field should be sent as a value.
-    /// This makes the pattern for the field and the value functionally equivalent
-    /// to `**`, and the configuration
-    ///
-    ///     {
-    ///       field: "table_name"
-    ///     }
-    ///
-    /// is a functionally equivalent shorthand to:
-    ///
-    ///     {
-    ///       field: "table_name"
-    ///       path_template: "{table_name=**}"
-    ///     }
-    ///
-    /// See Example 1 for more details.
-    #[prost(string, tag="2")]
-    pub path_template: ::prost::alloc::string::String,
-}
-/// A description of a log type. Example in YAML format:
-///
-///     - name: library.googleapis.com/activity_history
-///       description: The history of borrowing and returning library items.
-///       display_name: Activity
-///       labels:
-///       - key: /customer_id
-///         description: Identifier of a library customer
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LogDescriptor {
-    /// The name of the log. It must be less than 512 characters long and can
-    /// include the following characters: upper- and lower-case alphanumeric
-    /// characters \[A-Za-z0-9\], and punctuation characters including
-    /// slash, underscore, hyphen, period \[/_-.\].
-    #[prost(string, tag="1")]
+pub struct MonitoredResourceDescriptor {
+    /// Optional. The resource name of the monitored resource descriptor:
+    /// `"projects/{project_id}/monitoredResourceDescriptors/{type}"` where
+    /// {type} is the value of the `type` field in this object and
+    /// {project_id} is a project ID that provides API-specific context for
+    /// accessing the type.  APIs that do not use project information can use the
+    /// resource name format `"monitoredResourceDescriptors/{type}"`.
+    #[prost(string, tag="5")]
     pub name: ::prost::alloc::string::String,
-    /// The set of labels that are available to describe a specific log entry.
-    /// Runtime requests that contain labels not specified here are
-    /// considered invalid.
-    #[prost(message, repeated, tag="2")]
-    pub labels: ::prost::alloc::vec::Vec<LabelDescriptor>,
-    /// A human-readable description of this log. This information appears in
-    /// the documentation and can contain details.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    /// The human-readable name for this log. This information appears on
-    /// the user interface and should be concise.
-    #[prost(string, tag="4")]
+    /// Required. The monitored resource type. For example, the type
+    /// `"cloudsql_database"` represents databases in Google Cloud SQL.
+    #[prost(string, tag="1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// Optional. A concise name for the monitored resource type that might be
+    /// displayed in user interfaces. It should be a Title Cased Noun Phrase,
+    /// without any article or other determiners. For example,
+    /// `"Google Cloud SQL Database"`.
+    #[prost(string, tag="2")]
     pub display_name: ::prost::alloc::string::String,
-}
-/// Selects and configures the service controller used by the service.  The
-/// service controller handles features like abuse, quota, billing, logging,
-/// monitoring, etc.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Control {
-    /// The service control environment to use. If empty, no control plane
-    /// feature (like quota and billing) will be enabled.
-    #[prost(string, tag="1")]
-    pub environment: ::prost::alloc::string::String,
-}
-/// `Documentation` provides the information for describing a service.
-///
-/// Example:
-/// <pre><code>documentation:
-///   summary: >
-///     The Google Calendar API gives access
-///     to most calendar features.
-///   pages:
-///   - name: Overview
-///     content: &#40;== include google/foo/overview.md ==&#41;
-///   - name: Tutorial
-///     content: &#40;== include google/foo/tutorial.md ==&#41;
-///     subpages;
-///     - name: Java
-///       content: &#40;== include google/foo/tutorial_java.md ==&#41;
-///   rules:
-///   - selector: google.calendar.Calendar.Get
-///     description: >
-///       ...
-///   - selector: google.calendar.Calendar.Put
-///     description: >
-///       ...
-/// </code></pre>
-/// Documentation is provided in markdown syntax. In addition to
-/// standard markdown features, definition lists, tables and fenced
-/// code blocks are supported. Section headers can be provided and are
-/// interpreted relative to the section nesting of the context where
-/// a documentation fragment is embedded.
-///
-/// Documentation from the IDL is merged with documentation defined
-/// via the config at normalization time, where documentation provided
-/// by config rules overrides IDL provided.
-///
-/// A number of constructs specific to the API platform are supported
-/// in documentation text.
-///
-/// In order to reference a proto element, the following
-/// notation can be used:
-/// <pre><code>&#91;fully.qualified.proto.name]&#91;]</code></pre>
-/// To override the display text used for the link, this can be used:
-/// <pre><code>&#91;display text]&#91;fully.qualified.proto.name]</code></pre>
-/// Text can be excluded from doc using the following notation:
-/// <pre><code>&#40;-- internal comment --&#41;</code></pre>
-///
-/// A few directives are available in documentation. Note that
-/// directives must appear on a single line to be properly
-/// identified. The `include` directive includes a markdown file from
-/// an external source:
-/// <pre><code>&#40;== include path/to/file ==&#41;</code></pre>
-/// The `resource_for` directive marks a message to be the resource of
-/// a collection in REST view. If it is not specified, tools attempt
-/// to infer the resource from the operations in a collection:
-/// <pre><code>&#40;== resource_for v1.shelves.books ==&#41;</code></pre>
-/// The directive `suppress_warning` does not directly affect documentation
-/// and is documented together with service config validation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Documentation {
-    /// A short summary of what the service does. Can only be provided by
-    /// plain text.
-    #[prost(string, tag="1")]
-    pub summary: ::prost::alloc::string::String,
-    /// The top level pages for the documentation set.
-    #[prost(message, repeated, tag="5")]
-    pub pages: ::prost::alloc::vec::Vec<Page>,
-    /// A list of documentation rules that apply to individual API elements.
-    ///
-    /// **NOTE:** All service configuration rules follow "last one wins" order.
-    #[prost(message, repeated, tag="3")]
-    pub rules: ::prost::alloc::vec::Vec<DocumentationRule>,
-    /// The URL to the root of documentation.
-    #[prost(string, tag="4")]
-    pub documentation_root_url: ::prost::alloc::string::String,
-    /// Specifies the service root url if the default one (the service name
-    /// from the yaml file) is not suitable. This can be seen in any fully
-    /// specified service urls as well as sections that show a base that other
-    /// urls are relative to.
-    #[prost(string, tag="6")]
-    pub service_root_url: ::prost::alloc::string::String,
-    /// Declares a single overview page. For example:
-    /// <pre><code>documentation:
-    ///   summary: ...
-    ///   overview: &#40;== include overview.md ==&#41;
-    /// </code></pre>
-    /// This is a shortcut for the following declaration (using pages style):
-    /// <pre><code>documentation:
-    ///   summary: ...
-    ///   pages:
-    ///   - name: Overview
-    ///     content: &#40;== include overview.md ==&#41;
-    /// </code></pre>
-    /// Note: you cannot specify both `overview` field and `pages` field.
-    #[prost(string, tag="2")]
-    pub overview: ::prost::alloc::string::String,
-}
-/// A documentation rule provides information about individual API elements.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DocumentationRule {
-    /// The selector is a comma-separated list of patterns. Each pattern is a
-    /// qualified name of the element which may end in "*", indicating a wildcard.
-    /// Wildcards are only allowed at the end and for a whole component of the
-    /// qualified name, i.e. "foo.*" is ok, but not "foo.b*" or "foo.*.bar". A
-    /// wildcard will match one or more components. To specify a default for all
-    /// applicable elements, the whole pattern "*" is used.
-    #[prost(string, tag="1")]
-    pub selector: ::prost::alloc::string::String,
-    /// Description of the selected API(s).
-    #[prost(string, tag="2")]
-    pub description: ::prost::alloc::string::String,
-    /// Deprecation description of the selected element(s). It can be provided if
-    /// an element is marked as `deprecated`.
-    #[prost(string, tag="3")]
-    pub deprecation_description: ::prost::alloc::string::String,
-}
-/// Represents a documentation page. A page can contain subpages to represent
-/// nested documentation set structure.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Page {
-    /// The name of the page. It will be used as an identity of the page to
-    /// generate URI of the page, text of the link to this page in navigation,
-    /// etc. The full page name (start from the root page name to this page
-    /// concatenated with `.`) can be used as reference to the page in your
-    /// documentation. For example:
-    /// <pre><code>pages:
-    /// - name: Tutorial
-    ///   content: &#40;== include tutorial.md ==&#41;
-    ///   subpages:
-    ///   - name: Java
-    ///     content: &#40;== include tutorial_java.md ==&#41;
-    /// </code></pre>
-    /// You can reference `Java` page using Markdown reference link syntax:
-    /// `\[Java][Tutorial.Java\]`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The Markdown content of the page. You can use <code>&#40;== include {path}
-    /// ==&#41;</code> to include content from a Markdown file.
-    #[prost(string, tag="2")]
-    pub content: ::prost::alloc::string::String,
-    /// Subpages of this page. The order of subpages specified here will be
-    /// honored in the generated docset.
-    #[prost(message, repeated, tag="3")]
-    pub subpages: ::prost::alloc::vec::Vec<Page>,
-}
-/// ### System parameter configuration
-///
-/// A system parameter is a special kind of parameter defined by the API
-/// system, not by an individual API. It is typically mapped to an HTTP header
-/// and/or a URL query parameter. This configuration specifies which methods
-/// change the names of the system parameters.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SystemParameters {
-    /// Define system parameters.
-    ///
-    /// The parameters defined here will override the default parameters
-    /// implemented by the system. If this field is missing from the service
-    /// config, default system parameters will be used. Default system parameters
-    /// and names is implementation-dependent.
-    ///
-    /// Example: define api key for all methods
-    ///
-    ///     system_parameters
-    ///       rules:
-    ///         - selector: "*"
-    ///           parameters:
-    ///             - name: api_key
-    ///               url_query_parameter: api_key
-    ///
-    ///
-    /// Example: define 2 api key names for a specific method.
-    ///
-    ///     system_parameters
-    ///       rules:
-    ///         - selector: "/ListShelves"
-    ///           parameters:
-    ///             - name: api_key
-    ///               http_header: Api-Key1
-    ///             - name: api_key
-    ///               http_header: Api-Key2
-    ///
-    /// **NOTE:** All service configuration rules follow "last one wins" order.
-    #[prost(message, repeated, tag="1")]
-    pub rules: ::prost::alloc::vec::Vec<SystemParameterRule>,
-}
-/// Define a system parameter rule mapping system parameter definitions to
-/// methods.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SystemParameterRule {
-    /// Selects the methods to which this rule applies. Use '*' to indicate all
-    /// methods in all APIs.
-    ///
-    /// Refer to \[selector][google.api.DocumentationRule.selector\] for syntax details.
-    #[prost(string, tag="1")]
-    pub selector: ::prost::alloc::string::String,
-    /// Define parameters. Multiple names may be defined for a parameter.
-    /// For a given method call, only one of them should be used. If multiple
-    /// names are used the behavior is implementation-dependent.
-    /// If none of the specified names are present the behavior is
-    /// parameter-dependent.
-    #[prost(message, repeated, tag="2")]
-    pub parameters: ::prost::alloc::vec::Vec<SystemParameter>,
-}
-/// Define a parameter's name and location. The parameter may be passed as either
-/// an HTTP header or a URL query parameter, and if both are passed the behavior
-/// is implementation-dependent.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SystemParameter {
-    /// Define the name of the parameter, such as "api_key" . It is case sensitive.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Define the HTTP header name to use for the parameter. It is case
-    /// insensitive.
-    #[prost(string, tag="2")]
-    pub http_header: ::prost::alloc::string::String,
-    /// Define the URL query parameter name to use for the parameter. It is case
-    /// sensitive.
-    #[prost(string, tag="3")]
-    pub url_query_parameter: ::prost::alloc::string::String,
-}
-/// A descriptor for defining project properties for a service. One service may
-/// have many consumer projects, and the service may want to behave differently
-/// depending on some properties on the project. For example, a project may be
-/// associated with a school, or a business, or a government agency, a business
-/// type property on the project may affect how a service responds to the client.
-/// This descriptor defines which properties are allowed to be set on a project.
-///
-/// Example:
-///
-///    project_properties:
-///      properties:
-///      - name: NO_WATERMARK
-///        type: BOOL
-///        description: Allows usage of the API without watermarks.
-///      - name: EXTENDED_TILE_CACHE_PERIOD
-///        type: INT64
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProjectProperties {
-    /// List of per consumer project-specific properties.
-    #[prost(message, repeated, tag="1")]
-    pub properties: ::prost::alloc::vec::Vec<Property>,
-}
-/// Defines project properties.
-///
-/// API services can define properties that can be assigned to consumer projects
-/// so that backends can perform response customization without having to make
-/// additional calls or maintain additional storage. For example, Maps API
-/// defines properties that controls map tile cache period, or whether to embed a
-/// watermark in a result.
-///
-/// These values can be set via API producer console. Only API providers can
-/// define and set these properties.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Property {
-    /// The name of the property (a.k.a key).
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The type of this property.
-    #[prost(enumeration="property::PropertyType", tag="2")]
-    pub r#type: i32,
-    /// The description of the property
+    /// Optional. A detailed description of the monitored resource type that might
+    /// be used in documentation.
     #[prost(string, tag="3")]
     pub description: ::prost::alloc::string::String,
+    /// Required. A set of labels used to describe instances of this monitored
+    /// resource type. For example, an individual Google Cloud SQL database is
+    /// identified by values for the labels `"database_id"` and `"zone"`.
+    #[prost(message, repeated, tag="4")]
+    pub labels: ::prost::alloc::vec::Vec<LabelDescriptor>,
+    /// Optional. The launch stage of the monitored resource definition.
+    #[prost(enumeration="LaunchStage", tag="7")]
+    pub launch_stage: i32,
 }
-/// Nested message and enum types in `Property`.
-pub mod property {
-    /// Supported data type of the property values
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum PropertyType {
-        /// The type is unspecified, and will result in an error.
-        Unspecified = 0,
-        /// The type is `int64`.
-        Int64 = 1,
-        /// The type is `bool`.
-        Bool = 2,
-        /// The type is `string`.
-        String = 3,
-        /// The type is 'double'.
-        Double = 4,
+/// An object representing a resource that can be used for monitoring, logging,
+/// billing, or other purposes. Examples include virtual machine instances,
+/// databases, and storage devices such as disks. The `type` field identifies a
+/// \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] object that describes the resource's
+/// schema. Information in the `labels` field identifies the actual resource and
+/// its attributes according to the schema. For example, a particular Compute
+/// Engine VM instance could be represented by the following object, because the
+/// \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] for `"gce_instance"` has labels
+/// `"instance_id"` and `"zone"`:
+///
+///     { "type": "gce_instance",
+///       "labels": { "instance_id": "12345678901234",
+///                   "zone": "us-central1-a" }}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MonitoredResource {
+    /// Required. The monitored resource type. This field must match
+    /// the `type` field of a \[MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor\] object. For
+    /// example, the type of a Compute Engine VM instance is `gce_instance`.
+    #[prost(string, tag="1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// Required. Values for all of the labels listed in the associated monitored
+    /// resource descriptor. For example, Compute Engine VM instances use the
+    /// labels `"project_id"`, `"instance_id"`, and `"zone"`.
+    #[prost(btree_map="string, string", tag="2")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+}
+/// Auxiliary metadata for a \[MonitoredResource][google.api.MonitoredResource\] object.
+/// \[MonitoredResource][google.api.MonitoredResource\] objects contain the minimum set of information to
+/// uniquely identify a monitored resource instance. There is some other useful
+/// auxiliary metadata. Monitoring and Logging use an ingestion
+/// pipeline to extract metadata for cloud resources of all types, and store
+/// the metadata in this message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MonitoredResourceMetadata {
+    /// Output only. Values for predefined system metadata labels.
+    /// System labels are a kind of metadata extracted by Google, including
+    /// "machine_image", "vpc", "subnet_id",
+    /// "security_group", "name", etc.
+    /// System label values can be only strings, Boolean values, or a list of
+    /// strings. For example:
+    ///
+    ///     { "name": "my-test-instance",
+    ///       "security_group": ["a", "b", "c"],
+    ///       "spot_instance": false }
+    #[prost(message, optional, tag="1")]
+    pub system_labels: ::core::option::Option<::prost_types::Struct>,
+    /// Output only. A map of user-defined metadata labels.
+    #[prost(btree_map="string, string", tag="2")]
+    pub user_labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+}
+/// `Distribution` contains summary statistics for a population of values. It
+/// optionally contains a histogram representing the distribution of those values
+/// across a set of buckets.
+///
+/// The summary statistics are the count, mean, sum of the squared deviation from
+/// the mean, the minimum, and the maximum of the set of population of values.
+/// The histogram is based on a sequence of buckets and gives a count of values
+/// that fall into each bucket. The boundaries of the buckets are given either
+/// explicitly or by formulas for buckets of fixed or exponentially increasing
+/// widths.
+///
+/// Although it is not forbidden, it is generally a bad idea to include
+/// non-finite values (infinities or NaNs) in the population of values, as this
+/// will render the `mean` and `sum_of_squared_deviation` fields meaningless.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Distribution {
+    /// The number of values in the population. Must be non-negative. This value
+    /// must equal the sum of the values in `bucket_counts` if a histogram is
+    /// provided.
+    #[prost(int64, tag="1")]
+    pub count: i64,
+    /// The arithmetic mean of the values in the population. If `count` is zero
+    /// then this field must be zero.
+    #[prost(double, tag="2")]
+    pub mean: f64,
+    /// The sum of squared deviations from the mean of the values in the
+    /// population. For values x_i this is:
+    ///
+    ///     Sum\[i=1..n\]((x_i - mean)^2)
+    ///
+    /// Knuth, "The Art of Computer Programming", Vol. 2, page 232, 3rd edition
+    /// describes Welford's method for accumulating this sum in one pass.
+    ///
+    /// If `count` is zero then this field must be zero.
+    #[prost(double, tag="3")]
+    pub sum_of_squared_deviation: f64,
+    /// If specified, contains the range of the population values. The field
+    /// must not be present if the `count` is zero.
+    #[prost(message, optional, tag="4")]
+    pub range: ::core::option::Option<distribution::Range>,
+    /// Defines the histogram bucket boundaries. If the distribution does not
+    /// contain a histogram, then omit this field.
+    #[prost(message, optional, tag="6")]
+    pub bucket_options: ::core::option::Option<distribution::BucketOptions>,
+    /// The number of values in each bucket of the histogram, as described in
+    /// `bucket_options`. If the distribution does not have a histogram, then omit
+    /// this field. If there is a histogram, then the sum of the values in
+    /// `bucket_counts` must equal the value in the `count` field of the
+    /// distribution.
+    ///
+    /// If present, `bucket_counts` should contain N values, where N is the number
+    /// of buckets specified in `bucket_options`. If you supply fewer than N
+    /// values, the remaining values are assumed to be 0.
+    ///
+    /// The order of the values in `bucket_counts` follows the bucket numbering
+    /// schemes described for the three bucket types. The first value must be the
+    /// count for the underflow bucket (number 0). The next N-2 values are the
+    /// counts for the finite buckets (number 1 through N-2). The N'th value in
+    /// `bucket_counts` is the count for the overflow bucket (number N-1).
+    #[prost(int64, repeated, tag="7")]
+    pub bucket_counts: ::prost::alloc::vec::Vec<i64>,
+    /// Must be in increasing order of `value` field.
+    #[prost(message, repeated, tag="10")]
+    pub exemplars: ::prost::alloc::vec::Vec<distribution::Exemplar>,
+}
+/// Nested message and enum types in `Distribution`.
+pub mod distribution {
+    /// The range of the population values.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Range {
+        /// The minimum of the population values.
+        #[prost(double, tag="1")]
+        pub min: f64,
+        /// The maximum of the population values.
+        #[prost(double, tag="2")]
+        pub max: f64,
     }
-}
-/// Output generated from semantically comparing two versions of a service
-/// configuration.
-///
-/// Includes detailed information about a field that have changed with
-/// applicable advice about potential consequences for the change, such as
-/// backwards-incompatibility.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConfigChange {
-    /// Object hierarchy path to the change, with levels separated by a '.'
-    /// character. For repeated fields, an applicable unique identifier field is
-    /// used for the index (usually selector, name, or id). For maps, the term
-    /// 'key' is used. If the field has no unique identifier, the numeric index
-    /// is used.
-    /// Examples:
-    /// - visibility.rules\[selector=="google.LibraryService.ListBooks"\].restriction
-    /// - quota.metric_rules\[selector=="google"].metric_costs[key=="reads"\].value
-    /// - logging.producer_destinations\[0\]
-    #[prost(string, tag="1")]
-    pub element: ::prost::alloc::string::String,
-    /// Value of the changed object in the old Service configuration,
-    /// in JSON format. This field will not be populated if ChangeType == ADDED.
-    #[prost(string, tag="2")]
-    pub old_value: ::prost::alloc::string::String,
-    /// Value of the changed object in the new Service configuration,
-    /// in JSON format. This field will not be populated if ChangeType == REMOVED.
-    #[prost(string, tag="3")]
-    pub new_value: ::prost::alloc::string::String,
-    /// The type for this change, either ADDED, REMOVED, or MODIFIED.
-    #[prost(enumeration="ChangeType", tag="4")]
-    pub change_type: i32,
-    /// Collection of advice provided for this change, useful for determining the
-    /// possible impact of this change.
-    #[prost(message, repeated, tag="5")]
-    pub advices: ::prost::alloc::vec::Vec<Advice>,
-}
-/// Generated advice about this change, used for providing more
-/// information about how a change will affect the existing service.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Advice {
-    /// Useful description for why this advice was applied and what actions should
-    /// be taken to mitigate any implied risks.
-    #[prost(string, tag="2")]
-    pub description: ::prost::alloc::string::String,
-}
-/// Classifies set of possible modifications to an object in the service
-/// configuration.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum ChangeType {
-    /// No value was provided.
-    Unspecified = 0,
-    /// The changed object exists in the 'new' service configuration, but not
-    /// in the 'old' service configuration.
-    Added = 1,
-    /// The changed object exists in the 'old' service configuration, but not
-    /// in the 'new' service configuration.
-    Removed = 2,
-    /// The changed object exists in both service configurations, but its value
-    /// is different.
-    Modified = 3,
+    /// `BucketOptions` describes the bucket boundaries used to create a histogram
+    /// for the distribution. The buckets can be in a linear sequence, an
+    /// exponential sequence, or each bucket can be specified explicitly.
+    /// `BucketOptions` does not include the number of values in each bucket.
+    ///
+    /// A bucket has an inclusive lower bound and exclusive upper bound for the
+    /// values that are counted for that bucket. The upper bound of a bucket must
+    /// be strictly greater than the lower bound. The sequence of N buckets for a
+    /// distribution consists of an underflow bucket (number 0), zero or more
+    /// finite buckets (number 1 through N - 2) and an overflow bucket (number N -
+    /// 1). The buckets are contiguous: the lower bound of bucket i (i > 0) is the
+    /// same as the upper bound of bucket i - 1. The buckets span the whole range
+    /// of finite values: lower bound of the underflow bucket is -infinity and the
+    /// upper bound of the overflow bucket is +infinity. The finite buckets are
+    /// so-called because both bounds are finite.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct BucketOptions {
+        /// Exactly one of these three fields must be set.
+        #[prost(oneof="bucket_options::Options", tags="1, 2, 3")]
+        pub options: ::core::option::Option<bucket_options::Options>,
+    }
+    /// Nested message and enum types in `BucketOptions`.
+    pub mod bucket_options {
+        /// Specifies a linear sequence of buckets that all have the same width
+        /// (except overflow and underflow). Each bucket represents a constant
+        /// absolute uncertainty on the specific value in the bucket.
+        ///
+        /// There are `num_finite_buckets + 2` (= N) buckets. Bucket `i` has the
+        /// following boundaries:
+        ///
+        ///    Upper bound (0 <= i < N-1):     offset + (width * i).
+        ///    Lower bound (1 <= i < N):       offset + (width * (i - 1)).
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Linear {
+            /// Must be greater than 0.
+            #[prost(int32, tag="1")]
+            pub num_finite_buckets: i32,
+            /// Must be greater than 0.
+            #[prost(double, tag="2")]
+            pub width: f64,
+            /// Lower bound of the first bucket.
+            #[prost(double, tag="3")]
+            pub offset: f64,
+        }
+        /// Specifies an exponential sequence of buckets that have a width that is
+        /// proportional to the value of the lower bound. Each bucket represents a
+        /// constant relative uncertainty on a specific value in the bucket.
+        ///
+        /// There are `num_finite_buckets + 2` (= N) buckets. Bucket `i` has the
+        /// following boundaries:
+        ///
+        ///    Upper bound (0 <= i < N-1):     scale * (growth_factor ^ i).
+        ///    Lower bound (1 <= i < N):       scale * (growth_factor ^ (i - 1)).
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Exponential {
+            /// Must be greater than 0.
+            #[prost(int32, tag="1")]
+            pub num_finite_buckets: i32,
+            /// Must be greater than 1.
+            #[prost(double, tag="2")]
+            pub growth_factor: f64,
+            /// Must be greater than 0.
+            #[prost(double, tag="3")]
+            pub scale: f64,
+        }
+        /// Specifies a set of buckets with arbitrary widths.
+        ///
+        /// There are `size(bounds) + 1` (= N) buckets. Bucket `i` has the following
+        /// boundaries:
+        ///
+        ///    Upper bound (0 <= i < N-1):     bounds\[i\]
+        ///    Lower bound (1 <= i < N);       bounds[i - 1]
+        ///
+        /// The `bounds` field must contain at least one element. If `bounds` has
+        /// only one element, then there are no finite buckets, and that single
+        /// element is the common boundary of the overflow and underflow buckets.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Explicit {
+            /// The values must be monotonically increasing.
+            #[prost(double, repeated, tag="1")]
+            pub bounds: ::prost::alloc::vec::Vec<f64>,
+        }
+        /// Exactly one of these three fields must be set.
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Options {
+            /// The linear bucket.
+            #[prost(message, tag="1")]
+            LinearBuckets(Linear),
+            /// The exponential buckets.
+            #[prost(message, tag="2")]
+            ExponentialBuckets(Exponential),
+            /// The explicit buckets.
+            #[prost(message, tag="3")]
+            ExplicitBuckets(Explicit),
+        }
+    }
+    /// Exemplars are example points that may be used to annotate aggregated
+    /// distribution values. They are metadata that gives information about a
+    /// particular value added to a Distribution bucket, such as a trace ID that
+    /// was active when a value was added. They may contain further information,
+    /// such as a example values and timestamps, origin, etc.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Exemplar {
+        /// Value of the exemplar point. This value determines to which bucket the
+        /// exemplar belongs.
+        #[prost(double, tag="1")]
+        pub value: f64,
+        /// The observation (sampling) time of the above value.
+        #[prost(message, optional, tag="2")]
+        pub timestamp: ::core::option::Option<::prost_types::Timestamp>,
+        /// Contextual information about the example value. Examples are:
+        ///
+        ///   Trace: type.googleapis.com/google.monitoring.v3.SpanContext
+        ///
+        ///   Literal string: type.googleapis.com/google.protobuf.StringValue
+        ///
+        ///   Labels dropped during aggregation:
+        ///     type.googleapis.com/google.monitoring.v3.DroppedLabels
+        ///
+        /// There may be only a single attachment of any given message type in a
+        /// single exemplar, and this is enforced by the system.
+        #[prost(message, repeated, tag="3")]
+        pub attachments: ::prost::alloc::vec::Vec<::prost_types::Any>,
+    }
 }
 /// `Authentication` defines the authentication configuration for API methods
 /// provided by an API service.
@@ -2317,6 +1448,208 @@ pub struct AuthRequirement {
     ///                bookstore_web.apps.googleusercontent.com
     #[prost(string, tag="2")]
     pub audiences: ::prost::alloc::string::String,
+}
+/// Selects and configures the service controller used by the service.  The
+/// service controller handles features like abuse, quota, billing, logging,
+/// monitoring, etc.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Control {
+    /// The service control environment to use. If empty, no control plane
+    /// feature (like quota and billing) will be enabled.
+    #[prost(string, tag="1")]
+    pub environment: ::prost::alloc::string::String,
+}
+/// ### System parameter configuration
+///
+/// A system parameter is a special kind of parameter defined by the API
+/// system, not by an individual API. It is typically mapped to an HTTP header
+/// and/or a URL query parameter. This configuration specifies which methods
+/// change the names of the system parameters.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SystemParameters {
+    /// Define system parameters.
+    ///
+    /// The parameters defined here will override the default parameters
+    /// implemented by the system. If this field is missing from the service
+    /// config, default system parameters will be used. Default system parameters
+    /// and names is implementation-dependent.
+    ///
+    /// Example: define api key for all methods
+    ///
+    ///     system_parameters
+    ///       rules:
+    ///         - selector: "*"
+    ///           parameters:
+    ///             - name: api_key
+    ///               url_query_parameter: api_key
+    ///
+    ///
+    /// Example: define 2 api key names for a specific method.
+    ///
+    ///     system_parameters
+    ///       rules:
+    ///         - selector: "/ListShelves"
+    ///           parameters:
+    ///             - name: api_key
+    ///               http_header: Api-Key1
+    ///             - name: api_key
+    ///               http_header: Api-Key2
+    ///
+    /// **NOTE:** All service configuration rules follow "last one wins" order.
+    #[prost(message, repeated, tag="1")]
+    pub rules: ::prost::alloc::vec::Vec<SystemParameterRule>,
+}
+/// Define a system parameter rule mapping system parameter definitions to
+/// methods.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SystemParameterRule {
+    /// Selects the methods to which this rule applies. Use '*' to indicate all
+    /// methods in all APIs.
+    ///
+    /// Refer to \[selector][google.api.DocumentationRule.selector\] for syntax details.
+    #[prost(string, tag="1")]
+    pub selector: ::prost::alloc::string::String,
+    /// Define parameters. Multiple names may be defined for a parameter.
+    /// For a given method call, only one of them should be used. If multiple
+    /// names are used the behavior is implementation-dependent.
+    /// If none of the specified names are present the behavior is
+    /// parameter-dependent.
+    #[prost(message, repeated, tag="2")]
+    pub parameters: ::prost::alloc::vec::Vec<SystemParameter>,
+}
+/// Define a parameter's name and location. The parameter may be passed as either
+/// an HTTP header or a URL query parameter, and if both are passed the behavior
+/// is implementation-dependent.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SystemParameter {
+    /// Define the name of the parameter, such as "api_key" . It is case sensitive.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Define the HTTP header name to use for the parameter. It is case
+    /// insensitive.
+    #[prost(string, tag="2")]
+    pub http_header: ::prost::alloc::string::String,
+    /// Define the URL query parameter name to use for the parameter. It is case
+    /// sensitive.
+    #[prost(string, tag="3")]
+    pub url_query_parameter: ::prost::alloc::string::String,
+}
+/// Message that represents an arbitrary HTTP body. It should only be used for
+/// payload formats that can't be represented as JSON, such as raw binary or
+/// an HTML page.
+///
+///
+/// This message can be used both in streaming and non-streaming API methods in
+/// the request as well as the response.
+///
+/// It can be used as a top-level request field, which is convenient if one
+/// wants to extract parameters from either the URL or HTTP template into the
+/// request fields and also want access to the raw HTTP body.
+///
+/// Example:
+///
+///     message GetResourceRequest {
+///       // A unique request id.
+///       string request_id = 1;
+///
+///       // The raw HTTP body is bound to this field.
+///       google.api.HttpBody http_body = 2;
+///
+///     }
+///
+///     service ResourceService {
+///       rpc GetResource(GetResourceRequest)
+///         returns (google.api.HttpBody);
+///       rpc UpdateResource(google.api.HttpBody)
+///         returns (google.protobuf.Empty);
+///
+///     }
+///
+/// Example with streaming methods:
+///
+///     service CaldavService {
+///       rpc GetCalendar(stream google.api.HttpBody)
+///         returns (stream google.api.HttpBody);
+///       rpc UpdateCalendar(stream google.api.HttpBody)
+///         returns (stream google.api.HttpBody);
+///
+///     }
+///
+/// Use of this type only changes how the request and response bodies are
+/// handled, all other features will continue to work unchanged.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct HttpBody {
+    /// The HTTP Content-Type header value specifying the content type of the body.
+    #[prost(string, tag="1")]
+    pub content_type: ::prost::alloc::string::String,
+    /// The HTTP request/response body as raw binary.
+    #[prost(bytes="bytes", tag="2")]
+    pub data: ::prost::bytes::Bytes,
+    /// Application specific response metadata. Must be set in the first response
+    /// for streaming APIs.
+    #[prost(message, repeated, tag="3")]
+    pub extensions: ::prost::alloc::vec::Vec<::prost_types::Any>,
+}
+/// Output generated from semantically comparing two versions of a service
+/// configuration.
+///
+/// Includes detailed information about a field that have changed with
+/// applicable advice about potential consequences for the change, such as
+/// backwards-incompatibility.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ConfigChange {
+    /// Object hierarchy path to the change, with levels separated by a '.'
+    /// character. For repeated fields, an applicable unique identifier field is
+    /// used for the index (usually selector, name, or id). For maps, the term
+    /// 'key' is used. If the field has no unique identifier, the numeric index
+    /// is used.
+    /// Examples:
+    /// - visibility.rules\[selector=="google.LibraryService.ListBooks"\].restriction
+    /// - quota.metric_rules\[selector=="google"].metric_costs[key=="reads"\].value
+    /// - logging.producer_destinations\[0\]
+    #[prost(string, tag="1")]
+    pub element: ::prost::alloc::string::String,
+    /// Value of the changed object in the old Service configuration,
+    /// in JSON format. This field will not be populated if ChangeType == ADDED.
+    #[prost(string, tag="2")]
+    pub old_value: ::prost::alloc::string::String,
+    /// Value of the changed object in the new Service configuration,
+    /// in JSON format. This field will not be populated if ChangeType == REMOVED.
+    #[prost(string, tag="3")]
+    pub new_value: ::prost::alloc::string::String,
+    /// The type for this change, either ADDED, REMOVED, or MODIFIED.
+    #[prost(enumeration="ChangeType", tag="4")]
+    pub change_type: i32,
+    /// Collection of advice provided for this change, useful for determining the
+    /// possible impact of this change.
+    #[prost(message, repeated, tag="5")]
+    pub advices: ::prost::alloc::vec::Vec<Advice>,
+}
+/// Generated advice about this change, used for providing more
+/// information about how a change will affect the existing service.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Advice {
+    /// Useful description for why this advice was applied and what actions should
+    /// be taken to mitigate any implied risks.
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
+}
+/// Classifies set of possible modifications to an object in the service
+/// configuration.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ChangeType {
+    /// No value was provided.
+    Unspecified = 0,
+    /// The changed object exists in the 'new' service configuration, but not
+    /// in the 'old' service configuration.
+    Added = 1,
+    /// The changed object exists in the 'old' service configuration, but not
+    /// in the 'new' service configuration.
+    Removed = 2,
+    /// The changed object exists in both service configurations, but its value
+    /// is different.
+    Modified = 3,
 }
 /// `Backend` defines the backend configuration for a service.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2623,6 +1956,148 @@ pub struct ContextRule {
     #[prost(string, repeated, tag="5")]
     pub allowed_response_extensions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
+/// `Documentation` provides the information for describing a service.
+///
+/// Example:
+/// <pre><code>documentation:
+///   summary: >
+///     The Google Calendar API gives access
+///     to most calendar features.
+///   pages:
+///   - name: Overview
+///     content: &#40;== include google/foo/overview.md ==&#41;
+///   - name: Tutorial
+///     content: &#40;== include google/foo/tutorial.md ==&#41;
+///     subpages;
+///     - name: Java
+///       content: &#40;== include google/foo/tutorial_java.md ==&#41;
+///   rules:
+///   - selector: google.calendar.Calendar.Get
+///     description: >
+///       ...
+///   - selector: google.calendar.Calendar.Put
+///     description: >
+///       ...
+/// </code></pre>
+/// Documentation is provided in markdown syntax. In addition to
+/// standard markdown features, definition lists, tables and fenced
+/// code blocks are supported. Section headers can be provided and are
+/// interpreted relative to the section nesting of the context where
+/// a documentation fragment is embedded.
+///
+/// Documentation from the IDL is merged with documentation defined
+/// via the config at normalization time, where documentation provided
+/// by config rules overrides IDL provided.
+///
+/// A number of constructs specific to the API platform are supported
+/// in documentation text.
+///
+/// In order to reference a proto element, the following
+/// notation can be used:
+/// <pre><code>&#91;fully.qualified.proto.name]&#91;]</code></pre>
+/// To override the display text used for the link, this can be used:
+/// <pre><code>&#91;display text]&#91;fully.qualified.proto.name]</code></pre>
+/// Text can be excluded from doc using the following notation:
+/// <pre><code>&#40;-- internal comment --&#41;</code></pre>
+///
+/// A few directives are available in documentation. Note that
+/// directives must appear on a single line to be properly
+/// identified. The `include` directive includes a markdown file from
+/// an external source:
+/// <pre><code>&#40;== include path/to/file ==&#41;</code></pre>
+/// The `resource_for` directive marks a message to be the resource of
+/// a collection in REST view. If it is not specified, tools attempt
+/// to infer the resource from the operations in a collection:
+/// <pre><code>&#40;== resource_for v1.shelves.books ==&#41;</code></pre>
+/// The directive `suppress_warning` does not directly affect documentation
+/// and is documented together with service config validation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Documentation {
+    /// A short summary of what the service does. Can only be provided by
+    /// plain text.
+    #[prost(string, tag="1")]
+    pub summary: ::prost::alloc::string::String,
+    /// The top level pages for the documentation set.
+    #[prost(message, repeated, tag="5")]
+    pub pages: ::prost::alloc::vec::Vec<Page>,
+    /// A list of documentation rules that apply to individual API elements.
+    ///
+    /// **NOTE:** All service configuration rules follow "last one wins" order.
+    #[prost(message, repeated, tag="3")]
+    pub rules: ::prost::alloc::vec::Vec<DocumentationRule>,
+    /// The URL to the root of documentation.
+    #[prost(string, tag="4")]
+    pub documentation_root_url: ::prost::alloc::string::String,
+    /// Specifies the service root url if the default one (the service name
+    /// from the yaml file) is not suitable. This can be seen in any fully
+    /// specified service urls as well as sections that show a base that other
+    /// urls are relative to.
+    #[prost(string, tag="6")]
+    pub service_root_url: ::prost::alloc::string::String,
+    /// Declares a single overview page. For example:
+    /// <pre><code>documentation:
+    ///   summary: ...
+    ///   overview: &#40;== include overview.md ==&#41;
+    /// </code></pre>
+    /// This is a shortcut for the following declaration (using pages style):
+    /// <pre><code>documentation:
+    ///   summary: ...
+    ///   pages:
+    ///   - name: Overview
+    ///     content: &#40;== include overview.md ==&#41;
+    /// </code></pre>
+    /// Note: you cannot specify both `overview` field and `pages` field.
+    #[prost(string, tag="2")]
+    pub overview: ::prost::alloc::string::String,
+}
+/// A documentation rule provides information about individual API elements.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DocumentationRule {
+    /// The selector is a comma-separated list of patterns. Each pattern is a
+    /// qualified name of the element which may end in "*", indicating a wildcard.
+    /// Wildcards are only allowed at the end and for a whole component of the
+    /// qualified name, i.e. "foo.*" is ok, but not "foo.b*" or "foo.*.bar". A
+    /// wildcard will match one or more components. To specify a default for all
+    /// applicable elements, the whole pattern "*" is used.
+    #[prost(string, tag="1")]
+    pub selector: ::prost::alloc::string::String,
+    /// Description of the selected API(s).
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
+    /// Deprecation description of the selected element(s). It can be provided if
+    /// an element is marked as `deprecated`.
+    #[prost(string, tag="3")]
+    pub deprecation_description: ::prost::alloc::string::String,
+}
+/// Represents a documentation page. A page can contain subpages to represent
+/// nested documentation set structure.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Page {
+    /// The name of the page. It will be used as an identity of the page to
+    /// generate URI of the page, text of the link to this page in navigation,
+    /// etc. The full page name (start from the root page name to this page
+    /// concatenated with `.`) can be used as reference to the page in your
+    /// documentation. For example:
+    /// <pre><code>pages:
+    /// - name: Tutorial
+    ///   content: &#40;== include tutorial.md ==&#41;
+    ///   subpages:
+    ///   - name: Java
+    ///     content: &#40;== include tutorial_java.md ==&#41;
+    /// </code></pre>
+    /// You can reference `Java` page using Markdown reference link syntax:
+    /// `\[Java][Tutorial.Java\]`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The Markdown content of the page. You can use <code>&#40;== include {path}
+    /// ==&#41;</code> to include content from a Markdown file.
+    #[prost(string, tag="2")]
+    pub content: ::prost::alloc::string::String,
+    /// Subpages of this page. The order of subpages specified here will be
+    /// honored in the generated docset.
+    #[prost(message, repeated, tag="3")]
+    pub subpages: ::prost::alloc::vec::Vec<Page>,
+}
 /// `Endpoint` describes a network endpoint of a service that serves a set of
 /// APIs. It is commonly known as a service endpoint. A service may expose
 /// any number of service endpoints, and all service endpoints share the same
@@ -2669,6 +2144,36 @@ pub struct Endpoint {
     /// allowed to proceed.
     #[prost(bool, tag="5")]
     pub allow_cors: bool,
+}
+/// A description of a log type. Example in YAML format:
+///
+///     - name: library.googleapis.com/activity_history
+///       description: The history of borrowing and returning library items.
+///       display_name: Activity
+///       labels:
+///       - key: /customer_id
+///         description: Identifier of a library customer
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LogDescriptor {
+    /// The name of the log. It must be less than 512 characters long and can
+    /// include the following characters: upper- and lower-case alphanumeric
+    /// characters \[A-Za-z0-9\], and punctuation characters including
+    /// slash, underscore, hyphen, period \[/_-.\].
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The set of labels that are available to describe a specific log entry.
+    /// Runtime requests that contain labels not specified here are
+    /// considered invalid.
+    #[prost(message, repeated, tag="2")]
+    pub labels: ::prost::alloc::vec::Vec<LabelDescriptor>,
+    /// A human-readable description of this log. This information appears in
+    /// the documentation and can contain details.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    /// The human-readable name for this log. This information appears on
+    /// the user interface and should be concise.
+    #[prost(string, tag="4")]
+    pub display_name: ::prost::alloc::string::String,
 }
 /// Logging configuration of the service.
 ///
@@ -3193,62 +2698,438 @@ pub struct Service {
     #[prost(message, optional, tag="20")]
     pub config_version: ::core::option::Option<u32>,
 }
-/// `Visibility` defines restrictions for the visibility of service
-/// elements.  Restrictions are specified using visibility labels
-/// (e.g., PREVIEW) that are elsewhere linked to users and projects.
+/// Specifies the routing information that should be sent along with the request
+/// in the form of routing header.
+/// **NOTE:** All service configuration rules follow the "last one wins" order.
 ///
-/// Users and projects can have access to more than one visibility label. The
-/// effective visibility for multiple labels is the union of each label's
-/// elements, plus any unrestricted elements.
+/// The examples below will apply to an RPC which has the following request type:
 ///
-/// If an element and its parents have no restrictions, visibility is
-/// unconditionally granted.
+/// Message Definition:
 ///
-/// Example:
+///     message Request {
+///       // The name of the Table
+///       // Values can be of the following formats:
+///       // - `projects/<project>/tables/<table>`
+///       // - `projects/<project>/instances/<instance>/tables/<table>`
+///       // - `region/<region>/zones/<zone>/tables/<table>`
+///       string table_name = 1;
 ///
-///     visibility:
-///       rules:
-///       - selector: google.calendar.Calendar.EnhancedSearch
-///         restriction: PREVIEW
-///       - selector: google.calendar.Calendar.Delegate
-///         restriction: INTERNAL
+///       // This value specifies routing for replication.
+///       // It can be in the following formats:
+///       // - `profiles/<profile_id>`
+///       // - a legacy `profile_id` that can be any string
+///       string app_profile_id = 2;
+///     }
 ///
-/// Here, all methods are publicly visible except for the restricted methods
-/// EnhancedSearch and Delegate.
+/// Example message:
+///
+///     {
+///       table_name: projects/proj_foo/instances/instance_bar/table/table_baz,
+///       app_profile_id: profiles/prof_qux
+///     }
+///
+/// The routing header consists of one or multiple key-value pairs. Every key
+/// and value must be percent-encoded, and joined together in the format of
+/// `key1=value1&key2=value2`.
+/// In the examples below I am skipping the percent-encoding for readablity.
+///
+/// Example 1
+///
+/// Extracting a field from the request to put into the routing header
+/// unchanged, with the key equal to the field name.
+///
+/// annotation:
+///
+///     option (google.api.routing) = {
+///       // Take the `app_profile_id`.
+///       routing_parameters {
+///         field: "app_profile_id"
+///       }
+///     };
+///
+/// result:
+///
+///     x-goog-request-params: app_profile_id=profiles/prof_qux
+///
+/// Example 2
+///
+/// Extracting a field from the request to put into the routing header
+/// unchanged, with the key different from the field name.
+///
+/// annotation:
+///
+///     option (google.api.routing) = {
+///       // Take the `app_profile_id`, but name it `routing_id` in the header.
+///       routing_parameters {
+///         field: "app_profile_id"
+///         path_template: "{routing_id=**}"
+///       }
+///     };
+///
+/// result:
+///
+///     x-goog-request-params: routing_id=profiles/prof_qux
+///
+/// Example 3
+///
+/// Extracting a field from the request to put into the routing
+/// header, while matching a path template syntax on the field's value.
+///
+/// NB: it is more useful to send nothing than to send garbage for the purpose
+/// of dynamic routing, since garbage pollutes cache. Thus the matching.
+///
+/// Sub-example 3a
+///
+/// The field matches the template.
+///
+/// annotation:
+///
+///     option (google.api.routing) = {
+///       // Take the `table_name`, if it's well-formed (with project-based
+///       // syntax).
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "{table_name=projects/*/instances/*/**}"
+///       }
+///     };
+///
+/// result:
+///
+///     x-goog-request-params:
+///     table_name=projects/proj_foo/instances/instance_bar/table/table_baz
+///
+/// Sub-example 3b
+///
+/// The field does not match the template.
+///
+/// annotation:
+///
+///     option (google.api.routing) = {
+///       // Take the `table_name`, if it's well-formed (with region-based
+///       // syntax).
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "{table_name=regions/*/zones/*/**}"
+///       }
+///     };
+///
+/// result:
+///
+///     <no routing header will be sent>
+///
+/// Sub-example 3c
+///
+/// Multiple alternative conflictingly named path templates are
+/// specified. The one that matches is used to construct the header.
+///
+/// annotation:
+///
+///     option (google.api.routing) = {
+///       // Take the `table_name`, if it's well-formed, whether
+///       // using the region- or projects-based syntax.
+///
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "{table_name=regions/*/zones/*/**}"
+///       }
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "{table_name=projects/*/instances/*/**}"
+///       }
+///     };
+///
+/// result:
+///
+///     x-goog-request-params:
+///     table_name=projects/proj_foo/instances/instance_bar/table/table_baz
+///
+/// Example 4
+///
+/// Extracting a single routing header key-value pair by matching a
+/// template syntax on (a part of) a single request field.
+///
+/// annotation:
+///
+///     option (google.api.routing) = {
+///       // Take just the project id from the `table_name` field.
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "{routing_id=projects/*}/**"
+///       }
+///     };
+///
+/// result:
+///
+///     x-goog-request-params: routing_id=projects/proj_foo
+///
+/// Example 5
+///
+/// Extracting a single routing header key-value pair by matching
+/// several conflictingly named path templates on (parts of) a single request
+/// field. The last template to match "wins" the conflict.
+///
+/// annotation:
+///
+///     option (google.api.routing) = {
+///       // If the `table_name` does not have instances information,
+///       // take just the project id for routing.
+///       // Otherwise take project + instance.
+///
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "{routing_id=projects/*}/**"
+///       }
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "{routing_id=projects/*/instances/*}/**"
+///       }
+///     };
+///
+/// result:
+///
+///     x-goog-request-params:
+///     routing_id=projects/proj_foo/instances/instance_bar
+///
+/// Example 6
+///
+/// Extracting multiple routing header key-value pairs by matching
+/// several non-conflicting path templates on (parts of) a single request field.
+///
+/// Sub-example 6a
+///
+/// Make the templates strict, so that if the `table_name` does not
+/// have an instance information, nothing is sent.
+///
+/// annotation:
+///
+///     option (google.api.routing) = {
+///       // The routing code needs two keys instead of one composite
+///       // but works only for the tables with the "project-instance" name
+///       // syntax.
+///
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "{project_id=projects/*}/instances/*/**"
+///       }
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "projects/*/{instance_id=instances/*}/**"
+///       }
+///     };
+///
+/// result:
+///
+///     x-goog-request-params:
+///     project_id=projects/proj_foo&instance_id=instances/instance_bar
+///
+/// Sub-example 6b
+///
+/// Make the templates loose, so that if the `table_name` does not
+/// have an instance information, just the project id part is sent.
+///
+/// annotation:
+///
+///     option (google.api.routing) = {
+///       // The routing code wants two keys instead of one composite
+///       // but will work with just the `project_id` for tables without
+///       // an instance in the `table_name`.
+///
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "{project_id=projects/*}/**"
+///       }
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "projects/*/{instance_id=instances/*}/**"
+///       }
+///     };
+///
+/// result (is the same as 6a for our example message because it has the instance
+/// information):
+///
+///     x-goog-request-params:
+///     project_id=projects/proj_foo&instance_id=instances/instance_bar
+///
+/// Example 7
+///
+/// Extracting multiple routing header key-value pairs by matching
+/// several path templates on multiple request fields.
+///
+/// NB: note that here there is no way to specify sending nothing if one of the
+/// fields does not match its template. E.g. if the `table_name` is in the wrong
+/// format, the `project_id` will not be sent, but the `routing_id` will be.
+/// The backend routing code has to be aware of that and be prepared to not
+/// receive a full complement of keys if it expects multiple.
+///
+/// annotation:
+///
+///     option (google.api.routing) = {
+///       // The routing needs both `project_id` and `routing_id`
+///       // (from the `app_profile_id` field) for routing.
+///
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "{project_id=projects/*}/**"
+///       }
+///       routing_parameters {
+///         field: "app_profile_id"
+///         path_template: "{routing_id=**}"
+///       }
+///     };
+///
+/// result:
+///
+///     x-goog-request-params:
+///     project_id=projects/proj_foo&routing_id=profiles/prof_qux
+///
+/// Example 8
+///
+/// Extracting a single routing header key-value pair by matching
+/// several conflictingly named path templates on several request fields. The
+/// last template to match "wins" the conflict.
+///
+/// annotation:
+///
+///     option (google.api.routing) = {
+///       // The `routing_id` can be a project id or a region id depending on
+///       // the table name format, but only if the `app_profile_id` is not set.
+///       // If `app_profile_id` is set it should be used instead.
+///
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "{routing_id=projects/*}/**"
+///       }
+///       routing_parameters {
+///          field: "table_name"
+///          path_template: "{routing_id=regions/*}/**"
+///       }
+///       routing_parameters {
+///         field: "app_profile_id"
+///         path_template: "{routing_id=**}"
+///       }
+///     };
+///
+/// result:
+///
+///     x-goog-request-params: routing_id=profiles/prof_qux
+///
+/// Example 9
+///
+/// Bringing it all together.
+///
+/// annotation:
+///
+///     option (google.api.routing) = {
+///       // For routing both `table_location` and a `routing_id` are needed.
+///       //
+///       // table_location can be either an instance id or a region+zone id.
+///       //
+///       // For `routing_id`, take the value of `app_profile_id`
+///       // - If it's in the format `profiles/<profile_id>`, send
+///       // just the `<profile_id>` part.
+///       // - If it's any other literal, send it as is.
+///       // If the `app_profile_id` is empty, and the `table_name` starts with
+///       // the project_id, send that instead.
+///
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "projects/*/{table_location=instances/*}/tables/*"
+///       }
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "{table_location=regions/*/zones/*}/tables/*"
+///       }
+///       routing_parameters {
+///         field: "table_name"
+///         path_template: "{routing_id=projects/*}/**"
+///       }
+///       routing_parameters {
+///         field: "app_profile_id"
+///         path_template: "{routing_id=**}"
+///       }
+///       routing_parameters {
+///         field: "app_profile_id"
+///         path_template: "profiles/{routing_id=*}"
+///       }
+///     };
+///
+/// result:
+///
+///     x-goog-request-params:
+///     table_location=instances/instance_bar&routing_id=prof_qux
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Visibility {
-    /// A list of visibility rules that apply to individual API elements.
-    ///
-    /// **NOTE:** All service configuration rules follow "last one wins" order.
-    #[prost(message, repeated, tag="1")]
-    pub rules: ::prost::alloc::vec::Vec<VisibilityRule>,
+pub struct RoutingRule {
+    /// A collection of Routing Parameter specifications.
+    /// **NOTE:** If multiple Routing Parameters describe the same key
+    /// (via the `path_template` field or via the `field` field when
+    /// `path_template` is not provided), "last one wins" rule
+    /// determines which Parameter gets used.
+    /// See the examples for more details.
+    #[prost(message, repeated, tag="2")]
+    pub routing_parameters: ::prost::alloc::vec::Vec<RoutingParameter>,
 }
-/// A visibility rule provides visibility configuration for an individual API
-/// element.
+/// A projection from an input message to the GRPC or REST header.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VisibilityRule {
-    /// Selects methods, messages, fields, enums, etc. to which this rule applies.
-    ///
-    /// Refer to \[selector][google.api.DocumentationRule.selector\] for syntax details.
+pub struct RoutingParameter {
+    /// A request field to extract the header key-value pair from.
     #[prost(string, tag="1")]
-    pub selector: ::prost::alloc::string::String,
-    /// A comma-separated list of visibility labels that apply to the `selector`.
-    /// Any of the listed labels can be used to grant the visibility.
-    ///
-    /// If a rule has multiple labels, removing one of the labels but not all of
-    /// them can break clients.
+    pub field: ::prost::alloc::string::String,
+    /// A pattern matching the key-value field. Optional.
+    /// If not specified, the whole field specified in the `field` field will be
+    /// taken as value, and its name used as key. If specified, it MUST contain
+    /// exactly one named segment (along with any number of unnamed segments) The
+    /// pattern will be matched over the field specified in the `field` field, then
+    /// if the match is successful:
+    /// - the name of the single named segment will be used as a header name,
+    /// - the match value of the segment will be used as a header value;
+    /// if the match is NOT successful, nothing will be sent.
     ///
     /// Example:
     ///
-    ///     visibility:
-    ///       rules:
-    ///       - selector: google.calendar.Calendar.EnhancedSearch
-    ///         restriction: INTERNAL, PREVIEW
+    ///               -- This is a field in the request message
+    ///              |   that the header value will be extracted from.
+    ///              |
+    ///              |                     -- This is the key name in the
+    ///              |                    |   routing header.
+    ///              V                    |
+    ///     field: "table_name"           v
+    ///     path_template: "projects/*/{table_location=instances/*}/tables/*"
+    ///                                                ^            ^
+    ///                                                |            |
+    ///       In the {} brackets is the pattern that --             |
+    ///       specifies what to extract from the                    |
+    ///       field as a value to be sent.                          |
+    ///                                                             |
+    ///      The string in the field must match the whole pattern --
+    ///      before brackets, inside brackets, after brackets.
     ///
-    /// Removing INTERNAL from this restriction will break clients that rely on
-    /// this method and only had access to it through INTERNAL.
+    /// When looking at this specific example, we can see that:
+    /// - A key-value pair with the key `table_location`
+    ///   and the value matching `instances/*` should be added
+    ///   to the x-goog-request-params routing header.
+    /// - The value is extracted from the request message's `table_name` field
+    ///   if it matches the full pattern specified:
+    ///   `projects/*/instances/*/tables/*`.
+    ///
+    /// **NB:** If the `path_template` field is not provided, the key name is
+    /// equal to the field name, and the whole field should be sent as a value.
+    /// This makes the pattern for the field and the value functionally equivalent
+    /// to `**`, and the configuration
+    ///
+    ///     {
+    ///       field: "table_name"
+    ///     }
+    ///
+    /// is a functionally equivalent shorthand to:
+    ///
+    ///     {
+    ///       field: "table_name"
+    ///       path_template: "{table_name=**}"
+    ///     }
+    ///
+    /// See Example 1 for more details.
     #[prost(string, tag="2")]
-    pub restriction: ::prost::alloc::string::String,
+    pub path_template: ::prost::alloc::string::String,
 }
 /// Defines the supported values for `google.rpc.ErrorInfo.reason` for the
 /// `googleapis.com` error domain. This error domain is reserved for [Service
@@ -3605,4 +3486,123 @@ pub enum ErrorReason {
     ///       }
     ///     }
     AccessTokenTypeUnsupported = 19,
+}
+/// A descriptor for defining project properties for a service. One service may
+/// have many consumer projects, and the service may want to behave differently
+/// depending on some properties on the project. For example, a project may be
+/// associated with a school, or a business, or a government agency, a business
+/// type property on the project may affect how a service responds to the client.
+/// This descriptor defines which properties are allowed to be set on a project.
+///
+/// Example:
+///
+///    project_properties:
+///      properties:
+///      - name: NO_WATERMARK
+///        type: BOOL
+///        description: Allows usage of the API without watermarks.
+///      - name: EXTENDED_TILE_CACHE_PERIOD
+///        type: INT64
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProjectProperties {
+    /// List of per consumer project-specific properties.
+    #[prost(message, repeated, tag="1")]
+    pub properties: ::prost::alloc::vec::Vec<Property>,
+}
+/// Defines project properties.
+///
+/// API services can define properties that can be assigned to consumer projects
+/// so that backends can perform response customization without having to make
+/// additional calls or maintain additional storage. For example, Maps API
+/// defines properties that controls map tile cache period, or whether to embed a
+/// watermark in a result.
+///
+/// These values can be set via API producer console. Only API providers can
+/// define and set these properties.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Property {
+    /// The name of the property (a.k.a key).
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The type of this property.
+    #[prost(enumeration="property::PropertyType", tag="2")]
+    pub r#type: i32,
+    /// The description of the property
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `Property`.
+pub mod property {
+    /// Supported data type of the property values
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum PropertyType {
+        /// The type is unspecified, and will result in an error.
+        Unspecified = 0,
+        /// The type is `int64`.
+        Int64 = 1,
+        /// The type is `bool`.
+        Bool = 2,
+        /// The type is `string`.
+        String = 3,
+        /// The type is 'double'.
+        Double = 4,
+    }
+}
+/// `Visibility` defines restrictions for the visibility of service
+/// elements.  Restrictions are specified using visibility labels
+/// (e.g., PREVIEW) that are elsewhere linked to users and projects.
+///
+/// Users and projects can have access to more than one visibility label. The
+/// effective visibility for multiple labels is the union of each label's
+/// elements, plus any unrestricted elements.
+///
+/// If an element and its parents have no restrictions, visibility is
+/// unconditionally granted.
+///
+/// Example:
+///
+///     visibility:
+///       rules:
+///       - selector: google.calendar.Calendar.EnhancedSearch
+///         restriction: PREVIEW
+///       - selector: google.calendar.Calendar.Delegate
+///         restriction: INTERNAL
+///
+/// Here, all methods are publicly visible except for the restricted methods
+/// EnhancedSearch and Delegate.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Visibility {
+    /// A list of visibility rules that apply to individual API elements.
+    ///
+    /// **NOTE:** All service configuration rules follow "last one wins" order.
+    #[prost(message, repeated, tag="1")]
+    pub rules: ::prost::alloc::vec::Vec<VisibilityRule>,
+}
+/// A visibility rule provides visibility configuration for an individual API
+/// element.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VisibilityRule {
+    /// Selects methods, messages, fields, enums, etc. to which this rule applies.
+    ///
+    /// Refer to \[selector][google.api.DocumentationRule.selector\] for syntax details.
+    #[prost(string, tag="1")]
+    pub selector: ::prost::alloc::string::String,
+    /// A comma-separated list of visibility labels that apply to the `selector`.
+    /// Any of the listed labels can be used to grant the visibility.
+    ///
+    /// If a rule has multiple labels, removing one of the labels but not all of
+    /// them can break clients.
+    ///
+    /// Example:
+    ///
+    ///     visibility:
+    ///       rules:
+    ///       - selector: google.calendar.Calendar.EnhancedSearch
+    ///         restriction: INTERNAL, PREVIEW
+    ///
+    /// Removing INTERNAL from this restriction will break clients that rely on
+    /// this method and only had access to it through INTERNAL.
+    #[prost(string, tag="2")]
+    pub restriction: ::prost::alloc::string::String,
 }
