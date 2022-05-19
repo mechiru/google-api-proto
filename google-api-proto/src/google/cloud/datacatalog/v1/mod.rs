@@ -1,3 +1,68 @@
+/// Specification for the BigQuery connection.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BigQueryConnectionSpec {
+    /// The type of the BigQuery connection.
+    #[prost(enumeration="big_query_connection_spec::ConnectionType", tag="1")]
+    pub connection_type: i32,
+    /// True if there are credentials attached to the BigQuery connection; false
+    /// otherwise.
+    #[prost(bool, tag="3")]
+    pub has_credential: bool,
+    #[prost(oneof="big_query_connection_spec::ConnectionSpec", tags="2")]
+    pub connection_spec: ::core::option::Option<big_query_connection_spec::ConnectionSpec>,
+}
+/// Nested message and enum types in `BigQueryConnectionSpec`.
+pub mod big_query_connection_spec {
+    /// The type of the BigQuery connection.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ConnectionType {
+        /// Unspecified type.
+        Unspecified = 0,
+        /// Cloud SQL connection.
+        CloudSql = 1,
+    }
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum ConnectionSpec {
+        /// Specification for the BigQuery connection to a Cloud SQL instance.
+        #[prost(message, tag="2")]
+        CloudSql(super::CloudSqlBigQueryConnectionSpec),
+    }
+}
+/// Specification for the BigQuery connection to a Cloud SQL instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CloudSqlBigQueryConnectionSpec {
+    /// Cloud SQL instance ID in the format of `project:location:instance`.
+    #[prost(string, tag="1")]
+    pub instance_id: ::prost::alloc::string::String,
+    /// Database name.
+    #[prost(string, tag="2")]
+    pub database: ::prost::alloc::string::String,
+    /// Type of the Cloud SQL database.
+    #[prost(enumeration="cloud_sql_big_query_connection_spec::DatabaseType", tag="3")]
+    pub r#type: i32,
+}
+/// Nested message and enum types in `CloudSqlBigQueryConnectionSpec`.
+pub mod cloud_sql_big_query_connection_spec {
+    /// Supported Cloud SQL database types.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum DatabaseType {
+        /// Unspecified database type.
+        Unspecified = 0,
+        /// Cloud SQL for PostgreSQL.
+        Postgres = 1,
+        /// Cloud SQL for MySQL.
+        Mysql = 2,
+    }
+}
+/// Fields specific for BigQuery routines.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BigQueryRoutineSpec {
+    /// Paths of the imported libraries.
+    #[prost(string, repeated, tag="1")]
+    pub imported_libraries: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
 /// Entry metadata relevant only to the user and private to them.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PersonalDetails {
@@ -22,6 +87,72 @@ pub enum IntegratedSystem {
     DataprocMetastore = 3,
     /// Dataplex.
     Dataplex = 4,
+}
+/// Physical location of an entry.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataSource {
+    /// Service that physically stores the data.
+    #[prost(enumeration="data_source::Service", tag="1")]
+    pub service: i32,
+    /// Full name of a resource as defined by the service. For example:
+    ///
+    /// `//bigquery.googleapis.com/projects/{PROJECT_ID}/locations/{LOCATION}/datasets/{DATASET_ID}/tables/{TABLE_ID}`
+    #[prost(string, tag="2")]
+    pub resource: ::prost::alloc::string::String,
+    /// Output only. Data Catalog entry name, if applicable.
+    #[prost(string, tag="3")]
+    pub source_entry: ::prost::alloc::string::String,
+    #[prost(oneof="data_source::Properties", tags="4")]
+    pub properties: ::core::option::Option<data_source::Properties>,
+}
+/// Nested message and enum types in `DataSource`.
+pub mod data_source {
+    /// Name of a service that stores the data.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Service {
+        /// Default unknown service.
+        Unspecified = 0,
+        /// Google Cloud Storage service.
+        CloudStorage = 1,
+        /// BigQuery service.
+        Bigquery = 2,
+    }
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Properties {
+        /// Detailed properties of the underlying storage.
+        #[prost(message, tag="4")]
+        StorageProperties(super::StorageProperties),
+    }
+}
+/// Details the properties of the underlying storage.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StorageProperties {
+    /// Patterns to identify a set of files for this fileset.
+    ///
+    /// Examples of a valid `file_pattern`:
+    ///
+    ///  * `gs://bucket_name/dir/*`: matches all files in the `bucket_name/dir`
+    ///                              directory
+    ///  * `gs://bucket_name/dir/**`: matches all files in the `bucket_name/dir`
+    ///                               and all subdirectories recursively
+    ///  * `gs://bucket_name/file*`: matches files prefixed by `file` in
+    ///                              `bucket_name`
+    ///  * `gs://bucket_name/??.txt`: matches files with two characters followed by
+    ///                               `.txt` in `bucket_name`
+    ///  * `gs://bucket_name/\[aeiou\].txt`: matches files that contain a single
+    ///                                    vowel character followed by `.txt` in
+    ///                                    `bucket_name`
+    ///  * `gs://bucket_name/\[a-m\].txt`: matches files that contain `a`, `b`, ...
+    ///                                  or `m` followed by `.txt` in `bucket_name`
+    ///  * `gs://bucket_name/a/*/b`: matches all files in `bucket_name` that match
+    ///                              the `a/*/b` pattern, such as `a/c/b`, `a/d/b`
+    ///  * `gs://another_bucket/a.txt`: matches `gs://another_bucket/a.txt`
+    #[prost(string, repeated, tag="1")]
+    pub file_pattern: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// File type in MIME format, for example, `text/plain`.
+    #[prost(string, tag="2")]
+    pub file_type: ::prost::alloc::string::String,
 }
 /// Native schema used by a resource represented as an entry. Used by query
 /// engines for deserializing and parsing source data.
@@ -225,72 +356,6 @@ pub struct GcsFileSpec {
     #[prost(int64, tag="4")]
     pub size_bytes: i64,
 }
-/// Physical location of an entry.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataSource {
-    /// Service that physically stores the data.
-    #[prost(enumeration="data_source::Service", tag="1")]
-    pub service: i32,
-    /// Full name of a resource as defined by the service. For example:
-    ///
-    /// `//bigquery.googleapis.com/projects/{PROJECT_ID}/locations/{LOCATION}/datasets/{DATASET_ID}/tables/{TABLE_ID}`
-    #[prost(string, tag="2")]
-    pub resource: ::prost::alloc::string::String,
-    /// Output only. Data Catalog entry name, if applicable.
-    #[prost(string, tag="3")]
-    pub source_entry: ::prost::alloc::string::String,
-    #[prost(oneof="data_source::Properties", tags="4")]
-    pub properties: ::core::option::Option<data_source::Properties>,
-}
-/// Nested message and enum types in `DataSource`.
-pub mod data_source {
-    /// Name of a service that stores the data.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Service {
-        /// Default unknown service.
-        Unspecified = 0,
-        /// Google Cloud Storage service.
-        CloudStorage = 1,
-        /// BigQuery service.
-        Bigquery = 2,
-    }
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Properties {
-        /// Detailed properties of the underlying storage.
-        #[prost(message, tag="4")]
-        StorageProperties(super::StorageProperties),
-    }
-}
-/// Details the properties of the underlying storage.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StorageProperties {
-    /// Patterns to identify a set of files for this fileset.
-    ///
-    /// Examples of a valid `file_pattern`:
-    ///
-    ///  * `gs://bucket_name/dir/*`: matches all files in the `bucket_name/dir`
-    ///                              directory
-    ///  * `gs://bucket_name/dir/**`: matches all files in the `bucket_name/dir`
-    ///                               and all subdirectories recursively
-    ///  * `gs://bucket_name/file*`: matches files prefixed by `file` in
-    ///                              `bucket_name`
-    ///  * `gs://bucket_name/??.txt`: matches files with two characters followed by
-    ///                               `.txt` in `bucket_name`
-    ///  * `gs://bucket_name/\[aeiou\].txt`: matches files that contain a single
-    ///                                    vowel character followed by `.txt` in
-    ///                                    `bucket_name`
-    ///  * `gs://bucket_name/\[a-m\].txt`: matches files that contain `a`, `b`, ...
-    ///                                  or `m` followed by `.txt` in `bucket_name`
-    ///  * `gs://bucket_name/a/*/b`: matches all files in `bucket_name` that match
-    ///                              the `a/*/b` pattern, such as `a/c/b`, `a/d/b`
-    ///  * `gs://another_bucket/a.txt`: matches `gs://another_bucket/a.txt`
-    #[prost(string, repeated, tag="1")]
-    pub file_pattern: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// File type in MIME format, for example, `text/plain`.
-    #[prost(string, tag="2")]
-    pub file_type: ::prost::alloc::string::String,
-}
 /// Represents a schema, for example, a BigQuery, GoogleSQL, or Avro schema.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Schema {
@@ -332,71 +397,6 @@ pub struct ColumnSchema {
     /// Optional. Schema of sub-columns. A column can have zero or more sub-columns.
     #[prost(message, repeated, tag="7")]
     pub subcolumns: ::prost::alloc::vec::Vec<ColumnSchema>,
-}
-/// Specification for the BigQuery connection.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BigQueryConnectionSpec {
-    /// The type of the BigQuery connection.
-    #[prost(enumeration="big_query_connection_spec::ConnectionType", tag="1")]
-    pub connection_type: i32,
-    /// True if there are credentials attached to the BigQuery connection; false
-    /// otherwise.
-    #[prost(bool, tag="3")]
-    pub has_credential: bool,
-    #[prost(oneof="big_query_connection_spec::ConnectionSpec", tags="2")]
-    pub connection_spec: ::core::option::Option<big_query_connection_spec::ConnectionSpec>,
-}
-/// Nested message and enum types in `BigQueryConnectionSpec`.
-pub mod big_query_connection_spec {
-    /// The type of the BigQuery connection.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ConnectionType {
-        /// Unspecified type.
-        Unspecified = 0,
-        /// Cloud SQL connection.
-        CloudSql = 1,
-    }
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum ConnectionSpec {
-        /// Specification for the BigQuery connection to a Cloud SQL instance.
-        #[prost(message, tag="2")]
-        CloudSql(super::CloudSqlBigQueryConnectionSpec),
-    }
-}
-/// Specification for the BigQuery connection to a Cloud SQL instance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CloudSqlBigQueryConnectionSpec {
-    /// Cloud SQL instance ID in the format of `project:location:instance`.
-    #[prost(string, tag="1")]
-    pub instance_id: ::prost::alloc::string::String,
-    /// Database name.
-    #[prost(string, tag="2")]
-    pub database: ::prost::alloc::string::String,
-    /// Type of the Cloud SQL database.
-    #[prost(enumeration="cloud_sql_big_query_connection_spec::DatabaseType", tag="3")]
-    pub r#type: i32,
-}
-/// Nested message and enum types in `CloudSqlBigQueryConnectionSpec`.
-pub mod cloud_sql_big_query_connection_spec {
-    /// Supported Cloud SQL database types.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum DatabaseType {
-        /// Unspecified database type.
-        Unspecified = 0,
-        /// Cloud SQL for PostgreSQL.
-        Postgres = 1,
-        /// Cloud SQL for MySQL.
-        Mysql = 2,
-    }
-}
-/// Fields specific for BigQuery routines.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BigQueryRoutineSpec {
-    /// Paths of the imported libraries.
-    #[prost(string, repeated, tag="1")]
-    pub imported_libraries: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Result in the response to a search request.
 ///

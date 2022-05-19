@@ -335,6 +335,59 @@ pub enum Units {
     /// Imperial (English) units of measure.
     Imperial = 2,
 }
+/// ComputeRouteMatrix request message
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ComputeRouteMatrixRequest {
+    /// Required. Array of origins, which determines the rows of the response matrix.
+    /// Several size restrictions apply to the cardinality of origins and
+    /// destinations:
+    ///
+    /// * The number of elements (origins × destinations) must be no greater than
+    /// 625 in any case.
+    /// * The number of elements (origins × destinations) must be no greater than
+    /// 100 if routing_preference is set to `TRAFFIC_AWARE_OPTIMAL`.
+    /// * The number of waypoints (origins + destinations) specified as `place_id`
+    /// must be no greater than 50.
+    #[prost(message, repeated, tag="1")]
+    pub origins: ::prost::alloc::vec::Vec<RouteMatrixOrigin>,
+    /// Required. Array of destinations, which determines the columns of the response matrix.
+    #[prost(message, repeated, tag="2")]
+    pub destinations: ::prost::alloc::vec::Vec<RouteMatrixDestination>,
+    /// Optional. Specifies the mode of transportation.
+    #[prost(enumeration="RouteTravelMode", tag="3")]
+    pub travel_mode: i32,
+    /// Optional. Specifies how to compute the route. The server attempts to use the selected
+    /// routing preference to compute the route. If the routing preference results
+    /// in an error or an extra long latency, an error is returned. In the future,
+    /// we might implement a fallback mechanism to use a different option when the
+    /// preferred option does not give a valid result. You can specify this option
+    /// only when the `travel_mode` is `DRIVE` or `TWO_WHEELER`, otherwise the
+    /// request fails.
+    #[prost(enumeration="RoutingPreference", tag="4")]
+    pub routing_preference: i32,
+    /// Optional. The departure time. If you don't set this value, this defaults to the time
+    /// that you made the request. If you set this value to a time that has already
+    /// occurred, the request fails.
+    #[prost(message, optional, tag="5")]
+    pub departure_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// A single origin for ComputeRouteMatrixRequest
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RouteMatrixOrigin {
+    /// Required. Origin waypoint
+    #[prost(message, optional, tag="1")]
+    pub waypoint: ::core::option::Option<Waypoint>,
+    /// Optional. Modifiers for every route that takes this as the origin
+    #[prost(message, optional, tag="2")]
+    pub route_modifiers: ::core::option::Option<RouteModifiers>,
+}
+/// A single destination for ComputeRouteMatrixRequest
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RouteMatrixDestination {
+    /// Required. Destination waypoint
+    #[prost(message, optional, tag="1")]
+    pub waypoint: ::core::option::Option<Waypoint>,
+}
 /// ComputeCustomRoutes request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ComputeCustomRoutesRequest {
@@ -432,6 +485,50 @@ pub mod route_objective {
         #[prost(message, tag="1")]
         RateCard(RateCard),
     }
+}
+/// Information related to how and why a fallback result was used. If this field
+/// is set, then it means the server used a different routing mode from your
+/// preferred mode as fallback.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FallbackInfo {
+    /// Routing mode used for the response. If fallback was triggered, the mode
+    /// may be different from routing preference set in the original client
+    /// request.
+    #[prost(enumeration="FallbackRoutingMode", tag="1")]
+    pub routing_mode: i32,
+    /// The reason why fallback response was used instead of the original response.
+    /// This field is only populated when the fallback mode is triggered and the
+    /// fallback response is returned.
+    #[prost(enumeration="FallbackReason", tag="2")]
+    pub reason: i32,
+}
+/// Reasons for using fallback response.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum FallbackReason {
+    /// No fallback reason specified.
+    Unspecified = 0,
+    /// A server error happened while calculating routes with your preferred
+    /// routing mode, but we were able to return a result calculated by an
+    /// alternative mode.
+    ServerError = 1,
+    /// We were not able to finish the calculation with your preferred routing mode
+    /// on time, but we were able to return a result calculated by an alternative
+    /// mode.
+    LatencyExceeded = 2,
+}
+/// Actual routing mode used for returned fallback response.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum FallbackRoutingMode {
+    /// Not used.
+    Unspecified = 0,
+    /// Indicates the "TRAFFIC_UNAWARE" routing mode was used to compute the
+    /// response.
+    FallbackTrafficUnaware = 1,
+    /// Indicates the "TRAFFIC_AWARE" routing mode was used to compute the
+    /// response.
+    FallbackTrafficAware = 2,
 }
 /// Encapsulates a route, which consists of a series of connected road segments
 /// that join beginning, ending, and intermediate waypoints.
@@ -735,6 +832,23 @@ pub enum Maneuver {
     /// Turn right at the roundabout.
     RoundaboutRight = 18,
 }
+/// ComputeRoutes the response message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ComputeRoutesResponse {
+    /// Contains an array of computed routes (up to three) when you specify
+    /// compute_alternatives_routes, and contains just one route when you don't.
+    /// When this array contains multiple entries, the first one is the most
+    /// recommended route. If the array is empty, then it means no route could be
+    /// found.
+    #[prost(message, repeated, tag="1")]
+    pub routes: ::prost::alloc::vec::Vec<Route>,
+    /// In some cases when the server is not able to compute the route results with
+    /// all of the input preferences, it may fallback to using a different way of
+    /// computation. When fallback mode is used, this field contains detailed info
+    /// about the fallback response. Otherwise this field is unset.
+    #[prost(message, optional, tag="2")]
+    pub fallback_info: ::core::option::Option<FallbackInfo>,
+}
 /// Encapsulates a custom route computed based on the route objective specified
 /// by the customer. CustomRoute contains a route and a route token, which can be
 /// passed to NavSDK to reconstruct the custom route for turn by turn navigation.
@@ -751,49 +865,60 @@ pub struct CustomRoute {
     #[prost(string, tag="12")]
     pub token: ::prost::alloc::string::String,
 }
-/// Information related to how and why a fallback result was used. If this field
-/// is set, then it means the server used a different routing mode from your
-/// preferred mode as fallback.
+/// Encapsulates route information computed for an origin/destination pair in the
+/// ComputeRouteMatrix API. This proto can be streamed to the client.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FallbackInfo {
-    /// Routing mode used for the response. If fallback was triggered, the mode
-    /// may be different from routing preference set in the original client
-    /// request.
-    #[prost(enumeration="FallbackRoutingMode", tag="1")]
-    pub routing_mode: i32,
-    /// The reason why fallback response was used instead of the original response.
-    /// This field is only populated when the fallback mode is triggered and the
-    /// fallback response is returned.
-    #[prost(enumeration="FallbackReason", tag="2")]
-    pub reason: i32,
+pub struct RouteMatrixElement {
+    /// Zero-based index of the origin in the request.
+    #[prost(int32, tag="1")]
+    pub origin_index: i32,
+    /// Zero-based index of the destination in the request.
+    #[prost(int32, tag="2")]
+    pub destination_index: i32,
+    /// Error status code for this element.
+    #[prost(message, optional, tag="3")]
+    pub status: ::core::option::Option<super::super::super::rpc::Status>,
+    /// Indicates whether the route was found or not. Independent of status.
+    #[prost(enumeration="RouteMatrixElementCondition", tag="9")]
+    pub condition: i32,
+    /// The travel distance of the route, in meters.
+    #[prost(int32, tag="4")]
+    pub distance_meters: i32,
+    /// The length of time needed to navigate the route. If you set the
+    /// `route_preference` to `TRAFFIC_UNAWARE`, then this value is the same as
+    /// `static_duration`. If you set the `route_preference` to either
+    /// `TRAFFIC_AWARE` or `TRAFFIC_AWARE_OPTIMAL`, then this value is calculated
+    /// taking traffic conditions into account.
+    #[prost(message, optional, tag="5")]
+    pub duration: ::core::option::Option<::prost_types::Duration>,
+    /// The duration of traveling through the route without taking traffic
+    /// conditions into consideration.
+    #[prost(message, optional, tag="6")]
+    pub static_duration: ::core::option::Option<::prost_types::Duration>,
+    /// Additional information about the route. For example: restriction
+    /// information and toll information
+    #[prost(message, optional, tag="7")]
+    pub travel_advisory: ::core::option::Option<RouteTravelAdvisory>,
+    /// In some cases when the server is not able to compute the route with the
+    /// given preferences for this particular origin/destination pair, it may
+    /// fall back to using a different mode of computation. When fallback mode is
+    /// used, this field contains detailed information about the fallback response.
+    /// Otherwise this field is unset.
+    #[prost(message, optional, tag="8")]
+    pub fallback_info: ::core::option::Option<FallbackInfo>,
 }
-/// Reasons for using fallback response.
+/// The condition of the route being returned.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-pub enum FallbackReason {
-    /// No fallback reason specified.
+pub enum RouteMatrixElementCondition {
+    /// Only used when the `status` of the element is not OK.
     Unspecified = 0,
-    /// A server error happened while calculating routes with your preferred
-    /// routing mode, but we were able to return a result calculated by an
-    /// alternative mode.
-    ServerError = 1,
-    /// We were not able to finish the calculation with your preferred routing mode
-    /// on time, but we were able to return a result calculated by an alternative
-    /// mode.
-    LatencyExceeded = 2,
-}
-/// Actual routing mode used for returned fallback response.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum FallbackRoutingMode {
-    /// Not used.
-    Unspecified = 0,
-    /// Indicates the "TRAFFIC_UNAWARE" routing mode was used to compute the
-    /// response.
-    FallbackTrafficUnaware = 1,
-    /// Indicates the "TRAFFIC_AWARE" routing mode was used to compute the
-    /// response.
-    FallbackTrafficAware = 2,
+    /// A route was found, and the corresponding information was filled out for the
+    /// element.
+    RouteExists = 1,
+    /// No route could be found. Fields containing route information, such as
+    /// `distance_meters` or `duration`, will not be filled out in the element.
+    RouteNotFound = 2,
 }
 /// ComputeCustomRoutes response message.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -859,131 +984,6 @@ pub mod compute_custom_routes_response {
             FallbackRatecardWithoutTollPriceData = 1,
         }
     }
-}
-/// ComputeRouteMatrix request message
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ComputeRouteMatrixRequest {
-    /// Required. Array of origins, which determines the rows of the response matrix.
-    /// Several size restrictions apply to the cardinality of origins and
-    /// destinations:
-    ///
-    /// * The number of elements (origins × destinations) must be no greater than
-    /// 625 in any case.
-    /// * The number of elements (origins × destinations) must be no greater than
-    /// 100 if routing_preference is set to `TRAFFIC_AWARE_OPTIMAL`.
-    /// * The number of waypoints (origins + destinations) specified as `place_id`
-    /// must be no greater than 50.
-    #[prost(message, repeated, tag="1")]
-    pub origins: ::prost::alloc::vec::Vec<RouteMatrixOrigin>,
-    /// Required. Array of destinations, which determines the columns of the response matrix.
-    #[prost(message, repeated, tag="2")]
-    pub destinations: ::prost::alloc::vec::Vec<RouteMatrixDestination>,
-    /// Optional. Specifies the mode of transportation.
-    #[prost(enumeration="RouteTravelMode", tag="3")]
-    pub travel_mode: i32,
-    /// Optional. Specifies how to compute the route. The server attempts to use the selected
-    /// routing preference to compute the route. If the routing preference results
-    /// in an error or an extra long latency, an error is returned. In the future,
-    /// we might implement a fallback mechanism to use a different option when the
-    /// preferred option does not give a valid result. You can specify this option
-    /// only when the `travel_mode` is `DRIVE` or `TWO_WHEELER`, otherwise the
-    /// request fails.
-    #[prost(enumeration="RoutingPreference", tag="4")]
-    pub routing_preference: i32,
-    /// Optional. The departure time. If you don't set this value, this defaults to the time
-    /// that you made the request. If you set this value to a time that has already
-    /// occurred, the request fails.
-    #[prost(message, optional, tag="5")]
-    pub departure_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// A single origin for ComputeRouteMatrixRequest
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RouteMatrixOrigin {
-    /// Required. Origin waypoint
-    #[prost(message, optional, tag="1")]
-    pub waypoint: ::core::option::Option<Waypoint>,
-    /// Optional. Modifiers for every route that takes this as the origin
-    #[prost(message, optional, tag="2")]
-    pub route_modifiers: ::core::option::Option<RouteModifiers>,
-}
-/// A single destination for ComputeRouteMatrixRequest
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RouteMatrixDestination {
-    /// Required. Destination waypoint
-    #[prost(message, optional, tag="1")]
-    pub waypoint: ::core::option::Option<Waypoint>,
-}
-/// ComputeRoutes the response message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ComputeRoutesResponse {
-    /// Contains an array of computed routes (up to three) when you specify
-    /// compute_alternatives_routes, and contains just one route when you don't.
-    /// When this array contains multiple entries, the first one is the most
-    /// recommended route. If the array is empty, then it means no route could be
-    /// found.
-    #[prost(message, repeated, tag="1")]
-    pub routes: ::prost::alloc::vec::Vec<Route>,
-    /// In some cases when the server is not able to compute the route results with
-    /// all of the input preferences, it may fallback to using a different way of
-    /// computation. When fallback mode is used, this field contains detailed info
-    /// about the fallback response. Otherwise this field is unset.
-    #[prost(message, optional, tag="2")]
-    pub fallback_info: ::core::option::Option<FallbackInfo>,
-}
-/// Encapsulates route information computed for an origin/destination pair in the
-/// ComputeRouteMatrix API. This proto can be streamed to the client.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RouteMatrixElement {
-    /// Zero-based index of the origin in the request.
-    #[prost(int32, tag="1")]
-    pub origin_index: i32,
-    /// Zero-based index of the destination in the request.
-    #[prost(int32, tag="2")]
-    pub destination_index: i32,
-    /// Error status code for this element.
-    #[prost(message, optional, tag="3")]
-    pub status: ::core::option::Option<super::super::super::rpc::Status>,
-    /// Indicates whether the route was found or not. Independent of status.
-    #[prost(enumeration="RouteMatrixElementCondition", tag="9")]
-    pub condition: i32,
-    /// The travel distance of the route, in meters.
-    #[prost(int32, tag="4")]
-    pub distance_meters: i32,
-    /// The length of time needed to navigate the route. If you set the
-    /// `route_preference` to `TRAFFIC_UNAWARE`, then this value is the same as
-    /// `static_duration`. If you set the `route_preference` to either
-    /// `TRAFFIC_AWARE` or `TRAFFIC_AWARE_OPTIMAL`, then this value is calculated
-    /// taking traffic conditions into account.
-    #[prost(message, optional, tag="5")]
-    pub duration: ::core::option::Option<::prost_types::Duration>,
-    /// The duration of traveling through the route without taking traffic
-    /// conditions into consideration.
-    #[prost(message, optional, tag="6")]
-    pub static_duration: ::core::option::Option<::prost_types::Duration>,
-    /// Additional information about the route. For example: restriction
-    /// information and toll information
-    #[prost(message, optional, tag="7")]
-    pub travel_advisory: ::core::option::Option<RouteTravelAdvisory>,
-    /// In some cases when the server is not able to compute the route with the
-    /// given preferences for this particular origin/destination pair, it may
-    /// fall back to using a different mode of computation. When fallback mode is
-    /// used, this field contains detailed information about the fallback response.
-    /// Otherwise this field is unset.
-    #[prost(message, optional, tag="8")]
-    pub fallback_info: ::core::option::Option<FallbackInfo>,
-}
-/// The condition of the route being returned.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum RouteMatrixElementCondition {
-    /// Only used when the `status` of the element is not OK.
-    Unspecified = 0,
-    /// A route was found, and the corresponding information was filled out for the
-    /// element.
-    RouteExists = 1,
-    /// No route could be found. Fields containing route information, such as
-    /// `distance_meters` or `duration`, will not be filled out in the element.
-    RouteNotFound = 2,
 }
 /// Generated client implementations.
 pub mod routes_preferred_client {

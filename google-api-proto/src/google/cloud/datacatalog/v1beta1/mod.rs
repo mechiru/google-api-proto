@@ -1,3 +1,15 @@
+/// This enum describes all the possible systems that Data Catalog integrates
+/// with.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum IntegratedSystem {
+    /// Default unknown system.
+    Unspecified = 0,
+    /// BigQuery.
+    Bigquery = 1,
+    /// Cloud Pub/Sub.
+    CloudPubsub = 2,
+}
 /// Timestamps about this resource according to a particular system.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SystemTimestamps {
@@ -92,18 +104,6 @@ pub struct ColumnSchema {
     /// Optional. Schema of sub-columns. A column can have zero or more sub-columns.
     #[prost(message, repeated, tag="7")]
     pub subcolumns: ::prost::alloc::vec::Vec<ColumnSchema>,
-}
-/// This enum describes all the possible systems that Data Catalog integrates
-/// with.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum IntegratedSystem {
-    /// Default unknown system.
-    Unspecified = 0,
-    /// BigQuery.
-    Bigquery = 1,
-    /// Cloud Pub/Sub.
-    CloudPubsub = 2,
 }
 /// A result that appears in the response of a search request. Each result
 /// captures details of one entry that matches the search.
