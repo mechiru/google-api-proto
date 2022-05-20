@@ -62,13 +62,45 @@ pub mod access_reason {
         ///   * "T-#####"
         CustomerInitiatedSupport = 1,
         /// The principal accessed customer data in order to diagnose or resolve a
-        /// suspected issue in services or a known outage. Often this access is used
-        /// to confirm that customers are not affected by a suspected service issue
-        /// or to remediate a reversible system issue.
+        /// suspected issue in services. Often this access is used to confirm that
+        /// customers are not affected by a suspected service issue or to remediate a
+        /// reversible system issue.
         GoogleInitiatedService = 2,
         /// Google initiated service for security, fraud, abuse, or compliance
         /// purposes.
         GoogleInitiatedReview = 3,
+        /// The principal was compelled to access customer data in order to respond
+        /// to a legal third party data request or process, including legal processes
+        /// from customers themselves.
+        ThirdPartyDataRequest = 4,
+        /// The principal accessed customer data in order to diagnose or resolve a
+        /// suspected issue in services or a known outage.
+        GoogleResponseToProductionAlert = 5,
+    }
+}
+/// Information about the digital signature of the resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SignatureInfo {
+    /// The digital signature.
+    #[prost(bytes="bytes", tag="1")]
+    pub signature: ::prost::bytes::Bytes,
+    /// How this signature may be verified.
+    #[prost(oneof="signature_info::VerificationInfo", tags="2, 3")]
+    pub verification_info: ::core::option::Option<signature_info::VerificationInfo>,
+}
+/// Nested message and enum types in `SignatureInfo`.
+pub mod signature_info {
+    /// How this signature may be verified.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum VerificationInfo {
+        /// The public key for the Google default signing, encoded in PEM format. The
+        /// signature was created using a private key which may be verified using
+        /// this public key.
+        #[prost(string, tag="2")]
+        GooglePublicKeyPem(::prost::alloc::string::String),
+        /// The resource name of the customer CryptoKeyVersion used for signing.
+        #[prost(string, tag="3")]
+        CustomerKmsKeyVersion(::prost::alloc::string::String),
     }
 }
 /// A decision that has been made to approve access to a resource.
@@ -80,6 +112,15 @@ pub struct ApproveDecision {
     /// The time at which the approval expires.
     #[prost(message, optional, tag="2")]
     pub expire_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// If set, denotes the timestamp at which the approval is invalidated.
+    #[prost(message, optional, tag="3")]
+    pub invalidate_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The signature for the ApprovalRequest and details on how it was signed.
+    #[prost(message, optional, tag="4")]
+    pub signature_info: ::core::option::Option<SignatureInfo>,
+    /// True when the request has been auto-approved.
+    #[prost(bool, tag="5")]
+    pub auto_approved: bool,
 }
 /// A decision that has been made to dismiss an approval request.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -87,8 +128,8 @@ pub struct DismissDecision {
     /// The time at which the approval request was dismissed.
     #[prost(message, optional, tag="1")]
     pub dismiss_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// This field will be true if the ApprovalRequest was implcitly dismissed
-    /// due to inaction by the access approval approvers (the request is not acted
+    /// This field will be true if the ApprovalRequest was implicitly dismissed due
+    /// to inaction by the access approval approvers (the request is not acted
     /// on by the approvers before the exiration time).
     #[prost(bool, tag="2")]
     pub implicit: bool,
@@ -253,6 +294,41 @@ pub struct AccessApprovalSettings {
     /// unset for the organization since organizations do not have ancestors).
     #[prost(bool, tag="4")]
     pub enrolled_ancestor: bool,
+    /// The asymmetric crypto key version to use for signing approval requests.
+    /// Empty active_key_version indicates that a Google-managed key should be used
+    /// for signing. This property will be ignored if set by an ancestor of this
+    /// resource, and new non-empty values may not be set.
+    #[prost(string, tag="6")]
+    pub active_key_version: ::prost::alloc::string::String,
+    /// Output only. This field is read only (not settable via UpdateAccessApprovalSettings
+    /// method). If the field is true, that indicates that an ancestor of this
+    /// Project or Folder has set active_key_version (this field will always be
+    /// unset for the organization since organizations do not have ancestors).
+    #[prost(bool, tag="7")]
+    pub ancestor_has_active_key_version: bool,
+    /// Output only. This field is read only (not settable via UpdateAccessApprovalSettings
+    /// method). If the field is true, that indicates that there is some
+    /// configuration issue with the active_key_version configured at this level in
+    /// the resource hierarchy (e.g. it doesn't exist or the Access Approval
+    /// service account doesn't have the correct permissions on it, etc.) This key
+    /// version is not necessarily the effective key version at this level, as key
+    /// versions are inherited top-down.
+    #[prost(bool, tag="8")]
+    pub invalid_key_version: bool,
+}
+/// Access Approval service account related to a project/folder/organization.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AccessApprovalServiceAccount {
+    /// The resource name of the Access Approval service account. Format is one of:
+    ///
+    ///   * "projects/{project}/serviceAccount"
+    ///   * "folders/{folder}/serviceAccount"
+    ///   * "organizations/{organization}/serviceAccount"
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Email address of the service account.
+    #[prost(string, tag="2")]
+    pub account_email: ::prost::alloc::string::String,
 }
 /// Request to list approval requests.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -318,6 +394,13 @@ pub struct DismissApprovalRequestMessage {
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
 }
+/// Request to invalidate an existing approval.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InvalidateApprovalRequestMessage {
+    /// Name of the ApprovalRequest to invalidate.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
 /// Request to get access approval settings.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetAccessApprovalSettingsMessage {
@@ -349,6 +432,13 @@ pub struct UpdateAccessApprovalSettingsMessage {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeleteAccessApprovalSettingsMessage {
     /// Name of the AccessApprovalSettings to delete.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request to get an Access Approval service account.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetAccessApprovalServiceAccountMessage {
+    /// Name of the AccessApprovalServiceAccount to retrieve.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
 }
@@ -543,6 +633,33 @@ pub mod access_approval_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+        /// Invalidates an existing ApprovalRequest. Returns the updated
+        /// ApprovalRequest.
+        ///
+        /// NOTE: This does not deny access to the resource if another request has been
+        /// made and approved. It only invalidates a single approval.
+        ///
+        /// Returns FAILED_PRECONDITION if the request exists but is not in an approved
+        /// state.
+        pub async fn invalidate_approval_request(
+            &mut self,
+            request: impl tonic::IntoRequest<super::InvalidateApprovalRequestMessage>,
+        ) -> Result<tonic::Response<super::ApprovalRequest>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.accessapproval.v1.AccessApproval/InvalidateApprovalRequest",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
         /// Gets the settings associated with a project, folder, or organization.
         pub async fn get_access_approval_settings(
             &mut self,
@@ -606,6 +723,32 @@ pub mod access_approval_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.accessapproval.v1.AccessApproval/DeleteAccessApprovalSettings",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Retrieves the service account that is used by Access Approval to access KMS
+        /// keys for signing approved approval requests.
+        pub async fn get_access_approval_service_account(
+            &mut self,
+            request: impl tonic::IntoRequest<
+                super::GetAccessApprovalServiceAccountMessage,
+            >,
+        ) -> Result<
+                tonic::Response<super::AccessApprovalServiceAccount>,
+                tonic::Status,
+            > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.accessapproval.v1.AccessApproval/GetAccessApprovalServiceAccount",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
