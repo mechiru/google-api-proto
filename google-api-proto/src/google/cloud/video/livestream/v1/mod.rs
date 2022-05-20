@@ -74,7 +74,7 @@ pub struct Manifest {
     /// Maximum number of segments that this manifest holds. Once the manifest
     /// reaches this maximum number of segments, whenever a new segment is added to
     /// the manifest, the oldest segment will be removed from the manifest.
-    /// The minimum value is 1 and the default value is 5.
+    /// The minimum value is 3 and the default value is 5.
     #[prost(int32, tag="4")]
     pub max_segment_count: i32,
     /// How long to keep a segment on the output Google Cloud Storage bucket after
@@ -566,8 +566,7 @@ pub mod channel {
         /// Channel is getting the input stream, generating the live streams to the
         /// specified output location.
         Streaming = 1,
-        /// Channel is waiting for the input stream through the input. Live streams
-        /// do not start yet.
+        /// Channel is waiting for the input stream through the input.
         AwaitingInput = 2,
         /// Channel is running, but has trouble publishing the live streams onto the
         /// specified output location (for example, the specified Cloud Storage
@@ -575,6 +574,7 @@ pub mod channel {
         StreamingError = 4,
         /// Channel is generating live streams with no input stream. Live streams are
         /// filled out with black screen, while input stream is missing.
+        /// Not supported yet.
         StreamingNoInput = 5,
         /// Channel is stopped, finishing live streams.
         Stopped = 6,
@@ -772,6 +772,8 @@ pub mod event {
         Failed = 4,
         /// Event has been created but not scheduled yet.
         Pending = 5,
+        /// Event was stopped before running for its full duration.
+        Stopped = 6,
     }
     /// Required. Operation to be executed by this event.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
