@@ -7,6 +7,6 @@ edition = "2021"
 anyhow = "1.0"
 toml_edit = "0.14"
 prost-build = "0.10.1"
-tonic-build = { version = "0.7.0", default-features = false, features = ["prost"] }
+tonic-build = { version = "0.7", default-features = false, features = ["prost"] }
 syn = "1.0"
 prettyplease = "0.1"
