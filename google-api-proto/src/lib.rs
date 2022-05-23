@@ -363,6 +363,7 @@ pub mod ccc;
         feature = "google-networking-trafficdirector-type",
         feature = "google-partner-aistreams-v1alpha1",
         feature = "google-privacy-dlp-v2",
+        feature = "google-protobuf",
         feature = "google-pubsub-v1",
         feature = "google-pubsub-v1beta2",
         feature = "google-rpc",
