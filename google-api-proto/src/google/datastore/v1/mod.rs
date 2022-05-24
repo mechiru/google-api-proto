@@ -65,9 +65,14 @@ pub mod key {
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct PathElement {
         /// The kind of the entity.
+        ///
         /// A kind matching regex `__.*__` is reserved/read-only.
         /// A kind must not contain more than 1500 bytes when UTF-8 encoded.
         /// Cannot be `""`.
+        ///
+        /// Must be valid UTF-8 bytes. Legacy values that are not valid UTF-8 are
+        /// encoded as `__bytes<X>__` where `<X>` is the base-64 encoding of the
+        /// bytes.
         #[prost(string, tag="1")]
         pub kind: ::prost::alloc::string::String,
         /// The type of ID.
@@ -80,14 +85,20 @@ pub mod key {
         #[derive(Clone, PartialEq, ::prost::Oneof)]
         pub enum IdType {
             /// The auto-allocated ID of the entity.
+            ///
             /// Never equal to zero. Values less than zero are discouraged and may not
             /// be supported in the future.
             #[prost(int64, tag="2")]
             Id(i64),
             /// The name of the entity.
+            ///
             /// A name matching regex `__.*__` is reserved/read-only.
             /// A name must not be more than 1500 bytes when UTF-8 encoded.
             /// Cannot be `""`.
+            ///
+            /// Must be valid UTF-8 bytes. Legacy values that are not valid UTF-8 are
+            /// encoded as `__bytes<X>__` where `<X>` is the base-64 encoding of the
+            /// bytes.
             #[prost(string, tag="3")]
             Name(::prost::alloc::string::String),
         }
