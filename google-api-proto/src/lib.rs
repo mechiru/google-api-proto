@@ -79,6 +79,7 @@ pub mod ccc;
         feature = "google-cloud-aiplatform-v1beta1-schema-trainingjob-definition",
         feature = "google-cloud-apigateway-v1",
         feature = "google-cloud-apigeeconnect-v1",
+        feature = "google-cloud-apigeeregistry-v1",
         feature = "google-cloud-asset-v1",
         feature = "google-cloud-asset-v1p1beta1",
         feature = "google-cloud-asset-v1p2beta1",

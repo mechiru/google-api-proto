@@ -21,6 +21,8 @@ pub mod aiplatform;
 pub mod apigateway;
 #[cfg(any(feature = "google-cloud-apigeeconnect-v1"))]
 pub mod apigeeconnect;
+#[cfg(any(feature = "google-cloud-apigeeregistry-v1"))]
+pub mod apigeeregistry;
 #[cfg(
     any(
         feature = "google-cloud-asset-v1",

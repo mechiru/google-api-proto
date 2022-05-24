@@ -1156,14 +1156,22 @@ pub struct JobQuery {
     pub commute_filter: ::core::option::Option<CommuteFilter>,
     /// This filter specifies the company \[Company.display_name][google.cloud.talent.v4.Company.display_name\]
     /// of the jobs to search against. The company name must match the value
-    /// exactly (case sensitive).
+    /// exactly.
     ///
-    /// Alternatively, if the value being searched for is wrapped in
-    /// `SUBSTRING_MATCH(\[value\])`, the company name must contain a case
-    /// insensitive substring match of the value. Using this function may increase
-    /// latency.
+    /// Alternatively, the value being searched for can be wrapped in different
+    /// match operators.
+    /// `SUBSTRING_MATCH(\[value\])`
+    /// The company name must contain a case insensitive substring match of the
+    /// value. Using this function may increase latency.
     ///
-    /// Sample Values: `["Google LLC", "SUBSTRING_MATCH(google)"]`
+    /// Sample Value: `SUBSTRING_MATCH(google)`
+    ///
+    /// `MULTI_WORD_TOKEN_MATCH(\[value\])`
+    /// The value will be treated as a multi word token and the company name must
+    /// contain a case insensitive match of the value. Using this function may
+    /// increase latency.
+    ///
+    /// Sample Value: `MULTI_WORD_TOKEN_MATCH(google)`
     ///
     /// If a value isn't specified, jobs within the search results are
     /// associated with any company.
@@ -1280,7 +1288,7 @@ pub struct LocationFilter {
     pub distance_in_miles: f64,
     /// Allows the client to return jobs without a
     /// set location, specifically, telecommuting jobs (telecommuting is considered
-    /// by the service as a special location.
+    /// by the service as a special location).
     /// \[Job.posting_region][google.cloud.talent.v4.Job.posting_region\] indicates if a job permits telecommuting.
     /// If this field is set to \[TelecommutePreference.TELECOMMUTE_ALLOWED][google.cloud.talent.v4.LocationFilter.TelecommutePreference.TELECOMMUTE_ALLOWED\],
     /// telecommuting jobs are searched, and \[address][google.cloud.talent.v4.LocationFilter.address\] and \[lat_lng][google.cloud.talent.v4.LocationFilter.lat_lng\] are
@@ -1309,10 +1317,13 @@ pub mod location_filter {
     pub enum TelecommutePreference {
         /// Default value if the telecommute preference isn't specified.
         Unspecified = 0,
-        /// Exclude telecommute jobs.
+        /// Deprecated: Ignore telecommute status of jobs. Use
+        /// TELECOMMUTE_JOBS_EXCLUDED if want to exclude telecommute jobs.
         TelecommuteExcluded = 1,
         /// Allow telecommute jobs.
         TelecommuteAllowed = 2,
+        /// Exclude telecommute jobs.
+        TelecommuteJobsExcluded = 3,
     }
 }
 /// Filter on job compensation type and amount.

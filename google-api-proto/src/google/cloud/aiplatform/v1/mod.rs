@@ -591,6 +591,9 @@ pub struct ExplanationMetadata {
     /// the user only has a read access.
     #[prost(string, tag="3")]
     pub feature_attributions_schema_uri: ::prost::alloc::string::String,
+    /// Name of the source to generate embeddings for example based explanations.
+    #[prost(string, tag="5")]
+    pub latent_space_source: ::prost::alloc::string::String,
 }
 /// Nested message and enum types in `ExplanationMetadata`.
 pub mod explanation_metadata {
@@ -5865,6 +5868,24 @@ pub mod execution {
         Cancelled = 6,
     }
 }
+/// Represents the failure policy of a pipeline. Currently, the default of a
+/// pipeline is that the pipeline will continue to run until no more tasks can be
+/// executed, also known as PIPELINE_FAILURE_POLICY_FAIL_SLOW. However, if a
+/// pipeline is set to PIPELINE_FAILURE_POLICY_FAIL_FAST, it will stop scheduling
+/// any new tasks when a task has failed. Any scheduled tasks will continue to
+/// completion.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum PipelineFailurePolicy {
+    /// Default value, and follows fail slow behavior.
+    Unspecified = 0,
+    /// Indicates that the pipeline should continue to run until all possible
+    /// tasks have been scheduled and completed.
+    FailSlow = 1,
+    /// Indicates that the pipeline should stop scheduling new tasks after a task
+    /// has failed.
+    FailFast = 2,
+}
 /// A collection of metrics calculated by comparing Model's predictions on a
 /// slice of the test data against ground truth annotations.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -5937,6 +5958,8 @@ pub mod model_monitoring_objective_config {
         ///
         /// "csv"
         /// The source file is a CSV file.
+        /// "jsonl"
+        /// The source file is a JSONL file.
         #[prost(string, tag="2")]
         pub data_format: ::prost::alloc::string::String,
         /// The target field name the model is to predict.
@@ -6441,6 +6464,28 @@ pub mod featurestore {
         /// online store and cannot be used for online serving.
         #[prost(int32, tag="2")]
         pub fixed_node_count: i32,
+        /// Online serving scaling configuration.
+        /// Only one of `fixed_node_count` and `scaling` can be set. Setting one will
+        /// reset the other.
+        #[prost(message, optional, tag="4")]
+        pub scaling: ::core::option::Option<online_serving_config::Scaling>,
+    }
+    /// Nested message and enum types in `OnlineServingConfig`.
+    pub mod online_serving_config {
+        /// Online serving scaling configuration. If min_node_count and
+        /// max_node_count are set to the same value, the cluster will be configured
+        /// with the fixed number of node (no auto-scaling).
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Scaling {
+            /// Required. The minimum number of nodes to scale down to. Must be greater than or
+            /// equal to 1.
+            #[prost(int32, tag="1")]
+            pub min_node_count: i32,
+            /// The maximum number of nodes to scale up to. Must be greater than
+            /// min_node_count, and less than or equal to 10 times of 'min_node_count'.
+            #[prost(int32, tag="2")]
+            pub max_node_count: i32,
+        }
     }
     /// Possible states a featurestore can have.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -6492,7 +6537,7 @@ pub struct ManualBatchTuningParameters {
     /// speeds up the batch operation's execution, but too high value will result
     /// in a whole batch not fitting in a machine's memory, and the whole
     /// operation will fail.
-    /// The default value is 4.
+    /// The default value is 64.
     #[prost(int32, tag="1")]
     pub batch_size: i32,
 }
@@ -8323,8 +8368,8 @@ pub struct DeployedModel {
     /// This value should be 1-10 characters, and valid characters are /\[0-9\]/.
     #[prost(string, tag="1")]
     pub id: ::prost::alloc::string::String,
-    /// Required. The name of the Model that this is the deployment of. Note that the Model
-    /// may be in a different location than the DeployedModel's Endpoint.
+    /// Required. The resource name of the Model that this is the deployment of. Note that
+    /// the Model may be in a different location than the DeployedModel's Endpoint.
     #[prost(string, tag="2")]
     pub model: ::prost::alloc::string::String,
     /// The display name of the DeployedModel. If not provided upon creation,
@@ -9071,6 +9116,14 @@ pub struct PipelineJob {
     /// with any network.
     #[prost(string, tag="18")]
     pub network: ::prost::alloc::string::String,
+    /// A template uri from where the \[PipelineJob.pipeline_spec][google.cloud.aiplatform.v1.PipelineJob.pipeline_spec\], if empty, will
+    /// be downloaded.
+    #[prost(string, tag="19")]
+    pub template_uri: ::prost::alloc::string::String,
+    /// Output only. Pipeline template metadata. Will fill up fields if
+    /// \[PipelineJob.template_uri][google.cloud.aiplatform.v1.PipelineJob.template_uri\] is from supported template registry.
+    #[prost(message, optional, tag="20")]
+    pub template_metadata: ::core::option::Option<PipelineTemplateMetadata>,
 }
 /// Nested message and enum types in `PipelineJob`.
 pub mod pipeline_job {
@@ -9101,7 +9154,29 @@ pub mod pipeline_job {
         /// using Kubeflow Pipelines SDK 1.9 or higher and the v2 DSL.
         #[prost(btree_map="string, message", tag="3")]
         pub parameter_values: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::Value>,
+        /// Represents the failure policy of a pipeline. Currently, the default of a
+        /// pipeline is that the pipeline will continue to run until no more tasks
+        /// can be executed, also known as PIPELINE_FAILURE_POLICY_FAIL_SLOW.
+        /// However, if a pipeline is set to PIPELINE_FAILURE_POLICY_FAIL_FAST, it
+        /// will stop scheduling any new tasks when a task has failed. Any scheduled
+        /// tasks will continue to completion.
+        #[prost(enumeration="super::PipelineFailurePolicy", tag="4")]
+        pub failure_policy: i32,
     }
+}
+/// Pipeline template metadata if \[PipelineJob.template_uri][google.cloud.aiplatform.v1.PipelineJob.template_uri\] is from supported
+/// template registry. Currently, the only supported registry is Artifact
+/// Registry.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PipelineTemplateMetadata {
+    /// The version_name in artifact registry.
+    ///
+    /// Will always be presented in output if the \[PipelineJob.template_uri][google.cloud.aiplatform.v1.PipelineJob.template_uri\] is
+    /// from supported template registry.
+    ///
+    /// Format is "sha256:abcdef123456...".
+    #[prost(string, tag="3")]
+    pub version: ::prost::alloc::string::String,
 }
 /// The runtime detail of PipelineJob.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -13230,7 +13305,7 @@ pub struct ListPipelineJobsRequest {
     ///   Values must be in RFC 3339 format.
     /// * `labels`: Supports key-value equality and key presence.
     /// * `template_uri`: Supports `=`, `!=` comparisons, and `:` wildcard.
-    /// * `template_metadata.version_name`: Supports `=`, `!=` comparisons, and `:`
+    /// * `template_metadata.version`: Supports `=`, `!=` comparisons, and `:`
     /// wildcard.
     ///
     /// Filter expressions can be combined together using logical operators

@@ -107,6 +107,7 @@ google-cloud-aiplatform-v1beta1-schema-predict-prediction = ["google-api", "goog
 google-cloud-aiplatform-v1beta1-schema-trainingjob-definition = ["google-api", "google-cloud", "google-cloud-aiplatform-v1beta1", "google-cloud-aiplatform-v1beta1-schema"]
 google-cloud-apigateway-v1 = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-apigeeconnect-v1 = ["google-api", "google-cloud", "google-rpc"]
+google-cloud-apigeeregistry-v1 = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-asset-v1 = ["google-api", "google-cloud", "google-cloud-orgpolicy-v1", "google-cloud-osconfig-v1", "google-iam-v1", "google-identity-accesscontextmanager-v1", "google-longrunning", "google-rpc", "google-type"]
 google-cloud-asset-v1p1beta1 = ["google-api", "google-cloud", "google-iam-v1"]
 google-cloud-asset-v1p2beta1 = ["google-api", "google-cloud", "google-iam-v1", "google-longrunning"]

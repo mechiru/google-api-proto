@@ -6227,6 +6227,24 @@ pub mod execution {
         Cancelled = 6,
     }
 }
+/// Represents the failure policy of a pipeline. Currently, the default of a
+/// pipeline is that the pipeline will continue to run until no more tasks can be
+/// executed, also known as PIPELINE_FAILURE_POLICY_FAIL_SLOW. However, if a
+/// pipeline is set to PIPELINE_FAILURE_POLICY_FAIL_FAST, it will stop scheduling
+/// any new tasks when a task has failed. Any scheduled tasks will continue to
+/// completion.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum PipelineFailurePolicy {
+    /// Default value, and follows fail slow behavior.
+    Unspecified = 0,
+    /// Indicates that the pipeline should continue to run until all possible
+    /// tasks have been scheduled and completed.
+    FailSlow = 1,
+    /// Indicates that the pipeline should stop scheduling new tasks after a task
+    /// has failed.
+    FailFast = 2,
+}
 /// A collection of metrics calculated by comparing Model's predictions on a
 /// slice of the test data against ground truth annotations.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -9495,6 +9513,14 @@ pub mod pipeline_job {
         /// using Kubeflow Pipelines SDK 1.9 or higher and the v2 DSL.
         #[prost(btree_map="string, message", tag="3")]
         pub parameter_values: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::Value>,
+        /// Represents the failure policy of a pipeline. Currently, the default of a
+        /// pipeline is that the pipeline will continue to run until no more tasks
+        /// can be executed, also known as PIPELINE_FAILURE_POLICY_FAIL_SLOW.
+        /// However, if a pipeline is set to PIPELINE_FAILURE_POLICY_FAIL_FAST, it
+        /// will stop scheduling any new tasks when a task has failed. Any scheduled
+        /// tasks will continue to completion.
+        #[prost(enumeration="super::PipelineFailurePolicy", tag="4")]
+        pub failure_policy: i32,
     }
 }
 /// Pipeline template metadata if \[PipelineJob.template_uri][google.cloud.aiplatform.v1beta1.PipelineJob.template_uri\] is from supported
