@@ -832,9 +832,9 @@ pub mod cloud_redis_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -859,9 +859,9 @@ pub mod cloud_redis_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -883,9 +883,9 @@ pub mod cloud_redis_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpgradeInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -913,9 +913,9 @@ pub mod cloud_redis_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -941,9 +941,9 @@ pub mod cloud_redis_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExportInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -965,9 +965,9 @@ pub mod cloud_redis_client {
             &mut self,
             request: impl tonic::IntoRequest<super::FailoverInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -989,9 +989,9 @@ pub mod cloud_redis_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1013,9 +1013,9 @@ pub mod cloud_redis_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RescheduleMaintenanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

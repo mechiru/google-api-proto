@@ -2394,9 +2394,9 @@ pub mod data_labeling_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportDataRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2417,9 +2417,9 @@ pub mod data_labeling_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExportDataRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2502,9 +2502,9 @@ pub mod data_labeling_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListAnnotatedDatasetsRequest>,
         ) -> Result<
-                tonic::Response<super::ListAnnotatedDatasetsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListAnnotatedDatasetsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2546,9 +2546,9 @@ pub mod data_labeling_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::LabelImageRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2570,9 +2570,9 @@ pub mod data_labeling_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::LabelVideoRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2594,9 +2594,9 @@ pub mod data_labeling_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::LabelTextRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2697,9 +2697,9 @@ pub mod data_labeling_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListAnnotationSpecSetsRequest>,
         ) -> Result<
-                tonic::Response<super::ListAnnotationSpecSetsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListAnnotationSpecSetsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2740,9 +2740,9 @@ pub mod data_labeling_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateInstructionRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2866,9 +2866,9 @@ pub mod data_labeling_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SearchExampleComparisonsRequest>,
         ) -> Result<
-                tonic::Response<super::SearchExampleComparisonsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SearchExampleComparisonsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

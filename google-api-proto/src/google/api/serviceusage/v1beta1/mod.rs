@@ -979,9 +979,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::EnableServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1010,9 +1010,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DisableServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1083,9 +1083,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchEnableServicesRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1110,9 +1110,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListConsumerQuotaMetricsRequest>,
         ) -> Result<
-                tonic::Response<super::ListConsumerQuotaMetricsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListConsumerQuotaMetricsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1178,9 +1178,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateAdminOverrideRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1201,9 +1201,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateAdminOverrideRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1224,9 +1224,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteAdminOverrideRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1269,9 +1269,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportAdminOverridesRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1296,9 +1296,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateConsumerOverrideRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1319,9 +1319,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateConsumerOverrideRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1342,9 +1342,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteConsumerOverrideRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1365,9 +1365,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListConsumerOverridesRequest>,
         ) -> Result<
-                tonic::Response<super::ListConsumerOverridesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListConsumerOverridesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1390,9 +1390,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportConsumerOverridesRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1413,9 +1413,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GenerateServiceIdentityRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

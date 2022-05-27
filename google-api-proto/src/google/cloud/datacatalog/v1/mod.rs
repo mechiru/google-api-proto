@@ -2788,9 +2788,9 @@ pub mod data_catalog_client {
                 super::super::super::super::iam::v1::SetIamPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2833,9 +2833,9 @@ pub mod data_catalog_client {
                 super::super::super::super::iam::v1::GetIamPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2871,11 +2871,11 @@ pub mod data_catalog_client {
                 super::super::super::super::iam::v1::TestIamPermissionsRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::iam::v1::TestIamPermissionsResponse,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                super::super::super::super::iam::v1::TestIamPermissionsResponse,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3439,9 +3439,9 @@ pub mod policy_tag_manager_client {
                 super::super::super::super::iam::v1::GetIamPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3464,9 +3464,9 @@ pub mod policy_tag_manager_client {
                 super::super::super::super::iam::v1::SetIamPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3490,11 +3490,11 @@ pub mod policy_tag_manager_client {
                 super::super::super::super::iam::v1::TestIamPermissionsRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::iam::v1::TestIamPermissionsResponse,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                super::super::super::super::iam::v1::TestIamPermissionsResponse,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

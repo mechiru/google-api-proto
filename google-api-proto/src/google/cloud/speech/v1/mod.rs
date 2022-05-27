@@ -1042,9 +1042,9 @@ pub mod speech_client {
             &mut self,
             request: impl tonic::IntoRequest<super::LongRunningRecognizeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1068,11 +1068,9 @@ pub mod speech_client {
                 Message = super::StreamingRecognizeRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    tonic::codec::Streaming<super::StreamingRecognizeResponse>,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::StreamingRecognizeResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

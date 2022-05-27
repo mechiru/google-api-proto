@@ -779,9 +779,9 @@ pub mod big_query_read_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReadRowsRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::ReadRowsResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::ReadRowsResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -934,9 +934,9 @@ pub mod big_query_write_client {
             &mut self,
             request: impl tonic::IntoStreamingRequest<Message = super::AppendRowsRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::AppendRowsResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::AppendRowsResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1002,9 +1002,9 @@ pub mod big_query_write_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchCommitWriteStreamsRequest>,
         ) -> Result<
-                tonic::Response<super::BatchCommitWriteStreamsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::BatchCommitWriteStreamsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

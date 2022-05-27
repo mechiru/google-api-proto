@@ -1024,9 +1024,9 @@ pub mod language_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AnalyzeEntitySentimentRequest>,
         ) -> Result<
-                tonic::Response<super::AnalyzeEntitySentimentResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::AnalyzeEntitySentimentResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

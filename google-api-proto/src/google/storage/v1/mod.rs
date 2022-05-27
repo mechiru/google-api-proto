@@ -2812,9 +2812,9 @@ pub mod storage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListBucketAccessControlsRequest>,
         ) -> Result<
-                tonic::Response<super::ListBucketAccessControlsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListBucketAccessControlsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2997,9 +2997,9 @@ pub mod storage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GetIamPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3020,9 +3020,9 @@ pub mod storage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SetIamPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3044,11 +3044,9 @@ pub mod storage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::TestIamPermissionsRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::iam::v1::TestIamPermissionsResponse,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::iam::v1::TestIamPermissionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3205,9 +3203,9 @@ pub mod storage_client {
                 super::ListDefaultObjectAccessControlsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ListObjectAccessControlsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListObjectAccessControlsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3420,9 +3418,9 @@ pub mod storage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListObjectAccessControlsRequest>,
         ) -> Result<
-                tonic::Response<super::ListObjectAccessControlsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListObjectAccessControlsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3569,9 +3567,9 @@ pub mod storage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GetObjectMediaRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::GetObjectMediaResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::GetObjectMediaResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

@@ -4181,9 +4181,9 @@ pub mod completion_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportCompletionDataRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4418,9 +4418,9 @@ pub mod user_event_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CollectUserEventRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::api::HttpBody>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::api::HttpBody>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4444,9 +4444,9 @@ pub mod user_event_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::PurgeUserEventsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4473,9 +4473,9 @@ pub mod user_event_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportUserEventsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4503,9 +4503,9 @@ pub mod user_event_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RejoinUserEventsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -6153,9 +6153,9 @@ pub mod product_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportProductsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -6216,9 +6216,9 @@ pub mod product_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SetInventoryRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -6252,9 +6252,9 @@ pub mod product_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AddFulfillmentPlacesRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -6288,9 +6288,9 @@ pub mod product_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RemoveFulfillmentPlacesRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -6331,9 +6331,9 @@ pub mod product_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AddLocalInventoriesRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -6372,9 +6372,9 @@ pub mod product_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RemoveLocalInventoriesRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

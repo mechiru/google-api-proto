@@ -355,9 +355,9 @@ pub mod cloud_shell_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StartEnvironmentRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -381,9 +381,9 @@ pub mod cloud_shell_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AuthorizeEnvironmentRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -406,9 +406,9 @@ pub mod cloud_shell_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AddPublicKeyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -432,9 +432,9 @@ pub mod cloud_shell_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RemovePublicKeyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

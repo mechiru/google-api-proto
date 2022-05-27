@@ -1622,11 +1622,11 @@ pub mod agent_endpoint_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReceiveTaskNotificationRequest>,
         ) -> Result<
-                tonic::Response<
-                    tonic::codec::Streaming<super::ReceiveTaskNotificationResponse>,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                tonic::codec::Streaming<super::ReceiveTaskNotificationResponse>,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

@@ -989,9 +989,9 @@ pub mod recaptcha_enterprise_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListRelatedAccountGroupsRequest>,
         ) -> Result<
-                tonic::Response<super::ListRelatedAccountGroupsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListRelatedAccountGroupsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1014,9 +1014,9 @@ pub mod recaptcha_enterprise_service_client {
                 super::ListRelatedAccountGroupMembershipsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ListRelatedAccountGroupMembershipsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListRelatedAccountGroupMembershipsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1039,9 +1039,9 @@ pub mod recaptcha_enterprise_service_client {
                 super::SearchRelatedAccountGroupMembershipsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::SearchRelatedAccountGroupMembershipsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SearchRelatedAccountGroupMembershipsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

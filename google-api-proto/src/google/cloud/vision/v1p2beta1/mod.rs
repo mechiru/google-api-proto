@@ -1175,9 +1175,9 @@ pub mod image_annotator_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AsyncBatchAnnotateFilesRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

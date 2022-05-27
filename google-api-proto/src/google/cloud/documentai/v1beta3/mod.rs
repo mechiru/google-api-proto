@@ -1573,9 +1573,9 @@ pub mod document_processor_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchProcessRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1658,9 +1658,9 @@ pub mod document_processor_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteProcessorRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1681,9 +1681,9 @@ pub mod document_processor_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::EnableProcessorRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1704,9 +1704,9 @@ pub mod document_processor_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DisableProcessorRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1728,9 +1728,9 @@ pub mod document_processor_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReviewDocumentRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

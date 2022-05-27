@@ -307,9 +307,9 @@ pub mod workflows_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateWorkflowRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -332,9 +332,9 @@ pub mod workflows_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteWorkflowRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -359,9 +359,9 @@ pub mod workflows_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateWorkflowRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

@@ -937,9 +937,9 @@ pub mod device_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListDeviceRegistriesRequest>,
         ) -> Result<
-                tonic::Response<super::ListDeviceRegistriesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListDeviceRegistriesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1083,9 +1083,9 @@ pub mod device_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListDeviceConfigVersionsRequest>,
         ) -> Result<
-                tonic::Response<super::ListDeviceConfigVersionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListDeviceConfigVersionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1130,9 +1130,9 @@ pub mod device_manager_client {
                 super::super::super::super::iam::v1::SetIamPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1157,9 +1157,9 @@ pub mod device_manager_client {
                 super::super::super::super::iam::v1::GetIamPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1184,11 +1184,11 @@ pub mod device_manager_client {
                 super::super::super::super::iam::v1::TestIamPermissionsRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::iam::v1::TestIamPermissionsResponse,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                super::super::super::super::iam::v1::TestIamPermissionsResponse,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1261,9 +1261,9 @@ pub mod device_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UnbindDeviceFromGatewayRequest>,
         ) -> Result<
-                tonic::Response<super::UnbindDeviceFromGatewayResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::UnbindDeviceFromGatewayResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

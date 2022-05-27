@@ -1136,9 +1136,9 @@ pub mod video_intelligence_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AnnotateVideoRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1221,11 +1221,11 @@ pub mod streaming_video_intelligence_service_client {
                 Message = super::StreamingAnnotateVideoRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    tonic::codec::Streaming<super::StreamingAnnotateVideoResponse>,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                tonic::codec::Streaming<super::StreamingAnnotateVideoResponse>,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

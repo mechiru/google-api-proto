@@ -112,9 +112,9 @@ pub mod publisher_client {
                 super::PublishChannelConnectionEventsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::PublishChannelConnectionEventsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::PublishChannelConnectionEventsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

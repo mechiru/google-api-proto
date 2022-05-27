@@ -697,9 +697,9 @@ pub mod gke_hub_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateMembershipRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -724,9 +724,9 @@ pub mod gke_hub_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteMembershipRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -747,9 +747,9 @@ pub mod gke_hub_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateMembershipRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -773,9 +773,9 @@ pub mod gke_hub_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GenerateConnectManifestRequest>,
         ) -> Result<
-                tonic::Response<super::GenerateConnectManifestResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::GenerateConnectManifestResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

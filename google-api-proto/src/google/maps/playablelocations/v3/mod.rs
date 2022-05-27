@@ -255,9 +255,9 @@ pub mod playable_locations_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SamplePlayableLocationsRequest>,
         ) -> Result<
-                tonic::Response<super::SamplePlayableLocationsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SamplePlayableLocationsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

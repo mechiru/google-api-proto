@@ -475,9 +475,9 @@ pub mod home_graph_api_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReportStateAndNotificationRequest>,
         ) -> Result<
-                tonic::Response<super::ReportStateAndNotificationResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ReportStateAndNotificationResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

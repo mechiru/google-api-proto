@@ -2271,9 +2271,9 @@ pub mod analytics_admin_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ProvisionAccountTicketRequest>,
         ) -> Result<
-                tonic::Response<super::ProvisionAccountTicketResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ProvisionAccountTicketResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2294,9 +2294,9 @@ pub mod analytics_admin_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListAccountSummariesRequest>,
         ) -> Result<
-                tonic::Response<super::ListAccountSummariesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListAccountSummariesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2547,9 +2547,9 @@ pub mod analytics_admin_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchCreateUserLinksRequest>,
         ) -> Result<
-                tonic::Response<super::BatchCreateUserLinksResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::BatchCreateUserLinksResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2590,9 +2590,9 @@ pub mod analytics_admin_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchUpdateUserLinksRequest>,
         ) -> Result<
-                tonic::Response<super::BatchUpdateUserLinksResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::BatchUpdateUserLinksResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2861,9 +2861,9 @@ pub mod analytics_admin_service_client {
                 super::ListMeasurementProtocolSecretsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ListMeasurementProtocolSecretsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListMeasurementProtocolSecretsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2953,9 +2953,9 @@ pub mod analytics_admin_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AcknowledgeUserDataCollectionRequest>,
         ) -> Result<
-                tonic::Response<super::AcknowledgeUserDataCollectionResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::AcknowledgeUserDataCollectionResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2977,9 +2977,9 @@ pub mod analytics_admin_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SearchChangeHistoryEventsRequest>,
         ) -> Result<
-                tonic::Response<super::SearchChangeHistoryEventsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SearchChangeHistoryEventsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3102,9 +3102,9 @@ pub mod analytics_admin_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListConversionEventsRequest>,
         ) -> Result<
-                tonic::Response<super::ListConversionEventsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListConversionEventsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3127,9 +3127,9 @@ pub mod analytics_admin_service_client {
                 super::GetDisplayVideo360AdvertiserLinkRequest,
             >,
         ) -> Result<
-                tonic::Response<super::DisplayVideo360AdvertiserLink>,
-                tonic::Status,
-            > {
+            tonic::Response<super::DisplayVideo360AdvertiserLink>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3152,9 +3152,9 @@ pub mod analytics_admin_service_client {
                 super::ListDisplayVideo360AdvertiserLinksRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ListDisplayVideo360AdvertiserLinksResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListDisplayVideo360AdvertiserLinksResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3181,9 +3181,9 @@ pub mod analytics_admin_service_client {
                 super::CreateDisplayVideo360AdvertiserLinkRequest,
             >,
         ) -> Result<
-                tonic::Response<super::DisplayVideo360AdvertiserLink>,
-                tonic::Status,
-            > {
+            tonic::Response<super::DisplayVideo360AdvertiserLink>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3228,9 +3228,9 @@ pub mod analytics_admin_service_client {
                 super::UpdateDisplayVideo360AdvertiserLinkRequest,
             >,
         ) -> Result<
-                tonic::Response<super::DisplayVideo360AdvertiserLink>,
-                tonic::Status,
-            > {
+            tonic::Response<super::DisplayVideo360AdvertiserLink>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3253,9 +3253,9 @@ pub mod analytics_admin_service_client {
                 super::GetDisplayVideo360AdvertiserLinkProposalRequest,
             >,
         ) -> Result<
-                tonic::Response<super::DisplayVideo360AdvertiserLinkProposal>,
-                tonic::Status,
-            > {
+            tonic::Response<super::DisplayVideo360AdvertiserLinkProposal>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3278,11 +3278,9 @@ pub mod analytics_admin_service_client {
                 super::ListDisplayVideo360AdvertiserLinkProposalsRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    super::ListDisplayVideo360AdvertiserLinkProposalsResponse,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListDisplayVideo360AdvertiserLinkProposalsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3305,9 +3303,9 @@ pub mod analytics_admin_service_client {
                 super::CreateDisplayVideo360AdvertiserLinkProposalRequest,
             >,
         ) -> Result<
-                tonic::Response<super::DisplayVideo360AdvertiserLinkProposal>,
-                tonic::Status,
-            > {
+            tonic::Response<super::DisplayVideo360AdvertiserLinkProposal>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3355,11 +3353,9 @@ pub mod analytics_admin_service_client {
                 super::ApproveDisplayVideo360AdvertiserLinkProposalRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    super::ApproveDisplayVideo360AdvertiserLinkProposalResponse,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::ApproveDisplayVideo360AdvertiserLinkProposalResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3386,9 +3382,9 @@ pub mod analytics_admin_service_client {
                 super::CancelDisplayVideo360AdvertiserLinkProposalRequest,
             >,
         ) -> Result<
-                tonic::Response<super::DisplayVideo360AdvertiserLinkProposal>,
-                tonic::Status,
-            > {
+            tonic::Response<super::DisplayVideo360AdvertiserLinkProposal>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3449,9 +3445,9 @@ pub mod analytics_admin_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListCustomDimensionsRequest>,
         ) -> Result<
-                tonic::Response<super::ListCustomDimensionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListCustomDimensionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

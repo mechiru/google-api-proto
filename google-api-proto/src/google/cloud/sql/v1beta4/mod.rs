@@ -2422,9 +2422,9 @@ pub mod sql_connect_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GenerateEphemeralCertRequest>,
         ) -> Result<
-                tonic::Response<super::GenerateEphemeralCertResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::GenerateEphemeralCertResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3915,9 +3915,9 @@ pub mod sql_instances_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SqlInstancesListServerCasRequest>,
         ) -> Result<
-                tonic::Response<super::InstancesListServerCasResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::InstancesListServerCasResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4194,9 +4194,9 @@ pub mod sql_instances_service_client {
                 super::SqlInstancesVerifyExternalSyncSettingsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::SqlInstancesVerifyExternalSyncSettingsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SqlInstancesVerifyExternalSyncSettingsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

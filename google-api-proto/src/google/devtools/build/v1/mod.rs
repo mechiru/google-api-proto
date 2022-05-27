@@ -440,11 +440,11 @@ pub mod publish_build_event_client {
                 Message = super::PublishBuildToolEventStreamRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    tonic::codec::Streaming<super::PublishBuildToolEventStreamResponse>,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                tonic::codec::Streaming<super::PublishBuildToolEventStreamResponse>,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

@@ -418,9 +418,9 @@ pub mod firestore_admin_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateIndexRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -508,9 +508,9 @@ pub mod firestore_admin_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExportDocumentsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -535,9 +535,9 @@ pub mod firestore_admin_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportDocumentsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

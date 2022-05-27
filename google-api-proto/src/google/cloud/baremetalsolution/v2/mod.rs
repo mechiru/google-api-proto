@@ -812,9 +812,9 @@ pub mod bare_metal_solution_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ResetInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -875,9 +875,9 @@ pub mod bare_metal_solution_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateVolumeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -938,9 +938,9 @@ pub mod bare_metal_solution_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListSnapshotSchedulePoliciesRequest>,
         ) -> Result<
-                tonic::Response<super::ListSnapshotSchedulePoliciesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListSnapshotSchedulePoliciesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1061,9 +1061,9 @@ pub mod bare_metal_solution_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RestoreVolumeSnapshotRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

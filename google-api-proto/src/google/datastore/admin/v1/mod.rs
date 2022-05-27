@@ -631,9 +631,9 @@ pub mod datastore_admin_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExportEntitiesRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -658,9 +658,9 @@ pub mod datastore_admin_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportEntitiesRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -694,9 +694,9 @@ pub mod datastore_admin_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateIndexRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -726,9 +726,9 @@ pub mod datastore_admin_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteIndexRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

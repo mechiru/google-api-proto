@@ -683,9 +683,9 @@ pub mod logging_service_v2_client {
                 super::ListMonitoredResourceDescriptorsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ListMonitoredResourceDescriptorsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListMonitoredResourceDescriptorsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -730,9 +730,9 @@ pub mod logging_service_v2_client {
                 Message = super::TailLogEntriesRequest,
             >,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::TailLogEntriesResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::TailLogEntriesResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2543,9 +2543,9 @@ pub mod config_service_v2_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CopyLogEntriesRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

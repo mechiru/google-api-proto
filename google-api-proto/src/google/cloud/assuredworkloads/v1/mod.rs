@@ -380,9 +380,9 @@ pub mod assured_workloads_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateWorkloadRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

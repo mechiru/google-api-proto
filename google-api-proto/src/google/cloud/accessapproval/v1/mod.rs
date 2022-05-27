@@ -544,9 +544,9 @@ pub mod access_approval_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListApprovalRequestsMessage>,
         ) -> Result<
-                tonic::Response<super::ListApprovalRequestsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListApprovalRequestsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -735,9 +735,9 @@ pub mod access_approval_client {
                 super::GetAccessApprovalServiceAccountMessage,
             >,
         ) -> Result<
-                tonic::Response<super::AccessApprovalServiceAccount>,
-                tonic::Status,
-            > {
+            tonic::Response<super::AccessApprovalServiceAccount>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

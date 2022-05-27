@@ -498,9 +498,9 @@ pub mod gke_hub_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateFeatureRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -521,9 +521,9 @@ pub mod gke_hub_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteFeatureRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -544,9 +544,9 @@ pub mod gke_hub_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateFeatureRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

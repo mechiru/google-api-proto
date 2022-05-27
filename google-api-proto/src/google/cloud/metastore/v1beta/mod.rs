@@ -1120,9 +1120,9 @@ pub mod dataproc_metastore_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1143,9 +1143,9 @@ pub mod dataproc_metastore_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1166,9 +1166,9 @@ pub mod dataproc_metastore_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1229,9 +1229,9 @@ pub mod dataproc_metastore_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateMetadataImportRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1253,9 +1253,9 @@ pub mod dataproc_metastore_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateMetadataImportRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1276,9 +1276,9 @@ pub mod dataproc_metastore_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExportMetadataRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1299,9 +1299,9 @@ pub mod dataproc_metastore_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RestoreServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1362,9 +1362,9 @@ pub mod dataproc_metastore_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateBackupRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1385,9 +1385,9 @@ pub mod dataproc_metastore_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteBackupRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

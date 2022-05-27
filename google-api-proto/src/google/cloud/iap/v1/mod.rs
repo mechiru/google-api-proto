@@ -478,9 +478,9 @@ pub mod identity_aware_proxy_admin_service_client {
                 super::super::super::super::iam::v1::SetIamPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -506,9 +506,9 @@ pub mod identity_aware_proxy_admin_service_client {
                 super::super::super::super::iam::v1::GetIamPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -534,11 +534,11 @@ pub mod identity_aware_proxy_admin_service_client {
                 super::super::super::super::iam::v1::TestIamPermissionsRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::iam::v1::TestIamPermissionsResponse,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                super::super::super::super::iam::v1::TestIamPermissionsResponse,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -602,9 +602,9 @@ pub mod identity_aware_proxy_admin_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListTunnelDestGroupsRequest>,
         ) -> Result<
-                tonic::Response<super::ListTunnelDestGroupsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListTunnelDestGroupsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -856,9 +856,9 @@ pub mod identity_aware_proxy_o_auth_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListIdentityAwareProxyClientsRequest>,
         ) -> Result<
-                tonic::Response<super::ListIdentityAwareProxyClientsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListIdentityAwareProxyClientsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

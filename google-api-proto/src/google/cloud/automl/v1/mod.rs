@@ -2334,9 +2334,9 @@ pub mod prediction_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchPredictRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3299,9 +3299,9 @@ pub mod auto_ml_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateDatasetRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3386,9 +3386,9 @@ pub mod auto_ml_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteDatasetRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3417,9 +3417,9 @@ pub mod auto_ml_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportDataRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3442,9 +3442,9 @@ pub mod auto_ml_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExportDataRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3489,9 +3489,9 @@ pub mod auto_ml_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateModelRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3556,9 +3556,9 @@ pub mod auto_ml_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteModelRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3609,9 +3609,9 @@ pub mod auto_ml_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeployModelRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3638,9 +3638,9 @@ pub mod auto_ml_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UndeployModelRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3667,9 +3667,9 @@ pub mod auto_ml_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExportModelRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3710,9 +3710,9 @@ pub mod auto_ml_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListModelEvaluationsRequest>,
         ) -> Result<
-                tonic::Response<super::ListModelEvaluationsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListModelEvaluationsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

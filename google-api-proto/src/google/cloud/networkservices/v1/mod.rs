@@ -323,9 +323,9 @@ pub mod network_services_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListEndpointPoliciesRequest>,
         ) -> Result<
-                tonic::Response<super::ListEndpointPoliciesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListEndpointPoliciesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -366,9 +366,9 @@ pub mod network_services_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateEndpointPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -389,9 +389,9 @@ pub mod network_services_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateEndpointPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -412,9 +412,9 @@ pub mod network_services_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteEndpointPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

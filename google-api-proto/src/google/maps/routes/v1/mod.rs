@@ -1132,9 +1132,9 @@ pub mod routes_preferred_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ComputeRouteMatrixRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::RouteMatrixElement>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::RouteMatrixElement>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

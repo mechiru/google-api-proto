@@ -408,9 +408,9 @@ pub mod build_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CheckBuildStageStatusRequest>,
         ) -> Result<
-                tonic::Response<super::CheckBuildStageStatusResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::CheckBuildStageStatusResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -435,9 +435,9 @@ pub mod build_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StageBuildRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

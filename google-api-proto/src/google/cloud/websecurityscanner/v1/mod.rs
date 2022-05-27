@@ -1217,9 +1217,9 @@ pub mod web_security_scanner_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListFindingTypeStatsRequest>,
         ) -> Result<
-                tonic::Response<super::ListFindingTypeStatsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListFindingTypeStatsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

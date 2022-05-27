@@ -1650,9 +1650,9 @@ pub mod beta_analytics_data_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchRunPivotReportsRequest>,
         ) -> Result<
-                tonic::Response<super::BatchRunPivotReportsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::BatchRunPivotReportsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

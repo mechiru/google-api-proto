@@ -321,11 +321,11 @@ pub mod speech_translation_service_client {
                 Message = super::StreamingTranslateSpeechRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    tonic::codec::Streaming<super::StreamingTranslateSpeechResponse>,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                tonic::codec::Streaming<super::StreamingTranslateSpeechResponse>,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

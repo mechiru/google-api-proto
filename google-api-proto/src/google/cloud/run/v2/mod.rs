@@ -853,9 +853,9 @@ pub mod revisions_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteRevisionRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1182,9 +1182,9 @@ pub mod services_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1245,9 +1245,9 @@ pub mod services_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1270,9 +1270,9 @@ pub mod services_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1296,9 +1296,9 @@ pub mod services_client {
                 super::super::super::super::iam::v1::GetIamPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1322,9 +1322,9 @@ pub mod services_client {
                 super::super::super::super::iam::v1::SetIamPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1349,11 +1349,11 @@ pub mod services_client {
                 super::super::super::super::iam::v1::TestIamPermissionsRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::iam::v1::TestIamPermissionsResponse,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                super::super::super::super::iam::v1::TestIamPermissionsResponse,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

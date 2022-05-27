@@ -4476,9 +4476,9 @@ pub mod cluster_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListUsableSubnetworksRequest>,
         ) -> Result<
-                tonic::Response<super::ListUsableSubnetworksResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListUsableSubnetworksResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

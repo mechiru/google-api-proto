@@ -2367,9 +2367,9 @@ pub mod applications_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateApplicationRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2395,9 +2395,9 @@ pub mod applications_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateApplicationRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2427,9 +2427,9 @@ pub mod applications_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RepairApplicationRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2546,9 +2546,9 @@ pub mod services_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2569,9 +2569,9 @@ pub mod services_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2690,9 +2690,9 @@ pub mod versions_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateVersionRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2748,9 +2748,9 @@ pub mod versions_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateVersionRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2771,9 +2771,9 @@ pub mod versions_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteVersionRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2904,9 +2904,9 @@ pub mod instances_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2934,9 +2934,9 @@ pub mod instances_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DebugInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3046,9 +3046,9 @@ pub mod firewall_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchUpdateIngressRulesRequest>,
         ) -> Result<
-                tonic::Response<super::BatchUpdateIngressRulesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::BatchUpdateIngressRulesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3207,9 +3207,9 @@ pub mod authorized_domains_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListAuthorizedDomainsRequest>,
         ) -> Result<
-                tonic::Response<super::ListAuthorizedDomainsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListAuthorizedDomainsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3289,9 +3289,9 @@ pub mod authorized_certificates_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListAuthorizedCertificatesRequest>,
         ) -> Result<
-                tonic::Response<super::ListAuthorizedCertificatesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListAuthorizedCertificatesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3494,9 +3494,9 @@ pub mod domain_mappings_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateDomainMappingRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3520,9 +3520,9 @@ pub mod domain_mappings_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateDomainMappingRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3545,9 +3545,9 @@ pub mod domain_mappings_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteDomainMappingRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

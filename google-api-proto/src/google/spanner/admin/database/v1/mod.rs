@@ -1198,11 +1198,9 @@ pub mod database_admin_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateDatabaseRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1249,11 +1247,9 @@ pub mod database_admin_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateDatabaseDdlRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1328,9 +1324,9 @@ pub mod database_admin_client {
                 super::super::super::super::super::iam::v1::SetIamPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1360,9 +1356,9 @@ pub mod database_admin_client {
                 super::super::super::super::super::iam::v1::GetIamPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1394,11 +1390,11 @@ pub mod database_admin_client {
                 super::super::super::super::super::iam::v1::TestIamPermissionsRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::iam::v1::TestIamPermissionsResponse,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                super::super::super::super::super::iam::v1::TestIamPermissionsResponse,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1430,11 +1426,9 @@ pub mod database_admin_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateBackupRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1466,11 +1460,9 @@ pub mod database_admin_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CopyBackupRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1589,11 +1581,9 @@ pub mod database_admin_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RestoreDatabaseRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1621,9 +1611,9 @@ pub mod database_admin_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListDatabaseOperationsRequest>,
         ) -> Result<
-                tonic::Response<super::ListDatabaseOperationsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListDatabaseOperationsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1653,9 +1643,9 @@ pub mod database_admin_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListBackupOperationsRequest>,
         ) -> Result<
-                tonic::Response<super::ListBackupOperationsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListBackupOperationsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

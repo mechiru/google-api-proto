@@ -5439,9 +5439,9 @@ pub mod dlp_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListInspectTemplatesRequest>,
         ) -> Result<
-                tonic::Response<super::ListInspectTemplatesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListInspectTemplatesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -5552,9 +5552,9 @@ pub mod dlp_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListDeidentifyTemplatesRequest>,
         ) -> Result<
-                tonic::Response<super::ListDeidentifyTemplatesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListDeidentifyTemplatesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

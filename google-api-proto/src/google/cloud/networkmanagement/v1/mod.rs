@@ -1223,9 +1223,9 @@ pub mod reachability_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListConnectivityTestsRequest>,
         ) -> Result<
-                tonic::Response<super::ListConnectivityTestsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListConnectivityTestsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1278,9 +1278,9 @@ pub mod reachability_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateConnectivityTestRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1314,9 +1314,9 @@ pub mod reachability_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateConnectivityTestRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1348,9 +1348,9 @@ pub mod reachability_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RerunConnectivityTestRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1371,9 +1371,9 @@ pub mod reachability_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteConnectivityTestRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

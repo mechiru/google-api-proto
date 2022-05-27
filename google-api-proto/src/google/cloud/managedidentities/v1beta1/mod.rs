@@ -436,9 +436,9 @@ pub mod managed_identities_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateMicrosoftAdDomainRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -519,9 +519,9 @@ pub mod managed_identities_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateDomainRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -542,9 +542,9 @@ pub mod managed_identities_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteDomainRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -565,9 +565,9 @@ pub mod managed_identities_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AttachTrustRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -588,9 +588,9 @@ pub mod managed_identities_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReconfigureTrustRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -611,9 +611,9 @@ pub mod managed_identities_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DetachTrustRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -635,9 +635,9 @@ pub mod managed_identities_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ValidateTrustRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

@@ -793,9 +793,9 @@ pub mod streaming_read_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StreamReadsRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::StreamReadsResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::StreamReadsResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -889,9 +889,9 @@ pub mod read_service_v1_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportReadGroupSetsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -921,9 +921,9 @@ pub mod read_service_v1_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExportReadGroupSetRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1476,9 +1476,9 @@ pub mod dataset_service_v1_client {
                 super::super::super::iam::v1::SetIamPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1509,9 +1509,9 @@ pub mod dataset_service_v1_client {
                 super::super::super::iam::v1::GetIamPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::iam::v1::Policy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1540,11 +1540,9 @@ pub mod dataset_service_v1_client {
                 super::super::super::iam::v1::TestIamPermissionsRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::iam::v1::TestIamPermissionsResponse,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::iam::v1::TestIamPermissionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2239,9 +2237,9 @@ pub mod streaming_variant_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StreamVariantsRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::StreamVariantsResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::StreamVariantsResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2334,9 +2332,9 @@ pub mod variant_service_v1_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportVariantsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2389,9 +2387,9 @@ pub mod variant_service_v1_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExportVariantSetRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3960,9 +3958,9 @@ pub mod annotation_service_v1_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SearchAnnotationSetsRequest>,
         ) -> Result<
-                tonic::Response<super::SearchAnnotationSetsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SearchAnnotationSetsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4037,9 +4035,9 @@ pub mod annotation_service_v1_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchCreateAnnotationsRequest>,
         ) -> Result<
-                tonic::Response<super::BatchCreateAnnotationsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::BatchCreateAnnotationsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

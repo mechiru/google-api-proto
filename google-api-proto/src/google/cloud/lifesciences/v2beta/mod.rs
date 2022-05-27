@@ -795,9 +795,9 @@ pub mod workflows_service_v2_beta_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RunPipelineRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

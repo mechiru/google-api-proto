@@ -794,9 +794,9 @@ pub mod validation_helper_v1_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ValidateAttestationOccurrenceRequest>,
         ) -> Result<
-                tonic::Response<super::ValidateAttestationOccurrenceResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ValidateAttestationOccurrenceResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

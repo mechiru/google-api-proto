@@ -173,9 +173,9 @@ pub mod byte_stream_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReadRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::ReadResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::ReadResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

@@ -361,9 +361,9 @@ pub mod document_understanding_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchProcessDocumentsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

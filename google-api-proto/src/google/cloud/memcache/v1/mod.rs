@@ -455,9 +455,9 @@ pub mod cloud_memcache_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -478,9 +478,9 @@ pub mod cloud_memcache_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -503,9 +503,9 @@ pub mod cloud_memcache_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateParametersRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -526,9 +526,9 @@ pub mod cloud_memcache_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -550,9 +550,9 @@ pub mod cloud_memcache_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ApplyParametersRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

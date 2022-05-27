@@ -667,9 +667,9 @@ pub mod tpu_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateNodeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -690,9 +690,9 @@ pub mod tpu_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteNodeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -713,9 +713,9 @@ pub mod tpu_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StopNodeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -736,9 +736,9 @@ pub mod tpu_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StartNodeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -759,9 +759,9 @@ pub mod tpu_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateNodeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -782,9 +782,9 @@ pub mod tpu_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GenerateServiceIdentityRequest>,
         ) -> Result<
-                tonic::Response<super::GenerateServiceIdentityResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::GenerateServiceIdentityResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -805,9 +805,9 @@ pub mod tpu_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListAcceleratorTypesRequest>,
         ) -> Result<
-                tonic::Response<super::ListAcceleratorTypesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListAcceleratorTypesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

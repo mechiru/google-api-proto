@@ -539,9 +539,9 @@ pub mod embedded_assistant_client {
             &mut self,
             request: impl tonic::IntoStreamingRequest<Message = super::AssistRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::AssistResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::AssistResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

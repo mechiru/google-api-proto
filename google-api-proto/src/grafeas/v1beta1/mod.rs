@@ -650,9 +650,9 @@ pub mod grafeas_v1_beta1_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchCreateOccurrencesRequest>,
         ) -> Result<
-                tonic::Response<super::BatchCreateOccurrencesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::BatchCreateOccurrencesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -858,9 +858,9 @@ pub mod grafeas_v1_beta1_client {
                 super::GetVulnerabilityOccurrencesSummaryRequest,
             >,
         ) -> Result<
-                tonic::Response<super::VulnerabilityOccurrencesSummary>,
-                tonic::Status,
-            > {
+            tonic::Response<super::VulnerabilityOccurrencesSummary>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

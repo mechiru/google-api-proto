@@ -90,9 +90,9 @@ pub mod routes_alpha_client {
             &mut self,
             request: impl tonic::IntoRequest<super::super::v1::ComputeRoutesRequest>,
         ) -> Result<
-                tonic::Response<super::super::v1::ComputeRoutesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::v1::ComputeRoutesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -147,11 +147,11 @@ pub mod routes_alpha_client {
             &mut self,
             request: impl tonic::IntoRequest<super::super::v1::ComputeRouteMatrixRequest>,
         ) -> Result<
-                tonic::Response<
-                    tonic::codec::Streaming<super::super::v1::RouteMatrixElement>,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                tonic::codec::Streaming<super::super::v1::RouteMatrixElement>,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -207,9 +207,9 @@ pub mod routes_alpha_client {
                 super::super::v1::ComputeCustomRoutesRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::v1::ComputeCustomRoutesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::v1::ComputeCustomRoutesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

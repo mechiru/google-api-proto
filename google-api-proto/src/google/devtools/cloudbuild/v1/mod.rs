@@ -1859,9 +1859,9 @@ pub mod cloud_build_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateBuildRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1974,9 +1974,9 @@ pub mod cloud_build_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RetryBuildRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2002,9 +2002,9 @@ pub mod cloud_build_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ApproveBuildRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2135,9 +2135,9 @@ pub mod cloud_build_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RunBuildTriggerRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2159,9 +2159,9 @@ pub mod cloud_build_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReceiveTriggerWebhookRequest>,
         ) -> Result<
-                tonic::Response<super::ReceiveTriggerWebhookResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ReceiveTriggerWebhookResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2182,9 +2182,9 @@ pub mod cloud_build_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateWorkerPoolRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2225,9 +2225,9 @@ pub mod cloud_build_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteWorkerPoolRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2248,9 +2248,9 @@ pub mod cloud_build_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateWorkerPoolRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

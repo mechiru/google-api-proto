@@ -931,9 +931,9 @@ pub mod controller2_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListActiveBreakpointsRequest>,
         ) -> Result<
-                tonic::Response<super::ListActiveBreakpointsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListActiveBreakpointsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -961,9 +961,9 @@ pub mod controller2_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateActiveBreakpointRequest>,
         ) -> Result<
-                tonic::Response<super::UpdateActiveBreakpointResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::UpdateActiveBreakpointResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

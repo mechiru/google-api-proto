@@ -2609,9 +2609,9 @@ pub mod job_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchCreateJobsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2676,9 +2676,9 @@ pub mod job_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchUpdateJobsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2722,9 +2722,9 @@ pub mod job_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchDeleteJobsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

@@ -618,9 +618,9 @@ pub mod cloud_filestore_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -641,9 +641,9 @@ pub mod cloud_filestore_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -668,9 +668,9 @@ pub mod cloud_filestore_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RestoreInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -691,9 +691,9 @@ pub mod cloud_filestore_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -755,9 +755,9 @@ pub mod cloud_filestore_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateBackupRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -778,9 +778,9 @@ pub mod cloud_filestore_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteBackupRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -801,9 +801,9 @@ pub mod cloud_filestore_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateBackupRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

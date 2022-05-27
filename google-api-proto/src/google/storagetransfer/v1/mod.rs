@@ -1548,9 +1548,9 @@ pub mod storage_transfer_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RunTransferJobRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

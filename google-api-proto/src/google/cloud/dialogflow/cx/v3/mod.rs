@@ -1931,11 +1931,9 @@ pub mod flows_client {
             &mut self,
             request: impl tonic::IntoRequest<super::TrainFlowRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2011,11 +2009,9 @@ pub mod flows_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportFlowRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2047,11 +2043,9 @@ pub mod flows_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExportFlowRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2540,11 +2534,9 @@ pub mod agents_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExportAgentRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2581,11 +2573,9 @@ pub mod agents_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RestoreAgentRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2928,11 +2918,9 @@ pub mod versions_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateVersionRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3002,11 +2990,9 @@ pub mod versions_client {
             &mut self,
             request: impl tonic::IntoRequest<super::LoadVersionRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3423,9 +3409,9 @@ pub mod security_settings_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListSecuritySettingsRequest>,
         ) -> Result<
-                tonic::Response<super::ListSecuritySettingsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListSecuritySettingsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -5134,9 +5120,9 @@ pub mod session_entity_types_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListSessionEntityTypesRequest>,
         ) -> Result<
-                tonic::Response<super::ListSessionEntityTypesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListSessionEntityTypesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -6123,11 +6109,11 @@ pub mod sessions_client {
                 Message = super::StreamingDetectIntentRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    tonic::codec::Streaming<super::StreamingDetectIntentResponse>,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                tonic::codec::Streaming<super::StreamingDetectIntentResponse>,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -6400,9 +6386,9 @@ pub mod transition_route_groups_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListTransitionRouteGroupsRequest>,
         ) -> Result<
-                tonic::Response<super::ListTransitionRouteGroupsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListTransitionRouteGroupsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -7433,11 +7419,9 @@ pub mod test_cases_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RunTestCaseRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -7465,11 +7449,9 @@ pub mod test_cases_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchRunTestCasesRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -7519,11 +7501,9 @@ pub mod test_cases_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportTestCasesRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -7552,11 +7532,9 @@ pub mod test_cases_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExportTestCasesRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -7999,11 +7977,9 @@ pub mod environments_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateEnvironmentRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -8032,11 +8008,9 @@ pub mod environments_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateEnvironmentRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -8077,9 +8051,9 @@ pub mod environments_client {
             &mut self,
             request: impl tonic::IntoRequest<super::LookupEnvironmentHistoryRequest>,
         ) -> Result<
-                tonic::Response<super::LookupEnvironmentHistoryResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::LookupEnvironmentHistoryResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -8107,11 +8081,9 @@ pub mod environments_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RunContinuousTestRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -8132,9 +8104,9 @@ pub mod environments_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListContinuousTestResultsRequest>,
         ) -> Result<
-                tonic::Response<super::ListContinuousTestResultsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListContinuousTestResultsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -8162,11 +8134,9 @@ pub mod environments_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeployFlowRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

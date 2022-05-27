@@ -304,9 +304,9 @@ pub mod iam_checker_client {
             &mut self,
             request: impl tonic::IntoRequest<super::TroubleshootIamPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::TroubleshootIamPolicyResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::TroubleshootIamPolicyResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

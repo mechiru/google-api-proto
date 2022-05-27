@@ -26636,9 +26636,9 @@ pub mod accelerator_types_client {
                 super::AggregatedListAcceleratorTypesRequest,
             >,
         ) -> Result<
-                tonic::Response<super::AcceleratorTypeAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::AcceleratorTypeAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -27367,9 +27367,9 @@ pub mod backend_services_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AggregatedListBackendServicesRequest>,
         ) -> Result<
-                tonic::Response<super::BackendServiceAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::BackendServiceAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -28464,9 +28464,9 @@ pub mod firewall_policies_client {
                 super::ListAssociationsFirewallPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<super::FirewallPoliciesListAssociationsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::FirewallPoliciesListAssociationsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -28863,9 +28863,9 @@ pub mod forwarding_rules_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AggregatedListForwardingRulesRequest>,
         ) -> Result<
-                tonic::Response<super::ForwardingRuleAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ForwardingRuleAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -29548,9 +29548,9 @@ pub mod global_network_endpoint_groups_client {
                 super::ListNetworkEndpointsGlobalNetworkEndpointGroupsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::NetworkEndpointGroupsListNetworkEndpoints>,
-                tonic::Status,
-            > {
+            tonic::Response<super::NetworkEndpointGroupsListNetworkEndpoints>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -29649,9 +29649,9 @@ pub mod global_operations_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteGlobalOperationRequest>,
         ) -> Result<
-                tonic::Response<super::DeleteGlobalOperationResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::DeleteGlobalOperationResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -29792,9 +29792,9 @@ pub mod global_organization_operations_client {
                 super::DeleteGlobalOrganizationOperationRequest,
             >,
         ) -> Result<
-                tonic::Response<super::DeleteGlobalOrganizationOperationResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::DeleteGlobalOrganizationOperationResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -30655,9 +30655,9 @@ pub mod instance_group_managers_client {
                 super::AggregatedListInstanceGroupManagersRequest,
             >,
         ) -> Result<
-                tonic::Response<super::InstanceGroupManagerAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::InstanceGroupManagerAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -30848,9 +30848,9 @@ pub mod instance_group_managers_client {
                 super::ListErrorsInstanceGroupManagersRequest,
             >,
         ) -> Result<
-                tonic::Response<super::InstanceGroupManagersListErrorsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::InstanceGroupManagersListErrorsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -30873,11 +30873,9 @@ pub mod instance_group_managers_client {
                 super::ListManagedInstancesInstanceGroupManagersRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    super::InstanceGroupManagersListManagedInstancesResponse,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::InstanceGroupManagersListManagedInstancesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -30900,9 +30898,9 @@ pub mod instance_group_managers_client {
                 super::ListPerInstanceConfigsInstanceGroupManagersRequest,
             >,
         ) -> Result<
-                tonic::Response<super::InstanceGroupManagersListPerInstanceConfigsResp>,
-                tonic::Status,
-            > {
+            tonic::Response<super::InstanceGroupManagersListPerInstanceConfigsResp>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -31743,9 +31741,9 @@ pub mod instances_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GetEffectiveFirewallsInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::InstancesGetEffectiveFirewallsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::InstancesGetEffectiveFirewallsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -31992,9 +31990,9 @@ pub mod instances_client {
                 super::SendDiagnosticInterruptInstanceRequest,
             >,
         ) -> Result<
-                tonic::Response<super::SendDiagnosticInterruptInstanceResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SendDiagnosticInterruptInstanceResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -32545,9 +32543,9 @@ pub mod interconnect_attachments_client {
                 super::AggregatedListInterconnectAttachmentsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::InterconnectAttachmentAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::InterconnectAttachmentAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -32860,9 +32858,9 @@ pub mod interconnects_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GetDiagnosticsInterconnectRequest>,
         ) -> Result<
-                tonic::Response<super::InterconnectsGetDiagnosticsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::InterconnectsGetDiagnosticsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -33609,9 +33607,9 @@ pub mod network_edge_security_services_client {
                 super::AggregatedListNetworkEdgeSecurityServicesRequest,
             >,
         ) -> Result<
-                tonic::Response<super::NetworkEdgeSecurityServiceAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::NetworkEdgeSecurityServiceAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -33776,9 +33774,9 @@ pub mod network_endpoint_groups_client {
                 super::AggregatedListNetworkEndpointGroupsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::NetworkEndpointGroupAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::NetworkEndpointGroupAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -33925,9 +33923,9 @@ pub mod network_endpoint_groups_client {
                 super::ListNetworkEndpointsNetworkEndpointGroupsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::NetworkEndpointGroupsListNetworkEndpoints>,
-                tonic::Status,
-            > {
+            tonic::Response<super::NetworkEndpointGroupsListNetworkEndpoints>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -34482,9 +34480,9 @@ pub mod networks_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GetEffectiveFirewallsNetworkRequest>,
         ) -> Result<
-                tonic::Response<super::NetworksGetEffectiveFirewallsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::NetworksGetEffectiveFirewallsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -35353,9 +35351,9 @@ pub mod packet_mirrorings_client {
                 super::AggregatedListPacketMirroringsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::PacketMirroringAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::PacketMirroringAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -36034,9 +36032,9 @@ pub mod public_delegated_prefixes_client {
                 super::AggregatedListPublicDelegatedPrefixesRequest,
             >,
         ) -> Result<
-                tonic::Response<super::PublicDelegatedPrefixAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::PublicDelegatedPrefixAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -37653,9 +37651,9 @@ pub mod region_instance_group_managers_client {
                 super::ListRegionInstanceGroupManagersRequest,
             >,
         ) -> Result<
-                tonic::Response<super::RegionInstanceGroupManagerList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::RegionInstanceGroupManagerList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -37678,9 +37676,9 @@ pub mod region_instance_group_managers_client {
                 super::ListErrorsRegionInstanceGroupManagersRequest,
             >,
         ) -> Result<
-                tonic::Response<super::RegionInstanceGroupManagersListErrorsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::RegionInstanceGroupManagersListErrorsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -37703,9 +37701,9 @@ pub mod region_instance_group_managers_client {
                 super::ListManagedInstancesRegionInstanceGroupManagersRequest,
             >,
         ) -> Result<
-                tonic::Response<super::RegionInstanceGroupManagersListInstancesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::RegionInstanceGroupManagersListInstancesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -37728,11 +37726,9 @@ pub mod region_instance_group_managers_client {
                 super::ListPerInstanceConfigsRegionInstanceGroupManagersRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    super::RegionInstanceGroupManagersListInstanceConfigsResp,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::RegionInstanceGroupManagersListInstanceConfigsResp>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -38005,9 +38001,9 @@ pub mod region_instance_groups_client {
                 super::ListInstancesRegionInstanceGroupsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::RegionInstanceGroupsListInstances>,
-                tonic::Status,
-            > {
+            tonic::Response<super::RegionInstanceGroupsListInstances>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -38462,11 +38458,11 @@ pub mod region_network_firewall_policies_client {
                 super::GetEffectiveFirewallsRegionNetworkFirewallPolicyRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    super::RegionNetworkFirewallPoliciesGetEffectiveFirewallsResponse,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                super::RegionNetworkFirewallPoliciesGetEffectiveFirewallsResponse,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -38907,9 +38903,9 @@ pub mod region_operations_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteRegionOperationRequest>,
         ) -> Result<
-                tonic::Response<super::DeleteRegionOperationResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::DeleteRegionOperationResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -40252,9 +40248,9 @@ pub mod resource_policies_client {
                 super::AggregatedListResourcePoliciesRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ResourcePolicyAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ResourcePolicyAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -40887,9 +40883,9 @@ pub mod security_policies_client {
                 super::AggregatedListSecurityPoliciesRequest,
             >,
         ) -> Result<
-                tonic::Response<super::SecurityPoliciesAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SecurityPoliciesAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -41012,11 +41008,11 @@ pub mod security_policies_client {
                 super::ListPreconfiguredExpressionSetsSecurityPoliciesRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    super::SecurityPoliciesListPreconfiguredExpressionSetsResponse,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                super::SecurityPoliciesListPreconfiguredExpressionSetsResponse,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -41155,9 +41151,9 @@ pub mod service_attachments_client {
                 super::AggregatedListServiceAttachmentsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ServiceAttachmentAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ServiceAttachmentAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -41612,9 +41608,9 @@ pub mod ssl_certificates_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AggregatedListSslCertificatesRequest>,
         ) -> Result<
-                tonic::Response<super::SslCertificateAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SslCertificateAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -41853,9 +41849,9 @@ pub mod ssl_policies_client {
                 super::ListAvailableFeaturesSslPoliciesRequest,
             >,
         ) -> Result<
-                tonic::Response<super::SslPoliciesListAvailableFeaturesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SslPoliciesListAvailableFeaturesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -42092,9 +42088,9 @@ pub mod subnetworks_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListUsableSubnetworksRequest>,
         ) -> Result<
-                tonic::Response<super::UsableSubnetworksAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::UsableSubnetworksAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -42411,9 +42407,9 @@ pub mod target_http_proxies_client {
                 super::AggregatedListTargetHttpProxiesRequest,
             >,
         ) -> Result<
-                tonic::Response<super::TargetHttpProxyAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::TargetHttpProxyAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -42612,9 +42608,9 @@ pub mod target_https_proxies_client {
                 super::AggregatedListTargetHttpsProxiesRequest,
             >,
         ) -> Result<
-                tonic::Response<super::TargetHttpsProxyAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::TargetHttpsProxyAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -42875,9 +42871,9 @@ pub mod target_instances_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AggregatedListTargetInstancesRequest>,
         ) -> Result<
-                tonic::Response<super::TargetInstanceAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::TargetInstanceAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -43710,9 +43706,9 @@ pub mod target_vpn_gateways_client {
                 super::AggregatedListTargetVpnGatewaysRequest,
             >,
         ) -> Result<
-                tonic::Response<super::TargetVpnGatewayAggregatedList>,
-                tonic::Status,
-            > {
+            tonic::Response<super::TargetVpnGatewayAggregatedList>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -44165,9 +44161,9 @@ pub mod vpn_gateways_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GetStatusVpnGatewayRequest>,
         ) -> Result<
-                tonic::Response<super::VpnGatewaysGetStatusResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::VpnGatewaysGetStatusResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

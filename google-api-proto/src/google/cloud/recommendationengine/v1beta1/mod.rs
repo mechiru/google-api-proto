@@ -1057,9 +1057,9 @@ pub mod prediction_api_key_registry_client {
                 super::CreatePredictionApiKeyRegistrationRequest,
             >,
         ) -> Result<
-                tonic::Response<super::PredictionApiKeyRegistration>,
-                tonic::Status,
-            > {
+            tonic::Response<super::PredictionApiKeyRegistration>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1082,9 +1082,9 @@ pub mod prediction_api_key_registry_client {
                 super::ListPredictionApiKeyRegistrationsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ListPredictionApiKeyRegistrationsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListPredictionApiKeyRegistrationsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1358,9 +1358,9 @@ pub mod user_event_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CollectUserEventRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::api::HttpBody>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::api::HttpBody>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1404,9 +1404,9 @@ pub mod user_event_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::PurgeUserEventsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1433,9 +1433,9 @@ pub mod user_event_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportUserEventsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1690,9 +1690,9 @@ pub mod catalog_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportCatalogItemsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

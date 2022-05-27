@@ -1124,9 +1124,9 @@ pub mod delivery_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListDeliveryVehiclesRequest>,
         ) -> Result<
-                tonic::Response<super::ListDeliveryVehiclesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListDeliveryVehiclesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

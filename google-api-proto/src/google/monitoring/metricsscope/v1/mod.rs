@@ -209,9 +209,9 @@ pub mod metrics_scopes_client {
                 super::ListMetricsScopesByMonitoredProjectRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ListMetricsScopesByMonitoredProjectResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListMetricsScopesByMonitoredProjectResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -233,9 +233,9 @@ pub mod metrics_scopes_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateMonitoredProjectRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -256,9 +256,9 @@ pub mod metrics_scopes_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteMonitoredProjectRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

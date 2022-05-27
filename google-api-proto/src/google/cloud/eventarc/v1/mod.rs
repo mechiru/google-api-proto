@@ -768,9 +768,9 @@ pub mod eventarc_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateTriggerRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -791,9 +791,9 @@ pub mod eventarc_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateTriggerRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -814,9 +814,9 @@ pub mod eventarc_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteTriggerRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -877,9 +877,9 @@ pub mod eventarc_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateChannelRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -900,9 +900,9 @@ pub mod eventarc_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateChannelRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -923,9 +923,9 @@ pub mod eventarc_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteChannelRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1006,9 +1006,9 @@ pub mod eventarc_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListChannelConnectionsRequest>,
         ) -> Result<
-                tonic::Response<super::ListChannelConnectionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListChannelConnectionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1029,9 +1029,9 @@ pub mod eventarc_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateChannelConnectionRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1052,9 +1052,9 @@ pub mod eventarc_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteChannelConnectionRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

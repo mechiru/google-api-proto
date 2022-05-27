@@ -2245,9 +2245,9 @@ pub mod grafeas_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchCreateOccurrencesRequest>,
         ) -> Result<
-                tonic::Response<super::BatchCreateOccurrencesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::BatchCreateOccurrencesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

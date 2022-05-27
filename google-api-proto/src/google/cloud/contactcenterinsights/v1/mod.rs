@@ -1958,9 +1958,9 @@ pub mod contact_center_insights_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateAnalysisRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2041,9 +2041,9 @@ pub mod contact_center_insights_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExportInsightsDataRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2064,9 +2064,9 @@ pub mod contact_center_insights_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateIssueModelRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2147,9 +2147,9 @@ pub mod contact_center_insights_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteIssueModelRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2171,9 +2171,9 @@ pub mod contact_center_insights_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeployIssueModelRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2195,9 +2195,9 @@ pub mod contact_center_insights_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UndeployIssueModelRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2278,9 +2278,9 @@ pub mod contact_center_insights_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CalculateIssueModelStatsRequest>,
         ) -> Result<
-                tonic::Response<super::CalculateIssueModelStatsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::CalculateIssueModelStatsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

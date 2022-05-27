@@ -1296,9 +1296,9 @@ pub mod actions_sdk_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReadDraftRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::ReadDraftResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::ReadDraftResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1319,9 +1319,9 @@ pub mod actions_sdk_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReadVersionRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::ReadVersionResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::ReadVersionResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

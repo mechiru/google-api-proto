@@ -1197,9 +1197,9 @@ pub mod azure_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateAzureClientRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1268,9 +1268,9 @@ pub mod azure_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteAzureClientRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1295,9 +1295,9 @@ pub mod azure_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateAzureClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1318,9 +1318,9 @@ pub mod azure_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateAzureClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1389,9 +1389,9 @@ pub mod azure_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteAzureClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1413,9 +1413,9 @@ pub mod azure_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GenerateAzureAccessTokenRequest>,
         ) -> Result<
-                tonic::Response<super::GenerateAzureAccessTokenResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::GenerateAzureAccessTokenResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1440,9 +1440,9 @@ pub mod azure_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateAzureNodePoolRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1463,9 +1463,9 @@ pub mod azure_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateAzureNodePoolRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1530,9 +1530,9 @@ pub mod azure_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteAzureNodePoolRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2489,9 +2489,9 @@ pub mod aws_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateAwsClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2512,9 +2512,9 @@ pub mod aws_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateAwsClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2583,9 +2583,9 @@ pub mod aws_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteAwsClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2607,9 +2607,9 @@ pub mod aws_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GenerateAwsAccessTokenRequest>,
         ) -> Result<
-                tonic::Response<super::GenerateAwsAccessTokenResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::GenerateAwsAccessTokenResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2634,9 +2634,9 @@ pub mod aws_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateAwsNodePoolRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2657,9 +2657,9 @@ pub mod aws_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateAwsNodePoolRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2724,9 +2724,9 @@ pub mod aws_clusters_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteAwsNodePoolRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

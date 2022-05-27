@@ -63,9 +63,9 @@ pub mod gateway_service_client {
                 super::super::super::super::super::api::HttpBody,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::super::api::HttpBody>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::api::HttpBody>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -88,9 +88,9 @@ pub mod gateway_service_client {
                 super::super::super::super::super::api::HttpBody,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::super::api::HttpBody>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::api::HttpBody>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -113,9 +113,9 @@ pub mod gateway_service_client {
                 super::super::super::super::super::api::HttpBody,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::super::api::HttpBody>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::api::HttpBody>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -138,9 +138,9 @@ pub mod gateway_service_client {
                 super::super::super::super::super::api::HttpBody,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::super::api::HttpBody>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::api::HttpBody>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -163,9 +163,9 @@ pub mod gateway_service_client {
                 super::super::super::super::super::api::HttpBody,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::super::api::HttpBody>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::api::HttpBody>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

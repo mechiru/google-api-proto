@@ -2842,9 +2842,9 @@ pub mod fleet_routing_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchOptimizeToursRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

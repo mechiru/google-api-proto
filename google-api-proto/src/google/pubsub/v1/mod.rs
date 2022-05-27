@@ -1568,9 +1568,9 @@ pub mod publisher_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListTopicSubscriptionsRequest>,
         ) -> Result<
-                tonic::Response<super::ListTopicSubscriptionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListTopicSubscriptionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1915,9 +1915,9 @@ pub mod subscriber_client {
                 Message = super::StreamingPullRequest,
             >,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::StreamingPullResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::StreamingPullResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

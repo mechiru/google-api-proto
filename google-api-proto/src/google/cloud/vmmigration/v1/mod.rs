@@ -2051,9 +2051,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateSourceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2074,9 +2074,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateSourceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2097,9 +2097,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteSourceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2144,9 +2144,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListUtilizationReportsRequest>,
         ) -> Result<
-                tonic::Response<super::ListUtilizationReportsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListUtilizationReportsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2187,9 +2187,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateUtilizationReportRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2210,9 +2210,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteUtilizationReportRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2233,9 +2233,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListDatacenterConnectorsRequest>,
         ) -> Result<
-                tonic::Response<super::ListDatacenterConnectorsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListDatacenterConnectorsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2276,9 +2276,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateDatacenterConnectorRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2299,9 +2299,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteDatacenterConnectorRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2322,9 +2322,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateMigratingVmRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2385,9 +2385,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateMigratingVmRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2408,9 +2408,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteMigratingVmRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2432,9 +2432,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StartMigrationRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2458,9 +2458,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ResumeMigrationRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2483,9 +2483,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::PauseMigrationRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2507,9 +2507,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::FinalizeMigrationRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2530,9 +2530,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateCloneJobRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2553,9 +2553,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CancelCloneJobRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2618,9 +2618,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateCutoverJobRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2641,9 +2641,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CancelCutoverJobRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2744,9 +2744,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateGroupRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2767,9 +2767,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateGroupRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2790,9 +2790,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteGroupRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2813,9 +2813,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AddGroupMigrationRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2836,9 +2836,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RemoveGroupMigrationRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2908,9 +2908,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateTargetProjectRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2934,9 +2934,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateTargetProjectRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2960,9 +2960,9 @@ pub mod vm_migration_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteTargetProjectRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

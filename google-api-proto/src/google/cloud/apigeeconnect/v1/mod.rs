@@ -377,9 +377,9 @@ pub mod tether_client {
             &mut self,
             request: impl tonic::IntoStreamingRequest<Message = super::EgressResponse>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::EgressRequest>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::EgressRequest>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

@@ -971,9 +971,9 @@ pub mod bigtable_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReadRowsRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::ReadRowsResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::ReadRowsResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -997,9 +997,9 @@ pub mod bigtable_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SampleRowKeysRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::SampleRowKeysResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::SampleRowKeysResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1043,9 +1043,9 @@ pub mod bigtable_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateRowsRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::MutateRowsResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::MutateRowsResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

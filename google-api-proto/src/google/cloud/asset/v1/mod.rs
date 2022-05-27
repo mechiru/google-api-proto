@@ -2628,9 +2628,9 @@ pub mod asset_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExportAssetsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2678,9 +2678,9 @@ pub mod asset_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchGetAssetsHistoryRequest>,
         ) -> Result<
-                tonic::Response<super::BatchGetAssetsHistoryResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::BatchGetAssetsHistoryResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2828,9 +2828,9 @@ pub mod asset_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SearchAllIamPoliciesRequest>,
         ) -> Result<
-                tonic::Response<super::SearchAllIamPoliciesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SearchAllIamPoliciesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2881,9 +2881,9 @@ pub mod asset_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AnalyzeIamPolicyLongrunningRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3028,9 +3028,9 @@ pub mod asset_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchGetEffectiveIamPoliciesRequest>,
         ) -> Result<
-                tonic::Response<super::BatchGetEffectiveIamPoliciesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::BatchGetEffectiveIamPoliciesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

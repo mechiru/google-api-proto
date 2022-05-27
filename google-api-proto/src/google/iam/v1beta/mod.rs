@@ -461,9 +461,9 @@ pub mod workload_identity_pools_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListWorkloadIdentityPoolsRequest>,
         ) -> Result<
-                tonic::Response<super::ListWorkloadIdentityPoolsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListWorkloadIdentityPoolsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -508,9 +508,9 @@ pub mod workload_identity_pools_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateWorkloadIdentityPoolRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -532,9 +532,9 @@ pub mod workload_identity_pools_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateWorkloadIdentityPoolRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -566,9 +566,9 @@ pub mod workload_identity_pools_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteWorkloadIdentityPoolRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -590,9 +590,9 @@ pub mod workload_identity_pools_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UndeleteWorkloadIdentityPoolRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -618,9 +618,9 @@ pub mod workload_identity_pools_client {
                 super::ListWorkloadIdentityPoolProvidersRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ListWorkloadIdentityPoolProvidersResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListWorkloadIdentityPoolProvidersResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -644,9 +644,9 @@ pub mod workload_identity_pools_client {
                 super::GetWorkloadIdentityPoolProviderRequest,
             >,
         ) -> Result<
-                tonic::Response<super::WorkloadIdentityPoolProvider>,
-                tonic::Status,
-            > {
+            tonic::Response<super::WorkloadIdentityPoolProvider>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -674,9 +674,9 @@ pub mod workload_identity_pools_client {
                 super::CreateWorkloadIdentityPoolProviderRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -700,9 +700,9 @@ pub mod workload_identity_pools_client {
                 super::UpdateWorkloadIdentityPoolProviderRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -731,9 +731,9 @@ pub mod workload_identity_pools_client {
                 super::DeleteWorkloadIdentityPoolProviderRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -758,9 +758,9 @@ pub mod workload_identity_pools_client {
                 super::UndeleteWorkloadIdentityPoolProviderRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

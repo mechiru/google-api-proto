@@ -436,9 +436,9 @@ pub mod account_management_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::FinalizeMfaEnrollmentRequest>,
         ) -> Result<
-                tonic::Response<super::FinalizeMfaEnrollmentResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::FinalizeMfaEnrollmentResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

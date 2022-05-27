@@ -457,9 +457,9 @@ pub mod big_query_storage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReadRowsRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::ReadRowsResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::ReadRowsResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -482,9 +482,9 @@ pub mod big_query_storage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchCreateReadSessionStreamsRequest>,
         ) -> Result<
-                tonic::Response<super::BatchCreateReadSessionStreamsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::BatchCreateReadSessionStreamsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

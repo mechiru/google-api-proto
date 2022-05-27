@@ -1920,9 +1920,9 @@ pub mod os_config_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListPatchJobInstanceDetailsRequest>,
         ) -> Result<
-                tonic::Response<super::ListPatchJobInstanceDetailsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListPatchJobInstanceDetailsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1983,9 +1983,9 @@ pub mod os_config_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListPatchDeploymentsRequest>,
         ) -> Result<
-                tonic::Response<super::ListPatchDeploymentsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListPatchDeploymentsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

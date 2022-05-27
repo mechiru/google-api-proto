@@ -1715,11 +1715,9 @@ pub mod firestore_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchGetDocumentsRequest>,
         ) -> Result<
-                tonic::Response<
-                    tonic::codec::Streaming<super::BatchGetDocumentsResponse>,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::BatchGetDocumentsResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1800,9 +1798,9 @@ pub mod firestore_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RunQueryRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::RunQueryResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::RunQueryResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1845,9 +1843,9 @@ pub mod firestore_client {
             &mut self,
             request: impl tonic::IntoStreamingRequest<Message = super::WriteRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::WriteResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::WriteResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1868,9 +1866,9 @@ pub mod firestore_client {
             &mut self,
             request: impl tonic::IntoStreamingRequest<Message = super::ListenRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::ListenResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::ListenResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

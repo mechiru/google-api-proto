@@ -1288,9 +1288,9 @@ pub mod iam_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UndeleteServiceAccountRequest>,
         ) -> Result<
-                tonic::Response<super::UndeleteServiceAccountResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::UndeleteServiceAccountResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1373,9 +1373,9 @@ pub mod iam_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListServiceAccountKeysRequest>,
         ) -> Result<
-                tonic::Response<super::ListServiceAccountKeysResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListServiceAccountKeysResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1605,9 +1605,9 @@ pub mod iam_client {
                 super::super::super::v1::TestIamPermissionsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::v1::TestIamPermissionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::v1::TestIamPermissionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1789,9 +1789,9 @@ pub mod iam_client {
             &mut self,
             request: impl tonic::IntoRequest<super::QueryTestablePermissionsRequest>,
         ) -> Result<
-                tonic::Response<super::QueryTestablePermissionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::QueryTestablePermissionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1816,9 +1816,9 @@ pub mod iam_client {
             &mut self,
             request: impl tonic::IntoRequest<super::QueryAuditableServicesRequest>,
         ) -> Result<
-                tonic::Response<super::QueryAuditableServicesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::QueryAuditableServicesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

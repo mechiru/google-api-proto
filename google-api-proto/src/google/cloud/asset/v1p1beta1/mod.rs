@@ -272,9 +272,9 @@ pub mod asset_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SearchAllIamPoliciesRequest>,
         ) -> Result<
-                tonic::Response<super::SearchAllIamPoliciesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SearchAllIamPoliciesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

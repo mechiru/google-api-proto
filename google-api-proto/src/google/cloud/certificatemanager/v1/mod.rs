@@ -853,9 +853,9 @@ pub mod certificate_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateCertificateRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -876,9 +876,9 @@ pub mod certificate_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateCertificateRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -899,9 +899,9 @@ pub mod certificate_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteCertificateRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -962,9 +962,9 @@ pub mod certificate_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateCertificateMapRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -985,9 +985,9 @@ pub mod certificate_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateCertificateMapRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1010,9 +1010,9 @@ pub mod certificate_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteCertificateMapRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1033,9 +1033,9 @@ pub mod certificate_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListCertificateMapEntriesRequest>,
         ) -> Result<
-                tonic::Response<super::ListCertificateMapEntriesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListCertificateMapEntriesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1076,9 +1076,9 @@ pub mod certificate_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateCertificateMapEntryRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1099,9 +1099,9 @@ pub mod certificate_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateCertificateMapEntryRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1122,9 +1122,9 @@ pub mod certificate_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteCertificateMapEntryRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1145,9 +1145,9 @@ pub mod certificate_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListDnsAuthorizationsRequest>,
         ) -> Result<
-                tonic::Response<super::ListDnsAuthorizationsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListDnsAuthorizationsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1188,9 +1188,9 @@ pub mod certificate_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateDnsAuthorizationRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1211,9 +1211,9 @@ pub mod certificate_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateDnsAuthorizationRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1234,9 +1234,9 @@ pub mod certificate_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteDnsAuthorizationRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

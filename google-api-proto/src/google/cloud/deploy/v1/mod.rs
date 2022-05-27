@@ -1345,9 +1345,9 @@ pub mod cloud_deploy_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListDeliveryPipelinesRequest>,
         ) -> Result<
-                tonic::Response<super::ListDeliveryPipelinesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListDeliveryPipelinesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1388,9 +1388,9 @@ pub mod cloud_deploy_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateDeliveryPipelineRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1411,9 +1411,9 @@ pub mod cloud_deploy_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateDeliveryPipelineRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1434,9 +1434,9 @@ pub mod cloud_deploy_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteDeliveryPipelineRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1497,9 +1497,9 @@ pub mod cloud_deploy_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateTargetRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1520,9 +1520,9 @@ pub mod cloud_deploy_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateTargetRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1543,9 +1543,9 @@ pub mod cloud_deploy_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteTargetRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1606,9 +1606,9 @@ pub mod cloud_deploy_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateReleaseRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1689,9 +1689,9 @@ pub mod cloud_deploy_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateRolloutRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

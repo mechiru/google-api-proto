@@ -2050,9 +2050,9 @@ pub mod spanner_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExecuteSqlRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::PartialResultSet>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::PartialResultSet>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2139,9 +2139,9 @@ pub mod spanner_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReadRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::PartialResultSet>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::PartialResultSet>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

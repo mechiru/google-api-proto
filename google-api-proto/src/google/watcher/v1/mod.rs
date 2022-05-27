@@ -175,9 +175,9 @@ pub mod watcher_client {
             &mut self,
             request: impl tonic::IntoRequest<super::Request>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::ChangeBatch>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::ChangeBatch>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

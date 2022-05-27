@@ -2473,9 +2473,9 @@ pub mod cloud_channel_service_client {
                 super::CheckCloudIdentityAccountsExistRequest,
             >,
         ) -> Result<
-                tonic::Response<super::CheckCloudIdentityAccountsExistResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::CheckCloudIdentityAccountsExistResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2643,9 +2643,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ProvisionCloudIdentityRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2711,9 +2711,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListTransferableSkusRequest>,
         ) -> Result<
-                tonic::Response<super::ListTransferableSkusResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListTransferableSkusResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2751,9 +2751,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListTransferableOffersRequest>,
         ) -> Result<
-                tonic::Response<super::ListTransferableOffersResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListTransferableOffersResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2838,9 +2838,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateEntitlementRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2883,9 +2883,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ChangeParametersRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2928,9 +2928,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ChangeRenewalSettingsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2971,9 +2971,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ChangeOfferRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3017,9 +3017,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StartPaidServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3060,9 +3060,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SuspendEntitlementRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3108,9 +3108,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CancelEntitlementRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3157,9 +3157,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ActivateEntitlementRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3208,9 +3208,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::TransferEntitlementsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3259,9 +3259,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::TransferEntitlementsToGoogleRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3292,9 +3292,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListChannelPartnerLinksRequest>,
         ) -> Result<
-                tonic::Response<super::ListChannelPartnerLinksResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListChannelPartnerLinksResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3481,9 +3481,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListCustomerRepricingConfigsRequest>,
         ) -> Result<
-                tonic::Response<super::ListCustomerRepricingConfigsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListCustomerRepricingConfigsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3656,9 +3656,9 @@ pub mod cloud_channel_service_client {
                 super::GetChannelPartnerRepricingConfigRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ChannelPartnerRepricingConfig>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ChannelPartnerRepricingConfig>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3700,9 +3700,9 @@ pub mod cloud_channel_service_client {
                 super::ListChannelPartnerRepricingConfigsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ListChannelPartnerRepricingConfigsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListChannelPartnerRepricingConfigsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3761,9 +3761,9 @@ pub mod cloud_channel_service_client {
                 super::CreateChannelPartnerRepricingConfigRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ChannelPartnerRepricingConfig>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ChannelPartnerRepricingConfig>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3814,9 +3814,9 @@ pub mod cloud_channel_service_client {
                 super::UpdateChannelPartnerRepricingConfigRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ChannelPartnerRepricingConfig>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ChannelPartnerRepricingConfig>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4008,9 +4008,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListPurchasableOffersRequest>,
         ) -> Result<
-                tonic::Response<super::ListPurchasableOffersResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListPurchasableOffersResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4087,9 +4087,9 @@ pub mod cloud_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UnregisterSubscriberRequest>,
         ) -> Result<
-                tonic::Response<super::UnregisterSubscriberResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::UnregisterSubscriberResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

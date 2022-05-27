@@ -1554,9 +1554,9 @@ pub mod backup_for_gke_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateBackupPlanRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1617,9 +1617,9 @@ pub mod backup_for_gke_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateBackupPlanRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1640,9 +1640,9 @@ pub mod backup_for_gke_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteBackupPlanRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1663,9 +1663,9 @@ pub mod backup_for_gke_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateBackupRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1726,9 +1726,9 @@ pub mod backup_for_gke_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateBackupRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1749,9 +1749,9 @@ pub mod backup_for_gke_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteBackupRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1812,9 +1812,9 @@ pub mod backup_for_gke_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateRestorePlanRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1875,9 +1875,9 @@ pub mod backup_for_gke_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateRestorePlanRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1898,9 +1898,9 @@ pub mod backup_for_gke_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteRestorePlanRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1921,9 +1921,9 @@ pub mod backup_for_gke_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateRestoreRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1984,9 +1984,9 @@ pub mod backup_for_gke_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateRestoreRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2007,9 +2007,9 @@ pub mod backup_for_gke_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteRestoreRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

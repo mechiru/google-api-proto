@@ -845,9 +845,9 @@ pub mod runtime_config_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateWaiterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

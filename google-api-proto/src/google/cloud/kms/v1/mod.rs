@@ -2032,9 +2032,9 @@ pub mod key_management_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListCryptoKeyVersionsRequest>,
         ) -> Result<
-                tonic::Response<super::ListCryptoKeyVersionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListCryptoKeyVersionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

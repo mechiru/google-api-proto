@@ -1461,9 +1461,9 @@ pub mod translation_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchTranslateTextRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1490,9 +1490,9 @@ pub mod translation_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchTranslateDocumentRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1514,9 +1514,9 @@ pub mod translation_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateGlossaryRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1581,9 +1581,9 @@ pub mod translation_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteGlossaryRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

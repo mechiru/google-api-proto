@@ -1621,11 +1621,9 @@ pub mod certificate_authority_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ActivateCertificateAuthorityRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1646,11 +1644,9 @@ pub mod certificate_authority_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateCertificateAuthorityRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1671,11 +1667,9 @@ pub mod certificate_authority_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DisableCertificateAuthorityRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1696,11 +1690,9 @@ pub mod certificate_authority_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::EnableCertificateAuthorityRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1727,9 +1719,9 @@ pub mod certificate_authority_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::FetchCertificateAuthorityCsrRequest>,
         ) -> Result<
-                tonic::Response<super::FetchCertificateAuthorityCsrResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::FetchCertificateAuthorityCsrResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1770,9 +1762,9 @@ pub mod certificate_authority_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListCertificateAuthoritiesRequest>,
         ) -> Result<
-                tonic::Response<super::ListCertificateAuthoritiesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListCertificateAuthoritiesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1793,11 +1785,9 @@ pub mod certificate_authority_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RestoreCertificateAuthorityRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1820,11 +1810,9 @@ pub mod certificate_authority_service_client {
                 super::ScheduleDeleteCertificateAuthorityRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1845,11 +1833,9 @@ pub mod certificate_authority_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateCertificateAuthorityRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1892,9 +1878,9 @@ pub mod certificate_authority_service_client {
                 super::ListCertificateRevocationListsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ListCertificateRevocationListsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListCertificateRevocationListsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1917,11 +1903,9 @@ pub mod certificate_authority_service_client {
                 super::UpdateCertificateRevocationListRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

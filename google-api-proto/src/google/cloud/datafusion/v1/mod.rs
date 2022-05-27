@@ -490,9 +490,9 @@ pub mod data_fusion_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListAvailableVersionsRequest>,
         ) -> Result<
-                tonic::Response<super::ListAvailableVersionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListAvailableVersionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -553,9 +553,9 @@ pub mod data_fusion_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -576,9 +576,9 @@ pub mod data_fusion_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -599,9 +599,9 @@ pub mod data_fusion_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -623,9 +623,9 @@ pub mod data_fusion_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RestartInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

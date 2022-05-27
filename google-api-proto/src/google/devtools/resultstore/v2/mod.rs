@@ -2655,9 +2655,9 @@ pub mod result_store_upload_client {
             &mut self,
             request: impl tonic::IntoRequest<super::FinalizeConfiguredTargetRequest>,
         ) -> Result<
-                tonic::Response<super::FinalizeConfiguredTargetResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::FinalizeConfiguredTargetResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3919,9 +3919,9 @@ pub mod result_store_download_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListConfiguredTargetsRequest>,
         ) -> Result<
-                tonic::Response<super::ListConfiguredTargetsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListConfiguredTargetsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3957,9 +3957,9 @@ pub mod result_store_download_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SearchConfiguredTargetsRequest>,
         ) -> Result<
-                tonic::Response<super::SearchConfiguredTargetsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SearchConfiguredTargetsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4278,9 +4278,9 @@ pub mod result_store_file_download_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GetFileRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::GetFileResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::GetFileResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

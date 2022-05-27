@@ -344,9 +344,9 @@ pub mod campaign_label_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCampaignLabelsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCampaignLabelsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCampaignLabelsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -514,9 +514,9 @@ pub mod account_budget_proposal_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateAccountBudgetProposalRequest>,
         ) -> Result<
-                tonic::Response<super::MutateAccountBudgetProposalResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateAccountBudgetProposalResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -656,9 +656,9 @@ pub mod customer_user_access_invitation_service_client {
                 super::MutateCustomerUserAccessInvitationRequest,
             >,
         ) -> Result<
-                tonic::Response<super::MutateCustomerUserAccessInvitationResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCustomerUserAccessInvitationResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -862,9 +862,9 @@ pub mod ad_group_criterion_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateAdGroupCriteriaRequest>,
         ) -> Result<
-                tonic::Response<super::MutateAdGroupCriteriaResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateAdGroupCriteriaResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1049,9 +1049,9 @@ pub mod ad_group_bid_modifier_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateAdGroupBidModifiersRequest>,
         ) -> Result<
-                tonic::Response<super::MutateAdGroupBidModifiersResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateAdGroupBidModifiersResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1213,9 +1213,9 @@ pub mod conversion_value_rule_set_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateConversionValueRuleSetsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateConversionValueRuleSetsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateConversionValueRuleSetsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1387,9 +1387,9 @@ pub mod campaign_asset_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCampaignAssetsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCampaignAssetsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCampaignAssetsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1867,9 +1867,9 @@ pub mod keyword_plan_idea_service_client {
                 super::GenerateKeywordHistoricalMetricsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::GenerateKeywordHistoricalMetricsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::GenerateKeywordHistoricalMetricsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2022,9 +2022,9 @@ pub mod customer_customizer_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCustomerCustomizersRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCustomerCustomizersResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCustomerCustomizersResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2261,9 +2261,9 @@ pub mod conversion_adjustment_upload_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UploadConversionAdjustmentsRequest>,
         ) -> Result<
-                tonic::Response<super::UploadConversionAdjustmentsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::UploadConversionAdjustmentsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2581,9 +2581,9 @@ pub mod campaign_customizer_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCampaignCustomizersRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCampaignCustomizersResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCampaignCustomizersResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2746,9 +2746,9 @@ pub mod bidding_seasonality_adjustment_service_client {
                 super::MutateBiddingSeasonalityAdjustmentsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::MutateBiddingSeasonalityAdjustmentsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateBiddingSeasonalityAdjustmentsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2901,9 +2901,9 @@ pub mod remarketing_action_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateRemarketingActionsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateRemarketingActionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateRemarketingActionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3054,9 +3054,9 @@ pub mod feed_item_set_link_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateFeedItemSetLinksRequest>,
         ) -> Result<
-                tonic::Response<super::MutateFeedItemSetLinksResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateFeedItemSetLinksResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3199,9 +3199,9 @@ pub mod custom_interest_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCustomInterestsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCustomInterestsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCustomInterestsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3351,9 +3351,9 @@ pub mod asset_group_asset_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateAssetGroupAssetsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateAssetGroupAssetsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateAssetGroupAssetsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3658,9 +3658,9 @@ pub mod ad_group_ad_label_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateAdGroupAdLabelsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateAdGroupAdLabelsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateAdGroupAdLabelsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3983,9 +3983,9 @@ pub mod conversion_goal_campaign_config_service_client {
                 super::MutateConversionGoalCampaignConfigsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::MutateConversionGoalCampaignConfigsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateConversionGoalCampaignConfigsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4163,9 +4163,9 @@ pub mod conversion_action_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateConversionActionsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateConversionActionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateConversionActionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4510,9 +4510,9 @@ pub mod customer_negative_criterion_service_client {
                 super::MutateCustomerNegativeCriteriaRequest,
             >,
         ) -> Result<
-                tonic::Response<super::MutateCustomerNegativeCriteriaResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCustomerNegativeCriteriaResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4682,9 +4682,9 @@ pub mod conversion_custom_variable_service_client {
                 super::MutateConversionCustomVariablesRequest,
             >,
         ) -> Result<
-                tonic::Response<super::MutateConversionCustomVariablesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateConversionCustomVariablesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -5229,9 +5229,9 @@ pub mod campaign_budget_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCampaignBudgetsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCampaignBudgetsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCampaignBudgetsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -5407,9 +5407,9 @@ pub mod campaign_shared_set_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCampaignSharedSetsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCampaignSharedSetsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCampaignSharedSetsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -5514,9 +5514,9 @@ pub mod payments_account_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListPaymentsAccountsRequest>,
         ) -> Result<
-                tonic::Response<super::ListPaymentsAccountsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListPaymentsAccountsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -5669,9 +5669,9 @@ pub mod ad_group_customizer_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateAdGroupCustomizersRequest>,
         ) -> Result<
-                tonic::Response<super::MutateAdGroupCustomizersResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateAdGroupCustomizersResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -6066,9 +6066,9 @@ pub mod offline_user_data_job_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateOfflineUserDataJobRequest>,
         ) -> Result<
-                tonic::Response<super::CreateOfflineUserDataJobResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::CreateOfflineUserDataJobResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -6103,9 +6103,9 @@ pub mod offline_user_data_job_service_client {
                 super::AddOfflineUserDataJobOperationsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::AddOfflineUserDataJobOperationsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::AddOfflineUserDataJobOperationsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -6139,11 +6139,9 @@ pub mod offline_user_data_job_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RunOfflineUserDataJobRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -6298,9 +6296,9 @@ pub mod ad_group_criterion_label_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateAdGroupCriterionLabelsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateAdGroupCriterionLabelsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateAdGroupCriterionLabelsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -6486,9 +6484,9 @@ pub mod extension_feed_item_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateExtensionFeedItemsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateExtensionFeedItemsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateExtensionFeedItemsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -6676,9 +6674,9 @@ pub mod bidding_strategy_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateBiddingStrategiesRequest>,
         ) -> Result<
-                tonic::Response<super::MutateBiddingStrategiesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateBiddingStrategiesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -6987,9 +6985,9 @@ pub mod keyword_plan_ad_group_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateKeywordPlanAdGroupsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateKeywordPlanAdGroupsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateKeywordPlanAdGroupsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -7159,9 +7157,9 @@ pub mod keyword_plan_campaign_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateKeywordPlanCampaignsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateKeywordPlanCampaignsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateKeywordPlanCampaignsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -7314,9 +7312,9 @@ pub mod customer_label_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCustomerLabelsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCustomerLabelsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCustomerLabelsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -7685,9 +7683,9 @@ pub mod recommendation_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DismissRecommendationRequest>,
         ) -> Result<
-                tonic::Response<super::DismissRecommendationResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::DismissRecommendationResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -7999,9 +7997,9 @@ pub mod ad_group_criterion_customizer_service_client {
                 super::MutateAdGroupCriterionCustomizersRequest,
             >,
         ) -> Result<
-                tonic::Response<super::MutateAdGroupCriterionCustomizersResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateAdGroupCriterionCustomizersResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -8196,9 +8194,9 @@ pub mod ad_group_extension_setting_service_client {
                 super::MutateAdGroupExtensionSettingsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::MutateAdGroupExtensionSettingsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateAdGroupExtensionSettingsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -9045,9 +9043,9 @@ pub mod asset_group_listing_group_filter_service_client {
                 super::MutateAssetGroupListingGroupFiltersRequest,
             >,
         ) -> Result<
-                tonic::Response<super::MutateAssetGroupListingGroupFiltersResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateAssetGroupListingGroupFiltersResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -9199,9 +9197,9 @@ pub mod asset_group_signal_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateAssetGroupSignalsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateAssetGroupSignalsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateAssetGroupSignalsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -9534,9 +9532,9 @@ pub mod asset_set_asset_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateAssetSetAssetsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateAssetSetAssetsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateAssetSetAssetsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -9697,9 +9695,9 @@ pub mod bidding_data_exclusion_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateBiddingDataExclusionsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateBiddingDataExclusionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateBiddingDataExclusionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -9851,9 +9849,9 @@ pub mod campaign_asset_set_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCampaignAssetSetsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCampaignAssetSetsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCampaignAssetSetsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -10038,9 +10036,9 @@ pub mod campaign_bid_modifier_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCampaignBidModifiersRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCampaignBidModifiersResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCampaignBidModifiersResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -10170,9 +10168,9 @@ pub mod campaign_conversion_goal_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCampaignConversionGoalsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCampaignConversionGoalsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCampaignConversionGoalsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -10361,9 +10359,9 @@ pub mod campaign_criterion_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCampaignCriteriaRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCampaignCriteriaResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCampaignCriteriaResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -10575,9 +10573,9 @@ pub mod campaign_draft_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCampaignDraftsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCampaignDraftsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCampaignDraftsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -10615,11 +10613,9 @@ pub mod campaign_draft_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::PromoteCampaignDraftRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -10650,9 +10646,9 @@ pub mod campaign_draft_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListCampaignDraftAsyncErrorsRequest>,
         ) -> Result<
-                tonic::Response<super::ListCampaignDraftAsyncErrorsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListCampaignDraftAsyncErrorsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -10940,11 +10936,9 @@ pub mod campaign_experiment_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateCampaignExperimentRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -10974,9 +10968,9 @@ pub mod campaign_experiment_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCampaignExperimentsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCampaignExperimentsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCampaignExperimentsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -11008,9 +11002,9 @@ pub mod campaign_experiment_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GraduateCampaignExperimentRequest>,
         ) -> Result<
-                tonic::Response<super::GraduateCampaignExperimentResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::GraduateCampaignExperimentResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -11044,11 +11038,9 @@ pub mod campaign_experiment_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::PromoteCampaignExperimentRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -11112,9 +11104,9 @@ pub mod campaign_experiment_service_client {
                 super::ListCampaignExperimentAsyncErrorsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ListCampaignExperimentAsyncErrorsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListCampaignExperimentAsyncErrorsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -11308,9 +11300,9 @@ pub mod campaign_extension_setting_service_client {
                 super::MutateCampaignExtensionSettingsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::MutateCampaignExtensionSettingsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCampaignExtensionSettingsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -11468,9 +11460,9 @@ pub mod campaign_group_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCampaignGroupsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCampaignGroupsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCampaignGroupsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -11823,9 +11815,9 @@ pub mod conversion_value_rule_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateConversionValueRulesRequest>,
         ) -> Result<
-                tonic::Response<super::MutateConversionValueRulesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateConversionValueRulesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -11974,9 +11966,9 @@ pub mod custom_conversion_goal_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCustomConversionGoalsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCustomConversionGoalsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCustomConversionGoalsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -12145,9 +12137,9 @@ pub mod customer_asset_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCustomerAssetsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCustomerAssetsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCustomerAssetsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -12277,9 +12269,9 @@ pub mod customer_conversion_goal_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCustomerConversionGoalsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCustomerConversionGoalsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCustomerConversionGoalsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -12471,9 +12463,9 @@ pub mod customer_extension_setting_service_client {
                 super::MutateCustomerExtensionSettingsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::MutateCustomerExtensionSettingsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCustomerExtensionSettingsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -12862,9 +12854,9 @@ pub mod customer_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListAccessibleCustomersRequest>,
         ) -> Result<
-                tonic::Response<super::ListAccessibleCustomersResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListAccessibleCustomersResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -12898,9 +12890,9 @@ pub mod customer_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateCustomerClientRequest>,
         ) -> Result<
-                tonic::Response<super::CreateCustomerClientResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::CreateCustomerClientResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -13056,9 +13048,9 @@ pub mod customizer_attribute_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCustomizerAttributesRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCustomizerAttributesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCustomizerAttributesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -13224,9 +13216,9 @@ pub mod experiment_arm_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateExperimentArmsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateExperimentArmsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateExperimentArmsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -13551,9 +13543,9 @@ pub mod experiment_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListExperimentAsyncErrorsRequest>,
         ) -> Result<
-                tonic::Response<super::ListExperimentAsyncErrorsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListExperimentAsyncErrorsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -13627,11 +13619,9 @@ pub mod experiment_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ScheduleExperimentRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -13667,11 +13657,9 @@ pub mod experiment_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::PromoteExperimentRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -14179,9 +14167,9 @@ pub mod feed_item_target_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateFeedItemTargetsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateFeedItemTargetsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateFeedItemTargetsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -14708,9 +14696,9 @@ pub mod keyword_plan_ad_group_keyword_service_client {
                 super::MutateKeywordPlanAdGroupKeywordsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::MutateKeywordPlanAdGroupKeywordsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateKeywordPlanAdGroupKeywordsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -14883,9 +14871,9 @@ pub mod keyword_plan_campaign_keyword_service_client {
                 super::MutateKeywordPlanCampaignKeywordsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::MutateKeywordPlanCampaignKeywordsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateKeywordPlanCampaignKeywordsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -15287,9 +15275,9 @@ pub mod keyword_plan_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GenerateForecastCurveRequest>,
         ) -> Result<
-                tonic::Response<super::GenerateForecastCurveResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::GenerateForecastCurveResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -15325,9 +15313,9 @@ pub mod keyword_plan_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GenerateForecastTimeSeriesRequest>,
         ) -> Result<
-                tonic::Response<super::GenerateForecastTimeSeriesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::GenerateForecastTimeSeriesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -15357,9 +15345,9 @@ pub mod keyword_plan_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GenerateForecastMetricsRequest>,
         ) -> Result<
-                tonic::Response<super::GenerateForecastMetricsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::GenerateForecastMetricsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -15389,9 +15377,9 @@ pub mod keyword_plan_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GenerateHistoricalMetricsRequest>,
         ) -> Result<
-                tonic::Response<super::GenerateHistoricalMetricsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::GenerateHistoricalMetricsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -15743,9 +15731,9 @@ pub mod shared_criterion_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateSharedCriteriaRequest>,
         ) -> Result<
-                tonic::Response<super::MutateSharedCriteriaResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateSharedCriteriaResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -15885,9 +15873,9 @@ pub mod smart_campaign_setting_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateSmartCampaignSettingsRequest>,
         ) -> Result<
-                tonic::Response<super::MutateSmartCampaignSettingsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateSmartCampaignSettingsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -17248,11 +17236,11 @@ pub mod google_ads_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SearchGoogleAdsStreamRequest>,
         ) -> Result<
-                tonic::Response<
-                    tonic::codec::Streaming<super::SearchGoogleAdsStreamResponse>,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                tonic::codec::Streaming<super::SearchGoogleAdsStreamResponse>,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -17673,11 +17661,9 @@ pub mod batch_job_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RunBatchJobRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -17708,9 +17694,9 @@ pub mod batch_job_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AddBatchJobOperationsRequest>,
         ) -> Result<
-                tonic::Response<super::AddBatchJobOperationsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::AddBatchJobOperationsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -18268,9 +18254,9 @@ pub mod reach_plan_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListPlannableLocationsRequest>,
         ) -> Result<
-                tonic::Response<super::ListPlannableLocationsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListPlannableLocationsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -18300,9 +18286,9 @@ pub mod reach_plan_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListPlannableProductsRequest>,
         ) -> Result<
-                tonic::Response<super::ListPlannableProductsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListPlannableProductsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -18334,9 +18320,9 @@ pub mod reach_plan_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GenerateProductMixIdeasRequest>,
         ) -> Result<
-                tonic::Response<super::GenerateProductMixIdeasResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::GenerateProductMixIdeasResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -18368,9 +18354,9 @@ pub mod reach_plan_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GenerateReachForecastRequest>,
         ) -> Result<
-                tonic::Response<super::GenerateReachForecastResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::GenerateReachForecastResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -18532,9 +18518,9 @@ pub mod geo_target_constant_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SuggestGeoTargetConstantsRequest>,
         ) -> Result<
-                tonic::Response<super::SuggestGeoTargetConstantsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SuggestGeoTargetConstantsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -18699,9 +18685,9 @@ pub mod merchant_center_link_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListMerchantCenterLinksRequest>,
         ) -> Result<
-                tonic::Response<super::ListMerchantCenterLinksResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListMerchantCenterLinksResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -18730,9 +18716,9 @@ pub mod merchant_center_link_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GetMerchantCenterLinkRequest>,
         ) -> Result<
-                tonic::Response<super::super::resources::MerchantCenterLink>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::resources::MerchantCenterLink>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -18762,9 +18748,9 @@ pub mod merchant_center_link_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateMerchantCenterLinkRequest>,
         ) -> Result<
-                tonic::Response<super::MutateMerchantCenterLinkResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateMerchantCenterLinkResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -18907,9 +18893,9 @@ pub mod customer_user_access_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCustomerUserAccessRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCustomerUserAccessResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCustomerUserAccessResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -19173,9 +19159,9 @@ pub mod custom_audience_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCustomAudiencesRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCustomAudiencesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCustomAudiencesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -19547,9 +19533,9 @@ pub mod conversion_upload_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UploadClickConversionsRequest>,
         ) -> Result<
-                tonic::Response<super::UploadClickConversionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::UploadClickConversionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -19579,9 +19565,9 @@ pub mod conversion_upload_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UploadCallConversionsRequest>,
         ) -> Result<
-                tonic::Response<super::UploadCallConversionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::UploadCallConversionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -19852,9 +19838,9 @@ pub mod google_ads_field_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GetGoogleAdsFieldRequest>,
         ) -> Result<
-                tonic::Response<super::super::resources::GoogleAdsField>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::resources::GoogleAdsField>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -19884,9 +19870,9 @@ pub mod google_ads_field_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SearchGoogleAdsFieldsRequest>,
         ) -> Result<
-                tonic::Response<super::SearchGoogleAdsFieldsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SearchGoogleAdsFieldsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -20030,9 +20016,9 @@ pub mod customer_client_link_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCustomerClientLinkRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCustomerClientLinkResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCustomerClientLinkResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -20144,9 +20130,9 @@ pub mod keyword_theme_constant_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SuggestKeywordThemeConstantsRequest>,
         ) -> Result<
-                tonic::Response<super::SuggestKeywordThemeConstantsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SuggestKeywordThemeConstantsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -20418,9 +20404,9 @@ pub mod smart_campaign_suggest_service_client {
                 super::SuggestSmartCampaignBudgetOptionsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::SuggestSmartCampaignBudgetOptionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SuggestSmartCampaignBudgetOptionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -20442,9 +20428,9 @@ pub mod smart_campaign_suggest_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SuggestSmartCampaignAdRequest>,
         ) -> Result<
-                tonic::Response<super::SuggestSmartCampaignAdResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SuggestSmartCampaignAdResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -20465,9 +20451,9 @@ pub mod smart_campaign_suggest_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SuggestKeywordThemesRequest>,
         ) -> Result<
-                tonic::Response<super::SuggestKeywordThemesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SuggestKeywordThemesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -20569,9 +20555,9 @@ pub mod third_party_app_analytics_link_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RegenerateShareableLinkIdRequest>,
         ) -> Result<
-                tonic::Response<super::RegenerateShareableLinkIdResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::RegenerateShareableLinkIdResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -20744,9 +20730,9 @@ pub mod customer_manager_link_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::MutateCustomerManagerLinkRequest>,
         ) -> Result<
-                tonic::Response<super::MutateCustomerManagerLinkResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::MutateCustomerManagerLinkResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

@@ -411,9 +411,9 @@ pub mod ai_streams_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -434,9 +434,9 @@ pub mod ai_streams_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -457,9 +457,9 @@ pub mod ai_streams_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -520,9 +520,9 @@ pub mod ai_streams_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateStreamRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -543,9 +543,9 @@ pub mod ai_streams_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateStreamRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -566,9 +566,9 @@ pub mod ai_streams_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteStreamRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

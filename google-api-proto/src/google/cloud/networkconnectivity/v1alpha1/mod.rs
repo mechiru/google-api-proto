@@ -468,9 +468,9 @@ pub mod hub_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateHubRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -491,9 +491,9 @@ pub mod hub_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateHubRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -514,9 +514,9 @@ pub mod hub_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteHubRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -577,9 +577,9 @@ pub mod hub_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateSpokeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -600,9 +600,9 @@ pub mod hub_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateSpokeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -623,9 +623,9 @@ pub mod hub_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteSpokeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

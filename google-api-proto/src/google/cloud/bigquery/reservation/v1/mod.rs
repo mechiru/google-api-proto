@@ -795,9 +795,9 @@ pub mod reservation_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListCapacityCommitmentsRequest>,
         ) -> Result<
-                tonic::Response<super::ListCapacityCommitmentsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListCapacityCommitmentsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -893,9 +893,9 @@ pub mod reservation_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SplitCapacityCommitmentRequest>,
         ) -> Result<
-                tonic::Response<super::SplitCapacityCommitmentResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SplitCapacityCommitmentResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1131,9 +1131,9 @@ pub mod reservation_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SearchAllAssignmentsRequest>,
         ) -> Result<
-                tonic::Response<super::SearchAllAssignmentsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::SearchAllAssignmentsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

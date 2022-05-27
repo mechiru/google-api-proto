@@ -1195,9 +1195,9 @@ pub mod registry_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GetApiSpecContentsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::api::HttpBody>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::api::HttpBody>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1300,9 +1300,9 @@ pub mod registry_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListApiSpecRevisionsRequest>,
         ) -> Result<
-                tonic::Response<super::ListApiSpecRevisionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListApiSpecRevisionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1487,9 +1487,9 @@ pub mod registry_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListApiDeploymentRevisionsRequest>,
         ) -> Result<
-                tonic::Response<super::ListApiDeploymentRevisionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListApiDeploymentRevisionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1594,9 +1594,9 @@ pub mod registry_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GetArtifactContentsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::api::HttpBody>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::api::HttpBody>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1851,9 +1851,9 @@ pub mod provisioning_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1874,9 +1874,9 @@ pub mod provisioning_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

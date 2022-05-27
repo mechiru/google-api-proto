@@ -621,9 +621,9 @@ pub mod network_security_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListAuthorizationPoliciesRequest>,
         ) -> Result<
-                tonic::Response<super::ListAuthorizationPoliciesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListAuthorizationPoliciesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -664,9 +664,9 @@ pub mod network_security_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateAuthorizationPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -687,9 +687,9 @@ pub mod network_security_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateAuthorizationPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -710,9 +710,9 @@ pub mod network_security_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteAuthorizationPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -733,9 +733,9 @@ pub mod network_security_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListServerTlsPoliciesRequest>,
         ) -> Result<
-                tonic::Response<super::ListServerTlsPoliciesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListServerTlsPoliciesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -776,9 +776,9 @@ pub mod network_security_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateServerTlsPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -799,9 +799,9 @@ pub mod network_security_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateServerTlsPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -822,9 +822,9 @@ pub mod network_security_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteServerTlsPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -845,9 +845,9 @@ pub mod network_security_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListClientTlsPoliciesRequest>,
         ) -> Result<
-                tonic::Response<super::ListClientTlsPoliciesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListClientTlsPoliciesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -888,9 +888,9 @@ pub mod network_security_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateClientTlsPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -911,9 +911,9 @@ pub mod network_security_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateClientTlsPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -934,9 +934,9 @@ pub mod network_security_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteClientTlsPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

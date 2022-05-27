@@ -1391,9 +1391,9 @@ pub mod job_controller_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SubmitJobRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1901,9 +1901,9 @@ pub mod autoscaling_policy_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListAutoscalingPoliciesRequest>,
         ) -> Result<
-                tonic::Response<super::ListAutoscalingPoliciesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListAutoscalingPoliciesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3170,9 +3170,9 @@ pub mod cluster_controller_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3197,9 +3197,9 @@ pub mod cluster_controller_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3220,9 +3220,9 @@ pub mod cluster_controller_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StopClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3243,9 +3243,9 @@ pub mod cluster_controller_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StartClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3268,9 +3268,9 @@ pub mod cluster_controller_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3337,9 +3337,9 @@ pub mod cluster_controller_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DiagnoseClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3712,9 +3712,9 @@ pub mod batch_controller_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateBatchRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4550,9 +4550,9 @@ pub mod workflow_template_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::InstantiateWorkflowTemplateRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4598,9 +4598,9 @@ pub mod workflow_template_service_client {
                 super::InstantiateInlineWorkflowTemplateRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4642,9 +4642,9 @@ pub mod workflow_template_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListWorkflowTemplatesRequest>,
         ) -> Result<
-                tonic::Response<super::ListWorkflowTemplatesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListWorkflowTemplatesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

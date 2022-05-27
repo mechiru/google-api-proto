@@ -370,9 +370,9 @@ pub mod publisher_service_client {
             &mut self,
             request: impl tonic::IntoStreamingRequest<Message = super::PublishRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::PublishResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::PublishResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -790,11 +790,11 @@ pub mod cursor_service_client {
                 Message = super::StreamingCommitCursorRequest,
             >,
         ) -> Result<
-                tonic::Response<
-                    tonic::codec::Streaming<super::StreamingCommitCursorResponse>,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                tonic::codec::Streaming<super::StreamingCommitCursorResponse>,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -835,9 +835,9 @@ pub mod cursor_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListPartitionCursorsRequest>,
         ) -> Result<
-                tonic::Response<super::ListPartitionCursorsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListPartitionCursorsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1112,9 +1112,9 @@ pub mod subscriber_service_client {
             &mut self,
             request: impl tonic::IntoStreamingRequest<Message = super::SubscribeRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::SubscribeResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::SubscribeResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1202,9 +1202,9 @@ pub mod partition_assignment_service_client {
                 Message = super::PartitionAssignmentRequest,
             >,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::PartitionAssignment>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::PartitionAssignment>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1769,9 +1769,9 @@ pub mod admin_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListTopicSubscriptionsRequest>,
         ) -> Result<
-                tonic::Response<super::ListTopicSubscriptionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListTopicSubscriptionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1912,9 +1912,9 @@ pub mod admin_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SeekSubscriptionRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2035,9 +2035,9 @@ pub mod admin_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListReservationTopicsRequest>,
         ) -> Result<
-                tonic::Response<super::ListReservationTopicsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListReservationTopicsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

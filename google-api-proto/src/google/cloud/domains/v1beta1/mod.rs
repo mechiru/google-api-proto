@@ -892,9 +892,9 @@ pub mod domains_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RetrieveRegisterParametersRequest>,
         ) -> Result<
-                tonic::Response<super::RetrieveRegisterParametersResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::RetrieveRegisterParametersResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -927,9 +927,9 @@ pub mod domains_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RegisterDomainRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -955,9 +955,9 @@ pub mod domains_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RetrieveTransferParametersRequest>,
         ) -> Result<
-                tonic::Response<super::RetrieveTransferParametersResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::RetrieveTransferParametersResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -998,9 +998,9 @@ pub mod domains_client {
             &mut self,
             request: impl tonic::IntoRequest<super::TransferDomainRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1066,9 +1066,9 @@ pub mod domains_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateRegistrationRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1089,9 +1089,9 @@ pub mod domains_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ConfigureManagementSettingsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1112,9 +1112,9 @@ pub mod domains_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ConfigureDnsSettingsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1136,9 +1136,9 @@ pub mod domains_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ConfigureContactSettingsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1167,9 +1167,9 @@ pub mod domains_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExportRegistrationRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1208,9 +1208,9 @@ pub mod domains_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteRegistrationRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

@@ -3135,9 +3135,9 @@ pub mod dataplex_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateLakeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3158,9 +3158,9 @@ pub mod dataplex_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateLakeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3182,9 +3182,9 @@ pub mod dataplex_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteLakeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3265,9 +3265,9 @@ pub mod dataplex_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateZoneRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3288,9 +3288,9 @@ pub mod dataplex_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateZoneRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3312,9 +3312,9 @@ pub mod dataplex_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteZoneRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3395,9 +3395,9 @@ pub mod dataplex_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateAssetRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3418,9 +3418,9 @@ pub mod dataplex_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateAssetRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3442,9 +3442,9 @@ pub mod dataplex_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteAssetRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3525,9 +3525,9 @@ pub mod dataplex_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateTaskRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3548,9 +3548,9 @@ pub mod dataplex_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateTaskRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3571,9 +3571,9 @@ pub mod dataplex_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteTaskRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3694,9 +3694,9 @@ pub mod dataplex_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateEnvironmentRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3717,9 +3717,9 @@ pub mod dataplex_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateEnvironmentRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3741,9 +3741,9 @@ pub mod dataplex_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteEnvironmentRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

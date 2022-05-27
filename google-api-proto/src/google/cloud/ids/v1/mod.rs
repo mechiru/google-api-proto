@@ -295,9 +295,9 @@ pub mod ids_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateEndpointRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -318,9 +318,9 @@ pub mod ids_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteEndpointRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

@@ -184,9 +184,9 @@ pub mod cloud_support_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GetSupportAccountRequest>,
         ) -> Result<
-                tonic::Response<super::super::common::SupportAccount>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::common::SupportAccount>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -355,9 +355,9 @@ pub mod cloud_support_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GetIssueTaxonomyRequest>,
         ) -> Result<
-                tonic::Response<super::super::common::IssueTaxonomy>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::common::IssueTaxonomy>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

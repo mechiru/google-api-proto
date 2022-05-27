@@ -659,9 +659,9 @@ pub mod service_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -689,9 +689,9 @@ pub mod service_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -717,9 +717,9 @@ pub mod service_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UndeleteServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -821,9 +821,9 @@ pub mod service_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SubmitConfigSourceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -899,9 +899,9 @@ pub mod service_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateServiceRolloutRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -932,9 +932,9 @@ pub mod service_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GenerateConfigReportRequest>,
         ) -> Result<
-                tonic::Response<super::GenerateConfigReportResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::GenerateConfigReportResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

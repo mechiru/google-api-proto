@@ -760,9 +760,9 @@ pub mod migration_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListMigrationWorkflowsRequest>,
         ) -> Result<
-                tonic::Response<super::ListMigrationWorkflowsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListMigrationWorkflowsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -846,9 +846,9 @@ pub mod migration_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListMigrationSubtasksRequest>,
         ) -> Result<
-                tonic::Response<super::ListMigrationSubtasksResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListMigrationSubtasksResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

@@ -379,9 +379,9 @@ pub mod policies_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreatePolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -412,9 +412,9 @@ pub mod policies_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdatePolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -435,9 +435,9 @@ pub mod policies_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeletePolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

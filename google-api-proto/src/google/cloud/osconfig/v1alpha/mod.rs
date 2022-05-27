@@ -2234,9 +2234,9 @@ pub mod os_config_zonal_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateOsPolicyAssignmentRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2265,9 +2265,9 @@ pub mod os_config_zonal_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateOsPolicyAssignmentRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2314,9 +2314,9 @@ pub mod os_config_zonal_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListOsPolicyAssignmentsRequest>,
         ) -> Result<
-                tonic::Response<super::ListOsPolicyAssignmentsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListOsPolicyAssignmentsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2339,9 +2339,9 @@ pub mod os_config_zonal_service_client {
                 super::ListOsPolicyAssignmentRevisionsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ListOsPolicyAssignmentRevisionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListOsPolicyAssignmentRevisionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2373,9 +2373,9 @@ pub mod os_config_zonal_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteOsPolicyAssignmentRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2399,9 +2399,9 @@ pub mod os_config_zonal_service_client {
                 super::GetInstanceOsPoliciesComplianceRequest,
             >,
         ) -> Result<
-                tonic::Response<super::InstanceOsPoliciesCompliance>,
-                tonic::Status,
-            > {
+            tonic::Response<super::InstanceOsPoliciesCompliance>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2425,9 +2425,9 @@ pub mod os_config_zonal_service_client {
                 super::ListInstanceOsPoliciesCompliancesRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ListInstanceOsPoliciesCompliancesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListInstanceOsPoliciesCompliancesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2470,9 +2470,9 @@ pub mod os_config_zonal_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListOsPolicyAssignmentReportsRequest>,
         ) -> Result<
-                tonic::Response<super::ListOsPolicyAssignmentReportsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListOsPolicyAssignmentReportsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2555,9 +2555,9 @@ pub mod os_config_zonal_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListVulnerabilityReportsRequest>,
         ) -> Result<
-                tonic::Response<super::ListVulnerabilityReportsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListVulnerabilityReportsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

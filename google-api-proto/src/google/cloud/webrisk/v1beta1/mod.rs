@@ -317,9 +317,9 @@ pub mod web_risk_service_v1_beta1_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ComputeThreatListDiffRequest>,
         ) -> Result<
-                tonic::Response<super::ComputeThreatListDiffResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ComputeThreatListDiffResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

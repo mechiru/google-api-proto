@@ -347,9 +347,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::EnableServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -376,9 +376,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DisableServiceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -453,9 +453,9 @@ pub mod service_usage_client {
             &mut self,
             request: impl tonic::IntoRequest<super::BatchEnableServicesRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

@@ -192,9 +192,9 @@ pub mod vpc_access_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateConnectorRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -257,9 +257,9 @@ pub mod vpc_access_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteConnectorRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

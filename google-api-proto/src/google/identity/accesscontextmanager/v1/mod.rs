@@ -1257,9 +1257,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AccessPolicy>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1286,9 +1286,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateAccessPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1313,9 +1313,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteAccessPolicyRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1386,9 +1386,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateAccessLevelRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1416,9 +1416,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateAccessLevelRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1444,9 +1444,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteAccessLevelRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1483,9 +1483,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReplaceAccessLevelsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1508,9 +1508,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListServicePerimetersRequest>,
         ) -> Result<
-                tonic::Response<super::ListServicePerimetersResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListServicePerimetersResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1560,9 +1560,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateServicePerimeterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1590,9 +1590,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateServicePerimeterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1618,9 +1618,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteServicePerimeterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1653,9 +1653,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReplaceServicePerimetersRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1690,9 +1690,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CommitServicePerimetersRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1715,9 +1715,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListGcpUserAccessBindingsRequest>,
         ) -> Result<
-                tonic::Response<super::ListGcpUserAccessBindingsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListGcpUserAccessBindingsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1769,9 +1769,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateGcpUserAccessBindingRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1796,9 +1796,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateGcpUserAccessBindingRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1823,9 +1823,9 @@ pub mod access_context_manager_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteGcpUserAccessBindingRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

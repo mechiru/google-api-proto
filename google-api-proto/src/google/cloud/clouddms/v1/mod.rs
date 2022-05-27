@@ -1113,9 +1113,9 @@ pub mod data_migration_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateMigrationJobRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1136,9 +1136,9 @@ pub mod data_migration_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateMigrationJobRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1159,9 +1159,9 @@ pub mod data_migration_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteMigrationJobRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1182,9 +1182,9 @@ pub mod data_migration_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StartMigrationJobRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1205,9 +1205,9 @@ pub mod data_migration_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StopMigrationJobRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1229,9 +1229,9 @@ pub mod data_migration_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ResumeMigrationJobRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1253,9 +1253,9 @@ pub mod data_migration_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::PromoteMigrationJobRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1277,9 +1277,9 @@ pub mod data_migration_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::VerifyMigrationJobRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1302,9 +1302,9 @@ pub mod data_migration_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RestartMigrationJobRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1346,9 +1346,9 @@ pub mod data_migration_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListConnectionProfilesRequest>,
         ) -> Result<
-                tonic::Response<super::ListConnectionProfilesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListConnectionProfilesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1389,9 +1389,9 @@ pub mod data_migration_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateConnectionProfileRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1412,9 +1412,9 @@ pub mod data_migration_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateConnectionProfileRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1437,9 +1437,9 @@ pub mod data_migration_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteConnectionProfileRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

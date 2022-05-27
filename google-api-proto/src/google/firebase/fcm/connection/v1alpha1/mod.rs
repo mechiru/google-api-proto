@@ -132,9 +132,9 @@ pub mod connection_api_client {
             &mut self,
             request: impl tonic::IntoStreamingRequest<Message = super::UpstreamRequest>,
         ) -> Result<
-                tonic::Response<tonic::codec::Streaming<super::DownstreamResponse>>,
-                tonic::Status,
-            > {
+            tonic::Response<tonic::codec::Streaming<super::DownstreamResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

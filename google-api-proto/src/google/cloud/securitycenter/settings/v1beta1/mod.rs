@@ -801,9 +801,9 @@ pub mod security_center_settings_service_client {
                 super::BatchCalculateEffectiveSettingsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::BatchCalculateEffectiveSettingsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::BatchCalculateEffectiveSettingsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

@@ -1568,9 +1568,9 @@ pub mod datastream_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListConnectionProfilesRequest>,
         ) -> Result<
-                tonic::Response<super::ListConnectionProfilesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListConnectionProfilesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1611,9 +1611,9 @@ pub mod datastream_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateConnectionProfileRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1634,9 +1634,9 @@ pub mod datastream_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateConnectionProfileRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1657,9 +1657,9 @@ pub mod datastream_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteConnectionProfileRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1683,9 +1683,9 @@ pub mod datastream_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DiscoverConnectionProfileRequest>,
         ) -> Result<
-                tonic::Response<super::DiscoverConnectionProfileResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::DiscoverConnectionProfileResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1746,9 +1746,9 @@ pub mod datastream_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateStreamRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1769,9 +1769,9 @@ pub mod datastream_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateStreamRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1792,9 +1792,9 @@ pub mod datastream_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteStreamRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1936,9 +1936,9 @@ pub mod datastream_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreatePrivateConnectionRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1980,9 +1980,9 @@ pub mod datastream_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListPrivateConnectionsRequest>,
         ) -> Result<
-                tonic::Response<super::ListPrivateConnectionsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListPrivateConnectionsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2003,9 +2003,9 @@ pub mod datastream_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeletePrivateConnectionRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2027,9 +2027,9 @@ pub mod datastream_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateRouteRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2091,9 +2091,9 @@ pub mod datastream_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteRouteRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

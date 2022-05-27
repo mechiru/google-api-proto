@@ -1066,9 +1066,9 @@ pub mod video_stitcher_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListVodStitchDetailsRequest>,
         ) -> Result<
-                tonic::Response<super::ListVodStitchDetailsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListVodStitchDetailsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1149,9 +1149,9 @@ pub mod video_stitcher_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListLiveAdTagDetailsRequest>,
         ) -> Result<
-                tonic::Response<super::ListLiveAdTagDetailsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListLiveAdTagDetailsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

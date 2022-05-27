@@ -291,9 +291,9 @@ pub mod smart_device_management_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ExecuteDeviceCommandRequest>,
         ) -> Result<
-                tonic::Response<super::ExecuteDeviceCommandResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ExecuteDeviceCommandResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

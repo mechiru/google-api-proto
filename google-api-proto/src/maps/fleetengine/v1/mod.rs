@@ -2096,9 +2096,9 @@ pub mod vehicle_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateVehicleAttributesRequest>,
         ) -> Result<
-                tonic::Response<super::UpdateVehicleAttributesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::UpdateVehicleAttributesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

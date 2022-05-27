@@ -1000,11 +1000,11 @@ pub mod environments_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateEnvironmentRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                super::super::super::super::super::super::longrunning::Operation,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1065,11 +1065,11 @@ pub mod environments_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateEnvironmentRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                super::super::super::super::super::super::longrunning::Operation,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1090,11 +1090,11 @@ pub mod environments_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteEnvironmentRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                super::super::super::super::super::super::longrunning::Operation,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1115,11 +1115,11 @@ pub mod environments_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RestartWebServerRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                super::super::super::super::super::super::longrunning::Operation,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1142,11 +1142,11 @@ pub mod environments_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CheckUpgradeRequest>,
         ) -> Result<
-                tonic::Response<
-                    super::super::super::super::super::super::longrunning::Operation,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                super::super::super::super::super::super::longrunning::Operation,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

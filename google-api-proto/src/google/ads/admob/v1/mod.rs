@@ -858,9 +858,9 @@ pub mod ad_mob_api_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListPublisherAccountsRequest>,
         ) -> Result<
-                tonic::Response<super::ListPublisherAccountsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListPublisherAccountsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -882,11 +882,11 @@ pub mod ad_mob_api_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GenerateNetworkReportRequest>,
         ) -> Result<
-                tonic::Response<
-                    tonic::codec::Streaming<super::GenerateNetworkReportResponse>,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                tonic::codec::Streaming<super::GenerateNetworkReportResponse>,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -908,11 +908,11 @@ pub mod ad_mob_api_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GenerateMediationReportRequest>,
         ) -> Result<
-                tonic::Response<
-                    tonic::codec::Streaming<super::GenerateMediationReportResponse>,
-                >,
-                tonic::Status,
-            > {
+            tonic::Response<
+                tonic::codec::Streaming<super::GenerateMediationReportResponse>,
+            >,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

@@ -931,9 +931,9 @@ pub mod managed_notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateRuntimeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -954,9 +954,9 @@ pub mod managed_notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteRuntimeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -981,9 +981,9 @@ pub mod managed_notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StartRuntimeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1008,9 +1008,9 @@ pub mod managed_notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StopRuntimeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1031,9 +1031,9 @@ pub mod managed_notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SwitchRuntimeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1054,9 +1054,9 @@ pub mod managed_notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ResetRuntimeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1077,9 +1077,9 @@ pub mod managed_notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReportRuntimeEventRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1101,9 +1101,9 @@ pub mod managed_notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RefreshRuntimeTokenInternalRequest>,
         ) -> Result<
-                tonic::Response<super::RefreshRuntimeTokenInternalResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::RefreshRuntimeTokenInternalResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2680,9 +2680,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2706,9 +2706,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RegisterInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2729,9 +2729,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SetInstanceAcceleratorRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2752,9 +2752,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SetInstanceMachineTypeRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2775,9 +2775,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateInstanceConfigRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2798,9 +2798,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateShieldedInstanceConfigRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2821,9 +2821,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::SetInstanceLabelsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2844,9 +2844,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateInstanceMetadataItemsRequest>,
         ) -> Result<
-                tonic::Response<super::UpdateInstanceMetadataItemsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::UpdateInstanceMetadataItemsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2867,9 +2867,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2890,9 +2890,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StartInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2913,9 +2913,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StopInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2936,9 +2936,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ResetInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2962,9 +2962,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ReportInstanceInfoRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2985,9 +2985,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::IsInstanceUpgradeableRequest>,
         ) -> Result<
-                tonic::Response<super::IsInstanceUpgradeableResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::IsInstanceUpgradeableResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3028,9 +3028,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpgradeInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3051,9 +3051,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RollbackInstanceRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3075,9 +3075,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpgradeInstanceInternalRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3138,9 +3138,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateEnvironmentRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3161,9 +3161,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteEnvironmentRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3224,9 +3224,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteScheduleRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3247,9 +3247,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateScheduleRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3270,9 +3270,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::TriggerScheduleRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3333,9 +3333,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteExecutionRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3356,9 +3356,9 @@ pub mod notebook_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateExecutionRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

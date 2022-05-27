@@ -619,9 +619,9 @@ pub mod api_gateway_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateGatewayRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -642,9 +642,9 @@ pub mod api_gateway_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateGatewayRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -665,9 +665,9 @@ pub mod api_gateway_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteGatewayRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -728,9 +728,9 @@ pub mod api_gateway_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateApiRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -751,9 +751,9 @@ pub mod api_gateway_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateApiRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -774,9 +774,9 @@ pub mod api_gateway_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteApiRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -837,9 +837,9 @@ pub mod api_gateway_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateApiConfigRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -860,9 +860,9 @@ pub mod api_gateway_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateApiConfigRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -883,9 +883,9 @@ pub mod api_gateway_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteApiConfigRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

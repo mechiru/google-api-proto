@@ -555,9 +555,9 @@ pub mod game_server_deployments_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListGameServerDeploymentsRequest>,
         ) -> Result<
-                tonic::Response<super::ListGameServerDeploymentsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListGameServerDeploymentsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -598,9 +598,9 @@ pub mod game_server_deployments_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateGameServerDeploymentRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -621,9 +621,9 @@ pub mod game_server_deployments_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteGameServerDeploymentRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -644,9 +644,9 @@ pub mod game_server_deployments_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateGameServerDeploymentRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -696,9 +696,9 @@ pub mod game_server_deployments_service_client {
                 super::UpdateGameServerDeploymentRolloutRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -722,9 +722,9 @@ pub mod game_server_deployments_service_client {
                 super::PreviewGameServerDeploymentRolloutRequest,
             >,
         ) -> Result<
-                tonic::Response<super::PreviewGameServerDeploymentRolloutResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::PreviewGameServerDeploymentRolloutResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -747,9 +747,9 @@ pub mod game_server_deployments_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::FetchDeploymentStateRequest>,
         ) -> Result<
-                tonic::Response<super::FetchDeploymentStateResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::FetchDeploymentStateResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1155,9 +1155,9 @@ pub mod game_server_clusters_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListGameServerClustersRequest>,
         ) -> Result<
-                tonic::Response<super::ListGameServerClustersResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListGameServerClustersResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1198,9 +1198,9 @@ pub mod game_server_clusters_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateGameServerClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1224,9 +1224,9 @@ pub mod game_server_clusters_service_client {
                 super::PreviewCreateGameServerClusterRequest,
             >,
         ) -> Result<
-                tonic::Response<super::PreviewCreateGameServerClusterResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::PreviewCreateGameServerClusterResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1247,9 +1247,9 @@ pub mod game_server_clusters_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteGameServerClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1272,9 +1272,9 @@ pub mod game_server_clusters_service_client {
                 super::PreviewDeleteGameServerClusterRequest,
             >,
         ) -> Result<
-                tonic::Response<super::PreviewDeleteGameServerClusterResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::PreviewDeleteGameServerClusterResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1295,9 +1295,9 @@ pub mod game_server_clusters_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateGameServerClusterRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1320,9 +1320,9 @@ pub mod game_server_clusters_service_client {
                 super::PreviewUpdateGameServerClusterRequest,
             >,
         ) -> Result<
-                tonic::Response<super::PreviewUpdateGameServerClusterResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::PreviewUpdateGameServerClusterResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1578,9 +1578,9 @@ pub mod realms_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateRealmRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1601,9 +1601,9 @@ pub mod realms_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteRealmRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1624,9 +1624,9 @@ pub mod realms_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::UpdateRealmRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1855,9 +1855,9 @@ pub mod game_server_configs_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListGameServerConfigsRequest>,
         ) -> Result<
-                tonic::Response<super::ListGameServerConfigsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListGameServerConfigsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1900,9 +1900,9 @@ pub mod game_server_configs_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateGameServerConfigRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1924,9 +1924,9 @@ pub mod game_server_configs_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::DeleteGameServerConfigRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

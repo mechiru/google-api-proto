@@ -1201,9 +1201,9 @@ pub mod product_search_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListProductsInProductSetRequest>,
         ) -> Result<
-                tonic::Response<super::ListProductsInProductSetResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListProductsInProductSetResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1234,9 +1234,9 @@ pub mod product_search_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ImportProductSetsRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -2433,9 +2433,9 @@ pub mod image_annotator_client {
             &mut self,
             request: impl tonic::IntoRequest<super::AsyncBatchAnnotateFilesRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::super::longrunning::Operation>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

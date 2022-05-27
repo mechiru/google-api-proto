@@ -1173,9 +1173,9 @@ pub mod uptime_check_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListUptimeCheckConfigsRequest>,
         ) -> Result<
-                tonic::Response<super::ListUptimeCheckConfigsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListUptimeCheckConfigsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1585,9 +1585,9 @@ pub mod notification_channel_service_client {
                 super::ListNotificationChannelDescriptorsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ListNotificationChannelDescriptorsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListNotificationChannelDescriptorsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1611,9 +1611,9 @@ pub mod notification_channel_service_client {
                 super::GetNotificationChannelDescriptorRequest,
             >,
         ) -> Result<
-                tonic::Response<super::NotificationChannelDescriptor>,
-                tonic::Status,
-            > {
+            tonic::Response<super::NotificationChannelDescriptor>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1634,9 +1634,9 @@ pub mod notification_channel_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListNotificationChannelsRequest>,
         ) -> Result<
-                tonic::Response<super::ListNotificationChannelsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListNotificationChannelsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1788,9 +1788,9 @@ pub mod notification_channel_service_client {
                 super::GetNotificationChannelVerificationCodeRequest,
             >,
         ) -> Result<
-                tonic::Response<super::GetNotificationChannelVerificationCodeResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::GetNotificationChannelVerificationCodeResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3599,9 +3599,9 @@ pub mod metric_service_client {
                 super::ListMonitoredResourceDescriptorsRequest,
             >,
         ) -> Result<
-                tonic::Response<super::ListMonitoredResourceDescriptorsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListMonitoredResourceDescriptorsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3624,9 +3624,9 @@ pub mod metric_service_client {
                 super::GetMonitoredResourceDescriptorRequest,
             >,
         ) -> Result<
-                tonic::Response<super::super::super::api::MonitoredResourceDescriptor>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::api::MonitoredResourceDescriptor>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3647,9 +3647,9 @@ pub mod metric_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListMetricDescriptorsRequest>,
         ) -> Result<
-                tonic::Response<super::ListMetricDescriptorsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListMetricDescriptorsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3670,9 +3670,9 @@ pub mod metric_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::GetMetricDescriptorRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::api::MetricDescriptor>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::api::MetricDescriptor>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3697,9 +3697,9 @@ pub mod metric_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::CreateMetricDescriptorRequest>,
         ) -> Result<
-                tonic::Response<super::super::super::api::MetricDescriptor>,
-                tonic::Status,
-            > {
+            tonic::Response<super::super::super::api::MetricDescriptor>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -4808,9 +4808,9 @@ pub mod service_monitoring_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ListServiceLevelObjectivesRequest>,
         ) -> Result<
-                tonic::Response<super::ListServiceLevelObjectivesResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ListServiceLevelObjectivesResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await

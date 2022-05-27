@@ -1071,9 +1071,9 @@ pub mod data_transfer_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::ScheduleTransferRunsRequest>,
         ) -> Result<
-                tonic::Response<super::ScheduleTransferRunsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::ScheduleTransferRunsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -1097,9 +1097,9 @@ pub mod data_transfer_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::StartManualTransferRunsRequest>,
         ) -> Result<
-                tonic::Response<super::StartManualTransferRunsResponse>,
-                tonic::Status,
-            > {
+            tonic::Response<super::StartManualTransferRunsResponse>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
