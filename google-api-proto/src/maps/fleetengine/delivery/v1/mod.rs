@@ -716,6 +716,9 @@ pub struct UpdateDeliveryVehicleRequest {
     pub delivery_vehicle: ::core::option::Option<DeliveryVehicle>,
     /// Required. A field mask that indicates which `DeliveryVehicle` fields to
     /// update. Note that the update_mask must contain at least one field.
+    ///
+    /// This is a comma-separated list of fully qualified names of fields. Example:
+    /// `"remaining_vehicle_journey_segments"`.
     #[prost(message, optional, tag="4")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
@@ -844,6 +847,9 @@ pub struct UpdateTaskRequest {
     pub task: ::core::option::Option<Task>,
     /// Required. The field mask that indicates which Task fields to update.
     /// Note: The `update_mask` must contain at least one field.
+    ///
+    /// This is a comma-separated list of fully qualified names of fields. Example:
+    /// `"task_outcome,task_outcome_time,task_outcome_location"`.
     #[prost(message, optional, tag="4")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
@@ -998,7 +1004,7 @@ pub mod delivery_service_client {
         /// `DeliveryVehicle`. You *can* update `remaining_vehicle_journey_segments`
         /// though, but it must contain all of the `VehicleJourneySegment`s currently
         /// on the `DeliveryVehicle`. The `task_id`s are retrieved from
-        /// `remaining_vehicle_journey_segments, and their corresponding `Tasks` are
+        /// `remaining_vehicle_journey_segments`, and their corresponding `Tasks` are
         /// assigned to the `DeliveryVehicle` if they have not yet been assigned.
         pub async fn update_delivery_vehicle(
             &mut self,

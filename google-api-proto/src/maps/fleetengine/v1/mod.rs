@@ -68,13 +68,13 @@ pub mod terminal_point_id {
         GeneratedId(::prost::alloc::string::String),
     }
 }
-/// Describes the location of a pickup or dropoff.
+/// Describes the location of a waypoint.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TerminalLocation {
-    /// Required. Denotes the actual location of a pickup or dropoff.
+    /// Required. Denotes the location of a trip waypoint.
     #[prost(message, optional, tag="1")]
     pub point: ::core::option::Option<super::super::super::google::r#type::LatLng>,
-    /// Required. ID of the terminal point.
+    /// ID of the terminal point.
     #[prost(message, optional, tag="2")]
     pub terminal_point_id: ::core::option::Option<TerminalPointId>,
     /// Deprecated.
@@ -94,36 +94,34 @@ pub struct TerminalLocation {
 /// vehicle's trip.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TripWaypoint {
-    /// The location where this waypoint is
+    /// The location of this waypoint.
     #[prost(message, optional, tag="1")]
     pub location: ::core::option::Option<TerminalLocation>,
-    /// The trip this waypoint is part of
+    /// The trip associated with this waypoint.
     #[prost(string, tag="2")]
     pub trip_id: ::prost::alloc::string::String,
-    /// The type described the role the waypoint plays for this trip such as a
-    /// pickup or dropoff.
+    /// The role this waypoint plays in this trip, such as pickup or dropoff.
     #[prost(enumeration="WaypointType", tag="3")]
     pub waypoint_type: i32,
-    /// The path calculated by Fleet Engine from the previous waypoint to the
-    /// current waypoint.
+    /// The path from the previous waypoint to the current waypoint.
     #[prost(message, repeated, tag="4")]
     pub path_to_waypoint: ::prost::alloc::vec::Vec<super::super::super::google::r#type::LatLng>,
-    /// The path calculated by the server from the previous waypoint to the current
-    /// waypoint. Decoding is not yet supported.
+    /// The encoded path from the previous waypoint to the current waypoint.
+    /// Decoding is not yet supported.
     #[prost(string, tag="5")]
     pub encoded_path_to_waypoint: ::prost::alloc::string::String,
-    /// The traffic conditions along the path to this waypoint.
-    /// Note that traffic is only available for Geo Enterprise Rides and Deliveries
-    /// Solution customers.
+    /// The traffic conditions along the path to this waypoint.  Note that traffic
+    /// is only available for Google Map Platform Rides and Deliveries Solution
+    /// customers.
     #[prost(message, optional, tag="10")]
     pub traffic_to_waypoint: ::core::option::Option<ConsumableTrafficPolyline>,
-    /// The path distance calculated by Fleet Engine from the previous waypoint to
-    /// the current waypoint. If the waypoint is the first waypoint in the list
-    /// (e.g., `Vehicle.waypoints\[0\]` or `Trip.remaining_waypoints\[0\]`), then the
-    /// value of this field is undefined.
+    /// The path distance from the previous waypoint to the current waypoint. If
+    /// the waypoint is the first waypoint in the list (e.g.,
+    /// `Vehicle.waypoints\[0\]` or `Trip.remaining_waypoints\[0\]`), then the value of
+    /// this field is undefined.
     #[prost(message, optional, tag="6")]
     pub distance_meters: ::core::option::Option<i32>,
-    /// The arrival time to this waypoint calculated by Fleet Engine.
+    /// The estimated time of arrival at this waypoint.
     #[prost(message, optional, tag="7")]
     pub eta: ::core::option::Option<::prost_types::Timestamp>,
     /// The travel time from previous waypoint to this point. If the waypoint is
@@ -354,19 +352,19 @@ pub struct Trip {
     /// trips.
     #[prost(message, repeated, tag="14")]
     pub intermediate_destinations: ::prost::alloc::vec::Vec<TerminalLocation>,
-    /// Indicates the last time the Trip.intermediate_destinations was modified.
-    /// Your server should cache this value and pass it in UpdateTripRequest
-    /// when update Trip.intermediate_destination_index to ensure the
+    /// Indicates the last time the `intermediate_destinations` was modified.
+    /// Your server should cache this value and pass it in `UpdateTripRequest`
+    /// when update `intermediate_destination_index` to ensure the
     /// Trip.intermediate_destinations is not changed.
     #[prost(message, optional, tag="25")]
     pub intermediate_destinations_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// When TripStatus is ENROUTE_TO_INTERMEDIATE_DESTINATION, a number between
+    /// When `TripStatus` is `ENROUTE_TO_INTERMEDIATE_DESTINATION`, a number between
     /// \[0..N-1\] indicating which intermediate destination the vehicle will cross
     /// next.
-    /// When TripStatus is ARRIVED_AT_INTERMEDIATE_DESTINATION, a number between
-    /// \[0..N-1\] indicating which intermediate destination the vehicle is at.
-    /// The provider sets this value. If there are no intermediate_destinations,
-    /// this field is ignored.
+    /// When `TripStatus` is `ARRIVED_AT_INTERMEDIATE_DESTINATION`, a number
+    /// between \[0..N-1\] indicating which intermediate destination the vehicle is
+    /// at. The provider sets this value. If there are no
+    /// `intermediate_destinations`, this field is ignored.
     #[prost(int32, tag="15")]
     pub intermediate_destination_index: i32,
     /// Input only. The actual time and location of the driver's arrival at
@@ -412,57 +410,42 @@ pub struct Trip {
     #[prost(message, repeated, tag="9")]
     pub route: ::prost::alloc::vec::Vec<super::super::super::google::r#type::LatLng>,
     /// Output only. An encoded path to the next waypoint. This field facilitates journey
-    /// sharing between a Driver app and a Rider app. Your driver app is
-    /// responsible for setting this field on all of its current trips by passing
-    /// Vehicle.current_route_segment to UpdateVehicle. Note: This field is
-    /// intended only for use by the Driver SDK and Consumer SDK.
+    /// sharing between a driver app and a rider app. Note: This field is intended
+    /// only for use by the Driver SDK and Consumer SDK.
     #[prost(string, tag="21")]
     pub current_route_segment: ::prost::alloc::string::String,
     /// Output only. Indicates the last time the route was modified.  Note: This field is
     /// intended only for use by the Driver SDK and Consumer SDK.
     #[prost(message, optional, tag="17")]
     pub current_route_segment_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. When available, the traffic conditions along the
-    /// current_route_segment. Note: This field is intended only
-    /// for use by the Driver SDK and Consumer SDK.
+    /// Output only. Indicates the traffic conditions along the `current_route_segment` when
+    /// they're available. Note: This field is intended only for use by the Driver
+    /// SDK and Consumer SDK.
     #[prost(message, optional, tag="28")]
     pub current_route_segment_traffic: ::core::option::Option<ConsumableTrafficPolyline>,
-    /// Output only. Indicates the last time the current_route_segment_traffic was modified.
+    /// Output only. Indicates the last time the `current_route_segment_traffic` was modified.
     /// Note: This field is intended only for use by the Driver SDK and Consumer
     /// SDK.
     #[prost(message, optional, tag="30")]
     pub current_route_segment_traffic_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The waypoint where current_route_segment ends. This can be supplied by
-    /// drivers on UpdateVehicle calls either as a full trip waypoint, a waypoint
-    /// latlng, or as a the last latlng of the current_route_segment. Fleet Engine
-    /// will then do its best to interpolate to an actual waypoint if it is not
-    /// fully specified. It will be returned in GetTrip calls. It is not respected
-    /// in Create/Update Trip calls.
+    /// Output only. The waypoint where `current_route_segment` ends.
     #[prost(message, optional, tag="24")]
     pub current_route_segment_end_point: ::core::option::Option<TripWaypoint>,
-    /// Output only. The remaining driving distance in Trip.current_route_segment field.
-    /// This field facilitates journey sharing between a driver and rider and
-    /// Fleet Engine does not update it. Your driver app is responsible for setting
-    /// field on all of its current trips by passing
-    /// Vehicle.remaining_distance_meters to an Vehicle.update call.
-    /// The value is unspecified if the trip is not assigned to a vehicle, or the
-    /// trip is inactive (completed or cancelled), or driver hasn't updated this
-    /// value.
+    /// Output only. The remaining driving distance in `current_route_segment` field. This
+    /// field facilitates journey sharing between a driver and rider. The value
+    /// is unspecified if the trip is not assigned to a vehicle or the trip is
+    /// completed or cancelled.
     #[prost(message, optional, tag="12")]
     pub remaining_distance_meters: ::core::option::Option<i32>,
     /// Output only. The ETA to the next waypoint (the first entry in the
-    /// Trip.remaining_waypoints field). This field facilitates journey sharing
-    /// between a driver and a consumer. Fleet Engine does not update this value.
-    /// Your driver app is responsible for setting this field by passing
-    /// Vehicle.remaining_time_seconds in a call to Vehicle.update. FleetEngine
-    /// converts the Vehicle.remaining_time_seconds to Trip.eta_to_first_waypoint,
-    /// and returns it to the rider. The value is unspecified if the trip is not
-    /// assigned to a vehicle, or the trip is inactive (completed or cancelled), or
-    /// driver hasn't updated this value.
+    /// `remaining_waypoints` field). This field facilitates journey sharing
+    /// between a driver and a consumer. The value is unspecified if the trip is
+    /// not assigned to a vehicle, or the trip is inactive (completed or
+    /// cancelled).
     #[prost(message, optional, tag="13")]
     pub eta_to_first_waypoint: ::core::option::Option<::prost_types::Timestamp>,
     /// Output only. The duration from when the Trip data is returned to the time in
-    /// Trip.eta_to_first_waypoint.
+    /// `Trip.eta_to_first_waypoint`.
     #[prost(message, optional, tag="27")]
     pub remaining_time_to_first_waypoint: ::core::option::Option<::prost_types::Duration>,
     /// Output only. Indicates the last time that `remaining_waypoints` was changed (a
@@ -483,9 +466,9 @@ pub struct Trip {
     /// Output only. Indicates the last reported location of the vehicle along the route.
     #[prost(message, optional, tag="11")]
     pub last_location: ::core::option::Option<VehicleLocation>,
-    /// Output only. Indicates whether the vehicle's last_location can be snapped to
-    /// the current_route_segment. False if last_location or current_route_segment
-    /// doesn't exist.
+    /// Output only. Indicates whether the vehicle's `last_location` can be snapped to
+    /// the current_route_segment. False if `last_location` or
+    /// `current_route_segment` doesn't exist.
     /// It is computed by Fleet Engine. Any update from clients will be ignored.
     #[prost(bool, tag="26")]
     pub last_location_snappable: bool,
@@ -1072,7 +1055,7 @@ pub struct Vehicle {
     /// The vehicle state.
     #[prost(enumeration="VehicleState", tag="2")]
     pub vehicle_state: i32,
-    /// Supported trip types.
+    /// Trip types supported by this vehicle.
     #[prost(enumeration="TripType", repeated, tag="3")]
     pub supported_trip_types: ::prost::alloc::vec::Vec<i32>,
     /// Output only. List of `trip_id`'s for trips currently assigned to this vehicle.
@@ -1101,20 +1084,17 @@ pub struct Vehicle {
     #[prost(message, repeated, tag="12")]
     pub route: ::prost::alloc::vec::Vec<TerminalLocation>,
     /// The polyline specifying the route the driver app intends to take to
-    /// the next waypoint. Your driver app updates this every time a waypoint is
-    /// passed or the driver reroutes. This list is also returned in
+    /// the next waypoint. This list is also returned in
     /// `Trip.current_route_segment` for all active trips assigned to the vehicle.
     /// Note: This field is intended only for use by the Driver SDK.
     #[prost(string, tag="20")]
     pub current_route_segment: ::prost::alloc::string::String,
-    /// Input only. Fleet Engine uses this information to improve its
-    /// understanding of a Trip, but does not populate the field in its responses.
-    /// Note: This field is intended only for use by the Driver SDK.
+    /// Input only. Fleet Engine uses this information to improve Journey Sharing.
     #[prost(message, optional, tag="28")]
     pub current_route_segment_traffic: ::core::option::Option<TrafficPolylineData>,
-    /// Output only. Time when `current_route_segment` was set. It should be
-    /// stored by the client and passed in future `GetVehicle` requests to
-    /// prevent returning routes that haven't changed.
+    /// Output only. Time when `current_route_segment` was set. It can be stored by the client
+    /// and passed in future `GetVehicle` requests to prevent returning routes that
+    /// haven't changed.
     #[prost(message, optional, tag="15")]
     pub current_route_segment_version: ::core::option::Option<::prost_types::Timestamp>,
     /// The waypoint where `current_route_segment` ends. This can be supplied by
@@ -1130,25 +1110,24 @@ pub struct Vehicle {
     /// This value is provided by the Driver SDK. This field is also returned in
     /// `Trip.remaining_distance_meters` for all active trips assigned to the
     /// vehicle. The value is unspecified if the `current_route_segment` field is
-    /// empty, or if the Driver app has not updated its value.
+    /// empty, or if the Driver SDK has not updated its value.
     #[prost(message, optional, tag="18")]
     pub remaining_distance_meters: ::core::option::Option<i32>,
-    /// The ETA to the first entry in the `waypoints`
-    /// field. This field facilitates journey sharing between a Driver app and a
-    /// Consumer app. Is is provided by the Driver SDK. This field is also returned
-    /// in `Trip.eta_to_first_waypoint` for all active trips assigned to the
-    /// vehicle. The value is unspecified if the `waypoints` field is empty, or the
-    /// Driver app has not updated its value.
+    /// The ETA to the first entry in the `waypoints` field. This field facilitates
+    /// journey sharing between a driver app and a consumer app.  The Driver SDK
+    /// provides the value under typical conditions. This field is also returned in
+    /// `Trip.eta_to_first_waypoint` for all applicable trips assigned to the
+    /// vehicle. The value is unspecified if the `waypoints` field is empty.
     #[prost(message, optional, tag="19")]
     pub eta_to_first_waypoint: ::core::option::Option<::prost_types::Timestamp>,
     /// Input only. The remaining driving time for the `current_route_segment`. This field
     /// facilitates journey sharing between the Driver app and the Consumer app.
-    /// This value is updated by the Driver SDK. Fleet Engine does not update it.
-    /// The value is unspecified if the `Vehicle.current_route_segment` field is
-    /// empty, or if the Driver app has not updated its value. This value should
-    /// match `eta_to_first_waypoint` - `current_time` if all parties are using the
-    /// same clock. When updating a
-    /// vehicle, if you update both `eta_to_first_waypoint` and
+    /// This value is updated by the Driver SDK. The value is unspecified if the
+    /// `Vehicle.current_route_segment` field is empty. This value should match
+    /// `eta_to_first_waypoint` - `current_time` if all parties are using the same
+    /// clock.
+    ///
+    /// <p>When updating a vehicle, if you update both `eta_to_first_waypoint` and
     /// `remaining_time_seconds` in the same request, `remaining_time_seconds`
     /// takes precedence.
     #[prost(message, optional, tag="25")]
@@ -1156,9 +1135,9 @@ pub struct Vehicle {
     /// The remaining waypoints assigned to this Vehicle.
     #[prost(message, repeated, tag="22")]
     pub waypoints: ::prost::alloc::vec::Vec<TripWaypoint>,
-    /// Output only. Last time the `waypoints` field was updated. Clients should cache
-    /// this value and pass it in `GetVehicleRequest` to ensure the
-    /// `waypoints` field is only returned if it is updated.
+    /// Output only. Last time the `waypoints` field was updated. Clients should cache this
+    /// value and pass it in `GetVehicleRequest` to ensure the `waypoints` field is
+    /// only returned if it is updated.
     #[prost(message, optional, tag="16")]
     pub waypoints_version: ::core::option::Option<::prost_types::Timestamp>,
     /// Indicates if the driver accepts back-to-back trips. If `true`,
@@ -1253,10 +1232,16 @@ pub struct LicensePlate {
 /// route.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VisualTrafficReportPolylineRendering {
-    /// Optional. Road stretches that should be rendered along the polyline. Note that
-    /// the stretches are guaranteed to not overlap, and that they do not
-    /// necessarily span the full route. In the absence of a road stretch to style,
-    /// the client should apply the default for the route.
+    /// Optional. Road stretches that should be rendered along the polyline. Stretches
+    /// <ul>
+    /// <li>are
+    /// guaranteed to not overlap, and</li>
+    /// <li>do not necessarily
+    /// span the full route.</li>
+    /// </ul>
+    ///
+    /// <p>In the absence of a road stretch to style, the client should apply the
+    /// default for the route.
     #[prost(message, repeated, tag="1")]
     pub road_stretch: ::prost::alloc::vec::Vec<visual_traffic_report_polyline_rendering::RoadStretch>,
 }
@@ -1563,9 +1548,11 @@ pub struct SearchVehiclesRequest {
     #[prost(int32, tag="8")]
     pub minimum_capacity: i32,
     /// Required. Represents the type of proposed trip. Eligible vehicles are those
-    /// that can support at least one of the given trip type.
+    /// that can support at least one of the specified trip type.
     ///
-    /// At the present time, only `EXCLUSIVE` is supported.
+    /// `EXCLUSIVE` and `SHARED` may not be included together.
+    /// `SHARED` is not supported when `current_trips_present` is
+    /// `CURRENT_TRIPS_PRESENT_UNSPECIFIED`.
     #[prost(enumeration="TripType", repeated, packed="false", tag="9")]
     pub trip_types: ::prost::alloc::vec::Vec<i32>,
     /// Restricts the search to only those vehicles that have updated their
@@ -1650,6 +1637,13 @@ pub struct SearchVehiclesRequest {
     /// Indicates the trip associated with this `SearchVehicleRequest`.
     #[prost(string, tag="19")]
     pub trip_id: ::prost::alloc::string::String,
+    /// Restricts vehicles from appearing in the search results based on
+    /// their current trips.
+    ///
+    /// When current_trips_present is `NONE` or `ANY`, `trip_types` can be either
+    /// `EXCLUSIVE` or `SHARED`, but not both.
+    #[prost(enumeration="search_vehicles_request::CurrentTripsPresent", tag="21")]
+    pub current_trips_present: i32,
 }
 /// Nested message and enum types in `SearchVehiclesRequest`.
 pub mod search_vehicles_request {
@@ -1671,6 +1665,22 @@ pub mod search_vehicles_request {
         PickupPointStraightDistance = 4,
         /// Ascending order by the configured match cost.
         Cost = 5,
+    }
+    /// Specifies the types of restrictions on a vehicle's current trips.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum CurrentTripsPresent {
+        /// Only vehicles without trips can appear in search results.
+        /// A validation exception is thrown if `include_back_to_back` is true. See
+        /// the `include_back_to_back` flag for more details.
+        Unspecified = 0,
+        /// Vehicles without trips can appear in search results.
+        /// A validation exception is thrown if `include_back_to_back` is true.
+        None = 1,
+        /// Vehicles with at most 5 current trips and 10 waypoints are included
+        /// in the search results.
+        /// A validation exception is thrown if `include_back_to_back` is true.
+        Any = 2,
     }
 }
 /// `SearchVehicles` response message.
