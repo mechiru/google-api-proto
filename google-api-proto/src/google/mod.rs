@@ -164,6 +164,7 @@ pub mod chromeos;
         feature = "google-cloud-contactcenterinsights-v1",
         feature = "google-cloud-datacatalog-v1",
         feature = "google-cloud-datacatalog-v1beta1",
+        feature = "google-cloud-dataform-v1alpha2",
         feature = "google-cloud-datafusion-v1",
         feature = "google-cloud-datafusion-v1beta1",
         feature = "google-cloud-datalabeling-v1beta1",
