@@ -238,6 +238,79 @@ pub struct BigQueryExport {
     #[prost(string, tag="8")]
     pub principal: ::prost::alloc::string::String,
 }
+/// File information about the related binary/library used by an executable, or
+/// the script used by a script interpreter
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct File {
+    /// Absolute path of the file as a JSON encoded string.
+    #[prost(string, tag="1")]
+    pub path: ::prost::alloc::string::String,
+    /// Size of the file in bytes.
+    #[prost(int64, tag="2")]
+    pub size: i64,
+    /// SHA256 hash of the first hashed_size bytes of the file encoded as a
+    /// hex string.  If hashed_size == size, hash_sha256 represents the SHA256 hash
+    /// of the entire file.
+    #[prost(string, tag="3")]
+    pub sha256: ::prost::alloc::string::String,
+    /// The length in bytes of the file prefix that was hashed.  If
+    /// hashed_size == size, any hashes reported represent the entire
+    /// file.
+    #[prost(int64, tag="4")]
+    pub hashed_size: i64,
+    /// True when the hash covers only a prefix of the file.
+    #[prost(bool, tag="5")]
+    pub partially_hashed: bool,
+    /// Prefix of the file contents as a JSON encoded string.
+    /// (Currently only populated for Malicious Script Executed findings.)
+    #[prost(string, tag="6")]
+    pub contents: ::prost::alloc::string::String,
+}
+/// Represents an operating system process.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Process {
+    /// File information for the process executable.
+    #[prost(message, optional, tag="3")]
+    pub binary: ::core::option::Option<File>,
+    /// File information for libraries loaded by the process.
+    #[prost(message, repeated, tag="4")]
+    pub libraries: ::prost::alloc::vec::Vec<File>,
+    /// When the process represents the invocation of a script,
+    /// `binary` provides information about the interpreter while `script`
+    /// provides information about the script file provided to the
+    /// interpreter.
+    #[prost(message, optional, tag="5")]
+    pub script: ::core::option::Option<File>,
+    /// Process arguments as JSON encoded strings.
+    #[prost(string, repeated, tag="6")]
+    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// True if `args` is incomplete.
+    #[prost(bool, tag="7")]
+    pub arguments_truncated: bool,
+    /// Process environment variables.
+    #[prost(message, repeated, tag="8")]
+    pub env_variables: ::prost::alloc::vec::Vec<EnvironmentVariable>,
+    /// True if `env_variables` is incomplete.
+    #[prost(bool, tag="9")]
+    pub env_variables_truncated: bool,
+    /// The process id.
+    #[prost(int64, tag="10")]
+    pub pid: i64,
+    /// The parent process id.
+    #[prost(int64, tag="11")]
+    pub parent_pid: i64,
+}
+/// EnvironmentVariable is a name-value pair to store environment variables for
+/// Process.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EnvironmentVariable {
+    /// Environment variable name as a JSON encoded string.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Environment variable value as a JSON encoded string.
+    #[prost(string, tag="2")]
+    pub val: ::prost::alloc::string::String,
+}
 /// Represents what's commonly known as an Indicator of compromise (IoC) in
 /// computer forensics. This is an artifact observed on a network or in an
 /// operating system that, with high confidence, indicates a computer intrusion.
@@ -250,6 +323,35 @@ pub struct Indicator {
     /// List of domains associated to the Finding.
     #[prost(string, repeated, tag="2")]
     pub domains: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Exfiltration represents a data exfiltration attempt of one or more
+/// sources to one or more targets.  Sources represent the source
+/// of data that is exfiltrated, and Targets represents the destination the
+/// data was copied to.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Exfiltration {
+    /// If there are multiple sources, then the data is considered "joined" between
+    /// them. For instance, BigQuery can join multiple tables, and each
+    /// table would be considered a source.
+    #[prost(message, repeated, tag="1")]
+    pub sources: ::prost::alloc::vec::Vec<ExfilResource>,
+    /// If there are multiple targets, each target would get a complete copy of the
+    /// "joined" source data.
+    #[prost(message, repeated, tag="2")]
+    pub targets: ::prost::alloc::vec::Vec<ExfilResource>,
+}
+/// Resource that has been exfiltrated or exfiltrated_to.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExfilResource {
+    /// Resource's URI (<https://google.aip.dev/122#full-resource-names>)
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Subcomponents of the asset that is exfiltrated - these could be
+    /// URIs used during exfiltration, table names, databases, filenames, etc.
+    /// For example, multiple tables may be exfiltrated from the same CloudSQL
+    /// instance, or multiple files from the same Cloud Storage bucket.
+    #[prost(string, repeated, tag="2")]
+    pub components: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Refers to common vulnerability fields e.g. cve, cvss, cwe etc.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -665,6 +767,21 @@ pub struct Geolocation {
     #[prost(string, tag="1")]
     pub region_code: ::prost::alloc::string::String,
 }
+/// Contains compliance information about a security standard indicating unmet
+/// recommendations.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Compliance {
+    /// Refers to industry wide standards or benchmarks e.g. "cis", "pci", "owasp",
+    /// etc.
+    #[prost(string, tag="1")]
+    pub standard: ::prost::alloc::string::String,
+    /// Version of the standard/benchmark e.g. 1.1
+    #[prost(string, tag="2")]
+    pub version: ::prost::alloc::string::String,
+    /// Policies within the standard/benchmark e.g. A.12.4.1
+    #[prost(string, repeated, tag="3")]
+    pub ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
 /// Represents a particular IAM binding, which captures a member's role addition,
 /// removal, or state.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -761,7 +878,6 @@ pub mod mitre_attack {
     }
     /// MITRE ATT&CK techniques that can be referenced by SCC findings.
     /// See: <https://attack.mitre.org/techniques/enterprise/>
-    /// Next ID: 31
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Technique {
@@ -827,6 +943,8 @@ pub mod mitre_attack {
         DataDestruction = 29,
         /// T1484
         DomainPolicyModification = 30,
+        /// T1562
+        ImpairDefenses = 31,
     }
 }
 /// Security Command Center finding.
@@ -930,8 +1048,8 @@ pub struct Finding {
     /// Output only. The most recent time this finding was muted or unmuted.
     #[prost(message, optional, tag="21")]
     pub mute_update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Third party SIEM/SOAR fields within SCC, contains external system
-    /// information and external system finding fields.
+    /// Output only. Third party SIEM/SOAR fields within SCC, contains external
+    /// system information and external system finding fields.
     #[prost(btree_map="string, message", tag="22")]
     pub external_systems: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ExternalSystem>,
     /// MITRE ATT&CK tactics and techniques related to this finding.
@@ -951,9 +1069,19 @@ pub struct Finding {
     /// shouldn't set the value of mute.
     #[prost(string, tag="28")]
     pub mute_initiator: ::prost::alloc::string::String,
+    /// Represents operating system processes associated with the Finding.
+    #[prost(message, repeated, tag="30")]
+    pub processes: ::prost::alloc::vec::Vec<Process>,
+    /// Contains compliance information for security standards associated to the
+    /// finding.
+    #[prost(message, repeated, tag="34")]
+    pub compliances: ::prost::alloc::vec::Vec<Compliance>,
     /// Contains more detail about the finding.
     #[prost(string, tag="37")]
     pub description: ::prost::alloc::string::String,
+    /// Represents exfiltration associated with the Finding.
+    #[prost(message, optional, tag="38")]
+    pub exfiltration: ::core::option::Option<Exfiltration>,
     /// Represents IAM bindings associated with the Finding.
     #[prost(message, repeated, tag="39")]
     pub iam_bindings: ::prost::alloc::vec::Vec<IamBinding>,
