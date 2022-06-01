@@ -103,24 +103,30 @@ pub struct CustomAttribute {
     /// Otherwise, an INVALID_ARGUMENT error is returned.
     #[prost(double, repeated, tag="2")]
     pub numbers: ::prost::alloc::vec::Vec<f64>,
-    /// This field will only be used when
+    /// This field is normally ignored unless
     /// \[AttributesConfig.attribute_config_level][\] of the
-    /// \[Catalog][google.cloud.retail.v2.Catalog\] is
-    /// 'PRODUCT_LEVEL_ATTRIBUTE_CONFIG', if true, custom attribute values are
-    /// searchable by text queries in
+    /// \[Catalog][google.cloud.retail.v2.Catalog\] is set to the deprecated
+    /// 'PRODUCT_LEVEL_ATTRIBUTE_CONFIG' mode. For information about product-level
+    /// attribute configuration, see [Configuration
+    /// modes](<https://cloud.google.com/retail/docs/attribute-config#config-modes>).
+    /// If true, custom attribute values are searchable by text queries in
     /// \[SearchService.Search][google.cloud.retail.v2.SearchService.Search\].
     ///
     /// This field is ignored in a \[UserEvent][google.cloud.retail.v2.UserEvent\].
     ///
     /// Only set if type \[text][google.cloud.retail.v2.CustomAttribute.text\] is
     /// set. Otherwise, a INVALID_ARGUMENT error is returned.
+    #[deprecated]
     #[prost(bool, optional, tag="3")]
     pub searchable: ::core::option::Option<bool>,
-    /// This field will only be used when
+    /// This field is normally ignored unless
     /// \[AttributesConfig.attribute_config_level][\] of the
-    /// \[Catalog][google.cloud.retail.v2.Catalog\] is
-    /// 'PRODUCT_LEVEL_ATTRIBUTE_CONFIG', if true, custom attribute values are
-    /// indexed, so that it can be filtered, faceted or boosted in
+    /// \[Catalog][google.cloud.retail.v2.Catalog\] is set to the deprecated
+    /// 'PRODUCT_LEVEL_ATTRIBUTE_CONFIG' mode. For information about product-level
+    /// attribute configuration, see [Configuration
+    /// modes](<https://cloud.google.com/retail/docs/attribute-config#config-modes>).
+    /// If true, custom attribute values are indexed, so that they can be filtered,
+    /// faceted or boosted in
     /// \[SearchService.Search][google.cloud.retail.v2.SearchService.Search\].
     ///
     /// This field is ignored in a \[UserEvent][google.cloud.retail.v2.UserEvent\].
@@ -130,6 +136,7 @@ pub struct CustomAttribute {
     /// and
     /// \[SearchRequest.boost_spec][google.cloud.retail.v2.SearchRequest.boost_spec\]
     /// for more details.
+    #[deprecated]
     #[prost(bool, optional, tag="4")]
     pub indexable: ::core::option::Option<bool>,
 }
@@ -277,7 +284,10 @@ pub struct PriceInfo {
     #[prost(float, tag="2")]
     pub price: f32,
     /// Price of the product without any discount. If zero, by default set to be
-    /// the \[price][google.cloud.retail.v2.PriceInfo.price\].
+    /// the \[price][google.cloud.retail.v2.PriceInfo.price\]. If set,
+    /// \[original_price][google.cloud.retail.v2.PriceInfo.original_price\] should be
+    /// greater than or equal to \[price][google.cloud.retail.v2.PriceInfo.price\],
+    /// otherwise an INVALID_ARGUMENT error is thrown.
     #[prost(float, tag="3")]
     pub original_price: f32,
     /// The costs associated with the sale of a particular product. Used for gross
@@ -387,9 +397,13 @@ pub struct Rating {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UserInfo {
     /// Highly recommended for logged-in users. Unique identifier for logged-in
-    /// user, such as a user name.
+    /// user, such as a user name. Don't set for anonymous users.
     ///
     /// Always use a hashed value for this ID.
+    ///
+    /// Don't set the field to the same fixed ID for different users. This mixes
+    /// the event history of those users together, which results in degraded
+    /// model quality.
     ///
     /// The field must be a UTF-8 encoded string with a length limit of 128
     /// characters. Otherwise, an INVALID_ARGUMENT error is returned.
@@ -893,11 +907,11 @@ pub struct Product {
     /// * \[name][google.cloud.retail.v2.Product.name\]
     /// * \[color_info][google.cloud.retail.v2.Product.color_info\]
     ///
-    /// Maximum number of paths is 30. Otherwise, an INVALID_ARGUMENT error is
+    /// The maximum number of paths is 30. Otherwise, an INVALID_ARGUMENT error is
     /// returned.
     ///
     /// Note: Returning more fields in
-    /// \[SearchResponse][google.cloud.retail.v2.SearchResponse\] may increase
+    /// \[SearchResponse][google.cloud.retail.v2.SearchResponse\] can increase
     /// response payload size and serving latency.
     #[prost(message, optional, tag="30")]
     pub retrievable_fields: ::core::option::Option<::prost_types::FieldMask>,
@@ -1036,11 +1050,15 @@ pub struct UserEvent {
     /// able to uniquely identify a visitor on a single device. This unique
     /// identifier should not change if the visitor log in/out of the website.
     ///
+    /// Don't set the field to the same fixed ID for different users. This mixes
+    /// the event history of those users together, which results in degraded model
+    /// quality.
+    ///
     /// The field must be a UTF-8 encoded string with a length limit of 128
     /// characters. Otherwise, an INVALID_ARGUMENT error is returned.
     ///
     /// The field should not contain PII or user-data. We recommend to use Google
-    /// Analystics [Client
+    /// Analytics [Client
     /// ID](<https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#clientId>)
     /// for this field.
     #[prost(string, tag="2")]
@@ -1093,12 +1111,11 @@ pub struct UserEvent {
     pub attribution_token: ::prost::alloc::string::String,
     /// The main product details related to the event.
     ///
-    /// This field is required for the following event types:
+    /// This field is optional except for the following event types:
     ///
     /// * `add-to-cart`
     /// * `detail-page-view`
     /// * `purchase-complete`
-    /// * `search`
     ///
     /// In a `search` event, this field represents the products returned to the end
     /// user on the current page (the end user may have not finished browsing the
@@ -1342,6 +1359,16 @@ pub struct PredictRequest {
     /// they took to trigger the predict request. Note that this user event detail
     /// won't be ingested to userEvent logs. Thus, a separate userEvent write
     /// request is required for event logging.
+    ///
+    /// Don't set
+    /// \[UserEvent.visitor_id][google.cloud.retail.v2.UserEvent.visitor_id\] or
+    /// \[UserInfo.user_id][google.cloud.retail.v2.UserInfo.user_id\] to the same
+    /// fixed ID for different users. If you are trying to receive non-personalized
+    /// recommendations (not recommended; this can negatively impact model
+    /// performance), instead set
+    /// \[UserEvent.visitor_id][google.cloud.retail.v2.UserEvent.visitor_id\] to a
+    /// random unique ID and leave
+    /// \[UserInfo.user_id][google.cloud.retail.v2.UserInfo.user_id\] unset.
     #[prost(message, optional, tag="2")]
     pub user_event: ::core::option::Option<UserEvent>,
     /// Maximum number of results to return per page. Set this property
@@ -1422,7 +1449,7 @@ pub struct PredictRequest {
     /// * Each resource can have multiple labels, up to a maximum of 64.
     /// * Each label must be a key-value pair.
     /// * Keys have a minimum length of 1 character and a maximum length of 63
-    ///   characters, and cannot be empty. Values can be empty, and have a maximum
+    ///   characters and cannot be empty. Values can be empty and have a maximum
     ///   length of 63 characters.
     /// * Keys and values can contain only lowercase letters, numeric characters,
     ///   underscores, and dashes. All characters must use UTF-8 encoding, and
@@ -1469,9 +1496,9 @@ pub mod predict_response {
         ///
         /// Possible values:
         ///
-        /// * `product`: JSON representation of the product. Will be set if
+        /// * `product`: JSON representation of the product. Is set if
         ///   `returnProduct` is set to true in `PredictRequest.params`.
-        /// * `score`: Prediction score in double value. Will be set if
+        /// * `score`: Prediction score in double value. Is set if
         ///   `returnScore` is set to true in `PredictRequest.params`.
         #[prost(btree_map="string, message", tag="2")]
         pub metadata: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::Value>,
@@ -1558,7 +1585,7 @@ pub mod prediction_service_client {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SearchRequest {
     /// Required. The resource name of the search engine placement, such as
-    /// `projects/*/locations/global/catalogs/default_catalog/placements/default_search`
+    /// `projects/*/locations/global/catalogs/default_catalog/placements/default_search`.
     /// This field is used to identify the serving configuration name and the set
     /// of models that will be used to make the search.
     #[prost(string, tag="1")]
@@ -1571,6 +1598,11 @@ pub struct SearchRequest {
     #[prost(string, tag="2")]
     pub branch: ::prost::alloc::string::String,
     /// Raw search query.
+    ///
+    /// If this field is empty, the request is considered a category browsing
+    /// request and returned results are based on
+    /// \[filter][google.cloud.retail.v2.SearchRequest.filter\] and
+    /// \[page_categories][google.cloud.retail.v2.SearchRequest.page_categories\].
     #[prost(string, tag="3")]
     pub query: ::prost::alloc::string::String,
     /// Required. A unique identifier for tracking visitors. For example, this
@@ -1665,10 +1697,10 @@ pub struct SearchRequest {
     /// [user guide](<https://cloud.google.com/retail/docs/boosting>).
     ///
     /// Notice that if both \[ServingConfig.boost_control_ids][\] and
-    /// \[SearchRequest.boost_spec\] are set, the boost conditions from both places
-    /// are evaluated. If a search request matches multiple boost conditions,
-    /// the final boost score is equal to the sum of the boost scores from all
-    /// matched boost conditions.
+    /// \[SearchRequest.boost_spec][google.cloud.retail.v2.SearchRequest.boost_spec\]
+    /// are set, the boost conditions from both places are evaluated. If a search
+    /// request matches multiple boost conditions, the final boost score is equal
+    /// to the sum of the boost scores from all matched boost conditions.
     #[prost(message, optional, tag="13")]
     pub boost_spec: ::core::option::Option<search_request::BoostSpec>,
     /// The query expansion specification that specifies the conditions under which
@@ -1703,7 +1735,8 @@ pub struct SearchRequest {
     /// * inventory(place_id,price)
     /// * inventory(place_id,original_price)
     /// * inventory(place_id,attributes.key), where key is any key in the
-    ///   \[Product.inventories.attributes][\] map.
+    ///   \[Product.local_inventories.attributes][google.cloud.retail.v2.LocalInventory.attributes\]
+    ///   map.
     /// * attributes.key, where key is any key in the
     ///   \[Product.attributes][google.cloud.retail.v2.Product.attributes\] map.
     /// * pickupInStore.id, where id is any
@@ -1768,6 +1801,29 @@ pub struct SearchRequest {
     /// The specification for personalization.
     #[prost(message, optional, tag="32")]
     pub personalization_spec: ::core::option::Option<search_request::PersonalizationSpec>,
+    /// The labels applied to a resource must meet the following requirements:
+    ///
+    /// * Each resource can have multiple labels, up to a maximum of 64.
+    /// * Each label must be a key-value pair.
+    /// * Keys have a minimum length of 1 character and a maximum length of 63
+    ///   characters and cannot be empty. Values can be empty and have a maximum
+    ///   length of 63 characters.
+    /// * Keys and values can contain only lowercase letters, numeric characters,
+    ///   underscores, and dashes. All characters must use UTF-8 encoding, and
+    ///   international characters are allowed.
+    /// * The key portion of a label must be unique. However, you can use the same
+    ///   key with multiple resources.
+    /// * Keys must start with a lowercase letter or international character.
+    ///
+    /// See [Google Cloud
+    /// Document](<https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements>)
+    /// for more details.
+    #[prost(btree_map="string, string", tag="34")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// The spell correction specification that specifies the mode under
+    /// which spell correction will take effect.
+    #[prost(message, optional, tag="35")]
+    pub spell_correction_spec: ::core::option::Option<search_request::SpellCorrectionSpec>,
 }
 /// Nested message and enum types in `SearchRequest`.
 pub mod search_request {
@@ -1786,19 +1842,29 @@ pub mod search_request {
         pub limit: i32,
         /// List of keys to exclude when faceting.
         ///
+        ///
         /// By default,
         /// \[FacetKey.key][google.cloud.retail.v2.SearchRequest.FacetSpec.FacetKey.key\]
         /// is not excluded from the filter unless it is listed in this field.
         ///
-        /// For example, suppose there are 100 products with color facet "Red" and
-        /// 200 products with color facet "Blue". A query containing the filter
-        /// "colorFamilies:ANY("Red")" and have "colorFamilies" as
-        /// \[FacetKey.key][google.cloud.retail.v2.SearchRequest.FacetSpec.FacetKey.key\]
-        /// will by default return the "Red" with count 100.
+        /// Listing a facet key in this field allows its values to appear as facet
+        /// results, even when they are filtered out of search results. Using this
+        /// field does not affect what search results are returned.
         ///
-        /// If this field contains "colorFamilies", then the query returns both the
-        /// "Red" with count 100 and "Blue" with count 200, because the
-        /// "colorFamilies" key is now excluded from the filter.
+        /// For example, suppose there are 100 products with the color facet "Red"
+        /// and 200 products with the color facet "Blue". A query containing the
+        /// filter "colorFamilies:ANY("Red")" and having "colorFamilies" as
+        /// \[FacetKey.key][google.cloud.retail.v2.SearchRequest.FacetSpec.FacetKey.key\]
+        /// would by default return only "Red" products in the search results, and
+        /// also return "Red" with count 100 as the only color facet. Although there
+        /// are also blue products available, "Blue" would not be shown as an
+        /// available facet value.
+        ///
+        /// If "colorFamilies" is listed in "excludedFilterKeys", then the query
+        /// returns the facet values "Red" with count 100 and "Blue" with count
+        /// 200, because the "colorFamilies" key is now excluded from the filter.
+        /// Because this field doesn't affect search results, the search results
+        /// are still correctly filtered to return only "Red" products.
         ///
         /// A maximum of 100 values are allowed. Otherwise, an INVALID_ARGUMENT error
         /// is returned.
@@ -1891,8 +1957,8 @@ pub mod search_request {
             /// Only get facet for the given restricted values. For example, when using
             /// "pickupInStore" as key and set restricted values to
             /// ["store123", "store456"], only facets for "store123" and "store456" are
-            /// returned. Only supported on textual fields and fulfillments.
-            /// Maximum is 20.
+            /// returned. Only supported on predefined textual fields, custom textual
+            /// attributes and fulfillments. Maximum is 20.
             ///
             /// Must be set for the fulfillment facet keys:
             ///
@@ -2003,7 +2069,7 @@ pub mod search_request {
         /// Condition boost specifications. If a product matches multiple conditions
         /// in the specifictions, boost scores from these specifications are all
         /// applied and combined in a non-linear way. Maximum number of
-        /// specifications is 10.
+        /// specifications is 20.
         #[prost(message, repeated, tag="1")]
         pub condition_boost_specs: ::prost::alloc::vec::Vec<boost_spec::ConditionBoostSpec>,
         /// Whether to skip boostspec validation. If this field is set to true,
@@ -2109,6 +2175,34 @@ pub mod search_request {
             Disabled = 2,
         }
     }
+    /// The specification for query spell correction.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SpellCorrectionSpec {
+        /// The mode under which spell correction should take effect to
+        /// replace the original search query. Default to
+        /// \[Mode.AUTO][google.cloud.retail.v2.SearchRequest.SpellCorrectionSpec.Mode.AUTO\].
+        #[prost(enumeration="spell_correction_spec::Mode", tag="1")]
+        pub mode: i32,
+    }
+    /// Nested message and enum types in `SpellCorrectionSpec`.
+    pub mod spell_correction_spec {
+        /// Enum describing under which mode spell correction should occur.
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+        #[repr(i32)]
+        pub enum Mode {
+            /// Unspecified spell correction mode. This defaults to
+            /// \[Mode.AUTO][google.cloud.retail.v2.SearchRequest.SpellCorrectionSpec.Mode.AUTO\].
+            Unspecified = 0,
+            /// Google Retail Search will try to find a spell suggestion if there
+            /// is any and put in the
+            /// \[SearchResponse.corrected_query][google.cloud.retail.v2.SearchResponse.corrected_query\].
+            /// The spell suggestion will not be used as the search query.
+            SuggestionOnly = 1,
+            /// Automatic spell correction built by Google Retail Search. Search will
+            /// be based on the corrected query if found.
+            Auto = 2,
+        }
+    }
     /// The search mode of each search request.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
@@ -2130,7 +2224,9 @@ pub mod search_request {
         /// Only faceted search will be performed. The product search will be
         /// disabled.
         ///
-        /// When in this mode, one or both of \[SearchRequest.facet_spec][\] and
+        /// When in this mode, one or both of
+        /// \[SearchRequest.facet_specs][google.cloud.retail.v2.SearchRequest.facet_specs\]
+        /// and
         /// \[SearchRequest.dynamic_facet_spec][google.cloud.retail.v2.SearchRequest.dynamic_facet_spec\]
         /// should be set. Otherwise, an INVALID_ARGUMENT error is returned. Only
         /// \[SearchResponse.Facet\] will be returned. \[SearchResponse.SearchResult\]
@@ -2155,7 +2251,9 @@ pub struct SearchResponse {
     /// matches.
     #[prost(int32, tag="3")]
     pub total_size: i32,
-    /// If spell correction applies, the corrected query. Otherwise, empty.
+    /// Contains the spell corrected query, if found. If the spell correction type
+    /// is AUTOMATIC, then the search results are based on corrected_query.
+    /// Otherwise the original query will be used for search.
     #[prost(string, tag="4")]
     pub corrected_query: ::prost::alloc::string::String,
     /// A unique search token. This should be included in the
@@ -2173,10 +2271,10 @@ pub struct SearchResponse {
     #[prost(message, optional, tag="7")]
     pub query_expansion_info: ::core::option::Option<search_response::QueryExpansionInfo>,
     /// The URI of a customer-defined redirect page. If redirect action is
-    /// triggered, no search will be performed, and only
+    /// triggered, no search is performed, and only
     /// \[redirect_uri][google.cloud.retail.v2.SearchResponse.redirect_uri\] and
     /// \[attribution_token][google.cloud.retail.v2.SearchResponse.attribution_token\]
-    /// will be set in the response.
+    /// are set in the response.
     #[prost(string, tag="10")]
     pub redirect_uri: ::prost::alloc::string::String,
     /// The fully qualified resource name of applied
@@ -2579,11 +2677,18 @@ pub struct ImportProductsRequest {
     /// \[ReconciliationMode.INCREMENTAL][google.cloud.retail.v2.ImportProductsRequest.ReconciliationMode.INCREMENTAL\].
     #[prost(enumeration="import_products_request::ReconciliationMode", tag="5")]
     pub reconciliation_mode: i32,
-    /// Pub/Sub topic for receiving notification. If this field is set,
+    /// Full Pub/Sub topic name for receiving notification. If this field is set,
     /// when the import is finished, a notification will be sent to
     /// specified Pub/Sub topic. The message data will be JSON string of a
     /// \[Operation][google.longrunning.Operation\].
-    /// Format of the Pub/Sub topic is `projects/{project}/topics/{topic}`.
+    ///
+    /// Format of the Pub/Sub topic is `projects/{project}/topics/{topic}`. It has
+    /// to be within the same project as
+    /// \[ImportProductsRequest.parent][google.cloud.retail.v2.ImportProductsRequest.parent\].
+    /// Make sure that both
+    /// `cloud-retail-customer-data-access@system.gserviceaccount.com` and
+    /// `service-<project number>@gcp-sa-retail.iam.gserviceaccount.com`
+    /// have the `pubsub.topics.publish` IAM permission on the topic.
     ///
     /// Only supported when
     /// \[ImportProductsRequest.reconciliation_mode][google.cloud.retail.v2.ImportProductsRequest.reconciliation_mode\]
@@ -2869,9 +2974,9 @@ pub struct CompleteQueryRequest {
     ///
     /// * user-data
     ///
-    /// * cloud-retail
-    ///   This option requires additional allowlisting. Before using cloud-retail,
-    ///   contact Cloud Retail support team first.
+    /// * cloud-retail:
+    ///   This option requires enabling auto-learning function first. See
+    ///   \[guidelines\](<https://cloud.google.com/retail/docs/completion-overview#generated-completion-dataset>).
     #[prost(string, tag="6")]
     pub dataset: ::prost::alloc::string::String,
     /// Completion max suggestions. If left unset or set to 0, then will fallback
@@ -2903,11 +3008,15 @@ pub struct CompleteQueryResponse {
     /// \[CompleteQueryRequest.visitor_id][google.cloud.retail.v2.CompleteQueryRequest.visitor_id\]
     /// field is set and \[UserEvent][google.cloud.retail.v2.UserEvent\] is imported.
     /// The recent searches satisfy the follow rules:
+    ///
     ///  * They are ordered from latest to oldest.
+    ///
     ///  * They are matched with
     ///  \[CompleteQueryRequest.query][google.cloud.retail.v2.CompleteQueryRequest.query\]
     ///  case insensitively.
+    ///
     ///  * They are transformed to lower cases.
+    ///
     ///  * They are UTF-8 safe.
     ///
     /// Recent searches are deduplicated. More recent searches will be reserved
@@ -2924,10 +3033,13 @@ pub mod complete_query_response {
         #[prost(string, tag="1")]
         pub suggestion: ::prost::alloc::string::String,
         /// Custom attributes for the suggestion term.
+        ///
         /// * For "user-data", the attributes are additional custom attributes
         /// ingested through BigQuery.
+        ///
         /// * For "cloud-retail", the attributes are product attributes generated
-        /// by Cloud Retail.
+        /// by Cloud Retail. This is an experimental feature. Contact Retail Search
+        /// support team if you are interested in enabling it.
         #[prost(btree_map="string, message", tag="2")]
         pub attributes: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, super::CustomAttribute>,
     }
@@ -3386,10 +3498,10 @@ pub struct ProductLevelConfig {
     ///   default to
     ///   \[Product.Type.PRIMARY][google.cloud.retail.v2.Product.Type.PRIMARY\] if
     ///   unset.
-    /// * `variant`: You can only ingest
-    /// \[Product.Type.VARIANT][google.cloud.retail.v2.Product.Type.VARIANT\]
-    /// \[Product][google.cloud.retail.v2.Product\]s.
-    ///   This means
+    /// * `variant` (incompatible with Retail Search): You can only
+    ///   ingest
+    ///   \[Product.Type.VARIANT][google.cloud.retail.v2.Product.Type.VARIANT\]
+    ///   \[Product][google.cloud.retail.v2.Product\]s. This means
     ///   \[Product.primary_product_id][google.cloud.retail.v2.Product.primary_product_id\]
     ///   cannot be empty.
     ///
@@ -3400,8 +3512,8 @@ pub struct ProductLevelConfig {
     /// \[merchant_center_product_id_field][google.cloud.retail.v2.ProductLevelConfig.merchant_center_product_id_field\]
     /// is `itemGroupId`, an INVALID_ARGUMENT error is returned.
     ///
-    /// See [Using product
-    /// levels](<https://cloud.google.com/retail/recommendations-ai/docs/catalog#product-levels>)
+    /// See [Product
+    /// levels](<https://cloud.google.com/retail/docs/catalog#product-levels>)
     /// for more details.
     #[prost(string, tag="1")]
     pub ingestion_product_type: ::prost::alloc::string::String,
@@ -3422,8 +3534,8 @@ pub struct ProductLevelConfig {
     /// \[ingestion_product_type][google.cloud.retail.v2.ProductLevelConfig.ingestion_product_type\]
     /// is `variant`, an INVALID_ARGUMENT error is returned.
     ///
-    /// See [Using product
-    /// levels](<https://cloud.google.com/retail/recommendations-ai/docs/catalog#product-levels>)
+    /// See [Product
+    /// levels](<https://cloud.google.com/retail/docs/catalog#product-levels>)
     /// for more details.
     #[prost(string, tag="2")]
     pub merchant_center_product_id_field: ::prost::alloc::string::String,
@@ -3807,6 +3919,11 @@ pub struct UpdateProductRequest {
     ///
     /// If an unsupported or unknown field is provided, an INVALID_ARGUMENT error
     /// is returned.
+    ///
+    /// The attribute key can be updated by setting the mask path as
+    /// "attributes.${key_name}". If a key name is present in the mask but not in
+    /// the patching product from the request, this key will be deleted after the
+    /// update.
     #[prost(message, optional, tag="2")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
     /// If set to true, and the \[Product][google.cloud.retail.v2.Product\] is not
@@ -4034,7 +4151,9 @@ pub struct SetInventoryMetadata {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetInventoryResponse {
 }
-/// Request message for \[AddFulfillmentPlaces][\] method.
+/// Request message for
+/// \[ProductService.AddFulfillmentPlaces][google.cloud.retail.v2.ProductService.AddFulfillmentPlaces\]
+/// method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AddFulfillmentPlacesRequest {
     /// Required. Full resource name of \[Product][google.cloud.retail.v2.Product\],
@@ -4100,17 +4219,21 @@ pub struct AddFulfillmentPlacesRequest {
 }
 /// Metadata related to the progress of the AddFulfillmentPlaces operation.
 /// Currently empty because there is no meaningful metadata populated from the
-/// \[AddFulfillmentPlaces][\] method.
+/// \[ProductService.AddFulfillmentPlaces][google.cloud.retail.v2.ProductService.AddFulfillmentPlaces\]
+/// method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AddFulfillmentPlacesMetadata {
 }
 /// Response of the AddFulfillmentPlacesRequest.  Currently empty because
-/// there is no meaningful response populated from the \[AddFulfillmentPlaces][\]
+/// there is no meaningful response populated from the
+/// \[ProductService.AddFulfillmentPlaces][google.cloud.retail.v2.ProductService.AddFulfillmentPlaces\]
 /// method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AddFulfillmentPlacesResponse {
 }
-/// Request message for \[AddLocalInventories][\] method.
+/// Request message for
+/// \[ProductService.AddLocalInventories][google.cloud.retail.v2.ProductService.AddLocalInventories\]
+/// method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AddLocalInventoriesRequest {
     /// Required. Full resource name of \[Product][google.cloud.retail.v2.Product\],
@@ -4159,12 +4282,16 @@ pub struct AddLocalInventoriesRequest {
 }
 /// Metadata related to the progress of the AddLocalInventories operation.
 /// Currently empty because there is no meaningful metadata populated from the
-/// \[AddLocalInventories][\] method.
+/// \[ProductService.AddLocalInventories][google.cloud.retail.v2.ProductService.AddLocalInventories\]
+/// method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AddLocalInventoriesMetadata {
 }
-/// Response of the \[AddLocalInventories][\] API.  Currently empty because
-/// there is no meaningful response populated from the \[AddLocalInventories][\]
+/// Response of the
+/// \[ProductService.AddLocalInventories][google.cloud.retail.v2.ProductService.AddLocalInventories\]
+/// API.  Currently empty because there is no meaningful response populated from
+/// the
+/// \[ProductService.AddLocalInventories][google.cloud.retail.v2.ProductService.AddLocalInventories\]
 /// method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AddLocalInventoriesResponse {
@@ -4241,7 +4368,8 @@ pub struct RemoveFulfillmentPlacesRequest {
     /// If this field is set to an invalid value other than these, an
     /// INVALID_ARGUMENT error is returned.
     ///
-    /// This field directly corresponds to \[Product.fulfillment_info.type][\].
+    /// This field directly corresponds to
+    /// \[Product.fulfillment_info.type][google.cloud.retail.v2.FulfillmentInfo.type\].
     #[prost(string, tag="2")]
     pub r#type: ::prost::alloc::string::String,
     /// Required. The IDs for this
@@ -4439,7 +4567,7 @@ pub mod product_service_client {
         }
         /// Bulk import of multiple [Product][google.cloud.retail.v2.Product]s.
         ///
-        /// Request processing may be synchronous. No partial updating is supported.
+        /// Request processing may be synchronous.
         /// Non-existing items are created.
         ///
         /// Note that it is possible for a subset of the
@@ -4500,7 +4628,7 @@ pub mod product_service_client {
         ///
         /// Pre-existing inventory information can only be updated with
         /// [SetInventory][google.cloud.retail.v2.ProductService.SetInventory],
-        /// [AddFulfillmentPlaces][google.cloud.retail.v2.ProductService.AddFulfillmentPlaces],
+        /// [ProductService.AddFulfillmentPlaces][google.cloud.retail.v2.ProductService.AddFulfillmentPlaces],
         /// and
         /// [RemoveFulfillmentPlaces][google.cloud.retail.v2.ProductService.RemoveFulfillmentPlaces].
         ///

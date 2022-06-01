@@ -137,6 +137,8 @@ pub mod migration_progress_event {
         Pessimistic = 1,
         /// Optimistic concurrency.
         Optimistic = 2,
+        /// Optimistic concurrency with entity groups.
+        OptimisticWithEntityGroups = 3,
     }
     /// Details about this step.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
@@ -478,7 +480,7 @@ pub struct IndexOperationMetadata {
 /// design pattern.
 ///
 /// This singleton resource can be accessed at:
-/// `projects/{project_id}/datastore-firestore-migration`
+/// "projects/{project_id}/operations/datastore-firestore-migration"
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DatastoreFirestoreMigrationMetadata {
     /// The current state of migration from Cloud Datastore to Cloud Firestore in
