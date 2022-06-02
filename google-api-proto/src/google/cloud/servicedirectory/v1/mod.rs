@@ -82,21 +82,6 @@ pub struct Service {
     #[prost(message, repeated, tag="3")]
     pub endpoints: ::prost::alloc::vec::Vec<Endpoint>,
 }
-/// A container for \[services][google.cloud.servicedirectory.v1.Service\].
-/// Namespaces allow administrators to group services together and define
-/// permissions for a collection of services.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Namespace {
-    /// Immutable. The resource name for the namespace in the format
-    /// `projects/*/locations/*/namespaces/*`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. Resource labels associated with this Namespace.
-    /// No more than 64 user labels can be associated with a given resource.  Label
-    /// keys and values can be no longer than 63 characters.
-    #[prost(btree_map="string, string", tag="2")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-}
 /// The request message for
 /// \[LookupService.ResolveService][google.cloud.servicedirectory.v1.LookupService.ResolveService\].
 /// Looks up a service by its name, returns the service and its endpoints.
@@ -215,6 +200,21 @@ pub mod lookup_service_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
+}
+/// A container for \[services][google.cloud.servicedirectory.v1.Service\].
+/// Namespaces allow administrators to group services together and define
+/// permissions for a collection of services.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Namespace {
+    /// Immutable. The resource name for the namespace in the format
+    /// `projects/*/locations/*/namespaces/*`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Resource labels associated with this Namespace.
+    /// No more than 64 user labels can be associated with a given resource.  Label
+    /// keys and values can be no longer than 63 characters.
+    #[prost(btree_map="string, string", tag="2")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
 }
 /// The request message for
 /// \[RegistrationService.CreateNamespace][google.cloud.servicedirectory.v1.RegistrationService.CreateNamespace\].

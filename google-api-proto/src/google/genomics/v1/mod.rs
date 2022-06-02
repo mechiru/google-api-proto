@@ -1,119 +1,3 @@
-/// An abstraction for referring to a genomic position, in relation to some
-/// already known reference. For now, represents a genomic position as a
-/// reference name, a base number on that reference (0-based), and a
-/// determination of forward or reverse strand.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Position {
-    /// The name of the reference in whatever reference set is being used.
-    #[prost(string, tag="1")]
-    pub reference_name: ::prost::alloc::string::String,
-    /// The 0-based offset from the start of the forward strand for that reference.
-    #[prost(int64, tag="2")]
-    pub position: i64,
-    /// Whether this position is on the reverse strand, as opposed to the forward
-    /// strand.
-    #[prost(bool, tag="3")]
-    pub reverse_strand: bool,
-}
-/// A read group is all the data that's processed the same way by the sequencer.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReadGroup {
-    /// The server-generated read group ID, unique for all read groups.
-    /// Note: This is different than the @RG ID field in the SAM spec. For that
-    /// value, see \[name][google.genomics.v1.ReadGroup.name\].
-    #[prost(string, tag="1")]
-    pub id: ::prost::alloc::string::String,
-    /// The dataset to which this read group belongs.
-    #[prost(string, tag="2")]
-    pub dataset_id: ::prost::alloc::string::String,
-    /// The read group name. This corresponds to the @RG ID field in the SAM spec.
-    #[prost(string, tag="3")]
-    pub name: ::prost::alloc::string::String,
-    /// A free-form text description of this read group.
-    #[prost(string, tag="4")]
-    pub description: ::prost::alloc::string::String,
-    /// A client-supplied sample identifier for the reads in this read group.
-    #[prost(string, tag="5")]
-    pub sample_id: ::prost::alloc::string::String,
-    /// The experiment used to generate this read group.
-    #[prost(message, optional, tag="6")]
-    pub experiment: ::core::option::Option<read_group::Experiment>,
-    /// The predicted insert size of this read group. The insert size is the length
-    /// the sequenced DNA fragment from end-to-end, not including the adapters.
-    #[prost(int32, tag="7")]
-    pub predicted_insert_size: i32,
-    /// The programs used to generate this read group. Programs are always
-    /// identical for all read groups within a read group set. For this reason,
-    /// only the first read group in a returned set will have this field
-    /// populated.
-    #[prost(message, repeated, tag="10")]
-    pub programs: ::prost::alloc::vec::Vec<read_group::Program>,
-    /// The reference set the reads in this read group are aligned to.
-    #[prost(string, tag="11")]
-    pub reference_set_id: ::prost::alloc::string::String,
-    /// A map of additional read group information. This must be of the form
-    /// map<string, string[]> (string key mapping to a list of string values).
-    #[prost(btree_map="string, message", tag="12")]
-    pub info: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::ListValue>,
-}
-/// Nested message and enum types in `ReadGroup`.
-pub mod read_group {
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Experiment {
-        /// A client-supplied library identifier; a library is a collection of DNA
-        /// fragments which have been prepared for sequencing from a sample. This
-        /// field is important for quality control as error or bias can be introduced
-        /// during sample preparation.
-        #[prost(string, tag="1")]
-        pub library_id: ::prost::alloc::string::String,
-        /// The platform unit used as part of this experiment, for example
-        /// flowcell-barcode.lane for Illumina or slide for SOLiD. Corresponds to the
-        /// @RG PU field in the SAM spec.
-        #[prost(string, tag="2")]
-        pub platform_unit: ::prost::alloc::string::String,
-        /// The sequencing center used as part of this experiment.
-        #[prost(string, tag="3")]
-        pub sequencing_center: ::prost::alloc::string::String,
-        /// The instrument model used as part of this experiment. This maps to
-        /// sequencing technology in the SAM spec.
-        #[prost(string, tag="4")]
-        pub instrument_model: ::prost::alloc::string::String,
-    }
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Program {
-        /// The command line used to run this program.
-        #[prost(string, tag="1")]
-        pub command_line: ::prost::alloc::string::String,
-        /// The user specified locally unique ID of the program. Used along with
-        /// `prevProgramId` to define an ordering between programs.
-        #[prost(string, tag="2")]
-        pub id: ::prost::alloc::string::String,
-        /// The display name of the program. This is typically the colloquial name of
-        /// the tool used, for example 'bwa' or 'picard'.
-        #[prost(string, tag="3")]
-        pub name: ::prost::alloc::string::String,
-        /// The ID of the program run before this one.
-        #[prost(string, tag="4")]
-        pub prev_program_id: ::prost::alloc::string::String,
-        /// The version of the program run.
-        #[prost(string, tag="5")]
-        pub version: ::prost::alloc::string::String,
-    }
-}
-/// A 0-based half-open genomic coordinate range for search requests.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Range {
-    /// The reference sequence name, for example `chr1`,
-    /// `1`, or `chrX`.
-    #[prost(string, tag="1")]
-    pub reference_name: ::prost::alloc::string::String,
-    /// The start position of the range on the reference, 0-based inclusive.
-    #[prost(int64, tag="2")]
-    pub start: i64,
-    /// The end position of the range on the reference, 0-based exclusive.
-    #[prost(int64, tag="3")]
-    pub end: i64,
-}
 /// A single CIGAR operation.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CigarUnit {
@@ -182,6 +66,23 @@ pub mod cigar_unit {
         /// `X`.
         SequenceMismatch = 9,
     }
+}
+/// An abstraction for referring to a genomic position, in relation to some
+/// already known reference. For now, represents a genomic position as a
+/// reference name, a base number on that reference (0-based), and a
+/// determination of forward or reverse strand.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Position {
+    /// The name of the reference in whatever reference set is being used.
+    #[prost(string, tag="1")]
+    pub reference_name: ::prost::alloc::string::String,
+    /// The 0-based offset from the start of the forward strand for that reference.
+    #[prost(int64, tag="2")]
+    pub position: i64,
+    /// Whether this position is on the reverse strand, as opposed to the forward
+    /// strand.
+    #[prost(bool, tag="3")]
+    pub reverse_strand: bool,
 }
 /// A linear alignment can be represented by one CIGAR string. Describes the
 /// mapped position and local alignment of the read to the reference.
@@ -377,796 +278,90 @@ pub struct Read {
     #[prost(btree_map="string, message", tag="17")]
     pub info: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::ListValue>,
 }
-/// A read group set is a logical collection of read groups, which are
-/// collections of reads produced by a sequencer. A read group set typically
-/// models reads corresponding to one sample, sequenced one way, and aligned one
-/// way.
-///
-/// * A read group set belongs to one dataset.
-/// * A read group belongs to one read group set.
-/// * A read belongs to one read group.
-///
-/// For more genomics resource definitions, see [Fundamentals of Google
-/// Genomics](<https://cloud.google.com/genomics/fundamentals-of-google-genomics>)
+/// A read group is all the data that's processed the same way by the sequencer.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReadGroupSet {
-    /// The server-generated read group set ID, unique for all read group sets.
+pub struct ReadGroup {
+    /// The server-generated read group ID, unique for all read groups.
+    /// Note: This is different than the @RG ID field in the SAM spec. For that
+    /// value, see \[name][google.genomics.v1.ReadGroup.name\].
     #[prost(string, tag="1")]
     pub id: ::prost::alloc::string::String,
-    /// The dataset to which this read group set belongs.
+    /// The dataset to which this read group belongs.
     #[prost(string, tag="2")]
     pub dataset_id: ::prost::alloc::string::String,
-    /// The reference set to which the reads in this read group set are aligned.
+    /// The read group name. This corresponds to the @RG ID field in the SAM spec.
     #[prost(string, tag="3")]
-    pub reference_set_id: ::prost::alloc::string::String,
-    /// The read group set name. By default this will be initialized to the sample
-    /// name of the sequenced data contained in this set.
-    #[prost(string, tag="4")]
     pub name: ::prost::alloc::string::String,
-    /// The filename of the original source file for this read group set, if any.
+    /// A free-form text description of this read group.
+    #[prost(string, tag="4")]
+    pub description: ::prost::alloc::string::String,
+    /// A client-supplied sample identifier for the reads in this read group.
     #[prost(string, tag="5")]
-    pub filename: ::prost::alloc::string::String,
-    /// The read groups in this set. There are typically 1-10 read groups in a read
-    /// group set.
-    #[prost(message, repeated, tag="6")]
-    pub read_groups: ::prost::alloc::vec::Vec<ReadGroup>,
-    /// A map of additional read group set information.
-    #[prost(btree_map="string, message", tag="7")]
+    pub sample_id: ::prost::alloc::string::String,
+    /// The experiment used to generate this read group.
+    #[prost(message, optional, tag="6")]
+    pub experiment: ::core::option::Option<read_group::Experiment>,
+    /// The predicted insert size of this read group. The insert size is the length
+    /// the sequenced DNA fragment from end-to-end, not including the adapters.
+    #[prost(int32, tag="7")]
+    pub predicted_insert_size: i32,
+    /// The programs used to generate this read group. Programs are always
+    /// identical for all read groups within a read group set. For this reason,
+    /// only the first read group in a returned set will have this field
+    /// populated.
+    #[prost(message, repeated, tag="10")]
+    pub programs: ::prost::alloc::vec::Vec<read_group::Program>,
+    /// The reference set the reads in this read group are aligned to.
+    #[prost(string, tag="11")]
+    pub reference_set_id: ::prost::alloc::string::String,
+    /// A map of additional read group information. This must be of the form
+    /// map<string, string[]> (string key mapping to a list of string values).
+    #[prost(btree_map="string, message", tag="12")]
     pub info: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::ListValue>,
 }
-/// The read group set search request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchReadGroupSetsRequest {
-    /// Restricts this query to read group sets within the given datasets. At least
-    /// one ID must be provided.
-    #[prost(string, repeated, tag="1")]
-    pub dataset_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Only return read group sets for which a substring of the name matches this
-    /// string.
-    #[prost(string, tag="3")]
-    pub name: ::prost::alloc::string::String,
-    /// The continuation token, which is used to page through large result sets.
-    /// To get the next page of results, set this parameter to the value of
-    /// `nextPageToken` from the previous response.
-    #[prost(string, tag="2")]
-    pub page_token: ::prost::alloc::string::String,
-    /// The maximum number of results to return in a single page. If unspecified,
-    /// defaults to 256. The maximum value is 1024.
-    #[prost(int32, tag="4")]
-    pub page_size: i32,
-}
-/// The read group set search response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchReadGroupSetsResponse {
-    /// The list of matching read group sets.
-    #[prost(message, repeated, tag="1")]
-    pub read_group_sets: ::prost::alloc::vec::Vec<ReadGroupSet>,
-    /// The continuation token, which is used to page through large result sets.
-    /// Provide this value in a subsequent request to return the next page of
-    /// results. This field will be empty if there aren't any additional results.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The read group set import request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportReadGroupSetsRequest {
-    /// Required. The ID of the dataset these read group sets will belong to. The
-    /// caller must have WRITE permissions to this dataset.
-    #[prost(string, tag="1")]
-    pub dataset_id: ::prost::alloc::string::String,
-    /// The reference set to which the imported read group sets are aligned to, if
-    /// any. The reference names of this reference set must be a superset of those
-    /// found in the imported file headers. If no reference set id is provided, a
-    /// best effort is made to associate with a matching reference set.
-    #[prost(string, tag="4")]
-    pub reference_set_id: ::prost::alloc::string::String,
-    /// A list of URIs pointing at [BAM
-    /// files](<https://samtools.github.io/hts-specs/SAMv1.pdf>)
-    /// in Google Cloud Storage.
-    /// Those URIs can include wildcards (*), but do not add or remove
-    /// matching files before import has completed.
-    ///
-    /// Note that Google Cloud Storage object listing is only eventually
-    /// consistent: files added may be not be immediately visible to
-    /// everyone. Thus, if using a wildcard it is preferable not to start
-    /// the import immediately after the files are created.
-    #[prost(string, repeated, tag="2")]
-    pub source_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The partition strategy describes how read groups are partitioned into read
-    /// group sets.
-    #[prost(enumeration="import_read_group_sets_request::PartitionStrategy", tag="5")]
-    pub partition_strategy: i32,
-}
-/// Nested message and enum types in `ImportReadGroupSetsRequest`.
-pub mod import_read_group_sets_request {
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum PartitionStrategy {
-        Unspecified = 0,
-        /// In most cases, this strategy yields one read group set per file. This is
-        /// the default behavior.
-        ///
-        /// Allocate one read group set per file per sample. For BAM files, read
-        /// groups are considered to share a sample if they have identical sample
-        /// names. Furthermore, all reads for each file which do not belong to a read
-        /// group, if any, will be grouped into a single read group set per-file.
-        PerFilePerSample = 1,
-        /// Includes all read groups in all imported files into a single read group
-        /// set. Requires that the headers for all imported files are equivalent. All
-        /// reads which do not belong to a read group, if any, will be grouped into a
-        /// separate read group set.
-        MergeAll = 2,
+/// Nested message and enum types in `ReadGroup`.
+pub mod read_group {
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Experiment {
+        /// A client-supplied library identifier; a library is a collection of DNA
+        /// fragments which have been prepared for sequencing from a sample. This
+        /// field is important for quality control as error or bias can be introduced
+        /// during sample preparation.
+        #[prost(string, tag="1")]
+        pub library_id: ::prost::alloc::string::String,
+        /// The platform unit used as part of this experiment, for example
+        /// flowcell-barcode.lane for Illumina or slide for SOLiD. Corresponds to the
+        /// @RG PU field in the SAM spec.
+        #[prost(string, tag="2")]
+        pub platform_unit: ::prost::alloc::string::String,
+        /// The sequencing center used as part of this experiment.
+        #[prost(string, tag="3")]
+        pub sequencing_center: ::prost::alloc::string::String,
+        /// The instrument model used as part of this experiment. This maps to
+        /// sequencing technology in the SAM spec.
+        #[prost(string, tag="4")]
+        pub instrument_model: ::prost::alloc::string::String,
     }
-}
-/// The read group set import response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportReadGroupSetsResponse {
-    /// IDs of the read group sets that were created.
-    #[prost(string, repeated, tag="1")]
-    pub read_group_set_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// The read group set export request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExportReadGroupSetRequest {
-    /// Required. The Google Cloud project ID that owns this
-    /// export. The caller must have WRITE access to this project.
-    #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// Required. A Google Cloud Storage URI for the exported BAM file.
-    /// The currently authenticated user must have write access to the new file.
-    /// An error will be returned if the URI already contains data.
-    #[prost(string, tag="2")]
-    pub export_uri: ::prost::alloc::string::String,
-    /// Required. The ID of the read group set to export. The caller must have
-    /// READ access to this read group set.
-    #[prost(string, tag="3")]
-    pub read_group_set_id: ::prost::alloc::string::String,
-    /// The reference names to export. If this is not specified, all reference
-    /// sequences, including unmapped reads, are exported.
-    /// Use `*` to export only unmapped reads.
-    #[prost(string, repeated, tag="4")]
-    pub reference_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateReadGroupSetRequest {
-    /// The ID of the read group set to be updated. The caller must have WRITE
-    /// permissions to the dataset associated with this read group set.
-    #[prost(string, tag="1")]
-    pub read_group_set_id: ::prost::alloc::string::String,
-    /// The new read group set data. See `updateMask` for details on mutability of
-    /// fields.
-    #[prost(message, optional, tag="2")]
-    pub read_group_set: ::core::option::Option<ReadGroupSet>,
-    /// An optional mask specifying which fields to update. Supported fields:
-    ///
-    /// * \[name][google.genomics.v1.ReadGroupSet.name\].
-    /// * \[referenceSetId][google.genomics.v1.ReadGroupSet.reference_set_id\].
-    ///
-    /// Leaving `updateMask` unset is equivalent to specifying all mutable
-    /// fields.
-    #[prost(message, optional, tag="3")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteReadGroupSetRequest {
-    /// The ID of the read group set to be deleted. The caller must have WRITE
-    /// permissions to the dataset associated with this read group set.
-    #[prost(string, tag="1")]
-    pub read_group_set_id: ::prost::alloc::string::String,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetReadGroupSetRequest {
-    /// The ID of the read group set.
-    #[prost(string, tag="1")]
-    pub read_group_set_id: ::prost::alloc::string::String,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListCoverageBucketsRequest {
-    /// Required. The ID of the read group set over which coverage is requested.
-    #[prost(string, tag="1")]
-    pub read_group_set_id: ::prost::alloc::string::String,
-    /// The name of the reference to query, within the reference set associated
-    /// with this query. Optional.
-    #[prost(string, tag="3")]
-    pub reference_name: ::prost::alloc::string::String,
-    /// The start position of the range on the reference, 0-based inclusive. If
-    /// specified, `referenceName` must also be specified. Defaults to 0.
-    #[prost(int64, tag="4")]
-    pub start: i64,
-    /// The end position of the range on the reference, 0-based exclusive. If
-    /// specified, `referenceName` must also be specified. If unset or 0, defaults
-    /// to the length of the reference.
-    #[prost(int64, tag="5")]
-    pub end: i64,
-    /// The desired width of each reported coverage bucket in base pairs. This
-    /// will be rounded down to the nearest precomputed bucket width; the value
-    /// of which is returned as `bucketWidth` in the response. Defaults
-    /// to infinity (each bucket spans an entire reference sequence) or the length
-    /// of the target range, if specified. The smallest precomputed
-    /// `bucketWidth` is currently 2048 base pairs; this is subject to
-    /// change.
-    #[prost(int64, tag="6")]
-    pub target_bucket_width: i64,
-    /// The continuation token, which is used to page through large result sets.
-    /// To get the next page of results, set this parameter to the value of
-    /// `nextPageToken` from the previous response.
-    #[prost(string, tag="7")]
-    pub page_token: ::prost::alloc::string::String,
-    /// The maximum number of results to return in a single page. If unspecified,
-    /// defaults to 1024. The maximum value is 2048.
-    #[prost(int32, tag="8")]
-    pub page_size: i32,
-}
-/// A bucket over which read coverage has been precomputed. A bucket corresponds
-/// to a specific range of the reference sequence.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CoverageBucket {
-    /// The genomic coordinate range spanned by this bucket.
-    #[prost(message, optional, tag="1")]
-    pub range: ::core::option::Option<Range>,
-    /// The average number of reads which are aligned to each individual
-    /// reference base in this bucket.
-    #[prost(float, tag="2")]
-    pub mean_coverage: f32,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListCoverageBucketsResponse {
-    /// The length of each coverage bucket in base pairs. Note that buckets at the
-    /// end of a reference sequence may be shorter. This value is omitted if the
-    /// bucket width is infinity (the default behaviour, with no range or
-    /// `targetBucketWidth`).
-    #[prost(int64, tag="1")]
-    pub bucket_width: i64,
-    /// The coverage buckets. The list of buckets is sparse; a bucket with 0
-    /// overlapping reads is not returned. A bucket never crosses more than one
-    /// reference sequence. Each bucket has width `bucketWidth`, unless
-    /// its end is the end of the reference sequence.
-    #[prost(message, repeated, tag="2")]
-    pub coverage_buckets: ::prost::alloc::vec::Vec<CoverageBucket>,
-    /// The continuation token, which is used to page through large result sets.
-    /// Provide this value in a subsequent request to return the next page of
-    /// results. This field will be empty if there aren't any additional results.
-    #[prost(string, tag="3")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The read search request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchReadsRequest {
-    /// The IDs of the read groups sets within which to search for reads. All
-    /// specified read group sets must be aligned against a common set of reference
-    /// sequences; this defines the genomic coordinates for the query. Must specify
-    /// one of `readGroupSetIds` or `readGroupIds`.
-    #[prost(string, repeated, tag="1")]
-    pub read_group_set_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The IDs of the read groups within which to search for reads. All specified
-    /// read groups must belong to the same read group sets. Must specify one of
-    /// `readGroupSetIds` or `readGroupIds`.
-    #[prost(string, repeated, tag="5")]
-    pub read_group_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The reference sequence name, for example `chr1`, `1`, or `chrX`. If set to
-    /// `*`, only unmapped reads are returned. If unspecified, all reads (mapped
-    /// and unmapped) are returned.
-    #[prost(string, tag="7")]
-    pub reference_name: ::prost::alloc::string::String,
-    /// The start position of the range on the reference, 0-based inclusive. If
-    /// specified, `referenceName` must also be specified.
-    #[prost(int64, tag="8")]
-    pub start: i64,
-    /// The end position of the range on the reference, 0-based exclusive. If
-    /// specified, `referenceName` must also be specified.
-    #[prost(int64, tag="9")]
-    pub end: i64,
-    /// The continuation token, which is used to page through large result sets.
-    /// To get the next page of results, set this parameter to the value of
-    /// `nextPageToken` from the previous response.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-    /// The maximum number of results to return in a single page. If unspecified,
-    /// defaults to 256. The maximum value is 2048.
-    #[prost(int32, tag="4")]
-    pub page_size: i32,
-}
-/// The read search response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchReadsResponse {
-    /// The list of matching alignments sorted by mapped genomic coordinate,
-    /// if any, ascending in position within the same reference. Unmapped reads,
-    /// which have no position, are returned contiguously and are sorted in
-    /// ascending lexicographic order by fragment name.
-    #[prost(message, repeated, tag="1")]
-    pub alignments: ::prost::alloc::vec::Vec<Read>,
-    /// The continuation token, which is used to page through large result sets.
-    /// Provide this value in a subsequent request to return the next page of
-    /// results. This field will be empty if there aren't any additional results.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The stream reads request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StreamReadsRequest {
-    /// The Google Cloud project ID which will be billed
-    /// for this access. The caller must have WRITE access to this project.
-    /// Required.
-    #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The ID of the read group set from which to stream reads.
-    #[prost(string, tag="2")]
-    pub read_group_set_id: ::prost::alloc::string::String,
-    /// The reference sequence name, for example `chr1`,
-    /// `1`, or `chrX`. If set to *, only unmapped reads are
-    /// returned.
-    #[prost(string, tag="3")]
-    pub reference_name: ::prost::alloc::string::String,
-    /// The start position of the range on the reference, 0-based inclusive. If
-    /// specified, `referenceName` must also be specified.
-    #[prost(int64, tag="4")]
-    pub start: i64,
-    /// The end position of the range on the reference, 0-based exclusive. If
-    /// specified, `referenceName` must also be specified.
-    #[prost(int64, tag="5")]
-    pub end: i64,
-    /// Restricts results to a shard containing approximately `1/totalShards`
-    /// of the normal response payload for this query. Results from a sharded
-    /// request are disjoint from those returned by all queries which differ only
-    /// in their shard parameter. A shard may yield 0 results; this is especially
-    /// likely for large values of `totalShards`.
-    ///
-    /// Valid values are `[0, totalShards)`.
-    #[prost(int32, tag="6")]
-    pub shard: i32,
-    /// Specifying `totalShards` causes a disjoint subset of the normal response
-    /// payload to be returned for each query with a unique `shard` parameter
-    /// specified. A best effort is made to yield equally sized shards. Sharding
-    /// can be used to distribute processing amongst workers, where each worker is
-    /// assigned a unique `shard` number and all workers specify the same
-    /// `totalShards` number. The union of reads returned for all sharded queries
-    /// `[0, totalShards)` is equal to those returned by a single unsharded query.
-    ///
-    /// Queries for different values of `totalShards` with common divisors will
-    /// share shard boundaries. For example, streaming `shard` 2 of 5
-    /// `totalShards` yields the same results as streaming `shard`s 4 and 5 of 10
-    /// `totalShards`. This property can be leveraged for adaptive retries.
-    #[prost(int32, tag="7")]
-    pub total_shards: i32,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StreamReadsResponse {
-    #[prost(message, repeated, tag="1")]
-    pub alignments: ::prost::alloc::vec::Vec<Read>,
-}
-/// Generated client implementations.
-pub mod streaming_read_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    #[derive(Debug, Clone)]
-    pub struct StreamingReadServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Program {
+        /// The command line used to run this program.
+        #[prost(string, tag="1")]
+        pub command_line: ::prost::alloc::string::String,
+        /// The user specified locally unique ID of the program. Used along with
+        /// `prevProgramId` to define an ordering between programs.
+        #[prost(string, tag="2")]
+        pub id: ::prost::alloc::string::String,
+        /// The display name of the program. This is typically the colloquial name of
+        /// the tool used, for example 'bwa' or 'picard'.
+        #[prost(string, tag="3")]
+        pub name: ::prost::alloc::string::String,
+        /// The ID of the program run before this one.
+        #[prost(string, tag="4")]
+        pub prev_program_id: ::prost::alloc::string::String,
+        /// The version of the program run.
+        #[prost(string, tag="5")]
+        pub version: ::prost::alloc::string::String,
     }
-    impl<T> StreamingReadServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> StreamingReadServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            StreamingReadServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Returns a stream of all the reads matching the search request, ordered
-        /// by reference name, position, and ID.
-        pub async fn stream_reads(
-            &mut self,
-            request: impl tonic::IntoRequest<super::StreamReadsRequest>,
-        ) -> Result<
-            tonic::Response<tonic::codec::Streaming<super::StreamReadsResponse>>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.StreamingReadService/StreamReads",
-            );
-            self.inner.server_streaming(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Generated client implementations.
-pub mod read_service_v1_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// The Readstore. A data store for DNA sequencing Reads.
-    #[derive(Debug, Clone)]
-    pub struct ReadServiceV1Client<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ReadServiceV1Client<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ReadServiceV1Client<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            ReadServiceV1Client::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Creates read group sets by asynchronously importing the provided
-        /// information.
-        ///
-        /// For the definitions of read group sets and other genomics resources, see
-        /// [Fundamentals of Google
-        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
-        ///
-        /// The caller must have WRITE permissions to the dataset.
-        ///
-        /// ## Notes on [BAM](https://samtools.github.io/hts-specs/SAMv1.pdf) import
-        ///
-        /// - Tags will be converted to strings - tag types are not preserved
-        /// - Comments (`@CO`) in the input file header will not be preserved
-        /// - Original header order of references (`@SQ`) will not be preserved
-        /// - Any reverse stranded unmapped reads will be reverse complemented, and
-        /// their qualities (also the "BQ" and "OQ" tags, if any) will be reversed
-        /// - Unmapped reads will be stripped of positional information (reference name
-        /// and position)
-        pub async fn import_read_group_sets(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ImportReadGroupSetsRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReadServiceV1/ImportReadGroupSets",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Exports a read group set to a BAM file in Google Cloud Storage.
-        ///
-        /// For the definitions of read group sets and other genomics resources, see
-        /// [Fundamentals of Google
-        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
-        ///
-        /// Note that currently there may be some differences between exported BAM
-        /// files and the original BAM file at the time of import. See
-        /// [ImportReadGroupSets][google.genomics.v1.ReadServiceV1.ImportReadGroupSets]
-        /// for caveats.
-        pub async fn export_read_group_set(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ExportReadGroupSetRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReadServiceV1/ExportReadGroupSet",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Searches for read group sets matching the criteria.
-        ///
-        /// For the definitions of read group sets and other genomics resources, see
-        /// [Fundamentals of Google
-        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
-        ///
-        /// Implements
-        /// [GlobalAllianceApi.searchReadGroupSets](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/readmethods.avdl#L135).
-        pub async fn search_read_group_sets(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SearchReadGroupSetsRequest>,
-        ) -> Result<tonic::Response<super::SearchReadGroupSetsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReadServiceV1/SearchReadGroupSets",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Updates a read group set.
-        ///
-        /// For the definitions of read group sets and other genomics resources, see
-        /// [Fundamentals of Google
-        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
-        ///
-        /// This method supports patch semantics.
-        pub async fn update_read_group_set(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateReadGroupSetRequest>,
-        ) -> Result<tonic::Response<super::ReadGroupSet>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReadServiceV1/UpdateReadGroupSet",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes a read group set.
-        ///
-        /// For the definitions of read group sets and other genomics resources, see
-        /// [Fundamentals of Google
-        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
-        pub async fn delete_read_group_set(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteReadGroupSetRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReadServiceV1/DeleteReadGroupSet",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets a read group set by ID.
-        ///
-        /// For the definitions of read group sets and other genomics resources, see
-        /// [Fundamentals of Google
-        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
-        pub async fn get_read_group_set(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetReadGroupSetRequest>,
-        ) -> Result<tonic::Response<super::ReadGroupSet>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReadServiceV1/GetReadGroupSet",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Lists fixed width coverage buckets for a read group set, each of which
-        /// correspond to a range of a reference sequence. Each bucket summarizes
-        /// coverage information across its corresponding genomic range.
-        ///
-        /// For the definitions of read group sets and other genomics resources, see
-        /// [Fundamentals of Google
-        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
-        ///
-        /// Coverage is defined as the number of reads which are aligned to a given
-        /// base in the reference sequence. Coverage buckets are available at several
-        /// precomputed bucket widths, enabling retrieval of various coverage 'zoom
-        /// levels'. The caller must have READ permissions for the target read group
-        /// set.
-        pub async fn list_coverage_buckets(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListCoverageBucketsRequest>,
-        ) -> Result<tonic::Response<super::ListCoverageBucketsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReadServiceV1/ListCoverageBuckets",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets a list of reads for one or more read group sets.
-        ///
-        /// For the definitions of read group sets and other genomics resources, see
-        /// [Fundamentals of Google
-        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
-        ///
-        /// Reads search operates over a genomic coordinate space of reference sequence
-        /// & position defined over the reference sequences to which the requested
-        /// read group sets are aligned.
-        ///
-        /// If a target positional range is specified, search returns all reads whose
-        /// alignment to the reference genome overlap the range. A query which
-        /// specifies only read group set IDs yields all reads in those read group
-        /// sets, including unmapped reads.
-        ///
-        /// All reads returned (including reads on subsequent pages) are ordered by
-        /// genomic coordinate (by reference sequence, then position). Reads with
-        /// equivalent genomic coordinates are returned in an unspecified order. This
-        /// order is consistent, such that two queries for the same content (regardless
-        /// of page size) yield reads in the same order across their respective streams
-        /// of paginated responses.
-        ///
-        /// Implements
-        /// [GlobalAllianceApi.searchReads](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/readmethods.avdl#L85).
-        pub async fn search_reads(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SearchReadsRequest>,
-        ) -> Result<tonic::Response<super::SearchReadsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReadServiceV1/SearchReads",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Metadata describing an \[Operation][google.longrunning.Operation\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationMetadata {
-    /// The Google Cloud Project in which the job is scoped.
-    #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The time at which the job was submitted to the Genomics service.
-    #[prost(message, optional, tag="2")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time at which the job began to run.
-    #[prost(message, optional, tag="3")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time at which the job stopped running.
-    #[prost(message, optional, tag="4")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The original request that started the operation. Note that this will be in
-    /// current version of the API. If the operation was started with v1beta2 API
-    /// and a GetOperation is performed on v1 API, a v1 request will be returned.
-    #[prost(message, optional, tag="5")]
-    pub request: ::core::option::Option<::prost_types::Any>,
-    /// Optional event messages that were generated during the job's execution.
-    /// This also contains any warnings that were generated during import
-    /// or export.
-    #[prost(message, repeated, tag="6")]
-    pub events: ::prost::alloc::vec::Vec<OperationEvent>,
-    /// This field is deprecated. Use `labels` instead. Optionally provided by the
-    /// caller when submitting the request that creates the operation.
-    #[prost(string, tag="7")]
-    pub client_id: ::prost::alloc::string::String,
-    /// Runtime metadata on this Operation.
-    #[prost(message, optional, tag="8")]
-    pub runtime_metadata: ::core::option::Option<::prost_types::Any>,
-    /// Optionally provided by the caller when submitting the request that creates
-    /// the operation.
-    #[prost(btree_map="string, string", tag="9")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-}
-/// An event that occurred during an \[Operation][google.longrunning.Operation\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationEvent {
-    /// Optional time of when event started.
-    #[prost(message, optional, tag="1")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional time of when event finished. An event can have a start time and no
-    /// finish time. If an event has a finish time, there must be a start time.
-    #[prost(message, optional, tag="2")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Required description of event.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
 }
 /// A Dataset is a collection of genomic data.
 ///
@@ -1555,6 +750,414 @@ pub mod dataset_service_v1_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.genomics.v1.DatasetServiceV1/TestIamPermissions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// A 0-based half-open genomic coordinate range for search requests.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Range {
+    /// The reference sequence name, for example `chr1`,
+    /// `1`, or `chrX`.
+    #[prost(string, tag="1")]
+    pub reference_name: ::prost::alloc::string::String,
+    /// The start position of the range on the reference, 0-based inclusive.
+    #[prost(int64, tag="2")]
+    pub start: i64,
+    /// The end position of the range on the reference, 0-based exclusive.
+    #[prost(int64, tag="3")]
+    pub end: i64,
+}
+/// A reference is a canonical assembled DNA sequence, intended to act as a
+/// reference coordinate space for other genomic annotations. A single reference
+/// might represent the human chromosome 1 or mitochandrial DNA, for instance. A
+/// reference belongs to one or more reference sets.
+///
+/// For more genomics resource definitions, see [Fundamentals of Google
+/// Genomics](<https://cloud.google.com/genomics/fundamentals-of-google-genomics>)
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Reference {
+    /// The server-generated reference ID, unique across all references.
+    #[prost(string, tag="1")]
+    pub id: ::prost::alloc::string::String,
+    /// The length of this reference's sequence.
+    #[prost(int64, tag="2")]
+    pub length: i64,
+    /// MD5 of the upper-case sequence excluding all whitespace characters (this
+    /// is equivalent to SQ:M5 in SAM). This value is represented in lower case
+    /// hexadecimal format.
+    #[prost(string, tag="3")]
+    pub md5checksum: ::prost::alloc::string::String,
+    /// The name of this reference, for example `22`.
+    #[prost(string, tag="4")]
+    pub name: ::prost::alloc::string::String,
+    /// The URI from which the sequence was obtained. Typically specifies a FASTA
+    /// format file.
+    #[prost(string, tag="5")]
+    pub source_uri: ::prost::alloc::string::String,
+    /// All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
+    /// with a version number, for example `GCF_000001405.26`.
+    #[prost(string, repeated, tag="6")]
+    pub source_accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// ID from <http://www.ncbi.nlm.nih.gov/taxonomy.> For example, 9606 for human.
+    #[prost(int32, tag="7")]
+    pub ncbi_taxon_id: i32,
+}
+/// A reference set is a set of references which typically comprise a reference
+/// assembly for a species, such as `GRCh38` which is representative
+/// of the human genome. A reference set defines a common coordinate space for
+/// comparing reference-aligned experimental data. A reference set contains 1 or
+/// more references.
+///
+/// For more genomics resource definitions, see [Fundamentals of Google
+/// Genomics](<https://cloud.google.com/genomics/fundamentals-of-google-genomics>)
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReferenceSet {
+    /// The server-generated reference set ID, unique across all reference sets.
+    #[prost(string, tag="1")]
+    pub id: ::prost::alloc::string::String,
+    /// The IDs of the reference objects that are part of this set.
+    /// `Reference.md5checksum` must be unique within this set.
+    #[prost(string, repeated, tag="2")]
+    pub reference_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Order-independent MD5 checksum which identifies this reference set. The
+    /// checksum is computed by sorting all lower case hexidecimal string
+    /// `reference.md5checksum` (for all reference in this set) in
+    /// ascending lexicographic order, concatenating, and taking the MD5 of that
+    /// value. The resulting value is represented in lower case hexadecimal format.
+    #[prost(string, tag="3")]
+    pub md5checksum: ::prost::alloc::string::String,
+    /// ID from <http://www.ncbi.nlm.nih.gov/taxonomy> (for example, 9606 for human)
+    /// indicating the species which this reference set is intended to model. Note
+    /// that contained references may specify a different `ncbiTaxonId`, as
+    /// assemblies may contain reference sequences which do not belong to the
+    /// modeled species, for example EBV in a human reference genome.
+    #[prost(int32, tag="4")]
+    pub ncbi_taxon_id: i32,
+    /// Free text description of this reference set.
+    #[prost(string, tag="5")]
+    pub description: ::prost::alloc::string::String,
+    /// Public id of this reference set, such as `GRCh37`.
+    #[prost(string, tag="6")]
+    pub assembly_id: ::prost::alloc::string::String,
+    /// The URI from which the references were obtained.
+    #[prost(string, tag="7")]
+    pub source_uri: ::prost::alloc::string::String,
+    /// All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
+    /// with a version number, for example `NC_000001.11`.
+    #[prost(string, repeated, tag="8")]
+    pub source_accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchReferenceSetsRequest {
+    /// If present, return reference sets for which the
+    /// \[md5checksum][google.genomics.v1.ReferenceSet.md5checksum\] matches exactly.
+    #[prost(string, repeated, tag="1")]
+    pub md5checksums: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// If present, return reference sets for which a prefix of any of
+    /// \[sourceAccessions][google.genomics.v1.ReferenceSet.source_accessions\]
+    /// match any of these strings. Accession numbers typically have a main number
+    /// and a version, for example `NC_000001.11`.
+    #[prost(string, repeated, tag="2")]
+    pub accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// If present, return reference sets for which a substring of their
+    /// `assemblyId` matches this string (case insensitive).
+    #[prost(string, tag="3")]
+    pub assembly_id: ::prost::alloc::string::String,
+    /// The continuation token, which is used to page through large result sets.
+    /// To get the next page of results, set this parameter to the value of
+    /// `nextPageToken` from the previous response.
+    #[prost(string, tag="4")]
+    pub page_token: ::prost::alloc::string::String,
+    /// The maximum number of results to return in a single page. If unspecified,
+    /// defaults to 1024. The maximum value is 4096.
+    #[prost(int32, tag="5")]
+    pub page_size: i32,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchReferenceSetsResponse {
+    /// The matching references sets.
+    #[prost(message, repeated, tag="1")]
+    pub reference_sets: ::prost::alloc::vec::Vec<ReferenceSet>,
+    /// The continuation token, which is used to page through large result sets.
+    /// Provide this value in a subsequent request to return the next page of
+    /// results. This field will be empty if there aren't any additional results.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetReferenceSetRequest {
+    /// The ID of the reference set.
+    #[prost(string, tag="1")]
+    pub reference_set_id: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchReferencesRequest {
+    /// If present, return references for which the
+    /// \[md5checksum][google.genomics.v1.Reference.md5checksum\] matches exactly.
+    #[prost(string, repeated, tag="1")]
+    pub md5checksums: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// If present, return references for which a prefix of any of
+    /// \[sourceAccessions][google.genomics.v1.Reference.source_accessions\] match
+    /// any of these strings. Accession numbers typically have a main number and a
+    /// version, for example `GCF_000001405.26`.
+    #[prost(string, repeated, tag="2")]
+    pub accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// If present, return only references which belong to this reference set.
+    #[prost(string, tag="3")]
+    pub reference_set_id: ::prost::alloc::string::String,
+    /// The continuation token, which is used to page through large result sets.
+    /// To get the next page of results, set this parameter to the value of
+    /// `nextPageToken` from the previous response.
+    #[prost(string, tag="4")]
+    pub page_token: ::prost::alloc::string::String,
+    /// The maximum number of results to return in a single page. If unspecified,
+    /// defaults to 1024. The maximum value is 4096.
+    #[prost(int32, tag="5")]
+    pub page_size: i32,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchReferencesResponse {
+    /// The matching references.
+    #[prost(message, repeated, tag="1")]
+    pub references: ::prost::alloc::vec::Vec<Reference>,
+    /// The continuation token, which is used to page through large result sets.
+    /// Provide this value in a subsequent request to return the next page of
+    /// results. This field will be empty if there aren't any additional results.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetReferenceRequest {
+    /// The ID of the reference.
+    #[prost(string, tag="1")]
+    pub reference_id: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListBasesRequest {
+    /// The ID of the reference.
+    #[prost(string, tag="1")]
+    pub reference_id: ::prost::alloc::string::String,
+    /// The start position (0-based) of this query. Defaults to 0.
+    #[prost(int64, tag="2")]
+    pub start: i64,
+    /// The end position (0-based, exclusive) of this query. Defaults to the length
+    /// of this reference.
+    #[prost(int64, tag="3")]
+    pub end: i64,
+    /// The continuation token, which is used to page through large result sets.
+    /// To get the next page of results, set this parameter to the value of
+    /// `nextPageToken` from the previous response.
+    #[prost(string, tag="4")]
+    pub page_token: ::prost::alloc::string::String,
+    /// The maximum number of bases to return in a single page. If unspecified,
+    /// defaults to 200Kbp (kilo base pairs). The maximum value is 10Mbp (mega base
+    /// pairs).
+    #[prost(int32, tag="5")]
+    pub page_size: i32,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListBasesResponse {
+    /// The offset position (0-based) of the given `sequence` from the
+    /// start of this `Reference`. This value will differ for each page
+    /// in a paginated request.
+    #[prost(int64, tag="1")]
+    pub offset: i64,
+    /// A substring of the bases that make up this reference.
+    #[prost(string, tag="2")]
+    pub sequence: ::prost::alloc::string::String,
+    /// The continuation token, which is used to page through large result sets.
+    /// Provide this value in a subsequent request to return the next page of
+    /// results. This field will be empty if there aren't any additional results.
+    #[prost(string, tag="3")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Generated client implementations.
+pub mod reference_service_v1_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[derive(Debug, Clone)]
+    pub struct ReferenceServiceV1Client<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ReferenceServiceV1Client<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ReferenceServiceV1Client<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            ReferenceServiceV1Client::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Searches for reference sets which match the given criteria.
+        ///
+        /// For the definitions of references and other genomics resources, see
+        /// [Fundamentals of Google
+        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
+        ///
+        /// Implements
+        /// [GlobalAllianceApi.searchReferenceSets](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L71)
+        pub async fn search_reference_sets(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SearchReferenceSetsRequest>,
+        ) -> Result<tonic::Response<super::SearchReferenceSetsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.genomics.v1.ReferenceServiceV1/SearchReferenceSets",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets a reference set.
+        ///
+        /// For the definitions of references and other genomics resources, see
+        /// [Fundamentals of Google
+        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
+        ///
+        /// Implements
+        /// [GlobalAllianceApi.getReferenceSet](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L83).
+        pub async fn get_reference_set(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetReferenceSetRequest>,
+        ) -> Result<tonic::Response<super::ReferenceSet>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.genomics.v1.ReferenceServiceV1/GetReferenceSet",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Searches for references which match the given criteria.
+        ///
+        /// For the definitions of references and other genomics resources, see
+        /// [Fundamentals of Google
+        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
+        ///
+        /// Implements
+        /// [GlobalAllianceApi.searchReferences](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L146).
+        pub async fn search_references(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SearchReferencesRequest>,
+        ) -> Result<tonic::Response<super::SearchReferencesResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.genomics.v1.ReferenceServiceV1/SearchReferences",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets a reference.
+        ///
+        /// For the definitions of references and other genomics resources, see
+        /// [Fundamentals of Google
+        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
+        ///
+        /// Implements
+        /// [GlobalAllianceApi.getReference](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L158).
+        pub async fn get_reference(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetReferenceRequest>,
+        ) -> Result<tonic::Response<super::Reference>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.genomics.v1.ReferenceServiceV1/GetReference",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists the bases in a reference, optionally restricted to a range.
+        ///
+        /// For the definitions of references and other genomics resources, see
+        /// [Fundamentals of Google
+        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
+        ///
+        /// Implements
+        /// [GlobalAllianceApi.getReferenceBases](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L221).
+        pub async fn list_bases(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListBasesRequest>,
+        ) -> Result<tonic::Response<super::ListBasesResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.genomics.v1.ReferenceServiceV1/ListBases",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -2868,219 +2471,372 @@ pub mod variant_service_v1_client {
         }
     }
 }
-/// A reference is a canonical assembled DNA sequence, intended to act as a
-/// reference coordinate space for other genomic annotations. A single reference
-/// might represent the human chromosome 1 or mitochandrial DNA, for instance. A
-/// reference belongs to one or more reference sets.
+/// A read group set is a logical collection of read groups, which are
+/// collections of reads produced by a sequencer. A read group set typically
+/// models reads corresponding to one sample, sequenced one way, and aligned one
+/// way.
+///
+/// * A read group set belongs to one dataset.
+/// * A read group belongs to one read group set.
+/// * A read belongs to one read group.
 ///
 /// For more genomics resource definitions, see [Fundamentals of Google
 /// Genomics](<https://cloud.google.com/genomics/fundamentals-of-google-genomics>)
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Reference {
-    /// The server-generated reference ID, unique across all references.
+pub struct ReadGroupSet {
+    /// The server-generated read group set ID, unique for all read group sets.
     #[prost(string, tag="1")]
     pub id: ::prost::alloc::string::String,
-    /// The length of this reference's sequence.
-    #[prost(int64, tag="2")]
-    pub length: i64,
-    /// MD5 of the upper-case sequence excluding all whitespace characters (this
-    /// is equivalent to SQ:M5 in SAM). This value is represented in lower case
-    /// hexadecimal format.
+    /// The dataset to which this read group set belongs.
+    #[prost(string, tag="2")]
+    pub dataset_id: ::prost::alloc::string::String,
+    /// The reference set to which the reads in this read group set are aligned.
     #[prost(string, tag="3")]
-    pub md5checksum: ::prost::alloc::string::String,
-    /// The name of this reference, for example `22`.
+    pub reference_set_id: ::prost::alloc::string::String,
+    /// The read group set name. By default this will be initialized to the sample
+    /// name of the sequenced data contained in this set.
     #[prost(string, tag="4")]
     pub name: ::prost::alloc::string::String,
-    /// The URI from which the sequence was obtained. Typically specifies a FASTA
-    /// format file.
+    /// The filename of the original source file for this read group set, if any.
     #[prost(string, tag="5")]
-    pub source_uri: ::prost::alloc::string::String,
-    /// All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
-    /// with a version number, for example `GCF_000001405.26`.
-    #[prost(string, repeated, tag="6")]
-    pub source_accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// ID from <http://www.ncbi.nlm.nih.gov/taxonomy.> For example, 9606 for human.
-    #[prost(int32, tag="7")]
-    pub ncbi_taxon_id: i32,
+    pub filename: ::prost::alloc::string::String,
+    /// The read groups in this set. There are typically 1-10 read groups in a read
+    /// group set.
+    #[prost(message, repeated, tag="6")]
+    pub read_groups: ::prost::alloc::vec::Vec<ReadGroup>,
+    /// A map of additional read group set information.
+    #[prost(btree_map="string, message", tag="7")]
+    pub info: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::ListValue>,
 }
-/// A reference set is a set of references which typically comprise a reference
-/// assembly for a species, such as `GRCh38` which is representative
-/// of the human genome. A reference set defines a common coordinate space for
-/// comparing reference-aligned experimental data. A reference set contains 1 or
-/// more references.
-///
-/// For more genomics resource definitions, see [Fundamentals of Google
-/// Genomics](<https://cloud.google.com/genomics/fundamentals-of-google-genomics>)
+/// The read group set search request.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReferenceSet {
-    /// The server-generated reference set ID, unique across all reference sets.
-    #[prost(string, tag="1")]
-    pub id: ::prost::alloc::string::String,
-    /// The IDs of the reference objects that are part of this set.
-    /// `Reference.md5checksum` must be unique within this set.
-    #[prost(string, repeated, tag="2")]
-    pub reference_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Order-independent MD5 checksum which identifies this reference set. The
-    /// checksum is computed by sorting all lower case hexidecimal string
-    /// `reference.md5checksum` (for all reference in this set) in
-    /// ascending lexicographic order, concatenating, and taking the MD5 of that
-    /// value. The resulting value is represented in lower case hexadecimal format.
+pub struct SearchReadGroupSetsRequest {
+    /// Restricts this query to read group sets within the given datasets. At least
+    /// one ID must be provided.
+    #[prost(string, repeated, tag="1")]
+    pub dataset_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Only return read group sets for which a substring of the name matches this
+    /// string.
     #[prost(string, tag="3")]
-    pub md5checksum: ::prost::alloc::string::String,
-    /// ID from <http://www.ncbi.nlm.nih.gov/taxonomy> (for example, 9606 for human)
-    /// indicating the species which this reference set is intended to model. Note
-    /// that contained references may specify a different `ncbiTaxonId`, as
-    /// assemblies may contain reference sequences which do not belong to the
-    /// modeled species, for example EBV in a human reference genome.
+    pub name: ::prost::alloc::string::String,
+    /// The continuation token, which is used to page through large result sets.
+    /// To get the next page of results, set this parameter to the value of
+    /// `nextPageToken` from the previous response.
+    #[prost(string, tag="2")]
+    pub page_token: ::prost::alloc::string::String,
+    /// The maximum number of results to return in a single page. If unspecified,
+    /// defaults to 256. The maximum value is 1024.
     #[prost(int32, tag="4")]
-    pub ncbi_taxon_id: i32,
-    /// Free text description of this reference set.
-    #[prost(string, tag="5")]
-    pub description: ::prost::alloc::string::String,
-    /// Public id of this reference set, such as `GRCh37`.
-    #[prost(string, tag="6")]
-    pub assembly_id: ::prost::alloc::string::String,
-    /// The URI from which the references were obtained.
-    #[prost(string, tag="7")]
-    pub source_uri: ::prost::alloc::string::String,
-    /// All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
-    /// with a version number, for example `NC_000001.11`.
-    #[prost(string, repeated, tag="8")]
-    pub source_accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchReferenceSetsRequest {
-    /// If present, return reference sets for which the
-    /// \[md5checksum][google.genomics.v1.ReferenceSet.md5checksum\] matches exactly.
-    #[prost(string, repeated, tag="1")]
-    pub md5checksums: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// If present, return reference sets for which a prefix of any of
-    /// \[sourceAccessions][google.genomics.v1.ReferenceSet.source_accessions\]
-    /// match any of these strings. Accession numbers typically have a main number
-    /// and a version, for example `NC_000001.11`.
-    #[prost(string, repeated, tag="2")]
-    pub accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// If present, return reference sets for which a substring of their
-    /// `assemblyId` matches this string (case insensitive).
-    #[prost(string, tag="3")]
-    pub assembly_id: ::prost::alloc::string::String,
-    /// The continuation token, which is used to page through large result sets.
-    /// To get the next page of results, set this parameter to the value of
-    /// `nextPageToken` from the previous response.
-    #[prost(string, tag="4")]
-    pub page_token: ::prost::alloc::string::String,
-    /// The maximum number of results to return in a single page. If unspecified,
-    /// defaults to 1024. The maximum value is 4096.
-    #[prost(int32, tag="5")]
     pub page_size: i32,
 }
+/// The read group set search response.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchReferenceSetsResponse {
-    /// The matching references sets.
+pub struct SearchReadGroupSetsResponse {
+    /// The list of matching read group sets.
     #[prost(message, repeated, tag="1")]
-    pub reference_sets: ::prost::alloc::vec::Vec<ReferenceSet>,
+    pub read_group_sets: ::prost::alloc::vec::Vec<ReadGroupSet>,
     /// The continuation token, which is used to page through large result sets.
     /// Provide this value in a subsequent request to return the next page of
     /// results. This field will be empty if there aren't any additional results.
     #[prost(string, tag="2")]
     pub next_page_token: ::prost::alloc::string::String,
 }
+/// The read group set import request.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetReferenceSetRequest {
-    /// The ID of the reference set.
+pub struct ImportReadGroupSetsRequest {
+    /// Required. The ID of the dataset these read group sets will belong to. The
+    /// caller must have WRITE permissions to this dataset.
     #[prost(string, tag="1")]
-    pub reference_set_id: ::prost::alloc::string::String,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchReferencesRequest {
-    /// If present, return references for which the
-    /// \[md5checksum][google.genomics.v1.Reference.md5checksum\] matches exactly.
-    #[prost(string, repeated, tag="1")]
-    pub md5checksums: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// If present, return references for which a prefix of any of
-    /// \[sourceAccessions][google.genomics.v1.Reference.source_accessions\] match
-    /// any of these strings. Accession numbers typically have a main number and a
-    /// version, for example `GCF_000001405.26`.
-    #[prost(string, repeated, tag="2")]
-    pub accessions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// If present, return only references which belong to this reference set.
-    #[prost(string, tag="3")]
-    pub reference_set_id: ::prost::alloc::string::String,
-    /// The continuation token, which is used to page through large result sets.
-    /// To get the next page of results, set this parameter to the value of
-    /// `nextPageToken` from the previous response.
+    pub dataset_id: ::prost::alloc::string::String,
+    /// The reference set to which the imported read group sets are aligned to, if
+    /// any. The reference names of this reference set must be a superset of those
+    /// found in the imported file headers. If no reference set id is provided, a
+    /// best effort is made to associate with a matching reference set.
     #[prost(string, tag="4")]
-    pub page_token: ::prost::alloc::string::String,
-    /// The maximum number of results to return in a single page. If unspecified,
-    /// defaults to 1024. The maximum value is 4096.
-    #[prost(int32, tag="5")]
-    pub page_size: i32,
+    pub reference_set_id: ::prost::alloc::string::String,
+    /// A list of URIs pointing at [BAM
+    /// files](<https://samtools.github.io/hts-specs/SAMv1.pdf>)
+    /// in Google Cloud Storage.
+    /// Those URIs can include wildcards (*), but do not add or remove
+    /// matching files before import has completed.
+    ///
+    /// Note that Google Cloud Storage object listing is only eventually
+    /// consistent: files added may be not be immediately visible to
+    /// everyone. Thus, if using a wildcard it is preferable not to start
+    /// the import immediately after the files are created.
+    #[prost(string, repeated, tag="2")]
+    pub source_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The partition strategy describes how read groups are partitioned into read
+    /// group sets.
+    #[prost(enumeration="import_read_group_sets_request::PartitionStrategy", tag="5")]
+    pub partition_strategy: i32,
 }
+/// Nested message and enum types in `ImportReadGroupSetsRequest`.
+pub mod import_read_group_sets_request {
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum PartitionStrategy {
+        Unspecified = 0,
+        /// In most cases, this strategy yields one read group set per file. This is
+        /// the default behavior.
+        ///
+        /// Allocate one read group set per file per sample. For BAM files, read
+        /// groups are considered to share a sample if they have identical sample
+        /// names. Furthermore, all reads for each file which do not belong to a read
+        /// group, if any, will be grouped into a single read group set per-file.
+        PerFilePerSample = 1,
+        /// Includes all read groups in all imported files into a single read group
+        /// set. Requires that the headers for all imported files are equivalent. All
+        /// reads which do not belong to a read group, if any, will be grouped into a
+        /// separate read group set.
+        MergeAll = 2,
+    }
+}
+/// The read group set import response.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchReferencesResponse {
-    /// The matching references.
-    #[prost(message, repeated, tag="1")]
-    pub references: ::prost::alloc::vec::Vec<Reference>,
-    /// The continuation token, which is used to page through large result sets.
-    /// Provide this value in a subsequent request to return the next page of
-    /// results. This field will be empty if there aren't any additional results.
+pub struct ImportReadGroupSetsResponse {
+    /// IDs of the read group sets that were created.
+    #[prost(string, repeated, tag="1")]
+    pub read_group_set_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// The read group set export request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportReadGroupSetRequest {
+    /// Required. The Google Cloud project ID that owns this
+    /// export. The caller must have WRITE access to this project.
+    #[prost(string, tag="1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// Required. A Google Cloud Storage URI for the exported BAM file.
+    /// The currently authenticated user must have write access to the new file.
+    /// An error will be returned if the URI already contains data.
     #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
+    pub export_uri: ::prost::alloc::string::String,
+    /// Required. The ID of the read group set to export. The caller must have
+    /// READ access to this read group set.
+    #[prost(string, tag="3")]
+    pub read_group_set_id: ::prost::alloc::string::String,
+    /// The reference names to export. If this is not specified, all reference
+    /// sequences, including unmapped reads, are exported.
+    /// Use `*` to export only unmapped reads.
+    #[prost(string, repeated, tag="4")]
+    pub reference_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetReferenceRequest {
-    /// The ID of the reference.
+pub struct UpdateReadGroupSetRequest {
+    /// The ID of the read group set to be updated. The caller must have WRITE
+    /// permissions to the dataset associated with this read group set.
     #[prost(string, tag="1")]
-    pub reference_id: ::prost::alloc::string::String,
+    pub read_group_set_id: ::prost::alloc::string::String,
+    /// The new read group set data. See `updateMask` for details on mutability of
+    /// fields.
+    #[prost(message, optional, tag="2")]
+    pub read_group_set: ::core::option::Option<ReadGroupSet>,
+    /// An optional mask specifying which fields to update. Supported fields:
+    ///
+    /// * \[name][google.genomics.v1.ReadGroupSet.name\].
+    /// * \[referenceSetId][google.genomics.v1.ReadGroupSet.reference_set_id\].
+    ///
+    /// Leaving `updateMask` unset is equivalent to specifying all mutable
+    /// fields.
+    #[prost(message, optional, tag="3")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListBasesRequest {
-    /// The ID of the reference.
+pub struct DeleteReadGroupSetRequest {
+    /// The ID of the read group set to be deleted. The caller must have WRITE
+    /// permissions to the dataset associated with this read group set.
     #[prost(string, tag="1")]
-    pub reference_id: ::prost::alloc::string::String,
-    /// The start position (0-based) of this query. Defaults to 0.
-    #[prost(int64, tag="2")]
+    pub read_group_set_id: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetReadGroupSetRequest {
+    /// The ID of the read group set.
+    #[prost(string, tag="1")]
+    pub read_group_set_id: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListCoverageBucketsRequest {
+    /// Required. The ID of the read group set over which coverage is requested.
+    #[prost(string, tag="1")]
+    pub read_group_set_id: ::prost::alloc::string::String,
+    /// The name of the reference to query, within the reference set associated
+    /// with this query. Optional.
+    #[prost(string, tag="3")]
+    pub reference_name: ::prost::alloc::string::String,
+    /// The start position of the range on the reference, 0-based inclusive. If
+    /// specified, `referenceName` must also be specified. Defaults to 0.
+    #[prost(int64, tag="4")]
     pub start: i64,
-    /// The end position (0-based, exclusive) of this query. Defaults to the length
-    /// of this reference.
-    #[prost(int64, tag="3")]
+    /// The end position of the range on the reference, 0-based exclusive. If
+    /// specified, `referenceName` must also be specified. If unset or 0, defaults
+    /// to the length of the reference.
+    #[prost(int64, tag="5")]
+    pub end: i64,
+    /// The desired width of each reported coverage bucket in base pairs. This
+    /// will be rounded down to the nearest precomputed bucket width; the value
+    /// of which is returned as `bucketWidth` in the response. Defaults
+    /// to infinity (each bucket spans an entire reference sequence) or the length
+    /// of the target range, if specified. The smallest precomputed
+    /// `bucketWidth` is currently 2048 base pairs; this is subject to
+    /// change.
+    #[prost(int64, tag="6")]
+    pub target_bucket_width: i64,
+    /// The continuation token, which is used to page through large result sets.
+    /// To get the next page of results, set this parameter to the value of
+    /// `nextPageToken` from the previous response.
+    #[prost(string, tag="7")]
+    pub page_token: ::prost::alloc::string::String,
+    /// The maximum number of results to return in a single page. If unspecified,
+    /// defaults to 1024. The maximum value is 2048.
+    #[prost(int32, tag="8")]
+    pub page_size: i32,
+}
+/// A bucket over which read coverage has been precomputed. A bucket corresponds
+/// to a specific range of the reference sequence.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CoverageBucket {
+    /// The genomic coordinate range spanned by this bucket.
+    #[prost(message, optional, tag="1")]
+    pub range: ::core::option::Option<Range>,
+    /// The average number of reads which are aligned to each individual
+    /// reference base in this bucket.
+    #[prost(float, tag="2")]
+    pub mean_coverage: f32,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListCoverageBucketsResponse {
+    /// The length of each coverage bucket in base pairs. Note that buckets at the
+    /// end of a reference sequence may be shorter. This value is omitted if the
+    /// bucket width is infinity (the default behaviour, with no range or
+    /// `targetBucketWidth`).
+    #[prost(int64, tag="1")]
+    pub bucket_width: i64,
+    /// The coverage buckets. The list of buckets is sparse; a bucket with 0
+    /// overlapping reads is not returned. A bucket never crosses more than one
+    /// reference sequence. Each bucket has width `bucketWidth`, unless
+    /// its end is the end of the reference sequence.
+    #[prost(message, repeated, tag="2")]
+    pub coverage_buckets: ::prost::alloc::vec::Vec<CoverageBucket>,
+    /// The continuation token, which is used to page through large result sets.
+    /// Provide this value in a subsequent request to return the next page of
+    /// results. This field will be empty if there aren't any additional results.
+    #[prost(string, tag="3")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The read search request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchReadsRequest {
+    /// The IDs of the read groups sets within which to search for reads. All
+    /// specified read group sets must be aligned against a common set of reference
+    /// sequences; this defines the genomic coordinates for the query. Must specify
+    /// one of `readGroupSetIds` or `readGroupIds`.
+    #[prost(string, repeated, tag="1")]
+    pub read_group_set_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The IDs of the read groups within which to search for reads. All specified
+    /// read groups must belong to the same read group sets. Must specify one of
+    /// `readGroupSetIds` or `readGroupIds`.
+    #[prost(string, repeated, tag="5")]
+    pub read_group_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The reference sequence name, for example `chr1`, `1`, or `chrX`. If set to
+    /// `*`, only unmapped reads are returned. If unspecified, all reads (mapped
+    /// and unmapped) are returned.
+    #[prost(string, tag="7")]
+    pub reference_name: ::prost::alloc::string::String,
+    /// The start position of the range on the reference, 0-based inclusive. If
+    /// specified, `referenceName` must also be specified.
+    #[prost(int64, tag="8")]
+    pub start: i64,
+    /// The end position of the range on the reference, 0-based exclusive. If
+    /// specified, `referenceName` must also be specified.
+    #[prost(int64, tag="9")]
     pub end: i64,
     /// The continuation token, which is used to page through large result sets.
     /// To get the next page of results, set this parameter to the value of
     /// `nextPageToken` from the previous response.
-    #[prost(string, tag="4")]
+    #[prost(string, tag="3")]
     pub page_token: ::prost::alloc::string::String,
-    /// The maximum number of bases to return in a single page. If unspecified,
-    /// defaults to 200Kbp (kilo base pairs). The maximum value is 10Mbp (mega base
-    /// pairs).
-    #[prost(int32, tag="5")]
+    /// The maximum number of results to return in a single page. If unspecified,
+    /// defaults to 256. The maximum value is 2048.
+    #[prost(int32, tag="4")]
     pub page_size: i32,
 }
+/// The read search response.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListBasesResponse {
-    /// The offset position (0-based) of the given `sequence` from the
-    /// start of this `Reference`. This value will differ for each page
-    /// in a paginated request.
-    #[prost(int64, tag="1")]
-    pub offset: i64,
-    /// A substring of the bases that make up this reference.
-    #[prost(string, tag="2")]
-    pub sequence: ::prost::alloc::string::String,
+pub struct SearchReadsResponse {
+    /// The list of matching alignments sorted by mapped genomic coordinate,
+    /// if any, ascending in position within the same reference. Unmapped reads,
+    /// which have no position, are returned contiguously and are sorted in
+    /// ascending lexicographic order by fragment name.
+    #[prost(message, repeated, tag="1")]
+    pub alignments: ::prost::alloc::vec::Vec<Read>,
     /// The continuation token, which is used to page through large result sets.
     /// Provide this value in a subsequent request to return the next page of
     /// results. This field will be empty if there aren't any additional results.
-    #[prost(string, tag="3")]
+    #[prost(string, tag="2")]
     pub next_page_token: ::prost::alloc::string::String,
 }
+/// The stream reads request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StreamReadsRequest {
+    /// The Google Cloud project ID which will be billed
+    /// for this access. The caller must have WRITE access to this project.
+    /// Required.
+    #[prost(string, tag="1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The ID of the read group set from which to stream reads.
+    #[prost(string, tag="2")]
+    pub read_group_set_id: ::prost::alloc::string::String,
+    /// The reference sequence name, for example `chr1`,
+    /// `1`, or `chrX`. If set to *, only unmapped reads are
+    /// returned.
+    #[prost(string, tag="3")]
+    pub reference_name: ::prost::alloc::string::String,
+    /// The start position of the range on the reference, 0-based inclusive. If
+    /// specified, `referenceName` must also be specified.
+    #[prost(int64, tag="4")]
+    pub start: i64,
+    /// The end position of the range on the reference, 0-based exclusive. If
+    /// specified, `referenceName` must also be specified.
+    #[prost(int64, tag="5")]
+    pub end: i64,
+    /// Restricts results to a shard containing approximately `1/totalShards`
+    /// of the normal response payload for this query. Results from a sharded
+    /// request are disjoint from those returned by all queries which differ only
+    /// in their shard parameter. A shard may yield 0 results; this is especially
+    /// likely for large values of `totalShards`.
+    ///
+    /// Valid values are `[0, totalShards)`.
+    #[prost(int32, tag="6")]
+    pub shard: i32,
+    /// Specifying `totalShards` causes a disjoint subset of the normal response
+    /// payload to be returned for each query with a unique `shard` parameter
+    /// specified. A best effort is made to yield equally sized shards. Sharding
+    /// can be used to distribute processing amongst workers, where each worker is
+    /// assigned a unique `shard` number and all workers specify the same
+    /// `totalShards` number. The union of reads returned for all sharded queries
+    /// `[0, totalShards)` is equal to those returned by a single unsharded query.
+    ///
+    /// Queries for different values of `totalShards` with common divisors will
+    /// share shard boundaries. For example, streaming `shard` 2 of 5
+    /// `totalShards` yields the same results as streaming `shard`s 4 and 5 of 10
+    /// `totalShards`. This property can be leveraged for adaptive retries.
+    #[prost(int32, tag="7")]
+    pub total_shards: i32,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StreamReadsResponse {
+    #[prost(message, repeated, tag="1")]
+    pub alignments: ::prost::alloc::vec::Vec<Read>,
+}
 /// Generated client implementations.
-pub mod reference_service_v1_client {
+pub mod streaming_read_service_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
     #[derive(Debug, Clone)]
-    pub struct ReferenceServiceV1Client<T> {
+    pub struct StreamingReadServiceClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl<T> ReferenceServiceV1Client<T>
+    impl<T> StreamingReadServiceClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::Error: Into<StdError>,
@@ -3094,7 +2850,7 @@ pub mod reference_service_v1_client {
         pub fn with_interceptor<F>(
             inner: T,
             interceptor: F,
-        ) -> ReferenceServiceV1Client<InterceptedService<T, F>>
+        ) -> StreamingReadServiceClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T::ResponseBody: Default,
@@ -3108,7 +2864,7 @@ pub mod reference_service_v1_client {
                 http::Request<tonic::body::BoxBody>,
             >>::Error: Into<StdError> + Send + Sync,
         {
-            ReferenceServiceV1Client::new(InterceptedService::new(inner, interceptor))
+            StreamingReadServiceClient::new(InterceptedService::new(inner, interceptor))
         }
         /// Compress requests with `gzip`.
         ///
@@ -3125,18 +2881,15 @@ pub mod reference_service_v1_client {
             self.inner = self.inner.accept_gzip();
             self
         }
-        /// Searches for reference sets which match the given criteria.
-        ///
-        /// For the definitions of references and other genomics resources, see
-        /// [Fundamentals of Google
-        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
-        ///
-        /// Implements
-        /// [GlobalAllianceApi.searchReferenceSets](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L71)
-        pub async fn search_reference_sets(
+        /// Returns a stream of all the reads matching the search request, ordered
+        /// by reference name, position, and ID.
+        pub async fn stream_reads(
             &mut self,
-            request: impl tonic::IntoRequest<super::SearchReferenceSetsRequest>,
-        ) -> Result<tonic::Response<super::SearchReferenceSetsResponse>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::StreamReadsRequest>,
+        ) -> Result<
+            tonic::Response<tonic::codec::Streaming<super::StreamReadsResponse>>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3148,22 +2901,123 @@ pub mod reference_service_v1_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReferenceServiceV1/SearchReferenceSets",
+                "/google.genomics.v1.StreamingReadService/StreamReads",
+            );
+            self.inner.server_streaming(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Generated client implementations.
+pub mod read_service_v1_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// The Readstore. A data store for DNA sequencing Reads.
+    #[derive(Debug, Clone)]
+    pub struct ReadServiceV1Client<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ReadServiceV1Client<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ReadServiceV1Client<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            ReadServiceV1Client::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Creates read group sets by asynchronously importing the provided
+        /// information.
+        ///
+        /// For the definitions of read group sets and other genomics resources, see
+        /// [Fundamentals of Google
+        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
+        ///
+        /// The caller must have WRITE permissions to the dataset.
+        ///
+        /// ## Notes on [BAM](https://samtools.github.io/hts-specs/SAMv1.pdf) import
+        ///
+        /// - Tags will be converted to strings - tag types are not preserved
+        /// - Comments (`@CO`) in the input file header will not be preserved
+        /// - Original header order of references (`@SQ`) will not be preserved
+        /// - Any reverse stranded unmapped reads will be reverse complemented, and
+        /// their qualities (also the "BQ" and "OQ" tags, if any) will be reversed
+        /// - Unmapped reads will be stripped of positional information (reference name
+        /// and position)
+        pub async fn import_read_group_sets(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ImportReadGroupSetsRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.genomics.v1.ReadServiceV1/ImportReadGroupSets",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        /// Gets a reference set.
+        /// Exports a read group set to a BAM file in Google Cloud Storage.
         ///
-        /// For the definitions of references and other genomics resources, see
+        /// For the definitions of read group sets and other genomics resources, see
         /// [Fundamentals of Google
         /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
         ///
-        /// Implements
-        /// [GlobalAllianceApi.getReferenceSet](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L83).
-        pub async fn get_reference_set(
+        /// Note that currently there may be some differences between exported BAM
+        /// files and the original BAM file at the time of import. See
+        /// [ImportReadGroupSets][google.genomics.v1.ReadServiceV1.ImportReadGroupSets]
+        /// for caveats.
+        pub async fn export_read_group_set(
             &mut self,
-            request: impl tonic::IntoRequest<super::GetReferenceSetRequest>,
-        ) -> Result<tonic::Response<super::ReferenceSet>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::ExportReadGroupSetRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
             self.inner
                 .ready()
                 .await
@@ -3175,22 +3029,22 @@ pub mod reference_service_v1_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReferenceServiceV1/GetReferenceSet",
+                "/google.genomics.v1.ReadServiceV1/ExportReadGroupSet",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        /// Searches for references which match the given criteria.
+        /// Searches for read group sets matching the criteria.
         ///
-        /// For the definitions of references and other genomics resources, see
+        /// For the definitions of read group sets and other genomics resources, see
         /// [Fundamentals of Google
         /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
         ///
         /// Implements
-        /// [GlobalAllianceApi.searchReferences](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L146).
-        pub async fn search_references(
+        /// [GlobalAllianceApi.searchReadGroupSets](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/readmethods.avdl#L135).
+        pub async fn search_read_group_sets(
             &mut self,
-            request: impl tonic::IntoRequest<super::SearchReferencesRequest>,
-        ) -> Result<tonic::Response<super::SearchReferencesResponse>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::SearchReadGroupSetsRequest>,
+        ) -> Result<tonic::Response<super::SearchReadGroupSetsResponse>, tonic::Status> {
             self.inner
                 .ready()
                 .await
@@ -3202,22 +3056,21 @@ pub mod reference_service_v1_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReferenceServiceV1/SearchReferences",
+                "/google.genomics.v1.ReadServiceV1/SearchReadGroupSets",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        /// Gets a reference.
+        /// Updates a read group set.
         ///
-        /// For the definitions of references and other genomics resources, see
+        /// For the definitions of read group sets and other genomics resources, see
         /// [Fundamentals of Google
         /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
         ///
-        /// Implements
-        /// [GlobalAllianceApi.getReference](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L158).
-        pub async fn get_reference(
+        /// This method supports patch semantics.
+        pub async fn update_read_group_set(
             &mut self,
-            request: impl tonic::IntoRequest<super::GetReferenceRequest>,
-        ) -> Result<tonic::Response<super::Reference>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::UpdateReadGroupSetRequest>,
+        ) -> Result<tonic::Response<super::ReadGroupSet>, tonic::Status> {
             self.inner
                 .ready()
                 .await
@@ -3229,22 +3082,19 @@ pub mod reference_service_v1_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReferenceServiceV1/GetReference",
+                "/google.genomics.v1.ReadServiceV1/UpdateReadGroupSet",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        /// Lists the bases in a reference, optionally restricted to a range.
+        /// Deletes a read group set.
         ///
-        /// For the definitions of references and other genomics resources, see
+        /// For the definitions of read group sets and other genomics resources, see
         /// [Fundamentals of Google
         /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
-        ///
-        /// Implements
-        /// [GlobalAllianceApi.getReferenceBases](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/referencemethods.avdl#L221).
-        pub async fn list_bases(
+        pub async fn delete_read_group_set(
             &mut self,
-            request: impl tonic::IntoRequest<super::ListBasesRequest>,
-        ) -> Result<tonic::Response<super::ListBasesResponse>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::DeleteReadGroupSetRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
             self.inner
                 .ready()
                 .await
@@ -3256,7 +3106,106 @@ pub mod reference_service_v1_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.genomics.v1.ReferenceServiceV1/ListBases",
+                "/google.genomics.v1.ReadServiceV1/DeleteReadGroupSet",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets a read group set by ID.
+        ///
+        /// For the definitions of read group sets and other genomics resources, see
+        /// [Fundamentals of Google
+        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
+        pub async fn get_read_group_set(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetReadGroupSetRequest>,
+        ) -> Result<tonic::Response<super::ReadGroupSet>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.genomics.v1.ReadServiceV1/GetReadGroupSet",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists fixed width coverage buckets for a read group set, each of which
+        /// correspond to a range of a reference sequence. Each bucket summarizes
+        /// coverage information across its corresponding genomic range.
+        ///
+        /// For the definitions of read group sets and other genomics resources, see
+        /// [Fundamentals of Google
+        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
+        ///
+        /// Coverage is defined as the number of reads which are aligned to a given
+        /// base in the reference sequence. Coverage buckets are available at several
+        /// precomputed bucket widths, enabling retrieval of various coverage 'zoom
+        /// levels'. The caller must have READ permissions for the target read group
+        /// set.
+        pub async fn list_coverage_buckets(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListCoverageBucketsRequest>,
+        ) -> Result<tonic::Response<super::ListCoverageBucketsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.genomics.v1.ReadServiceV1/ListCoverageBuckets",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets a list of reads for one or more read group sets.
+        ///
+        /// For the definitions of read group sets and other genomics resources, see
+        /// [Fundamentals of Google
+        /// Genomics](https://cloud.google.com/genomics/fundamentals-of-google-genomics)
+        ///
+        /// Reads search operates over a genomic coordinate space of reference sequence
+        /// & position defined over the reference sequences to which the requested
+        /// read group sets are aligned.
+        ///
+        /// If a target positional range is specified, search returns all reads whose
+        /// alignment to the reference genome overlap the range. A query which
+        /// specifies only read group set IDs yields all reads in those read group
+        /// sets, including unmapped reads.
+        ///
+        /// All reads returned (including reads on subsequent pages) are ordered by
+        /// genomic coordinate (by reference sequence, then position). Reads with
+        /// equivalent genomic coordinates are returned in an unspecified order. This
+        /// order is consistent, such that two queries for the same content (regardless
+        /// of page size) yield reads in the same order across their respective streams
+        /// of paginated responses.
+        ///
+        /// Implements
+        /// [GlobalAllianceApi.searchReads](https://github.com/ga4gh/schemas/blob/v0.5.1/src/main/resources/avro/readmethods.avdl#L85).
+        pub async fn search_reads(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SearchReadsRequest>,
+        ) -> Result<tonic::Response<super::SearchReadsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.genomics.v1.ReadServiceV1/SearchReads",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -4143,4 +4092,55 @@ pub mod annotation_service_v1_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
+}
+/// Metadata describing an \[Operation][google.longrunning.Operation\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationMetadata {
+    /// The Google Cloud Project in which the job is scoped.
+    #[prost(string, tag="1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The time at which the job was submitted to the Genomics service.
+    #[prost(message, optional, tag="2")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time at which the job began to run.
+    #[prost(message, optional, tag="3")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time at which the job stopped running.
+    #[prost(message, optional, tag="4")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The original request that started the operation. Note that this will be in
+    /// current version of the API. If the operation was started with v1beta2 API
+    /// and a GetOperation is performed on v1 API, a v1 request will be returned.
+    #[prost(message, optional, tag="5")]
+    pub request: ::core::option::Option<::prost_types::Any>,
+    /// Optional event messages that were generated during the job's execution.
+    /// This also contains any warnings that were generated during import
+    /// or export.
+    #[prost(message, repeated, tag="6")]
+    pub events: ::prost::alloc::vec::Vec<OperationEvent>,
+    /// This field is deprecated. Use `labels` instead. Optionally provided by the
+    /// caller when submitting the request that creates the operation.
+    #[prost(string, tag="7")]
+    pub client_id: ::prost::alloc::string::String,
+    /// Runtime metadata on this Operation.
+    #[prost(message, optional, tag="8")]
+    pub runtime_metadata: ::core::option::Option<::prost_types::Any>,
+    /// Optionally provided by the caller when submitting the request that creates
+    /// the operation.
+    #[prost(btree_map="string, string", tag="9")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+}
+/// An event that occurred during an \[Operation][google.longrunning.Operation\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationEvent {
+    /// Optional time of when event started.
+    #[prost(message, optional, tag="1")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional time of when event finished. An event can have a start time and no
+    /// finish time. If an event has a finish time, there must be a start time.
+    #[prost(message, optional, tag="2")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Required description of event.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
 }

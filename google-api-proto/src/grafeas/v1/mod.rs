@@ -1,177 +1,3 @@
-/// Common Vulnerability Scoring System version 3.
-/// For details, see <https://www.first.org/cvss/specification-document>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CvsSv3 {
-    /// The base score is a function of the base metric scores.
-    #[prost(float, tag="1")]
-    pub base_score: f32,
-    #[prost(float, tag="2")]
-    pub exploitability_score: f32,
-    #[prost(float, tag="3")]
-    pub impact_score: f32,
-    /// Base Metrics
-    /// Represents the intrinsic characteristics of a vulnerability that are
-    /// constant over time and across user environments.
-    #[prost(enumeration="cvs_sv3::AttackVector", tag="5")]
-    pub attack_vector: i32,
-    #[prost(enumeration="cvs_sv3::AttackComplexity", tag="6")]
-    pub attack_complexity: i32,
-    #[prost(enumeration="cvs_sv3::PrivilegesRequired", tag="7")]
-    pub privileges_required: i32,
-    #[prost(enumeration="cvs_sv3::UserInteraction", tag="8")]
-    pub user_interaction: i32,
-    #[prost(enumeration="cvs_sv3::Scope", tag="9")]
-    pub scope: i32,
-    #[prost(enumeration="cvs_sv3::Impact", tag="10")]
-    pub confidentiality_impact: i32,
-    #[prost(enumeration="cvs_sv3::Impact", tag="11")]
-    pub integrity_impact: i32,
-    #[prost(enumeration="cvs_sv3::Impact", tag="12")]
-    pub availability_impact: i32,
-}
-/// Nested message and enum types in `CVSSv3`.
-pub mod cvs_sv3 {
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AttackVector {
-        Unspecified = 0,
-        Network = 1,
-        Adjacent = 2,
-        Local = 3,
-        Physical = 4,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AttackComplexity {
-        Unspecified = 0,
-        Low = 1,
-        High = 2,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum PrivilegesRequired {
-        Unspecified = 0,
-        None = 1,
-        Low = 2,
-        High = 3,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum UserInteraction {
-        Unspecified = 0,
-        None = 1,
-        Required = 2,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Scope {
-        Unspecified = 0,
-        Unchanged = 1,
-        Changed = 2,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Impact {
-        Unspecified = 0,
-        High = 1,
-        Low = 2,
-        None = 3,
-    }
-}
-/// Common Vulnerability Scoring System.
-/// For details, see <https://www.first.org/cvss/specification-document>
-/// This is a message we will try to use for storing multiple versions of
-/// CVSS. The intention is that as new versions of CVSS scores get added, we
-/// will be able to modify this message rather than adding new protos for each
-/// new version of the score.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Cvss {
-    /// The base score is a function of the base metric scores.
-    #[prost(float, tag="1")]
-    pub base_score: f32,
-    #[prost(float, tag="2")]
-    pub exploitability_score: f32,
-    #[prost(float, tag="3")]
-    pub impact_score: f32,
-    /// Base Metrics
-    /// Represents the intrinsic characteristics of a vulnerability that are
-    /// constant over time and across user environments.
-    #[prost(enumeration="cvss::AttackVector", tag="4")]
-    pub attack_vector: i32,
-    #[prost(enumeration="cvss::AttackComplexity", tag="5")]
-    pub attack_complexity: i32,
-    #[prost(enumeration="cvss::Authentication", tag="6")]
-    pub authentication: i32,
-    #[prost(enumeration="cvss::PrivilegesRequired", tag="7")]
-    pub privileges_required: i32,
-    #[prost(enumeration="cvss::UserInteraction", tag="8")]
-    pub user_interaction: i32,
-    #[prost(enumeration="cvss::Scope", tag="9")]
-    pub scope: i32,
-    #[prost(enumeration="cvss::Impact", tag="10")]
-    pub confidentiality_impact: i32,
-    #[prost(enumeration="cvss::Impact", tag="11")]
-    pub integrity_impact: i32,
-    #[prost(enumeration="cvss::Impact", tag="12")]
-    pub availability_impact: i32,
-}
-/// Nested message and enum types in `CVSS`.
-pub mod cvss {
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AttackVector {
-        Unspecified = 0,
-        Network = 1,
-        Adjacent = 2,
-        Local = 3,
-        Physical = 4,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AttackComplexity {
-        Unspecified = 0,
-        Low = 1,
-        High = 2,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Authentication {
-        Unspecified = 0,
-        Multiple = 1,
-        Single = 2,
-        None = 3,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum PrivilegesRequired {
-        Unspecified = 0,
-        None = 1,
-        Low = 2,
-        High = 3,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum UserInteraction {
-        Unspecified = 0,
-        None = 1,
-        Required = 2,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Scope {
-        Unspecified = 0,
-        Unchanged = 1,
-        Changed = 2,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Impact {
-        Unspecified = 0,
-        High = 1,
-        Low = 2,
-        None = 3,
-    }
-}
 /// Metadata for any related URL information.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RelatedUrl {
@@ -279,6 +105,147 @@ pub enum NoteKind {
     Compliance = 9,
     /// This represents a DSSE attestation Note
     DsseAttestation = 10,
+}
+// An attestation wrapper with a PGP-compatible signature. This message only
+// supports `ATTACHED` signatures, where the payload that is signed is included
+// alongside the signature itself in the same file.
+
+/// Note kind that represents a logical attestation "role" or "authority". For
+/// example, an organization might have one `Authority` for "QA" and one for
+/// "build". This note is intended to act strictly as a grouping mechanism for
+/// the attached occurrences (Attestations). This grouping mechanism also
+/// provides a security boundary, since IAM ACLs gate the ability for a principle
+/// to attach an occurrence to a given note. It also provides a single point of
+/// lookup to find all attached attestation occurrences, even if they don't all
+/// live in the same project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AttestationNote {
+    /// Hint hints at the purpose of the attestation authority.
+    #[prost(message, optional, tag="1")]
+    pub hint: ::core::option::Option<attestation_note::Hint>,
+}
+/// Nested message and enum types in `AttestationNote`.
+pub mod attestation_note {
+    /// This submessage provides human-readable hints about the purpose of the
+    /// authority. Because the name of a note acts as its resource reference, it is
+    /// important to disambiguate the canonical name of the Note (which might be a
+    /// UUID for security purposes) from "readable" names more suitable for debug
+    /// output. Note that these hints should not be used to look up authorities in
+    /// security sensitive contexts, such as when looking up attestations to
+    /// verify.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Hint {
+        /// Required. The human readable name of this attestation authority, for
+        /// example "qa".
+        #[prost(string, tag="1")]
+        pub human_readable_name: ::prost::alloc::string::String,
+    }
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Jwt {
+    /// The compact encoding of a JWS, which is always three base64 encoded strings
+    /// joined by periods. For details, see:
+    /// <https://tools.ietf.org/html/rfc7515.html#section-3.1>
+    #[prost(string, tag="1")]
+    pub compact_jwt: ::prost::alloc::string::String,
+}
+/// Occurrence that represents a single "attestation". The authenticity of an
+/// attestation can be verified using the attached signature. If the verifier
+/// trusts the public key of the signer, then verifying the signature is
+/// sufficient to establish trust. In this circumstance, the authority to which
+/// this attestation is attached is primarily useful for lookup (how to find
+/// this attestation if you already know the authority and artifact to be
+/// verified) and intent (for which authority this attestation was intended to
+/// sign.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AttestationOccurrence {
+    /// Required. The serialized payload that is verified by one or more
+    /// `signatures`.
+    #[prost(bytes="bytes", tag="1")]
+    pub serialized_payload: ::prost::bytes::Bytes,
+    /// One or more signatures over `serialized_payload`.  Verifier implementations
+    /// should consider this attestation message verified if at least one
+    /// `signature` verifies `serialized_payload`.  See `Signature` in common.proto
+    /// for more details on signature structure and verification.
+    #[prost(message, repeated, tag="2")]
+    pub signatures: ::prost::alloc::vec::Vec<Signature>,
+    /// One or more JWTs encoding a self-contained attestation.
+    /// Each JWT encodes the payload that it verifies within the JWT itself.
+    /// Verifier implementation SHOULD ignore the `serialized_payload` field
+    /// when verifying these JWTs.
+    /// If only JWTs are present on this AttestationOccurrence, then the
+    /// `serialized_payload` SHOULD be left empty.
+    /// Each JWT SHOULD encode a claim specific to the `resource_uri` of this
+    /// Occurrence, but this is not validated by Grafeas metadata API
+    /// implementations.  The JWT itself is opaque to Grafeas.
+    #[prost(message, repeated, tag="3")]
+    pub jwts: ::prost::alloc::vec::Vec<Jwt>,
+}
+/// Note provider assigned severity/impact ranking.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum Severity {
+    /// Unknown.
+    Unspecified = 0,
+    /// Minimal severity.
+    Minimal = 1,
+    /// Low severity.
+    Low = 2,
+    /// Medium severity.
+    Medium = 3,
+    /// High severity.
+    High = 4,
+    /// Critical severity.
+    Critical = 5,
+}
+/// An artifact that can be deployed in some runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeploymentNote {
+    /// Required. Resource URI for the artifact being deployed.
+    #[prost(string, repeated, tag="1")]
+    pub resource_uri: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// The period during which some deployable was active in a runtime.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeploymentOccurrence {
+    /// Identity of the user that triggered this deployment.
+    #[prost(string, tag="1")]
+    pub user_email: ::prost::alloc::string::String,
+    /// Required. Beginning of the lifetime of this deployment.
+    #[prost(message, optional, tag="2")]
+    pub deploy_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// End of the lifetime of this deployment.
+    #[prost(message, optional, tag="3")]
+    pub undeploy_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Configuration used to create this deployment.
+    #[prost(string, tag="4")]
+    pub config: ::prost::alloc::string::String,
+    /// Address of the runtime element hosting this deployment.
+    #[prost(string, tag="5")]
+    pub address: ::prost::alloc::string::String,
+    /// Output only. Resource URI for the artifact being deployed taken from
+    /// the deployable field with the same name.
+    #[prost(string, repeated, tag="6")]
+    pub resource_uri: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Platform hosting this deployment.
+    #[prost(enumeration="deployment_occurrence::Platform", tag="7")]
+    pub platform: i32,
+}
+/// Nested message and enum types in `DeploymentOccurrence`.
+pub mod deployment_occurrence {
+    /// Types of platforms.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Platform {
+        /// Unknown.
+        Unspecified = 0,
+        /// Google Container Engine.
+        Gke = 1,
+        /// Google App Engine: Flexible Environment.
+        Flex = 2,
+        /// Custom user-defined platform.
+        Custom = 3,
+    }
 }
 // Spec defined at
 // <https://github.com/in-toto/attestation/blob/main/spec/predicates/provenance.md>
@@ -540,123 +507,6 @@ pub struct Subject {
     /// <https://github.com/in-toto/attestation/blob/main/spec/field_types.md#DigestSet>
     #[prost(btree_map="string, string", tag="2")]
     pub digest: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DsseAttestationNote {
-    /// DSSEHint hints at the purpose of the attestation authority.
-    #[prost(message, optional, tag="1")]
-    pub hint: ::core::option::Option<dsse_attestation_note::DsseHint>,
-}
-/// Nested message and enum types in `DSSEAttestationNote`.
-pub mod dsse_attestation_note {
-    /// This submessage provides human-readable hints about the purpose of the
-    /// authority. Because the name of a note acts as its resource reference, it is
-    /// important to disambiguate the canonical name of the Note (which might be a
-    /// UUID for security purposes) from "readable" names more suitable for debug
-    /// output. Note that these hints should not be used to look up authorities in
-    /// security sensitive contexts, such as when looking up attestations to
-    /// verify.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct DsseHint {
-        /// Required. The human readable name of this attestation authority, for
-        /// example "cloudbuild-prod".
-        #[prost(string, tag="1")]
-        pub human_readable_name: ::prost::alloc::string::String,
-    }
-}
-/// Deprecated. Prefer to use a regular Occurrence, and populate the
-/// Envelope at the top level of the Occurrence.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DsseAttestationOccurrence {
-    /// If doing something security critical, make sure to verify the signatures in
-    /// this metadata.
-    #[prost(message, optional, tag="1")]
-    pub envelope: ::core::option::Option<Envelope>,
-    #[prost(oneof="dsse_attestation_occurrence::DecodedPayload", tags="2")]
-    pub decoded_payload: ::core::option::Option<dsse_attestation_occurrence::DecodedPayload>,
-}
-/// Nested message and enum types in `DSSEAttestationOccurrence`.
-pub mod dsse_attestation_occurrence {
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum DecodedPayload {
-        #[prost(message, tag="2")]
-        Statement(super::InTotoStatement),
-    }
-}
-// An attestation wrapper with a PGP-compatible signature. This message only
-// supports `ATTACHED` signatures, where the payload that is signed is included
-// alongside the signature itself in the same file.
-
-/// Note kind that represents a logical attestation "role" or "authority". For
-/// example, an organization might have one `Authority` for "QA" and one for
-/// "build". This note is intended to act strictly as a grouping mechanism for
-/// the attached occurrences (Attestations). This grouping mechanism also
-/// provides a security boundary, since IAM ACLs gate the ability for a principle
-/// to attach an occurrence to a given note. It also provides a single point of
-/// lookup to find all attached attestation occurrences, even if they don't all
-/// live in the same project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AttestationNote {
-    /// Hint hints at the purpose of the attestation authority.
-    #[prost(message, optional, tag="1")]
-    pub hint: ::core::option::Option<attestation_note::Hint>,
-}
-/// Nested message and enum types in `AttestationNote`.
-pub mod attestation_note {
-    /// This submessage provides human-readable hints about the purpose of the
-    /// authority. Because the name of a note acts as its resource reference, it is
-    /// important to disambiguate the canonical name of the Note (which might be a
-    /// UUID for security purposes) from "readable" names more suitable for debug
-    /// output. Note that these hints should not be used to look up authorities in
-    /// security sensitive contexts, such as when looking up attestations to
-    /// verify.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Hint {
-        /// Required. The human readable name of this attestation authority, for
-        /// example "qa".
-        #[prost(string, tag="1")]
-        pub human_readable_name: ::prost::alloc::string::String,
-    }
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Jwt {
-    /// The compact encoding of a JWS, which is always three base64 encoded strings
-    /// joined by periods. For details, see:
-    /// <https://tools.ietf.org/html/rfc7515.html#section-3.1>
-    #[prost(string, tag="1")]
-    pub compact_jwt: ::prost::alloc::string::String,
-}
-/// Occurrence that represents a single "attestation". The authenticity of an
-/// attestation can be verified using the attached signature. If the verifier
-/// trusts the public key of the signer, then verifying the signature is
-/// sufficient to establish trust. In this circumstance, the authority to which
-/// this attestation is attached is primarily useful for lookup (how to find
-/// this attestation if you already know the authority and artifact to be
-/// verified) and intent (for which authority this attestation was intended to
-/// sign.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AttestationOccurrence {
-    /// Required. The serialized payload that is verified by one or more
-    /// `signatures`.
-    #[prost(bytes="bytes", tag="1")]
-    pub serialized_payload: ::prost::bytes::Bytes,
-    /// One or more signatures over `serialized_payload`.  Verifier implementations
-    /// should consider this attestation message verified if at least one
-    /// `signature` verifies `serialized_payload`.  See `Signature` in common.proto
-    /// for more details on signature structure and verification.
-    #[prost(message, repeated, tag="2")]
-    pub signatures: ::prost::alloc::vec::Vec<Signature>,
-    /// One or more JWTs encoding a self-contained attestation.
-    /// Each JWT encodes the payload that it verifies within the JWT itself.
-    /// Verifier implementation SHOULD ignore the `serialized_payload` field
-    /// when verifying these JWTs.
-    /// If only JWTs are present on this AttestationOccurrence, then the
-    /// `serialized_payload` SHOULD be left empty.
-    /// Each JWT SHOULD encode a claim specific to the `resource_uri` of this
-    /// Occurrence, but this is not validated by Grafeas metadata API
-    /// implementations.  The JWT itself is opaque to Grafeas.
-    #[prost(message, repeated, tag="3")]
-    pub jwts: ::prost::alloc::vec::Vec<Jwt>,
 }
 /// Provenance of a build. Contains all information needed to verify the full
 /// details about the build from source to completion.
@@ -986,23 +836,6 @@ pub struct BuildOccurrence {
     #[prost(message, optional, tag="4")]
     pub intoto_statement: ::core::option::Option<InTotoStatement>,
 }
-/// Note provider assigned severity/impact ranking.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum Severity {
-    /// Unknown.
-    Unspecified = 0,
-    /// Minimal severity.
-    Minimal = 1,
-    /// Low severity.
-    Low = 2,
-    /// Medium severity.
-    Medium = 3,
-    /// High severity.
-    High = 4,
-    /// Critical severity.
-    Critical = 5,
-}
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ComplianceNote {
     /// The title that identifies this compliance check.
@@ -1081,55 +914,6 @@ pub struct NonCompliantFile {
     #[prost(string, tag="3")]
     pub reason: ::prost::alloc::string::String,
 }
-/// An artifact that can be deployed in some runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeploymentNote {
-    /// Required. Resource URI for the artifact being deployed.
-    #[prost(string, repeated, tag="1")]
-    pub resource_uri: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// The period during which some deployable was active in a runtime.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeploymentOccurrence {
-    /// Identity of the user that triggered this deployment.
-    #[prost(string, tag="1")]
-    pub user_email: ::prost::alloc::string::String,
-    /// Required. Beginning of the lifetime of this deployment.
-    #[prost(message, optional, tag="2")]
-    pub deploy_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// End of the lifetime of this deployment.
-    #[prost(message, optional, tag="3")]
-    pub undeploy_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Configuration used to create this deployment.
-    #[prost(string, tag="4")]
-    pub config: ::prost::alloc::string::String,
-    /// Address of the runtime element hosting this deployment.
-    #[prost(string, tag="5")]
-    pub address: ::prost::alloc::string::String,
-    /// Output only. Resource URI for the artifact being deployed taken from
-    /// the deployable field with the same name.
-    #[prost(string, repeated, tag="6")]
-    pub resource_uri: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Platform hosting this deployment.
-    #[prost(enumeration="deployment_occurrence::Platform", tag="7")]
-    pub platform: i32,
-}
-/// Nested message and enum types in `DeploymentOccurrence`.
-pub mod deployment_occurrence {
-    /// Types of platforms.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Platform {
-        /// Unknown.
-        Unspecified = 0,
-        /// Google Container Engine.
-        Gke = 1,
-        /// Google App Engine: Flexible Environment.
-        Flex = 2,
-        /// Custom user-defined platform.
-        Custom = 3,
-    }
-}
 /// A note that indicates a type of analysis a provider would perform. This note
 /// exists in a provider's project. A `Discovery` occurrence is created in a
 /// consumer's project at the start of analysis.
@@ -1195,6 +979,48 @@ pub mod discovery_occurrence {
         FinishedFailed = 4,
         /// The resource is known not to be supported
         FinishedUnsupported = 5,
+    }
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DsseAttestationNote {
+    /// DSSEHint hints at the purpose of the attestation authority.
+    #[prost(message, optional, tag="1")]
+    pub hint: ::core::option::Option<dsse_attestation_note::DsseHint>,
+}
+/// Nested message and enum types in `DSSEAttestationNote`.
+pub mod dsse_attestation_note {
+    /// This submessage provides human-readable hints about the purpose of the
+    /// authority. Because the name of a note acts as its resource reference, it is
+    /// important to disambiguate the canonical name of the Note (which might be a
+    /// UUID for security purposes) from "readable" names more suitable for debug
+    /// output. Note that these hints should not be used to look up authorities in
+    /// security sensitive contexts, such as when looking up attestations to
+    /// verify.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct DsseHint {
+        /// Required. The human readable name of this attestation authority, for
+        /// example "cloudbuild-prod".
+        #[prost(string, tag="1")]
+        pub human_readable_name: ::prost::alloc::string::String,
+    }
+}
+/// Deprecated. Prefer to use a regular Occurrence, and populate the
+/// Envelope at the top level of the Occurrence.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DsseAttestationOccurrence {
+    /// If doing something security critical, make sure to verify the signatures in
+    /// this metadata.
+    #[prost(message, optional, tag="1")]
+    pub envelope: ::core::option::Option<Envelope>,
+    #[prost(oneof="dsse_attestation_occurrence::DecodedPayload", tags="2")]
+    pub decoded_payload: ::core::option::Option<dsse_attestation_occurrence::DecodedPayload>,
+}
+/// Nested message and enum types in `DSSEAttestationOccurrence`.
+pub mod dsse_attestation_occurrence {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum DecodedPayload {
+        #[prost(message, tag="2")]
+        Statement(super::InTotoStatement),
     }
 }
 /// Layer holds metadata specific to a layer of a Docker image.
@@ -1498,6 +1324,180 @@ pub struct UpgradeOccurrence {
     /// Required for Windows OS. Represents the metadata about the Windows update.
     #[prost(message, optional, tag="5")]
     pub windows_update: ::core::option::Option<WindowsUpdate>,
+}
+/// Common Vulnerability Scoring System version 3.
+/// For details, see <https://www.first.org/cvss/specification-document>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CvsSv3 {
+    /// The base score is a function of the base metric scores.
+    #[prost(float, tag="1")]
+    pub base_score: f32,
+    #[prost(float, tag="2")]
+    pub exploitability_score: f32,
+    #[prost(float, tag="3")]
+    pub impact_score: f32,
+    /// Base Metrics
+    /// Represents the intrinsic characteristics of a vulnerability that are
+    /// constant over time and across user environments.
+    #[prost(enumeration="cvs_sv3::AttackVector", tag="5")]
+    pub attack_vector: i32,
+    #[prost(enumeration="cvs_sv3::AttackComplexity", tag="6")]
+    pub attack_complexity: i32,
+    #[prost(enumeration="cvs_sv3::PrivilegesRequired", tag="7")]
+    pub privileges_required: i32,
+    #[prost(enumeration="cvs_sv3::UserInteraction", tag="8")]
+    pub user_interaction: i32,
+    #[prost(enumeration="cvs_sv3::Scope", tag="9")]
+    pub scope: i32,
+    #[prost(enumeration="cvs_sv3::Impact", tag="10")]
+    pub confidentiality_impact: i32,
+    #[prost(enumeration="cvs_sv3::Impact", tag="11")]
+    pub integrity_impact: i32,
+    #[prost(enumeration="cvs_sv3::Impact", tag="12")]
+    pub availability_impact: i32,
+}
+/// Nested message and enum types in `CVSSv3`.
+pub mod cvs_sv3 {
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AttackVector {
+        Unspecified = 0,
+        Network = 1,
+        Adjacent = 2,
+        Local = 3,
+        Physical = 4,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AttackComplexity {
+        Unspecified = 0,
+        Low = 1,
+        High = 2,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum PrivilegesRequired {
+        Unspecified = 0,
+        None = 1,
+        Low = 2,
+        High = 3,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum UserInteraction {
+        Unspecified = 0,
+        None = 1,
+        Required = 2,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Scope {
+        Unspecified = 0,
+        Unchanged = 1,
+        Changed = 2,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Impact {
+        Unspecified = 0,
+        High = 1,
+        Low = 2,
+        None = 3,
+    }
+}
+/// Common Vulnerability Scoring System.
+/// For details, see <https://www.first.org/cvss/specification-document>
+/// This is a message we will try to use for storing multiple versions of
+/// CVSS. The intention is that as new versions of CVSS scores get added, we
+/// will be able to modify this message rather than adding new protos for each
+/// new version of the score.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Cvss {
+    /// The base score is a function of the base metric scores.
+    #[prost(float, tag="1")]
+    pub base_score: f32,
+    #[prost(float, tag="2")]
+    pub exploitability_score: f32,
+    #[prost(float, tag="3")]
+    pub impact_score: f32,
+    /// Base Metrics
+    /// Represents the intrinsic characteristics of a vulnerability that are
+    /// constant over time and across user environments.
+    #[prost(enumeration="cvss::AttackVector", tag="4")]
+    pub attack_vector: i32,
+    #[prost(enumeration="cvss::AttackComplexity", tag="5")]
+    pub attack_complexity: i32,
+    #[prost(enumeration="cvss::Authentication", tag="6")]
+    pub authentication: i32,
+    #[prost(enumeration="cvss::PrivilegesRequired", tag="7")]
+    pub privileges_required: i32,
+    #[prost(enumeration="cvss::UserInteraction", tag="8")]
+    pub user_interaction: i32,
+    #[prost(enumeration="cvss::Scope", tag="9")]
+    pub scope: i32,
+    #[prost(enumeration="cvss::Impact", tag="10")]
+    pub confidentiality_impact: i32,
+    #[prost(enumeration="cvss::Impact", tag="11")]
+    pub integrity_impact: i32,
+    #[prost(enumeration="cvss::Impact", tag="12")]
+    pub availability_impact: i32,
+}
+/// Nested message and enum types in `CVSS`.
+pub mod cvss {
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AttackVector {
+        Unspecified = 0,
+        Network = 1,
+        Adjacent = 2,
+        Local = 3,
+        Physical = 4,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AttackComplexity {
+        Unspecified = 0,
+        Low = 1,
+        High = 2,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Authentication {
+        Unspecified = 0,
+        Multiple = 1,
+        Single = 2,
+        None = 3,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum PrivilegesRequired {
+        Unspecified = 0,
+        None = 1,
+        Low = 2,
+        High = 3,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum UserInteraction {
+        Unspecified = 0,
+        None = 1,
+        Required = 2,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Scope {
+        Unspecified = 0,
+        Unchanged = 1,
+        Changed = 2,
+    }
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Impact {
+        Unspecified = 0,
+        High = 1,
+        Low = 2,
+        None = 3,
+    }
 }
 /// A security vulnerability that can be found in resources.
 #[derive(Clone, PartialEq, ::prost::Message)]

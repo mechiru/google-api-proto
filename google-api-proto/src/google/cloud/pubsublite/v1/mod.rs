@@ -231,90 +231,384 @@ pub mod time_target {
         EventTime(::prost_types::Timestamp),
     }
 }
-/// The first request that must be sent on a newly-opened stream.
+/// Request for CreateTopic.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InitialPublishRequest {
-    /// The topic to which messages will be written.
+pub struct CreateTopicRequest {
+    /// Required. The parent location in which to create the topic.
+    /// Structured like `projects/{project_number}/locations/{location}`.
     #[prost(string, tag="1")]
-    pub topic: ::prost::alloc::string::String,
-    /// The partition within the topic to which messages will be written.
-    /// Partitions are zero indexed, so `partition` must be in the range [0,
-    /// topic.num_partitions).
-    #[prost(int64, tag="2")]
-    pub partition: i64,
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Configuration of the topic to create. Its `name` field is ignored.
+    #[prost(message, optional, tag="2")]
+    pub topic: ::core::option::Option<Topic>,
+    /// Required. The ID to use for the topic, which will become the final component of
+    /// the topic's name.
+    ///
+    /// This value is structured like: `my-topic-name`.
+    #[prost(string, tag="3")]
+    pub topic_id: ::prost::alloc::string::String,
 }
-/// Response to an InitialPublishRequest.
+/// Request for GetTopic.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InitialPublishResponse {
+pub struct GetTopicRequest {
+    /// Required. The name of the topic whose configuration to return.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
 }
-/// Request to publish messages to the topic.
+/// Request for GetTopicPartitions.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MessagePublishRequest {
-    /// The messages to publish.
+pub struct GetTopicPartitionsRequest {
+    /// Required. The topic whose partition information to return.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Response for GetTopicPartitions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TopicPartitions {
+    /// The number of partitions in the topic.
+    #[prost(int64, tag="1")]
+    pub partition_count: i64,
+}
+/// Request for ListTopics.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTopicsRequest {
+    /// Required. The parent whose topics are to be listed.
+    /// Structured like `projects/{project_number}/locations/{location}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of topics to return. The service may return fewer than
+    /// this value.
+    /// If unset or zero, all topics for the parent will be returned.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// A page token, received from a previous `ListTopics` call.
+    /// Provide this to retrieve the subsequent page.
+    ///
+    /// When paginating, all other parameters provided to `ListTopics` must match
+    /// the call that provided the page token.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response for ListTopics.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTopicsResponse {
+    /// The list of topic in the requested parent. The order of the topics is
+    /// unspecified.
     #[prost(message, repeated, tag="1")]
-    pub messages: ::prost::alloc::vec::Vec<PubSubMessage>,
+    pub topics: ::prost::alloc::vec::Vec<Topic>,
+    /// A token that can be sent as `page_token` to retrieve the next page of
+    /// results. If this field is omitted, there are no more results.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
 }
-/// Response to a MessagePublishRequest.
+/// Request for UpdateTopic.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MessagePublishResponse {
-    /// The cursor of the first published message in the batch. The cursors for any
-    /// remaining messages in the batch are guaranteed to be sequential.
+pub struct UpdateTopicRequest {
+    /// Required. The topic to update. Its `name` field must be populated.
     #[prost(message, optional, tag="1")]
-    pub start_cursor: ::core::option::Option<Cursor>,
+    pub topic: ::core::option::Option<Topic>,
+    /// Required. A mask specifying the topic fields to change.
+    #[prost(message, optional, tag="2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
-/// Request sent from the client to the server on a stream.
+/// Request for DeleteTopic.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PublishRequest {
-    /// The type of request this is.
-    #[prost(oneof="publish_request::RequestType", tags="1, 2")]
-    pub request_type: ::core::option::Option<publish_request::RequestType>,
+pub struct DeleteTopicRequest {
+    /// Required. The name of the topic to delete.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
 }
-/// Nested message and enum types in `PublishRequest`.
-pub mod publish_request {
-    /// The type of request this is.
+/// Request for ListTopicSubscriptions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTopicSubscriptionsRequest {
+    /// Required. The name of the topic whose subscriptions to list.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The maximum number of subscriptions to return. The service may return fewer
+    /// than this value.
+    /// If unset or zero, all subscriptions for the given topic will be returned.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// A page token, received from a previous `ListTopicSubscriptions` call.
+    /// Provide this to retrieve the subsequent page.
+    ///
+    /// When paginating, all other parameters provided to `ListTopicSubscriptions`
+    /// must match the call that provided the page token.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response for ListTopicSubscriptions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTopicSubscriptionsResponse {
+    /// The names of subscriptions attached to the topic. The order of the
+    /// subscriptions is unspecified.
+    #[prost(string, repeated, tag="1")]
+    pub subscriptions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// A token that can be sent as `page_token` to retrieve the next page of
+    /// results. If this field is omitted, there are no more results.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request for CreateSubscription.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateSubscriptionRequest {
+    /// Required. The parent location in which to create the subscription.
+    /// Structured like `projects/{project_number}/locations/{location}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Configuration of the subscription to create. Its `name` field is ignored.
+    #[prost(message, optional, tag="2")]
+    pub subscription: ::core::option::Option<Subscription>,
+    /// Required. The ID to use for the subscription, which will become the final component
+    /// of the subscription's name.
+    ///
+    /// This value is structured like: `my-sub-name`.
+    #[prost(string, tag="3")]
+    pub subscription_id: ::prost::alloc::string::String,
+    /// If true, the newly created subscription will only receive messages
+    /// published after the subscription was created. Otherwise, the entire
+    /// message backlog will be received on the subscription. Defaults to false.
+    #[prost(bool, tag="4")]
+    pub skip_backlog: bool,
+}
+/// Request for GetSubscription.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetSubscriptionRequest {
+    /// Required. The name of the subscription whose configuration to return.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for ListSubscriptions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSubscriptionsRequest {
+    /// Required. The parent whose subscriptions are to be listed.
+    /// Structured like `projects/{project_number}/locations/{location}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of subscriptions to return. The service may return fewer
+    /// than this value.
+    /// If unset or zero, all subscriptions for the parent will be returned.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// A page token, received from a previous `ListSubscriptions` call.
+    /// Provide this to retrieve the subsequent page.
+    ///
+    /// When paginating, all other parameters provided to `ListSubscriptions` must
+    /// match the call that provided the page token.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response for ListSubscriptions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSubscriptionsResponse {
+    /// The list of subscriptions in the requested parent. The order of the
+    /// subscriptions is unspecified.
+    #[prost(message, repeated, tag="1")]
+    pub subscriptions: ::prost::alloc::vec::Vec<Subscription>,
+    /// A token that can be sent as `page_token` to retrieve the next page of
+    /// results. If this field is omitted, there are no more results.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request for UpdateSubscription.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateSubscriptionRequest {
+    /// Required. The subscription to update. Its `name` field must be populated.
+    /// Topic field must not be populated.
+    #[prost(message, optional, tag="1")]
+    pub subscription: ::core::option::Option<Subscription>,
+    /// Required. A mask specifying the subscription fields to change.
+    #[prost(message, optional, tag="2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Request for DeleteSubscription.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteSubscriptionRequest {
+    /// Required. The name of the subscription to delete.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for SeekSubscription.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SeekSubscriptionRequest {
+    /// Required. The name of the subscription to seek.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The target to seek to. Must be set.
+    #[prost(oneof="seek_subscription_request::Target", tags="2, 3")]
+    pub target: ::core::option::Option<seek_subscription_request::Target>,
+}
+/// Nested message and enum types in `SeekSubscriptionRequest`.
+pub mod seek_subscription_request {
+    /// A named position with respect to the message backlog.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum NamedTarget {
+        /// Unspecified named target. Do not use.
+        Unspecified = 0,
+        /// Seek to the oldest retained message.
+        Tail = 1,
+        /// Seek past all recently published messages, skipping the entire message
+        /// backlog.
+        Head = 2,
+    }
+    /// The target to seek to. Must be set.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum RequestType {
-        /// Initial request on the stream.
-        #[prost(message, tag="1")]
-        InitialRequest(super::InitialPublishRequest),
-        /// Request to publish messages.
-        #[prost(message, tag="2")]
-        MessagePublishRequest(super::MessagePublishRequest),
+    pub enum Target {
+        /// Seek to a named position with respect to the message backlog.
+        #[prost(enumeration="NamedTarget", tag="2")]
+        NamedTarget(i32),
+        /// Seek to the first message whose publish or event time is greater than or
+        /// equal to the specified query time. If no such message can be located,
+        /// will seek to the end of the message backlog.
+        #[prost(message, tag="3")]
+        TimeTarget(super::TimeTarget),
     }
 }
-/// Response to a PublishRequest.
+/// Response for SeekSubscription long running operation.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PublishResponse {
-    /// The type of response this is.
-    #[prost(oneof="publish_response::ResponseType", tags="1, 2")]
-    pub response_type: ::core::option::Option<publish_response::ResponseType>,
+pub struct SeekSubscriptionResponse {
 }
-/// Nested message and enum types in `PublishResponse`.
-pub mod publish_response {
-    /// The type of response this is.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum ResponseType {
-        /// Initial response on the stream.
-        #[prost(message, tag="1")]
-        InitialResponse(super::InitialPublishResponse),
-        /// Response to publishing messages.
-        #[prost(message, tag="2")]
-        MessageResponse(super::MessagePublishResponse),
-    }
+/// Metadata for long running operations.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationMetadata {
+    /// The time the operation was created.
+    #[prost(message, optional, tag="1")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time the operation finished running. Not set if the operation has not
+    /// completed.
+    #[prost(message, optional, tag="2")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Resource path for the target of the operation. For example, targets of
+    /// seeks are subscription resources, structured like:
+    /// projects/{project_number}/locations/{location}/subscriptions/{subscription_id}
+    #[prost(string, tag="3")]
+    pub target: ::prost::alloc::string::String,
+    /// Name of the verb executed by the operation.
+    #[prost(string, tag="4")]
+    pub verb: ::prost::alloc::string::String,
+}
+/// Request for CreateReservation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateReservationRequest {
+    /// Required. The parent location in which to create the reservation.
+    /// Structured like `projects/{project_number}/locations/{location}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Configuration of the reservation to create. Its `name` field is ignored.
+    #[prost(message, optional, tag="2")]
+    pub reservation: ::core::option::Option<Reservation>,
+    /// Required. The ID to use for the reservation, which will become the final component of
+    /// the reservation's name.
+    ///
+    /// This value is structured like: `my-reservation-name`.
+    #[prost(string, tag="3")]
+    pub reservation_id: ::prost::alloc::string::String,
+}
+/// Request for GetReservation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetReservationRequest {
+    /// Required. The name of the reservation whose configuration to return.
+    /// Structured like:
+    /// projects/{project_number}/locations/{location}/reservations/{reservation_id}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for ListReservations.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListReservationsRequest {
+    /// Required. The parent whose reservations are to be listed.
+    /// Structured like `projects/{project_number}/locations/{location}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of reservations to return. The service may return fewer
+    /// than this value. If unset or zero, all reservations for the parent will be
+    /// returned.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// A page token, received from a previous `ListReservations` call.
+    /// Provide this to retrieve the subsequent page.
+    ///
+    /// When paginating, all other parameters provided to `ListReservations` must
+    /// match the call that provided the page token.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response for ListReservations.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListReservationsResponse {
+    /// The list of reservation in the requested parent. The order of the
+    /// reservations is unspecified.
+    #[prost(message, repeated, tag="1")]
+    pub reservations: ::prost::alloc::vec::Vec<Reservation>,
+    /// A token that can be sent as `page_token` to retrieve the next page of
+    /// results. If this field is omitted, there are no more results.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request for UpdateReservation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateReservationRequest {
+    /// Required. The reservation to update. Its `name` field must be populated.
+    #[prost(message, optional, tag="1")]
+    pub reservation: ::core::option::Option<Reservation>,
+    /// Required. A mask specifying the reservation fields to change.
+    #[prost(message, optional, tag="2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Request for DeleteReservation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteReservationRequest {
+    /// Required. The name of the reservation to delete.
+    /// Structured like:
+    /// projects/{project_number}/locations/{location}/reservations/{reservation_id}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for ListReservationTopics.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListReservationTopicsRequest {
+    /// Required. The name of the reservation whose topics to list.
+    /// Structured like:
+    /// projects/{project_number}/locations/{location}/reservations/{reservation_id}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The maximum number of topics to return. The service may return fewer
+    /// than this value.
+    /// If unset or zero, all topics for the given reservation will be returned.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// A page token, received from a previous `ListReservationTopics` call.
+    /// Provide this to retrieve the subsequent page.
+    ///
+    /// When paginating, all other parameters provided to `ListReservationTopics`
+    /// must match the call that provided the page token.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response for ListReservationTopics.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListReservationTopicsResponse {
+    /// The names of topics attached to the reservation. The order of the
+    /// topics is unspecified.
+    #[prost(string, repeated, tag="1")]
+    pub topics: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// A token that can be sent as `page_token` to retrieve the next page of
+    /// results. If this field is omitted, there are no more results.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
 }
 /// Generated client implementations.
-pub mod publisher_service_client {
+pub mod admin_service_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    /// The service that a publisher client application uses to publish messages to
-    /// topics. Published messages are retained by the service for the duration of
-    /// the retention period configured for the respective topic, and are delivered
-    /// to subscriber clients upon request (via the `SubscriberService`).
+    /// The service that a client application uses to manage topics and
+    /// subscriptions, such creating, listing, and deleting topics and subscriptions.
     #[derive(Debug, Clone)]
-    pub struct PublisherServiceClient<T> {
+    pub struct AdminServiceClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl<T> PublisherServiceClient<T>
+    impl<T> AdminServiceClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::Error: Into<StdError>,
@@ -328,7 +622,7 @@ pub mod publisher_service_client {
         pub fn with_interceptor<F>(
             inner: T,
             interceptor: F,
-        ) -> PublisherServiceClient<InterceptedService<T, F>>
+        ) -> AdminServiceClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T::ResponseBody: Default,
@@ -342,7 +636,7 @@ pub mod publisher_service_client {
                 http::Request<tonic::body::BoxBody>,
             >>::Error: Into<StdError> + Send + Sync,
         {
-            PublisherServiceClient::new(InterceptedService::new(inner, interceptor))
+            AdminServiceClient::new(InterceptedService::new(inner, interceptor))
         }
         /// Compress requests with `gzip`.
         ///
@@ -359,18 +653,132 @@ pub mod publisher_service_client {
             self.inner = self.inner.accept_gzip();
             self
         }
-        /// Establishes a stream with the server for publishing messages. Once the
-        /// stream is initialized, the client publishes messages by sending publish
-        /// requests on the stream. The server responds with a PublishResponse for each
-        /// PublishRequest sent by the client, in the same order that the requests
-        /// were sent. Note that multiple PublishRequests can be in flight
-        /// simultaneously, but they will be processed by the server in the order that
-        /// they are sent by the client on a given stream.
-        pub async fn publish(
+        /// Creates a new topic.
+        pub async fn create_topic(
             &mut self,
-            request: impl tonic::IntoStreamingRequest<Message = super::PublishRequest>,
+            request: impl tonic::IntoRequest<super::CreateTopicRequest>,
+        ) -> Result<tonic::Response<super::Topic>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/CreateTopic",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Returns the topic configuration.
+        pub async fn get_topic(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetTopicRequest>,
+        ) -> Result<tonic::Response<super::Topic>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/GetTopic",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Returns the partition information for the requested topic.
+        pub async fn get_topic_partitions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetTopicPartitionsRequest>,
+        ) -> Result<tonic::Response<super::TopicPartitions>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/GetTopicPartitions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Returns the list of topics for the given project.
+        pub async fn list_topics(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListTopicsRequest>,
+        ) -> Result<tonic::Response<super::ListTopicsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/ListTopics",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Updates properties of the specified topic.
+        pub async fn update_topic(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateTopicRequest>,
+        ) -> Result<tonic::Response<super::Topic>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/UpdateTopic",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes the specified topic.
+        pub async fn delete_topic(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteTopicRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/DeleteTopic",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists the subscriptions attached to the specified topic.
+        pub async fn list_topic_subscriptions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListTopicSubscriptionsRequest>,
         ) -> Result<
-            tonic::Response<tonic::codec::Streaming<super::PublishResponse>>,
+            tonic::Response<super::ListTopicSubscriptionsResponse>,
             tonic::Status,
         > {
             self.inner
@@ -384,9 +792,275 @@ pub mod publisher_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.PublisherService/Publish",
+                "/google.cloud.pubsublite.v1.AdminService/ListTopicSubscriptions",
             );
-            self.inner.streaming(request.into_streaming_request(), path, codec).await
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Creates a new subscription.
+        pub async fn create_subscription(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateSubscriptionRequest>,
+        ) -> Result<tonic::Response<super::Subscription>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/CreateSubscription",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Returns the subscription configuration.
+        pub async fn get_subscription(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetSubscriptionRequest>,
+        ) -> Result<tonic::Response<super::Subscription>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/GetSubscription",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Returns the list of subscriptions for the given project.
+        pub async fn list_subscriptions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListSubscriptionsRequest>,
+        ) -> Result<tonic::Response<super::ListSubscriptionsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/ListSubscriptions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Updates properties of the specified subscription.
+        pub async fn update_subscription(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateSubscriptionRequest>,
+        ) -> Result<tonic::Response<super::Subscription>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/UpdateSubscription",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes the specified subscription.
+        pub async fn delete_subscription(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteSubscriptionRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/DeleteSubscription",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Performs an out-of-band seek for a subscription to a specified target,
+        /// which may be timestamps or named positions within the message backlog.
+        /// Seek translates these targets to cursors for each partition and
+        /// orchestrates subscribers to start consuming messages from these seek
+        /// cursors.
+        ///
+        /// If an operation is returned, the seek has been registered and subscribers
+        /// will eventually receive messages from the seek cursors (i.e. eventual
+        /// consistency), as long as they are using a minimum supported client library
+        /// version and not a system that tracks cursors independently of Pub/Sub Lite
+        /// (e.g. Apache Beam, Dataflow, Spark). The seek operation will fail for
+        /// unsupported clients.
+        ///
+        /// If clients would like to know when subscribers react to the seek (or not),
+        /// they can poll the operation. The seek operation will succeed and complete
+        /// once subscribers are ready to receive messages from the seek cursors for
+        /// all partitions of the topic. This means that the seek operation will not
+        /// complete until all subscribers come online.
+        ///
+        /// If the previous seek operation has not yet completed, it will be aborted
+        /// and the new invocation of seek will supersede it.
+        pub async fn seek_subscription(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SeekSubscriptionRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/SeekSubscription",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Creates a new reservation.
+        pub async fn create_reservation(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateReservationRequest>,
+        ) -> Result<tonic::Response<super::Reservation>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/CreateReservation",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Returns the reservation configuration.
+        pub async fn get_reservation(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetReservationRequest>,
+        ) -> Result<tonic::Response<super::Reservation>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/GetReservation",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Returns the list of reservations for the given project.
+        pub async fn list_reservations(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListReservationsRequest>,
+        ) -> Result<tonic::Response<super::ListReservationsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/ListReservations",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Updates properties of the specified reservation.
+        pub async fn update_reservation(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateReservationRequest>,
+        ) -> Result<tonic::Response<super::Reservation>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/UpdateReservation",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes the specified reservation.
+        pub async fn delete_reservation(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteReservationRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/DeleteReservation",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists the topics attached to the specified reservation.
+        pub async fn list_reservation_topics(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListReservationTopicsRequest>,
+        ) -> Result<
+            tonic::Response<super::ListReservationTopicsResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.pubsublite.v1.AdminService/ListReservationTopics",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
         }
     }
 }
@@ -1222,384 +1896,90 @@ pub mod partition_assignment_service_client {
         }
     }
 }
-/// Request for CreateTopic.
+/// The first request that must be sent on a newly-opened stream.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateTopicRequest {
-    /// Required. The parent location in which to create the topic.
-    /// Structured like `projects/{project_number}/locations/{location}`.
+pub struct InitialPublishRequest {
+    /// The topic to which messages will be written.
     #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Configuration of the topic to create. Its `name` field is ignored.
-    #[prost(message, optional, tag="2")]
-    pub topic: ::core::option::Option<Topic>,
-    /// Required. The ID to use for the topic, which will become the final component of
-    /// the topic's name.
-    ///
-    /// This value is structured like: `my-topic-name`.
-    #[prost(string, tag="3")]
-    pub topic_id: ::prost::alloc::string::String,
+    pub topic: ::prost::alloc::string::String,
+    /// The partition within the topic to which messages will be written.
+    /// Partitions are zero indexed, so `partition` must be in the range [0,
+    /// topic.num_partitions).
+    #[prost(int64, tag="2")]
+    pub partition: i64,
 }
-/// Request for GetTopic.
+/// Response to an InitialPublishRequest.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetTopicRequest {
-    /// Required. The name of the topic whose configuration to return.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
+pub struct InitialPublishResponse {
 }
-/// Request for GetTopicPartitions.
+/// Request to publish messages to the topic.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetTopicPartitionsRequest {
-    /// Required. The topic whose partition information to return.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Response for GetTopicPartitions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TopicPartitions {
-    /// The number of partitions in the topic.
-    #[prost(int64, tag="1")]
-    pub partition_count: i64,
-}
-/// Request for ListTopics.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTopicsRequest {
-    /// Required. The parent whose topics are to be listed.
-    /// Structured like `projects/{project_number}/locations/{location}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of topics to return. The service may return fewer than
-    /// this value.
-    /// If unset or zero, all topics for the parent will be returned.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// A page token, received from a previous `ListTopics` call.
-    /// Provide this to retrieve the subsequent page.
-    ///
-    /// When paginating, all other parameters provided to `ListTopics` must match
-    /// the call that provided the page token.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response for ListTopics.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTopicsResponse {
-    /// The list of topic in the requested parent. The order of the topics is
-    /// unspecified.
+pub struct MessagePublishRequest {
+    /// The messages to publish.
     #[prost(message, repeated, tag="1")]
-    pub topics: ::prost::alloc::vec::Vec<Topic>,
-    /// A token that can be sent as `page_token` to retrieve the next page of
-    /// results. If this field is omitted, there are no more results.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
+    pub messages: ::prost::alloc::vec::Vec<PubSubMessage>,
 }
-/// Request for UpdateTopic.
+/// Response to a MessagePublishRequest.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateTopicRequest {
-    /// Required. The topic to update. Its `name` field must be populated.
+pub struct MessagePublishResponse {
+    /// The cursor of the first published message in the batch. The cursors for any
+    /// remaining messages in the batch are guaranteed to be sequential.
     #[prost(message, optional, tag="1")]
-    pub topic: ::core::option::Option<Topic>,
-    /// Required. A mask specifying the topic fields to change.
-    #[prost(message, optional, tag="2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    pub start_cursor: ::core::option::Option<Cursor>,
 }
-/// Request for DeleteTopic.
+/// Request sent from the client to the server on a stream.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteTopicRequest {
-    /// Required. The name of the topic to delete.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
+pub struct PublishRequest {
+    /// The type of request this is.
+    #[prost(oneof="publish_request::RequestType", tags="1, 2")]
+    pub request_type: ::core::option::Option<publish_request::RequestType>,
 }
-/// Request for ListTopicSubscriptions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTopicSubscriptionsRequest {
-    /// Required. The name of the topic whose subscriptions to list.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The maximum number of subscriptions to return. The service may return fewer
-    /// than this value.
-    /// If unset or zero, all subscriptions for the given topic will be returned.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// A page token, received from a previous `ListTopicSubscriptions` call.
-    /// Provide this to retrieve the subsequent page.
-    ///
-    /// When paginating, all other parameters provided to `ListTopicSubscriptions`
-    /// must match the call that provided the page token.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response for ListTopicSubscriptions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTopicSubscriptionsResponse {
-    /// The names of subscriptions attached to the topic. The order of the
-    /// subscriptions is unspecified.
-    #[prost(string, repeated, tag="1")]
-    pub subscriptions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// A token that can be sent as `page_token` to retrieve the next page of
-    /// results. If this field is omitted, there are no more results.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request for CreateSubscription.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateSubscriptionRequest {
-    /// Required. The parent location in which to create the subscription.
-    /// Structured like `projects/{project_number}/locations/{location}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Configuration of the subscription to create. Its `name` field is ignored.
-    #[prost(message, optional, tag="2")]
-    pub subscription: ::core::option::Option<Subscription>,
-    /// Required. The ID to use for the subscription, which will become the final component
-    /// of the subscription's name.
-    ///
-    /// This value is structured like: `my-sub-name`.
-    #[prost(string, tag="3")]
-    pub subscription_id: ::prost::alloc::string::String,
-    /// If true, the newly created subscription will only receive messages
-    /// published after the subscription was created. Otherwise, the entire
-    /// message backlog will be received on the subscription. Defaults to false.
-    #[prost(bool, tag="4")]
-    pub skip_backlog: bool,
-}
-/// Request for GetSubscription.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetSubscriptionRequest {
-    /// Required. The name of the subscription whose configuration to return.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for ListSubscriptions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListSubscriptionsRequest {
-    /// Required. The parent whose subscriptions are to be listed.
-    /// Structured like `projects/{project_number}/locations/{location}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of subscriptions to return. The service may return fewer
-    /// than this value.
-    /// If unset or zero, all subscriptions for the parent will be returned.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// A page token, received from a previous `ListSubscriptions` call.
-    /// Provide this to retrieve the subsequent page.
-    ///
-    /// When paginating, all other parameters provided to `ListSubscriptions` must
-    /// match the call that provided the page token.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response for ListSubscriptions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListSubscriptionsResponse {
-    /// The list of subscriptions in the requested parent. The order of the
-    /// subscriptions is unspecified.
-    #[prost(message, repeated, tag="1")]
-    pub subscriptions: ::prost::alloc::vec::Vec<Subscription>,
-    /// A token that can be sent as `page_token` to retrieve the next page of
-    /// results. If this field is omitted, there are no more results.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request for UpdateSubscription.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateSubscriptionRequest {
-    /// Required. The subscription to update. Its `name` field must be populated.
-    /// Topic field must not be populated.
-    #[prost(message, optional, tag="1")]
-    pub subscription: ::core::option::Option<Subscription>,
-    /// Required. A mask specifying the subscription fields to change.
-    #[prost(message, optional, tag="2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Request for DeleteSubscription.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteSubscriptionRequest {
-    /// Required. The name of the subscription to delete.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for SeekSubscription.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SeekSubscriptionRequest {
-    /// Required. The name of the subscription to seek.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The target to seek to. Must be set.
-    #[prost(oneof="seek_subscription_request::Target", tags="2, 3")]
-    pub target: ::core::option::Option<seek_subscription_request::Target>,
-}
-/// Nested message and enum types in `SeekSubscriptionRequest`.
-pub mod seek_subscription_request {
-    /// A named position with respect to the message backlog.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum NamedTarget {
-        /// Unspecified named target. Do not use.
-        Unspecified = 0,
-        /// Seek to the oldest retained message.
-        Tail = 1,
-        /// Seek past all recently published messages, skipping the entire message
-        /// backlog.
-        Head = 2,
-    }
-    /// The target to seek to. Must be set.
+/// Nested message and enum types in `PublishRequest`.
+pub mod publish_request {
+    /// The type of request this is.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Target {
-        /// Seek to a named position with respect to the message backlog.
-        #[prost(enumeration="NamedTarget", tag="2")]
-        NamedTarget(i32),
-        /// Seek to the first message whose publish or event time is greater than or
-        /// equal to the specified query time. If no such message can be located,
-        /// will seek to the end of the message backlog.
-        #[prost(message, tag="3")]
-        TimeTarget(super::TimeTarget),
+    pub enum RequestType {
+        /// Initial request on the stream.
+        #[prost(message, tag="1")]
+        InitialRequest(super::InitialPublishRequest),
+        /// Request to publish messages.
+        #[prost(message, tag="2")]
+        MessagePublishRequest(super::MessagePublishRequest),
     }
 }
-/// Response for SeekSubscription long running operation.
+/// Response to a PublishRequest.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SeekSubscriptionResponse {
+pub struct PublishResponse {
+    /// The type of response this is.
+    #[prost(oneof="publish_response::ResponseType", tags="1, 2")]
+    pub response_type: ::core::option::Option<publish_response::ResponseType>,
 }
-/// Metadata for long running operations.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationMetadata {
-    /// The time the operation was created.
-    #[prost(message, optional, tag="1")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time the operation finished running. Not set if the operation has not
-    /// completed.
-    #[prost(message, optional, tag="2")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Resource path for the target of the operation. For example, targets of
-    /// seeks are subscription resources, structured like:
-    /// projects/{project_number}/locations/{location}/subscriptions/{subscription_id}
-    #[prost(string, tag="3")]
-    pub target: ::prost::alloc::string::String,
-    /// Name of the verb executed by the operation.
-    #[prost(string, tag="4")]
-    pub verb: ::prost::alloc::string::String,
-}
-/// Request for CreateReservation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateReservationRequest {
-    /// Required. The parent location in which to create the reservation.
-    /// Structured like `projects/{project_number}/locations/{location}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Configuration of the reservation to create. Its `name` field is ignored.
-    #[prost(message, optional, tag="2")]
-    pub reservation: ::core::option::Option<Reservation>,
-    /// Required. The ID to use for the reservation, which will become the final component of
-    /// the reservation's name.
-    ///
-    /// This value is structured like: `my-reservation-name`.
-    #[prost(string, tag="3")]
-    pub reservation_id: ::prost::alloc::string::String,
-}
-/// Request for GetReservation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetReservationRequest {
-    /// Required. The name of the reservation whose configuration to return.
-    /// Structured like:
-    /// projects/{project_number}/locations/{location}/reservations/{reservation_id}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for ListReservations.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListReservationsRequest {
-    /// Required. The parent whose reservations are to be listed.
-    /// Structured like `projects/{project_number}/locations/{location}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of reservations to return. The service may return fewer
-    /// than this value. If unset or zero, all reservations for the parent will be
-    /// returned.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// A page token, received from a previous `ListReservations` call.
-    /// Provide this to retrieve the subsequent page.
-    ///
-    /// When paginating, all other parameters provided to `ListReservations` must
-    /// match the call that provided the page token.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response for ListReservations.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListReservationsResponse {
-    /// The list of reservation in the requested parent. The order of the
-    /// reservations is unspecified.
-    #[prost(message, repeated, tag="1")]
-    pub reservations: ::prost::alloc::vec::Vec<Reservation>,
-    /// A token that can be sent as `page_token` to retrieve the next page of
-    /// results. If this field is omitted, there are no more results.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request for UpdateReservation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateReservationRequest {
-    /// Required. The reservation to update. Its `name` field must be populated.
-    #[prost(message, optional, tag="1")]
-    pub reservation: ::core::option::Option<Reservation>,
-    /// Required. A mask specifying the reservation fields to change.
-    #[prost(message, optional, tag="2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Request for DeleteReservation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteReservationRequest {
-    /// Required. The name of the reservation to delete.
-    /// Structured like:
-    /// projects/{project_number}/locations/{location}/reservations/{reservation_id}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request for ListReservationTopics.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListReservationTopicsRequest {
-    /// Required. The name of the reservation whose topics to list.
-    /// Structured like:
-    /// projects/{project_number}/locations/{location}/reservations/{reservation_id}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The maximum number of topics to return. The service may return fewer
-    /// than this value.
-    /// If unset or zero, all topics for the given reservation will be returned.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// A page token, received from a previous `ListReservationTopics` call.
-    /// Provide this to retrieve the subsequent page.
-    ///
-    /// When paginating, all other parameters provided to `ListReservationTopics`
-    /// must match the call that provided the page token.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response for ListReservationTopics.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListReservationTopicsResponse {
-    /// The names of topics attached to the reservation. The order of the
-    /// topics is unspecified.
-    #[prost(string, repeated, tag="1")]
-    pub topics: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// A token that can be sent as `page_token` to retrieve the next page of
-    /// results. If this field is omitted, there are no more results.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
+/// Nested message and enum types in `PublishResponse`.
+pub mod publish_response {
+    /// The type of response this is.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum ResponseType {
+        /// Initial response on the stream.
+        #[prost(message, tag="1")]
+        InitialResponse(super::InitialPublishResponse),
+        /// Response to publishing messages.
+        #[prost(message, tag="2")]
+        MessageResponse(super::MessagePublishResponse),
+    }
 }
 /// Generated client implementations.
-pub mod admin_service_client {
+pub mod publisher_service_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    /// The service that a client application uses to manage topics and
-    /// subscriptions, such creating, listing, and deleting topics and subscriptions.
+    /// The service that a publisher client application uses to publish messages to
+    /// topics. Published messages are retained by the service for the duration of
+    /// the retention period configured for the respective topic, and are delivered
+    /// to subscriber clients upon request (via the `SubscriberService`).
     #[derive(Debug, Clone)]
-    pub struct AdminServiceClient<T> {
+    pub struct PublisherServiceClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl<T> AdminServiceClient<T>
+    impl<T> PublisherServiceClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::Error: Into<StdError>,
@@ -1613,7 +1993,7 @@ pub mod admin_service_client {
         pub fn with_interceptor<F>(
             inner: T,
             interceptor: F,
-        ) -> AdminServiceClient<InterceptedService<T, F>>
+        ) -> PublisherServiceClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T::ResponseBody: Default,
@@ -1627,7 +2007,7 @@ pub mod admin_service_client {
                 http::Request<tonic::body::BoxBody>,
             >>::Error: Into<StdError> + Send + Sync,
         {
-            AdminServiceClient::new(InterceptedService::new(inner, interceptor))
+            PublisherServiceClient::new(InterceptedService::new(inner, interceptor))
         }
         /// Compress requests with `gzip`.
         ///
@@ -1644,132 +2024,18 @@ pub mod admin_service_client {
             self.inner = self.inner.accept_gzip();
             self
         }
-        /// Creates a new topic.
-        pub async fn create_topic(
+        /// Establishes a stream with the server for publishing messages. Once the
+        /// stream is initialized, the client publishes messages by sending publish
+        /// requests on the stream. The server responds with a PublishResponse for each
+        /// PublishRequest sent by the client, in the same order that the requests
+        /// were sent. Note that multiple PublishRequests can be in flight
+        /// simultaneously, but they will be processed by the server in the order that
+        /// they are sent by the client on a given stream.
+        pub async fn publish(
             &mut self,
-            request: impl tonic::IntoRequest<super::CreateTopicRequest>,
-        ) -> Result<tonic::Response<super::Topic>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/CreateTopic",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Returns the topic configuration.
-        pub async fn get_topic(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetTopicRequest>,
-        ) -> Result<tonic::Response<super::Topic>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/GetTopic",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Returns the partition information for the requested topic.
-        pub async fn get_topic_partitions(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetTopicPartitionsRequest>,
-        ) -> Result<tonic::Response<super::TopicPartitions>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/GetTopicPartitions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Returns the list of topics for the given project.
-        pub async fn list_topics(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListTopicsRequest>,
-        ) -> Result<tonic::Response<super::ListTopicsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/ListTopics",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Updates properties of the specified topic.
-        pub async fn update_topic(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateTopicRequest>,
-        ) -> Result<tonic::Response<super::Topic>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/UpdateTopic",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes the specified topic.
-        pub async fn delete_topic(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteTopicRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/DeleteTopic",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Lists the subscriptions attached to the specified topic.
-        pub async fn list_topic_subscriptions(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListTopicSubscriptionsRequest>,
+            request: impl tonic::IntoStreamingRequest<Message = super::PublishRequest>,
         ) -> Result<
-            tonic::Response<super::ListTopicSubscriptionsResponse>,
+            tonic::Response<tonic::codec::Streaming<super::PublishResponse>>,
             tonic::Status,
         > {
             self.inner
@@ -1783,275 +2049,9 @@ pub mod admin_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/ListTopicSubscriptions",
+                "/google.cloud.pubsublite.v1.PublisherService/Publish",
             );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Creates a new subscription.
-        pub async fn create_subscription(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateSubscriptionRequest>,
-        ) -> Result<tonic::Response<super::Subscription>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/CreateSubscription",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Returns the subscription configuration.
-        pub async fn get_subscription(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetSubscriptionRequest>,
-        ) -> Result<tonic::Response<super::Subscription>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/GetSubscription",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Returns the list of subscriptions for the given project.
-        pub async fn list_subscriptions(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListSubscriptionsRequest>,
-        ) -> Result<tonic::Response<super::ListSubscriptionsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/ListSubscriptions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Updates properties of the specified subscription.
-        pub async fn update_subscription(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateSubscriptionRequest>,
-        ) -> Result<tonic::Response<super::Subscription>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/UpdateSubscription",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes the specified subscription.
-        pub async fn delete_subscription(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteSubscriptionRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/DeleteSubscription",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Performs an out-of-band seek for a subscription to a specified target,
-        /// which may be timestamps or named positions within the message backlog.
-        /// Seek translates these targets to cursors for each partition and
-        /// orchestrates subscribers to start consuming messages from these seek
-        /// cursors.
-        ///
-        /// If an operation is returned, the seek has been registered and subscribers
-        /// will eventually receive messages from the seek cursors (i.e. eventual
-        /// consistency), as long as they are using a minimum supported client library
-        /// version and not a system that tracks cursors independently of Pub/Sub Lite
-        /// (e.g. Apache Beam, Dataflow, Spark). The seek operation will fail for
-        /// unsupported clients.
-        ///
-        /// If clients would like to know when subscribers react to the seek (or not),
-        /// they can poll the operation. The seek operation will succeed and complete
-        /// once subscribers are ready to receive messages from the seek cursors for
-        /// all partitions of the topic. This means that the seek operation will not
-        /// complete until all subscribers come online.
-        ///
-        /// If the previous seek operation has not yet completed, it will be aborted
-        /// and the new invocation of seek will supersede it.
-        pub async fn seek_subscription(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SeekSubscriptionRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/SeekSubscription",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Creates a new reservation.
-        pub async fn create_reservation(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateReservationRequest>,
-        ) -> Result<tonic::Response<super::Reservation>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/CreateReservation",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Returns the reservation configuration.
-        pub async fn get_reservation(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetReservationRequest>,
-        ) -> Result<tonic::Response<super::Reservation>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/GetReservation",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Returns the list of reservations for the given project.
-        pub async fn list_reservations(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListReservationsRequest>,
-        ) -> Result<tonic::Response<super::ListReservationsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/ListReservations",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Updates properties of the specified reservation.
-        pub async fn update_reservation(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateReservationRequest>,
-        ) -> Result<tonic::Response<super::Reservation>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/UpdateReservation",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes the specified reservation.
-        pub async fn delete_reservation(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteReservationRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/DeleteReservation",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Lists the topics attached to the specified reservation.
-        pub async fn list_reservation_topics(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListReservationTopicsRequest>,
-        ) -> Result<
-            tonic::Response<super::ListReservationTopicsResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.pubsublite.v1.AdminService/ListReservationTopics",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
+            self.inner.streaming(request.into_streaming_request(), path, codec).await
         }
     }
 }

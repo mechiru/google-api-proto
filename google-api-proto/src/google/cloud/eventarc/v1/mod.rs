@@ -1,3 +1,163 @@
+/// A representation of the Channel resource.
+/// A Channel is a resource on which event providers publish their events.
+/// The published events are delivered through the transport associated with the
+/// channel. Note that a channel is associated with exactly one event provider.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Channel {
+    /// Required. The resource name of the channel. Must be unique within the location
+    /// on the project and must be in
+    /// `projects/{project}/locations/{location}/channels/{channel_id}` format.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Server assigned unique identifier for the channel. The value is a UUID4
+    /// string and guaranteed to remain unchanged until the resource is deleted.
+    #[prost(string, tag="2")]
+    pub uid: ::prost::alloc::string::String,
+    /// Output only. The creation time.
+    #[prost(message, optional, tag="5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The last-modified time.
+    #[prost(message, optional, tag="6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Required. The name of the event provider (e.g. Eventarc SaaS partner) associated
+    /// with the channel. This provider will be granted permissions to publish
+    /// events to the channel. Format:
+    /// `projects/{project}/locations/{location}/providers/{provider_id}`.
+    #[prost(string, tag="7")]
+    pub provider: ::prost::alloc::string::String,
+    /// Output only. The state of a Channel.
+    #[prost(enumeration="channel::State", tag="9")]
+    pub state: i32,
+    /// Output only. The activation token for the channel. The token must be used by the
+    /// provider to register the channel for publishing.
+    #[prost(string, tag="10")]
+    pub activation_token: ::prost::alloc::string::String,
+    #[prost(oneof="channel::Transport", tags="8")]
+    pub transport: ::core::option::Option<channel::Transport>,
+}
+/// Nested message and enum types in `Channel`.
+pub mod channel {
+    /// State lists all the possible states of a Channel
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Default value. This value is unused.
+        Unspecified = 0,
+        /// The PENDING state indicates that a Channel has been created successfully
+        /// and there is a new activation token available for the subscriber to use
+        /// to convey the Channel to the provider in order to create a Connection.
+        Pending = 1,
+        /// The ACTIVE state indicates that a Channel has been successfully
+        /// connected with the event provider.
+        /// An ACTIVE Channel is ready to receive and route events from the
+        /// event provider.
+        Active = 2,
+        /// The INACTIVE state means that the Channel cannot receive events
+        /// permanently. There are two possible cases this state can happen:
+        /// 1. The SaaS provider disconnected from this Channel.
+        /// 2. The Channel activation token has expired but the SaaS provider
+        ///    wasn't connected.
+        /// To re-establish a Connection with a provider, the subscriber
+        /// should create a new Channel and give it to the provider.
+        Inactive = 3,
+    }
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Transport {
+        /// Output only. The name of the Pub/Sub topic created and managed by Eventarc system as
+        /// a transport for the event delivery. Format:
+        /// `projects/{project}/topics/{topic_id}`.
+        #[prost(string, tag="8")]
+        PubsubTopic(::prost::alloc::string::String),
+    }
+}
+/// A representation of the ChannelConnection resource.
+/// A ChannelConnection is a resource which event providers create during the
+/// activation process to establish a connection between the provider and the
+/// subscriber channel.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ChannelConnection {
+    /// Required. The name of the connection.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Server assigned ID of the resource.
+    /// The server guarantees uniqueness and immutability until deleted.
+    #[prost(string, tag="2")]
+    pub uid: ::prost::alloc::string::String,
+    /// Required. The name of the connected subscriber Channel.
+    /// This is a weak reference to avoid cross project and cross accounts
+    /// references. This must be in
+    /// `projects/{project}/location/{location}/channels/{channel_id}` format.
+    #[prost(string, tag="5")]
+    pub channel: ::prost::alloc::string::String,
+    /// Output only. The creation time.
+    #[prost(message, optional, tag="6")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The last-modified time.
+    #[prost(message, optional, tag="7")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Input only. Activation token for the channel. The token will be used
+    /// during the creation of ChannelConnection to bind the channel with the
+    /// provider project. This field will not be stored in the provider resource.
+    #[prost(string, tag="8")]
+    pub activation_token: ::prost::alloc::string::String,
+}
+/// A representation of the Provider resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Provider {
+    /// Output only. In `projects/{project}/locations/{location}/providers/{provider_id}`
+    /// format.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Human friendly name for the Provider. For example "Cloud Storage".
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Output only. Event types for this provider.
+    #[prost(message, repeated, tag="3")]
+    pub event_types: ::prost::alloc::vec::Vec<EventType>,
+}
+/// A representation of the event type resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventType {
+    /// Output only. The full name of the event type (for example,
+    /// "google.cloud.storage.object.v1.finalized"). In the form of
+    /// {provider-specific-prefix}.{resource}.{version}.{verb}. Types MUST be
+    /// versioned and event schemas are guaranteed to remain backward compatible
+    /// within one version. Note that event type versions and API versions do not
+    /// need to match.
+    #[prost(string, tag="1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// Output only. Human friendly description of what the event type is about.
+    /// For example "Bucket created in Cloud Storage".
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. Filtering attributes for the event type.
+    #[prost(message, repeated, tag="3")]
+    pub filtering_attributes: ::prost::alloc::vec::Vec<FilteringAttribute>,
+    /// Output only. URI for the event schema.
+    /// For example
+    /// "<https://github.com/googleapis/google-cloudevents/blob/master/proto/google/events/cloud/storage/v1/events.proto">
+    #[prost(string, tag="4")]
+    pub event_schema_uri: ::prost::alloc::string::String,
+}
+/// A representation of the FilteringAttribute resource.
+/// Filtering attributes are per event type.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FilteringAttribute {
+    /// Output only. Attribute used for filtering the event type.
+    #[prost(string, tag="1")]
+    pub attribute: ::prost::alloc::string::String,
+    /// Output only. Description of the purpose of the attribute.
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. If true, the triggers for this provider should always specify a filter
+    /// on these attributes. Trigger creation will fail otherwise.
+    #[prost(bool, tag="3")]
+    pub required: bool,
+    /// Output only. If true, the attribute accepts matching expressions in the Eventarc
+    /// PathPattern format.
+    #[prost(bool, tag="4")]
+    pub path_pattern_supported: bool,
+}
 /// A representation of the trigger resource.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Trigger {
@@ -181,166 +341,6 @@ pub struct Pubsub {
     /// `projects/{PROJECT_ID}/subscriptions/{SUBSCRIPTION_NAME}`.
     #[prost(string, tag="2")]
     pub subscription: ::prost::alloc::string::String,
-}
-/// A representation of the Channel resource.
-/// A Channel is a resource on which event providers publish their events.
-/// The published events are delivered through the transport associated with the
-/// channel. Note that a channel is associated with exactly one event provider.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Channel {
-    /// Required. The resource name of the channel. Must be unique within the location
-    /// on the project and must be in
-    /// `projects/{project}/locations/{location}/channels/{channel_id}` format.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Server assigned unique identifier for the channel. The value is a UUID4
-    /// string and guaranteed to remain unchanged until the resource is deleted.
-    #[prost(string, tag="2")]
-    pub uid: ::prost::alloc::string::String,
-    /// Output only. The creation time.
-    #[prost(message, optional, tag="5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The last-modified time.
-    #[prost(message, optional, tag="6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Required. The name of the event provider (e.g. Eventarc SaaS partner) associated
-    /// with the channel. This provider will be granted permissions to publish
-    /// events to the channel. Format:
-    /// `projects/{project}/locations/{location}/providers/{provider_id}`.
-    #[prost(string, tag="7")]
-    pub provider: ::prost::alloc::string::String,
-    /// Output only. The state of a Channel.
-    #[prost(enumeration="channel::State", tag="9")]
-    pub state: i32,
-    /// Output only. The activation token for the channel. The token must be used by the
-    /// provider to register the channel for publishing.
-    #[prost(string, tag="10")]
-    pub activation_token: ::prost::alloc::string::String,
-    #[prost(oneof="channel::Transport", tags="8")]
-    pub transport: ::core::option::Option<channel::Transport>,
-}
-/// Nested message and enum types in `Channel`.
-pub mod channel {
-    /// State lists all the possible states of a Channel
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Default value. This value is unused.
-        Unspecified = 0,
-        /// The PENDING state indicates that a Channel has been created successfully
-        /// and there is a new activation token available for the subscriber to use
-        /// to convey the Channel to the provider in order to create a Connection.
-        Pending = 1,
-        /// The ACTIVE state indicates that a Channel has been successfully
-        /// connected with the event provider.
-        /// An ACTIVE Channel is ready to receive and route events from the
-        /// event provider.
-        Active = 2,
-        /// The INACTIVE state means that the Channel cannot receive events
-        /// permanently. There are two possible cases this state can happen:
-        /// 1. The SaaS provider disconnected from this Channel.
-        /// 2. The Channel activation token has expired but the SaaS provider
-        ///    wasn't connected.
-        /// To re-establish a Connection with a provider, the subscriber
-        /// should create a new Channel and give it to the provider.
-        Inactive = 3,
-    }
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Transport {
-        /// Output only. The name of the Pub/Sub topic created and managed by Eventarc system as
-        /// a transport for the event delivery. Format:
-        /// `projects/{project}/topics/{topic_id}`.
-        #[prost(string, tag="8")]
-        PubsubTopic(::prost::alloc::string::String),
-    }
-}
-/// A representation of the ChannelConnection resource.
-/// A ChannelConnection is a resource which event providers create during the
-/// activation process to establish a connection between the provider and the
-/// subscriber channel.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ChannelConnection {
-    /// Required. The name of the connection.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Server assigned ID of the resource.
-    /// The server guarantees uniqueness and immutability until deleted.
-    #[prost(string, tag="2")]
-    pub uid: ::prost::alloc::string::String,
-    /// Required. The name of the connected subscriber Channel.
-    /// This is a weak reference to avoid cross project and cross accounts
-    /// references. This must be in
-    /// `projects/{project}/location/{location}/channels/{channel_id}` format.
-    #[prost(string, tag="5")]
-    pub channel: ::prost::alloc::string::String,
-    /// Output only. The creation time.
-    #[prost(message, optional, tag="6")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The last-modified time.
-    #[prost(message, optional, tag="7")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Input only. Activation token for the channel. The token will be used
-    /// during the creation of ChannelConnection to bind the channel with the
-    /// provider project. This field will not be stored in the provider resource.
-    #[prost(string, tag="8")]
-    pub activation_token: ::prost::alloc::string::String,
-}
-/// A representation of the Provider resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Provider {
-    /// Output only. In `projects/{project}/locations/{location}/providers/{provider_id}`
-    /// format.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Human friendly name for the Provider. For example "Cloud Storage".
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Output only. Event types for this provider.
-    #[prost(message, repeated, tag="3")]
-    pub event_types: ::prost::alloc::vec::Vec<EventType>,
-}
-/// A representation of the event type resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventType {
-    /// Output only. The full name of the event type (for example,
-    /// "google.cloud.storage.object.v1.finalized"). In the form of
-    /// {provider-specific-prefix}.{resource}.{version}.{verb}. Types MUST be
-    /// versioned and event schemas are guaranteed to remain backward compatible
-    /// within one version. Note that event type versions and API versions do not
-    /// need to match.
-    #[prost(string, tag="1")]
-    pub r#type: ::prost::alloc::string::String,
-    /// Output only. Human friendly description of what the event type is about.
-    /// For example "Bucket created in Cloud Storage".
-    #[prost(string, tag="2")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. Filtering attributes for the event type.
-    #[prost(message, repeated, tag="3")]
-    pub filtering_attributes: ::prost::alloc::vec::Vec<FilteringAttribute>,
-    /// Output only. URI for the event schema.
-    /// For example
-    /// "<https://github.com/googleapis/google-cloudevents/blob/master/proto/google/events/cloud/storage/v1/events.proto">
-    #[prost(string, tag="4")]
-    pub event_schema_uri: ::prost::alloc::string::String,
-}
-/// A representation of the FilteringAttribute resource.
-/// Filtering attributes are per event type.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FilteringAttribute {
-    /// Output only. Attribute used for filtering the event type.
-    #[prost(string, tag="1")]
-    pub attribute: ::prost::alloc::string::String,
-    /// Output only. Description of the purpose of the attribute.
-    #[prost(string, tag="2")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. If true, the triggers for this provider should always specify a filter
-    /// on these attributes. Trigger creation will fail otherwise.
-    #[prost(bool, tag="3")]
-    pub required: bool,
-    /// Output only. If true, the attribute accepts matching expressions in the Eventarc
-    /// PathPattern format.
-    #[prost(bool, tag="4")]
-    pub path_pattern_supported: bool,
 }
 /// The request message for the GetTrigger method.
 #[derive(Clone, PartialEq, ::prost::Message)]

@@ -1,64 +1,26 @@
-/// Metadata for the given \[google.longrunning.Operation][google.longrunning.Operation\].
+/// A NetworkSettings resource is a container for ingress settings for a version
+/// or service.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationMetadataV1Beta {
-    /// API method that initiated this operation. Example:
-    /// `google.appengine.v1beta.Versions.CreateVersion`.
-    ///
-    /// @OutputOnly
-    #[prost(string, tag="1")]
-    pub method: ::prost::alloc::string::String,
-    /// Time that this operation was created.
-    ///
-    /// @OutputOnly
-    #[prost(message, optional, tag="2")]
-    pub insert_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Time that this operation completed.
-    ///
-    /// @OutputOnly
-    #[prost(message, optional, tag="3")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// User who requested this operation.
-    ///
-    /// @OutputOnly
-    #[prost(string, tag="4")]
-    pub user: ::prost::alloc::string::String,
-    /// Name of the resource that this operation is acting on. Example:
-    /// `apps/myapp/services/default`.
-    ///
-    /// @OutputOnly
-    #[prost(string, tag="5")]
-    pub target: ::prost::alloc::string::String,
-    /// Ephemeral message that may change every time the operation is polled.
-    /// @OutputOnly
-    #[prost(string, tag="6")]
-    pub ephemeral_message: ::prost::alloc::string::String,
-    /// Durable messages that persist on every operation poll.
-    /// @OutputOnly
-    #[prost(string, repeated, tag="7")]
-    pub warning: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Metadata specific to the type of operation in progress.
-    /// @OutputOnly
-    #[prost(oneof="operation_metadata_v1_beta::MethodMetadata", tags="8")]
-    pub method_metadata: ::core::option::Option<operation_metadata_v1_beta::MethodMetadata>,
+pub struct NetworkSettings {
+    /// The ingress settings for version or service.
+    #[prost(enumeration="network_settings::IngressTrafficAllowed", tag="1")]
+    pub ingress_traffic_allowed: i32,
 }
-/// Nested message and enum types in `OperationMetadataV1Beta`.
-pub mod operation_metadata_v1_beta {
-    /// Metadata specific to the type of operation in progress.
-    /// @OutputOnly
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum MethodMetadata {
-        #[prost(message, tag="8")]
-        CreateVersionMetadata(super::CreateVersionMetadataV1Beta),
+/// Nested message and enum types in `NetworkSettings`.
+pub mod network_settings {
+    /// If unspecified, INGRESS_TRAFFIC_ALLOWED_ALL will be used.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum IngressTrafficAllowed {
+        /// Unspecified
+        Unspecified = 0,
+        /// Allow HTTP traffic from public and private sources.
+        All = 1,
+        /// Allow HTTP traffic from only private VPC sources.
+        InternalOnly = 2,
+        /// Allow HTTP traffic from private VPC sources and through load balancers.
+        InternalAndLb = 3,
     }
-}
-/// Metadata for the given \[google.longrunning.Operation][google.longrunning.Operation\] during a
-/// \[google.appengine.v1beta.CreateVersionRequest][google.appengine.v1beta.CreateVersionRequest\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateVersionMetadataV1Beta {
-    /// The Cloud Build ID if one was created as part of the version create.
-    /// @OutputOnly
-    #[prost(string, tag="1")]
-    pub cloud_build_id: ::prost::alloc::string::String,
 }
 /// An Application resource contains the top-level configuration of an App
 /// Engine application.
@@ -1059,30 +1021,6 @@ pub struct ZipInfo {
     /// Used for optimizing performance; if not provided, deployment may be slow.
     #[prost(int32, tag="4")]
     pub files_count: i32,
-}
-/// A NetworkSettings resource is a container for ingress settings for a version
-/// or service.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NetworkSettings {
-    /// The ingress settings for version or service.
-    #[prost(enumeration="network_settings::IngressTrafficAllowed", tag="1")]
-    pub ingress_traffic_allowed: i32,
-}
-/// Nested message and enum types in `NetworkSettings`.
-pub mod network_settings {
-    /// If unspecified, INGRESS_TRAFFIC_ALLOWED_ALL will be used.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum IngressTrafficAllowed {
-        /// Unspecified
-        Unspecified = 0,
-        /// Allow HTTP traffic from public and private sources.
-        All = 1,
-        /// Allow HTTP traffic from only private VPC sources.
-        InternalOnly = 2,
-        /// Allow HTTP traffic from private VPC sources and through load balancers.
-        InternalAndLb = 3,
-    }
 }
 /// A Version resource is a specific set of source code and configuration files
 /// that are deployed into a service.
@@ -3629,4 +3567,66 @@ pub struct LocationMetadata {
     /// is available in the given location.
     #[prost(bool, tag="6")]
     pub search_api_available: bool,
+}
+/// Metadata for the given \[google.longrunning.Operation][google.longrunning.Operation\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationMetadataV1Beta {
+    /// API method that initiated this operation. Example:
+    /// `google.appengine.v1beta.Versions.CreateVersion`.
+    ///
+    /// @OutputOnly
+    #[prost(string, tag="1")]
+    pub method: ::prost::alloc::string::String,
+    /// Time that this operation was created.
+    ///
+    /// @OutputOnly
+    #[prost(message, optional, tag="2")]
+    pub insert_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Time that this operation completed.
+    ///
+    /// @OutputOnly
+    #[prost(message, optional, tag="3")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// User who requested this operation.
+    ///
+    /// @OutputOnly
+    #[prost(string, tag="4")]
+    pub user: ::prost::alloc::string::String,
+    /// Name of the resource that this operation is acting on. Example:
+    /// `apps/myapp/services/default`.
+    ///
+    /// @OutputOnly
+    #[prost(string, tag="5")]
+    pub target: ::prost::alloc::string::String,
+    /// Ephemeral message that may change every time the operation is polled.
+    /// @OutputOnly
+    #[prost(string, tag="6")]
+    pub ephemeral_message: ::prost::alloc::string::String,
+    /// Durable messages that persist on every operation poll.
+    /// @OutputOnly
+    #[prost(string, repeated, tag="7")]
+    pub warning: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Metadata specific to the type of operation in progress.
+    /// @OutputOnly
+    #[prost(oneof="operation_metadata_v1_beta::MethodMetadata", tags="8")]
+    pub method_metadata: ::core::option::Option<operation_metadata_v1_beta::MethodMetadata>,
+}
+/// Nested message and enum types in `OperationMetadataV1Beta`.
+pub mod operation_metadata_v1_beta {
+    /// Metadata specific to the type of operation in progress.
+    /// @OutputOnly
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum MethodMetadata {
+        #[prost(message, tag="8")]
+        CreateVersionMetadata(super::CreateVersionMetadataV1Beta),
+    }
+}
+/// Metadata for the given \[google.longrunning.Operation][google.longrunning.Operation\] during a
+/// \[google.appengine.v1beta.CreateVersionRequest][google.appengine.v1beta.CreateVersionRequest\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateVersionMetadataV1Beta {
+    /// The Cloud Build ID if one was created as part of the version create.
+    /// @OutputOnly
+    #[prost(string, tag="1")]
+    pub cloud_build_id: ::prost::alloc::string::String,
 }

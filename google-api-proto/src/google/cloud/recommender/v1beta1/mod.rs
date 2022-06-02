@@ -342,19 +342,19 @@ pub mod recommendation_state_info {
         Dismissed = 5,
     }
 }
-/// Configuration for a Recommender.
+/// Configuration for an InsightType.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RecommenderConfig {
-    /// Name of recommender config.
+pub struct InsightTypeConfig {
+    /// Name of insight type config.
     /// Eg,
-    /// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]/config
+    /// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]/config
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// RecommenderGenerationConfig which configures the Generation of
-    /// recommendations for this recommender.
+    /// InsightTypeGenerationConfig which configures the generation of
+    /// insights for this insight type.
     #[prost(message, optional, tag="2")]
-    pub recommender_generation_config: ::core::option::Option<RecommenderGenerationConfig>,
-    /// Fingerprint of the RecommenderConfig. Provides optimistic locking when
+    pub insight_type_generation_config: ::core::option::Option<InsightTypeGenerationConfig>,
+    /// Fingerprint of the InsightTypeConfig. Provides optimistic locking when
     /// updating.
     #[prost(string, tag="3")]
     pub etag: ::prost::alloc::string::String,
@@ -381,12 +381,12 @@ pub struct RecommenderConfig {
     #[prost(string, tag="7")]
     pub display_name: ::prost::alloc::string::String,
 }
-/// A Configuration to customize the generation of recommendations.
+/// A configuration to customize the generation of insights.
 /// Eg, customizing the lookback period considered when generating a
-/// recommendation.
+/// insight.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RecommenderGenerationConfig {
-    /// Parameters for this RecommenderGenerationConfig. These configs can be used
+pub struct InsightTypeGenerationConfig {
+    /// Parameters for this InsightTypeGenerationConfig. These configs can be used
     /// by or are applied to all subtypes.
     #[prost(message, optional, tag="1")]
     pub params: ::core::option::Option<::prost_types::Struct>,
@@ -510,19 +510,19 @@ pub mod insight_state_info {
         Dismissed = 3,
     }
 }
-/// Configuration for an InsightType.
+/// Configuration for a Recommender.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InsightTypeConfig {
-    /// Name of insight type config.
+pub struct RecommenderConfig {
+    /// Name of recommender config.
     /// Eg,
-    /// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]/config
+    /// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]/config
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// InsightTypeGenerationConfig which configures the generation of
-    /// insights for this insight type.
+    /// RecommenderGenerationConfig which configures the Generation of
+    /// recommendations for this recommender.
     #[prost(message, optional, tag="2")]
-    pub insight_type_generation_config: ::core::option::Option<InsightTypeGenerationConfig>,
-    /// Fingerprint of the InsightTypeConfig. Provides optimistic locking when
+    pub recommender_generation_config: ::core::option::Option<RecommenderGenerationConfig>,
+    /// Fingerprint of the RecommenderConfig. Provides optimistic locking when
     /// updating.
     #[prost(string, tag="3")]
     pub etag: ::prost::alloc::string::String,
@@ -549,12 +549,12 @@ pub struct InsightTypeConfig {
     #[prost(string, tag="7")]
     pub display_name: ::prost::alloc::string::String,
 }
-/// A configuration to customize the generation of insights.
+/// A Configuration to customize the generation of recommendations.
 /// Eg, customizing the lookback period considered when generating a
-/// insight.
+/// recommendation.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InsightTypeGenerationConfig {
-    /// Parameters for this InsightTypeGenerationConfig. These configs can be used
+pub struct RecommenderGenerationConfig {
+    /// Parameters for this RecommenderGenerationConfig. These configs can be used
     /// by or are applied to all subtypes.
     #[prost(message, optional, tag="1")]
     pub params: ::core::option::Option<::prost_types::Struct>,

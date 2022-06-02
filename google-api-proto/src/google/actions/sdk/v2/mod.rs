@@ -8,137 +8,240 @@ pub mod conversation;
     )
 )]
 pub mod interactionmodel;
-/// Styles applied to cards that are presented to users
+/// Contains information about execution event which happened during processing
+/// Actions Builder conversation request. For an overview of the stages involved
+/// in a conversation request, see
+/// <https://developers.google.com/assistant/conversational/actions.>
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ThemeCustomization {
-    /// Background color of cards. Acts as a fallback if `background_image` is
-    /// not provided by developers or `background_image` doesn't fit for certain
-    /// surfaces.
-    /// Example usage: #FAFAFA
-    #[prost(string, tag="1")]
-    pub background_color: ::prost::alloc::string::String,
-    /// Primary theme color of the Action will be used to set text color of title,
-    /// action item background color for Actions on Google cards.
-    /// Example usage: #FAFAFA
-    #[prost(string, tag="2")]
-    pub primary_color: ::prost::alloc::string::String,
-    /// The font family that will be used for title of cards.
-    /// Supported fonts:
-    /// - Sans Serif
-    /// - Sans Serif Medium
-    /// - Sans Serif Bold
-    /// - Sans Serif Black
-    /// - Sans Serif Condensed
-    /// - Sans Serif Condensed Medium
-    /// - Serif
-    /// - Serif Bold
-    /// - Monospace
-    /// - Cursive
-    /// - Sans Serif Smallcaps
-    #[prost(string, tag="3")]
-    pub font_family: ::prost::alloc::string::String,
-    /// Border style of foreground image of cards. For example, can be applied on
-    /// the foreground image of a basic card or carousel card.
-    #[prost(enumeration="theme_customization::ImageCornerStyle", tag="4")]
-    pub image_corner_style: i32,
-    /// Landscape mode (minimum 1920x1200 pixels).
-    /// This should be specified as a reference to the corresponding image in the
-    /// `resources/images/` directory. Eg: `$resources.images.foo` (without the
-    /// extension) for image in `resources/images/foo.jpg`
-    /// When working on a project pulled from Console the Google managed url pulled
-    /// could be used.
-    #[prost(string, tag="5")]
-    pub landscape_background_image: ::prost::alloc::string::String,
-    /// Portrait mode (minimum 1200x1920 pixels).
-    /// This should be specified as a reference to the corresponding image in the
-    /// `resources/images/` directory. Eg: `$resources.images.foo` (without the
-    /// extension) for image in `resources/images/foo.jpg`
-    /// When working on a project pulled from Console the Google managed url pulled
-    /// could be used.
-    #[prost(string, tag="6")]
-    pub portrait_background_image: ::prost::alloc::string::String,
+pub struct ExecutionEvent {
+    /// Timestamp when the event happened.
+    #[prost(message, optional, tag="1")]
+    pub event_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// State of the execution during this event.
+    #[prost(message, optional, tag="2")]
+    pub execution_state: ::core::option::Option<ExecutionState>,
+    /// Resulting status of particular execution step.
+    #[prost(message, optional, tag="3")]
+    pub status: ::core::option::Option<super::super::super::rpc::Status>,
+    /// List of warnings generated during execution of this Event. Warnings are
+    /// tips for the developer discovered during the conversation request. These
+    /// are usually non-critical and do not halt the execution of the request. For
+    /// example, a warnings might be generated when webhook tries to override a
+    /// custom Type which does not exist. Errors are reported as a failed status
+    /// code, but warnings can be present even when the status is OK.
+    #[prost(string, repeated, tag="17")]
+    pub warning_messages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Detailed information specific to different of events that may be involved
+    /// in processing a conversation round. The field set here defines the type of
+    /// this event.
+    #[prost(oneof="execution_event::EventData", tags="4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16")]
+    pub event_data: ::core::option::Option<execution_event::EventData>,
 }
-/// Nested message and enum types in `ThemeCustomization`.
-pub mod theme_customization {
-    /// Describes how the borders of images should be rendered.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ImageCornerStyle {
-        /// Undefined / Unspecified.
-        Unspecified = 0,
-        /// Round corner for image.
-        Curved = 1,
-        /// Rectangular corner for image.
-        Angled = 2,
+/// Nested message and enum types in `ExecutionEvent`.
+pub mod execution_event {
+    /// Detailed information specific to different of events that may be involved
+    /// in processing a conversation round. The field set here defines the type of
+    /// this event.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum EventData {
+        /// User input handling event.
+        #[prost(message, tag="4")]
+        UserInput(super::UserConversationInput),
+        /// Intent matching event.
+        #[prost(message, tag="5")]
+        IntentMatch(super::IntentMatch),
+        /// Condition evaluation event.
+        #[prost(message, tag="6")]
+        ConditionsEvaluated(super::ConditionsEvaluated),
+        /// OnSceneEnter execution event.
+        #[prost(message, tag="7")]
+        OnSceneEnter(super::OnSceneEnter),
+        /// Webhook request dispatch event.
+        #[prost(message, tag="8")]
+        WebhookRequest(super::WebhookRequest),
+        /// Webhook response receipt event.
+        #[prost(message, tag="9")]
+        WebhookResponse(super::WebhookResponse),
+        /// Webhook-initiated transition event.
+        #[prost(message, tag="10")]
+        WebhookInitiatedTransition(super::WebhookInitiatedTransition),
+        /// Slot matching event.
+        #[prost(message, tag="11")]
+        SlotMatch(super::SlotMatch),
+        /// Slot requesting event.
+        #[prost(message, tag="12")]
+        SlotRequested(super::SlotRequested),
+        /// Slot validation event.
+        #[prost(message, tag="13")]
+        SlotValidated(super::SlotValidated),
+        /// Form filling event.
+        #[prost(message, tag="14")]
+        FormFilled(super::FormFilled),
+        /// Waiting-for-user-input event.
+        #[prost(message, tag="15")]
+        WaitingUserInput(super::WaitingForUserInput),
+        /// End-of-conversation event.
+        #[prost(message, tag="16")]
+        EndConversation(super::EndConversation),
     }
 }
-/// Represents settings of an Actions project that are specific to a user locale.
-/// In this instance, user means the end user who invokes your Actions.
-/// **This message is localizable.**
+/// Current state of the execution.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LocalizedSettings {
-    /// Required. The default display name for this Actions project (if there is no
-    /// translation available)
+pub struct ExecutionState {
+    /// ID of the scene which is currently  active.
     #[prost(string, tag="1")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Required. The pronunciation of the display name to invoke it within a voice
-    /// (spoken) context.
+    pub current_scene_id: ::prost::alloc::string::String,
+    /// State of the session storage:
+    /// <https://developers.google.com/assistant/conversational/storage-session>
+    #[prost(message, optional, tag="2")]
+    pub session_storage: ::core::option::Option<::prost_types::Struct>,
+    /// State of the slots filling, if applicable:
+    /// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
+    #[prost(message, optional, tag="5")]
+    pub slots: ::core::option::Option<Slots>,
+    /// Prompt queue:
+    /// <https://developers.google.com/assistant/conversational/prompts>
+    #[prost(message, repeated, tag="7")]
+    pub prompt_queue: ::prost::alloc::vec::Vec<conversation::Prompt>,
+    /// State of the user storage:
+    /// <https://developers.google.com/assistant/conversational/storage-user>
+    #[prost(message, optional, tag="6")]
+    pub user_storage: ::core::option::Option<::prost_types::Struct>,
+    /// State of the home storage:
+    /// <https://developers.google.com/assistant/conversational/storage-home>
+    #[prost(message, optional, tag="8")]
+    pub household_storage: ::core::option::Option<::prost_types::Struct>,
+}
+/// Represents the current state of a the scene's slots.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Slots {
+    /// The current status of slot filling.
+    #[prost(enumeration="conversation::SlotFillingStatus", tag="2")]
+    pub status: i32,
+    /// The slots associated with the current scene.
+    #[prost(btree_map="string, message", tag="3")]
+    pub slots: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, conversation::Slot>,
+}
+/// Information related to user input.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UserConversationInput {
+    /// Type of user input. E.g. keyboard, voice, touch, etc.
+    #[prost(string, tag="1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// Original text input from the user.
     #[prost(string, tag="2")]
-    pub pronunciation: ::prost::alloc::string::String,
-    /// Required. The default short description for the Actions project (if there is no
-    /// translation available). 80 character limit.
+    pub original_query: ::prost::alloc::string::String,
+}
+/// Information about triggered intent match (global or within a scene):
+/// <https://developers.google.com/assistant/conversational/intents>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct IntentMatch {
+    /// Intent id which triggered this interaction.
+    #[prost(string, tag="1")]
+    pub intent_id: ::prost::alloc::string::String,
+    /// Parameters of intent which triggered this interaction.
+    #[prost(btree_map="string, message", tag="5")]
+    pub intent_parameters: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, conversation::IntentParameterValue>,
+    /// Name of the handler attached to this interaction.
     #[prost(string, tag="3")]
-    pub short_description: ::prost::alloc::string::String,
-    /// Required. The default long description for the Actions project (if there is no
-    /// translation available). 4000 character limit.
+    pub handler: ::prost::alloc::string::String,
+    /// Scene to which this interaction leads to.
     #[prost(string, tag="4")]
-    pub full_description: ::prost::alloc::string::String,
-    /// Required. Small square image, 192 x 192 px.
-    /// This should be specified as a reference to the corresponding image in the
-    /// `resources/images/` directory. For example, `$resources.images.foo` (without the
-    /// extension) for image in `resources/images/foo.jpg`
-    /// When working on a project pulled from Console, the Google-managed URL
-    /// pulled could be used. URLs from external sources are not allowed.
-    #[prost(string, tag="5")]
-    pub small_logo_image: ::prost::alloc::string::String,
-    /// Optional. Large landscape image, 1920 x 1080 px.
-    /// This should be specified as a reference to the corresponding image in the
-    /// `resources/images/` directory. For example, `$resources.images.foo` (without the
-    /// extension) for image in `resources/images/foo.jpg`
-    /// When working on a project pulled from Console, the Google-managed URL
-    /// pulled could be used. URLs from external sources are not allowed.
-    #[prost(string, tag="6")]
-    pub large_banner_image: ::prost::alloc::string::String,
-    /// Required. The name of the developer to be displayed to users.
-    #[prost(string, tag="7")]
-    pub developer_name: ::prost::alloc::string::String,
-    /// Required. The contact email address for the developer.
-    #[prost(string, tag="8")]
-    pub developer_email: ::prost::alloc::string::String,
-    /// Optional. The terms of service URL.
-    #[prost(string, tag="9")]
-    pub terms_of_service_url: ::prost::alloc::string::String,
-    /// Required. The Google Assistant voice type that users hear when they interact with
-    /// your Actions. The supported values are "male_1", "male_2", "female_1", and
-    /// "female_2".
-    #[prost(string, tag="10")]
-    pub voice: ::prost::alloc::string::String,
-    /// Optional. The locale for the specified voice. If not specified, this resolves
-    /// to the user's Assistant locale. If specified, the voice locale must have
-    /// the same root language as the locale specified in LocalizedSettings.
-    #[prost(string, tag="14")]
-    pub voice_locale: ::prost::alloc::string::String,
-    /// Required. The privacy policy URL.
-    #[prost(string, tag="11")]
-    pub privacy_policy_url: ::prost::alloc::string::String,
-    /// Optional. Sample invocation phrases displayed as part of your Actions project's
-    /// description in the Assistant directory. This will help users learn how to
-    /// use it.
-    #[prost(string, repeated, tag="12")]
-    pub sample_invocations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Optional. Theme customizations for visual components of your Actions.
-    #[prost(message, optional, tag="13")]
-    pub theme_customization: ::core::option::Option<ThemeCustomization>,
+    pub next_scene_id: ::prost::alloc::string::String,
+}
+/// Results of conditions evaluation:
+/// <https://developers.google.com/assistant/conversational/scenes#conditions>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ConditionsEvaluated {
+    /// List of conditions which were evaluated to 'false'.
+    #[prost(message, repeated, tag="1")]
+    pub failed_conditions: ::prost::alloc::vec::Vec<Condition>,
+    /// The first condition which was evaluated to 'true', if any.
+    #[prost(message, optional, tag="2")]
+    pub success_condition: ::core::option::Option<Condition>,
+}
+/// Evaluated condition.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Condition {
+    /// Expression specified in this condition.
+    #[prost(string, tag="1")]
+    pub expression: ::prost::alloc::string::String,
+    /// Handler name specified in evaluated condition.
+    #[prost(string, tag="2")]
+    pub handler: ::prost::alloc::string::String,
+    /// Destination scene specified in evaluated condition.
+    #[prost(string, tag="3")]
+    pub next_scene_id: ::prost::alloc::string::String,
+}
+/// Information about execution of onSceneEnter stage:
+/// <https://developers.google.com/assistant/conversational/scenes#on_enter>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OnSceneEnter {
+    /// Handler name specified in onSceneEnter event.
+    #[prost(string, tag="1")]
+    pub handler: ::prost::alloc::string::String,
+}
+/// Event triggered by destination scene returned from webhook:
+/// <https://developers.google.com/assistant/conversational/webhooks#transition_scenes>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WebhookInitiatedTransition {
+    /// ID of the scene the transition is leading to.
+    #[prost(string, tag="1")]
+    pub next_scene_id: ::prost::alloc::string::String,
+}
+/// Information about a request dispatched to the Action webhook:
+/// <https://developers.google.com/assistant/conversational/webhooks#payloads>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WebhookRequest {
+    /// Payload of the webhook request.
+    #[prost(string, tag="1")]
+    pub request_json: ::prost::alloc::string::String,
+}
+/// Information about a response received from the Action webhook:
+/// <https://developers.google.com/assistant/conversational/webhooks#payloads>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WebhookResponse {
+    /// Payload of the webhook response.
+    #[prost(string, tag="1")]
+    pub response_json: ::prost::alloc::string::String,
+}
+/// Information about matched slot(s):
+/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SlotMatch {
+    /// Parameters extracted by NLU from user input.
+    #[prost(btree_map="string, message", tag="2")]
+    pub nlu_parameters: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, conversation::IntentParameterValue>,
+}
+/// Information about currently requested slot:
+/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SlotRequested {
+    /// Name of the requested slot.
+    #[prost(string, tag="1")]
+    pub slot: ::prost::alloc::string::String,
+    /// Slot prompt.
+    #[prost(message, optional, tag="3")]
+    pub prompt: ::core::option::Option<conversation::Prompt>,
+}
+/// Event which happens after webhook validation was finished for slot(s):
+/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SlotValidated {
+}
+/// Event which happens when form is fully filled:
+/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FormFilled {
+}
+/// Event which happens when system needs user input:
+/// <https://developers.google.com/assistant/conversational/scenes#input>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WaitingForUserInput {
+}
+/// Event which informs that conversation with agent was ended.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EndConversation {
 }
 /// Information about the encrypted OAuth client secret used in account linking
 /// flows (for AUTH_CODE grant type).
@@ -358,6 +461,138 @@ pub mod account_linking {
         /// URL.
         Implicit = 2,
     }
+}
+/// Styles applied to cards that are presented to users
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ThemeCustomization {
+    /// Background color of cards. Acts as a fallback if `background_image` is
+    /// not provided by developers or `background_image` doesn't fit for certain
+    /// surfaces.
+    /// Example usage: #FAFAFA
+    #[prost(string, tag="1")]
+    pub background_color: ::prost::alloc::string::String,
+    /// Primary theme color of the Action will be used to set text color of title,
+    /// action item background color for Actions on Google cards.
+    /// Example usage: #FAFAFA
+    #[prost(string, tag="2")]
+    pub primary_color: ::prost::alloc::string::String,
+    /// The font family that will be used for title of cards.
+    /// Supported fonts:
+    /// - Sans Serif
+    /// - Sans Serif Medium
+    /// - Sans Serif Bold
+    /// - Sans Serif Black
+    /// - Sans Serif Condensed
+    /// - Sans Serif Condensed Medium
+    /// - Serif
+    /// - Serif Bold
+    /// - Monospace
+    /// - Cursive
+    /// - Sans Serif Smallcaps
+    #[prost(string, tag="3")]
+    pub font_family: ::prost::alloc::string::String,
+    /// Border style of foreground image of cards. For example, can be applied on
+    /// the foreground image of a basic card or carousel card.
+    #[prost(enumeration="theme_customization::ImageCornerStyle", tag="4")]
+    pub image_corner_style: i32,
+    /// Landscape mode (minimum 1920x1200 pixels).
+    /// This should be specified as a reference to the corresponding image in the
+    /// `resources/images/` directory. Eg: `$resources.images.foo` (without the
+    /// extension) for image in `resources/images/foo.jpg`
+    /// When working on a project pulled from Console the Google managed url pulled
+    /// could be used.
+    #[prost(string, tag="5")]
+    pub landscape_background_image: ::prost::alloc::string::String,
+    /// Portrait mode (minimum 1200x1920 pixels).
+    /// This should be specified as a reference to the corresponding image in the
+    /// `resources/images/` directory. Eg: `$resources.images.foo` (without the
+    /// extension) for image in `resources/images/foo.jpg`
+    /// When working on a project pulled from Console the Google managed url pulled
+    /// could be used.
+    #[prost(string, tag="6")]
+    pub portrait_background_image: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `ThemeCustomization`.
+pub mod theme_customization {
+    /// Describes how the borders of images should be rendered.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ImageCornerStyle {
+        /// Undefined / Unspecified.
+        Unspecified = 0,
+        /// Round corner for image.
+        Curved = 1,
+        /// Rectangular corner for image.
+        Angled = 2,
+    }
+}
+/// Represents settings of an Actions project that are specific to a user locale.
+/// In this instance, user means the end user who invokes your Actions.
+/// **This message is localizable.**
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LocalizedSettings {
+    /// Required. The default display name for this Actions project (if there is no
+    /// translation available)
+    #[prost(string, tag="1")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Required. The pronunciation of the display name to invoke it within a voice
+    /// (spoken) context.
+    #[prost(string, tag="2")]
+    pub pronunciation: ::prost::alloc::string::String,
+    /// Required. The default short description for the Actions project (if there is no
+    /// translation available). 80 character limit.
+    #[prost(string, tag="3")]
+    pub short_description: ::prost::alloc::string::String,
+    /// Required. The default long description for the Actions project (if there is no
+    /// translation available). 4000 character limit.
+    #[prost(string, tag="4")]
+    pub full_description: ::prost::alloc::string::String,
+    /// Required. Small square image, 192 x 192 px.
+    /// This should be specified as a reference to the corresponding image in the
+    /// `resources/images/` directory. For example, `$resources.images.foo` (without the
+    /// extension) for image in `resources/images/foo.jpg`
+    /// When working on a project pulled from Console, the Google-managed URL
+    /// pulled could be used. URLs from external sources are not allowed.
+    #[prost(string, tag="5")]
+    pub small_logo_image: ::prost::alloc::string::String,
+    /// Optional. Large landscape image, 1920 x 1080 px.
+    /// This should be specified as a reference to the corresponding image in the
+    /// `resources/images/` directory. For example, `$resources.images.foo` (without the
+    /// extension) for image in `resources/images/foo.jpg`
+    /// When working on a project pulled from Console, the Google-managed URL
+    /// pulled could be used. URLs from external sources are not allowed.
+    #[prost(string, tag="6")]
+    pub large_banner_image: ::prost::alloc::string::String,
+    /// Required. The name of the developer to be displayed to users.
+    #[prost(string, tag="7")]
+    pub developer_name: ::prost::alloc::string::String,
+    /// Required. The contact email address for the developer.
+    #[prost(string, tag="8")]
+    pub developer_email: ::prost::alloc::string::String,
+    /// Optional. The terms of service URL.
+    #[prost(string, tag="9")]
+    pub terms_of_service_url: ::prost::alloc::string::String,
+    /// Required. The Google Assistant voice type that users hear when they interact with
+    /// your Actions. The supported values are "male_1", "male_2", "female_1", and
+    /// "female_2".
+    #[prost(string, tag="10")]
+    pub voice: ::prost::alloc::string::String,
+    /// Optional. The locale for the specified voice. If not specified, this resolves
+    /// to the user's Assistant locale. If specified, the voice locale must have
+    /// the same root language as the locale specified in LocalizedSettings.
+    #[prost(string, tag="14")]
+    pub voice_locale: ::prost::alloc::string::String,
+    /// Required. The privacy policy URL.
+    #[prost(string, tag="11")]
+    pub privacy_policy_url: ::prost::alloc::string::String,
+    /// Optional. Sample invocation phrases displayed as part of your Actions project's
+    /// description in the Assistant directory. This will help users learn how to
+    /// use it.
+    #[prost(string, repeated, tag="12")]
+    pub sample_invocations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. Theme customizations for visual components of your Actions.
+    #[prost(message, optional, tag="13")]
+    pub theme_customization: ::core::option::Option<ThemeCustomization>,
 }
 /// Contains a set of requirements that the client surface must support to invoke
 /// Actions in your project.
@@ -1443,241 +1678,6 @@ pub mod actions_sdk_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
-}
-/// Contains information about execution event which happened during processing
-/// Actions Builder conversation request. For an overview of the stages involved
-/// in a conversation request, see
-/// <https://developers.google.com/assistant/conversational/actions.>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExecutionEvent {
-    /// Timestamp when the event happened.
-    #[prost(message, optional, tag="1")]
-    pub event_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// State of the execution during this event.
-    #[prost(message, optional, tag="2")]
-    pub execution_state: ::core::option::Option<ExecutionState>,
-    /// Resulting status of particular execution step.
-    #[prost(message, optional, tag="3")]
-    pub status: ::core::option::Option<super::super::super::rpc::Status>,
-    /// List of warnings generated during execution of this Event. Warnings are
-    /// tips for the developer discovered during the conversation request. These
-    /// are usually non-critical and do not halt the execution of the request. For
-    /// example, a warnings might be generated when webhook tries to override a
-    /// custom Type which does not exist. Errors are reported as a failed status
-    /// code, but warnings can be present even when the status is OK.
-    #[prost(string, repeated, tag="17")]
-    pub warning_messages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Detailed information specific to different of events that may be involved
-    /// in processing a conversation round. The field set here defines the type of
-    /// this event.
-    #[prost(oneof="execution_event::EventData", tags="4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16")]
-    pub event_data: ::core::option::Option<execution_event::EventData>,
-}
-/// Nested message and enum types in `ExecutionEvent`.
-pub mod execution_event {
-    /// Detailed information specific to different of events that may be involved
-    /// in processing a conversation round. The field set here defines the type of
-    /// this event.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum EventData {
-        /// User input handling event.
-        #[prost(message, tag="4")]
-        UserInput(super::UserConversationInput),
-        /// Intent matching event.
-        #[prost(message, tag="5")]
-        IntentMatch(super::IntentMatch),
-        /// Condition evaluation event.
-        #[prost(message, tag="6")]
-        ConditionsEvaluated(super::ConditionsEvaluated),
-        /// OnSceneEnter execution event.
-        #[prost(message, tag="7")]
-        OnSceneEnter(super::OnSceneEnter),
-        /// Webhook request dispatch event.
-        #[prost(message, tag="8")]
-        WebhookRequest(super::WebhookRequest),
-        /// Webhook response receipt event.
-        #[prost(message, tag="9")]
-        WebhookResponse(super::WebhookResponse),
-        /// Webhook-initiated transition event.
-        #[prost(message, tag="10")]
-        WebhookInitiatedTransition(super::WebhookInitiatedTransition),
-        /// Slot matching event.
-        #[prost(message, tag="11")]
-        SlotMatch(super::SlotMatch),
-        /// Slot requesting event.
-        #[prost(message, tag="12")]
-        SlotRequested(super::SlotRequested),
-        /// Slot validation event.
-        #[prost(message, tag="13")]
-        SlotValidated(super::SlotValidated),
-        /// Form filling event.
-        #[prost(message, tag="14")]
-        FormFilled(super::FormFilled),
-        /// Waiting-for-user-input event.
-        #[prost(message, tag="15")]
-        WaitingUserInput(super::WaitingForUserInput),
-        /// End-of-conversation event.
-        #[prost(message, tag="16")]
-        EndConversation(super::EndConversation),
-    }
-}
-/// Current state of the execution.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExecutionState {
-    /// ID of the scene which is currently  active.
-    #[prost(string, tag="1")]
-    pub current_scene_id: ::prost::alloc::string::String,
-    /// State of the session storage:
-    /// <https://developers.google.com/assistant/conversational/storage-session>
-    #[prost(message, optional, tag="2")]
-    pub session_storage: ::core::option::Option<::prost_types::Struct>,
-    /// State of the slots filling, if applicable:
-    /// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
-    #[prost(message, optional, tag="5")]
-    pub slots: ::core::option::Option<Slots>,
-    /// Prompt queue:
-    /// <https://developers.google.com/assistant/conversational/prompts>
-    #[prost(message, repeated, tag="7")]
-    pub prompt_queue: ::prost::alloc::vec::Vec<conversation::Prompt>,
-    /// State of the user storage:
-    /// <https://developers.google.com/assistant/conversational/storage-user>
-    #[prost(message, optional, tag="6")]
-    pub user_storage: ::core::option::Option<::prost_types::Struct>,
-    /// State of the home storage:
-    /// <https://developers.google.com/assistant/conversational/storage-home>
-    #[prost(message, optional, tag="8")]
-    pub household_storage: ::core::option::Option<::prost_types::Struct>,
-}
-/// Represents the current state of a the scene's slots.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Slots {
-    /// The current status of slot filling.
-    #[prost(enumeration="conversation::SlotFillingStatus", tag="2")]
-    pub status: i32,
-    /// The slots associated with the current scene.
-    #[prost(btree_map="string, message", tag="3")]
-    pub slots: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, conversation::Slot>,
-}
-/// Information related to user input.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UserConversationInput {
-    /// Type of user input. E.g. keyboard, voice, touch, etc.
-    #[prost(string, tag="1")]
-    pub r#type: ::prost::alloc::string::String,
-    /// Original text input from the user.
-    #[prost(string, tag="2")]
-    pub original_query: ::prost::alloc::string::String,
-}
-/// Information about triggered intent match (global or within a scene):
-/// <https://developers.google.com/assistant/conversational/intents>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct IntentMatch {
-    /// Intent id which triggered this interaction.
-    #[prost(string, tag="1")]
-    pub intent_id: ::prost::alloc::string::String,
-    /// Parameters of intent which triggered this interaction.
-    #[prost(btree_map="string, message", tag="5")]
-    pub intent_parameters: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, conversation::IntentParameterValue>,
-    /// Name of the handler attached to this interaction.
-    #[prost(string, tag="3")]
-    pub handler: ::prost::alloc::string::String,
-    /// Scene to which this interaction leads to.
-    #[prost(string, tag="4")]
-    pub next_scene_id: ::prost::alloc::string::String,
-}
-/// Results of conditions evaluation:
-/// <https://developers.google.com/assistant/conversational/scenes#conditions>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConditionsEvaluated {
-    /// List of conditions which were evaluated to 'false'.
-    #[prost(message, repeated, tag="1")]
-    pub failed_conditions: ::prost::alloc::vec::Vec<Condition>,
-    /// The first condition which was evaluated to 'true', if any.
-    #[prost(message, optional, tag="2")]
-    pub success_condition: ::core::option::Option<Condition>,
-}
-/// Evaluated condition.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Condition {
-    /// Expression specified in this condition.
-    #[prost(string, tag="1")]
-    pub expression: ::prost::alloc::string::String,
-    /// Handler name specified in evaluated condition.
-    #[prost(string, tag="2")]
-    pub handler: ::prost::alloc::string::String,
-    /// Destination scene specified in evaluated condition.
-    #[prost(string, tag="3")]
-    pub next_scene_id: ::prost::alloc::string::String,
-}
-/// Information about execution of onSceneEnter stage:
-/// <https://developers.google.com/assistant/conversational/scenes#on_enter>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OnSceneEnter {
-    /// Handler name specified in onSceneEnter event.
-    #[prost(string, tag="1")]
-    pub handler: ::prost::alloc::string::String,
-}
-/// Event triggered by destination scene returned from webhook:
-/// <https://developers.google.com/assistant/conversational/webhooks#transition_scenes>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WebhookInitiatedTransition {
-    /// ID of the scene the transition is leading to.
-    #[prost(string, tag="1")]
-    pub next_scene_id: ::prost::alloc::string::String,
-}
-/// Information about a request dispatched to the Action webhook:
-/// <https://developers.google.com/assistant/conversational/webhooks#payloads>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WebhookRequest {
-    /// Payload of the webhook request.
-    #[prost(string, tag="1")]
-    pub request_json: ::prost::alloc::string::String,
-}
-/// Information about a response received from the Action webhook:
-/// <https://developers.google.com/assistant/conversational/webhooks#payloads>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WebhookResponse {
-    /// Payload of the webhook response.
-    #[prost(string, tag="1")]
-    pub response_json: ::prost::alloc::string::String,
-}
-/// Information about matched slot(s):
-/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SlotMatch {
-    /// Parameters extracted by NLU from user input.
-    #[prost(btree_map="string, message", tag="2")]
-    pub nlu_parameters: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, conversation::IntentParameterValue>,
-}
-/// Information about currently requested slot:
-/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SlotRequested {
-    /// Name of the requested slot.
-    #[prost(string, tag="1")]
-    pub slot: ::prost::alloc::string::String,
-    /// Slot prompt.
-    #[prost(message, optional, tag="3")]
-    pub prompt: ::core::option::Option<conversation::Prompt>,
-}
-/// Event which happens after webhook validation was finished for slot(s):
-/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SlotValidated {
-}
-/// Event which happens when form is fully filled:
-/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FormFilled {
-}
-/// Event which happens when system needs user input:
-/// <https://developers.google.com/assistant/conversational/scenes#input>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WaitingForUserInput {
-}
-/// Event which informs that conversation with agent was ended.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EndConversation {
 }
 /// Request for playing a round of the conversation.
 #[derive(Clone, PartialEq, ::prost::Message)]

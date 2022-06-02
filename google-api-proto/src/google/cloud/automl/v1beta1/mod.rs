@@ -212,73 +212,6 @@ pub enum ClassificationType {
     /// Multiple labels are allowed for one example.
     Multilabel = 2,
 }
-/// Contains annotation details specific to text sentiment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextSentimentAnnotation {
-    /// Output only. The sentiment with the semantic, as given to the
-    /// \[AutoMl.ImportData][google.cloud.automl.v1beta1.AutoMl.ImportData\] when populating the dataset from which the model used
-    /// for the prediction had been trained.
-    /// The sentiment values are between 0 and
-    /// Dataset.text_sentiment_dataset_metadata.sentiment_max (inclusive),
-    /// with higher value meaning more positive sentiment. They are completely
-    /// relative, i.e. 0 means least positive sentiment and sentiment_max means
-    /// the most positive from the sentiments present in the train data. Therefore
-    ///  e.g. if train data had only negative sentiment, then sentiment_max, would
-    /// be still negative (although least negative).
-    /// The sentiment shouldn't be confused with "score" or "magnitude"
-    /// from the previous Natural Language Sentiment Analysis API.
-    #[prost(int32, tag="1")]
-    pub sentiment: i32,
-}
-/// Model evaluation metrics for text sentiment problems.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextSentimentEvaluationMetrics {
-    /// Output only. Precision.
-    #[prost(float, tag="1")]
-    pub precision: f32,
-    /// Output only. Recall.
-    #[prost(float, tag="2")]
-    pub recall: f32,
-    /// Output only. The harmonic mean of recall and precision.
-    #[prost(float, tag="3")]
-    pub f1_score: f32,
-    /// Output only. Mean absolute error. Only set for the overall model
-    /// evaluation, not for evaluation of a single annotation spec.
-    #[prost(float, tag="4")]
-    pub mean_absolute_error: f32,
-    /// Output only. Mean squared error. Only set for the overall model
-    /// evaluation, not for evaluation of a single annotation spec.
-    #[prost(float, tag="5")]
-    pub mean_squared_error: f32,
-    /// Output only. Linear weighted kappa. Only set for the overall model
-    /// evaluation, not for evaluation of a single annotation spec.
-    #[prost(float, tag="6")]
-    pub linear_kappa: f32,
-    /// Output only. Quadratic weighted kappa. Only set for the overall model
-    /// evaluation, not for evaluation of a single annotation spec.
-    #[prost(float, tag="7")]
-    pub quadratic_kappa: f32,
-    /// Output only. Confusion matrix of the evaluation.
-    /// Only set for the overall model evaluation, not for evaluation of a single
-    /// annotation spec.
-    #[prost(message, optional, tag="8")]
-    pub confusion_matrix: ::core::option::Option<classification_evaluation_metrics::ConfusionMatrix>,
-    /// Output only. The annotation spec ids used for this evaluation.
-    /// Deprecated .
-    #[deprecated]
-    #[prost(string, repeated, tag="9")]
-    pub annotation_spec_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// A range between two double numbers.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DoubleRange {
-    /// Start of the range, inclusive.
-    #[prost(double, tag="1")]
-    pub start: f64,
-    /// End of the range, exclusive.
-    #[prost(double, tag="2")]
-    pub end: f64,
-}
 /// A vertex represents a 2D point in the image.
 /// The normalized vertex coordinates are between 0 to 1 fractions relative to
 /// the original plane (image, video). E.g. if the plane (e.g. whole image) would
@@ -2140,6 +2073,16 @@ pub mod example_payload {
         Row(super::Row),
     }
 }
+/// A range between two double numbers.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DoubleRange {
+    /// Start of the range, inclusive.
+    #[prost(double, tag="1")]
+    pub start: f64,
+    /// End of the range, exclusive.
+    #[prost(double, tag="2")]
+    pub end: f64,
+}
 /// Metrics for regression problems.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RegressionEvaluationMetrics {
@@ -2487,6 +2430,63 @@ pub mod text_extraction_evaluation_metrics {
         pub f1_score: f32,
     }
 }
+/// Contains annotation details specific to text sentiment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextSentimentAnnotation {
+    /// Output only. The sentiment with the semantic, as given to the
+    /// \[AutoMl.ImportData][google.cloud.automl.v1beta1.AutoMl.ImportData\] when populating the dataset from which the model used
+    /// for the prediction had been trained.
+    /// The sentiment values are between 0 and
+    /// Dataset.text_sentiment_dataset_metadata.sentiment_max (inclusive),
+    /// with higher value meaning more positive sentiment. They are completely
+    /// relative, i.e. 0 means least positive sentiment and sentiment_max means
+    /// the most positive from the sentiments present in the train data. Therefore
+    ///  e.g. if train data had only negative sentiment, then sentiment_max, would
+    /// be still negative (although least negative).
+    /// The sentiment shouldn't be confused with "score" or "magnitude"
+    /// from the previous Natural Language Sentiment Analysis API.
+    #[prost(int32, tag="1")]
+    pub sentiment: i32,
+}
+/// Model evaluation metrics for text sentiment problems.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextSentimentEvaluationMetrics {
+    /// Output only. Precision.
+    #[prost(float, tag="1")]
+    pub precision: f32,
+    /// Output only. Recall.
+    #[prost(float, tag="2")]
+    pub recall: f32,
+    /// Output only. The harmonic mean of recall and precision.
+    #[prost(float, tag="3")]
+    pub f1_score: f32,
+    /// Output only. Mean absolute error. Only set for the overall model
+    /// evaluation, not for evaluation of a single annotation spec.
+    #[prost(float, tag="4")]
+    pub mean_absolute_error: f32,
+    /// Output only. Mean squared error. Only set for the overall model
+    /// evaluation, not for evaluation of a single annotation spec.
+    #[prost(float, tag="5")]
+    pub mean_squared_error: f32,
+    /// Output only. Linear weighted kappa. Only set for the overall model
+    /// evaluation, not for evaluation of a single annotation spec.
+    #[prost(float, tag="6")]
+    pub linear_kappa: f32,
+    /// Output only. Quadratic weighted kappa. Only set for the overall model
+    /// evaluation, not for evaluation of a single annotation spec.
+    #[prost(float, tag="7")]
+    pub quadratic_kappa: f32,
+    /// Output only. Confusion matrix of the evaluation.
+    /// Only set for the overall model evaluation, not for evaluation of a single
+    /// annotation spec.
+    #[prost(message, optional, tag="8")]
+    pub confusion_matrix: ::core::option::Option<classification_evaluation_metrics::ConfusionMatrix>,
+    /// Output only. The annotation spec ids used for this evaluation.
+    /// Deprecated .
+    #[deprecated]
+    #[prost(string, repeated, tag="9")]
+    pub annotation_spec_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
 /// Dataset metadata that is specific to translation.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TranslationDatasetMetadata {
@@ -2603,70 +2603,6 @@ pub struct AnnotationSpec {
     /// labeled by the annotation spec.
     #[prost(int32, tag="9")]
     pub example_count: i32,
-}
-/// A specification of a relational table.
-/// The table's schema is represented via its child column specs. It is
-/// pre-populated as part of ImportData by schema inference algorithm, the
-/// version of which is a required parameter of ImportData InputConfig.
-/// Note: While working with a table, at times the schema may be
-/// inconsistent with the data in the table (e.g. string in a FLOAT64 column).
-/// The consistency validation is done upon creation of a model.
-/// Used by:
-///   *   Tables
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TableSpec {
-    /// Output only. The resource name of the table spec.
-    /// Form:
-    ///
-    /// `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/tableSpecs/{table_spec_id}`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// column_spec_id of the time column. Only used if the parent dataset's
-    /// ml_use_column_spec_id is not set. Used to split rows into TRAIN, VALIDATE
-    /// and TEST sets such that oldest rows go to TRAIN set, newest to TEST, and
-    /// those in between to VALIDATE.
-    /// Required type: TIMESTAMP.
-    /// If both this column and ml_use_column are not set, then ML use of all rows
-    /// will be assigned by AutoML. NOTE: Updates of this field will instantly
-    /// affect any other users concurrently working with the dataset.
-    #[prost(string, tag="2")]
-    pub time_column_spec_id: ::prost::alloc::string::String,
-    /// Output only. The number of rows (i.e. examples) in the table.
-    #[prost(int64, tag="3")]
-    pub row_count: i64,
-    /// Output only. The number of valid rows (i.e. without values that don't match
-    /// DataType-s of their columns).
-    #[prost(int64, tag="4")]
-    pub valid_row_count: i64,
-    /// Output only. The number of columns of the table. That is, the number of
-    /// child ColumnSpec-s.
-    #[prost(int64, tag="7")]
-    pub column_count: i64,
-    /// Output only. Input configs via which data currently residing in the table
-    /// had been imported.
-    #[prost(message, repeated, tag="5")]
-    pub input_configs: ::prost::alloc::vec::Vec<InputConfig>,
-    /// Used to perform consistent read-modify-write updates. If not set, a blind
-    /// "overwrite" update happens.
-    #[prost(string, tag="6")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// Dataset metadata specific to video classification.
-/// All Video Classification datasets are treated as multi label.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoClassificationDatasetMetadata {
-}
-/// Dataset metadata specific to video object tracking.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoObjectTrackingDatasetMetadata {
-}
-/// Model metadata specific to video classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoClassificationModelMetadata {
-}
-/// Model metadata specific to video object tracking.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoObjectTrackingModelMetadata {
 }
 /// Dataset metadata that is specific to image classification.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2880,6 +2816,23 @@ pub struct TextSentimentDatasetMetadata {
 /// Model metadata that is specific to text sentiment.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TextSentimentModelMetadata {
+}
+/// Dataset metadata specific to video classification.
+/// All Video Classification datasets are treated as multi label.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoClassificationDatasetMetadata {
+}
+/// Dataset metadata specific to video object tracking.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoObjectTrackingDatasetMetadata {
+}
+/// Model metadata specific to video classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoClassificationModelMetadata {
+}
+/// Model metadata specific to video object tracking.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoObjectTrackingModelMetadata {
 }
 /// API proto representing a trained machine learning model.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3608,6 +3561,53 @@ pub mod dataset {
         #[prost(message, tag="33")]
         TablesDatasetMetadata(super::TablesDatasetMetadata),
     }
+}
+/// A specification of a relational table.
+/// The table's schema is represented via its child column specs. It is
+/// pre-populated as part of ImportData by schema inference algorithm, the
+/// version of which is a required parameter of ImportData InputConfig.
+/// Note: While working with a table, at times the schema may be
+/// inconsistent with the data in the table (e.g. string in a FLOAT64 column).
+/// The consistency validation is done upon creation of a model.
+/// Used by:
+///   *   Tables
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TableSpec {
+    /// Output only. The resource name of the table spec.
+    /// Form:
+    ///
+    /// `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/tableSpecs/{table_spec_id}`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// column_spec_id of the time column. Only used if the parent dataset's
+    /// ml_use_column_spec_id is not set. Used to split rows into TRAIN, VALIDATE
+    /// and TEST sets such that oldest rows go to TRAIN set, newest to TEST, and
+    /// those in between to VALIDATE.
+    /// Required type: TIMESTAMP.
+    /// If both this column and ml_use_column are not set, then ML use of all rows
+    /// will be assigned by AutoML. NOTE: Updates of this field will instantly
+    /// affect any other users concurrently working with the dataset.
+    #[prost(string, tag="2")]
+    pub time_column_spec_id: ::prost::alloc::string::String,
+    /// Output only. The number of rows (i.e. examples) in the table.
+    #[prost(int64, tag="3")]
+    pub row_count: i64,
+    /// Output only. The number of valid rows (i.e. without values that don't match
+    /// DataType-s of their columns).
+    #[prost(int64, tag="4")]
+    pub valid_row_count: i64,
+    /// Output only. The number of columns of the table. That is, the number of
+    /// child ColumnSpec-s.
+    #[prost(int64, tag="7")]
+    pub column_count: i64,
+    /// Output only. Input configs via which data currently residing in the table
+    /// had been imported.
+    #[prost(message, repeated, tag="5")]
+    pub input_configs: ::prost::alloc::vec::Vec<InputConfig>,
+    /// Used to perform consistent read-modify-write updates. If not set, a blind
+    /// "overwrite" update happens.
+    #[prost(string, tag="6")]
+    pub etag: ::prost::alloc::string::String,
 }
 /// Request message for \[AutoMl.CreateDataset][google.cloud.automl.v1beta1.AutoMl.CreateDataset\].
 #[derive(Clone, PartialEq, ::prost::Message)]

@@ -1,44 +1,3 @@
-/// An AnnotationSpecSet is a collection of label definitions. For example, in
-/// image classification tasks, you define a set of possible labels for images as
-/// an AnnotationSpecSet. An AnnotationSpecSet is immutable upon creation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AnnotationSpecSet {
-    /// Output only. The AnnotationSpecSet resource name in the following format:
-    ///
-    /// "projects/<var>{project_id}</var>/annotationSpecSets/<var>{annotation_spec_set_id}</var>"
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The display name for AnnotationSpecSet that you define when you
-    /// create it. Maximum of 64 characters.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Optional. User-provided description of the annotation specification set.
-    /// The description can be up to 10,000 characters long.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    /// Required. The array of AnnotationSpecs that you define when you create the
-    /// AnnotationSpecSet. These are the possible labels for the labeling task.
-    #[prost(message, repeated, tag="4")]
-    pub annotation_specs: ::prost::alloc::vec::Vec<AnnotationSpec>,
-    /// Output only. The names of any related resources that are blocking changes
-    /// to the annotation spec set.
-    #[prost(string, repeated, tag="5")]
-    pub blocking_resources: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Container of information related to one possible annotation that can be used
-/// in a labeling task. For example, an image classification task where images
-/// are labeled as `dog` or `cat` must reference an AnnotationSpec for `dog` and
-/// an AnnotationSpec for `cat`.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AnnotationSpec {
-    /// Required. The display name of the AnnotationSpec. Maximum of 64 characters.
-    #[prost(string, tag="1")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Optional. User-provided description of the annotation specification.
-    /// The description can be up to 10,000 characters long.
-    #[prost(string, tag="2")]
-    pub description: ::prost::alloc::string::String,
-}
 /// Configuration for how human labeling task should be done.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct HumanAnnotationConfig {
@@ -235,6 +194,47 @@ pub enum StringAggregationType {
     UnanimousVote = 2,
     /// Preserve all answers by crowd compute.
     NoAggregation = 3,
+}
+/// An AnnotationSpecSet is a collection of label definitions. For example, in
+/// image classification tasks, you define a set of possible labels for images as
+/// an AnnotationSpecSet. An AnnotationSpecSet is immutable upon creation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AnnotationSpecSet {
+    /// Output only. The AnnotationSpecSet resource name in the following format:
+    ///
+    /// "projects/<var>{project_id}</var>/annotationSpecSets/<var>{annotation_spec_set_id}</var>"
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The display name for AnnotationSpecSet that you define when you
+    /// create it. Maximum of 64 characters.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Optional. User-provided description of the annotation specification set.
+    /// The description can be up to 10,000 characters long.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    /// Required. The array of AnnotationSpecs that you define when you create the
+    /// AnnotationSpecSet. These are the possible labels for the labeling task.
+    #[prost(message, repeated, tag="4")]
+    pub annotation_specs: ::prost::alloc::vec::Vec<AnnotationSpec>,
+    /// Output only. The names of any related resources that are blocking changes
+    /// to the annotation spec set.
+    #[prost(string, repeated, tag="5")]
+    pub blocking_resources: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Container of information related to one possible annotation that can be used
+/// in a labeling task. For example, an image classification task where images
+/// are labeled as `dog` or `cat` must reference an AnnotationSpec for `dog` and
+/// an AnnotationSpec for `cat`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AnnotationSpec {
+    /// Required. The display name of the AnnotationSpec. Maximum of 64 characters.
+    #[prost(string, tag="1")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Optional. User-provided description of the annotation specification.
+    /// The description can be up to 10,000 characters long.
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
 }
 /// Annotation for Example. Each example may have one or more annotations. For
 /// example in image classification problem, each image might have one or more
@@ -987,6 +987,63 @@ pub enum DataType {
     /// Allowed for continuous evaluation.
     GeneralData = 6,
 }
+/// Instruction of how to perform the labeling task for human operators.
+/// Currently only PDF instruction is supported.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Instruction {
+    /// Output only. Instruction resource name, format:
+    /// projects/{project_id}/instructions/{instruction_id}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The display name of the instruction. Maximum of 64 characters.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Optional. User-provided description of the instruction.
+    /// The description can be up to 10000 characters long.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. Creation time of instruction.
+    #[prost(message, optional, tag="4")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Last update time of instruction.
+    #[prost(message, optional, tag="5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Required. The data type of this instruction.
+    #[prost(enumeration="DataType", tag="6")]
+    pub data_type: i32,
+    /// Deprecated: this instruction format is not supported any more.
+    /// Instruction from a CSV file, such as for classification task.
+    /// The CSV file should have exact two columns, in the following format:
+    ///
+    /// * The first column is labeled data, such as an image reference, text.
+    /// * The second column is comma separated labels associated with data.
+    #[deprecated]
+    #[prost(message, optional, tag="7")]
+    pub csv_instruction: ::core::option::Option<CsvInstruction>,
+    /// Instruction from a PDF document. The PDF should be in a Cloud Storage
+    /// bucket.
+    #[prost(message, optional, tag="9")]
+    pub pdf_instruction: ::core::option::Option<PdfInstruction>,
+    /// Output only. The names of any related resources that are blocking changes
+    /// to the instruction.
+    #[prost(string, repeated, tag="10")]
+    pub blocking_resources: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Deprecated: this instruction format is not supported any more.
+/// Instruction from a CSV file.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsvInstruction {
+    /// CSV file for the instruction. Only gcs path is allowed.
+    #[prost(string, tag="1")]
+    pub gcs_file_uri: ::prost::alloc::string::String,
+}
+/// Instruction from a PDF file.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PdfInstruction {
+    /// PDF file for the instruction. Only gcs path is allowed.
+    #[prost(string, tag="1")]
+    pub gcs_file_uri: ::prost::alloc::string::String,
+}
 /// Describes an evaluation between a machine learning model's predictions and
 /// ground truth labels. Created when an \[EvaluationJob][google.cloud.datalabeling.v1beta1.EvaluationJob\] runs successfully.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1438,63 +1495,6 @@ pub struct Attempt {
     /// Details of errors that occurred.
     #[prost(message, repeated, tag="2")]
     pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-}
-/// Instruction of how to perform the labeling task for human operators.
-/// Currently only PDF instruction is supported.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Instruction {
-    /// Output only. Instruction resource name, format:
-    /// projects/{project_id}/instructions/{instruction_id}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The display name of the instruction. Maximum of 64 characters.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Optional. User-provided description of the instruction.
-    /// The description can be up to 10000 characters long.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. Creation time of instruction.
-    #[prost(message, optional, tag="4")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Last update time of instruction.
-    #[prost(message, optional, tag="5")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Required. The data type of this instruction.
-    #[prost(enumeration="DataType", tag="6")]
-    pub data_type: i32,
-    /// Deprecated: this instruction format is not supported any more.
-    /// Instruction from a CSV file, such as for classification task.
-    /// The CSV file should have exact two columns, in the following format:
-    ///
-    /// * The first column is labeled data, such as an image reference, text.
-    /// * The second column is comma separated labels associated with data.
-    #[deprecated]
-    #[prost(message, optional, tag="7")]
-    pub csv_instruction: ::core::option::Option<CsvInstruction>,
-    /// Instruction from a PDF document. The PDF should be in a Cloud Storage
-    /// bucket.
-    #[prost(message, optional, tag="9")]
-    pub pdf_instruction: ::core::option::Option<PdfInstruction>,
-    /// Output only. The names of any related resources that are blocking changes
-    /// to the instruction.
-    #[prost(string, repeated, tag="10")]
-    pub blocking_resources: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Deprecated: this instruction format is not supported any more.
-/// Instruction from a CSV file.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsvInstruction {
-    /// CSV file for the instruction. Only gcs path is allowed.
-    #[prost(string, tag="1")]
-    pub gcs_file_uri: ::prost::alloc::string::String,
-}
-/// Instruction from a PDF file.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PdfInstruction {
-    /// PDF file for the instruction. Only gcs path is allowed.
-    #[prost(string, tag="1")]
-    pub gcs_file_uri: ::prost::alloc::string::String,
 }
 /// Request message for CreateDataset.
 #[derive(Clone, PartialEq, ::prost::Message)]

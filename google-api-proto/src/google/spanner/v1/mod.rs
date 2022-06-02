@@ -1,3 +1,31 @@
+/// The response for \[Commit][google.spanner.v1.Spanner.Commit\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CommitResponse {
+    /// The Cloud Spanner timestamp at which the transaction committed.
+    #[prost(message, optional, tag="1")]
+    pub commit_timestamp: ::core::option::Option<::prost_types::Timestamp>,
+    /// The statistics about this Commit. Not returned by default.
+    /// For more information, see
+    /// \[CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats\].
+    #[prost(message, optional, tag="2")]
+    pub commit_stats: ::core::option::Option<commit_response::CommitStats>,
+}
+/// Nested message and enum types in `CommitResponse`.
+pub mod commit_response {
+    /// Additional statistics about a commit.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CommitStats {
+        /// The total number of mutations for the transaction. Knowing the
+        /// `mutation_count` value can help you maximize the number of mutations
+        /// in a transaction and minimize the number of API round trips. You can
+        /// also monitor this value to prevent transactions from exceeding the system
+        /// \[limit\](<https://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data>).
+        /// If the number of mutations exceeds the limit, the server returns
+        /// \[INVALID_ARGUMENT\](<https://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT>).
+        #[prost(int64, tag="1")]
+        pub mutation_count: i64,
+    }
+}
 /// Node information for nodes appearing in a \[QueryPlan.plan_nodes][google.spanner.v1.QueryPlan.plan_nodes\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PlanNode {
@@ -680,32 +708,188 @@ pub enum TypeAnnotationCode {
     /// Spanner databases.
     PgNumeric = 2,
 }
-/// The response for \[Commit][google.spanner.v1.Spanner.Commit\].
+/// Results from \[Read][google.spanner.v1.Spanner.Read\] or
+/// \[ExecuteSql][google.spanner.v1.Spanner.ExecuteSql\].
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CommitResponse {
-    /// The Cloud Spanner timestamp at which the transaction committed.
+pub struct ResultSet {
+    /// Metadata about the result set, such as row type information.
     #[prost(message, optional, tag="1")]
-    pub commit_timestamp: ::core::option::Option<::prost_types::Timestamp>,
-    /// The statistics about this Commit. Not returned by default.
-    /// For more information, see
-    /// \[CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats\].
-    #[prost(message, optional, tag="2")]
-    pub commit_stats: ::core::option::Option<commit_response::CommitStats>,
+    pub metadata: ::core::option::Option<ResultSetMetadata>,
+    /// Each element in `rows` is a row whose format is defined by
+    /// \[metadata.row_type][google.spanner.v1.ResultSetMetadata.row_type\]. The ith element
+    /// in each row matches the ith field in
+    /// \[metadata.row_type][google.spanner.v1.ResultSetMetadata.row_type\]. Elements are
+    /// encoded based on type as described
+    /// \[here][google.spanner.v1.TypeCode\].
+    #[prost(message, repeated, tag="2")]
+    pub rows: ::prost::alloc::vec::Vec<::prost_types::ListValue>,
+    /// Query plan and execution statistics for the SQL statement that
+    /// produced this result set. These can be requested by setting
+    /// \[ExecuteSqlRequest.query_mode][google.spanner.v1.ExecuteSqlRequest.query_mode\].
+    /// DML statements always produce stats containing the number of rows
+    /// modified, unless executed using the
+    /// \[ExecuteSqlRequest.QueryMode.PLAN][google.spanner.v1.ExecuteSqlRequest.QueryMode.PLAN\] \[ExecuteSqlRequest.query_mode][google.spanner.v1.ExecuteSqlRequest.query_mode\].
+    /// Other fields may or may not be populated, based on the
+    /// \[ExecuteSqlRequest.query_mode][google.spanner.v1.ExecuteSqlRequest.query_mode\].
+    #[prost(message, optional, tag="3")]
+    pub stats: ::core::option::Option<ResultSetStats>,
 }
-/// Nested message and enum types in `CommitResponse`.
-pub mod commit_response {
-    /// Additional statistics about a commit.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CommitStats {
-        /// The total number of mutations for the transaction. Knowing the
-        /// `mutation_count` value can help you maximize the number of mutations
-        /// in a transaction and minimize the number of API round trips. You can
-        /// also monitor this value to prevent transactions from exceeding the system
-        /// \[limit\](<https://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data>).
-        /// If the number of mutations exceeds the limit, the server returns
-        /// \[INVALID_ARGUMENT\](<https://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT>).
-        #[prost(int64, tag="1")]
-        pub mutation_count: i64,
+/// Partial results from a streaming read or SQL query. Streaming reads and
+/// SQL queries better tolerate large result sets, large rows, and large
+/// values, but are a little trickier to consume.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PartialResultSet {
+    /// Metadata about the result set, such as row type information.
+    /// Only present in the first response.
+    #[prost(message, optional, tag="1")]
+    pub metadata: ::core::option::Option<ResultSetMetadata>,
+    /// A streamed result set consists of a stream of values, which might
+    /// be split into many `PartialResultSet` messages to accommodate
+    /// large rows and/or large values. Every N complete values defines a
+    /// row, where N is equal to the number of entries in
+    /// \[metadata.row_type.fields][google.spanner.v1.StructType.fields\].
+    ///
+    /// Most values are encoded based on type as described
+    /// \[here][google.spanner.v1.TypeCode\].
+    ///
+    /// It is possible that the last value in values is "chunked",
+    /// meaning that the rest of the value is sent in subsequent
+    /// `PartialResultSet`(s). This is denoted by the \[chunked_value][google.spanner.v1.PartialResultSet.chunked_value\]
+    /// field. Two or more chunked values can be merged to form a
+    /// complete value as follows:
+    ///
+    ///   * `bool/number/null`: cannot be chunked
+    ///   * `string`: concatenate the strings
+    ///   * `list`: concatenate the lists. If the last element in a list is a
+    ///     `string`, `list`, or `object`, merge it with the first element in
+    ///     the next list by applying these rules recursively.
+    ///   * `object`: concatenate the (field name, field value) pairs. If a
+    ///     field name is duplicated, then apply these rules recursively
+    ///     to merge the field values.
+    ///
+    /// Some examples of merging:
+    ///
+    ///     # Strings are concatenated.
+    ///     "foo", "bar" => "foobar"
+    ///
+    ///     # Lists of non-strings are concatenated.
+    ///     [2, 3], \[4\] => [2, 3, 4]
+    ///
+    ///     # Lists are concatenated, but the last and first elements are merged
+    ///     # because they are strings.
+    ///     ["a", "b"], ["c", "d"] => ["a", "bc", "d"]
+    ///
+    ///     # Lists are concatenated, but the last and first elements are merged
+    ///     # because they are lists. Recursively, the last and first elements
+    ///     # of the inner lists are merged because they are strings.
+    ///     ["a", ["b", "c"]], \[["d"\], "e"] => ["a", ["b", "cd"], "e"]
+    ///
+    ///     # Non-overlapping object fields are combined.
+    ///     {"a": "1"}, {"b": "2"} => {"a": "1", "b": 2"}
+    ///
+    ///     # Overlapping object fields are merged.
+    ///     {"a": "1"}, {"a": "2"} => {"a": "12"}
+    ///
+    ///     # Examples of merging objects containing lists of strings.
+    ///     {"a": \["1"\]}, {"a": \["2"\]} => {"a": \["12"\]}
+    ///
+    /// For a more complete example, suppose a streaming SQL query is
+    /// yielding a result set whose rows contain a single string
+    /// field. The following `PartialResultSet`s might be yielded:
+    ///
+    ///     {
+    ///       "metadata": { ... }
+    ///       "values": ["Hello", "W"]
+    ///       "chunked_value": true
+    ///       "resume_token": "Af65..."
+    ///     }
+    ///     {
+    ///       "values": \["orl"\]
+    ///       "chunked_value": true
+    ///       "resume_token": "Bqp2..."
+    ///     }
+    ///     {
+    ///       "values": \["d"\]
+    ///       "resume_token": "Zx1B..."
+    ///     }
+    ///
+    /// This sequence of `PartialResultSet`s encodes two rows, one
+    /// containing the field value `"Hello"`, and a second containing the
+    /// field value `"World" = "W" + "orl" + "d"`.
+    #[prost(message, repeated, tag="2")]
+    pub values: ::prost::alloc::vec::Vec<::prost_types::Value>,
+    /// If true, then the final value in \[values][google.spanner.v1.PartialResultSet.values\] is chunked, and must
+    /// be combined with more values from subsequent `PartialResultSet`s
+    /// to obtain a complete field value.
+    #[prost(bool, tag="3")]
+    pub chunked_value: bool,
+    /// Streaming calls might be interrupted for a variety of reasons, such
+    /// as TCP connection loss. If this occurs, the stream of results can
+    /// be resumed by re-sending the original request and including
+    /// `resume_token`. Note that executing any other transaction in the
+    /// same session invalidates the token.
+    #[prost(bytes="bytes", tag="4")]
+    pub resume_token: ::prost::bytes::Bytes,
+    /// Query plan and execution statistics for the statement that produced this
+    /// streaming result set. These can be requested by setting
+    /// \[ExecuteSqlRequest.query_mode][google.spanner.v1.ExecuteSqlRequest.query_mode\] and are sent
+    /// only once with the last response in the stream.
+    /// This field will also be present in the last response for DML
+    /// statements.
+    #[prost(message, optional, tag="5")]
+    pub stats: ::core::option::Option<ResultSetStats>,
+}
+/// Metadata about a \[ResultSet][google.spanner.v1.ResultSet\] or \[PartialResultSet][google.spanner.v1.PartialResultSet\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResultSetMetadata {
+    /// Indicates the field names and types for the rows in the result
+    /// set.  For example, a SQL query like `"SELECT UserId, UserName FROM
+    /// Users"` could return a `row_type` value like:
+    ///
+    ///     "fields": [
+    ///       { "name": "UserId", "type": { "code": "INT64" } },
+    ///       { "name": "UserName", "type": { "code": "STRING" } },
+    ///     ]
+    #[prost(message, optional, tag="1")]
+    pub row_type: ::core::option::Option<StructType>,
+    /// If the read or SQL query began a transaction as a side-effect, the
+    /// information about the new transaction is yielded here.
+    #[prost(message, optional, tag="2")]
+    pub transaction: ::core::option::Option<Transaction>,
+}
+/// Additional statistics about a \[ResultSet][google.spanner.v1.ResultSet\] or \[PartialResultSet][google.spanner.v1.PartialResultSet\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResultSetStats {
+    /// \[QueryPlan][google.spanner.v1.QueryPlan\] for the query associated with this result.
+    #[prost(message, optional, tag="1")]
+    pub query_plan: ::core::option::Option<QueryPlan>,
+    /// Aggregated statistics from the execution of the query. Only present when
+    /// the query is profiled. For example, a query could return the statistics as
+    /// follows:
+    ///
+    ///     {
+    ///       "rows_returned": "3",
+    ///       "elapsed_time": "1.22 secs",
+    ///       "cpu_time": "1.19 secs"
+    ///     }
+    #[prost(message, optional, tag="2")]
+    pub query_stats: ::core::option::Option<::prost_types::Struct>,
+    /// The number of rows modified by the DML statement.
+    #[prost(oneof="result_set_stats::RowCount", tags="3, 4")]
+    pub row_count: ::core::option::Option<result_set_stats::RowCount>,
+}
+/// Nested message and enum types in `ResultSetStats`.
+pub mod result_set_stats {
+    /// The number of rows modified by the DML statement.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum RowCount {
+        /// Standard DML returns an exact count of rows that were modified.
+        #[prost(int64, tag="3")]
+        RowCountExact(i64),
+        /// Partitioned DML does not offer exactly-once semantics, so it
+        /// returns a lower bound of the rows modified.
+        #[prost(int64, tag="4")]
+        RowCountLowerBound(i64),
     }
 }
 /// KeyRange represents a range of rows in a table or index.
@@ -943,190 +1127,6 @@ pub mod mutation {
         /// rows were present.
         #[prost(message, tag="5")]
         Delete(Delete),
-    }
-}
-/// Results from \[Read][google.spanner.v1.Spanner.Read\] or
-/// \[ExecuteSql][google.spanner.v1.Spanner.ExecuteSql\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResultSet {
-    /// Metadata about the result set, such as row type information.
-    #[prost(message, optional, tag="1")]
-    pub metadata: ::core::option::Option<ResultSetMetadata>,
-    /// Each element in `rows` is a row whose format is defined by
-    /// \[metadata.row_type][google.spanner.v1.ResultSetMetadata.row_type\]. The ith element
-    /// in each row matches the ith field in
-    /// \[metadata.row_type][google.spanner.v1.ResultSetMetadata.row_type\]. Elements are
-    /// encoded based on type as described
-    /// \[here][google.spanner.v1.TypeCode\].
-    #[prost(message, repeated, tag="2")]
-    pub rows: ::prost::alloc::vec::Vec<::prost_types::ListValue>,
-    /// Query plan and execution statistics for the SQL statement that
-    /// produced this result set. These can be requested by setting
-    /// \[ExecuteSqlRequest.query_mode][google.spanner.v1.ExecuteSqlRequest.query_mode\].
-    /// DML statements always produce stats containing the number of rows
-    /// modified, unless executed using the
-    /// \[ExecuteSqlRequest.QueryMode.PLAN][google.spanner.v1.ExecuteSqlRequest.QueryMode.PLAN\] \[ExecuteSqlRequest.query_mode][google.spanner.v1.ExecuteSqlRequest.query_mode\].
-    /// Other fields may or may not be populated, based on the
-    /// \[ExecuteSqlRequest.query_mode][google.spanner.v1.ExecuteSqlRequest.query_mode\].
-    #[prost(message, optional, tag="3")]
-    pub stats: ::core::option::Option<ResultSetStats>,
-}
-/// Partial results from a streaming read or SQL query. Streaming reads and
-/// SQL queries better tolerate large result sets, large rows, and large
-/// values, but are a little trickier to consume.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PartialResultSet {
-    /// Metadata about the result set, such as row type information.
-    /// Only present in the first response.
-    #[prost(message, optional, tag="1")]
-    pub metadata: ::core::option::Option<ResultSetMetadata>,
-    /// A streamed result set consists of a stream of values, which might
-    /// be split into many `PartialResultSet` messages to accommodate
-    /// large rows and/or large values. Every N complete values defines a
-    /// row, where N is equal to the number of entries in
-    /// \[metadata.row_type.fields][google.spanner.v1.StructType.fields\].
-    ///
-    /// Most values are encoded based on type as described
-    /// \[here][google.spanner.v1.TypeCode\].
-    ///
-    /// It is possible that the last value in values is "chunked",
-    /// meaning that the rest of the value is sent in subsequent
-    /// `PartialResultSet`(s). This is denoted by the \[chunked_value][google.spanner.v1.PartialResultSet.chunked_value\]
-    /// field. Two or more chunked values can be merged to form a
-    /// complete value as follows:
-    ///
-    ///   * `bool/number/null`: cannot be chunked
-    ///   * `string`: concatenate the strings
-    ///   * `list`: concatenate the lists. If the last element in a list is a
-    ///     `string`, `list`, or `object`, merge it with the first element in
-    ///     the next list by applying these rules recursively.
-    ///   * `object`: concatenate the (field name, field value) pairs. If a
-    ///     field name is duplicated, then apply these rules recursively
-    ///     to merge the field values.
-    ///
-    /// Some examples of merging:
-    ///
-    ///     # Strings are concatenated.
-    ///     "foo", "bar" => "foobar"
-    ///
-    ///     # Lists of non-strings are concatenated.
-    ///     [2, 3], \[4\] => [2, 3, 4]
-    ///
-    ///     # Lists are concatenated, but the last and first elements are merged
-    ///     # because they are strings.
-    ///     ["a", "b"], ["c", "d"] => ["a", "bc", "d"]
-    ///
-    ///     # Lists are concatenated, but the last and first elements are merged
-    ///     # because they are lists. Recursively, the last and first elements
-    ///     # of the inner lists are merged because they are strings.
-    ///     ["a", ["b", "c"]], \[["d"\], "e"] => ["a", ["b", "cd"], "e"]
-    ///
-    ///     # Non-overlapping object fields are combined.
-    ///     {"a": "1"}, {"b": "2"} => {"a": "1", "b": 2"}
-    ///
-    ///     # Overlapping object fields are merged.
-    ///     {"a": "1"}, {"a": "2"} => {"a": "12"}
-    ///
-    ///     # Examples of merging objects containing lists of strings.
-    ///     {"a": \["1"\]}, {"a": \["2"\]} => {"a": \["12"\]}
-    ///
-    /// For a more complete example, suppose a streaming SQL query is
-    /// yielding a result set whose rows contain a single string
-    /// field. The following `PartialResultSet`s might be yielded:
-    ///
-    ///     {
-    ///       "metadata": { ... }
-    ///       "values": ["Hello", "W"]
-    ///       "chunked_value": true
-    ///       "resume_token": "Af65..."
-    ///     }
-    ///     {
-    ///       "values": \["orl"\]
-    ///       "chunked_value": true
-    ///       "resume_token": "Bqp2..."
-    ///     }
-    ///     {
-    ///       "values": \["d"\]
-    ///       "resume_token": "Zx1B..."
-    ///     }
-    ///
-    /// This sequence of `PartialResultSet`s encodes two rows, one
-    /// containing the field value `"Hello"`, and a second containing the
-    /// field value `"World" = "W" + "orl" + "d"`.
-    #[prost(message, repeated, tag="2")]
-    pub values: ::prost::alloc::vec::Vec<::prost_types::Value>,
-    /// If true, then the final value in \[values][google.spanner.v1.PartialResultSet.values\] is chunked, and must
-    /// be combined with more values from subsequent `PartialResultSet`s
-    /// to obtain a complete field value.
-    #[prost(bool, tag="3")]
-    pub chunked_value: bool,
-    /// Streaming calls might be interrupted for a variety of reasons, such
-    /// as TCP connection loss. If this occurs, the stream of results can
-    /// be resumed by re-sending the original request and including
-    /// `resume_token`. Note that executing any other transaction in the
-    /// same session invalidates the token.
-    #[prost(bytes="bytes", tag="4")]
-    pub resume_token: ::prost::bytes::Bytes,
-    /// Query plan and execution statistics for the statement that produced this
-    /// streaming result set. These can be requested by setting
-    /// \[ExecuteSqlRequest.query_mode][google.spanner.v1.ExecuteSqlRequest.query_mode\] and are sent
-    /// only once with the last response in the stream.
-    /// This field will also be present in the last response for DML
-    /// statements.
-    #[prost(message, optional, tag="5")]
-    pub stats: ::core::option::Option<ResultSetStats>,
-}
-/// Metadata about a \[ResultSet][google.spanner.v1.ResultSet\] or \[PartialResultSet][google.spanner.v1.PartialResultSet\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResultSetMetadata {
-    /// Indicates the field names and types for the rows in the result
-    /// set.  For example, a SQL query like `"SELECT UserId, UserName FROM
-    /// Users"` could return a `row_type` value like:
-    ///
-    ///     "fields": [
-    ///       { "name": "UserId", "type": { "code": "INT64" } },
-    ///       { "name": "UserName", "type": { "code": "STRING" } },
-    ///     ]
-    #[prost(message, optional, tag="1")]
-    pub row_type: ::core::option::Option<StructType>,
-    /// If the read or SQL query began a transaction as a side-effect, the
-    /// information about the new transaction is yielded here.
-    #[prost(message, optional, tag="2")]
-    pub transaction: ::core::option::Option<Transaction>,
-}
-/// Additional statistics about a \[ResultSet][google.spanner.v1.ResultSet\] or \[PartialResultSet][google.spanner.v1.PartialResultSet\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResultSetStats {
-    /// \[QueryPlan][google.spanner.v1.QueryPlan\] for the query associated with this result.
-    #[prost(message, optional, tag="1")]
-    pub query_plan: ::core::option::Option<QueryPlan>,
-    /// Aggregated statistics from the execution of the query. Only present when
-    /// the query is profiled. For example, a query could return the statistics as
-    /// follows:
-    ///
-    ///     {
-    ///       "rows_returned": "3",
-    ///       "elapsed_time": "1.22 secs",
-    ///       "cpu_time": "1.19 secs"
-    ///     }
-    #[prost(message, optional, tag="2")]
-    pub query_stats: ::core::option::Option<::prost_types::Struct>,
-    /// The number of rows modified by the DML statement.
-    #[prost(oneof="result_set_stats::RowCount", tags="3, 4")]
-    pub row_count: ::core::option::Option<result_set_stats::RowCount>,
-}
-/// Nested message and enum types in `ResultSetStats`.
-pub mod result_set_stats {
-    /// The number of rows modified by the DML statement.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum RowCount {
-        /// Standard DML returns an exact count of rows that were modified.
-        #[prost(int64, tag="3")]
-        RowCountExact(i64),
-        /// Partitioned DML does not offer exactly-once semantics, so it
-        /// returns a lower bound of the rows modified.
-        #[prost(int64, tag="4")]
-        RowCountLowerBound(i64),
     }
 }
 /// The request for \[CreateSession][google.spanner.v1.Spanner.CreateSession\].

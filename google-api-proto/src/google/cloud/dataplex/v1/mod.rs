@@ -1591,6 +1591,253 @@ pub enum State {
     /// Resource is active but has unresolved actions.
     ActionRequired = 4,
 }
+/// Environment represents a user-visible compute infrastructure for analytics
+/// within a lake.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Environment {
+    /// Output only. The relative resource name of the environment, of the form:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/environment/{environment_id}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. User friendly display name.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Output only. System generated globally unique ID for the environment. This ID will be
+    /// different if the environment is deleted and re-created with the same name.
+    #[prost(string, tag="3")]
+    pub uid: ::prost::alloc::string::String,
+    /// Output only. Environment creation time.
+    #[prost(message, optional, tag="4")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The time when the environment was last updated.
+    #[prost(message, optional, tag="5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. User defined labels for the environment.
+    #[prost(btree_map="string, string", tag="6")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Optional. Description of the environment.
+    #[prost(string, tag="7")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. Current state of the environment.
+    #[prost(enumeration="State", tag="8")]
+    pub state: i32,
+    /// Required. Infrastructure specification for the Environment.
+    #[prost(message, optional, tag="100")]
+    pub infrastructure_spec: ::core::option::Option<environment::InfrastructureSpec>,
+    /// Optional. Configuration for sessions created for this environment.
+    #[prost(message, optional, tag="101")]
+    pub session_spec: ::core::option::Option<environment::SessionSpec>,
+    /// Output only. Status of sessions created for this environment.
+    #[prost(message, optional, tag="102")]
+    pub session_status: ::core::option::Option<environment::SessionStatus>,
+    /// Output only. URI Endpoints to access sessions associated with the Environment.
+    #[prost(message, optional, tag="200")]
+    pub endpoints: ::core::option::Option<environment::Endpoints>,
+}
+/// Nested message and enum types in `Environment`.
+pub mod environment {
+    /// Configuration for the underlying infrastructure used to run workloads.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct InfrastructureSpec {
+        /// Hardware config
+        #[prost(oneof="infrastructure_spec::Resources", tags="50")]
+        pub resources: ::core::option::Option<infrastructure_spec::Resources>,
+        /// Software config
+        #[prost(oneof="infrastructure_spec::Runtime", tags="100")]
+        pub runtime: ::core::option::Option<infrastructure_spec::Runtime>,
+    }
+    /// Nested message and enum types in `InfrastructureSpec`.
+    pub mod infrastructure_spec {
+        /// Compute resources associated with the analyze interactive workloads.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct ComputeResources {
+            /// Optional. Size in GB of the disk. Default is 100 GB.
+            #[prost(int32, tag="1")]
+            pub disk_size_gb: i32,
+            /// Optional. Total number of nodes in the sessions created for this environment.
+            #[prost(int32, tag="2")]
+            pub node_count: i32,
+            /// Optional. Max configurable nodes.
+            /// If max_node_count > node_count, then auto-scaling is enabled.
+            #[prost(int32, tag="3")]
+            pub max_node_count: i32,
+        }
+        /// Software Runtime Configuration to run Analyze.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct OsImageRuntime {
+            /// Required. Dataplex Image version.
+            #[prost(string, tag="1")]
+            pub image_version: ::prost::alloc::string::String,
+            /// Optional. List of Java jars to be included in the runtime environment.
+            /// Valid input includes Cloud Storage URIs to Jar binaries.
+            /// For example, gs://bucket-name/my/path/to/file.jar
+            #[prost(string, repeated, tag="2")]
+            pub java_libraries: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// Optional. A list of python packages to be installed.
+            /// Valid formats include Cloud Storage URI to a PIP installable library.
+            /// For example, gs://bucket-name/my/path/to/lib.tar.gz
+            #[prost(string, repeated, tag="3")]
+            pub python_packages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// Optional. Spark properties to provide configuration for use in sessions created
+            /// for this environment. The properties to set on daemon config files.
+            /// Property keys are specified in `prefix:property` format.
+            /// The prefix must be "spark".
+            #[prost(btree_map="string, string", tag="4")]
+            pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+        }
+        /// Hardware config
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Resources {
+            /// Optional. Compute resources needed for analyze interactive workloads.
+            #[prost(message, tag="50")]
+            Compute(ComputeResources),
+        }
+        /// Software config
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Runtime {
+            /// Required. Software Runtime Configuration for analyze interactive workloads.
+            #[prost(message, tag="100")]
+            OsImage(OsImageRuntime),
+        }
+    }
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SessionSpec {
+        /// Optional. The idle time configuration of the session. The session will be
+        /// auto-terminated at the end of this period.
+        #[prost(message, optional, tag="1")]
+        pub max_idle_duration: ::core::option::Option<::prost_types::Duration>,
+        /// Optional. If True, this causes sessions to be pre-created and available for faster
+        /// startup to enable interactive exploration use-cases. This defaults to
+        /// False to avoid additional billed charges.
+        /// These can only be set to True for the environment with name set to
+        /// "default", and with default configuration.
+        #[prost(bool, tag="2")]
+        pub enable_fast_startup: bool,
+    }
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SessionStatus {
+        /// Output only. Queries over sessions to mark whether the environment is currently
+        /// active or not
+        #[prost(bool, tag="1")]
+        pub active: bool,
+    }
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Endpoints {
+        /// Output only. URI to serve notebook APIs
+        #[prost(string, tag="1")]
+        pub notebooks: ::prost::alloc::string::String,
+        /// Output only. URI to serve SQL APIs
+        #[prost(string, tag="2")]
+        pub sql: ::prost::alloc::string::String,
+    }
+}
+/// Content represents a user-visible notebook or a sql script
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Content {
+    /// Output only. The relative resource name of the content, of the form:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. System generated globally unique ID for the content. This ID will be
+    /// different if the content is deleted and re-created with the same name.
+    #[prost(string, tag="2")]
+    pub uid: ::prost::alloc::string::String,
+    /// Required. The path for the Content file, represented as directory structure.
+    /// Unique within a lake.
+    /// Limited to alphanumerics, hyphens, underscores, dots and slashes.
+    #[prost(string, tag="3")]
+    pub path: ::prost::alloc::string::String,
+    /// Output only. Content creation time.
+    #[prost(message, optional, tag="4")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The time when the content was last updated.
+    #[prost(message, optional, tag="5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. User defined labels for the content.
+    #[prost(btree_map="string, string", tag="6")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Optional. Description of the content.
+    #[prost(string, tag="7")]
+    pub description: ::prost::alloc::string::String,
+    /// Only returned in `GetContent` requests and not in `ListContent` request.
+    #[prost(oneof="content::Data", tags="9")]
+    pub data: ::core::option::Option<content::Data>,
+    #[prost(oneof="content::Content", tags="100, 101")]
+    pub content: ::core::option::Option<content::Content>,
+}
+/// Nested message and enum types in `Content`.
+pub mod content {
+    /// Configuration for the Sql Script content.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SqlScript {
+        /// Required. Query Engine to be used for the Sql Query.
+        #[prost(enumeration="sql_script::QueryEngine", tag="1")]
+        pub engine: i32,
+    }
+    /// Nested message and enum types in `SqlScript`.
+    pub mod sql_script {
+        /// Query Engine Type of the SQL Script.
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+        #[repr(i32)]
+        pub enum QueryEngine {
+            /// Value was unspecified.
+            Unspecified = 0,
+            /// Spark SQL Query.
+            Spark = 2,
+        }
+    }
+    /// Configuration for Notebook content.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Notebook {
+        /// Required. Kernel Type of the notebook.
+        #[prost(enumeration="notebook::KernelType", tag="1")]
+        pub kernel_type: i32,
+    }
+    /// Nested message and enum types in `Notebook`.
+    pub mod notebook {
+        /// Kernel Type of the Jupyter notebook.
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+        #[repr(i32)]
+        pub enum KernelType {
+            /// Kernel Type unspecified.
+            Unspecified = 0,
+            /// Python 3 Kernel.
+            Python3 = 1,
+        }
+    }
+    /// Only returned in `GetContent` requests and not in `ListContent` request.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Data {
+        /// Required. Content data in string format.
+        #[prost(string, tag="9")]
+        DataText(::prost::alloc::string::String),
+    }
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Content {
+        /// Sql Script related configurations.
+        #[prost(message, tag="100")]
+        SqlScript(SqlScript),
+        /// Notebook related configurations.
+        #[prost(message, tag="101")]
+        Notebook(Notebook),
+    }
+}
+/// Represents an active analyze session running for a user.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Session {
+    /// Output only. The relative resource name of the content, of the form:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/environment/{environment_id}/sessions/{session_id}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Email of user running the session.
+    #[prost(string, tag="2")]
+    pub user_id: ::prost::alloc::string::String,
+    /// Output only. Session start time.
+    #[prost(message, optional, tag="3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    #[prost(enumeration="State", tag="4")]
+    pub state: i32,
+}
 /// A task represents a user-visible job.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Task {
@@ -1932,515 +2179,6 @@ pub mod job {
         Failed = 5,
         /// The job was cancelled outside of Dataplex.
         Aborted = 6,
-    }
-}
-/// Environment represents a user-visible compute infrastructure for analytics
-/// within a lake.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Environment {
-    /// Output only. The relative resource name of the environment, of the form:
-    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/environment/{environment_id}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. User friendly display name.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Output only. System generated globally unique ID for the environment. This ID will be
-    /// different if the environment is deleted and re-created with the same name.
-    #[prost(string, tag="3")]
-    pub uid: ::prost::alloc::string::String,
-    /// Output only. Environment creation time.
-    #[prost(message, optional, tag="4")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The time when the environment was last updated.
-    #[prost(message, optional, tag="5")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. User defined labels for the environment.
-    #[prost(btree_map="string, string", tag="6")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. Description of the environment.
-    #[prost(string, tag="7")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. Current state of the environment.
-    #[prost(enumeration="State", tag="8")]
-    pub state: i32,
-    /// Required. Infrastructure specification for the Environment.
-    #[prost(message, optional, tag="100")]
-    pub infrastructure_spec: ::core::option::Option<environment::InfrastructureSpec>,
-    /// Optional. Configuration for sessions created for this environment.
-    #[prost(message, optional, tag="101")]
-    pub session_spec: ::core::option::Option<environment::SessionSpec>,
-    /// Output only. Status of sessions created for this environment.
-    #[prost(message, optional, tag="102")]
-    pub session_status: ::core::option::Option<environment::SessionStatus>,
-    /// Output only. URI Endpoints to access sessions associated with the Environment.
-    #[prost(message, optional, tag="200")]
-    pub endpoints: ::core::option::Option<environment::Endpoints>,
-}
-/// Nested message and enum types in `Environment`.
-pub mod environment {
-    /// Configuration for the underlying infrastructure used to run workloads.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct InfrastructureSpec {
-        /// Hardware config
-        #[prost(oneof="infrastructure_spec::Resources", tags="50")]
-        pub resources: ::core::option::Option<infrastructure_spec::Resources>,
-        /// Software config
-        #[prost(oneof="infrastructure_spec::Runtime", tags="100")]
-        pub runtime: ::core::option::Option<infrastructure_spec::Runtime>,
-    }
-    /// Nested message and enum types in `InfrastructureSpec`.
-    pub mod infrastructure_spec {
-        /// Compute resources associated with the analyze interactive workloads.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct ComputeResources {
-            /// Optional. Size in GB of the disk. Default is 100 GB.
-            #[prost(int32, tag="1")]
-            pub disk_size_gb: i32,
-            /// Optional. Total number of nodes in the sessions created for this environment.
-            #[prost(int32, tag="2")]
-            pub node_count: i32,
-            /// Optional. Max configurable nodes.
-            /// If max_node_count > node_count, then auto-scaling is enabled.
-            #[prost(int32, tag="3")]
-            pub max_node_count: i32,
-        }
-        /// Software Runtime Configuration to run Analyze.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct OsImageRuntime {
-            /// Required. Dataplex Image version.
-            #[prost(string, tag="1")]
-            pub image_version: ::prost::alloc::string::String,
-            /// Optional. List of Java jars to be included in the runtime environment.
-            /// Valid input includes Cloud Storage URIs to Jar binaries.
-            /// For example, gs://bucket-name/my/path/to/file.jar
-            #[prost(string, repeated, tag="2")]
-            pub java_libraries: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// Optional. A list of python packages to be installed.
-            /// Valid formats include Cloud Storage URI to a PIP installable library.
-            /// For example, gs://bucket-name/my/path/to/lib.tar.gz
-            #[prost(string, repeated, tag="3")]
-            pub python_packages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// Optional. Spark properties to provide configuration for use in sessions created
-            /// for this environment. The properties to set on daemon config files.
-            /// Property keys are specified in `prefix:property` format.
-            /// The prefix must be "spark".
-            #[prost(btree_map="string, string", tag="4")]
-            pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-        }
-        /// Hardware config
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum Resources {
-            /// Optional. Compute resources needed for analyze interactive workloads.
-            #[prost(message, tag="50")]
-            Compute(ComputeResources),
-        }
-        /// Software config
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum Runtime {
-            /// Required. Software Runtime Configuration for analyze interactive workloads.
-            #[prost(message, tag="100")]
-            OsImage(OsImageRuntime),
-        }
-    }
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SessionSpec {
-        /// Optional. The idle time configuration of the session. The session will be
-        /// auto-terminated at the end of this period.
-        #[prost(message, optional, tag="1")]
-        pub max_idle_duration: ::core::option::Option<::prost_types::Duration>,
-        /// Optional. If True, this causes sessions to be pre-created and available for faster
-        /// startup to enable interactive exploration use-cases. This defaults to
-        /// False to avoid additional billed charges.
-        /// These can only be set to True for the environment with name set to
-        /// "default", and with default configuration.
-        #[prost(bool, tag="2")]
-        pub enable_fast_startup: bool,
-    }
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SessionStatus {
-        /// Output only. Queries over sessions to mark whether the environment is currently
-        /// active or not
-        #[prost(bool, tag="1")]
-        pub active: bool,
-    }
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Endpoints {
-        /// Output only. URI to serve notebook APIs
-        #[prost(string, tag="1")]
-        pub notebooks: ::prost::alloc::string::String,
-        /// Output only. URI to serve SQL APIs
-        #[prost(string, tag="2")]
-        pub sql: ::prost::alloc::string::String,
-    }
-}
-/// Content represents a user-visible notebook or a sql script
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Content {
-    /// Output only. The relative resource name of the content, of the form:
-    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. System generated globally unique ID for the content. This ID will be
-    /// different if the content is deleted and re-created with the same name.
-    #[prost(string, tag="2")]
-    pub uid: ::prost::alloc::string::String,
-    /// Required. The path for the Content file, represented as directory structure.
-    /// Unique within a lake.
-    /// Limited to alphanumerics, hyphens, underscores, dots and slashes.
-    #[prost(string, tag="3")]
-    pub path: ::prost::alloc::string::String,
-    /// Output only. Content creation time.
-    #[prost(message, optional, tag="4")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The time when the content was last updated.
-    #[prost(message, optional, tag="5")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. User defined labels for the content.
-    #[prost(btree_map="string, string", tag="6")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Optional. Description of the content.
-    #[prost(string, tag="7")]
-    pub description: ::prost::alloc::string::String,
-    /// Only returned in `GetContent` requests and not in `ListContent` request.
-    #[prost(oneof="content::Data", tags="9")]
-    pub data: ::core::option::Option<content::Data>,
-    #[prost(oneof="content::Content", tags="100, 101")]
-    pub content: ::core::option::Option<content::Content>,
-}
-/// Nested message and enum types in `Content`.
-pub mod content {
-    /// Configuration for the Sql Script content.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SqlScript {
-        /// Required. Query Engine to be used for the Sql Query.
-        #[prost(enumeration="sql_script::QueryEngine", tag="1")]
-        pub engine: i32,
-    }
-    /// Nested message and enum types in `SqlScript`.
-    pub mod sql_script {
-        /// Query Engine Type of the SQL Script.
-        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-        #[repr(i32)]
-        pub enum QueryEngine {
-            /// Value was unspecified.
-            Unspecified = 0,
-            /// Spark SQL Query.
-            Spark = 2,
-        }
-    }
-    /// Configuration for Notebook content.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Notebook {
-        /// Required. Kernel Type of the notebook.
-        #[prost(enumeration="notebook::KernelType", tag="1")]
-        pub kernel_type: i32,
-    }
-    /// Nested message and enum types in `Notebook`.
-    pub mod notebook {
-        /// Kernel Type of the Jupyter notebook.
-        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-        #[repr(i32)]
-        pub enum KernelType {
-            /// Kernel Type unspecified.
-            Unspecified = 0,
-            /// Python 3 Kernel.
-            Python3 = 1,
-        }
-    }
-    /// Only returned in `GetContent` requests and not in `ListContent` request.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Data {
-        /// Required. Content data in string format.
-        #[prost(string, tag="9")]
-        DataText(::prost::alloc::string::String),
-    }
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Content {
-        /// Sql Script related configurations.
-        #[prost(message, tag="100")]
-        SqlScript(SqlScript),
-        /// Notebook related configurations.
-        #[prost(message, tag="101")]
-        Notebook(Notebook),
-    }
-}
-/// Represents an active analyze session running for a user.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Session {
-    /// Output only. The relative resource name of the content, of the form:
-    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/environment/{environment_id}/sessions/{session_id}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Email of user running the session.
-    #[prost(string, tag="2")]
-    pub user_id: ::prost::alloc::string::String,
-    /// Output only. Session start time.
-    #[prost(message, optional, tag="3")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    #[prost(enumeration="State", tag="4")]
-    pub state: i32,
-}
-/// Create content request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateContentRequest {
-    /// Required. The resource name of the parent lake:
-    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Content resource.
-    #[prost(message, optional, tag="2")]
-    pub content: ::core::option::Option<Content>,
-    /// Optional. Only validate the request, but do not perform mutations.
-    /// The default is false.
-    #[prost(bool, tag="3")]
-    pub validate_only: bool,
-}
-/// Update content request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateContentRequest {
-    /// Required. Mask of fields to update.
-    #[prost(message, optional, tag="1")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-    /// Required. Update description.
-    /// Only fields specified in `update_mask` are updated.
-    #[prost(message, optional, tag="2")]
-    pub content: ::core::option::Option<Content>,
-    /// Optional. Only validate the request, but do not perform mutations.
-    /// The default is false.
-    #[prost(bool, tag="3")]
-    pub validate_only: bool,
-}
-/// Delete content request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteContentRequest {
-    /// Required. The resource name of the content:
-    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// List content request. Returns the BASIC Content view.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListContentRequest {
-    /// Required. The resource name of the parent lake:
-    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. Maximum number of content to return. The service may return fewer than
-    /// this value. If unspecified, at most 10 content will be returned. The
-    /// maximum value is 1000; values above 1000 will be coerced to 1000.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// Optional. Page token received from a previous `ListContent` call. Provide this
-    /// to retrieve the subsequent page. When paginating, all other parameters
-    /// provided to `ListContent` must match the call that provided the page
-    /// token.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Optional. Filter request. Filters are case-sensitive.
-    /// The following formats are supported:
-    ///
-    /// labels.key1 = "value1"
-    /// labels:key1
-    /// type = "NOTEBOOK"
-    /// type = "SQL_SCRIPT"
-    ///
-    /// These restrictions can be coinjoined with AND, OR and NOT conjunctions.
-    #[prost(string, tag="4")]
-    pub filter: ::prost::alloc::string::String,
-}
-/// List content response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListContentResponse {
-    /// Content under the given parent lake.
-    #[prost(message, repeated, tag="1")]
-    pub content: ::prost::alloc::vec::Vec<Content>,
-    /// Token to retrieve the next page of results, or empty if there are no more
-    /// results in the list.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Get content request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetContentRequest {
-    /// Required. The resource name of the content:
-    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. Specify content view to make a partial request.
-    #[prost(enumeration="get_content_request::ContentView", tag="2")]
-    pub view: i32,
-}
-/// Nested message and enum types in `GetContentRequest`.
-pub mod get_content_request {
-    /// Specifies whether the request should return the full or the partial
-    /// representation.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ContentView {
-        /// Content view not specified. Defaults to BASIC.
-        /// The API will default to the BASIC view.
-        Unspecified = 0,
-        /// Will not return the `data_text` field.
-        Basic = 1,
-        /// Returns the complete proto.
-        Full = 2,
-    }
-}
-/// Generated client implementations.
-pub mod content_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// ContentService manages Notebook and SQL Scripts for Dataplex.
-    #[derive(Debug, Clone)]
-    pub struct ContentServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ContentServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ContentServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            ContentServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Create a content.
-        pub async fn create_content(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateContentRequest>,
-        ) -> Result<tonic::Response<super::Content>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.ContentService/CreateContent",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Update a content. Only supports full resource update.
-        pub async fn update_content(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateContentRequest>,
-        ) -> Result<tonic::Response<super::Content>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.ContentService/UpdateContent",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Delete a content.
-        pub async fn delete_content(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteContentRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.ContentService/DeleteContent",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Get a content resource.
-        pub async fn get_content(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetContentRequest>,
-        ) -> Result<tonic::Response<super::Content>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.ContentService/GetContent",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// List content.
-        pub async fn list_content(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListContentRequest>,
-        ) -> Result<tonic::Response<super::ListContentResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.ContentService/ListContent",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
     }
 }
 /// Create lake request.
@@ -3816,6 +3554,268 @@ pub mod dataplex_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.dataplex.v1.DataplexService/ListSessions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Create content request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateContentRequest {
+    /// Required. The resource name of the parent lake:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Content resource.
+    #[prost(message, optional, tag="2")]
+    pub content: ::core::option::Option<Content>,
+    /// Optional. Only validate the request, but do not perform mutations.
+    /// The default is false.
+    #[prost(bool, tag="3")]
+    pub validate_only: bool,
+}
+/// Update content request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateContentRequest {
+    /// Required. Mask of fields to update.
+    #[prost(message, optional, tag="1")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// Required. Update description.
+    /// Only fields specified in `update_mask` are updated.
+    #[prost(message, optional, tag="2")]
+    pub content: ::core::option::Option<Content>,
+    /// Optional. Only validate the request, but do not perform mutations.
+    /// The default is false.
+    #[prost(bool, tag="3")]
+    pub validate_only: bool,
+}
+/// Delete content request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteContentRequest {
+    /// Required. The resource name of the content:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// List content request. Returns the BASIC Content view.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListContentRequest {
+    /// Required. The resource name of the parent lake:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. Maximum number of content to return. The service may return fewer than
+    /// this value. If unspecified, at most 10 content will be returned. The
+    /// maximum value is 1000; values above 1000 will be coerced to 1000.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// Optional. Page token received from a previous `ListContent` call. Provide this
+    /// to retrieve the subsequent page. When paginating, all other parameters
+    /// provided to `ListContent` must match the call that provided the page
+    /// token.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. Filter request. Filters are case-sensitive.
+    /// The following formats are supported:
+    ///
+    /// labels.key1 = "value1"
+    /// labels:key1
+    /// type = "NOTEBOOK"
+    /// type = "SQL_SCRIPT"
+    ///
+    /// These restrictions can be coinjoined with AND, OR and NOT conjunctions.
+    #[prost(string, tag="4")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// List content response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListContentResponse {
+    /// Content under the given parent lake.
+    #[prost(message, repeated, tag="1")]
+    pub content: ::prost::alloc::vec::Vec<Content>,
+    /// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Get content request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetContentRequest {
+    /// Required. The resource name of the content:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Specify content view to make a partial request.
+    #[prost(enumeration="get_content_request::ContentView", tag="2")]
+    pub view: i32,
+}
+/// Nested message and enum types in `GetContentRequest`.
+pub mod get_content_request {
+    /// Specifies whether the request should return the full or the partial
+    /// representation.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ContentView {
+        /// Content view not specified. Defaults to BASIC.
+        /// The API will default to the BASIC view.
+        Unspecified = 0,
+        /// Will not return the `data_text` field.
+        Basic = 1,
+        /// Returns the complete proto.
+        Full = 2,
+    }
+}
+/// Generated client implementations.
+pub mod content_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// ContentService manages Notebook and SQL Scripts for Dataplex.
+    #[derive(Debug, Clone)]
+    pub struct ContentServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ContentServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ContentServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            ContentServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Create a content.
+        pub async fn create_content(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateContentRequest>,
+        ) -> Result<tonic::Response<super::Content>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/CreateContent",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Update a content. Only supports full resource update.
+        pub async fn update_content(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateContentRequest>,
+        ) -> Result<tonic::Response<super::Content>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/UpdateContent",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Delete a content.
+        pub async fn delete_content(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteContentRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/DeleteContent",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Get a content resource.
+        pub async fn get_content(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetContentRequest>,
+        ) -> Result<tonic::Response<super::Content>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/GetContent",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// List content.
+        pub async fn list_content(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListContentRequest>,
+        ) -> Result<tonic::Response<super::ListContentResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/ListContent",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

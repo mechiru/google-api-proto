@@ -1,3 +1,243 @@
+/// Request message for CreateInstance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateInstanceRequest {
+    /// Required. Parent resource of the Instance, of the form: `projects/*/locations/*`
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Identifier to assign to the Instance. Must be unique within scope of the
+    /// parent resource.
+    #[prost(string, tag="2")]
+    pub instance_id: ::prost::alloc::string::String,
+    /// Required. The Instance.
+    #[prost(message, optional, tag="3")]
+    pub instance: ::core::option::Option<Instance>,
+}
+/// Request message for DeleteInstance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteInstanceRequest {
+    /// Required. The name of the Instance to delete.
+    /// Format: `projects/*/locations/*/instances/*`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for GetInstance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetInstanceRequest {
+    /// Required. The name of the Instance to retrieve.
+    /// Format: `projects/*/locations/*/instances/*`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Represents the metadata of the long-running operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationMetadata {
+    /// The time the operation was created.
+    #[prost(message, optional, tag="1")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time the operation finished running.
+    #[prost(message, optional, tag="2")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Server-defined resource path for the target of the operation.
+    #[prost(string, tag="3")]
+    pub target: ::prost::alloc::string::String,
+    /// Name of the verb executed by the operation.
+    #[prost(string, tag="4")]
+    pub verb: ::prost::alloc::string::String,
+    /// Human-readable status of the operation, if any.
+    #[prost(string, tag="5")]
+    pub status_message: ::prost::alloc::string::String,
+    /// Identifies whether the user has requested cancellation
+    /// of the operation. Operations that have successfully been cancelled
+    /// have \[Operation.error][\] value with a \[google.rpc.Status.code][google.rpc.Status.code\] of 1,
+    /// corresponding to `Code.CANCELLED`.
+    #[prost(bool, tag="6")]
+    pub cancellation_requested: bool,
+    /// API version used to start the operation.
+    #[prost(string, tag="7")]
+    pub api_version: ::prost::alloc::string::String,
+}
+/// An Instance represents the instance resources of the Registry.
+/// Currently, only one instance is allowed for each project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Instance {
+    /// Format: `projects/*/locations/*/instance`.
+    /// Currently only locations/global is supported.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Creation timestamp.
+    #[prost(message, optional, tag="2")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Last update timestamp.
+    #[prost(message, optional, tag="3")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The current state of the Instance.
+    #[prost(enumeration="instance::State", tag="4")]
+    pub state: i32,
+    /// Output only. Extra information of Instance.State if the state is `FAILED`.
+    #[prost(string, tag="5")]
+    pub state_message: ::prost::alloc::string::String,
+    /// Required. Config of the Instance.
+    #[prost(message, optional, tag="6")]
+    pub config: ::core::option::Option<instance::Config>,
+}
+/// Nested message and enum types in `Instance`.
+pub mod instance {
+    /// Available configurations to provision an Instance.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Config {
+        /// Output only. The GCP location where the Instance resides.
+        #[prost(string, tag="1")]
+        pub location: ::prost::alloc::string::String,
+        /// Required. The Customer Managed Encryption Key (CMEK) used for data encryption.
+        /// The CMEK name should follow the format of
+        /// `projects/(\[^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/\]+)`,
+        /// where the `location` must match InstanceConfig.location.
+        #[prost(string, tag="2")]
+        pub cmek_key_name: ::prost::alloc::string::String,
+    }
+    /// State of the Instance.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// The default value. This value is used if the state is omitted.
+        Unspecified = 0,
+        /// The Instance has not been initialized or has been deleted.
+        Inactive = 1,
+        /// The Instance is being created.
+        Creating = 2,
+        /// The Instance has been created and is ready for use.
+        Active = 3,
+        /// The Instance is being updated.
+        Updating = 4,
+        /// The Instance is being deleted.
+        Deleting = 5,
+        /// The Instance encountered an error during a state change.
+        Failed = 6,
+    }
+}
+/// Generated client implementations.
+pub mod provisioning_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// The service that is used for managing the data plane provisioning of the
+    /// Registry.
+    #[derive(Debug, Clone)]
+    pub struct ProvisioningClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ProvisioningClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ProvisioningClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            ProvisioningClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Provisions instance resources for the Registry.
+        pub async fn create_instance(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateInstanceRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.apigeeregistry.v1.Provisioning/CreateInstance",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes the Registry instance.
+        pub async fn delete_instance(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteInstanceRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.apigeeregistry.v1.Provisioning/DeleteInstance",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets details of a single Instance.
+        pub async fn get_instance(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetInstanceRequest>,
+        ) -> Result<tonic::Response<super::Instance>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.apigeeregistry.v1.Provisioning/GetInstance",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// An Api is a top-level description of an API.
 /// Apis are produced by producers and are commitments to provide services.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1669,246 +1909,6 @@ pub mod registry_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.apigeeregistry.v1.Registry/DeleteArtifact",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Request message for CreateInstance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateInstanceRequest {
-    /// Required. Parent resource of the Instance, of the form: `projects/*/locations/*`
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Identifier to assign to the Instance. Must be unique within scope of the
-    /// parent resource.
-    #[prost(string, tag="2")]
-    pub instance_id: ::prost::alloc::string::String,
-    /// Required. The Instance.
-    #[prost(message, optional, tag="3")]
-    pub instance: ::core::option::Option<Instance>,
-}
-/// Request message for DeleteInstance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteInstanceRequest {
-    /// Required. The name of the Instance to delete.
-    /// Format: `projects/*/locations/*/instances/*`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for GetInstance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetInstanceRequest {
-    /// Required. The name of the Instance to retrieve.
-    /// Format: `projects/*/locations/*/instances/*`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Represents the metadata of the long-running operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationMetadata {
-    /// The time the operation was created.
-    #[prost(message, optional, tag="1")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time the operation finished running.
-    #[prost(message, optional, tag="2")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Server-defined resource path for the target of the operation.
-    #[prost(string, tag="3")]
-    pub target: ::prost::alloc::string::String,
-    /// Name of the verb executed by the operation.
-    #[prost(string, tag="4")]
-    pub verb: ::prost::alloc::string::String,
-    /// Human-readable status of the operation, if any.
-    #[prost(string, tag="5")]
-    pub status_message: ::prost::alloc::string::String,
-    /// Identifies whether the user has requested cancellation
-    /// of the operation. Operations that have successfully been cancelled
-    /// have \[Operation.error][\] value with a \[google.rpc.Status.code][google.rpc.Status.code\] of 1,
-    /// corresponding to `Code.CANCELLED`.
-    #[prost(bool, tag="6")]
-    pub cancellation_requested: bool,
-    /// API version used to start the operation.
-    #[prost(string, tag="7")]
-    pub api_version: ::prost::alloc::string::String,
-}
-/// An Instance represents the instance resources of the Registry.
-/// Currently, only one instance is allowed for each project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Instance {
-    /// Format: `projects/*/locations/*/instance`.
-    /// Currently only locations/global is supported.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Creation timestamp.
-    #[prost(message, optional, tag="2")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Last update timestamp.
-    #[prost(message, optional, tag="3")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The current state of the Instance.
-    #[prost(enumeration="instance::State", tag="4")]
-    pub state: i32,
-    /// Output only. Extra information of Instance.State if the state is `FAILED`.
-    #[prost(string, tag="5")]
-    pub state_message: ::prost::alloc::string::String,
-    /// Required. Config of the Instance.
-    #[prost(message, optional, tag="6")]
-    pub config: ::core::option::Option<instance::Config>,
-}
-/// Nested message and enum types in `Instance`.
-pub mod instance {
-    /// Available configurations to provision an Instance.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Config {
-        /// Output only. The GCP location where the Instance resides.
-        #[prost(string, tag="1")]
-        pub location: ::prost::alloc::string::String,
-        /// Required. The Customer Managed Encryption Key (CMEK) used for data encryption.
-        /// The CMEK name should follow the format of
-        /// `projects/(\[^/]+)/locations/([^/]+)/keyRings/([^/]+)/cryptoKeys/([^/\]+)`,
-        /// where the `location` must match InstanceConfig.location.
-        #[prost(string, tag="2")]
-        pub cmek_key_name: ::prost::alloc::string::String,
-    }
-    /// State of the Instance.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// The default value. This value is used if the state is omitted.
-        Unspecified = 0,
-        /// The Instance has not been initialized or has been deleted.
-        Inactive = 1,
-        /// The Instance is being created.
-        Creating = 2,
-        /// The Instance has been created and is ready for use.
-        Active = 3,
-        /// The Instance is being updated.
-        Updating = 4,
-        /// The Instance is being deleted.
-        Deleting = 5,
-        /// The Instance encountered an error during a state change.
-        Failed = 6,
-    }
-}
-/// Generated client implementations.
-pub mod provisioning_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// The service that is used for managing the data plane provisioning of the
-    /// Registry.
-    #[derive(Debug, Clone)]
-    pub struct ProvisioningClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ProvisioningClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ProvisioningClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            ProvisioningClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Provisions instance resources for the Registry.
-        pub async fn create_instance(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateInstanceRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.apigeeregistry.v1.Provisioning/CreateInstance",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes the Registry instance.
-        pub async fn delete_instance(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteInstanceRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.apigeeregistry.v1.Provisioning/DeleteInstance",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets details of a single Instance.
-        pub async fn get_instance(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetInstanceRequest>,
-        ) -> Result<tonic::Response<super::Instance>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.apigeeregistry.v1.Provisioning/GetInstance",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

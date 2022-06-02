@@ -163,77 +163,35 @@ pub enum ResolutionStatus {
     /// The error group is muted and excluded by default on group stats requests.
     Muted = 4,
 }
-/// A request for reporting an individual error event.
+/// A request to return an individual group.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReportErrorEventRequest {
-    /// Required. The resource name of the Google Cloud Platform project. Written
-    /// as `projects/{projectId}`, where `{projectId}` is the
-    /// [Google Cloud Platform project
-    /// ID](<https://support.google.com/cloud/answer/6158840>).
+pub struct GetGroupRequest {
+    /// Required. The group resource name. Written as
+    /// `projects/{projectID}/groups/{group_name}`. Call
+    /// \[`groupStats.list`\](<https://cloud.google.com/error-reporting/reference/rest/v1beta1/projects.groupStats/list>)
+    /// to return a list of groups belonging to this project.
     ///
-    /// Example: // `projects/my-project-123`.
+    /// Example: `projects/my-project-123/groups/my-group`
     #[prost(string, tag="1")]
-    pub project_name: ::prost::alloc::string::String,
-    /// Required. The error event to be reported.
-    #[prost(message, optional, tag="2")]
-    pub event: ::core::option::Option<ReportedErrorEvent>,
+    pub group_name: ::prost::alloc::string::String,
 }
-/// Response for reporting an individual error event.
-/// Data may be added to this message in the future.
+/// A request to replace the existing data for the given group.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReportErrorEventResponse {
-}
-/// An error event which is reported to the Error Reporting system.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReportedErrorEvent {
-    /// Optional. Time when the event occurred.
-    /// If not provided, the time when the event was received by the
-    /// Error Reporting system will be used.
+pub struct UpdateGroupRequest {
+    /// Required. The group which replaces the resource on the server.
     #[prost(message, optional, tag="1")]
-    pub event_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Required. The service context in which this error has occurred.
-    #[prost(message, optional, tag="2")]
-    pub service_context: ::core::option::Option<ServiceContext>,
-    /// Required. The error message.
-    /// If no `context.reportLocation` is provided, the message must contain a
-    /// header (typically consisting of the exception type name and an error
-    /// message) and an exception stack trace in one of the supported programming
-    /// languages and formats.
-    /// Supported languages are Java, Python, JavaScript, Ruby, C#, PHP, and Go.
-    /// Supported stack trace formats are:
-    ///
-    /// * **Java**: Must be the return value of
-    /// \[`Throwable.printStackTrace()`\](<https://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html#printStackTrace%28%29>).
-    /// * **Python**: Must be the return value of
-    /// \[`traceback.format_exc()`\](<https://docs.python.org/2/library/traceback.html#traceback.format_exc>).
-    /// * **JavaScript**: Must be the value of
-    /// \[`error.stack`\](<https://github.com/v8/v8/wiki/Stack-Trace-API>) as returned
-    /// by V8.
-    /// * **Ruby**: Must contain frames returned by
-    /// \[`Exception.backtrace`\](<https://ruby-doc.org/core-2.2.0/Exception.html#method-i-backtrace>).
-    /// * **C#**: Must be the return value of
-    /// \[`Exception.ToString()`\](<https://msdn.microsoft.com/en-us/library/system.exception.tostring.aspx>).
-    /// * **PHP**: Must start with `PHP (Notice|Parse error|Fatal error|Warning)`
-    /// and contain the result of
-    /// \[`(string)$exception`\](<http://php.net/manual/en/exception.tostring.php>).
-    /// * **Go**: Must be the return value of
-    /// \[`runtime.Stack()`\](<https://golang.org/pkg/runtime/debug/#Stack>).
-    #[prost(string, tag="3")]
-    pub message: ::prost::alloc::string::String,
-    /// Optional. A description of the context in which the error occurred.
-    #[prost(message, optional, tag="4")]
-    pub context: ::core::option::Option<ErrorContext>,
+    pub group: ::core::option::Option<ErrorGroup>,
 }
 /// Generated client implementations.
-pub mod report_errors_service_client {
+pub mod error_group_service_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    /// An API for reporting error events.
+    /// Service for retrieving and updating individual error groups.
     #[derive(Debug, Clone)]
-    pub struct ReportErrorsServiceClient<T> {
+    pub struct ErrorGroupServiceClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl<T> ReportErrorsServiceClient<T>
+    impl<T> ErrorGroupServiceClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::Error: Into<StdError>,
@@ -247,7 +205,7 @@ pub mod report_errors_service_client {
         pub fn with_interceptor<F>(
             inner: T,
             interceptor: F,
-        ) -> ReportErrorsServiceClient<InterceptedService<T, F>>
+        ) -> ErrorGroupServiceClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T::ResponseBody: Default,
@@ -261,7 +219,7 @@ pub mod report_errors_service_client {
                 http::Request<tonic::body::BoxBody>,
             >>::Error: Into<StdError> + Send + Sync,
         {
-            ReportErrorsServiceClient::new(InterceptedService::new(inner, interceptor))
+            ErrorGroupServiceClient::new(InterceptedService::new(inner, interceptor))
         }
         /// Compress requests with `gzip`.
         ///
@@ -278,27 +236,11 @@ pub mod report_errors_service_client {
             self.inner = self.inner.accept_gzip();
             self
         }
-        /// Report an individual error event and record the event to a log.
-        ///
-        /// This endpoint accepts **either** an OAuth token,
-        /// **or** an [API key](https://support.google.com/cloud/answer/6158862)
-        /// for authentication. To use an API key, append it to the URL as the value of
-        /// a `key` parameter. For example:
-        ///
-        /// `POST
-        /// https://clouderrorreporting.googleapis.com/v1beta1/{projectName}/events:report?key=123ABC456`
-        ///
-        /// **Note:** [Error Reporting](/error-reporting) is a global service built
-        /// on Cloud Logging and doesn't analyze logs stored
-        /// in regional log buckets or logs routed to other Google Cloud projects.
-        ///
-        /// For more information, see
-        /// [Using Error Reporting with regionalized
-        /// logs](/error-reporting/docs/regionalization).
-        pub async fn report_error_event(
+        /// Get the specified group.
+        pub async fn get_group(
             &mut self,
-            request: impl tonic::IntoRequest<super::ReportErrorEventRequest>,
-        ) -> Result<tonic::Response<super::ReportErrorEventResponse>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::GetGroupRequest>,
+        ) -> Result<tonic::Response<super::ErrorGroup>, tonic::Status> {
             self.inner
                 .ready()
                 .await
@@ -310,7 +252,28 @@ pub mod report_errors_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.clouderrorreporting.v1beta1.ReportErrorsService/ReportErrorEvent",
+                "/google.devtools.clouderrorreporting.v1beta1.ErrorGroupService/GetGroup",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Replace the data for the specified group.
+        /// Fails if the group does not exist.
+        pub async fn update_group(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateGroupRequest>,
+        ) -> Result<tonic::Response<super::ErrorGroup>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.clouderrorreporting.v1beta1.ErrorGroupService/UpdateGroup",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -732,35 +695,77 @@ pub mod error_stats_service_client {
         }
     }
 }
-/// A request to return an individual group.
+/// A request for reporting an individual error event.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetGroupRequest {
-    /// Required. The group resource name. Written as
-    /// `projects/{projectID}/groups/{group_name}`. Call
-    /// \[`groupStats.list`\](<https://cloud.google.com/error-reporting/reference/rest/v1beta1/projects.groupStats/list>)
-    /// to return a list of groups belonging to this project.
+pub struct ReportErrorEventRequest {
+    /// Required. The resource name of the Google Cloud Platform project. Written
+    /// as `projects/{projectId}`, where `{projectId}` is the
+    /// [Google Cloud Platform project
+    /// ID](<https://support.google.com/cloud/answer/6158840>).
     ///
-    /// Example: `projects/my-project-123/groups/my-group`
+    /// Example: // `projects/my-project-123`.
     #[prost(string, tag="1")]
-    pub group_name: ::prost::alloc::string::String,
+    pub project_name: ::prost::alloc::string::String,
+    /// Required. The error event to be reported.
+    #[prost(message, optional, tag="2")]
+    pub event: ::core::option::Option<ReportedErrorEvent>,
 }
-/// A request to replace the existing data for the given group.
+/// Response for reporting an individual error event.
+/// Data may be added to this message in the future.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateGroupRequest {
-    /// Required. The group which replaces the resource on the server.
+pub struct ReportErrorEventResponse {
+}
+/// An error event which is reported to the Error Reporting system.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReportedErrorEvent {
+    /// Optional. Time when the event occurred.
+    /// If not provided, the time when the event was received by the
+    /// Error Reporting system will be used.
     #[prost(message, optional, tag="1")]
-    pub group: ::core::option::Option<ErrorGroup>,
+    pub event_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Required. The service context in which this error has occurred.
+    #[prost(message, optional, tag="2")]
+    pub service_context: ::core::option::Option<ServiceContext>,
+    /// Required. The error message.
+    /// If no `context.reportLocation` is provided, the message must contain a
+    /// header (typically consisting of the exception type name and an error
+    /// message) and an exception stack trace in one of the supported programming
+    /// languages and formats.
+    /// Supported languages are Java, Python, JavaScript, Ruby, C#, PHP, and Go.
+    /// Supported stack trace formats are:
+    ///
+    /// * **Java**: Must be the return value of
+    /// \[`Throwable.printStackTrace()`\](<https://docs.oracle.com/javase/7/docs/api/java/lang/Throwable.html#printStackTrace%28%29>).
+    /// * **Python**: Must be the return value of
+    /// \[`traceback.format_exc()`\](<https://docs.python.org/2/library/traceback.html#traceback.format_exc>).
+    /// * **JavaScript**: Must be the value of
+    /// \[`error.stack`\](<https://github.com/v8/v8/wiki/Stack-Trace-API>) as returned
+    /// by V8.
+    /// * **Ruby**: Must contain frames returned by
+    /// \[`Exception.backtrace`\](<https://ruby-doc.org/core-2.2.0/Exception.html#method-i-backtrace>).
+    /// * **C#**: Must be the return value of
+    /// \[`Exception.ToString()`\](<https://msdn.microsoft.com/en-us/library/system.exception.tostring.aspx>).
+    /// * **PHP**: Must start with `PHP (Notice|Parse error|Fatal error|Warning)`
+    /// and contain the result of
+    /// \[`(string)$exception`\](<http://php.net/manual/en/exception.tostring.php>).
+    /// * **Go**: Must be the return value of
+    /// \[`runtime.Stack()`\](<https://golang.org/pkg/runtime/debug/#Stack>).
+    #[prost(string, tag="3")]
+    pub message: ::prost::alloc::string::String,
+    /// Optional. A description of the context in which the error occurred.
+    #[prost(message, optional, tag="4")]
+    pub context: ::core::option::Option<ErrorContext>,
 }
 /// Generated client implementations.
-pub mod error_group_service_client {
+pub mod report_errors_service_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    /// Service for retrieving and updating individual error groups.
+    /// An API for reporting error events.
     #[derive(Debug, Clone)]
-    pub struct ErrorGroupServiceClient<T> {
+    pub struct ReportErrorsServiceClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl<T> ErrorGroupServiceClient<T>
+    impl<T> ReportErrorsServiceClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::Error: Into<StdError>,
@@ -774,7 +779,7 @@ pub mod error_group_service_client {
         pub fn with_interceptor<F>(
             inner: T,
             interceptor: F,
-        ) -> ErrorGroupServiceClient<InterceptedService<T, F>>
+        ) -> ReportErrorsServiceClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T::ResponseBody: Default,
@@ -788,7 +793,7 @@ pub mod error_group_service_client {
                 http::Request<tonic::body::BoxBody>,
             >>::Error: Into<StdError> + Send + Sync,
         {
-            ErrorGroupServiceClient::new(InterceptedService::new(inner, interceptor))
+            ReportErrorsServiceClient::new(InterceptedService::new(inner, interceptor))
         }
         /// Compress requests with `gzip`.
         ///
@@ -805,11 +810,27 @@ pub mod error_group_service_client {
             self.inner = self.inner.accept_gzip();
             self
         }
-        /// Get the specified group.
-        pub async fn get_group(
+        /// Report an individual error event and record the event to a log.
+        ///
+        /// This endpoint accepts **either** an OAuth token,
+        /// **or** an [API key](https://support.google.com/cloud/answer/6158862)
+        /// for authentication. To use an API key, append it to the URL as the value of
+        /// a `key` parameter. For example:
+        ///
+        /// `POST
+        /// https://clouderrorreporting.googleapis.com/v1beta1/{projectName}/events:report?key=123ABC456`
+        ///
+        /// **Note:** [Error Reporting](/error-reporting) is a global service built
+        /// on Cloud Logging and doesn't analyze logs stored
+        /// in regional log buckets or logs routed to other Google Cloud projects.
+        ///
+        /// For more information, see
+        /// [Using Error Reporting with regionalized
+        /// logs](/error-reporting/docs/regionalization).
+        pub async fn report_error_event(
             &mut self,
-            request: impl tonic::IntoRequest<super::GetGroupRequest>,
-        ) -> Result<tonic::Response<super::ErrorGroup>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::ReportErrorEventRequest>,
+        ) -> Result<tonic::Response<super::ReportErrorEventResponse>, tonic::Status> {
             self.inner
                 .ready()
                 .await
@@ -821,28 +842,7 @@ pub mod error_group_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.clouderrorreporting.v1beta1.ErrorGroupService/GetGroup",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Replace the data for the specified group.
-        /// Fails if the group does not exist.
-        pub async fn update_group(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateGroupRequest>,
-        ) -> Result<tonic::Response<super::ErrorGroup>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.clouderrorreporting.v1beta1.ErrorGroupService/UpdateGroup",
+                "/google.devtools.clouderrorreporting.v1beta1.ReportErrorsService/ReportErrorEvent",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
