@@ -1,31 +1,3 @@
-/// The response for \[Commit][google.spanner.v1.Spanner.Commit\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CommitResponse {
-    /// The Cloud Spanner timestamp at which the transaction committed.
-    #[prost(message, optional, tag="1")]
-    pub commit_timestamp: ::core::option::Option<::prost_types::Timestamp>,
-    /// The statistics about this Commit. Not returned by default.
-    /// For more information, see
-    /// \[CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats\].
-    #[prost(message, optional, tag="2")]
-    pub commit_stats: ::core::option::Option<commit_response::CommitStats>,
-}
-/// Nested message and enum types in `CommitResponse`.
-pub mod commit_response {
-    /// Additional statistics about a commit.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CommitStats {
-        /// The total number of mutations for the transaction. Knowing the
-        /// `mutation_count` value can help you maximize the number of mutations
-        /// in a transaction and minimize the number of API round trips. You can
-        /// also monitor this value to prevent transactions from exceeding the system
-        /// \[limit\](<https://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data>).
-        /// If the number of mutations exceeds the limit, the server returns
-        /// \[INVALID_ARGUMENT\](<https://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT>).
-        #[prost(int64, tag="1")]
-        pub mutation_count: i64,
-    }
-}
 /// Node information for nodes appearing in a \[QueryPlan.plan_nodes][google.spanner.v1.QueryPlan.plan_nodes\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PlanNode {
@@ -141,7 +113,8 @@ pub struct QueryPlan {
 /// completed, the session can immediately be re-used for the next transaction.
 /// It is not necessary to create a new session for each transaction.
 ///
-/// Transaction Modes:
+/// Transaction modes:
+///
 /// Cloud Spanner supports three transaction modes:
 ///
 ///   1. Locking read-write. This type of transaction is the only way
@@ -150,11 +123,18 @@ pub struct QueryPlan {
 ///      Locking read-write transactions may abort, requiring the
 ///      application to retry.
 ///
-///   2. Snapshot read-only. This transaction type provides guaranteed
-///      consistency across several reads, but does not allow
-///      writes. Snapshot read-only transactions can be configured to
-///      read at timestamps in the past. Snapshot read-only
-///      transactions do not need to be committed.
+///   2. Snapshot read-only. Snapshot read-only transactions provide guaranteed
+///      consistency across several reads, but do not allow
+///      writes. Snapshot read-only transactions can be configured to read at
+///      timestamps in the past, or configured to perform a strong read
+///      (where Spanner will select a timestamp such that the read is
+///      guaranteed to see the effects of all transactions that have committed
+///      before the start of the read). Snapshot read-only transactions do not
+///      need to be committed.
+///
+///      Queries on change streams must be performed with the snapshot read-only
+///      transaction mode, specifying a strong read. Please see
+///      \[TransactionOptions.ReadOnly.strong][google.spanner.v1.TransactionOptions.ReadOnly.strong\] for more details.
 ///
 ///   3. Partitioned DML. This type of transaction is used to execute
 ///      a single Partitioned DML statement. Partitioned DML partitions
@@ -169,11 +149,12 @@ pub struct QueryPlan {
 /// not conflict with read-write transactions. As a consequence of not
 /// taking locks, they also do not abort, so retry loops are not needed.
 ///
-/// Transactions may only read/write data in a single database. They
-/// may, however, read/write data in different tables within that
+/// Transactions may only read-write data in a single database. They
+/// may, however, read-write data in different tables within that
 /// database.
 ///
-/// Locking Read-Write Transactions:
+/// Locking read-write transactions:
+///
 /// Locking transactions may be used to atomically read-modify-write
 /// data anywhere in a database. This type of transaction is externally
 /// consistent.
@@ -184,7 +165,7 @@ pub struct QueryPlan {
 /// active as long as the transaction continues to do reads, and the
 /// transaction has not been terminated by
 /// \[Commit][google.spanner.v1.Spanner.Commit\] or
-/// \[Rollback][google.spanner.v1.Spanner.Rollback\].  Long periods of
+/// \[Rollback][google.spanner.v1.Spanner.Rollback\]. Long periods of
 /// inactivity at the client may cause Cloud Spanner to release a
 /// transaction's locks and abort it.
 ///
@@ -196,6 +177,7 @@ pub struct QueryPlan {
 /// transaction.
 ///
 /// Semantics:
+///
 /// Cloud Spanner can commit the transaction if all read locks it acquired
 /// are still valid at commit time, and it is able to acquire write
 /// locks for all writes. Cloud Spanner can abort the transaction for any
@@ -207,7 +189,8 @@ pub struct QueryPlan {
 /// use Cloud Spanner locks for any sort of mutual exclusion other than
 /// between Cloud Spanner transactions themselves.
 ///
-/// Retrying Aborted Transactions:
+/// Retrying aborted transactions:
+///
 /// When a transaction aborts, the application can choose to retry the
 /// whole transaction again. To maximize the chances of successfully
 /// committing the retry, the client should execute the retry in the
@@ -222,7 +205,8 @@ pub struct QueryPlan {
 /// instead, it is better to limit the total amount of time spent
 /// retrying.
 ///
-/// Idle Transactions:
+/// Idle transactions:
+///
 /// A transaction is considered idle if it has no outstanding reads or
 /// SQL queries and has not started a read or SQL query within the last 10
 /// seconds. Idle transactions can be aborted by Cloud Spanner so that they
@@ -233,7 +217,8 @@ pub struct QueryPlan {
 /// SQL query in the transaction (for example, `SELECT 1`) prevents the
 /// transaction from becoming idle.
 ///
-/// Snapshot Read-Only Transactions:
+/// Snapshot read-only transactions:
+///
 /// Snapshot read-only transactions provides a simpler method than
 /// locking read-write transactions for doing several consistent
 /// reads. However, this type of transaction does not support writes.
@@ -265,13 +250,12 @@ pub struct QueryPlan {
 ///
 /// If the Cloud Spanner database to be read is geographically distributed,
 /// stale read-only transactions can execute more quickly than strong
-/// or read-write transaction, because they are able to execute far
+/// or read-write transactions, because they are able to execute far
 /// from the leader replica.
 ///
 /// Each type of timestamp bound is discussed in detail below.
 ///
-/// Strong:
-/// Strong reads are guaranteed to see the effects of all transactions
+/// Strong: Strong reads are guaranteed to see the effects of all transactions
 /// that have committed before the start of the read. Furthermore, all
 /// rows yielded by a single read are consistent with each other -- if
 /// any part of the read observes a transaction, all parts of the read
@@ -283,9 +267,13 @@ pub struct QueryPlan {
 /// reads should be executed within a transaction or at an exact read
 /// timestamp.
 ///
+/// Queries on change streams (see below for more details) must also specify
+/// the strong read timestamp bound.
+///
 /// See \[TransactionOptions.ReadOnly.strong][google.spanner.v1.TransactionOptions.ReadOnly.strong\].
 ///
-/// Exact Staleness:
+/// Exact staleness:
+///
 /// These timestamp bounds execute reads at a user-specified
 /// timestamp. Reads at a timestamp are guaranteed to see a consistent
 /// prefix of the global transaction history: they observe
@@ -306,7 +294,8 @@ pub struct QueryPlan {
 /// See \[TransactionOptions.ReadOnly.read_timestamp][google.spanner.v1.TransactionOptions.ReadOnly.read_timestamp\] and
 /// \[TransactionOptions.ReadOnly.exact_staleness][google.spanner.v1.TransactionOptions.ReadOnly.exact_staleness\].
 ///
-/// Bounded Staleness:
+/// Bounded staleness:
+///
 /// Bounded staleness modes allow Cloud Spanner to pick the read timestamp,
 /// subject to a user-provided staleness bound. Cloud Spanner chooses the
 /// newest timestamp within the staleness bound that allows execution
@@ -335,7 +324,8 @@ pub struct QueryPlan {
 /// See \[TransactionOptions.ReadOnly.max_staleness][google.spanner.v1.TransactionOptions.ReadOnly.max_staleness\] and
 /// \[TransactionOptions.ReadOnly.min_read_timestamp][google.spanner.v1.TransactionOptions.ReadOnly.min_read_timestamp\].
 ///
-/// Old Read Timestamps and Garbage Collection:
+/// Old read timestamps and garbage collection:
+///
 /// Cloud Spanner continuously garbage collects deleted and overwritten data
 /// in the background to reclaim storage space. This process is known
 /// as "version GC". By default, version GC reclaims versions after they
@@ -345,7 +335,41 @@ pub struct QueryPlan {
 /// timestamp become too old while executing. Reads and SQL queries with
 /// too-old read timestamps fail with the error `FAILED_PRECONDITION`.
 ///
-/// Partitioned DML Transactions:
+/// You can configure and extend the `VERSION_RETENTION_PERIOD` of a
+/// database up to a period as long as one week, which allows Cloud Spanner
+/// to perform reads up to one week in the past.
+///
+/// Querying change Streams:
+///
+/// A Change Stream is a schema object that can be configured to watch data
+/// changes on the entire database, a set of tables, or a set of columns
+/// in a database.
+///
+/// When a change stream is created, Spanner automatically defines a
+/// corresponding SQL Table-Valued Function (TVF) that can be used to query
+/// the change records in the associated change stream using the
+/// ExecuteStreamingSql API. The name of the TVF for a change stream is
+/// generated from the name of the change stream: READ_<change_stream_name>.
+///
+/// All queries on change stream TVFs must be executed using the
+/// ExecuteStreamingSql API with a single-use read-only transaction with a
+/// strong read-only timestamp_bound. The change stream TVF allows users to
+/// specify the start_timestamp and end_timestamp for the time range of
+/// interest. All change records within the retention period is accessible
+/// using the strong read-only timestamp_bound. All other TransactionOptions
+/// are invalid for change stream queries.
+///
+/// In addition, if TransactionOptions.read_only.return_read_timestamp is set
+/// to true, a special value of 2^63 - 2 will be returned in the
+/// \[Transaction][google.spanner.v1.Transaction\] message that describes the
+/// transaction, instead of a valid read timestamp. This special value should be
+/// discarded and not used for any subsequent queries.
+///
+/// Please see <https://cloud.google.com/spanner/docs/change-streams>
+/// for more details on how to query the change stream TVFs.
+///
+/// Partitioned DML transactions:
+///
 /// Partitioned DML transactions are used to execute DML statements with a
 /// different execution strategy that provides different, and often better,
 /// scalability properties for large, table-wide operations than DML in a
@@ -892,6 +916,34 @@ pub mod result_set_stats {
         RowCountLowerBound(i64),
     }
 }
+/// The response for \[Commit][google.spanner.v1.Spanner.Commit\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CommitResponse {
+    /// The Cloud Spanner timestamp at which the transaction committed.
+    #[prost(message, optional, tag="1")]
+    pub commit_timestamp: ::core::option::Option<::prost_types::Timestamp>,
+    /// The statistics about this Commit. Not returned by default.
+    /// For more information, see
+    /// \[CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats\].
+    #[prost(message, optional, tag="2")]
+    pub commit_stats: ::core::option::Option<commit_response::CommitStats>,
+}
+/// Nested message and enum types in `CommitResponse`.
+pub mod commit_response {
+    /// Additional statistics about a commit.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CommitStats {
+        /// The total number of mutations for the transaction. Knowing the
+        /// `mutation_count` value can help you maximize the number of mutations
+        /// in a transaction and minimize the number of API round trips. You can
+        /// also monitor this value to prevent transactions from exceeding the system
+        /// \[limit\](<https://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data>).
+        /// If the number of mutations exceeds the limit, the server returns
+        /// \[INVALID_ARGUMENT\](<https://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT>).
+        #[prost(int64, tag="1")]
+        pub mutation_count: i64,
+    }
+}
 /// KeyRange represents a range of rows in a table or index.
 ///
 /// A range has a start key and an end key. These keys can be open or
@@ -1187,6 +1239,9 @@ pub struct Session {
     /// typically earlier than the actual last use time.
     #[prost(message, optional, tag="4")]
     pub approximate_last_use_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The database role which created this session.
+    #[prost(string, tag="5")]
+    pub creator_role: ::prost::alloc::string::String,
 }
 /// The request for \[GetSession][google.spanner.v1.Spanner.GetSession\].
 #[derive(Clone, PartialEq, ::prost::Message)]
