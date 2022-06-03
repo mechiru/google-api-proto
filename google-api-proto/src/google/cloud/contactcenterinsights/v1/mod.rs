@@ -985,9 +985,9 @@ pub struct ArticleSuggestionData {
     /// that it originates from.
     #[prost(btree_map="string, string", tag="4")]
     pub metadata: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Name of the query record.
+    /// The name of the answer record.
     /// Format:
-    /// projects/{project}/locations/{location}/queryRecords/{query_record}
+    /// projects/{project}/locations/{location}/answerRecords/{answer_record}
     #[prost(string, tag="5")]
     pub query_record: ::prost::alloc::string::String,
     /// The knowledge document that this answer was extracted from.
@@ -1014,9 +1014,9 @@ pub struct FaqAnswerData {
     /// it originates from.
     #[prost(btree_map="string, string", tag="4")]
     pub metadata: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Name of the query record.
+    /// The name of the answer record.
     /// Format:
-    /// projects/{project}/locations/{location}/queryRecords/{query_record}.
+    /// projects/{project}/locations/{location}/answerRecords/{answer_record}
     #[prost(string, tag="5")]
     pub query_record: ::prost::alloc::string::String,
     /// The knowledge document that this answer was extracted from.
@@ -1040,9 +1040,9 @@ pub struct SmartReplyData {
     /// which it originates.
     #[prost(btree_map="string, string", tag="3")]
     pub metadata: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Name of the query record.
+    /// The name of the answer record.
     /// Format:
-    /// projects/{project}/locations/{location}/queryRecords/{query_record}
+    /// projects/{project}/locations/{location}/answerRecords/{answer_record}
     #[prost(string, tag="4")]
     pub query_record: ::prost::alloc::string::String,
 }
@@ -1061,9 +1061,9 @@ pub struct SmartComposeSuggestionData {
     /// document from which it originates.
     #[prost(btree_map="string, string", tag="3")]
     pub metadata: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Name of the query record.
+    /// The name of the answer record.
     /// Format:
-    /// projects/{project}/locations/{location}/queryRecords/{query_record}
+    /// projects/{project}/locations/{location}/answerRecords/{answer_record}
     #[prost(string, tag="4")]
     pub query_record: ::prost::alloc::string::String,
 }
