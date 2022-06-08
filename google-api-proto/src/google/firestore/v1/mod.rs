@@ -1201,6 +1201,10 @@ pub struct PartitionQueryRequest {
     /// The query to partition.
     #[prost(oneof="partition_query_request::QueryType", tags="2")]
     pub query_type: ::core::option::Option<partition_query_request::QueryType>,
+    /// The consistency mode for this request.
+    /// If not set, defaults to strong consistency.
+    #[prost(oneof="partition_query_request::ConsistencySelector", tags="6")]
+    pub consistency_selector: ::core::option::Option<partition_query_request::ConsistencySelector>,
 }
 /// Nested message and enum types in `PartitionQueryRequest`.
 pub mod partition_query_request {
@@ -1213,6 +1217,15 @@ pub mod partition_query_request {
         /// cursors are not supported.
         #[prost(message, tag="2")]
         StructuredQuery(super::StructuredQuery),
+    }
+    /// The consistency mode for this request.
+    /// If not set, defaults to strong consistency.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum ConsistencySelector {
+        /// Reads documents as they were at the given time.
+        /// This may not be older than 270 seconds.
+        #[prost(message, tag="6")]
+        ReadTime(::prost_types::Timestamp),
     }
 }
 /// The response for \[Firestore.PartitionQuery][google.firestore.v1.Firestore.PartitionQuery\].
@@ -1543,6 +1556,22 @@ pub struct ListCollectionIdsRequest {
     /// \[ListCollectionIdsResponse][google.firestore.v1.ListCollectionIdsResponse\].
     #[prost(string, tag="3")]
     pub page_token: ::prost::alloc::string::String,
+    /// The consistency mode for this request.
+    /// If not set, defaults to strong consistency.
+    #[prost(oneof="list_collection_ids_request::ConsistencySelector", tags="4")]
+    pub consistency_selector: ::core::option::Option<list_collection_ids_request::ConsistencySelector>,
+}
+/// Nested message and enum types in `ListCollectionIdsRequest`.
+pub mod list_collection_ids_request {
+    /// The consistency mode for this request.
+    /// If not set, defaults to strong consistency.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum ConsistencySelector {
+        /// Reads documents as they were at the given time.
+        /// This may not be older than 270 seconds.
+        #[prost(message, tag="4")]
+        ReadTime(::prost_types::Timestamp),
+    }
 }
 /// The response from \[Firestore.ListCollectionIds][google.firestore.v1.Firestore.ListCollectionIds\].
 #[derive(Clone, PartialEq, ::prost::Message)]
