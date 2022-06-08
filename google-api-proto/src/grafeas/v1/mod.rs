@@ -79,6 +79,38 @@ pub struct EnvelopeSignature {
     #[prost(string, tag="2")]
     pub keyid: ::prost::alloc::string::String,
 }
+/// Indicates the location at which a package was found.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FileLocation {
+    /// For jars that are contained inside .war files, this filepath
+    /// can indicate the path to war file combined with the path to jar file.
+    #[prost(string, tag="1")]
+    pub file_path: ::prost::alloc::string::String,
+}
+/// License information.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct License {
+    /// Often a single license can be used to represent the licensing terms.
+    /// Sometimes it is necessary to include a choice of one or more licenses
+    /// or some combination of license identifiers.
+    /// Examples: "LGPL-2.1-only OR MIT", "LGPL-2.1-only AND MIT",
+    /// "GPL-2.0-or-later WITH Bison-exception-2.2".
+    #[prost(string, tag="1")]
+    pub expression: ::prost::alloc::string::String,
+    /// Comments
+    #[prost(string, tag="2")]
+    pub comments: ::prost::alloc::string::String,
+}
+/// Digest information.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Digest {
+    /// `SHA1`, `SHA512` etc.
+    #[prost(string, tag="1")]
+    pub algo: ::prost::alloc::string::String,
+    /// Value of the digest.
+    #[prost(bytes="bytes", tag="2")]
+    pub digest_bytes: ::prost::bytes::Bytes,
+}
 /// Kind represents the kinds of notes supported.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -470,6 +502,87 @@ pub mod slsa_provenance {
         pub digest: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
     }
 }
+/// See full explanation of fields at slsa.dev/provenance/v0.2.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SlsaProvenanceZeroTwo {
+    #[prost(message, optional, tag="1")]
+    pub builder: ::core::option::Option<slsa_provenance_zero_two::SlsaBuilder>,
+    #[prost(string, tag="2")]
+    pub build_type: ::prost::alloc::string::String,
+    #[prost(message, optional, tag="3")]
+    pub invocation: ::core::option::Option<slsa_provenance_zero_two::SlsaInvocation>,
+    #[prost(message, optional, tag="4")]
+    pub build_config: ::core::option::Option<::prost_types::Struct>,
+    #[prost(message, optional, tag="5")]
+    pub metadata: ::core::option::Option<slsa_provenance_zero_two::SlsaMetadata>,
+    #[prost(message, repeated, tag="6")]
+    pub materials: ::prost::alloc::vec::Vec<slsa_provenance_zero_two::SlsaMaterial>,
+}
+/// Nested message and enum types in `SlsaProvenanceZeroTwo`.
+pub mod slsa_provenance_zero_two {
+    /// Identifies the entity that executed the recipe, which is trusted to have
+    /// correctly performed the operation and populated this provenance.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SlsaBuilder {
+        #[prost(string, tag="1")]
+        pub id: ::prost::alloc::string::String,
+    }
+    /// The collection of artifacts that influenced the build including sources,
+    /// dependencies, build tools, base images, and so on.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SlsaMaterial {
+        #[prost(string, tag="1")]
+        pub uri: ::prost::alloc::string::String,
+        #[prost(btree_map="string, string", tag="2")]
+        pub digest: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    }
+    /// Identifies the event that kicked off the build.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SlsaInvocation {
+        #[prost(message, optional, tag="1")]
+        pub config_source: ::core::option::Option<SlsaConfigSource>,
+        #[prost(message, optional, tag="2")]
+        pub parameters: ::core::option::Option<::prost_types::Struct>,
+        #[prost(message, optional, tag="3")]
+        pub environment: ::core::option::Option<::prost_types::Struct>,
+    }
+    /// Describes where the config file that kicked off the build came from.
+    /// This is effectively a pointer to the source where buildConfig came from.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SlsaConfigSource {
+        #[prost(string, tag="1")]
+        pub uri: ::prost::alloc::string::String,
+        #[prost(btree_map="string, string", tag="2")]
+        pub digest: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+        #[prost(string, tag="3")]
+        pub entry_point: ::prost::alloc::string::String,
+    }
+    /// Other properties of the build.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SlsaMetadata {
+        #[prost(string, tag="1")]
+        pub build_invocation_id: ::prost::alloc::string::String,
+        #[prost(message, optional, tag="2")]
+        pub build_started_on: ::core::option::Option<::prost_types::Timestamp>,
+        #[prost(message, optional, tag="3")]
+        pub build_finished_on: ::core::option::Option<::prost_types::Timestamp>,
+        #[prost(message, optional, tag="4")]
+        pub completeness: ::core::option::Option<SlsaCompleteness>,
+        #[prost(bool, tag="5")]
+        pub reproducible: bool,
+    }
+    /// Indicates that the builder claims certain fields in this message to be
+    /// complete.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SlsaCompleteness {
+        #[prost(bool, tag="1")]
+        pub parameters: bool,
+        #[prost(bool, tag="2")]
+        pub environment: bool,
+        #[prost(bool, tag="3")]
+        pub materials: bool,
+    }
+}
 /// Spec defined at
 /// <https://github.com/in-toto/attestation/tree/main/spec#statement> The
 /// serialized InTotoStatement will be stored as Envelope.payload.
@@ -484,7 +597,7 @@ pub struct InTotoStatement {
     /// `<https://slsa.dev/provenance/v0.1`> for SlsaProvenance.
     #[prost(string, tag="3")]
     pub predicate_type: ::prost::alloc::string::String,
-    #[prost(oneof="in_toto_statement::Predicate", tags="4, 5")]
+    #[prost(oneof="in_toto_statement::Predicate", tags="4, 5, 6")]
     pub predicate: ::core::option::Option<in_toto_statement::Predicate>,
 }
 /// Nested message and enum types in `InTotoStatement`.
@@ -495,6 +608,8 @@ pub mod in_toto_statement {
         Provenance(super::InTotoProvenance),
         #[prost(message, tag="5")]
         SlsaProvenance(super::SlsaProvenance),
+        #[prost(message, tag="6")]
+        SlsaProvenanceZeroTwo(super::SlsaProvenanceZeroTwo),
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -883,6 +998,10 @@ pub struct ComplianceVersion {
     /// applicable to.
     #[prost(string, tag="1")]
     pub cpe_uri: ::prost::alloc::string::String,
+    /// The name of the document that defines this benchmark, e.g. "CIS
+    /// Container-Optimized OS".
+    #[prost(string, tag="3")]
+    pub benchmark_document: ::prost::alloc::string::String,
     /// The version of the benchmark. This is set to the version of the OS-specific
     /// CIS document the benchmark is defined in.
     #[prost(string, tag="2")]
@@ -1092,7 +1211,7 @@ pub struct ImageOccurrence {
 /// E.g., Debian's jessie-backports dpkg mirror.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Distribution {
-    /// Required. The cpe_uri in [CPE format](<https://cpe.mitre.org/specification/>)
+    /// The cpe_uri in [CPE format](<https://cpe.mitre.org/specification/>)
     /// denoting the package manager version distributing a package.
     #[prost(string, tag="1")]
     pub cpe_uri: ::prost::alloc::string::String,
@@ -1117,10 +1236,11 @@ pub struct Distribution {
 /// filesystem. E.g., glibc was found in `/var/lib/dpkg/status`.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Location {
-    /// Required. The CPE URI in [CPE format](<https://cpe.mitre.org/specification/>)
-    /// denoting the package manager version distributing a package.
+    /// Deprecated.
+    /// The CPE URI in [CPE format](<https://cpe.mitre.org/specification/>)
     #[prost(string, tag="1")]
     pub cpe_uri: ::prost::alloc::string::String,
+    /// Deprecated.
     /// The version installed at this location.
     #[prost(message, optional, tag="2")]
     pub version: ::core::option::Option<Version>,
@@ -1128,28 +1248,78 @@ pub struct Location {
     #[prost(string, tag="3")]
     pub path: ::prost::alloc::string::String,
 }
-/// This represents a particular package that is distributed over various
-/// channels. E.g., glibc (aka libc6) is distributed by many, at various
-/// versions.
+/// PackageNote represents a particular package version.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PackageNote {
-    /// Required. Immutable. The name of the package.
+    /// The name of the package.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
+    /// Deprecated.
     /// The various channels by which a package is distributed.
     #[prost(message, repeated, tag="10")]
     pub distribution: ::prost::alloc::vec::Vec<Distribution>,
+    /// The type of package; whether native or non native (e.g., ruby gems,
+    /// node.js packages, etc.).
+    #[prost(string, tag="11")]
+    pub package_type: ::prost::alloc::string::String,
+    /// The cpe_uri in [CPE format](<https://cpe.mitre.org/specification/>)
+    /// denoting the package manager version distributing a package.
+    /// The cpe_uri will be blank for language packages.
+    #[prost(string, tag="12")]
+    pub cpe_uri: ::prost::alloc::string::String,
+    /// The CPU architecture for which packages in this distribution channel were
+    /// built. Architecture will be blank for language packages.
+    #[prost(enumeration="Architecture", tag="13")]
+    pub architecture: i32,
+    /// The version of the package.
+    #[prost(message, optional, tag="14")]
+    pub version: ::core::option::Option<Version>,
+    /// A freeform text denoting the maintainer of this package.
+    #[prost(string, tag="15")]
+    pub maintainer: ::prost::alloc::string::String,
+    /// The homepage for this package.
+    #[prost(string, tag="16")]
+    pub url: ::prost::alloc::string::String,
+    /// The description of this package.
+    #[prost(string, tag="17")]
+    pub description: ::prost::alloc::string::String,
+    /// Licenses that have been declared by the authors of the package.
+    #[prost(message, optional, tag="18")]
+    pub license: ::core::option::Option<License>,
+    /// Hash value, typically a file digest, that allows unique
+    /// identification a specific package.
+    #[prost(message, repeated, tag="19")]
+    pub digest: ::prost::alloc::vec::Vec<Digest>,
 }
 /// Details on how a particular software package was installed on a system.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PackageOccurrence {
-    /// Output only. The name of the installed package.
+    /// The name of the installed package.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Required. All of the places within the filesystem versions of this package
+    /// All of the places within the filesystem versions of this package
     /// have been found.
     #[prost(message, repeated, tag="2")]
     pub location: ::prost::alloc::vec::Vec<Location>,
+    /// The type of package; whether native or non native (e.g., ruby gems,
+    /// node.js packages, etc.).
+    #[prost(string, tag="3")]
+    pub package_type: ::prost::alloc::string::String,
+    /// The cpe_uri in [CPE format](<https://cpe.mitre.org/specification/>)
+    /// denoting the package manager version distributing a package.
+    /// The cpe_uri will be blank for language packages.
+    #[prost(string, tag="4")]
+    pub cpe_uri: ::prost::alloc::string::String,
+    /// The CPU architecture for which packages in this distribution channel were
+    /// built. Architecture will be blank for language packages.
+    #[prost(enumeration="Architecture", tag="5")]
+    pub architecture: i32,
+    /// Licenses that have been declared by the authors of the package.
+    #[prost(message, optional, tag="6")]
+    pub license: ::core::option::Option<License>,
+    /// The version of the package.
+    #[prost(message, optional, tag="7")]
+    pub version: ::core::option::Option<Version>,
 }
 /// Version contains structured information about the version of a package.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1407,10 +1577,8 @@ pub mod cvs_sv3 {
 }
 /// Common Vulnerability Scoring System.
 /// For details, see <https://www.first.org/cvss/specification-document>
-/// This is a message we will try to use for storing multiple versions of
-/// CVSS. The intention is that as new versions of CVSS scores get added, we
-/// will be able to modify this message rather than adding new protos for each
-/// new version of the score.
+/// This is a message we will try to use for storing various versions of CVSS
+/// rather than making a separate proto for storing a specific version.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Cvss {
     /// The base score is a function of the base metric scores.
@@ -1721,6 +1889,9 @@ pub mod vulnerability_occurrence {
         /// available.
         #[prost(enumeration="super::Severity", tag="9")]
         pub effective_severity: i32,
+        /// The location at which this package was found.
+        #[prost(message, repeated, tag="10")]
+        pub file_location: ::prost::alloc::vec::Vec<super::FileLocation>,
     }
 }
 /// An instance of an analysis type that has been found on a resource.
