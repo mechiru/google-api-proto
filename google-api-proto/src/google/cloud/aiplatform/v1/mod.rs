@@ -406,6 +406,12 @@ pub struct Explanation {
     /// order as they appear in the output_indices.
     #[prost(message, repeated, tag="1")]
     pub attributions: ::prost::alloc::vec::Vec<Attribution>,
+    /// Output only. List of the nearest neighbors for example-based explanations.
+    ///
+    /// For models deployed with the examples explanations feature enabled, the
+    /// attributions field is empty and instead the neighbors field is populated.
+    #[prost(message, repeated, tag="2")]
+    pub neighbors: ::prost::alloc::vec::Vec<Neighbor>,
 }
 /// Aggregated explanation metrics for a Model over a set of instances.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -522,6 +528,16 @@ pub struct Attribution {
     /// \[ExplanationMetadata.outputs][google.cloud.aiplatform.v1.ExplanationMetadata.outputs\].
     #[prost(string, tag="7")]
     pub output_name: ::prost::alloc::string::String,
+}
+/// Neighbors for example-based explanations.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Neighbor {
+    /// Output only. The neighbor id.
+    #[prost(string, tag="1")]
+    pub neighbor_id: ::prost::alloc::string::String,
+    /// Output only. The neighbor distance.
+    #[prost(double, tag="2")]
+    pub neighbor_distance: f64,
 }
 /// Specification of Model explanation.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -765,6 +781,9 @@ pub struct ExplanationSpecOverride {
     /// The metadata to be overridden. If not specified, no metadata is overridden.
     #[prost(message, optional, tag="2")]
     pub metadata: ::core::option::Option<ExplanationMetadataOverride>,
+    /// The example-based explanations parameter overrides.
+    #[prost(message, optional, tag="3")]
+    pub examples_override: ::core::option::Option<ExamplesOverride>,
 }
 /// The \[ExplanationMetadata][google.cloud.aiplatform.v1.ExplanationMetadata\] entries that can be overridden at
 /// [online explanation]\[google.cloud.aiplatform.v1.PredictionService.Explain\] time.
@@ -793,6 +812,52 @@ pub mod explanation_metadata_override {
         #[prost(message, repeated, tag="1")]
         pub input_baselines: ::prost::alloc::vec::Vec<::prost_types::Value>,
     }
+}
+/// Overrides for example-based explanations.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExamplesOverride {
+    /// The number of neighbors to return.
+    #[prost(int32, tag="1")]
+    pub neighbor_count: i32,
+    /// The number of neighbors to return that have the same crowding tag.
+    #[prost(int32, tag="2")]
+    pub crowding_count: i32,
+    /// Restrict the resulting nearest neighbors to respect these constraints.
+    #[prost(message, repeated, tag="3")]
+    pub restrictions: ::prost::alloc::vec::Vec<ExamplesRestrictionsNamespace>,
+    /// If true, return the embeddings instead of neighbors.
+    #[prost(bool, tag="4")]
+    pub return_embeddings: bool,
+    /// The format of the data being provided with each call.
+    #[prost(enumeration="examples_override::DataFormat", tag="5")]
+    pub data_format: i32,
+}
+/// Nested message and enum types in `ExamplesOverride`.
+pub mod examples_override {
+    /// Data format enum.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum DataFormat {
+        /// Unspecified format. Must not be used.
+        Unspecified = 0,
+        /// Provided data is a set of model inputs.
+        Instances = 1,
+        /// Provided data is a set of embeddings.
+        Embeddings = 2,
+    }
+}
+/// Restrictions namespace for example-based explanations overrides.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExamplesRestrictionsNamespace {
+    /// The namespace name.
+    #[prost(string, tag="1")]
+    pub namespace_name: ::prost::alloc::string::String,
+    /// The list of allowed tags.
+    #[prost(string, repeated, tag="2")]
+    pub allow: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The list of deny tags.
+    #[prost(string, repeated, tag="3")]
+    pub deny: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Request message for \[PredictionService.Predict][google.cloud.aiplatform.v1.PredictionService.Predict\].
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4279,6 +4344,29 @@ pub struct Model {
     /// The resource name of the Model.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
+    /// Output only. Immutable. The version ID of the model.
+    /// A new version is committed when a new model version is uploaded or
+    /// trained under an existing model id. It is an auto-incrementing decimal
+    /// number in string representation.
+    #[prost(string, tag="28")]
+    pub version_id: ::prost::alloc::string::String,
+    /// User provided version aliases so that a model version can be referenced via
+    /// alias (i.e.
+    /// projects/{project}/locations/{location}/models/{model_id}@{version_alias}
+    /// instead of auto-generated version id (i.e.
+    /// projects/{project}/locations/{location}/models/{model_id}@{version_id}).
+    /// The format is \[a-z][a-zA-Z0-9-]{0,126}[a-z0-9\] to distinguish from
+    /// version_id. A default version alias will be created for the first version
+    /// of the model, and there must be exactly one default version alias for a
+    /// model.
+    #[prost(string, repeated, tag="29")]
+    pub version_aliases: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Output only. Timestamp when this version was created.
+    #[prost(message, optional, tag="31")]
+    pub version_create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Timestamp when this version was most recently updated.
+    #[prost(message, optional, tag="32")]
+    pub version_update_time: ::core::option::Option<::prost_types::Timestamp>,
     /// Required. The display name of the Model.
     /// The name can be up to 128 characters long and can be consist of any UTF-8
     /// characters.
@@ -4287,6 +4375,9 @@ pub struct Model {
     /// The description of the Model.
     #[prost(string, tag="3")]
     pub description: ::prost::alloc::string::String,
+    /// The description of this version.
+    #[prost(string, tag="30")]
+    pub version_description: ::prost::alloc::string::String,
     /// The schemata that describe formats of the Model's predictions and
     /// explanations as given and returned via
     /// \[PredictionService.Predict][google.cloud.aiplatform.v1.PredictionService.Predict\] and \[PredictionService.Explain][google.cloud.aiplatform.v1.PredictionService.Explain\].
@@ -4927,6 +5018,17 @@ pub struct UploadModelRequest {
     /// Format: `projects/{project}/locations/{location}`
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
+    /// Optional. The resource name of the model into which to upload the version. Only
+    /// specify this field when uploading a new version.
+    #[prost(string, tag="4")]
+    pub parent_model: ::prost::alloc::string::String,
+    /// Optional. The ID to use for the uploaded Model, which will become the final
+    /// component of the model resource name.
+    ///
+    /// This value may be up to 63 characters, and valid characters are
+    /// `\[a-z0-9_-\]`. The first character cannot be a number or hyphen.
+    #[prost(string, tag="5")]
+    pub model_id: ::prost::alloc::string::String,
     /// Required. The Model to create.
     #[prost(message, optional, tag="2")]
     pub model: ::core::option::Option<Model>,
@@ -4951,6 +5053,16 @@ pub struct UploadModelResponse {
 pub struct GetModelRequest {
     /// Required. The name of the Model resource.
     /// Format: `projects/{project}/locations/{location}/models/{model}`
+    ///
+    /// In order to retrieve a specific version of the model, also provide
+    /// the version ID or version alias.
+    ///   Example: `projects/{project}/locations/{location}/models/{model}@2`
+    ///              or
+    ///            `projects/{project}/locations/{location}/models/{model}@golden`
+    /// If no version ID or alias is specified, the "default" version will be
+    /// returned. The "default" version alias is created for the first version of
+    /// the model, and can be moved to other versions later on. There will be
+    /// exactly one default version.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
 }
@@ -5012,6 +5124,50 @@ pub struct ListModelsResponse {
     #[prost(string, tag="2")]
     pub next_page_token: ::prost::alloc::string::String,
 }
+/// Request message for \[ModelService.ListModelVersions][google.cloud.aiplatform.v1.ModelService.ListModelVersions\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListModelVersionsRequest {
+    /// Required. The name of the model to list versions for.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The standard list page size.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// The standard list page token.
+    /// Typically obtained via
+    /// \[ListModelVersionsResponse.next_page_token][google.cloud.aiplatform.v1.ListModelVersionsResponse.next_page_token\] of the previous
+    /// \[ModelService.ListModelversions][\] call.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// An expression for filtering the results of the request. For field names
+    /// both snake_case and camelCase are supported.
+    ///
+    ///   * `labels` supports general map functions that is:
+    ///     * `labels.key=value` - key:value equality
+    ///     * `labels.key:* or labels:key - key existence
+    ///     * A key including a space must be quoted. `labels."a key"`.
+    ///
+    /// Some examples:
+    ///   * `labels.myKey="myValue"`
+    #[prost(string, tag="4")]
+    pub filter: ::prost::alloc::string::String,
+    /// Mask specifying which fields to read.
+    #[prost(message, optional, tag="5")]
+    pub read_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Response message for \[ModelService.ListModelVersions][google.cloud.aiplatform.v1.ModelService.ListModelVersions\]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListModelVersionsResponse {
+    /// List of Model versions in the requested page.
+    /// In the returned Model name field, version ID instead of regvision tag will
+    /// be included.
+    #[prost(message, repeated, tag="1")]
+    pub models: ::prost::alloc::vec::Vec<Model>,
+    /// A token to retrieve the next page of results.
+    /// Pass to \[ListModelVersionsRequest.page_token][google.cloud.aiplatform.v1.ListModelVersionsRequest.page_token\] to obtain that page.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
 /// Request message for \[ModelService.UpdateModel][google.cloud.aiplatform.v1.ModelService.UpdateModel\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateModelRequest {
@@ -5048,10 +5204,46 @@ pub struct DeleteModelRequest {
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
 }
+/// Request message for \[ModelService.DeleteModelVersion][google.cloud.aiplatform.v1.ModelService.DeleteModelVersion\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteModelVersionRequest {
+    /// Required. The name of the model version to be deleted, with a version ID explicitly
+    /// included.
+    ///
+    /// Example: `projects/{project}/locations/{location}/models/{model}@1234`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for \[ModelService.MergeVersionAliases][google.cloud.aiplatform.v1.ModelService.MergeVersionAliases\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MergeVersionAliasesRequest {
+    /// Required. The name of the model version to merge aliases, with a version ID
+    /// explicitly included.
+    ///
+    /// Example: `projects/{project}/locations/{location}/models/{model}@1234`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The set of version aliases to merge.
+    /// The alias should be at most 128 characters, and match
+    /// `\[a-z][a-z0-9-]{0,126}[a-z-0-9\]`.
+    /// Add the `-` prefix to an alias means removing that alias from the version.
+    /// `-` is NOT counted in the 128 characters. Example: `-golden` means removing
+    /// the `golden` alias from the version.
+    ///
+    /// There is NO ordering in aliases, which means
+    /// 1) The aliases returned from GetModel API might not have the exactly same
+    /// order from this MergeVersionAliases API. 2) Adding and deleting the same
+    /// alias in the request is not recommended, and the 2 operations will be
+    /// cancelled out.
+    #[prost(string, repeated, tag="2")]
+    pub version_aliases: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
 /// Request message for \[ModelService.ExportModel][google.cloud.aiplatform.v1.ModelService.ExportModel\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ExportModelRequest {
     /// Required. The resource name of the Model to export.
+    /// The resource name may contain version id or version alias to specify the
+    /// version, if no version is specified, the default version will be exported.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
     /// Required. The desired output location and configuration.
@@ -5336,6 +5528,26 @@ pub mod model_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+        /// Lists versions of the specified model.
+        pub async fn list_model_versions(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListModelVersionsRequest>,
+        ) -> Result<tonic::Response<super::ListModelVersionsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.aiplatform.v1.ModelService/ListModelVersions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
         /// Updates a Model.
         pub async fn update_model(
             &mut self,
@@ -5380,6 +5592,53 @@ pub mod model_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.aiplatform.v1.ModelService/DeleteModel",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes a Model version.
+        ///
+        /// Model version can only be deleted if there are no [DeployedModels][]
+        /// created from it. Deleting the only version in the Model is not allowed. Use
+        /// [DeleteModel][google.cloud.aiplatform.v1.ModelService.DeleteModel] for deleting the Model instead.
+        pub async fn delete_model_version(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteModelVersionRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.aiplatform.v1.ModelService/DeleteModelVersion",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Merges a set of aliases for a Model version.
+        pub async fn merge_version_aliases(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MergeVersionAliasesRequest>,
+        ) -> Result<tonic::Response<super::Model>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.aiplatform.v1.ModelService/MergeVersionAliases",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -6220,6 +6479,10 @@ pub struct CompletionStats {
     /// before the total entity number could be collected).
     #[prost(int64, tag="3")]
     pub incomplete_count: i64,
+    /// Output only. The number of the successful forecast points that are generated by the
+    /// forecasting model. This is ONLY used by the forecasting batch prediction.
+    #[prost(int64, tag="5")]
+    pub successful_forecast_point_count: i64,
 }
 /// Contains model information necessary to perform batch prediction without
 /// requiring a full model import.
@@ -6254,6 +6517,9 @@ pub struct BatchPredictionJob {
     /// Starting this job has no impact on any existing deployments of the Model
     /// and their resources.
     /// Exactly one of model and unmanaged_container_model must be set.
+    ///
+    /// The model resource name may contain version id or version alias to specify
+    /// the version, if no version is specified, the default version will be used.
     #[prost(string, tag="3")]
     pub model: ::prost::alloc::string::String,
     /// Contains model information necessary to perform batch prediction without
@@ -8090,7 +8356,7 @@ pub mod tensorboard_service_client {
         }
     }
 }
-/// Represents the failure policy of a pipeline. Currently, the default of a
+/// Reperesents the failure policy of a pipeline. Currently, the default of a
 /// pipeline is that the pipeline will continue to run until no more tasks can be
 /// executed, also known as PIPELINE_FAILURE_POLICY_FAIL_SLOW. However, if a
 /// pipeline is set to PIPELINE_FAILURE_POLICY_FAIL_FAST, it will stop scheduling
@@ -8816,6 +9082,7 @@ pub struct UpdateFeaturestoreRequest {
     ///
     ///   * `labels`
     ///   * `online_serving_config.fixed_node_count`
+    ///   * `online_serving_config.scaling`
     #[prost(message, optional, tag="2")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
@@ -10603,6 +10870,17 @@ pub struct TrainingPipeline {
     /// is.
     #[prost(message, optional, tag="7")]
     pub model_to_upload: ::core::option::Option<Model>,
+    /// Optional. The ID to use for the uploaded Model, which will become the final
+    /// component of the model resource name.
+    ///
+    /// This value may be up to 63 characters, and valid characters are
+    /// `\[a-z0-9_-\]`. The first character cannot be a number or hyphen.
+    #[prost(string, tag="22")]
+    pub model_id: ::prost::alloc::string::String,
+    /// Optional. When specify this field, the `model_to_upload` will not be uploaded as a
+    /// new model, instead, it will become a new version of this `parent_model`.
+    #[prost(string, tag="21")]
+    pub parent_model: ::prost::alloc::string::String,
     /// Output only. The detailed state of the pipeline.
     #[prost(enumeration="PipelineState", tag="9")]
     pub state: i32,
@@ -13770,6 +14048,9 @@ pub struct DeployedModel {
     pub id: ::prost::alloc::string::String,
     /// Required. The resource name of the Model that this is the deployment of. Note that
     /// the Model may be in a different location than the DeployedModel's Endpoint.
+    ///
+    /// The resource name may contain version id or version alias to specify the
+    /// version, if no version is specified, the default version will be deployed.
     #[prost(string, tag="2")]
     pub model: ::prost::alloc::string::String,
     /// The display name of the DeployedModel. If not provided upon creation,
@@ -14431,7 +14712,6 @@ pub struct StreamingReadFeatureValuesRequest {
     pub feature_selector: ::core::option::Option<FeatureSelector>,
 }
 /// Value for a feature.
-/// (-- NEXT ID: 15 --)
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FeatureValue {
     /// Metadata of feature value.

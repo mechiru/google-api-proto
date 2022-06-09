@@ -48,14 +48,7 @@ pub mod audit;
 pub mod automl;
 #[cfg(any(feature = "google-cloud-baremetalsolution-v2"))]
 pub mod baremetalsolution;
-#[cfg(
-    any(
-        feature = "google-cloud-batch-v1",
-        feature = "google-cloud-batch-v1alpha",
-        feature = "google-cloud-batch-v1alpha1",
-        feature = "google-cloud-batch-v1main",
-    )
-)]
+#[cfg(any(feature = "google-cloud-batch-v1", feature = "google-cloud-batch-v1alpha"))]
 pub mod batch;
 #[cfg(
     any(

@@ -6508,6 +6508,10 @@ pub struct ContainerSpec {
     /// The arguments to be passed when starting the container.
     #[prost(string, repeated, tag="3")]
     pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Environment variables to be passed to the container.
+    /// Maximum limit is 100.
+    #[prost(message, repeated, tag="4")]
+    pub env: ::prost::alloc::vec::Vec<EnvVar>,
 }
 /// The spec of a Python packaged code.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -6531,6 +6535,10 @@ pub struct PythonPackageSpec {
     /// Command line arguments to be passed to the Python task.
     #[prost(string, repeated, tag="4")]
     pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Environment variables to be passed to the python module.
+    /// Maximum limit is 100.
+    #[prost(message, repeated, tag="5")]
+    pub env: ::prost::alloc::vec::Vec<EnvVar>,
 }
 /// All parameters related to queuing and scheduling of custom jobs.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -9202,6 +9210,7 @@ pub struct UpdateFeaturestoreRequest {
     ///
     ///   * `labels`
     ///   * `online_serving_config.fixed_node_count`
+    ///   * `online_serving_config.scaling`
     #[prost(message, optional, tag="2")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
@@ -15239,7 +15248,7 @@ pub struct ModelDeploymentMonitoringScheduleConfig {
     /// The time window of the prediction data being included in each prediction
     /// dataset. This window specifies how long the data should be collected from
     /// historical model results for each run. If not set,
-    /// \[ModelDeploymentMonitoringScheduleConfig.monitor_interval][google.cloud.aiplatform.v1.ModelDeploymentMonitoringScheduleConfig.monitor_interval\] will be used.
+    /// \[ModelDeploymentMonitoringScheduleConfig.monitor_interval][google.cloud.aiplatform.v1beta1.ModelDeploymentMonitoringScheduleConfig.monitor_interval\] will be used.
     /// e.g. If currently the cutoff time is 2022-01-08 14:30:00 and the
     /// monitor_window is set to be 3600, then data from 2022-01-08 13:30:00
     /// to 2022-01-08 14:30:00 will be retrieved and aggregated to calculate the
