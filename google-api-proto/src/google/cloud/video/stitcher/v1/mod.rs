@@ -386,6 +386,9 @@ pub struct VodSession {
     /// Additional options that affect the output of the manifest.
     #[prost(message, optional, tag="9")]
     pub manifest_options: ::core::option::Option<ManifestOptions>,
+    /// Output only. The generated ID of the VodSession's source media.
+    #[prost(string, tag="10")]
+    pub asset_id: ::prost::alloc::string::String,
 }
 /// Describes what was stitched into a VOD session's manifest.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -496,6 +499,9 @@ pub struct LiveSession {
     /// Additional options that affect the output of the manifest.
     #[prost(message, optional, tag="10")]
     pub manifest_options: ::core::option::Option<ManifestOptions>,
+    /// Output only. The generated ID of the LiveSession's source stream.
+    #[prost(string, tag="11")]
+    pub stream_id: ::prost::alloc::string::String,
 }
 /// Nested message and enum types in `LiveSession`.
 pub mod live_session {
@@ -508,8 +514,6 @@ pub mod live_session {
         Unspecified = 0,
         /// Finishes stitching the current ad before returning to content.
         CompleteAd = 1,
-        /// Finishes stitching the current pod before returning to content.
-        CompletePod = 2,
         /// Cuts an ad short and returns to content in the middle of the ad.
         CutCurrent = 3,
     }
@@ -836,15 +840,6 @@ pub struct DeleteSlateRequest {
 pub struct CreateLiveSessionRequest {
     /// Required. The project and location in which the live session should be created,
     /// in the form of `projects/{project_number}/locations/{location}`.
-    ///
-    /// Valid locations:
-    ///
-    /// * `-` (Video Stitcher API will pick a location that is closest to the
-    /// caller.)
-    /// * `us-east1`
-    /// * `us-west1`
-    /// * `us-central1`
-    /// * `europe-west1`
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
     /// Required. Parameters for creating a live session.

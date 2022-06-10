@@ -182,7 +182,7 @@ pub mod translation_config_details {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Dialect {
     /// The possible dialect options that this message represents.
-    #[prost(oneof="dialect::DialectValue", tags="1, 2, 3, 4, 5, 6, 7, 8, 9, 10")]
+    #[prost(oneof="dialect::DialectValue", tags="1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11")]
     pub dialect_value: ::core::option::Option<dialect::DialectValue>,
 }
 /// Nested message and enum types in `Dialect`.
@@ -220,6 +220,9 @@ pub mod dialect {
         /// The Vertica dialect
         #[prost(message, tag="10")]
         VerticaDialect(super::VerticaDialect),
+        /// The SQL Server dialect
+        #[prost(message, tag="11")]
+        SqlServerDialect(super::SqlServerDialect),
     }
 }
 /// The dialect definition for BigQuery.
@@ -278,6 +281,10 @@ pub struct AzureSynapseDialect {
 /// The dialect definition for Vertica.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VerticaDialect {
+}
+/// The dialect definition for SQL Server.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SqlServerDialect {
 }
 /// Represents a map of name mappings using a list of key:value proto messages of
 /// existing name to desired output name.
@@ -439,7 +446,9 @@ pub struct MigrationTask {
     /// The type of the task. This must be one of the supported task types:
     /// Translation_Teradata2BQ, Translation_Redshift2BQ, Translation_Bteq2BQ,
     /// Translation_Oracle2BQ, Translation_HiveQL2BQ, Translation_SparkSQL2BQ,
-    /// Translation_Snowflake2BQ, Translation_Netezza2BQ.
+    /// Translation_Snowflake2BQ, Translation_Netezza2BQ,
+    /// Translation_AzureSynapse2BQ, Translation_Vertica2BQ,
+    /// Translation_SQLServer2BQ.
     #[prost(string, tag="2")]
     pub r#type: ::prost::alloc::string::String,
     /// Output only. The current state of the task.
