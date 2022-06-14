@@ -6853,7 +6853,7 @@ pub struct Agent {
     /// requests.
     #[prost(bool, tag="20")]
     pub enable_spell_correction: bool,
-    /// Indiciates whether the agent is locked for changes. If the agent is locked,
+    /// Indicates whether the agent is locked for changes. If the agent is locked,
     /// modifications to the agent will be rejected except for \[RestoreAgent][\].
     #[prost(bool, tag="27")]
     pub locked: bool,
@@ -8612,6 +8612,9 @@ pub struct Environment {
     /// The test cases config for continuous tests of this environment.
     #[prost(message, optional, tag="7")]
     pub test_cases_config: ::core::option::Option<environment::TestCasesConfig>,
+    /// The webhook configuration for this environment.
+    #[prost(message, optional, tag="10")]
+    pub webhook_config: ::core::option::Option<environment::WebhookConfig>,
 }
 /// Nested message and enum types in `Environment`.
 pub mod environment {
@@ -8639,6 +8642,16 @@ pub mod environment {
         /// deploying a flow version to the environment. Default false.
         #[prost(bool, tag="3")]
         pub enable_predeployment_run: bool,
+    }
+    /// Configuration for webhooks.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WebhookConfig {
+        /// The list of webhooks to override for the agent environment. The webhook
+        /// must exist in the agent. You can override fields in
+        /// \[`generic_web_service`][google.cloud.dialogflow.cx.v3beta1.Webhook.generic_web_service\] and
+        /// \[`service_directory`][google.cloud.dialogflow.cx.v3beta1.Webhook.service_directory\].
+        #[prost(message, repeated, tag="1")]
+        pub webhook_overrides: ::prost::alloc::vec::Vec<super::Webhook>,
     }
 }
 /// The request message for \[Environments.ListEnvironments][google.cloud.dialogflow.cx.v3beta1.Environments.ListEnvironments\].
