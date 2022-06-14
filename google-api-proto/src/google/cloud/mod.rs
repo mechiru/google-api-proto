@@ -180,7 +180,13 @@ pub mod eventarc;
     )
 )]
 pub mod filestore;
-#[cfg(any(feature = "google-cloud-functions-v1"))]
+#[cfg(
+    any(
+        feature = "google-cloud-functions-v1",
+        feature = "google-cloud-functions-v2alpha",
+        feature = "google-cloud-functions-v2beta",
+    )
+)]
 pub mod functions;
 #[cfg(any(feature = "google-cloud-gaming-v1", feature = "google-cloud-gaming-v1beta"))]
 pub mod gaming;

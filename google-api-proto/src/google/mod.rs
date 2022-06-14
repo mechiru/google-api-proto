@@ -193,6 +193,8 @@ pub mod chromeos;
         feature = "google-cloud-filestore-v1",
         feature = "google-cloud-filestore-v1beta1",
         feature = "google-cloud-functions-v1",
+        feature = "google-cloud-functions-v2alpha",
+        feature = "google-cloud-functions-v2beta",
         feature = "google-cloud-gaming-v1",
         feature = "google-cloud-gaming-v1beta",
         feature = "google-cloud-gkebackup-logging-v1",
