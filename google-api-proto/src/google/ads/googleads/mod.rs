@@ -20,16 +20,6 @@ pub mod v10;
 pub mod v11;
 #[cfg(
     any(
-        feature = "google-ads-googleads-v7-common",
-        feature = "google-ads-googleads-v7-enums",
-        feature = "google-ads-googleads-v7-errors",
-        feature = "google-ads-googleads-v7-resources",
-        feature = "google-ads-googleads-v7-services",
-    )
-)]
-pub mod v7;
-#[cfg(
-    any(
         feature = "google-ads-googleads-v8-common",
         feature = "google-ads-googleads-v8-enums",
         feature = "google-ads-googleads-v8-errors",
