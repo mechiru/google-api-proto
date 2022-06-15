@@ -243,6 +243,27 @@ pub struct OnPremCluster {
     /// Immutable. Whether the cluster is an admin cluster.
     #[prost(bool, tag="3")]
     pub admin_cluster: bool,
+    /// Immutable. The on prem cluster's type.
+    #[prost(enumeration="on_prem_cluster::ClusterType", tag="4")]
+    pub cluster_type: i32,
+}
+/// Nested message and enum types in `OnPremCluster`.
+pub mod on_prem_cluster {
+    /// ClusterType describes on prem cluster's type.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ClusterType {
+        /// The ClusterType is not set.
+        ClustertypeUnspecified = 0,
+        /// The ClusterType is bootstrap cluster.
+        Bootstrap = 1,
+        /// The ClusterType is baremetal hybrid cluster.
+        Hybrid = 2,
+        /// The ClusterType is baremetal standalone cluster.
+        Standalone = 3,
+        /// The ClusterType is user cluster.
+        User = 4,
+    }
 }
 /// MultiCloudCluster contains information specific to GKE Multi-Cloud clusters.
 #[derive(Clone, PartialEq, ::prost::Message)]

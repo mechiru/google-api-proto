@@ -13978,6 +13978,11 @@ pub mod model_monitoring_objective_config {
         /// feature.
         #[prost(btree_map="string, message", tag="2")]
         pub attribution_score_skew_thresholds: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, super::ThresholdConfig>,
+        /// Skew anomaly detection threshold used by all features.
+        /// When the per-feature thresholds are not set, this field can be used to
+        /// specify a threshold for all features.
+        #[prost(message, optional, tag="6")]
+        pub default_skew_threshold: ::core::option::Option<super::ThresholdConfig>,
     }
     /// The config for Prediction data drift detection.
     #[derive(Clone, PartialEq, ::prost::Message)]
@@ -13992,6 +13997,11 @@ pub mod model_monitoring_objective_config {
         /// against attribution score distance between different time windows.
         #[prost(btree_map="string, message", tag="2")]
         pub attribution_score_drift_thresholds: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, super::ThresholdConfig>,
+        /// Drift anomaly detection threshold used by all features.
+        /// When the per-feature thresholds are not set, this field can be used to
+        /// specify a threshold for all features.
+        #[prost(message, optional, tag="5")]
+        pub default_drift_threshold: ::core::option::Option<super::ThresholdConfig>,
     }
     /// The config for integrating with Vertex Explainable AI. Only applicable if
     /// the Model has explanation_spec populated.
