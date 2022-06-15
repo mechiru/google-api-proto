@@ -200,7 +200,7 @@ pub mod runnable {
     pub mod script {
         #[derive(Clone, PartialEq, ::prost::Oneof)]
         pub enum Command {
-            /// Script file path.
+            /// Script file path on the host VM.
             #[prost(string, tag="1")]
             Path(::prost::alloc::string::String),
             /// Shell script text.
@@ -260,7 +260,7 @@ pub struct TaskSpec {
     /// Lifecycle management schema when any task in a task group is failed.
     /// The valid size of lifecycle policies are [0, 10].
     /// For each lifecycle policy, when the condition is met,
-    /// the action in that policy will be executed.
+    /// the action in that policy will execute.
     /// If there are multiple policies that the task execution result matches,
     /// we use the action from the first matched policy. If task execution result
     /// does not meet with any of the defined lifecycle policy, we consider it as
@@ -335,9 +335,8 @@ pub struct Environment {
 /// The Cloud Batch Job description.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Job {
-    /// Job name.
-    /// It must have the format of "projects/*/locations/*/jobs/*".
-    /// For example: "projects/123456/locations/us-west1/jobs/job01".
+    /// Output only. Job name.
+    /// For example: "projects/123456/locations/us-central1/jobs/job01".
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
     /// Output only. A system generated unique ID (in UUID4 format) for the Job.
@@ -345,7 +344,8 @@ pub struct Job {
     pub uid: ::prost::alloc::string::String,
     /// Priority of the Job.
     /// The valid value range is [0, 100).
-    /// A job with higher priority value will be scheduled to run earlier.
+    /// A job with higher priority value is more likely to run earlier if all other
+    /// requirements are satisfied.
     #[prost(int64, tag="3")]
     pub priority: i64,
     /// Required. TaskGroups in the Job. Only one TaskGroup is supported now.
@@ -369,10 +369,10 @@ pub struct Job {
     /// Output only. Job status. It is read only for users.
     #[prost(message, optional, tag="9")]
     pub status: ::core::option::Option<JobStatus>,
-    /// When the Job was created.
+    /// Output only. When the Job was created.
     #[prost(message, optional, tag="11")]
     pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The last time the Job was updated.
+    /// Output only. The last time the Job was updated.
     #[prost(message, optional, tag="12")]
     pub update_time: ::core::option::Option<::prost_types::Timestamp>,
     /// Log preservation policy for the Job.
@@ -390,7 +390,7 @@ pub struct LogsPolicy {
     #[prost(enumeration="logs_policy::Destination", tag="1")]
     pub destination: i32,
     /// The path to which logs are saved when the destination = PATH. This can be a
-    /// local filepath on the VM, or under the mount point of a Persistent Disk or
+    /// local file path on the VM, or under the mount point of a Persistent Disk or
     /// Filestore, or a Cloud Storage path.
     #[prost(string, tag="2")]
     pub logs_path: ::prost::alloc::string::String,
@@ -405,7 +405,7 @@ pub mod logs_policy {
         Unspecified = 0,
         /// Logs are streamed to Cloud Logging.
         CloudLogging = 1,
-        /// Logs are saved to a path.
+        /// Logs are saved to a file path.
         Path = 2,
     }
 }
@@ -422,10 +422,7 @@ pub struct JobStatus {
     /// The map key is TaskGroup ID.
     #[prost(btree_map="string, message", tag="4")]
     pub task_groups: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, job_status::TaskGroupStatus>,
-    /// The duration of time the Job is in status
-    /// RUNNING. Once the Job completes (i.e. the Job status is either
-    /// SUCCEEDED/FAILED) the run duration represents the time it took the Job
-    /// to complete.
+    /// The duration of time that the Job spent in status RUNNING.
     #[prost(message, optional, tag="5")]
     pub run_duration: ::core::option::Option<::prost_types::Duration>,
 }
@@ -460,8 +457,7 @@ pub mod job_status {
     #[repr(i32)]
     pub enum State {
         Unspecified = 0,
-        /// Job is submitted into a ResourcePool and waiting
-        /// for resource allocation.
+        /// Job is admitted (validated and persisted) and waiting for resources.
         Queued = 1,
         /// Job is scheduled to run as soon as resource allocation is ready.
         /// The resource allocation may happen at a later time but with a high
@@ -483,22 +479,21 @@ pub mod job_status {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct JobNotification {
     /// The Pub/Sub topic where notifications like the job state changes
-    /// will be published. This topic should be an existing topic in the same
-    /// project with the job and billings will be charged to this project. If no
-    /// topic is specified, there will be no Pub/Sub messages sent. Topic
-    /// format is `projects/{project}/topics/{topic}`.
+    /// will be published. This topic exist in the same project as the job
+    /// and billings will be charged to this project.
+    /// If not specified, no Pub/Sub messages will be sent.
+    /// Topic format: `projects/{project}/topics/{topic}`.
     #[prost(string, tag="1")]
     pub pubsub_topic: ::prost::alloc::string::String,
-    /// The message caters the message attributes configuration will to be sent
-    /// to this Pub/Sub topic. Without this field, there is no message being sent
-    /// by default.
+    /// The attribute requirements of messages to be sent to this Pub/Sub topic.
+    /// Without this field, no message will be sent.
     #[prost(message, optional, tag="2")]
     pub message: ::core::option::Option<job_notification::Message>,
 }
 /// Nested message and enum types in `JobNotification`.
 pub mod job_notification {
     /// Message details.
-    /// Describe a list of attributes this message should have.
+    /// Describe the attribute that a message should have.
     /// Without specified message attributes, no message will be sent by default.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct Message {
@@ -550,13 +545,14 @@ pub struct AllocationPolicy {
 }
 /// Nested message and enum types in `AllocationPolicy`.
 pub mod allocation_policy {
-    /// Be consistent with LocationPolicy in
-    /// //cloud/cluster/api/mixer_instances.proto.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct LocationPolicy {
         /// A list of allowed location names represented by internal URLs,
-        /// for example, zones/us-central1-a, regions/us-west1.
-        /// First location in the list should be a region.
+        /// First location in the list must be a region.
+        /// for example,
+        /// \["regions/us-central1"\] allow VMs in region us-central1,
+        /// ["regions/us-central1", "zones/us-central1-a"] only allow VMs in zone
+        /// us-central1-a.
         #[prost(string, repeated, tag="1")]
         pub allowed_locations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     }
@@ -630,12 +626,14 @@ pub mod allocation_policy {
         /// The minimum CPU platform.
         /// See
         /// `<https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform`.>
+        /// Not yet implemented.
         #[prost(string, tag="3")]
         pub min_cpu_platform: ::prost::alloc::string::String,
         /// The provisioning model.
         #[prost(enumeration="ProvisioningModel", tag="4")]
         pub provisioning_model: i32,
         /// The accelerators attached to each VM instance.
+        /// Not yet implemented.
         #[prost(message, repeated, tag="5")]
         pub accelerators: ::prost::alloc::vec::Vec<Accelerator>,
         /// Non-boot disks to be attached for each VM created by this InstancePolicy.
@@ -715,7 +713,7 @@ pub struct TaskGroup {
     /// Output only. TaskGroup name.
     /// The system generates this field based on parent Job name.
     /// For example:
-    /// "projects/123456/locations/us-west1/jobs/job01/taskGroups/default-group".
+    /// "projects/123456/locations/us-west1/jobs/job01/taskGroups/group01".
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
     /// Required. Tasks in the group share the same task spec.
@@ -742,7 +740,7 @@ pub struct TaskGroup {
     /// task_environments supports up to 200 entries.
     #[prost(message, repeated, tag="9")]
     pub task_environments: ::prost::alloc::vec::Vec<Environment>,
-    /// Max number of tasks that can be run on a node at the same time.
+    /// Max number of tasks that can be run on a VM at the same time.
     /// If not specified, the system will decide a value based on available
     /// compute resources on a VM and task requirements.
     #[prost(int64, tag="10")]
@@ -753,7 +751,7 @@ pub struct TaskGroup {
     #[prost(bool, tag="11")]
     pub require_hosts_file: bool,
     /// When true, Batch will configure SSH to allow passwordless login between
-    /// VMs for the user running the Batch tasks.
+    /// VMs running the Batch tasks in the same TaskGroup.
     #[prost(bool, tag="12")]
     pub permissive_ssh: bool,
 }
@@ -761,7 +759,7 @@ pub struct TaskGroup {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateJobRequest {
     /// Required. The parent resource name where the Job will be created.
-    /// Format: projects/{project}/locations/{location}
+    /// Pattern: "projects/{project}/locations/{location}"
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
     /// ID used to uniquely identify the Job within its parent scope.
@@ -857,7 +855,9 @@ pub struct ListJobsResponse {
 /// ListTasks Request.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListTasksRequest {
-    /// Required. Path of the TaskGroup from which Tasks are being requested.
+    /// Required. Name of a TaskGroup from which Tasks are being requested.
+    /// Pattern:
+    /// "projects/{project}/locations/{location}/jobs/{job}/taskGroups/{task_group}"
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
     /// Task filter, null filter matches all Tasks.
@@ -872,7 +872,7 @@ pub struct ListTasksRequest {
     #[prost(string, tag="4")]
     pub page_token: ::prost::alloc::string::String,
 }
-/// ListAssignedTasks Response.
+/// ListTasks Response.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListTasksResponse {
     /// Tasks.
@@ -924,7 +924,7 @@ pub struct OperationMetadata {
 pub mod batch_service_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    /// Google Cloud Batch Service.
+    /// Google Batch Service.
     /// The service manages user submitted batch jobs and allocates Google Compute
     /// Engine VM instances to run the jobs.
     #[derive(Debug, Clone)]
@@ -1039,7 +1039,7 @@ pub mod batch_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        /// List all Jobs for a project.
+        /// List all Jobs for a project within a region.
         pub async fn list_jobs(
             &mut self,
             request: impl tonic::IntoRequest<super::ListJobsRequest>,
