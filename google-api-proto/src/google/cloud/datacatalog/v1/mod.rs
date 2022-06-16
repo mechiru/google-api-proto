@@ -1,189 +1,3 @@
-/// Native schema used by a resource represented as an entry. Used by query
-/// engines for deserializing and parsing source data.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PhysicalSchema {
-    #[prost(oneof="physical_schema::Schema", tags="1, 2, 3, 4, 5, 6")]
-    pub schema: ::core::option::Option<physical_schema::Schema>,
-}
-/// Nested message and enum types in `PhysicalSchema`.
-pub mod physical_schema {
-    /// Schema in Avro JSON format.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct AvroSchema {
-        /// JSON source of the Avro schema.
-        #[prost(string, tag="1")]
-        pub text: ::prost::alloc::string::String,
-    }
-    /// Schema in Thrift format.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ThriftSchema {
-        /// Thrift IDL source of the schema.
-        #[prost(string, tag="1")]
-        pub text: ::prost::alloc::string::String,
-    }
-    /// Schema in protocol buffer format.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ProtobufSchema {
-        /// Protocol buffer source of the schema.
-        #[prost(string, tag="1")]
-        pub text: ::prost::alloc::string::String,
-    }
-    /// Marks a Parquet-encoded data source.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ParquetSchema {
-    }
-    /// Marks an ORC-encoded data source.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct OrcSchema {
-    }
-    /// Marks a CSV-encoded data source.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CsvSchema {
-    }
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Schema {
-        /// Schema in Avro JSON format.
-        #[prost(message, tag="1")]
-        Avro(AvroSchema),
-        /// Schema in Thrift format.
-        #[prost(message, tag="2")]
-        Thrift(ThriftSchema),
-        /// Schema in protocol buffer format.
-        #[prost(message, tag="3")]
-        Protobuf(ProtobufSchema),
-        /// Marks a Parquet-encoded data source.
-        #[prost(message, tag="4")]
-        Parquet(ParquetSchema),
-        /// Marks an ORC-encoded data source.
-        #[prost(message, tag="5")]
-        Orc(OrcSchema),
-        /// Marks a CSV-encoded data source.
-        #[prost(message, tag="6")]
-        Csv(CsvSchema),
-    }
-}
-/// Entry metadata relevant only to the user and private to them.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PersonalDetails {
-    /// True if the entry is starred by the user; false otherwise.
-    #[prost(bool, tag="1")]
-    pub starred: bool,
-    /// Set if the entry is starred; unset otherwise.
-    #[prost(message, optional, tag="2")]
-    pub star_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// This enum lists all the systems that Data Catalog integrates with.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum IntegratedSystem {
-    /// Default unknown system.
-    Unspecified = 0,
-    /// BigQuery.
-    Bigquery = 1,
-    /// Cloud Pub/Sub.
-    CloudPubsub = 2,
-    /// Dataproc Metastore.
-    DataprocMetastore = 3,
-    /// Dataplex.
-    Dataplex = 4,
-}
-/// Result in the response to a search request.
-///
-/// Each result captures details of one entry that matches the search.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchCatalogResult {
-    /// Type of the search result.
-    ///
-    /// You can use this field to determine which get method to call to fetch the
-    /// full resource.
-    #[prost(enumeration="SearchResultType", tag="1")]
-    pub search_result_type: i32,
-    /// Sub-type of the search result.
-    ///
-    /// A dot-delimited full type of the resource. The same type you
-    /// specify in the `type` search predicate.
-    ///
-    /// Examples: `entry.table`, `entry.dataStream`, `tagTemplate`.
-    #[prost(string, tag="2")]
-    pub search_result_subtype: ::prost::alloc::string::String,
-    /// The relative name of the resource in URL format.
-    ///
-    /// Examples:
-    ///
-    ///  * `projects/{PROJECT_ID}/locations/{LOCATION_ID}/entryGroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`
-    ///  * `projects/{PROJECT_ID}/tagTemplates/{TAG_TEMPLATE_ID}`
-    #[prost(string, tag="3")]
-    pub relative_resource_name: ::prost::alloc::string::String,
-    /// The full name of the Google Cloud resource the entry belongs to.
-    ///
-    /// For more information, see [Full Resource Name]
-    /// (/apis/design/resource_names#full_resource_name).
-    ///
-    /// Example:
-    ///
-    /// `//bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID`
-    #[prost(string, tag="4")]
-    pub linked_resource: ::prost::alloc::string::String,
-    /// The last modification timestamp of the entry in the source system.
-    #[prost(message, optional, tag="7")]
-    pub modify_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Fully qualified name (FQN) of the resource.
-    ///
-    /// FQNs take two forms:
-    ///
-    /// * For non-regionalized resources:
-    ///
-    ///   `{SYSTEM}:{PROJECT}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}`
-    ///
-    /// * For regionalized resources:
-    ///
-    ///   `{SYSTEM}:{PROJECT}.{LOCATION_ID}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}`
-    ///
-    /// Example for a DPMS table:
-    ///
-    /// `dataproc_metastore:PROJECT_ID.LOCATION_ID.INSTANCE_ID.DATABASE_ID.TABLE_ID`
-    #[prost(string, tag="10")]
-    pub fully_qualified_name: ::prost::alloc::string::String,
-    /// The display name of the result.
-    #[prost(string, tag="12")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Entry description that can consist of several sentences or paragraphs that
-    /// describe entry contents.
-    #[prost(string, tag="13")]
-    pub description: ::prost::alloc::string::String,
-    /// The source system of the entry. Applicable only when the
-    /// `search_result_type` is `ENTRY`.
-    #[prost(oneof="search_catalog_result::System", tags="8, 9")]
-    pub system: ::core::option::Option<search_catalog_result::System>,
-}
-/// Nested message and enum types in `SearchCatalogResult`.
-pub mod search_catalog_result {
-    /// The source system of the entry. Applicable only when the
-    /// `search_result_type` is `ENTRY`.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum System {
-        /// Output only. The source system that Data Catalog automatically integrates  with, such
-        /// as BigQuery, Cloud Pub/Sub, or Dataproc Metastore.
-        #[prost(enumeration="super::IntegratedSystem", tag="8")]
-        IntegratedSystem(i32),
-        /// Custom source system that you can manually integrate Data Catalog with.
-        #[prost(string, tag="9")]
-        UserSpecifiedSystem(::prost::alloc::string::String),
-    }
-}
-/// The resource types that can be returned in search results.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum SearchResultType {
-    /// Default unknown type.
-    Unspecified = 0,
-    /// An \[Entry][google.cloud.datacatalog.v1.Entry\].
-    Entry = 1,
-    /// A \[TagTemplate][google.cloud.datacatalog.v1.TagTemplate\].
-    TagTemplate = 2,
-    /// An \[EntryGroup][google.cloud.datacatalog.v1.EntryGroup\].
-    EntryGroup = 3,
-}
 /// Specification for the BigQuery connection.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BigQueryConnectionSpec {
@@ -248,6 +62,31 @@ pub struct BigQueryRoutineSpec {
     /// Paths of the imported libraries.
     #[prost(string, repeated, tag="1")]
     pub imported_libraries: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Entry metadata relevant only to the user and private to them.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PersonalDetails {
+    /// True if the entry is starred by the user; false otherwise.
+    #[prost(bool, tag="1")]
+    pub starred: bool,
+    /// Set if the entry is starred; unset otherwise.
+    #[prost(message, optional, tag="2")]
+    pub star_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// This enum lists all the systems that Data Catalog integrates with.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum IntegratedSystem {
+    /// Default unknown system.
+    Unspecified = 0,
+    /// BigQuery.
+    Bigquery = 1,
+    /// Cloud Pub/Sub.
+    CloudPubsub = 2,
+    /// Dataproc Metastore.
+    DataprocMetastore = 3,
+    /// Dataplex.
+    Dataplex = 4,
 }
 /// Physical location of an entry.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -314,6 +153,70 @@ pub struct StorageProperties {
     /// File type in MIME format, for example, `text/plain`.
     #[prost(string, tag="2")]
     pub file_type: ::prost::alloc::string::String,
+}
+/// Native schema used by a resource represented as an entry. Used by query
+/// engines for deserializing and parsing source data.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PhysicalSchema {
+    #[prost(oneof="physical_schema::Schema", tags="1, 2, 3, 4, 5, 6")]
+    pub schema: ::core::option::Option<physical_schema::Schema>,
+}
+/// Nested message and enum types in `PhysicalSchema`.
+pub mod physical_schema {
+    /// Schema in Avro JSON format.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct AvroSchema {
+        /// JSON source of the Avro schema.
+        #[prost(string, tag="1")]
+        pub text: ::prost::alloc::string::String,
+    }
+    /// Schema in Thrift format.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ThriftSchema {
+        /// Thrift IDL source of the schema.
+        #[prost(string, tag="1")]
+        pub text: ::prost::alloc::string::String,
+    }
+    /// Schema in protocol buffer format.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ProtobufSchema {
+        /// Protocol buffer source of the schema.
+        #[prost(string, tag="1")]
+        pub text: ::prost::alloc::string::String,
+    }
+    /// Marks a Parquet-encoded data source.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ParquetSchema {
+    }
+    /// Marks an ORC-encoded data source.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct OrcSchema {
+    }
+    /// Marks a CSV-encoded data source.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CsvSchema {
+    }
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Schema {
+        /// Schema in Avro JSON format.
+        #[prost(message, tag="1")]
+        Avro(AvroSchema),
+        /// Schema in Thrift format.
+        #[prost(message, tag="2")]
+        Thrift(ThriftSchema),
+        /// Schema in protocol buffer format.
+        #[prost(message, tag="3")]
+        Protobuf(ProtobufSchema),
+        /// Marks a Parquet-encoded data source.
+        #[prost(message, tag="4")]
+        Parquet(ParquetSchema),
+        /// Marks an ORC-encoded data source.
+        #[prost(message, tag="5")]
+        Orc(OrcSchema),
+        /// Marks a CSV-encoded data source.
+        #[prost(message, tag="6")]
+        Csv(CsvSchema),
+    }
 }
 /// Common Dataplex fields.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -494,6 +397,103 @@ pub struct ColumnSchema {
     /// Optional. Schema of sub-columns. A column can have zero or more sub-columns.
     #[prost(message, repeated, tag="7")]
     pub subcolumns: ::prost::alloc::vec::Vec<ColumnSchema>,
+}
+/// Result in the response to a search request.
+///
+/// Each result captures details of one entry that matches the search.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchCatalogResult {
+    /// Type of the search result.
+    ///
+    /// You can use this field to determine which get method to call to fetch the
+    /// full resource.
+    #[prost(enumeration="SearchResultType", tag="1")]
+    pub search_result_type: i32,
+    /// Sub-type of the search result.
+    ///
+    /// A dot-delimited full type of the resource. The same type you
+    /// specify in the `type` search predicate.
+    ///
+    /// Examples: `entry.table`, `entry.dataStream`, `tagTemplate`.
+    #[prost(string, tag="2")]
+    pub search_result_subtype: ::prost::alloc::string::String,
+    /// The relative name of the resource in URL format.
+    ///
+    /// Examples:
+    ///
+    ///  * `projects/{PROJECT_ID}/locations/{LOCATION_ID}/entryGroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`
+    ///  * `projects/{PROJECT_ID}/tagTemplates/{TAG_TEMPLATE_ID}`
+    #[prost(string, tag="3")]
+    pub relative_resource_name: ::prost::alloc::string::String,
+    /// The full name of the Google Cloud resource the entry belongs to.
+    ///
+    /// For more information, see [Full Resource Name]
+    /// (/apis/design/resource_names#full_resource_name).
+    ///
+    /// Example:
+    ///
+    /// `//bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID`
+    #[prost(string, tag="4")]
+    pub linked_resource: ::prost::alloc::string::String,
+    /// The last modification timestamp of the entry in the source system.
+    #[prost(message, optional, tag="7")]
+    pub modify_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Fully qualified name (FQN) of the resource.
+    ///
+    /// FQNs take two forms:
+    ///
+    /// * For non-regionalized resources:
+    ///
+    ///   `{SYSTEM}:{PROJECT}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}`
+    ///
+    /// * For regionalized resources:
+    ///
+    ///   `{SYSTEM}:{PROJECT}.{LOCATION_ID}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}`
+    ///
+    /// Example for a DPMS table:
+    ///
+    /// `dataproc_metastore:PROJECT_ID.LOCATION_ID.INSTANCE_ID.DATABASE_ID.TABLE_ID`
+    #[prost(string, tag="10")]
+    pub fully_qualified_name: ::prost::alloc::string::String,
+    /// The display name of the result.
+    #[prost(string, tag="12")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Entry description that can consist of several sentences or paragraphs that
+    /// describe entry contents.
+    #[prost(string, tag="13")]
+    pub description: ::prost::alloc::string::String,
+    /// The source system of the entry. Applicable only when the
+    /// `search_result_type` is `ENTRY`.
+    #[prost(oneof="search_catalog_result::System", tags="8, 9")]
+    pub system: ::core::option::Option<search_catalog_result::System>,
+}
+/// Nested message and enum types in `SearchCatalogResult`.
+pub mod search_catalog_result {
+    /// The source system of the entry. Applicable only when the
+    /// `search_result_type` is `ENTRY`.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum System {
+        /// Output only. The source system that Data Catalog automatically integrates  with, such
+        /// as BigQuery, Cloud Pub/Sub, or Dataproc Metastore.
+        #[prost(enumeration="super::IntegratedSystem", tag="8")]
+        IntegratedSystem(i32),
+        /// Custom source system that you can manually integrate Data Catalog with.
+        #[prost(string, tag="9")]
+        UserSpecifiedSystem(::prost::alloc::string::String),
+    }
+}
+/// The resource types that can be returned in search results.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum SearchResultType {
+    /// Default unknown type.
+    Unspecified = 0,
+    /// An \[Entry][google.cloud.datacatalog.v1.Entry\].
+    Entry = 1,
+    /// A \[TagTemplate][google.cloud.datacatalog.v1.TagTemplate\].
+    TagTemplate = 2,
+    /// An \[EntryGroup][google.cloud.datacatalog.v1.EntryGroup\].
+    EntryGroup = 3,
 }
 /// Describes a BigQuery table.
 #[derive(Clone, PartialEq, ::prost::Message)]

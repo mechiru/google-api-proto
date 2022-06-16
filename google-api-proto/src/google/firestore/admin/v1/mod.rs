@@ -1,3 +1,101 @@
+/// A Cloud Firestore Database.
+/// Currently only one database is allowed per cloud project; this database
+/// must have a `database_id` of '(default)'.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Database {
+    /// The resource name of the Database.
+    /// Format: `projects/{project}/databases/{database}`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The location of the database. Available databases are listed at
+    /// <https://cloud.google.com/firestore/docs/locations.>
+    #[prost(string, tag="9")]
+    pub location_id: ::prost::alloc::string::String,
+    /// The type of the database.
+    /// See <https://cloud.google.com/datastore/docs/firestore-or-datastore> for
+    /// information about how to choose.
+    #[prost(enumeration="database::DatabaseType", tag="10")]
+    pub r#type: i32,
+    /// The concurrency control mode to use for this database.
+    #[prost(enumeration="database::ConcurrencyMode", tag="15")]
+    pub concurrency_mode: i32,
+    /// The App Engine integration mode to use for this database.
+    #[prost(enumeration="database::AppEngineIntegrationMode", tag="19")]
+    pub app_engine_integration_mode: i32,
+    /// Output only. The key_prefix for this database. This key_prefix is used, in combination
+    /// with the project id ("<key prefix>~<project id>") to construct the
+    /// application id that is returned from the Cloud Datastore APIs in Google App
+    /// Engine first generation runtimes.
+    ///
+    /// This value may be empty in which case the appid to use for URL-encoded keys
+    /// is the project_id (eg: foo instead of v~foo).
+    #[prost(string, tag="20")]
+    pub key_prefix: ::prost::alloc::string::String,
+    /// This checksum is computed by the server based on the value of other
+    /// fields, and may be sent on update and delete requests to ensure the
+    /// client has an up-to-date value before proceeding.
+    #[prost(string, tag="99")]
+    pub etag: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `Database`.
+pub mod database {
+    /// The type of the database.
+    /// See <https://cloud.google.com/datastore/docs/firestore-or-datastore> for
+    /// information about how to choose.
+    ///
+    /// Mode changes are only allowed if the database is empty.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum DatabaseType {
+        /// The default value. This value is used if the database type is omitted.
+        Unspecified = 0,
+        /// Firestore Native Mode
+        FirestoreNative = 1,
+        /// Firestore in Datastore Mode.
+        DatastoreMode = 2,
+    }
+    /// The type of concurrency control mode for transactions.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ConcurrencyMode {
+        /// Not used.
+        Unspecified = 0,
+        /// Use optimistic concurrency control by default. This mode is available
+        /// for Cloud Firestore databases.
+        Optimistic = 1,
+        /// Use pessimistic concurrency control by default. This mode is available
+        /// for Cloud Firestore databases.
+        ///
+        /// This is the default setting for Cloud Firestore.
+        Pessimistic = 2,
+        /// Use optimistic concurrency control with entity groups by default.
+        ///
+        /// This is the only available mode for Cloud Datastore.
+        ///
+        /// This mode is also available for Cloud Firestore with Datastore Mode but
+        /// is not recommended.
+        OptimisticWithEntityGroups = 3,
+    }
+    /// The type of App Engine integration mode.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AppEngineIntegrationMode {
+        /// Not used.
+        Unspecified = 0,
+        /// If an App Engine application exists in the same region as this database,
+        /// App Engine configuration will impact this database. This includes
+        /// disabling of the application & database, as well as disabling writes to
+        /// the database.
+        Enabled = 1,
+        /// Appengine has no affect on the ability of this database to serve
+        /// requests.
+        Disabled = 2,
+    }
+}
+/// The metadata message for \[google.cloud.location.Location.metadata][google.cloud.location.Location.metadata\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LocationMetadata {
+}
 /// Cloud Firestore indexes enable simple and complex queries against
 /// documents in a database.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -235,100 +333,6 @@ pub mod field {
             /// has failed, and may have more details.
             NeedsRepair = 3,
         }
-    }
-}
-/// A Cloud Firestore Database.
-/// Currently only one database is allowed per cloud project; this database
-/// must have a `database_id` of '(default)'.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Database {
-    /// The resource name of the Database.
-    /// Format: `projects/{project}/databases/{database}`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The location of the database. Available databases are listed at
-    /// <https://cloud.google.com/firestore/docs/locations.>
-    #[prost(string, tag="9")]
-    pub location_id: ::prost::alloc::string::String,
-    /// The type of the database.
-    /// See <https://cloud.google.com/datastore/docs/firestore-or-datastore> for
-    /// information about how to choose.
-    #[prost(enumeration="database::DatabaseType", tag="10")]
-    pub r#type: i32,
-    /// The concurrency control mode to use for this database.
-    #[prost(enumeration="database::ConcurrencyMode", tag="15")]
-    pub concurrency_mode: i32,
-    /// The App Engine integration mode to use for this database.
-    #[prost(enumeration="database::AppEngineIntegrationMode", tag="19")]
-    pub app_engine_integration_mode: i32,
-    /// Output only. The key_prefix for this database. This key_prefix is used, in combination
-    /// with the project id ("<key prefix>~<project id>") to construct the
-    /// application id that is returned from the Cloud Datastore APIs in Google App
-    /// Engine first generation runtimes.
-    ///
-    /// This value may be empty in which case the appid to use for URL-encoded keys
-    /// is the project_id (eg: foo instead of v~foo).
-    #[prost(string, tag="20")]
-    pub key_prefix: ::prost::alloc::string::String,
-    /// This checksum is computed by the server based on the value of other
-    /// fields, and may be sent on update and delete requests to ensure the
-    /// client has an up-to-date value before proceeding.
-    #[prost(string, tag="99")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `Database`.
-pub mod database {
-    /// The type of the database.
-    /// See <https://cloud.google.com/datastore/docs/firestore-or-datastore> for
-    /// information about how to choose.
-    ///
-    /// Mode changes are only allowed if the database is empty.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum DatabaseType {
-        /// The default value. This value is used if the database type is omitted.
-        Unspecified = 0,
-        /// Firestore Native Mode
-        FirestoreNative = 1,
-        /// Firestore in Datastore Mode.
-        DatastoreMode = 2,
-    }
-    /// The type of concurrency control mode for transactions.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ConcurrencyMode {
-        /// Not used.
-        Unspecified = 0,
-        /// Use optimistic concurrency control by default. This mode is available
-        /// for Cloud Firestore databases.
-        Optimistic = 1,
-        /// Use pessimistic concurrency control by default. This mode is available
-        /// for Cloud Firestore databases.
-        ///
-        /// This is the default setting for Cloud Firestore.
-        Pessimistic = 2,
-        /// Use optimistic concurrency control with entity groups by default.
-        ///
-        /// This is the only available mode for Cloud Datastore.
-        ///
-        /// This mode is also available for Cloud Firestore with Datastore Mode but
-        /// is not recommended.
-        OptimisticWithEntityGroups = 3,
-    }
-    /// The type of App Engine integration mode.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AppEngineIntegrationMode {
-        /// Not used.
-        Unspecified = 0,
-        /// If an App Engine application exists in the same region as this database,
-        /// App Engine configuration will impact this database. This includes
-        /// disabling of the application & database, as well as disabling writes to
-        /// the database.
-        Enabled = 1,
-        /// Appengine has no affect on the ability of this database to serve
-        /// requests.
-        Disabled = 2,
     }
 }
 /// A request to list the Firestore Databases in all locations for a project.
@@ -888,10 +892,6 @@ pub mod firestore_admin_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
-}
-/// The metadata message for \[google.cloud.location.Location.metadata][google.cloud.location.Location.metadata\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LocationMetadata {
 }
 /// Metadata for \[google.longrunning.Operation][google.longrunning.Operation\] results from
 /// \[FirestoreAdmin.CreateIndex][google.firestore.admin.v1.FirestoreAdmin.CreateIndex\].

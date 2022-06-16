@@ -10,48 +10,6 @@ pub enum IntegratedSystem {
     /// Cloud Pub/Sub.
     CloudPubsub = 2,
 }
-/// A result that appears in the response of a search request. Each result
-/// captures details of one entry that matches the search.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchCatalogResult {
-    /// Type of the search result. This field can be used to determine which Get
-    /// method to call to fetch the full resource.
-    #[prost(enumeration="SearchResultType", tag="1")]
-    pub search_result_type: i32,
-    /// Sub-type of the search result. This is a dot-delimited description of the
-    /// resource's full type, and is the same as the value callers would provide in
-    /// the "type" search facet.  Examples: `entry.table`, `entry.dataStream`,
-    /// `tagTemplate`.
-    #[prost(string, tag="2")]
-    pub search_result_subtype: ::prost::alloc::string::String,
-    /// The relative resource name of the resource in URL format.
-    /// Examples:
-    ///
-    ///  * `projects/{project_id}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id}`
-    ///  * `projects/{project_id}/tagTemplates/{tag_template_id}`
-    #[prost(string, tag="3")]
-    pub relative_resource_name: ::prost::alloc::string::String,
-    /// The full name of the cloud resource the entry belongs to. See:
-    /// <https://cloud.google.com/apis/design/resource_names#full_resource_name.>
-    /// Example:
-    ///
-    ///  * `//bigquery.googleapis.com/projects/projectId/datasets/datasetId/tables/tableId`
-    #[prost(string, tag="4")]
-    pub linked_resource: ::prost::alloc::string::String,
-}
-/// The different types of resources that can be returned in search.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum SearchResultType {
-    /// Default unknown type.
-    Unspecified = 0,
-    /// An \[Entry][google.cloud.datacatalog.v1beta1.Entry\].
-    Entry = 1,
-    /// A \[TagTemplate][google.cloud.datacatalog.v1beta1.TagTemplate\].
-    TagTemplate = 2,
-    /// An \[EntryGroup][google.cloud.datacatalog.v1beta1.EntryGroup\].
-    EntryGroup = 3,
-}
 /// Timestamps about this resource according to a particular system.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SystemTimestamps {
@@ -146,6 +104,48 @@ pub struct ColumnSchema {
     /// Optional. Schema of sub-columns. A column can have zero or more sub-columns.
     #[prost(message, repeated, tag="7")]
     pub subcolumns: ::prost::alloc::vec::Vec<ColumnSchema>,
+}
+/// A result that appears in the response of a search request. Each result
+/// captures details of one entry that matches the search.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchCatalogResult {
+    /// Type of the search result. This field can be used to determine which Get
+    /// method to call to fetch the full resource.
+    #[prost(enumeration="SearchResultType", tag="1")]
+    pub search_result_type: i32,
+    /// Sub-type of the search result. This is a dot-delimited description of the
+    /// resource's full type, and is the same as the value callers would provide in
+    /// the "type" search facet.  Examples: `entry.table`, `entry.dataStream`,
+    /// `tagTemplate`.
+    #[prost(string, tag="2")]
+    pub search_result_subtype: ::prost::alloc::string::String,
+    /// The relative resource name of the resource in URL format.
+    /// Examples:
+    ///
+    ///  * `projects/{project_id}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id}`
+    ///  * `projects/{project_id}/tagTemplates/{tag_template_id}`
+    #[prost(string, tag="3")]
+    pub relative_resource_name: ::prost::alloc::string::String,
+    /// The full name of the cloud resource the entry belongs to. See:
+    /// <https://cloud.google.com/apis/design/resource_names#full_resource_name.>
+    /// Example:
+    ///
+    ///  * `//bigquery.googleapis.com/projects/projectId/datasets/datasetId/tables/tableId`
+    #[prost(string, tag="4")]
+    pub linked_resource: ::prost::alloc::string::String,
+}
+/// The different types of resources that can be returned in search.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum SearchResultType {
+    /// Default unknown type.
+    Unspecified = 0,
+    /// An \[Entry][google.cloud.datacatalog.v1beta1.Entry\].
+    Entry = 1,
+    /// A \[TagTemplate][google.cloud.datacatalog.v1beta1.TagTemplate\].
+    TagTemplate = 2,
+    /// An \[EntryGroup][google.cloud.datacatalog.v1beta1.EntryGroup\].
+    EntryGroup = 3,
 }
 /// Describes a BigQuery table.
 #[derive(Clone, PartialEq, ::prost::Message)]

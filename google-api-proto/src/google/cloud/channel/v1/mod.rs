@@ -1,3 +1,130 @@
+/// Configuration for how a reseller will reprice a Customer.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CustomerRepricingConfig {
+    /// Output only. Resource name of the CustomerRepricingConfig.
+    /// Format:
+    /// accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The configuration for bill modifications made by a reseller before
+    /// sending it to customers.
+    #[prost(message, optional, tag="2")]
+    pub repricing_config: ::core::option::Option<RepricingConfig>,
+    /// Output only. Timestamp of an update to the repricing rule. If `update_time` is after
+    /// \[RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month\] then it indicates this was set
+    /// mid-month.
+    #[prost(message, optional, tag="3")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Configuration for how a distributor will rebill a channel partner
+/// (also known as a distributor-authorized reseller).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ChannelPartnerRepricingConfig {
+    /// Output only. Resource name of the ChannelPartnerRepricingConfig.
+    /// Format:
+    /// accounts/{account_id}/channelPartnerLinks/{channel_partner_id}/channelPartnerRepricingConfigs/{id}.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The configuration for bill modifications made by a reseller before
+    /// sending it to ChannelPartner.
+    #[prost(message, optional, tag="2")]
+    pub repricing_config: ::core::option::Option<RepricingConfig>,
+    /// Output only. Timestamp of an update to the repricing rule. If `update_time` is after
+    /// \[RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month\] then it indicates this was set
+    /// mid-month.
+    #[prost(message, optional, tag="3")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Configuration for repricing a Google bill over a period of time.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RepricingConfig {
+    /// Required. The YearMonth when these adjustments activate. The Day field needs to be
+    /// "0" since we only accept YearMonth repricing boundaries.
+    #[prost(message, optional, tag="1")]
+    pub effective_invoice_month: ::core::option::Option<super::super::super::r#type::Date>,
+    /// Required. Information about the adjustment.
+    #[prost(message, optional, tag="2")]
+    pub adjustment: ::core::option::Option<RepricingAdjustment>,
+    /// Required. The \[RebillingBasis][google.cloud.channel.v1.RebillingBasis\] to use for this bill. Specifies the relative cost
+    /// based on repricing costs you will apply.
+    #[prost(enumeration="RebillingBasis", tag="3")]
+    pub rebilling_basis: i32,
+    /// Required. Defines the granularity for repricing.
+    #[prost(oneof="repricing_config::Granularity", tags="4, 5")]
+    pub granularity: ::core::option::Option<repricing_config::Granularity>,
+}
+/// Nested message and enum types in `RepricingConfig`.
+pub mod repricing_config {
+    /// Applies the repricing configuration at the entitlement level.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct EntitlementGranularity {
+        /// Resource name of the entitlement.
+        /// Format:
+        /// accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
+        #[prost(string, tag="1")]
+        pub entitlement: ::prost::alloc::string::String,
+    }
+    /// Applies the repricing configuration at the channel partner level.
+    /// The channel partner value is derived from the resource name. Takes an
+    /// empty json object.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ChannelPartnerGranularity {
+    }
+    /// Required. Defines the granularity for repricing.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Granularity {
+        /// Applies the repricing configuration at the entitlement level. This is
+        /// the only supported value for CustomerRepricingConfig.
+        #[prost(message, tag="4")]
+        EntitlementGranularity(EntitlementGranularity),
+        /// Applies the repricing configuration at the channel partner level.
+        /// This is the only supported value for ChannelPartnerRepricingConfig.
+        #[prost(message, tag="5")]
+        ChannelPartnerGranularity(ChannelPartnerGranularity),
+    }
+}
+/// A type that represents the various adjustments you can apply to a bill.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RepricingAdjustment {
+    /// A oneof that represents the different types for this adjustment.
+    #[prost(oneof="repricing_adjustment::Adjustment", tags="2")]
+    pub adjustment: ::core::option::Option<repricing_adjustment::Adjustment>,
+}
+/// Nested message and enum types in `RepricingAdjustment`.
+pub mod repricing_adjustment {
+    /// A oneof that represents the different types for this adjustment.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Adjustment {
+        /// Flat markup or markdown on an entire bill.
+        #[prost(message, tag="2")]
+        PercentageAdjustment(super::PercentageAdjustment),
+    }
+}
+/// An adjustment that applies a flat markup or markdown to an entire bill.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PercentageAdjustment {
+    /// The percentage of the bill to adjust.
+    /// For example:
+    /// Mark down by 1% => "-1.00"
+    /// Mark up by 1%   => "1.00"
+    /// Pass-Through    => "0.00"
+    #[prost(message, optional, tag="2")]
+    pub percentage: ::core::option::Option<super::super::super::r#type::Decimal>,
+}
+/// Specifies the different costs that the modified bill can be based on.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum RebillingBasis {
+    /// Not used.
+    Unspecified = 0,
+    /// Use the list cost, also known as the MSRP.
+    CostAtList = 1,
+    /// Pass through all discounts except the Reseller Program Discount. If this is
+    /// the default cost base and no adjustments are specified, the output cost
+    /// will be exactly what the customer would see if they viewed the bill in the
+    /// Google Cloud Console.
+    DirectCustomerCost = 2,
+}
 /// Required Edu Attributes
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EduData {
@@ -486,102 +613,6 @@ pub enum PeriodType {
     /// Year.
     Year = 3,
 }
-/// Represents Pub/Sub message content describing customer update.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CustomerEvent {
-    /// Resource name of the customer.
-    /// Format: accounts/{account_id}/customers/{customer_id}
-    #[prost(string, tag="1")]
-    pub customer: ::prost::alloc::string::String,
-    /// Type of event which happened on the customer.
-    #[prost(enumeration="customer_event::Type", tag="2")]
-    pub event_type: i32,
-}
-/// Nested message and enum types in `CustomerEvent`.
-pub mod customer_event {
-    /// Type of customer event.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// Not used.
-        Unspecified = 0,
-        /// Primary domain for customer was changed.
-        PrimaryDomainChanged = 1,
-        /// Primary domain of the customer has been verified.
-        PrimaryDomainVerified = 2,
-    }
-}
-/// Represents Pub/Sub message content describing entitlement update.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EntitlementEvent {
-    /// Resource name of an entitlement of the form:
-    /// accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
-    #[prost(string, tag="1")]
-    pub entitlement: ::prost::alloc::string::String,
-    /// Type of event which happened on the entitlement.
-    #[prost(enumeration="entitlement_event::Type", tag="2")]
-    pub event_type: i32,
-}
-/// Nested message and enum types in `EntitlementEvent`.
-pub mod entitlement_event {
-    /// Type of entitlement event.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// Not used.
-        Unspecified = 0,
-        /// A new entitlement was created.
-        Created = 1,
-        /// The offer type associated with an entitlement was changed.
-        /// This is not triggered if an entitlement converts from a commit offer to a
-        /// flexible offer as part of a renewal.
-        PricePlanSwitched = 3,
-        /// Annual commitment for a commit plan was changed.
-        CommitmentChanged = 4,
-        /// An annual entitlement was renewed.
-        Renewed = 5,
-        /// Entitlement was suspended.
-        Suspended = 6,
-        /// Entitlement was unsuspended.
-        Activated = 7,
-        /// Entitlement was cancelled.
-        Cancelled = 8,
-        /// Entitlement was upgraded or downgraded (e.g. from Google Workspace
-        /// Business Standard to Google Workspace Business Plus).
-        SkuChanged = 9,
-        /// The renewal settings of an entitlement has changed.
-        RenewalSettingChanged = 10,
-        /// Paid service has started on trial entitlement.
-        PaidServiceStarted = 11,
-        /// License was assigned to or revoked from a user.
-        LicenseAssignmentChanged = 12,
-        /// License cap was changed for the entitlement.
-        LicenseCapChanged = 13,
-    }
-}
-/// Represents information which resellers will get as part of notification from
-/// Pub/Sub.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SubscriberEvent {
-    /// Specifies the Pub/Sub event provided to the partners.
-    /// This is a required field.
-    #[prost(oneof="subscriber_event::Event", tags="1, 2")]
-    pub event: ::core::option::Option<subscriber_event::Event>,
-}
-/// Nested message and enum types in `SubscriberEvent`.
-pub mod subscriber_event {
-    /// Specifies the Pub/Sub event provided to the partners.
-    /// This is a required field.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Event {
-        /// Customer event sent as part of Pub/Sub event to partners.
-        #[prost(message, tag="1")]
-        CustomerEvent(super::CustomerEvent),
-        /// Entitlement event sent as part of Pub/Sub event to partners.
-        #[prost(message, tag="2")]
-        EntitlementEvent(super::EntitlementEvent),
-    }
-}
 /// An entitlement is a representation of a customer's ability to use a service.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Entitlement {
@@ -799,66 +830,6 @@ pub mod transfer_eligibility {
         SkuSuspended = 3,
     }
 }
-/// Entity representing a link between distributors and their indirect
-/// resellers in an n-tier resale channel.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ChannelPartnerLink {
-    /// Output only. Resource name for the channel partner link, in the format
-    /// accounts/{account_id}/channelPartnerLinks/{id}.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. Cloud Identity ID of the linked reseller.
-    #[prost(string, tag="2")]
-    pub reseller_cloud_identity_id: ::prost::alloc::string::String,
-    /// Required. State of the channel partner link.
-    #[prost(enumeration="ChannelPartnerLinkState", tag="3")]
-    pub link_state: i32,
-    /// Output only. URI of the web page where partner accepts the link invitation.
-    #[prost(string, tag="4")]
-    pub invite_link_uri: ::prost::alloc::string::String,
-    /// Output only. Timestamp of when the channel partner link is created.
-    #[prost(message, optional, tag="5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Timestamp of when the channel partner link is updated.
-    #[prost(message, optional, tag="6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Public identifier that a customer must use to generate a transfer token
-    /// to move to this distributor-reseller combination.
-    #[prost(string, tag="7")]
-    pub public_id: ::prost::alloc::string::String,
-    /// Output only. Cloud Identity info of the channel partner (IR).
-    #[prost(message, optional, tag="8")]
-    pub channel_partner_cloud_identity_info: ::core::option::Option<CloudIdentityInfo>,
-}
-/// The level of granularity the \[ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink\] will display.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum ChannelPartnerLinkView {
-    /// The default / unset value.
-    /// The API will default to the BASIC view.
-    Unspecified = 0,
-    /// Includes all fields except the
-    /// \[ChannelPartnerLink.channel_partner_cloud_identity_info][google.cloud.channel.v1.ChannelPartnerLink.channel_partner_cloud_identity_info\].
-    Basic = 1,
-    /// Includes all fields.
-    Full = 2,
-}
-/// ChannelPartnerLinkState represents state of a channel partner link.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum ChannelPartnerLinkState {
-    /// Not used.
-    Unspecified = 0,
-    /// An invitation has been sent to the reseller to create a channel partner
-    /// link.
-    Invited = 1,
-    /// Status when the reseller is active.
-    Active = 2,
-    /// Status when the reseller has been revoked by the distributor.
-    Revoked = 3,
-    /// Status when the reseller is suspended by Google or distributor.
-    Suspended = 4,
-}
 /// Entity representing a customer of a reseller or distributor.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Customer {
@@ -938,132 +909,65 @@ pub struct ContactInfo {
     #[prost(string, tag="7")]
     pub phone: ::prost::alloc::string::String,
 }
-/// Configuration for how a reseller will reprice a Customer.
+/// Entity representing a link between distributors and their indirect
+/// resellers in an n-tier resale channel.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CustomerRepricingConfig {
-    /// Output only. Resource name of the CustomerRepricingConfig.
-    /// Format:
-    /// accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}.
+pub struct ChannelPartnerLink {
+    /// Output only. Resource name for the channel partner link, in the format
+    /// accounts/{account_id}/channelPartnerLinks/{id}.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Required. The configuration for bill modifications made by a reseller before
-    /// sending it to customers.
-    #[prost(message, optional, tag="2")]
-    pub repricing_config: ::core::option::Option<RepricingConfig>,
-    /// Output only. Timestamp of an update to the repricing rule. If `update_time` is after
-    /// \[RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month\] then it indicates this was set
-    /// mid-month.
-    #[prost(message, optional, tag="3")]
+    /// Required. Cloud Identity ID of the linked reseller.
+    #[prost(string, tag="2")]
+    pub reseller_cloud_identity_id: ::prost::alloc::string::String,
+    /// Required. State of the channel partner link.
+    #[prost(enumeration="ChannelPartnerLinkState", tag="3")]
+    pub link_state: i32,
+    /// Output only. URI of the web page where partner accepts the link invitation.
+    #[prost(string, tag="4")]
+    pub invite_link_uri: ::prost::alloc::string::String,
+    /// Output only. Timestamp of when the channel partner link is created.
+    #[prost(message, optional, tag="5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Timestamp of when the channel partner link is updated.
+    #[prost(message, optional, tag="6")]
     pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Public identifier that a customer must use to generate a transfer token
+    /// to move to this distributor-reseller combination.
+    #[prost(string, tag="7")]
+    pub public_id: ::prost::alloc::string::String,
+    /// Output only. Cloud Identity info of the channel partner (IR).
+    #[prost(message, optional, tag="8")]
+    pub channel_partner_cloud_identity_info: ::core::option::Option<CloudIdentityInfo>,
 }
-/// Configuration for how a distributor will rebill a channel partner
-/// (also known as a distributor-authorized reseller).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ChannelPartnerRepricingConfig {
-    /// Output only. Resource name of the ChannelPartnerRepricingConfig.
-    /// Format:
-    /// accounts/{account_id}/channelPartnerLinks/{channel_partner_id}/channelPartnerRepricingConfigs/{id}.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The configuration for bill modifications made by a reseller before
-    /// sending it to ChannelPartner.
-    #[prost(message, optional, tag="2")]
-    pub repricing_config: ::core::option::Option<RepricingConfig>,
-    /// Output only. Timestamp of an update to the repricing rule. If `update_time` is after
-    /// \[RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month\] then it indicates this was set
-    /// mid-month.
-    #[prost(message, optional, tag="3")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Configuration for repricing a Google bill over a period of time.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RepricingConfig {
-    /// Required. The YearMonth when these adjustments activate. The Day field needs to be
-    /// "0" since we only accept YearMonth repricing boundaries.
-    #[prost(message, optional, tag="1")]
-    pub effective_invoice_month: ::core::option::Option<super::super::super::r#type::Date>,
-    /// Required. Information about the adjustment.
-    #[prost(message, optional, tag="2")]
-    pub adjustment: ::core::option::Option<RepricingAdjustment>,
-    /// Required. The \[RebillingBasis][google.cloud.channel.v1.RebillingBasis\] to use for this bill. Specifies the relative cost
-    /// based on repricing costs you will apply.
-    #[prost(enumeration="RebillingBasis", tag="3")]
-    pub rebilling_basis: i32,
-    /// Required. Defines the granularity for repricing.
-    #[prost(oneof="repricing_config::Granularity", tags="4, 5")]
-    pub granularity: ::core::option::Option<repricing_config::Granularity>,
-}
-/// Nested message and enum types in `RepricingConfig`.
-pub mod repricing_config {
-    /// Applies the repricing configuration at the entitlement level.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct EntitlementGranularity {
-        /// Resource name of the entitlement.
-        /// Format:
-        /// accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
-        #[prost(string, tag="1")]
-        pub entitlement: ::prost::alloc::string::String,
-    }
-    /// Applies the repricing configuration at the channel partner level.
-    /// The channel partner value is derived from the resource name. Takes an
-    /// empty json object.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ChannelPartnerGranularity {
-    }
-    /// Required. Defines the granularity for repricing.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Granularity {
-        /// Applies the repricing configuration at the entitlement level. This is
-        /// the only supported value for CustomerRepricingConfig.
-        #[prost(message, tag="4")]
-        EntitlementGranularity(EntitlementGranularity),
-        /// Applies the repricing configuration at the channel partner level.
-        /// This is the only supported value for ChannelPartnerRepricingConfig.
-        #[prost(message, tag="5")]
-        ChannelPartnerGranularity(ChannelPartnerGranularity),
-    }
-}
-/// A type that represents the various adjustments you can apply to a bill.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RepricingAdjustment {
-    /// A oneof that represents the different types for this adjustment.
-    #[prost(oneof="repricing_adjustment::Adjustment", tags="2")]
-    pub adjustment: ::core::option::Option<repricing_adjustment::Adjustment>,
-}
-/// Nested message and enum types in `RepricingAdjustment`.
-pub mod repricing_adjustment {
-    /// A oneof that represents the different types for this adjustment.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Adjustment {
-        /// Flat markup or markdown on an entire bill.
-        #[prost(message, tag="2")]
-        PercentageAdjustment(super::PercentageAdjustment),
-    }
-}
-/// An adjustment that applies a flat markup or markdown to an entire bill.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PercentageAdjustment {
-    /// The percentage of the bill to adjust.
-    /// For example:
-    /// Mark down by 1% => "-1.00"
-    /// Mark up by 1%   => "1.00"
-    /// Pass-Through    => "0.00"
-    #[prost(message, optional, tag="2")]
-    pub percentage: ::core::option::Option<super::super::super::r#type::Decimal>,
-}
-/// Specifies the different costs that the modified bill can be based on.
+/// The level of granularity the \[ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink\] will display.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-pub enum RebillingBasis {
+pub enum ChannelPartnerLinkView {
+    /// The default / unset value.
+    /// The API will default to the BASIC view.
+    Unspecified = 0,
+    /// Includes all fields except the
+    /// \[ChannelPartnerLink.channel_partner_cloud_identity_info][google.cloud.channel.v1.ChannelPartnerLink.channel_partner_cloud_identity_info\].
+    Basic = 1,
+    /// Includes all fields.
+    Full = 2,
+}
+/// ChannelPartnerLinkState represents state of a channel partner link.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ChannelPartnerLinkState {
     /// Not used.
     Unspecified = 0,
-    /// Use the list cost, also known as the MSRP.
-    CostAtList = 1,
-    /// Pass through all discounts except the Reseller Program Discount. If this is
-    /// the default cost base and no adjustments are specified, the output cost
-    /// will be exactly what the customer would see if they viewed the bill in the
-    /// Google Cloud Console.
-    DirectCustomerCost = 2,
+    /// An invitation has been sent to the reseller to create a channel partner
+    /// link.
+    Invited = 1,
+    /// Status when the reseller is active.
+    Active = 2,
+    /// Status when the reseller has been revoked by the distributor.
+    Revoked = 3,
+    /// Status when the reseller is suspended by Google or distributor.
+    Suspended = 4,
 }
 /// Request message for \[CloudChannelService.CheckCloudIdentityAccountsExist][google.cloud.channel.v1.CloudChannelService.CheckCloudIdentityAccountsExist\].
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4102,6 +4006,102 @@ pub mod cloud_channel_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+    }
+}
+/// Represents Pub/Sub message content describing customer update.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CustomerEvent {
+    /// Resource name of the customer.
+    /// Format: accounts/{account_id}/customers/{customer_id}
+    #[prost(string, tag="1")]
+    pub customer: ::prost::alloc::string::String,
+    /// Type of event which happened on the customer.
+    #[prost(enumeration="customer_event::Type", tag="2")]
+    pub event_type: i32,
+}
+/// Nested message and enum types in `CustomerEvent`.
+pub mod customer_event {
+    /// Type of customer event.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// Not used.
+        Unspecified = 0,
+        /// Primary domain for customer was changed.
+        PrimaryDomainChanged = 1,
+        /// Primary domain of the customer has been verified.
+        PrimaryDomainVerified = 2,
+    }
+}
+/// Represents Pub/Sub message content describing entitlement update.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EntitlementEvent {
+    /// Resource name of an entitlement of the form:
+    /// accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
+    #[prost(string, tag="1")]
+    pub entitlement: ::prost::alloc::string::String,
+    /// Type of event which happened on the entitlement.
+    #[prost(enumeration="entitlement_event::Type", tag="2")]
+    pub event_type: i32,
+}
+/// Nested message and enum types in `EntitlementEvent`.
+pub mod entitlement_event {
+    /// Type of entitlement event.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// Not used.
+        Unspecified = 0,
+        /// A new entitlement was created.
+        Created = 1,
+        /// The offer type associated with an entitlement was changed.
+        /// This is not triggered if an entitlement converts from a commit offer to a
+        /// flexible offer as part of a renewal.
+        PricePlanSwitched = 3,
+        /// Annual commitment for a commit plan was changed.
+        CommitmentChanged = 4,
+        /// An annual entitlement was renewed.
+        Renewed = 5,
+        /// Entitlement was suspended.
+        Suspended = 6,
+        /// Entitlement was unsuspended.
+        Activated = 7,
+        /// Entitlement was cancelled.
+        Cancelled = 8,
+        /// Entitlement was upgraded or downgraded (e.g. from Google Workspace
+        /// Business Standard to Google Workspace Business Plus).
+        SkuChanged = 9,
+        /// The renewal settings of an entitlement has changed.
+        RenewalSettingChanged = 10,
+        /// Paid service has started on trial entitlement.
+        PaidServiceStarted = 11,
+        /// License was assigned to or revoked from a user.
+        LicenseAssignmentChanged = 12,
+        /// License cap was changed for the entitlement.
+        LicenseCapChanged = 13,
+    }
+}
+/// Represents information which resellers will get as part of notification from
+/// Pub/Sub.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SubscriberEvent {
+    /// Specifies the Pub/Sub event provided to the partners.
+    /// This is a required field.
+    #[prost(oneof="subscriber_event::Event", tags="1, 2")]
+    pub event: ::core::option::Option<subscriber_event::Event>,
+}
+/// Nested message and enum types in `SubscriberEvent`.
+pub mod subscriber_event {
+    /// Specifies the Pub/Sub event provided to the partners.
+    /// This is a required field.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Event {
+        /// Customer event sent as part of Pub/Sub event to partners.
+        #[prost(message, tag="1")]
+        CustomerEvent(super::CustomerEvent),
+        /// Entitlement event sent as part of Pub/Sub event to partners.
+        #[prost(message, tag="2")]
+        EntitlementEvent(super::EntitlementEvent),
     }
 }
 /// Provides contextual information about a \[google.longrunning.Operation][google.longrunning.Operation\].

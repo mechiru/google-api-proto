@@ -1,276 +1,3 @@
-/// Describes a shell-style task to execute, suitable for providing as the Bots
-/// interface's `Lease.payload` field.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CommandTask {
-    /// The inputs to the task.
-    #[prost(message, optional, tag="1")]
-    pub inputs: ::core::option::Option<command_task::Inputs>,
-    /// The expected outputs from the task.
-    #[prost(message, optional, tag="4")]
-    pub expected_outputs: ::core::option::Option<command_task::Outputs>,
-    /// The timeouts of this task.
-    #[prost(message, optional, tag="5")]
-    pub timeouts: ::core::option::Option<command_task::Timeouts>,
-}
-/// Nested message and enum types in `CommandTask`.
-pub mod command_task {
-    /// Describes the inputs to a shell-style task.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Inputs {
-        /// The command itself to run (e.g., argv).
-        ///
-        /// This field should be passed directly to the underlying operating system,
-        /// and so it must be sensible to that operating system. For example, on
-        /// Windows, the first argument might be "C:\Windows\System32\ping.exe" -
-        /// that is, using drive letters and backslashes. A command for a *nix
-        /// system, on the other hand, would use forward slashes.
-        ///
-        /// All other fields in the RWAPI must consistently use forward slashes,
-        /// since those fields may be interpretted by both the service and the bot.
-        #[prost(string, repeated, tag="1")]
-        pub arguments: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// The input filesystem to be set up prior to the task beginning. The
-        /// contents should be a repeated set of FileMetadata messages though other
-        /// formats are allowed if better for the implementation (eg, a LUCI-style
-        /// .isolated file).
-        ///
-        /// This field is repeated since implementations might want to cache the
-        /// metadata, in which case it may be useful to break up portions of the
-        /// filesystem that change frequently (eg, specific input files) from those
-        /// that don't (eg, standard header files).
-        #[prost(message, repeated, tag="2")]
-        pub files: ::prost::alloc::vec::Vec<super::Digest>,
-        /// Inline contents for blobs expected to be needed by the bot to execute the
-        /// task. For example, contents of entries in `files` or blobs that are
-        /// indirectly referenced by an entry there.
-        ///
-        /// The bot should check against this list before downloading required task
-        /// inputs to reduce the number of communications between itself and the
-        /// remote CAS server.
-        #[prost(message, repeated, tag="4")]
-        pub inline_blobs: ::prost::alloc::vec::Vec<super::Blob>,
-        /// All environment variables required by the task.
-        #[prost(message, repeated, tag="3")]
-        pub environment_variables: ::prost::alloc::vec::Vec<inputs::EnvironmentVariable>,
-        /// Directory from which a command is executed. It is a relative directory
-        /// with respect to the bot's working directory (i.e., "./"). If it is
-        /// non-empty, then it must exist under "./". Otherwise, "./" will be used.
-        #[prost(string, tag="5")]
-        pub working_directory: ::prost::alloc::string::String,
-    }
-    /// Nested message and enum types in `Inputs`.
-    pub mod inputs {
-        /// An environment variable required by this task.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct EnvironmentVariable {
-            /// The envvar name.
-            #[prost(string, tag="1")]
-            pub name: ::prost::alloc::string::String,
-            /// The envvar value.
-            #[prost(string, tag="2")]
-            pub value: ::prost::alloc::string::String,
-        }
-    }
-    /// Describes the expected outputs of the command.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Outputs {
-        /// A list of expected files, relative to the execution root. All paths
-        /// MUST be delimited by forward slashes.
-        #[prost(string, repeated, tag="1")]
-        pub files: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// A list of expected directories, relative to the execution root. All paths
-        /// MUST be delimited by forward slashes.
-        #[prost(string, repeated, tag="2")]
-        pub directories: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// The destination to which any stdout should be sent. The method by which
-        /// the bot should send the stream contents to that destination is not
-        /// defined in this API. As examples, the destination could be a file
-        /// referenced in the `files` field in this message, or it could be a URI
-        /// that must be written via the ByteStream API.
-        #[prost(string, tag="3")]
-        pub stdout_destination: ::prost::alloc::string::String,
-        /// The destination to which any stderr should be sent. The method by which
-        /// the bot should send the stream contents to that destination is not
-        /// defined in this API. As examples, the destination could be a file
-        /// referenced in the `files` field in this message, or it could be a URI
-        /// that must be written via the ByteStream API.
-        #[prost(string, tag="4")]
-        pub stderr_destination: ::prost::alloc::string::String,
-    }
-    /// Describes the timeouts associated with this task.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Timeouts {
-        /// This specifies the maximum time that the task can run, excluding the
-        /// time required to download inputs or upload outputs. That is, the worker
-        /// will terminate the task if it runs longer than this.
-        #[prost(message, optional, tag="1")]
-        pub execution: ::core::option::Option<::prost_types::Duration>,
-        /// This specifies the maximum amount of time the task can be idle - that is,
-        /// go without generating some output in either stdout or stderr. If the
-        /// process is silent for more than the specified time, the worker will
-        /// terminate the task.
-        #[prost(message, optional, tag="2")]
-        pub idle: ::core::option::Option<::prost_types::Duration>,
-        /// If the execution or IO timeouts are exceeded, the worker will try to
-        /// gracefully terminate the task and return any existing logs. However,
-        /// tasks may be hard-frozen in which case this process will fail. This
-        /// timeout specifies how long to wait for a terminated task to shut down
-        /// gracefully (e.g. via SIGTERM) before we bring down the hammer (e.g.
-        /// SIGKILL on *nix, CTRL_BREAK_EVENT on Windows).
-        #[prost(message, optional, tag="3")]
-        pub shutdown: ::core::option::Option<::prost_types::Duration>,
-    }
-}
-/// DEPRECATED - use CommandResult instead.
-/// Describes the actual outputs from the task.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CommandOutputs {
-    /// exit_code is only fully reliable if the status' code is OK. If the task
-    /// exceeded its deadline or was cancelled, the process may still produce an
-    /// exit code as it is cancelled, and this will be populated, but a successful
-    /// (zero) is unlikely to be correct unless the status code is OK.
-    #[prost(int32, tag="1")]
-    pub exit_code: i32,
-    /// The output files. The blob referenced by the digest should contain
-    /// one of the following (implementation-dependent):
-    ///    * A marshalled DirectoryMetadata of the returned filesystem
-    ///    * A LUCI-style .isolated file
-    #[prost(message, optional, tag="2")]
-    pub outputs: ::core::option::Option<Digest>,
-}
-/// DEPRECATED - use CommandResult instead.
-/// Can be used as part of CompleteRequest.metadata, or are part of a more
-/// sophisticated message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CommandOverhead {
-    /// The elapsed time between calling Accept and Complete. The server will also
-    /// have its own idea of what this should be, but this excludes the overhead of
-    /// the RPCs and the bot response time.
-    #[prost(message, optional, tag="1")]
-    pub duration: ::core::option::Option<::prost_types::Duration>,
-    /// The amount of time *not* spent executing the command (ie
-    /// uploading/downloading files).
-    #[prost(message, optional, tag="2")]
-    pub overhead: ::core::option::Option<::prost_types::Duration>,
-}
-/// All information about the execution of a command, suitable for providing as
-/// the Bots interface's `Lease.result` field.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CommandResult {
-    /// An overall status for the command. For example, if the command timed out,
-    /// this might have a code of DEADLINE_EXCEEDED; if it was killed by the OS for
-    /// memory exhaustion, it might have a code of RESOURCE_EXHAUSTED.
-    #[prost(message, optional, tag="1")]
-    pub status: ::core::option::Option<super::super::super::rpc::Status>,
-    /// The exit code of the process. An exit code of "0" should only be trusted if
-    /// `status` has a code of OK (otherwise it may simply be unset).
-    #[prost(int32, tag="2")]
-    pub exit_code: i32,
-    /// The output files. The blob referenced by the digest should contain
-    /// one of the following (implementation-dependent):
-    ///    * A marshalled DirectoryMetadata of the returned filesystem
-    ///    * A LUCI-style .isolated file
-    #[prost(message, optional, tag="3")]
-    pub outputs: ::core::option::Option<Digest>,
-    /// The elapsed time between calling Accept and Complete. The server will also
-    /// have its own idea of what this should be, but this excludes the overhead of
-    /// the RPCs and the bot response time.
-    #[deprecated]
-    #[prost(message, optional, tag="4")]
-    pub duration: ::core::option::Option<::prost_types::Duration>,
-    /// The amount of time *not* spent executing the command (ie
-    /// uploading/downloading files).
-    #[deprecated]
-    #[prost(message, optional, tag="5")]
-    pub overhead: ::core::option::Option<::prost_types::Duration>,
-    /// Implementation-dependent metadata about the task. Both servers and bots
-    /// may define messages which can be encoded here; bots are free to provide
-    /// metadata in multiple formats, and servers are free to choose one or more
-    /// of the values to process and ignore others. In particular, it is *not*
-    /// considered an error for the bot to provide the server with a field that it
-    /// doesn't know about.
-    #[prost(message, repeated, tag="6")]
-    pub metadata: ::prost::alloc::vec::Vec<::prost_types::Any>,
-}
-/// The metadata for a file. Similar to the equivalent message in the Remote
-/// Execution API.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FileMetadata {
-    /// The path of this file. If this message is part of the
-    /// CommandOutputs.outputs fields, the path is relative to the execution root
-    /// and must correspond to an entry in CommandTask.outputs.files. If this
-    /// message is part of a Directory message, then the path is relative to the
-    /// root of that directory. All paths MUST be delimited by forward slashes.
-    #[prost(string, tag="1")]
-    pub path: ::prost::alloc::string::String,
-    /// A pointer to the contents of the file. The method by which a client
-    /// retrieves the contents from a CAS system is not defined here.
-    #[prost(message, optional, tag="2")]
-    pub digest: ::core::option::Option<Digest>,
-    /// If the file is small enough, its contents may also or alternatively be
-    /// listed here.
-    #[prost(bytes="bytes", tag="3")]
-    pub contents: ::prost::bytes::Bytes,
-    /// Properties of the file
-    #[prost(bool, tag="4")]
-    pub is_executable: bool,
-}
-/// The metadata for a directory. Similar to the equivalent message in the Remote
-/// Execution API.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DirectoryMetadata {
-    /// The path of the directory, as in
-    /// \[FileMetadata.path][google.devtools.remoteworkers.v1test2.FileMetadata.path\].
-    #[prost(string, tag="1")]
-    pub path: ::prost::alloc::string::String,
-    /// A pointer to the contents of the directory, in the form of a marshalled
-    /// Directory message.
-    #[prost(message, optional, tag="2")]
-    pub digest: ::core::option::Option<Digest>,
-}
-/// The CommandTask and CommandResult messages assume the existence of a service
-/// that can serve blobs of content, identified by a hash and size known as a
-/// "digest." The method by which these blobs may be retrieved is not specified
-/// here, but a model implementation is in the Remote Execution API's
-/// "ContentAddressibleStorage" interface.
-///
-/// In the context of the RWAPI, a Digest will virtually always refer to the
-/// contents of a file or a directory. The latter is represented by the
-/// byte-encoded Directory message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Digest {
-    /// A string-encoded hash (eg "1a2b3c", not the byte array [0x1a, 0x2b, 0x3c])
-    /// using an implementation-defined hash algorithm (eg SHA-256).
-    #[prost(string, tag="1")]
-    pub hash: ::prost::alloc::string::String,
-    /// The size of the contents. While this is not strictly required as part of an
-    /// identifier (after all, any given hash will have exactly one canonical
-    /// size), it's useful in almost all cases when one might want to send or
-    /// retrieve blobs of content and is included here for this reason.
-    #[prost(int64, tag="2")]
-    pub size_bytes: i64,
-}
-/// Describes a blob of binary content with its digest.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Blob {
-    /// The digest of the blob. This should be verified by the receiver.
-    #[prost(message, optional, tag="1")]
-    pub digest: ::core::option::Option<Digest>,
-    /// The contents of the blob.
-    #[prost(bytes="bytes", tag="2")]
-    pub contents: ::prost::bytes::Bytes,
-}
-/// The contents of a directory. Similar to the equivalent message in the Remote
-/// Execution API.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Directory {
-    /// The files in this directory
-    #[prost(message, repeated, tag="1")]
-    pub files: ::prost::alloc::vec::Vec<FileMetadata>,
-    /// Any subdirectories
-    #[prost(message, repeated, tag="2")]
-    pub directories: ::prost::alloc::vec::Vec<DirectoryMetadata>,
-}
 /// Describes a worker, which is a list of one or more devices and the
 /// connections between them. A device could be a computer, a phone, or even an
 /// accelerator like a GPU; it's up to the farm administrator to decide how to
@@ -797,4 +524,277 @@ pub mod bots_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
+}
+/// Describes a shell-style task to execute, suitable for providing as the Bots
+/// interface's `Lease.payload` field.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CommandTask {
+    /// The inputs to the task.
+    #[prost(message, optional, tag="1")]
+    pub inputs: ::core::option::Option<command_task::Inputs>,
+    /// The expected outputs from the task.
+    #[prost(message, optional, tag="4")]
+    pub expected_outputs: ::core::option::Option<command_task::Outputs>,
+    /// The timeouts of this task.
+    #[prost(message, optional, tag="5")]
+    pub timeouts: ::core::option::Option<command_task::Timeouts>,
+}
+/// Nested message and enum types in `CommandTask`.
+pub mod command_task {
+    /// Describes the inputs to a shell-style task.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Inputs {
+        /// The command itself to run (e.g., argv).
+        ///
+        /// This field should be passed directly to the underlying operating system,
+        /// and so it must be sensible to that operating system. For example, on
+        /// Windows, the first argument might be "C:\Windows\System32\ping.exe" -
+        /// that is, using drive letters and backslashes. A command for a *nix
+        /// system, on the other hand, would use forward slashes.
+        ///
+        /// All other fields in the RWAPI must consistently use forward slashes,
+        /// since those fields may be interpretted by both the service and the bot.
+        #[prost(string, repeated, tag="1")]
+        pub arguments: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// The input filesystem to be set up prior to the task beginning. The
+        /// contents should be a repeated set of FileMetadata messages though other
+        /// formats are allowed if better for the implementation (eg, a LUCI-style
+        /// .isolated file).
+        ///
+        /// This field is repeated since implementations might want to cache the
+        /// metadata, in which case it may be useful to break up portions of the
+        /// filesystem that change frequently (eg, specific input files) from those
+        /// that don't (eg, standard header files).
+        #[prost(message, repeated, tag="2")]
+        pub files: ::prost::alloc::vec::Vec<super::Digest>,
+        /// Inline contents for blobs expected to be needed by the bot to execute the
+        /// task. For example, contents of entries in `files` or blobs that are
+        /// indirectly referenced by an entry there.
+        ///
+        /// The bot should check against this list before downloading required task
+        /// inputs to reduce the number of communications between itself and the
+        /// remote CAS server.
+        #[prost(message, repeated, tag="4")]
+        pub inline_blobs: ::prost::alloc::vec::Vec<super::Blob>,
+        /// All environment variables required by the task.
+        #[prost(message, repeated, tag="3")]
+        pub environment_variables: ::prost::alloc::vec::Vec<inputs::EnvironmentVariable>,
+        /// Directory from which a command is executed. It is a relative directory
+        /// with respect to the bot's working directory (i.e., "./"). If it is
+        /// non-empty, then it must exist under "./". Otherwise, "./" will be used.
+        #[prost(string, tag="5")]
+        pub working_directory: ::prost::alloc::string::String,
+    }
+    /// Nested message and enum types in `Inputs`.
+    pub mod inputs {
+        /// An environment variable required by this task.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct EnvironmentVariable {
+            /// The envvar name.
+            #[prost(string, tag="1")]
+            pub name: ::prost::alloc::string::String,
+            /// The envvar value.
+            #[prost(string, tag="2")]
+            pub value: ::prost::alloc::string::String,
+        }
+    }
+    /// Describes the expected outputs of the command.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Outputs {
+        /// A list of expected files, relative to the execution root. All paths
+        /// MUST be delimited by forward slashes.
+        #[prost(string, repeated, tag="1")]
+        pub files: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// A list of expected directories, relative to the execution root. All paths
+        /// MUST be delimited by forward slashes.
+        #[prost(string, repeated, tag="2")]
+        pub directories: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// The destination to which any stdout should be sent. The method by which
+        /// the bot should send the stream contents to that destination is not
+        /// defined in this API. As examples, the destination could be a file
+        /// referenced in the `files` field in this message, or it could be a URI
+        /// that must be written via the ByteStream API.
+        #[prost(string, tag="3")]
+        pub stdout_destination: ::prost::alloc::string::String,
+        /// The destination to which any stderr should be sent. The method by which
+        /// the bot should send the stream contents to that destination is not
+        /// defined in this API. As examples, the destination could be a file
+        /// referenced in the `files` field in this message, or it could be a URI
+        /// that must be written via the ByteStream API.
+        #[prost(string, tag="4")]
+        pub stderr_destination: ::prost::alloc::string::String,
+    }
+    /// Describes the timeouts associated with this task.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Timeouts {
+        /// This specifies the maximum time that the task can run, excluding the
+        /// time required to download inputs or upload outputs. That is, the worker
+        /// will terminate the task if it runs longer than this.
+        #[prost(message, optional, tag="1")]
+        pub execution: ::core::option::Option<::prost_types::Duration>,
+        /// This specifies the maximum amount of time the task can be idle - that is,
+        /// go without generating some output in either stdout or stderr. If the
+        /// process is silent for more than the specified time, the worker will
+        /// terminate the task.
+        #[prost(message, optional, tag="2")]
+        pub idle: ::core::option::Option<::prost_types::Duration>,
+        /// If the execution or IO timeouts are exceeded, the worker will try to
+        /// gracefully terminate the task and return any existing logs. However,
+        /// tasks may be hard-frozen in which case this process will fail. This
+        /// timeout specifies how long to wait for a terminated task to shut down
+        /// gracefully (e.g. via SIGTERM) before we bring down the hammer (e.g.
+        /// SIGKILL on *nix, CTRL_BREAK_EVENT on Windows).
+        #[prost(message, optional, tag="3")]
+        pub shutdown: ::core::option::Option<::prost_types::Duration>,
+    }
+}
+/// DEPRECATED - use CommandResult instead.
+/// Describes the actual outputs from the task.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CommandOutputs {
+    /// exit_code is only fully reliable if the status' code is OK. If the task
+    /// exceeded its deadline or was cancelled, the process may still produce an
+    /// exit code as it is cancelled, and this will be populated, but a successful
+    /// (zero) is unlikely to be correct unless the status code is OK.
+    #[prost(int32, tag="1")]
+    pub exit_code: i32,
+    /// The output files. The blob referenced by the digest should contain
+    /// one of the following (implementation-dependent):
+    ///    * A marshalled DirectoryMetadata of the returned filesystem
+    ///    * A LUCI-style .isolated file
+    #[prost(message, optional, tag="2")]
+    pub outputs: ::core::option::Option<Digest>,
+}
+/// DEPRECATED - use CommandResult instead.
+/// Can be used as part of CompleteRequest.metadata, or are part of a more
+/// sophisticated message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CommandOverhead {
+    /// The elapsed time between calling Accept and Complete. The server will also
+    /// have its own idea of what this should be, but this excludes the overhead of
+    /// the RPCs and the bot response time.
+    #[prost(message, optional, tag="1")]
+    pub duration: ::core::option::Option<::prost_types::Duration>,
+    /// The amount of time *not* spent executing the command (ie
+    /// uploading/downloading files).
+    #[prost(message, optional, tag="2")]
+    pub overhead: ::core::option::Option<::prost_types::Duration>,
+}
+/// All information about the execution of a command, suitable for providing as
+/// the Bots interface's `Lease.result` field.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CommandResult {
+    /// An overall status for the command. For example, if the command timed out,
+    /// this might have a code of DEADLINE_EXCEEDED; if it was killed by the OS for
+    /// memory exhaustion, it might have a code of RESOURCE_EXHAUSTED.
+    #[prost(message, optional, tag="1")]
+    pub status: ::core::option::Option<super::super::super::rpc::Status>,
+    /// The exit code of the process. An exit code of "0" should only be trusted if
+    /// `status` has a code of OK (otherwise it may simply be unset).
+    #[prost(int32, tag="2")]
+    pub exit_code: i32,
+    /// The output files. The blob referenced by the digest should contain
+    /// one of the following (implementation-dependent):
+    ///    * A marshalled DirectoryMetadata of the returned filesystem
+    ///    * A LUCI-style .isolated file
+    #[prost(message, optional, tag="3")]
+    pub outputs: ::core::option::Option<Digest>,
+    /// The elapsed time between calling Accept and Complete. The server will also
+    /// have its own idea of what this should be, but this excludes the overhead of
+    /// the RPCs and the bot response time.
+    #[deprecated]
+    #[prost(message, optional, tag="4")]
+    pub duration: ::core::option::Option<::prost_types::Duration>,
+    /// The amount of time *not* spent executing the command (ie
+    /// uploading/downloading files).
+    #[deprecated]
+    #[prost(message, optional, tag="5")]
+    pub overhead: ::core::option::Option<::prost_types::Duration>,
+    /// Implementation-dependent metadata about the task. Both servers and bots
+    /// may define messages which can be encoded here; bots are free to provide
+    /// metadata in multiple formats, and servers are free to choose one or more
+    /// of the values to process and ignore others. In particular, it is *not*
+    /// considered an error for the bot to provide the server with a field that it
+    /// doesn't know about.
+    #[prost(message, repeated, tag="6")]
+    pub metadata: ::prost::alloc::vec::Vec<::prost_types::Any>,
+}
+/// The metadata for a file. Similar to the equivalent message in the Remote
+/// Execution API.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FileMetadata {
+    /// The path of this file. If this message is part of the
+    /// CommandOutputs.outputs fields, the path is relative to the execution root
+    /// and must correspond to an entry in CommandTask.outputs.files. If this
+    /// message is part of a Directory message, then the path is relative to the
+    /// root of that directory. All paths MUST be delimited by forward slashes.
+    #[prost(string, tag="1")]
+    pub path: ::prost::alloc::string::String,
+    /// A pointer to the contents of the file. The method by which a client
+    /// retrieves the contents from a CAS system is not defined here.
+    #[prost(message, optional, tag="2")]
+    pub digest: ::core::option::Option<Digest>,
+    /// If the file is small enough, its contents may also or alternatively be
+    /// listed here.
+    #[prost(bytes="bytes", tag="3")]
+    pub contents: ::prost::bytes::Bytes,
+    /// Properties of the file
+    #[prost(bool, tag="4")]
+    pub is_executable: bool,
+}
+/// The metadata for a directory. Similar to the equivalent message in the Remote
+/// Execution API.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DirectoryMetadata {
+    /// The path of the directory, as in
+    /// \[FileMetadata.path][google.devtools.remoteworkers.v1test2.FileMetadata.path\].
+    #[prost(string, tag="1")]
+    pub path: ::prost::alloc::string::String,
+    /// A pointer to the contents of the directory, in the form of a marshalled
+    /// Directory message.
+    #[prost(message, optional, tag="2")]
+    pub digest: ::core::option::Option<Digest>,
+}
+/// The CommandTask and CommandResult messages assume the existence of a service
+/// that can serve blobs of content, identified by a hash and size known as a
+/// "digest." The method by which these blobs may be retrieved is not specified
+/// here, but a model implementation is in the Remote Execution API's
+/// "ContentAddressibleStorage" interface.
+///
+/// In the context of the RWAPI, a Digest will virtually always refer to the
+/// contents of a file or a directory. The latter is represented by the
+/// byte-encoded Directory message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Digest {
+    /// A string-encoded hash (eg "1a2b3c", not the byte array [0x1a, 0x2b, 0x3c])
+    /// using an implementation-defined hash algorithm (eg SHA-256).
+    #[prost(string, tag="1")]
+    pub hash: ::prost::alloc::string::String,
+    /// The size of the contents. While this is not strictly required as part of an
+    /// identifier (after all, any given hash will have exactly one canonical
+    /// size), it's useful in almost all cases when one might want to send or
+    /// retrieve blobs of content and is included here for this reason.
+    #[prost(int64, tag="2")]
+    pub size_bytes: i64,
+}
+/// Describes a blob of binary content with its digest.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Blob {
+    /// The digest of the blob. This should be verified by the receiver.
+    #[prost(message, optional, tag="1")]
+    pub digest: ::core::option::Option<Digest>,
+    /// The contents of the blob.
+    #[prost(bytes="bytes", tag="2")]
+    pub contents: ::prost::bytes::Bytes,
+}
+/// The contents of a directory. Similar to the equivalent message in the Remote
+/// Execution API.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Directory {
+    /// The files in this directory
+    #[prost(message, repeated, tag="1")]
+    pub files: ::prost::alloc::vec::Vec<FileMetadata>,
+    /// Any subdirectories
+    #[prost(message, repeated, tag="2")]
+    pub directories: ::prost::alloc::vec::Vec<DirectoryMetadata>,
 }

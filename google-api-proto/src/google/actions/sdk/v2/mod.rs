@@ -243,613 +243,19 @@ pub struct WaitingForUserInput {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EndConversation {
 }
-/// Contains a set of requirements that the client surface must support to invoke
-/// Actions in your project.
+/// Information about the encrypted OAuth client secret used in account linking
+/// flows (for AUTH_CODE grant type).
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SurfaceRequirements {
-    /// The minimum set of capabilities needed to invoke the Actions in your
-    /// project. If the surface is missing any of these, the Action will not be
-    /// triggered.
-    #[prost(message, repeated, tag="1")]
-    pub minimum_requirements: ::prost::alloc::vec::Vec<CapabilityRequirement>,
-}
-/// Represents a requirement about the availability of a given capability.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CapabilityRequirement {
-    /// The type of capability.
-    #[prost(enumeration="capability_requirement::SurfaceCapability", tag="1")]
-    pub capability: i32,
-}
-/// Nested message and enum types in `CapabilityRequirement`.
-pub mod capability_requirement {
-    /// Possible set of surface capabilities.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum SurfaceCapability {
-        /// Unknown / Unspecified.
-        Unspecified = 0,
-        /// Surface supports audio output.
-        AudioOutput = 1,
-        /// Surface supports screen/visual output.
-        ScreenOutput = 2,
-        /// Surface supports media response audio.
-        MediaResponseAudio = 3,
-        /// Surface supports web browsers.
-        WebBrowser = 4,
-        /// Surface supports account linking.
-        AccountLinking = 7,
-        /// Surface supports Interactive Canvas.
-        InteractiveCanvas = 8,
-        /// Surface supports home storage.
-        HomeStorage = 9,
-    }
-}
-/// Request for playing a round of the conversation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SendInteractionRequest {
-    /// Required. The project being tested, indicated by the Project ID.
-    /// Format: projects/{project}
-    #[prost(string, tag="1")]
-    pub project: ::prost::alloc::string::String,
-    /// Required. Input provided by the user.
-    #[prost(message, optional, tag="2")]
-    pub input: ::core::option::Option<UserInput>,
-    /// Required. Properties of the device used for interacting with the Action.
-    #[prost(message, optional, tag="3")]
-    pub device_properties: ::core::option::Option<DeviceProperties>,
-    /// Opaque token that must be passed as received from SendInteractionResponse
-    /// on the previous interaction. This can be left unset in order to start a new
-    /// conversation, either as the first interaction of a testing session or to
-    /// abandon a previous conversation and start a new one.
-    #[prost(string, tag="4")]
-    pub conversation_token: ::prost::alloc::string::String,
-}
-/// User input provided on a conversation round.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UserInput {
-    /// Content of the input sent by the user.
-    #[prost(string, tag="1")]
-    pub query: ::prost::alloc::string::String,
-    /// Type of the input.
-    #[prost(enumeration="user_input::InputType", tag="2")]
-    pub r#type: i32,
-}
-/// Nested message and enum types in `UserInput`.
-pub mod user_input {
-    /// Indicates the input source, typed query or voice query.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum InputType {
-        /// Unspecified input source.
-        Unspecified = 0,
-        /// Query from a GUI interaction.
-        Touch = 1,
-        /// Voice query.
-        Voice = 2,
-        /// Typed query.
-        Keyboard = 3,
-        /// The action was triggered by a URL link.
-        Url = 4,
-    }
-}
-/// Properties of device relevant to a conversation round.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeviceProperties {
-    /// Surface used for interacting with the Action.
-    #[prost(enumeration="device_properties::Surface", tag="1")]
-    pub surface: i32,
-    /// Device location such as latitude, longitude, and formatted address.
-    #[prost(message, optional, tag="2")]
-    pub location: ::core::option::Option<Location>,
-    /// Locale as set on the device.
-    /// The format should follow BCP 47: <https://tools.ietf.org/html/bcp47>
-    /// Examples: en, en-US, es-419 (more examples at
-    /// <https://tools.ietf.org/html/bcp47#appendix-A>).
-    #[prost(string, tag="3")]
-    pub locale: ::prost::alloc::string::String,
-    /// Time zone as set on the device.
-    /// The format should follow the IANA Time Zone Database, e.g.
-    /// "America/New_York": <https://www.iana.org/time-zones>
-    #[prost(string, tag="4")]
-    pub time_zone: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `DeviceProperties`.
-pub mod device_properties {
-    /// Possible surfaces used to interact with the Action.
-    /// Additional values may be included in the future.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Surface {
-        /// Default value. This value is unused.
-        Unspecified = 0,
-        /// Speaker (e.g. Google Home).
-        Speaker = 1,
-        /// Phone.
-        Phone = 2,
-        /// Allo Chat.
-        Allo = 3,
-        /// Smart Display Device.
-        SmartDisplay = 4,
-        /// KaiOS.
-        KaiOs = 5,
-    }
-}
-/// Container that represents a location.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Location {
-    /// Geo coordinates.
-    /// Requires the \[DEVICE_PRECISE_LOCATION\]
-    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] permission.
-    #[prost(message, optional, tag="1")]
-    pub coordinates: ::core::option::Option<super::super::super::r#type::LatLng>,
-    /// Display address, e.g., "1600 Amphitheatre Pkwy, Mountain View, CA 94043".
-    /// Requires the \[DEVICE_PRECISE_LOCATION\]
-    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] permission.
+pub struct AccountLinkingSecret {
+    /// Encrypted account linking client secret ciphertext.
+    #[prost(bytes="bytes", tag="1")]
+    pub encrypted_client_secret: ::prost::bytes::Bytes,
+    /// The version of the crypto key used to encrypt the account linking client
+    /// secret.
+    /// Note that this field is ignored in push, preview, and version creation
+    /// flows.
     #[prost(string, tag="2")]
-    pub formatted_address: ::prost::alloc::string::String,
-    /// Zip code.
-    /// Requires the \[DEVICE_PRECISE_LOCATION\]
-    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] or
-    /// \[DEVICE_COARSE_LOCATION\]
-    /// \[google.actions.v2.Permission.DEVICE_COARSE_LOCATION\] permission.
-    #[prost(string, tag="3")]
-    pub zip_code: ::prost::alloc::string::String,
-    /// City.
-    /// Requires the \[DEVICE_PRECISE_LOCATION\]
-    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] or
-    /// \[DEVICE_COARSE_LOCATION\]
-    /// \[google.actions.v2.Permission.DEVICE_COARSE_LOCATION\] permission.
-    #[prost(string, tag="4")]
-    pub city: ::prost::alloc::string::String,
-}
-/// Response to a round of the conversation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SendInteractionResponse {
-    /// Output provided to the user.
-    #[prost(message, optional, tag="1")]
-    pub output: ::core::option::Option<Output>,
-    /// Diagnostics information that explains how the request was handled.
-    #[prost(message, optional, tag="2")]
-    pub diagnostics: ::core::option::Option<Diagnostics>,
-    /// Opaque token to be set on SendInteractionRequest on the next RPC call in
-    /// order to continue the same conversation.
-    #[prost(string, tag="3")]
-    pub conversation_token: ::prost::alloc::string::String,
-}
-/// User-visible output to the conversation round.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Output {
-    /// Spoken response sent to user as a plain string.
-    #[prost(string, tag="1")]
-    pub text: ::prost::alloc::string::String,
-    /// Speech content produced by the Action. This may include markup elements
-    /// such as SSML.
-    #[prost(string, repeated, tag="2")]
-    pub speech: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Interactive Canvas content.
-    #[prost(message, optional, tag="3")]
-    pub canvas: ::core::option::Option<conversation::Canvas>,
-    /// State of the prompt at the end of the conversation round.
-    /// More information about the prompt:
-    /// <https://developers.google.com/assistant/conversational/prompts>
-    #[prost(message, optional, tag="4")]
-    pub actions_builder_prompt: ::core::option::Option<conversation::Prompt>,
-}
-/// Diagnostics information related to the conversation round.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Diagnostics {
-    /// List of events with details about processing of the conversation round
-    /// throughout the stages of the Actions Builder interaction model.
-    /// Populated for Actions Builder & Actions SDK apps only.
-    #[prost(message, repeated, tag="1")]
-    pub actions_builder_events: ::prost::alloc::vec::Vec<ExecutionEvent>,
-}
-/// Request for finding matching intents.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MatchIntentsRequest {
-    /// Required. The project being tested, indicated by the Project ID.
-    /// Format: projects/{project}
-    #[prost(string, tag="1")]
-    pub project: ::prost::alloc::string::String,
-    /// Required. User query as plain text.
-    #[prost(string, tag="2")]
-    pub query: ::prost::alloc::string::String,
-    /// Required. Locale to use to evaluate the query, such as "en".
-    /// The format should follow BCP 47: <https://tools.ietf.org/html/bcp47>
-    /// See the list of supported languages in
-    /// <https://developers.google.com/assistant/console/languages-locales>
-    #[prost(string, tag="3")]
-    pub locale: ::prost::alloc::string::String,
-}
-/// Response for finding matching intents.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MatchIntentsResponse {
-    /// Intents matched, ordered from most to least relevant. Only the first
-    /// 50 matches are returned.
-    #[prost(message, repeated, tag="1")]
-    pub matched_intents: ::prost::alloc::vec::Vec<conversation::Intent>,
-}
-/// Request for setting Web & App Activity preferences.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SetWebAndAppActivityControlRequest {
-    /// Whether the setting should be set to an enabled or disabled state.
-    #[prost(bool, tag="1")]
-    pub enabled: bool,
-}
-/// Generated client implementations.
-pub mod actions_testing_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// Actions Testing API which allows developers to run automated tests.
-    #[derive(Debug, Clone)]
-    pub struct ActionsTestingClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ActionsTestingClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ActionsTestingClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            ActionsTestingClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Plays one round of the conversation.
-        pub async fn send_interaction(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SendInteractionRequest>,
-        ) -> Result<tonic::Response<super::SendInteractionResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.actions.sdk.v2.ActionsTesting/SendInteraction",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Finds the intents that match a given query.
-        pub async fn match_intents(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MatchIntentsRequest>,
-        ) -> Result<tonic::Response<super::MatchIntentsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.actions.sdk.v2.ActionsTesting/MatchIntents",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Sets the Web & App Activity control on a service account.
-        ///
-        /// It is necessary to have this setting enabled in order to use call Actions.
-        /// The setting is originally disabled for service accounts, and it is
-        /// preserved until set to a different value. This means it only needs to be
-        /// enabled once per account (and not necessarily once per test), unless it is
-        /// later disabled.
-        ///
-        /// Returns an error if the caller is not a service account. User accounts can
-        /// change this setting via the Activity Controls page. See
-        /// https://support.google.com/websearch/answer/54068.
-        pub async fn set_web_and_app_activity_control(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SetWebAndAppActivityControlRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.actions.sdk.v2.ActionsTesting/SetWebAndAppActivityControl",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Metadata for different types of webhooks. If you're using
-/// `inlineCloudFunction`, your source code must be in a directory with the same
-/// name as the value for the `executeFunction` key.
-/// For example, a value of `my_webhook` for the`executeFunction` key would have
-/// a code structure like this:
-///  - `/webhooks/my_webhook.yaml`
-///  - `/webhooks/my_webhook/index.js`
-///  - `/webhooks/my_webhook/package.json`
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Webhook {
-    /// List of handlers for this webhook.
-    #[prost(message, repeated, tag="1")]
-    pub handlers: ::prost::alloc::vec::Vec<webhook::Handler>,
-    /// Only one webhook type is supported.
-    #[prost(oneof="webhook::WebhookType", tags="2, 3")]
-    pub webhook_type: ::core::option::Option<webhook::WebhookType>,
-}
-/// Nested message and enum types in `Webhook`.
-pub mod webhook {
-    /// Declares the name of the webhoook handler. A webhook can have
-    /// multiple handlers registered. These handlers can be called from multiple
-    /// places in your Actions project.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Handler {
-        /// Required. Name of the handler. Must be unique across all handlers the Actions
-        /// project. You can check the name of this handler to invoke the correct
-        /// function in your fulfillment source code.
-        #[prost(string, tag="1")]
-        pub name: ::prost::alloc::string::String,
-    }
-    /// REST endpoint to notify if you're not using the inline editor.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct HttpsEndpoint {
-        /// The HTTPS base URL for your fulfillment endpoint (HTTP is not supported).
-        /// Handler names are appended to the base URL path after a colon
-        /// (following the style guide in
-        /// <https://cloud.google.com/apis/design/custom_methods>).
-        /// For example a base URL of '<https://gactions.service.com/api'> would
-        /// receive requests with URL '<https://gactions.service.com/api:{method}'.>
-        #[prost(string, tag="1")]
-        pub base_url: ::prost::alloc::string::String,
-        /// Map of HTTP parameters to be included in the POST request.
-        #[prost(btree_map="string, string", tag="2")]
-        pub http_headers: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-        /// Version of the protocol used by the endpoint. This is the protocol shared
-        /// by all fulfillment types and not specific to Google fulfillment type.
-        #[prost(int32, tag="3")]
-        pub endpoint_api_version: i32,
-    }
-    /// Holds the metadata of an inline Cloud Function deployed from the
-    /// webhooks folder.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct InlineCloudFunction {
-        /// The name of the Cloud Function entry point. The value of this field
-        /// should match the name of the method exported from the source code.
-        #[prost(string, tag="1")]
-        pub execute_function: ::prost::alloc::string::String,
-    }
-    /// Only one webhook type is supported.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum WebhookType {
-        /// Custom webhook HTTPS endpoint.
-        #[prost(message, tag="2")]
-        HttpsEndpoint(HttpsEndpoint),
-        /// Metadata for cloud function deployed from code in the webhooks folder.
-        #[prost(message, tag="3")]
-        InlineCloudFunction(InlineCloudFunction),
-    }
-}
-/// Definition of version resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Version {
-    /// The unique identifier of the version in the following format.
-    /// `projects/{project}/versions/{version}`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The current state of the version.
-    #[prost(message, optional, tag="2")]
-    pub version_state: ::core::option::Option<version::VersionState>,
-    /// Email of the user who created this version.
-    #[prost(string, tag="3")]
-    pub creator: ::prost::alloc::string::String,
-    /// Timestamp of the last change to this version.
-    #[prost(message, optional, tag="4")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `Version`.
-pub mod version {
-    /// Represents the current state of the version.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct VersionState {
-        /// The current state of the version.
-        #[prost(enumeration="version_state::State", tag="1")]
-        pub state: i32,
-        /// User-friendly message for the current state of the version.
-        #[prost(string, tag="2")]
-        pub message: ::prost::alloc::string::String,
-    }
-    /// Nested message and enum types in `VersionState`.
-    pub mod version_state {
-        /// Enum indicating the states that a Version can take. This enum is not yet
-        /// frozen and values maybe added later.
-        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-        #[repr(i32)]
-        pub enum State {
-            /// Default value of State.
-            Unspecified = 0,
-            /// The version creation is in progress.
-            CreationInProgress = 1,
-            /// The version creation failed.
-            CreationFailed = 2,
-            /// The version has been successfully created.
-            Created = 3,
-            /// The version is under policy review (aka Approval).
-            ReviewInProgress = 4,
-            /// The version has been approved for policy review and can be deployed.
-            Approved = 5,
-            /// The version has been conditionally approved but is pending final
-            /// review. It may be rolled back if final review is denied.
-            ConditionallyApproved = 6,
-            /// The version has been denied for policy review.
-            Denied = 7,
-            /// The version is taken down as entire agent and all versions are taken
-            /// down.
-            UnderTakedown = 8,
-            /// The version has been deleted.
-            Deleted = 9,
-        }
-    }
-}
-/// Definition of release channel resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReleaseChannel {
-    /// The unique name of the release channel in the following format.
-    /// `projects/{project}/releaseChannels/{release_channel}`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Version currently deployed to this release channel in the following format:
-    /// `projects/{project}/versions/{version}`.
-    #[prost(string, tag="2")]
-    pub current_version: ::prost::alloc::string::String,
-    /// Version to be deployed to this release channel in the following format:
-    /// `projects/{project}/versions/{version}`.
-    #[prost(string, tag="3")]
-    pub pending_version: ::prost::alloc::string::String,
-}
-/// Wrapper for repeated data file. Repeated fields cannot exist in a oneof.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataFiles {
-    /// Multiple data files.
-    #[prost(message, repeated, tag="1")]
-    pub data_files: ::prost::alloc::vec::Vec<DataFile>,
-}
-/// Represents a single file which contains unstructured data. Examples include
-/// image files, audio files, and cloud function source code.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataFile {
-    /// Relative path of the data file from the project root in the SDK file
-    /// structure.
-    /// Allowed file paths:
-    ///     - Images: `resources/images/{multiple
-    ///     directories}?/{ImageName}.{extension}`
-    ///     - Audio: `resources/audio/{multiple
-    ///     directories}?/{AudioFileName}.{extension}`
-    ///     - Inline Cloud Function Code: `webhooks/{WebhookName}.zip`
-    /// Allowed extensions:
-    ///     - Images: `png`, `jpg`, `jpeg`
-    ///     - Audio: `mp3`, `mpeg`
-    ///     - Inline Cloud Functions: `zip`
-    #[prost(string, tag="1")]
-    pub file_path: ::prost::alloc::string::String,
-    /// Required. The content type of this asset. Example: `text/html`. The content
-    /// type must comply with the specification
-    /// (<http://www.w3.org/Protocols/rfc1341/4_Content-Type.html>).
-    /// Cloud functions must be in zip format and the content type should
-    /// be `application/zip;zip_type=cloud_function`. The zip_type parameter
-    /// indicates that the zip is for a cloud function.
-    #[prost(string, tag="2")]
-    pub content_type: ::prost::alloc::string::String,
-    /// Content of the data file. Examples would be raw bytes of images, audio
-    /// files, or cloud function zip format.
-    /// There is 10 MB strict limit on the payload size.
-    #[prost(bytes="bytes", tag="3")]
-    pub payload: ::prost::bytes::Bytes,
-}
-/// Styles applied to cards that are presented to users
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ThemeCustomization {
-    /// Background color of cards. Acts as a fallback if `background_image` is
-    /// not provided by developers or `background_image` doesn't fit for certain
-    /// surfaces.
-    /// Example usage: #FAFAFA
-    #[prost(string, tag="1")]
-    pub background_color: ::prost::alloc::string::String,
-    /// Primary theme color of the Action will be used to set text color of title,
-    /// action item background color for Actions on Google cards.
-    /// Example usage: #FAFAFA
-    #[prost(string, tag="2")]
-    pub primary_color: ::prost::alloc::string::String,
-    /// The font family that will be used for title of cards.
-    /// Supported fonts:
-    /// - Sans Serif
-    /// - Sans Serif Medium
-    /// - Sans Serif Bold
-    /// - Sans Serif Black
-    /// - Sans Serif Condensed
-    /// - Sans Serif Condensed Medium
-    /// - Serif
-    /// - Serif Bold
-    /// - Monospace
-    /// - Cursive
-    /// - Sans Serif Smallcaps
-    #[prost(string, tag="3")]
-    pub font_family: ::prost::alloc::string::String,
-    /// Border style of foreground image of cards. For example, can be applied on
-    /// the foreground image of a basic card or carousel card.
-    #[prost(enumeration="theme_customization::ImageCornerStyle", tag="4")]
-    pub image_corner_style: i32,
-    /// Landscape mode (minimum 1920x1200 pixels).
-    /// This should be specified as a reference to the corresponding image in the
-    /// `resources/images/` directory. Eg: `$resources.images.foo` (without the
-    /// extension) for image in `resources/images/foo.jpg`
-    /// When working on a project pulled from Console the Google managed url pulled
-    /// could be used.
-    #[prost(string, tag="5")]
-    pub landscape_background_image: ::prost::alloc::string::String,
-    /// Portrait mode (minimum 1200x1920 pixels).
-    /// This should be specified as a reference to the corresponding image in the
-    /// `resources/images/` directory. Eg: `$resources.images.foo` (without the
-    /// extension) for image in `resources/images/foo.jpg`
-    /// When working on a project pulled from Console the Google managed url pulled
-    /// could be used.
-    #[prost(string, tag="6")]
-    pub portrait_background_image: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `ThemeCustomization`.
-pub mod theme_customization {
-    /// Describes how the borders of images should be rendered.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ImageCornerStyle {
-        /// Undefined / Unspecified.
-        Unspecified = 0,
-        /// Round corner for image.
-        Curved = 1,
-        /// Rectangular corner for image.
-        Angled = 2,
-    }
+    pub encryption_key_version: ::prost::alloc::string::String,
 }
 /// Represents the list of Actions defined in a project.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -943,20 +349,6 @@ pub mod actions {
         #[prost(message, optional, tag="2")]
         pub engagement: ::core::option::Option<Engagement>,
     }
-}
-/// Information about the encrypted OAuth client secret used in account linking
-/// flows (for AUTH_CODE grant type).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AccountLinkingSecret {
-    /// Encrypted account linking client secret ciphertext.
-    #[prost(bytes="bytes", tag="1")]
-    pub encrypted_client_secret: ::prost::bytes::Bytes,
-    /// The version of the crypto key used to encrypt the account linking client
-    /// secret.
-    /// Note that this field is ignored in push, preview, and version creation
-    /// flows.
-    #[prost(string, tag="2")]
-    pub encryption_key_version: ::prost::alloc::string::String,
 }
 /// Contains information that's "transportable" i.e. not specific to any given
 /// project and can be moved between projects.
@@ -1070,6 +462,70 @@ pub mod account_linking {
         Implicit = 2,
     }
 }
+/// Styles applied to cards that are presented to users
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ThemeCustomization {
+    /// Background color of cards. Acts as a fallback if `background_image` is
+    /// not provided by developers or `background_image` doesn't fit for certain
+    /// surfaces.
+    /// Example usage: #FAFAFA
+    #[prost(string, tag="1")]
+    pub background_color: ::prost::alloc::string::String,
+    /// Primary theme color of the Action will be used to set text color of title,
+    /// action item background color for Actions on Google cards.
+    /// Example usage: #FAFAFA
+    #[prost(string, tag="2")]
+    pub primary_color: ::prost::alloc::string::String,
+    /// The font family that will be used for title of cards.
+    /// Supported fonts:
+    /// - Sans Serif
+    /// - Sans Serif Medium
+    /// - Sans Serif Bold
+    /// - Sans Serif Black
+    /// - Sans Serif Condensed
+    /// - Sans Serif Condensed Medium
+    /// - Serif
+    /// - Serif Bold
+    /// - Monospace
+    /// - Cursive
+    /// - Sans Serif Smallcaps
+    #[prost(string, tag="3")]
+    pub font_family: ::prost::alloc::string::String,
+    /// Border style of foreground image of cards. For example, can be applied on
+    /// the foreground image of a basic card or carousel card.
+    #[prost(enumeration="theme_customization::ImageCornerStyle", tag="4")]
+    pub image_corner_style: i32,
+    /// Landscape mode (minimum 1920x1200 pixels).
+    /// This should be specified as a reference to the corresponding image in the
+    /// `resources/images/` directory. Eg: `$resources.images.foo` (without the
+    /// extension) for image in `resources/images/foo.jpg`
+    /// When working on a project pulled from Console the Google managed url pulled
+    /// could be used.
+    #[prost(string, tag="5")]
+    pub landscape_background_image: ::prost::alloc::string::String,
+    /// Portrait mode (minimum 1200x1920 pixels).
+    /// This should be specified as a reference to the corresponding image in the
+    /// `resources/images/` directory. Eg: `$resources.images.foo` (without the
+    /// extension) for image in `resources/images/foo.jpg`
+    /// When working on a project pulled from Console the Google managed url pulled
+    /// could be used.
+    #[prost(string, tag="6")]
+    pub portrait_background_image: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `ThemeCustomization`.
+pub mod theme_customization {
+    /// Describes how the borders of images should be rendered.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ImageCornerStyle {
+        /// Undefined / Unspecified.
+        Unspecified = 0,
+        /// Round corner for image.
+        Curved = 1,
+        /// Rectangular corner for image.
+        Angled = 2,
+    }
+}
 /// Represents settings of an Actions project that are specific to a user locale.
 /// In this instance, user means the end user who invokes your Actions.
 /// **This message is localizable.**
@@ -1137,6 +593,47 @@ pub struct LocalizedSettings {
     /// Optional. Theme customizations for visual components of your Actions.
     #[prost(message, optional, tag="13")]
     pub theme_customization: ::core::option::Option<ThemeCustomization>,
+}
+/// Contains a set of requirements that the client surface must support to invoke
+/// Actions in your project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SurfaceRequirements {
+    /// The minimum set of capabilities needed to invoke the Actions in your
+    /// project. If the surface is missing any of these, the Action will not be
+    /// triggered.
+    #[prost(message, repeated, tag="1")]
+    pub minimum_requirements: ::prost::alloc::vec::Vec<CapabilityRequirement>,
+}
+/// Represents a requirement about the availability of a given capability.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CapabilityRequirement {
+    /// The type of capability.
+    #[prost(enumeration="capability_requirement::SurfaceCapability", tag="1")]
+    pub capability: i32,
+}
+/// Nested message and enum types in `CapabilityRequirement`.
+pub mod capability_requirement {
+    /// Possible set of surface capabilities.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SurfaceCapability {
+        /// Unknown / Unspecified.
+        Unspecified = 0,
+        /// Surface supports audio output.
+        AudioOutput = 1,
+        /// Surface supports screen/visual output.
+        ScreenOutput = 2,
+        /// Surface supports media response audio.
+        MediaResponseAudio = 3,
+        /// Surface supports web browsers.
+        WebBrowser = 4,
+        /// Surface supports account linking.
+        AccountLinking = 7,
+        /// Surface supports Interactive Canvas.
+        InteractiveCanvas = 8,
+        /// Surface supports home storage.
+        HomeStorage = 9,
+    }
 }
 /// Represents settings of an Actions project that are not locale specific.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1283,6 +780,75 @@ pub mod settings {
         HomeControl = 19,
     }
 }
+/// Metadata for different types of webhooks. If you're using
+/// `inlineCloudFunction`, your source code must be in a directory with the same
+/// name as the value for the `executeFunction` key.
+/// For example, a value of `my_webhook` for the`executeFunction` key would have
+/// a code structure like this:
+///  - `/webhooks/my_webhook.yaml`
+///  - `/webhooks/my_webhook/index.js`
+///  - `/webhooks/my_webhook/package.json`
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Webhook {
+    /// List of handlers for this webhook.
+    #[prost(message, repeated, tag="1")]
+    pub handlers: ::prost::alloc::vec::Vec<webhook::Handler>,
+    /// Only one webhook type is supported.
+    #[prost(oneof="webhook::WebhookType", tags="2, 3")]
+    pub webhook_type: ::core::option::Option<webhook::WebhookType>,
+}
+/// Nested message and enum types in `Webhook`.
+pub mod webhook {
+    /// Declares the name of the webhoook handler. A webhook can have
+    /// multiple handlers registered. These handlers can be called from multiple
+    /// places in your Actions project.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Handler {
+        /// Required. Name of the handler. Must be unique across all handlers the Actions
+        /// project. You can check the name of this handler to invoke the correct
+        /// function in your fulfillment source code.
+        #[prost(string, tag="1")]
+        pub name: ::prost::alloc::string::String,
+    }
+    /// REST endpoint to notify if you're not using the inline editor.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct HttpsEndpoint {
+        /// The HTTPS base URL for your fulfillment endpoint (HTTP is not supported).
+        /// Handler names are appended to the base URL path after a colon
+        /// (following the style guide in
+        /// <https://cloud.google.com/apis/design/custom_methods>).
+        /// For example a base URL of '<https://gactions.service.com/api'> would
+        /// receive requests with URL '<https://gactions.service.com/api:{method}'.>
+        #[prost(string, tag="1")]
+        pub base_url: ::prost::alloc::string::String,
+        /// Map of HTTP parameters to be included in the POST request.
+        #[prost(btree_map="string, string", tag="2")]
+        pub http_headers: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+        /// Version of the protocol used by the endpoint. This is the protocol shared
+        /// by all fulfillment types and not specific to Google fulfillment type.
+        #[prost(int32, tag="3")]
+        pub endpoint_api_version: i32,
+    }
+    /// Holds the metadata of an inline Cloud Function deployed from the
+    /// webhooks folder.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct InlineCloudFunction {
+        /// The name of the Cloud Function entry point. The value of this field
+        /// should match the name of the method exported from the source code.
+        #[prost(string, tag="1")]
+        pub execute_function: ::prost::alloc::string::String,
+    }
+    /// Only one webhook type is supported.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum WebhookType {
+        /// Custom webhook HTTPS endpoint.
+        #[prost(message, tag="2")]
+        HttpsEndpoint(HttpsEndpoint),
+        /// Metadata for cloud function deployed from code in the webhooks folder.
+        #[prost(message, tag="3")]
+        InlineCloudFunction(InlineCloudFunction),
+    }
+}
 /// Wrapper for repeated config files. Repeated fields cannot exist in a oneof.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ConfigFiles {
@@ -1369,6 +935,45 @@ pub mod config_file {
         ResourceBundle(::prost_types::Struct),
     }
 }
+/// Wrapper for repeated data file. Repeated fields cannot exist in a oneof.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataFiles {
+    /// Multiple data files.
+    #[prost(message, repeated, tag="1")]
+    pub data_files: ::prost::alloc::vec::Vec<DataFile>,
+}
+/// Represents a single file which contains unstructured data. Examples include
+/// image files, audio files, and cloud function source code.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataFile {
+    /// Relative path of the data file from the project root in the SDK file
+    /// structure.
+    /// Allowed file paths:
+    ///     - Images: `resources/images/{multiple
+    ///     directories}?/{ImageName}.{extension}`
+    ///     - Audio: `resources/audio/{multiple
+    ///     directories}?/{AudioFileName}.{extension}`
+    ///     - Inline Cloud Function Code: `webhooks/{WebhookName}.zip`
+    /// Allowed extensions:
+    ///     - Images: `png`, `jpg`, `jpeg`
+    ///     - Audio: `mp3`, `mpeg`
+    ///     - Inline Cloud Functions: `zip`
+    #[prost(string, tag="1")]
+    pub file_path: ::prost::alloc::string::String,
+    /// Required. The content type of this asset. Example: `text/html`. The content
+    /// type must comply with the specification
+    /// (<http://www.w3.org/Protocols/rfc1341/4_Content-Type.html>).
+    /// Cloud functions must be in zip format and the content type should
+    /// be `application/zip;zip_type=cloud_function`. The zip_type parameter
+    /// indicates that the zip is for a cloud function.
+    #[prost(string, tag="2")]
+    pub content_type: ::prost::alloc::string::String,
+    /// Content of the data file. Examples would be raw bytes of images, audio
+    /// files, or cloud function zip format.
+    /// There is 10 MB strict limit on the payload size.
+    #[prost(bytes="bytes", tag="3")]
+    pub payload: ::prost::bytes::Bytes,
+}
 /// Wrapper for a list of files.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Files {
@@ -1392,6 +997,22 @@ pub mod files {
         #[prost(message, tag="2")]
         DataFiles(super::DataFiles),
     }
+}
+/// Definition of release channel resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReleaseChannel {
+    /// The unique name of the release channel in the following format.
+    /// `projects/{project}/releaseChannels/{release_channel}`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Version currently deployed to this release channel in the following format:
+    /// `projects/{project}/versions/{version}`.
+    #[prost(string, tag="2")]
+    pub current_version: ::prost::alloc::string::String,
+    /// Version to be deployed to this release channel in the following format:
+    /// `projects/{project}/versions/{version}`.
+    #[prost(string, tag="3")]
+    pub pending_version: ::prost::alloc::string::String,
 }
 /// Wrapper for repeated validation result.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1421,6 +1042,67 @@ pub mod validation_result {
         /// <https://developers.google.com/assistant/console/languages-locales>
         #[prost(string, tag="1")]
         pub language_code: ::prost::alloc::string::String,
+    }
+}
+/// Definition of version resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Version {
+    /// The unique identifier of the version in the following format.
+    /// `projects/{project}/versions/{version}`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The current state of the version.
+    #[prost(message, optional, tag="2")]
+    pub version_state: ::core::option::Option<version::VersionState>,
+    /// Email of the user who created this version.
+    #[prost(string, tag="3")]
+    pub creator: ::prost::alloc::string::String,
+    /// Timestamp of the last change to this version.
+    #[prost(message, optional, tag="4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `Version`.
+pub mod version {
+    /// Represents the current state of the version.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct VersionState {
+        /// The current state of the version.
+        #[prost(enumeration="version_state::State", tag="1")]
+        pub state: i32,
+        /// User-friendly message for the current state of the version.
+        #[prost(string, tag="2")]
+        pub message: ::prost::alloc::string::String,
+    }
+    /// Nested message and enum types in `VersionState`.
+    pub mod version_state {
+        /// Enum indicating the states that a Version can take. This enum is not yet
+        /// frozen and values maybe added later.
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+        #[repr(i32)]
+        pub enum State {
+            /// Default value of State.
+            Unspecified = 0,
+            /// The version creation is in progress.
+            CreationInProgress = 1,
+            /// The version creation failed.
+            CreationFailed = 2,
+            /// The version has been successfully created.
+            Created = 3,
+            /// The version is under policy review (aka Approval).
+            ReviewInProgress = 4,
+            /// The version has been approved for policy review and can be deployed.
+            Approved = 5,
+            /// The version has been conditionally approved but is pending final
+            /// review. It may be rolled back if final review is denied.
+            ConditionallyApproved = 6,
+            /// The version has been denied for policy review.
+            Denied = 7,
+            /// The version is taken down as entire agent and all versions are taken
+            /// down.
+            UnderTakedown = 8,
+            /// The version has been deleted.
+            Deleted = 9,
+        }
     }
 }
 /// Streaming RPC request for WriteDraft.
@@ -1992,6 +1674,324 @@ pub mod actions_sdk_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.actions.sdk.v2.ActionsSdk/ListVersions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Request for playing a round of the conversation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SendInteractionRequest {
+    /// Required. The project being tested, indicated by the Project ID.
+    /// Format: projects/{project}
+    #[prost(string, tag="1")]
+    pub project: ::prost::alloc::string::String,
+    /// Required. Input provided by the user.
+    #[prost(message, optional, tag="2")]
+    pub input: ::core::option::Option<UserInput>,
+    /// Required. Properties of the device used for interacting with the Action.
+    #[prost(message, optional, tag="3")]
+    pub device_properties: ::core::option::Option<DeviceProperties>,
+    /// Opaque token that must be passed as received from SendInteractionResponse
+    /// on the previous interaction. This can be left unset in order to start a new
+    /// conversation, either as the first interaction of a testing session or to
+    /// abandon a previous conversation and start a new one.
+    #[prost(string, tag="4")]
+    pub conversation_token: ::prost::alloc::string::String,
+}
+/// User input provided on a conversation round.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UserInput {
+    /// Content of the input sent by the user.
+    #[prost(string, tag="1")]
+    pub query: ::prost::alloc::string::String,
+    /// Type of the input.
+    #[prost(enumeration="user_input::InputType", tag="2")]
+    pub r#type: i32,
+}
+/// Nested message and enum types in `UserInput`.
+pub mod user_input {
+    /// Indicates the input source, typed query or voice query.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum InputType {
+        /// Unspecified input source.
+        Unspecified = 0,
+        /// Query from a GUI interaction.
+        Touch = 1,
+        /// Voice query.
+        Voice = 2,
+        /// Typed query.
+        Keyboard = 3,
+        /// The action was triggered by a URL link.
+        Url = 4,
+    }
+}
+/// Properties of device relevant to a conversation round.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeviceProperties {
+    /// Surface used for interacting with the Action.
+    #[prost(enumeration="device_properties::Surface", tag="1")]
+    pub surface: i32,
+    /// Device location such as latitude, longitude, and formatted address.
+    #[prost(message, optional, tag="2")]
+    pub location: ::core::option::Option<Location>,
+    /// Locale as set on the device.
+    /// The format should follow BCP 47: <https://tools.ietf.org/html/bcp47>
+    /// Examples: en, en-US, es-419 (more examples at
+    /// <https://tools.ietf.org/html/bcp47#appendix-A>).
+    #[prost(string, tag="3")]
+    pub locale: ::prost::alloc::string::String,
+    /// Time zone as set on the device.
+    /// The format should follow the IANA Time Zone Database, e.g.
+    /// "America/New_York": <https://www.iana.org/time-zones>
+    #[prost(string, tag="4")]
+    pub time_zone: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `DeviceProperties`.
+pub mod device_properties {
+    /// Possible surfaces used to interact with the Action.
+    /// Additional values may be included in the future.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Surface {
+        /// Default value. This value is unused.
+        Unspecified = 0,
+        /// Speaker (e.g. Google Home).
+        Speaker = 1,
+        /// Phone.
+        Phone = 2,
+        /// Allo Chat.
+        Allo = 3,
+        /// Smart Display Device.
+        SmartDisplay = 4,
+        /// KaiOS.
+        KaiOs = 5,
+    }
+}
+/// Container that represents a location.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Location {
+    /// Geo coordinates.
+    /// Requires the \[DEVICE_PRECISE_LOCATION\]
+    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] permission.
+    #[prost(message, optional, tag="1")]
+    pub coordinates: ::core::option::Option<super::super::super::r#type::LatLng>,
+    /// Display address, e.g., "1600 Amphitheatre Pkwy, Mountain View, CA 94043".
+    /// Requires the \[DEVICE_PRECISE_LOCATION\]
+    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] permission.
+    #[prost(string, tag="2")]
+    pub formatted_address: ::prost::alloc::string::String,
+    /// Zip code.
+    /// Requires the \[DEVICE_PRECISE_LOCATION\]
+    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] or
+    /// \[DEVICE_COARSE_LOCATION\]
+    /// \[google.actions.v2.Permission.DEVICE_COARSE_LOCATION\] permission.
+    #[prost(string, tag="3")]
+    pub zip_code: ::prost::alloc::string::String,
+    /// City.
+    /// Requires the \[DEVICE_PRECISE_LOCATION\]
+    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] or
+    /// \[DEVICE_COARSE_LOCATION\]
+    /// \[google.actions.v2.Permission.DEVICE_COARSE_LOCATION\] permission.
+    #[prost(string, tag="4")]
+    pub city: ::prost::alloc::string::String,
+}
+/// Response to a round of the conversation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SendInteractionResponse {
+    /// Output provided to the user.
+    #[prost(message, optional, tag="1")]
+    pub output: ::core::option::Option<Output>,
+    /// Diagnostics information that explains how the request was handled.
+    #[prost(message, optional, tag="2")]
+    pub diagnostics: ::core::option::Option<Diagnostics>,
+    /// Opaque token to be set on SendInteractionRequest on the next RPC call in
+    /// order to continue the same conversation.
+    #[prost(string, tag="3")]
+    pub conversation_token: ::prost::alloc::string::String,
+}
+/// User-visible output to the conversation round.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Output {
+    /// Spoken response sent to user as a plain string.
+    #[prost(string, tag="1")]
+    pub text: ::prost::alloc::string::String,
+    /// Speech content produced by the Action. This may include markup elements
+    /// such as SSML.
+    #[prost(string, repeated, tag="2")]
+    pub speech: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Interactive Canvas content.
+    #[prost(message, optional, tag="3")]
+    pub canvas: ::core::option::Option<conversation::Canvas>,
+    /// State of the prompt at the end of the conversation round.
+    /// More information about the prompt:
+    /// <https://developers.google.com/assistant/conversational/prompts>
+    #[prost(message, optional, tag="4")]
+    pub actions_builder_prompt: ::core::option::Option<conversation::Prompt>,
+}
+/// Diagnostics information related to the conversation round.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Diagnostics {
+    /// List of events with details about processing of the conversation round
+    /// throughout the stages of the Actions Builder interaction model.
+    /// Populated for Actions Builder & Actions SDK apps only.
+    #[prost(message, repeated, tag="1")]
+    pub actions_builder_events: ::prost::alloc::vec::Vec<ExecutionEvent>,
+}
+/// Request for finding matching intents.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MatchIntentsRequest {
+    /// Required. The project being tested, indicated by the Project ID.
+    /// Format: projects/{project}
+    #[prost(string, tag="1")]
+    pub project: ::prost::alloc::string::String,
+    /// Required. User query as plain text.
+    #[prost(string, tag="2")]
+    pub query: ::prost::alloc::string::String,
+    /// Required. Locale to use to evaluate the query, such as "en".
+    /// The format should follow BCP 47: <https://tools.ietf.org/html/bcp47>
+    /// See the list of supported languages in
+    /// <https://developers.google.com/assistant/console/languages-locales>
+    #[prost(string, tag="3")]
+    pub locale: ::prost::alloc::string::String,
+}
+/// Response for finding matching intents.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MatchIntentsResponse {
+    /// Intents matched, ordered from most to least relevant. Only the first
+    /// 50 matches are returned.
+    #[prost(message, repeated, tag="1")]
+    pub matched_intents: ::prost::alloc::vec::Vec<conversation::Intent>,
+}
+/// Request for setting Web & App Activity preferences.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SetWebAndAppActivityControlRequest {
+    /// Whether the setting should be set to an enabled or disabled state.
+    #[prost(bool, tag="1")]
+    pub enabled: bool,
+}
+/// Generated client implementations.
+pub mod actions_testing_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// Actions Testing API which allows developers to run automated tests.
+    #[derive(Debug, Clone)]
+    pub struct ActionsTestingClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ActionsTestingClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ActionsTestingClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            ActionsTestingClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Plays one round of the conversation.
+        pub async fn send_interaction(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SendInteractionRequest>,
+        ) -> Result<tonic::Response<super::SendInteractionResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.actions.sdk.v2.ActionsTesting/SendInteraction",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Finds the intents that match a given query.
+        pub async fn match_intents(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MatchIntentsRequest>,
+        ) -> Result<tonic::Response<super::MatchIntentsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.actions.sdk.v2.ActionsTesting/MatchIntents",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Sets the Web & App Activity control on a service account.
+        ///
+        /// It is necessary to have this setting enabled in order to use call Actions.
+        /// The setting is originally disabled for service accounts, and it is
+        /// preserved until set to a different value. This means it only needs to be
+        /// enabled once per account (and not necessarily once per test), unless it is
+        /// later disabled.
+        ///
+        /// Returns an error if the caller is not a service account. User accounts can
+        /// change this setting via the Activity Controls page. See
+        /// https://support.google.com/websearch/answer/54068.
+        pub async fn set_web_and_app_activity_control(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SetWebAndAppActivityControlRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.actions.sdk.v2.ActionsTesting/SetWebAndAppActivityControl",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

@@ -79,19 +79,6 @@ pub struct EventParameter {
     #[prost(message, optional, tag="2")]
     pub value: ::core::option::Option<ValueType>,
 }
-/// Enum Product.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum Product {
-    /// Default value.
-    Unspecified = 0,
-    /// Integration Platform.
-    Ip = 1,
-    /// Apigee.
-    Apigee = 2,
-    /// Security Command Center.
-    Security = 3,
-}
 /// Options for how to validate json schemas.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -302,6 +289,19 @@ pub struct NextTask {
     /// User-provided label that is attached to this edge in the UI.
     #[prost(string, tag="4")]
     pub display_name: ::prost::alloc::string::String,
+}
+/// Enum Product.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum Product {
+    /// Default value.
+    Unspecified = 0,
+    /// Integration Platform.
+    Ip = 1,
+    /// Apigee.
+    Apigee = 2,
+    /// Security Command Center.
+    Security = 3,
 }
 /// Log entry to log execution info for the monitored resource
 /// `integrations.googleapis.com/IntegrationVersion`.

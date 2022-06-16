@@ -303,128 +303,6 @@ pub mod execution {
         Initializing = 10,
     }
 }
-/// The definition of a schedule.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Schedule {
-    /// Output only. The name of this schedule. Format:
-    /// `projects/{project_id}/locations/{location}/schedules/{schedule_id}`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Display name used for UI purposes.
-    /// Name can only contain alphanumeric characters, hyphens '-',
-    /// and underscores '_'.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// A brief description of this environment.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    #[prost(enumeration="schedule::State", tag="4")]
-    pub state: i32,
-    /// Cron-tab formatted schedule by which the job will execute.
-    /// Format: minute, hour, day of month, month, day of week,
-    /// e.g. 0 0 * * WED = every Wednesday
-    /// More examples: <https://crontab.guru/examples.html>
-    #[prost(string, tag="5")]
-    pub cron_schedule: ::prost::alloc::string::String,
-    /// Timezone on which the cron_schedule.
-    /// The value of this field must be a time zone name from the tz database.
-    /// TZ Database: <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>
-    ///
-    /// Note that some time zones include a provision for daylight savings time.
-    /// The rules for daylight saving time are determined by the chosen tz.
-    /// For UTC use the string "utc". If a time zone is not specified,
-    /// the default will be in UTC (also known as GMT).
-    #[prost(string, tag="6")]
-    pub time_zone: ::prost::alloc::string::String,
-    /// Output only. Time the schedule was created.
-    #[prost(message, optional, tag="7")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Time the schedule was last updated.
-    #[prost(message, optional, tag="8")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Notebook Execution Template corresponding to this schedule.
-    #[prost(message, optional, tag="9")]
-    pub execution_template: ::core::option::Option<ExecutionTemplate>,
-    /// Output only. The most recent execution names triggered from this schedule and their
-    /// corresponding states.
-    #[prost(message, repeated, tag="10")]
-    pub recent_executions: ::prost::alloc::vec::Vec<Execution>,
-}
-/// Nested message and enum types in `Schedule`.
-pub mod schedule {
-    /// State of the job.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Unspecified state.
-        Unspecified = 0,
-        /// The job is executing normally.
-        Enabled = 1,
-        /// The job is paused by the user. It will not execute. A user can
-        /// intentionally pause the job using
-        /// \[PauseJobRequest][\].
-        Paused = 2,
-        /// The job is disabled by the system due to error. The user
-        /// cannot directly set a job to be disabled.
-        Disabled = 3,
-        /// The job state resulting from a failed \[CloudScheduler.UpdateJob][\]
-        /// operation. To recover a job from this state, retry
-        /// \[CloudScheduler.UpdateJob][\] until a successful response is received.
-        UpdateFailed = 4,
-        /// The schedule resource is being created.
-        Initializing = 5,
-        /// The schedule resource is being deleted.
-        Deleting = 6,
-    }
-}
-/// Notebook instance configurations that can be updated.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InstanceConfig {
-    /// Cron expression in UTC timezone, used to schedule instance auto upgrade.
-    /// Please follow the [cron format](<https://en.wikipedia.org/wiki/Cron>).
-    #[prost(string, tag="1")]
-    pub notebook_upgrade_schedule: ::prost::alloc::string::String,
-    /// Verifies core internal services are running.
-    #[prost(bool, tag="2")]
-    pub enable_health_monitoring: bool,
-}
-/// The definition of an Event for a managed / semi-managed notebook instance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Event {
-    /// Event report time.
-    #[prost(message, optional, tag="1")]
-    pub report_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Event type.
-    #[prost(enumeration="event::EventType", tag="2")]
-    pub r#type: i32,
-    /// Optional. Event details. This field is used to pass event information.
-    #[prost(btree_map="string, string", tag="3")]
-    pub details: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-}
-/// Nested message and enum types in `Event`.
-pub mod event {
-    /// The definition of the event types.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum EventType {
-        /// Event is not specified.
-        Unspecified = 0,
-        /// The instance / runtime is idle
-        Idle = 1,
-        /// The instance / runtime is available.
-        /// This event indicates that instance / runtime underlying compute is
-        /// operational.
-        Heartbeat = 2,
-        /// The instance / runtime health is available.
-        /// This event indicates that instance / runtime health information.
-        Health = 3,
-        /// The instance / runtime is available.
-        /// This event allows instance / runtime to send Host maintenance
-        /// information to Control Plane.
-        /// <https://cloud.google.com/compute/docs/gpus/gpu-host-maintenance>
-        Maintenance = 4,
-    }
-}
 /// Definition of a software environment that is used to start a notebook
 /// instance.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1001,6 +879,91 @@ pub mod instance {
         /// Use a container image to start the notebook instance.
         #[prost(message, tag="3")]
         ContainerImage(super::ContainerImage),
+    }
+}
+/// Notebook instance configurations that can be updated.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InstanceConfig {
+    /// Cron expression in UTC timezone, used to schedule instance auto upgrade.
+    /// Please follow the [cron format](<https://en.wikipedia.org/wiki/Cron>).
+    #[prost(string, tag="1")]
+    pub notebook_upgrade_schedule: ::prost::alloc::string::String,
+    /// Verifies core internal services are running.
+    #[prost(bool, tag="2")]
+    pub enable_health_monitoring: bool,
+}
+/// The definition of a schedule.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Schedule {
+    /// Output only. The name of this schedule. Format:
+    /// `projects/{project_id}/locations/{location}/schedules/{schedule_id}`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Display name used for UI purposes.
+    /// Name can only contain alphanumeric characters, hyphens '-',
+    /// and underscores '_'.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// A brief description of this environment.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    #[prost(enumeration="schedule::State", tag="4")]
+    pub state: i32,
+    /// Cron-tab formatted schedule by which the job will execute.
+    /// Format: minute, hour, day of month, month, day of week,
+    /// e.g. 0 0 * * WED = every Wednesday
+    /// More examples: <https://crontab.guru/examples.html>
+    #[prost(string, tag="5")]
+    pub cron_schedule: ::prost::alloc::string::String,
+    /// Timezone on which the cron_schedule.
+    /// The value of this field must be a time zone name from the tz database.
+    /// TZ Database: <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>
+    ///
+    /// Note that some time zones include a provision for daylight savings time.
+    /// The rules for daylight saving time are determined by the chosen tz.
+    /// For UTC use the string "utc". If a time zone is not specified,
+    /// the default will be in UTC (also known as GMT).
+    #[prost(string, tag="6")]
+    pub time_zone: ::prost::alloc::string::String,
+    /// Output only. Time the schedule was created.
+    #[prost(message, optional, tag="7")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Time the schedule was last updated.
+    #[prost(message, optional, tag="8")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Notebook Execution Template corresponding to this schedule.
+    #[prost(message, optional, tag="9")]
+    pub execution_template: ::core::option::Option<ExecutionTemplate>,
+    /// Output only. The most recent execution names triggered from this schedule and their
+    /// corresponding states.
+    #[prost(message, repeated, tag="10")]
+    pub recent_executions: ::prost::alloc::vec::Vec<Execution>,
+}
+/// Nested message and enum types in `Schedule`.
+pub mod schedule {
+    /// State of the job.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Unspecified state.
+        Unspecified = 0,
+        /// The job is executing normally.
+        Enabled = 1,
+        /// The job is paused by the user. It will not execute. A user can
+        /// intentionally pause the job using
+        /// \[PauseJobRequest][\].
+        Paused = 2,
+        /// The job is disabled by the system due to error. The user
+        /// cannot directly set a job to be disabled.
+        Disabled = 3,
+        /// The job state resulting from a failed \[CloudScheduler.UpdateJob][\]
+        /// operation. To recover a job from this state, retry
+        /// \[CloudScheduler.UpdateJob][\] until a successful response is received.
+        UpdateFailed = 4,
+        /// The schedule resource is being created.
+        Initializing = 5,
+        /// The schedule resource is being deleted.
+        Deleting = 6,
     }
 }
 /// Represents the metadata of the long-running operation.
@@ -2367,6 +2330,43 @@ pub mod notebook_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+    }
+}
+/// The definition of an Event for a managed / semi-managed notebook instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Event {
+    /// Event report time.
+    #[prost(message, optional, tag="1")]
+    pub report_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Event type.
+    #[prost(enumeration="event::EventType", tag="2")]
+    pub r#type: i32,
+    /// Optional. Event details. This field is used to pass event information.
+    #[prost(btree_map="string, string", tag="3")]
+    pub details: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `Event`.
+pub mod event {
+    /// The definition of the event types.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EventType {
+        /// Event is not specified.
+        Unspecified = 0,
+        /// The instance / runtime is idle
+        Idle = 1,
+        /// The instance / runtime is available.
+        /// This event indicates that instance / runtime underlying compute is
+        /// operational.
+        Heartbeat = 2,
+        /// The instance / runtime health is available.
+        /// This event indicates that instance / runtime health information.
+        Health = 3,
+        /// The instance / runtime is available.
+        /// This event allows instance / runtime to send Host maintenance
+        /// information to Control Plane.
+        /// <https://cloud.google.com/compute/docs/gpus/gpu-host-maintenance>
+        Maintenance = 4,
     }
 }
 /// The definition of a Runtime for a managed notebook instance.

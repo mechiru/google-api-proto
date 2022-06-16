@@ -156,96 +156,6 @@ pub enum ClassificationType {
     /// Multiple labels are allowed for one example.
     Multilabel = 2,
 }
-/// Contains annotation details specific to text sentiment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextSentimentAnnotation {
-    /// Output only. The sentiment with the semantic, as given to the
-    /// \[AutoMl.ImportData][google.cloud.automl.v1.AutoMl.ImportData\] when populating the dataset from which the model used
-    /// for the prediction had been trained.
-    /// The sentiment values are between 0 and
-    /// Dataset.text_sentiment_dataset_metadata.sentiment_max (inclusive),
-    /// with higher value meaning more positive sentiment. They are completely
-    /// relative, i.e. 0 means least positive sentiment and sentiment_max means
-    /// the most positive from the sentiments present in the train data. Therefore
-    ///  e.g. if train data had only negative sentiment, then sentiment_max, would
-    /// be still negative (although least negative).
-    /// The sentiment shouldn't be confused with "score" or "magnitude"
-    /// from the previous Natural Language Sentiment Analysis API.
-    #[prost(int32, tag="1")]
-    pub sentiment: i32,
-}
-/// Model evaluation metrics for text sentiment problems.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextSentimentEvaluationMetrics {
-    /// Output only. Precision.
-    #[prost(float, tag="1")]
-    pub precision: f32,
-    /// Output only. Recall.
-    #[prost(float, tag="2")]
-    pub recall: f32,
-    /// Output only. The harmonic mean of recall and precision.
-    #[prost(float, tag="3")]
-    pub f1_score: f32,
-    /// Output only. Mean absolute error. Only set for the overall model
-    /// evaluation, not for evaluation of a single annotation spec.
-    #[prost(float, tag="4")]
-    pub mean_absolute_error: f32,
-    /// Output only. Mean squared error. Only set for the overall model
-    /// evaluation, not for evaluation of a single annotation spec.
-    #[prost(float, tag="5")]
-    pub mean_squared_error: f32,
-    /// Output only. Linear weighted kappa. Only set for the overall model
-    /// evaluation, not for evaluation of a single annotation spec.
-    #[prost(float, tag="6")]
-    pub linear_kappa: f32,
-    /// Output only. Quadratic weighted kappa. Only set for the overall model
-    /// evaluation, not for evaluation of a single annotation spec.
-    #[prost(float, tag="7")]
-    pub quadratic_kappa: f32,
-    /// Output only. Confusion matrix of the evaluation.
-    /// Only set for the overall model evaluation, not for evaluation of a single
-    /// annotation spec.
-    #[prost(message, optional, tag="8")]
-    pub confusion_matrix: ::core::option::Option<classification_evaluation_metrics::ConfusionMatrix>,
-}
-/// Dataset metadata for classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextClassificationDatasetMetadata {
-    /// Required. Type of the classification problem.
-    #[prost(enumeration="ClassificationType", tag="1")]
-    pub classification_type: i32,
-}
-/// Model metadata that is specific to text classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextClassificationModelMetadata {
-    /// Output only. Classification type of the dataset used to train this model.
-    #[prost(enumeration="ClassificationType", tag="3")]
-    pub classification_type: i32,
-}
-/// Dataset metadata that is specific to text extraction
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextExtractionDatasetMetadata {
-}
-/// Model metadata that is specific to text extraction.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextExtractionModelMetadata {
-}
-/// Dataset metadata for text sentiment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextSentimentDatasetMetadata {
-    /// Required. A sentiment is expressed as an integer ordinal, where higher value
-    /// means a more positive sentiment. The range of sentiments that will be used
-    /// is between 0 and sentiment_max (inclusive on both ends), and all the values
-    /// in the range must be represented in the dataset before a model can be
-    /// created.
-    /// sentiment_max value must be between 1 and 10 (inclusive).
-    #[prost(int32, tag="1")]
-    pub sentiment_max: i32,
-}
-/// Model metadata that is specific to text sentiment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextSentimentModelMetadata {
-}
 /// A vertex represents a 2D point in the image.
 /// The normalized vertex coordinates are between 0 to 1 fractions relative to
 /// the original plane (image, video). E.g. if the plane (e.g. whole image) would
@@ -406,6 +316,58 @@ pub mod text_extraction_evaluation_metrics {
         #[prost(float, tag="5")]
         pub f1_score: f32,
     }
+}
+/// Contains annotation details specific to text sentiment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextSentimentAnnotation {
+    /// Output only. The sentiment with the semantic, as given to the
+    /// \[AutoMl.ImportData][google.cloud.automl.v1.AutoMl.ImportData\] when populating the dataset from which the model used
+    /// for the prediction had been trained.
+    /// The sentiment values are between 0 and
+    /// Dataset.text_sentiment_dataset_metadata.sentiment_max (inclusive),
+    /// with higher value meaning more positive sentiment. They are completely
+    /// relative, i.e. 0 means least positive sentiment and sentiment_max means
+    /// the most positive from the sentiments present in the train data. Therefore
+    ///  e.g. if train data had only negative sentiment, then sentiment_max, would
+    /// be still negative (although least negative).
+    /// The sentiment shouldn't be confused with "score" or "magnitude"
+    /// from the previous Natural Language Sentiment Analysis API.
+    #[prost(int32, tag="1")]
+    pub sentiment: i32,
+}
+/// Model evaluation metrics for text sentiment problems.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextSentimentEvaluationMetrics {
+    /// Output only. Precision.
+    #[prost(float, tag="1")]
+    pub precision: f32,
+    /// Output only. Recall.
+    #[prost(float, tag="2")]
+    pub recall: f32,
+    /// Output only. The harmonic mean of recall and precision.
+    #[prost(float, tag="3")]
+    pub f1_score: f32,
+    /// Output only. Mean absolute error. Only set for the overall model
+    /// evaluation, not for evaluation of a single annotation spec.
+    #[prost(float, tag="4")]
+    pub mean_absolute_error: f32,
+    /// Output only. Mean squared error. Only set for the overall model
+    /// evaluation, not for evaluation of a single annotation spec.
+    #[prost(float, tag="5")]
+    pub mean_squared_error: f32,
+    /// Output only. Linear weighted kappa. Only set for the overall model
+    /// evaluation, not for evaluation of a single annotation spec.
+    #[prost(float, tag="6")]
+    pub linear_kappa: f32,
+    /// Output only. Quadratic weighted kappa. Only set for the overall model
+    /// evaluation, not for evaluation of a single annotation spec.
+    #[prost(float, tag="7")]
+    pub quadratic_kappa: f32,
+    /// Output only. Confusion matrix of the evaluation.
+    /// Only set for the overall model evaluation, not for evaluation of a single
+    /// annotation spec.
+    #[prost(message, optional, tag="8")]
+    pub confusion_matrix: ::core::option::Option<classification_evaluation_metrics::ConfusionMatrix>,
 }
 /// Input configuration for \[AutoMl.ImportData][google.cloud.automl.v1.AutoMl.ImportData\] action.
 ///
@@ -2374,6 +2336,44 @@ pub mod prediction_service_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
+}
+/// Dataset metadata for classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextClassificationDatasetMetadata {
+    /// Required. Type of the classification problem.
+    #[prost(enumeration="ClassificationType", tag="1")]
+    pub classification_type: i32,
+}
+/// Model metadata that is specific to text classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextClassificationModelMetadata {
+    /// Output only. Classification type of the dataset used to train this model.
+    #[prost(enumeration="ClassificationType", tag="3")]
+    pub classification_type: i32,
+}
+/// Dataset metadata that is specific to text extraction
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextExtractionDatasetMetadata {
+}
+/// Model metadata that is specific to text extraction.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextExtractionModelMetadata {
+}
+/// Dataset metadata for text sentiment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextSentimentDatasetMetadata {
+    /// Required. A sentiment is expressed as an integer ordinal, where higher value
+    /// means a more positive sentiment. The range of sentiments that will be used
+    /// is between 0 and sentiment_max (inclusive on both ends), and all the values
+    /// in the range must be represented in the dataset before a model can be
+    /// created.
+    /// sentiment_max value must be between 1 and 10 (inclusive).
+    #[prost(int32, tag="1")]
+    pub sentiment_max: i32,
+}
+/// Model metadata that is specific to text sentiment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextSentimentModelMetadata {
 }
 /// A definition of an annotation spec.
 #[derive(Clone, PartialEq, ::prost::Message)]

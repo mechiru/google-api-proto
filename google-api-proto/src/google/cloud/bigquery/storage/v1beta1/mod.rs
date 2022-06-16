@@ -33,26 +33,6 @@ pub struct AvroRows {
     #[prost(int64, tag="2")]
     pub row_count: i64,
 }
-/// Table reference that includes just the 3 strings needed to identify a table.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TableReference {
-    /// The assigned project ID of the project.
-    #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The ID of the dataset in the above project.
-    #[prost(string, tag="2")]
-    pub dataset_id: ::prost::alloc::string::String,
-    /// The ID of the table in the above dataset.
-    #[prost(string, tag="3")]
-    pub table_id: ::prost::alloc::string::String,
-}
-/// All fields in this message optional.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TableModifiers {
-    /// The snapshot time of the table. If not set, interpreted as now.
-    #[prost(message, optional, tag="1")]
-    pub snapshot_time: ::core::option::Option<::prost_types::Timestamp>,
-}
 /// Options dictating how we read a table.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TableReadOptions {
@@ -72,6 +52,26 @@ pub struct TableReadOptions {
     ///           "numeric_field BETWEEN 1.0 AND 5.0"
     #[prost(string, tag="2")]
     pub row_restriction: ::prost::alloc::string::String,
+}
+/// Table reference that includes just the 3 strings needed to identify a table.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TableReference {
+    /// The assigned project ID of the project.
+    #[prost(string, tag="1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The ID of the dataset in the above project.
+    #[prost(string, tag="2")]
+    pub dataset_id: ::prost::alloc::string::String,
+    /// The ID of the table in the above dataset.
+    #[prost(string, tag="3")]
+    pub table_id: ::prost::alloc::string::String,
+}
+/// All fields in this message optional.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TableModifiers {
+    /// The snapshot time of the table. If not set, interpreted as now.
+    #[prost(message, optional, tag="1")]
+    pub snapshot_time: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Information about a single data stream within a read session.
 #[derive(Clone, PartialEq, ::prost::Message)]

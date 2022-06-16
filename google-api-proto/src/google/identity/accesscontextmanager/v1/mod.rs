@@ -202,33 +202,6 @@ pub struct AccessPolicy {
     #[prost(string, tag="6")]
     pub etag: ::prost::alloc::string::String,
 }
-/// Restricts access to Cloud Console and Google Cloud APIs for a set of users
-/// using Context-Aware Access.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GcpUserAccessBinding {
-    /// Immutable. Assigned by the server during creation. The last segment has an arbitrary
-    /// length and has only URI unreserved characters (as defined by
-    /// [RFC 3986 Section 2.3](<https://tools.ietf.org/html/rfc3986#section-2.3>)).
-    /// Should not be specified by the client during creation.
-    /// Example: "organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N"
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. Immutable. Google Group id whose members are subject to this binding's restrictions.
-    /// See "id" in the [G Suite Directory API's Groups resource]
-    /// (<https://developers.google.com/admin-sdk/directory/v1/reference/groups#resource>).
-    /// If a group's email address/alias is changed, this resource will continue
-    /// to point at the changed group. This field does not accept group email
-    /// addresses or aliases.
-    /// Example: "01d520gv4vjcrht"
-    #[prost(string, tag="2")]
-    pub group_key: ::prost::alloc::string::String,
-    /// Required. Access level that a user must have to be granted access. Only one access
-    /// level is supported, not multiple. This repeated field must have exactly
-    /// one element.
-    /// Example: "accessPolicies/9522/accessLevels/device_trusted"
-    #[prost(string, repeated, tag="3")]
-    pub access_levels: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
 /// `ServicePerimeter` describes a set of Google Cloud resources which can freely
 /// import and export data amongst themselves, but not export outside of the
 /// `ServicePerimeter`. If a request with a source within this `ServicePerimeter`
@@ -690,6 +663,33 @@ pub mod service_perimeter_config {
         /// Authorize access from all service accounts outside the perimeter.
         AnyServiceAccount = 3,
     }
+}
+/// Restricts access to Cloud Console and Google Cloud APIs for a set of users
+/// using Context-Aware Access.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GcpUserAccessBinding {
+    /// Immutable. Assigned by the server during creation. The last segment has an arbitrary
+    /// length and has only URI unreserved characters (as defined by
+    /// [RFC 3986 Section 2.3](<https://tools.ietf.org/html/rfc3986#section-2.3>)).
+    /// Should not be specified by the client during creation.
+    /// Example: "organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N"
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. Immutable. Google Group id whose members are subject to this binding's restrictions.
+    /// See "id" in the [G Suite Directory API's Groups resource]
+    /// (<https://developers.google.com/admin-sdk/directory/v1/reference/groups#resource>).
+    /// If a group's email address/alias is changed, this resource will continue
+    /// to point at the changed group. This field does not accept group email
+    /// addresses or aliases.
+    /// Example: "01d520gv4vjcrht"
+    #[prost(string, tag="2")]
+    pub group_key: ::prost::alloc::string::String,
+    /// Required. Access level that a user must have to be granted access. Only one access
+    /// level is supported, not multiple. This repeated field must have exactly
+    /// one element.
+    /// Example: "accessPolicies/9522/accessLevels/device_trusted"
+    #[prost(string, repeated, tag="3")]
+    pub access_levels: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// A request to list all `AccessPolicies` for a container.
 #[derive(Clone, PartialEq, ::prost::Message)]

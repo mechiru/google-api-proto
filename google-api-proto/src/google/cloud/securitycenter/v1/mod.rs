@@ -1,3 +1,187 @@
+/// Represents an access event.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Access {
+    /// Associated email, such as "foo@google.com".
+    #[prost(string, tag="1")]
+    pub principal_email: ::prost::alloc::string::String,
+    /// Caller's IP address, such as "1.1.1.1".
+    #[prost(string, tag="2")]
+    pub caller_ip: ::prost::alloc::string::String,
+    /// The caller IP's geolocation, which identifies where the call came from.
+    #[prost(message, optional, tag="3")]
+    pub caller_ip_geo: ::core::option::Option<Geolocation>,
+    /// What kind of user agent is associated, e.g. operating system shells,
+    /// embedded or stand-alone applications, etc.
+    #[prost(string, tag="4")]
+    pub user_agent_family: ::prost::alloc::string::String,
+    /// This is the API service that the service account made a call to, e.g.
+    /// "iam.googleapis.com"
+    #[prost(string, tag="5")]
+    pub service_name: ::prost::alloc::string::String,
+    /// The method that the service account called, e.g. "SetIamPolicy".
+    #[prost(string, tag="6")]
+    pub method_name: ::prost::alloc::string::String,
+}
+/// Represents a geographical location for a given access.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Geolocation {
+    /// A CLDR.
+    #[prost(string, tag="1")]
+    pub region_code: ::prost::alloc::string::String,
+}
+/// Contains compliance information about a security standard indicating unmet
+/// recommendations.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Compliance {
+    /// Refers to industry wide standards or benchmarks e.g. "cis", "pci", "owasp",
+    /// etc.
+    #[prost(string, tag="1")]
+    pub standard: ::prost::alloc::string::String,
+    /// Version of the standard/benchmark e.g. 1.1
+    #[prost(string, tag="2")]
+    pub version: ::prost::alloc::string::String,
+    /// Policies within the standard/benchmark e.g. A.12.4.1
+    #[prost(string, repeated, tag="3")]
+    pub ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Contains information about the IP connection associated with the finding.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Connection {
+    /// Destination IP address. Not present for sockets that are listening and not
+    /// connected.
+    #[prost(string, tag="1")]
+    pub destination_ip: ::prost::alloc::string::String,
+    /// Destination port. Not present for sockets that are listening and not
+    /// connected.
+    #[prost(int32, tag="2")]
+    pub destination_port: i32,
+    /// Source IP address.
+    #[prost(string, tag="3")]
+    pub source_ip: ::prost::alloc::string::String,
+    /// Source port.
+    #[prost(int32, tag="4")]
+    pub source_port: i32,
+    /// IANA Internet Protocol Number such as TCP(6) and UDP(17).
+    #[prost(enumeration="connection::Protocol", tag="5")]
+    pub protocol: i32,
+}
+/// Nested message and enum types in `Connection`.
+pub mod connection {
+    /// IANA Internet Protocol Number such as TCP(6) and UDP(17).
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Protocol {
+        /// Unspecified protocol (not HOPOPT).
+        Unspecified = 0,
+        /// Internet Control Message Protocol.
+        Icmp = 1,
+        /// Transmission Control Protocol.
+        Tcp = 6,
+        /// User Datagram Protocol.
+        Udp = 17,
+        /// Generic Routing Encapsulation.
+        Gre = 47,
+        /// Encap Security Payload.
+        Esp = 50,
+    }
+}
+/// Exfiltration represents a data exfiltration attempt of one or more
+/// sources to one or more targets.  Sources represent the source
+/// of data that is exfiltrated, and Targets represents the destination the
+/// data was copied to.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Exfiltration {
+    /// If there are multiple sources, then the data is considered "joined" between
+    /// them. For instance, BigQuery can join multiple tables, and each
+    /// table would be considered a source.
+    #[prost(message, repeated, tag="1")]
+    pub sources: ::prost::alloc::vec::Vec<ExfilResource>,
+    /// If there are multiple targets, each target would get a complete copy of the
+    /// "joined" source data.
+    #[prost(message, repeated, tag="2")]
+    pub targets: ::prost::alloc::vec::Vec<ExfilResource>,
+}
+/// Resource that has been exfiltrated or exfiltrated_to.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExfilResource {
+    /// Resource's URI (<https://google.aip.dev/122#full-resource-names>)
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Subcomponents of the asset that is exfiltrated - these could be
+    /// URIs used during exfiltration, table names, databases, filenames, etc.
+    /// For example, multiple tables may be exfiltrated from the same CloudSQL
+    /// instance, or multiple files from the same Cloud Storage bucket.
+    #[prost(string, repeated, tag="2")]
+    pub components: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Representation of third party SIEM/SOAR fields within SCC.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExternalSystem {
+    /// External System Name e.g. jira, demisto, etc.
+    ///  e.g.:
+    ///  `organizations/1234/sources/5678/findings/123456/externalSystems/jira`
+    /// `folders/1234/sources/5678/findings/123456/externalSystems/jira`
+    /// `projects/1234/sources/5678/findings/123456/externalSystems/jira`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// References primary/secondary etc assignees in the external system.
+    #[prost(string, repeated, tag="2")]
+    pub assignees: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Identifier that's used to track the given finding in the external system.
+    #[prost(string, tag="3")]
+    pub external_uid: ::prost::alloc::string::String,
+    /// Most recent status of the corresponding finding's ticket/tracker in the
+    /// external system.
+    #[prost(string, tag="4")]
+    pub status: ::prost::alloc::string::String,
+    /// The most recent time when the corresponding finding's ticket/tracker was
+    /// updated in the external system.
+    #[prost(message, optional, tag="5")]
+    pub external_system_update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Represents a particular IAM binding, which captures a member's role addition,
+/// removal, or state.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct IamBinding {
+    /// The action that was performed on a Binding.
+    #[prost(enumeration="iam_binding::Action", tag="1")]
+    pub action: i32,
+    /// Role that is assigned to "members".
+    /// For example, "roles/viewer", "roles/editor", or "roles/owner".
+    #[prost(string, tag="2")]
+    pub role: ::prost::alloc::string::String,
+    /// A single identity requesting access for a Cloud Platform resource,
+    /// e.g. "foo@google.com".
+    #[prost(string, tag="3")]
+    pub member: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `IamBinding`.
+pub mod iam_binding {
+    /// The type of action performed on a Binding in a policy.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Action {
+        /// Unspecified.
+        Unspecified = 0,
+        /// Addition of a Binding.
+        Add = 1,
+        /// Removal of a Binding.
+        Remove = 2,
+    }
+}
+/// Represents what's commonly known as an Indicator of compromise (IoC) in
+/// computer forensics. This is an artifact observed on a network or in an
+/// operating system that, with high confidence, indicates a computer intrusion.
+/// Reference: <https://en.wikipedia.org/wiki/Indicator_of_compromise>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Indicator {
+    /// List of ip addresses associated to the Finding.
+    #[prost(string, repeated, tag="1")]
+    pub ip_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// List of domains associated to the Finding.
+    #[prost(string, repeated, tag="2")]
+    pub domains: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
 /// MITRE ATT&CK tactics and techniques related to this finding.
 /// See: <https://attack.mitre.org>
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -133,91 +317,6 @@ pub mod mitre_attack {
         ImpairDefenses = 31,
     }
 }
-/// Represents a particular IAM binding, which captures a member's role addition,
-/// removal, or state.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct IamBinding {
-    /// The action that was performed on a Binding.
-    #[prost(enumeration="iam_binding::Action", tag="1")]
-    pub action: i32,
-    /// Role that is assigned to "members".
-    /// For example, "roles/viewer", "roles/editor", or "roles/owner".
-    #[prost(string, tag="2")]
-    pub role: ::prost::alloc::string::String,
-    /// A single identity requesting access for a Cloud Platform resource,
-    /// e.g. "foo@google.com".
-    #[prost(string, tag="3")]
-    pub member: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `IamBinding`.
-pub mod iam_binding {
-    /// The type of action performed on a Binding in a policy.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Action {
-        /// Unspecified.
-        Unspecified = 0,
-        /// Addition of a Binding.
-        Add = 1,
-        /// Removal of a Binding.
-        Remove = 2,
-    }
-}
-/// A mute config is a Cloud SCC resource that contains the configuration
-/// to mute create/update events of findings.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MuteConfig {
-    /// This field will be ignored if provided on config creation. Format
-    /// "organizations/{organization}/muteConfigs/{mute_config}"
-    /// "folders/{folder}/muteConfigs/{mute_config}"
-    /// "projects/{project}/muteConfigs/{mute_config}"
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The human readable name to be displayed for the mute config.
-    #[deprecated]
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// A description of the mute config.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    /// Required. An expression that defines the filter to apply across create/update events
-    /// of findings. While creating a filter string, be mindful of the
-    /// scope in which the mute configuration is being created. E.g., If a filter
-    /// contains project = X but is created under the project = Y scope, it might
-    /// not match any findings.
-    ///
-    /// The following field and operator combinations are supported:
-    ///
-    /// * severity: `=`, `:`
-    /// * category: `=`, `:`
-    /// * resource.name: `=`, `:`
-    /// * resource.project_name: `=`, `:`
-    /// * resource.project_display_name: `=`, `:`
-    /// * resource.folders.resource_folder: `=`, `:`
-    /// * resource.parent_name: `=`, `:`
-    /// * resource.parent_display_name: `=`, `:`
-    /// * resource.type: `=`, `:`
-    /// * finding_class: `=`, `:`
-    /// * indicator.ip_addresses: `=`, `:`
-    /// * indicator.domains: `=`, `:`
-    #[prost(string, tag="4")]
-    pub filter: ::prost::alloc::string::String,
-    /// Output only. The time at which the mute config was created.
-    /// This field is set by the server and will be ignored if provided on config
-    /// creation.
-    #[prost(message, optional, tag="5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The most recent time at which the mute config was updated.
-    /// This field is set by the server and will be ignored if provided on config
-    /// creation or update.
-    #[prost(message, optional, tag="6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Email address of the user who last edited the mute config.
-    /// This field is set by the server and will be ignored if provided on config
-    /// creation or update.
-    #[prost(string, tag="7")]
-    pub most_recent_editor: ::prost::alloc::string::String,
-}
 /// File information about the related binary/library used by an executable, or
 /// the script used by a script interpreter
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -291,37 +390,6 @@ pub struct EnvironmentVariable {
     #[prost(string, tag="2")]
     pub val: ::prost::alloc::string::String,
 }
-/// Represents an access event.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Access {
-    /// Associated email, such as "foo@google.com".
-    #[prost(string, tag="1")]
-    pub principal_email: ::prost::alloc::string::String,
-    /// Caller's IP address, such as "1.1.1.1".
-    #[prost(string, tag="2")]
-    pub caller_ip: ::prost::alloc::string::String,
-    /// The caller IP's geolocation, which identifies where the call came from.
-    #[prost(message, optional, tag="3")]
-    pub caller_ip_geo: ::core::option::Option<Geolocation>,
-    /// What kind of user agent is associated, e.g. operating system shells,
-    /// embedded or stand-alone applications, etc.
-    #[prost(string, tag="4")]
-    pub user_agent_family: ::prost::alloc::string::String,
-    /// This is the API service that the service account made a call to, e.g.
-    /// "iam.googleapis.com"
-    #[prost(string, tag="5")]
-    pub service_name: ::prost::alloc::string::String,
-    /// The method that the service account called, e.g. "SetIamPolicy".
-    #[prost(string, tag="6")]
-    pub method_name: ::prost::alloc::string::String,
-}
-/// Represents a geographical location for a given access.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Geolocation {
-    /// A CLDR.
-    #[prost(string, tag="1")]
-    pub region_code: ::prost::alloc::string::String,
-}
 /// User specified security marks that are attached to the parent Security
 /// Command Center resource. Security marks are scoped within a Security Command
 /// Center organization -- they can be modified and viewed by all users who have
@@ -355,129 +423,6 @@ pub struct SecurityMarks {
     /// "projects/{project_number}/sources/{source_id}/findings/{finding_id}/securityMarks"
     #[prost(string, tag="3")]
     pub canonical_name: ::prost::alloc::string::String,
-}
-/// Contains information about the IP connection associated with the finding.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Connection {
-    /// Destination IP address. Not present for sockets that are listening and not
-    /// connected.
-    #[prost(string, tag="1")]
-    pub destination_ip: ::prost::alloc::string::String,
-    /// Destination port. Not present for sockets that are listening and not
-    /// connected.
-    #[prost(int32, tag="2")]
-    pub destination_port: i32,
-    /// Source IP address.
-    #[prost(string, tag="3")]
-    pub source_ip: ::prost::alloc::string::String,
-    /// Source port.
-    #[prost(int32, tag="4")]
-    pub source_port: i32,
-    /// IANA Internet Protocol Number such as TCP(6) and UDP(17).
-    #[prost(enumeration="connection::Protocol", tag="5")]
-    pub protocol: i32,
-}
-/// Nested message and enum types in `Connection`.
-pub mod connection {
-    /// IANA Internet Protocol Number such as TCP(6) and UDP(17).
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Protocol {
-        /// Unspecified protocol (not HOPOPT).
-        Unspecified = 0,
-        /// Internet Control Message Protocol.
-        Icmp = 1,
-        /// Transmission Control Protocol.
-        Tcp = 6,
-        /// User Datagram Protocol.
-        Udp = 17,
-        /// Generic Routing Encapsulation.
-        Gre = 47,
-        /// Encap Security Payload.
-        Esp = 50,
-    }
-}
-/// Contains compliance information about a security standard indicating unmet
-/// recommendations.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Compliance {
-    /// Refers to industry wide standards or benchmarks e.g. "cis", "pci", "owasp",
-    /// etc.
-    #[prost(string, tag="1")]
-    pub standard: ::prost::alloc::string::String,
-    /// Version of the standard/benchmark e.g. 1.1
-    #[prost(string, tag="2")]
-    pub version: ::prost::alloc::string::String,
-    /// Policies within the standard/benchmark e.g. A.12.4.1
-    #[prost(string, repeated, tag="3")]
-    pub ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Exfiltration represents a data exfiltration attempt of one or more
-/// sources to one or more targets.  Sources represent the source
-/// of data that is exfiltrated, and Targets represents the destination the
-/// data was copied to.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Exfiltration {
-    /// If there are multiple sources, then the data is considered "joined" between
-    /// them. For instance, BigQuery can join multiple tables, and each
-    /// table would be considered a source.
-    #[prost(message, repeated, tag="1")]
-    pub sources: ::prost::alloc::vec::Vec<ExfilResource>,
-    /// If there are multiple targets, each target would get a complete copy of the
-    /// "joined" source data.
-    #[prost(message, repeated, tag="2")]
-    pub targets: ::prost::alloc::vec::Vec<ExfilResource>,
-}
-/// Resource that has been exfiltrated or exfiltrated_to.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExfilResource {
-    /// Resource's URI (<https://google.aip.dev/122#full-resource-names>)
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Subcomponents of the asset that is exfiltrated - these could be
-    /// URIs used during exfiltration, table names, databases, filenames, etc.
-    /// For example, multiple tables may be exfiltrated from the same CloudSQL
-    /// instance, or multiple files from the same Cloud Storage bucket.
-    #[prost(string, repeated, tag="2")]
-    pub components: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Representation of third party SIEM/SOAR fields within SCC.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExternalSystem {
-    /// External System Name e.g. jira, demisto, etc.
-    ///  e.g.:
-    ///  `organizations/1234/sources/5678/findings/123456/externalSystems/jira`
-    /// `folders/1234/sources/5678/findings/123456/externalSystems/jira`
-    /// `projects/1234/sources/5678/findings/123456/externalSystems/jira`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// References primary/secondary etc assignees in the external system.
-    #[prost(string, repeated, tag="2")]
-    pub assignees: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Identifier that's used to track the given finding in the external system.
-    #[prost(string, tag="3")]
-    pub external_uid: ::prost::alloc::string::String,
-    /// Most recent status of the corresponding finding's ticket/tracker in the
-    /// external system.
-    #[prost(string, tag="4")]
-    pub status: ::prost::alloc::string::String,
-    /// The most recent time when the corresponding finding's ticket/tracker was
-    /// updated in the external system.
-    #[prost(message, optional, tag="5")]
-    pub external_system_update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Represents what's commonly known as an Indicator of compromise (IoC) in
-/// computer forensics. This is an artifact observed on a network or in an
-/// operating system that, with high confidence, indicates a computer intrusion.
-/// Reference: <https://en.wikipedia.org/wiki/Indicator_of_compromise>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Indicator {
-    /// List of ip addresses associated to the Finding.
-    #[prost(string, repeated, tag="1")]
-    pub ip_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// List of domains associated to the Finding.
-    #[prost(string, repeated, tag="2")]
-    pub domains: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Refers to common vulnerability fields e.g. cve, cvss, cwe etc.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -979,69 +924,31 @@ pub mod notification_message {
         Finding(super::Finding),
     }
 }
-/// Cloud Security Command Center (Cloud SCC) notification configs.
-///
-/// A notification config is a Cloud SCC resource that contains the configuration
-/// to send notifications for create/update events of findings, assets and etc.
+/// Response of asset discovery run
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NotificationConfig {
-    /// The relative resource name of this notification config. See:
-    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name>
-    /// Example:
-    /// "organizations/{organization_id}/notificationConfigs/notify_public_bucket".
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The description of the notification config (max of 1024 characters).
-    #[prost(string, tag="2")]
-    pub description: ::prost::alloc::string::String,
-    /// The Pub/Sub topic to send notifications to. Its format is
-    /// "projects/\[project_id]/topics/[topic\]".
-    #[prost(string, tag="3")]
-    pub pubsub_topic: ::prost::alloc::string::String,
-    /// Output only. The service account that needs "pubsub.topics.publish"
-    /// permission to publish to the Pub/Sub topic.
-    #[prost(string, tag="4")]
-    pub service_account: ::prost::alloc::string::String,
-    /// The config for triggering notifications.
-    #[prost(oneof="notification_config::NotifyConfig", tags="5")]
-    pub notify_config: ::core::option::Option<notification_config::NotifyConfig>,
+pub struct RunAssetDiscoveryResponse {
+    /// The state of an asset discovery run.
+    #[prost(enumeration="run_asset_discovery_response::State", tag="1")]
+    pub state: i32,
+    /// The duration between asset discovery run start and end
+    #[prost(message, optional, tag="2")]
+    pub duration: ::core::option::Option<::prost_types::Duration>,
 }
-/// Nested message and enum types in `NotificationConfig`.
-pub mod notification_config {
-    /// The config for streaming-based notifications, which send each event as soon
-    /// as it is detected.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct StreamingConfig {
-        /// Expression that defines the filter to apply across create/update events
-        /// of assets or findings as specified by the event type. The expression is a
-        /// list of zero or more restrictions combined via logical operators `AND`
-        /// and `OR`. Parentheses are supported, and `OR` has higher precedence than
-        /// `AND`.
-        ///
-        /// Restrictions have the form `<field> <operator> <value>` and may have a
-        /// `-` character in front of them to indicate negation. The fields map to
-        /// those defined in the corresponding resource.
-        ///
-        /// The supported operators are:
-        ///
-        /// * `=` for all value types.
-        /// * `>`, `<`, `>=`, `<=` for integer values.
-        /// * `:`, meaning substring matching, for strings.
-        ///
-        /// The supported value types are:
-        ///
-        /// * string literals in quotes.
-        /// * integer literals without quotes.
-        /// * boolean literals `true` and `false` without quotes.
-        #[prost(string, tag="1")]
-        pub filter: ::prost::alloc::string::String,
-    }
-    /// The config for triggering notifications.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum NotifyConfig {
-        /// The config for triggering streaming-based notifications.
-        #[prost(message, tag="5")]
-        StreamingConfig(StreamingConfig),
+/// Nested message and enum types in `RunAssetDiscoveryResponse`.
+pub mod run_asset_discovery_response {
+    /// The state of an asset discovery run.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Asset discovery run state was unspecified.
+        Unspecified = 0,
+        /// Asset discovery run completed successfully.
+        Completed = 1,
+        /// Asset discovery run was cancelled with tasks still pending, as another
+        /// run for the same organization was started with a higher priority.
+        Superseded = 2,
+        /// Asset discovery run was killed and terminated.
+        Terminated = 3,
     }
 }
 /// Security Command Center representation of a Google Cloud
@@ -1147,94 +1054,6 @@ pub mod asset {
         pub policy_blob: ::prost::alloc::string::String,
     }
 }
-/// User specified settings that are attached to the Security Command
-/// Center organization.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OrganizationSettings {
-    /// The relative resource name of the settings. See:
-    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name>
-    /// Example:
-    /// "organizations/{organization_id}/organizationSettings".
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// A flag that indicates if Asset Discovery should be enabled. If the flag is
-    /// set to `true`, then discovery of assets will occur. If it is set to `false,
-    /// all historical assets will remain, but discovery of future assets will not
-    /// occur.
-    #[prost(bool, tag="2")]
-    pub enable_asset_discovery: bool,
-    /// The configuration used for Asset Discovery runs.
-    #[prost(message, optional, tag="3")]
-    pub asset_discovery_config: ::core::option::Option<organization_settings::AssetDiscoveryConfig>,
-}
-/// Nested message and enum types in `OrganizationSettings`.
-pub mod organization_settings {
-    /// The configuration used for Asset Discovery runs.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct AssetDiscoveryConfig {
-        /// The project ids to use for filtering asset discovery.
-        #[prost(string, repeated, tag="1")]
-        pub project_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// The mode to use for filtering asset discovery.
-        #[prost(enumeration="asset_discovery_config::InclusionMode", tag="2")]
-        pub inclusion_mode: i32,
-        /// The folder ids to use for filtering asset discovery.
-        /// It consists of only digits, e.g., 756619654966.
-        #[prost(string, repeated, tag="3")]
-        pub folder_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    }
-    /// Nested message and enum types in `AssetDiscoveryConfig`.
-    pub mod asset_discovery_config {
-        /// The mode of inclusion when running Asset Discovery.
-        /// Asset discovery can be limited by explicitly identifying projects to be
-        /// included or excluded. If INCLUDE_ONLY is set, then only those projects
-        /// within the organization and their children are discovered during asset
-        /// discovery. If EXCLUDE is set, then projects that don't match those
-        /// projects are discovered during asset discovery. If neither are set, then
-        /// all projects within the organization are discovered during asset
-        /// discovery.
-        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-        #[repr(i32)]
-        pub enum InclusionMode {
-            /// Unspecified. Setting the mode with this value will disable
-            /// inclusion/exclusion filtering for Asset Discovery.
-            Unspecified = 0,
-            /// Asset Discovery will capture only the resources within the projects
-            /// specified. All other resources will be ignored.
-            IncludeOnly = 1,
-            /// Asset Discovery will ignore all resources under the projects specified.
-            /// All other resources will be retrieved.
-            Exclude = 2,
-        }
-    }
-}
-/// Response of asset discovery run
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RunAssetDiscoveryResponse {
-    /// The state of an asset discovery run.
-    #[prost(enumeration="run_asset_discovery_response::State", tag="1")]
-    pub state: i32,
-    /// The duration between asset discovery run start and end
-    #[prost(message, optional, tag="2")]
-    pub duration: ::core::option::Option<::prost_types::Duration>,
-}
-/// Nested message and enum types in `RunAssetDiscoveryResponse`.
-pub mod run_asset_discovery_response {
-    /// The state of an asset discovery run.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Asset discovery run state was unspecified.
-        Unspecified = 0,
-        /// Asset discovery run completed successfully.
-        Completed = 1,
-        /// Asset discovery run was cancelled with tasks still pending, as another
-        /// run for the same organization was started with a higher priority.
-        Superseded = 2,
-        /// Asset discovery run was killed and terminated.
-        Terminated = 3,
-    }
-}
 /// Configures how to deliver Findings to BigQuery Instance.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BigQueryExport {
@@ -1298,6 +1117,187 @@ pub struct BigQueryExport {
     /// the big query dataset.
     #[prost(string, tag="8")]
     pub principal: ::prost::alloc::string::String,
+}
+/// A mute config is a Cloud SCC resource that contains the configuration
+/// to mute create/update events of findings.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MuteConfig {
+    /// This field will be ignored if provided on config creation. Format
+    /// "organizations/{organization}/muteConfigs/{mute_config}"
+    /// "folders/{folder}/muteConfigs/{mute_config}"
+    /// "projects/{project}/muteConfigs/{mute_config}"
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The human readable name to be displayed for the mute config.
+    #[deprecated]
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// A description of the mute config.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    /// Required. An expression that defines the filter to apply across create/update events
+    /// of findings. While creating a filter string, be mindful of the
+    /// scope in which the mute configuration is being created. E.g., If a filter
+    /// contains project = X but is created under the project = Y scope, it might
+    /// not match any findings.
+    ///
+    /// The following field and operator combinations are supported:
+    ///
+    /// * severity: `=`, `:`
+    /// * category: `=`, `:`
+    /// * resource.name: `=`, `:`
+    /// * resource.project_name: `=`, `:`
+    /// * resource.project_display_name: `=`, `:`
+    /// * resource.folders.resource_folder: `=`, `:`
+    /// * resource.parent_name: `=`, `:`
+    /// * resource.parent_display_name: `=`, `:`
+    /// * resource.type: `=`, `:`
+    /// * finding_class: `=`, `:`
+    /// * indicator.ip_addresses: `=`, `:`
+    /// * indicator.domains: `=`, `:`
+    #[prost(string, tag="4")]
+    pub filter: ::prost::alloc::string::String,
+    /// Output only. The time at which the mute config was created.
+    /// This field is set by the server and will be ignored if provided on config
+    /// creation.
+    #[prost(message, optional, tag="5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The most recent time at which the mute config was updated.
+    /// This field is set by the server and will be ignored if provided on config
+    /// creation or update.
+    #[prost(message, optional, tag="6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Email address of the user who last edited the mute config.
+    /// This field is set by the server and will be ignored if provided on config
+    /// creation or update.
+    #[prost(string, tag="7")]
+    pub most_recent_editor: ::prost::alloc::string::String,
+}
+/// Cloud Security Command Center (Cloud SCC) notification configs.
+///
+/// A notification config is a Cloud SCC resource that contains the configuration
+/// to send notifications for create/update events of findings, assets and etc.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NotificationConfig {
+    /// The relative resource name of this notification config. See:
+    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name>
+    /// Example:
+    /// "organizations/{organization_id}/notificationConfigs/notify_public_bucket".
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The description of the notification config (max of 1024 characters).
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
+    /// The Pub/Sub topic to send notifications to. Its format is
+    /// "projects/\[project_id]/topics/[topic\]".
+    #[prost(string, tag="3")]
+    pub pubsub_topic: ::prost::alloc::string::String,
+    /// Output only. The service account that needs "pubsub.topics.publish"
+    /// permission to publish to the Pub/Sub topic.
+    #[prost(string, tag="4")]
+    pub service_account: ::prost::alloc::string::String,
+    /// The config for triggering notifications.
+    #[prost(oneof="notification_config::NotifyConfig", tags="5")]
+    pub notify_config: ::core::option::Option<notification_config::NotifyConfig>,
+}
+/// Nested message and enum types in `NotificationConfig`.
+pub mod notification_config {
+    /// The config for streaming-based notifications, which send each event as soon
+    /// as it is detected.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct StreamingConfig {
+        /// Expression that defines the filter to apply across create/update events
+        /// of assets or findings as specified by the event type. The expression is a
+        /// list of zero or more restrictions combined via logical operators `AND`
+        /// and `OR`. Parentheses are supported, and `OR` has higher precedence than
+        /// `AND`.
+        ///
+        /// Restrictions have the form `<field> <operator> <value>` and may have a
+        /// `-` character in front of them to indicate negation. The fields map to
+        /// those defined in the corresponding resource.
+        ///
+        /// The supported operators are:
+        ///
+        /// * `=` for all value types.
+        /// * `>`, `<`, `>=`, `<=` for integer values.
+        /// * `:`, meaning substring matching, for strings.
+        ///
+        /// The supported value types are:
+        ///
+        /// * string literals in quotes.
+        /// * integer literals without quotes.
+        /// * boolean literals `true` and `false` without quotes.
+        #[prost(string, tag="1")]
+        pub filter: ::prost::alloc::string::String,
+    }
+    /// The config for triggering notifications.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum NotifyConfig {
+        /// The config for triggering streaming-based notifications.
+        #[prost(message, tag="5")]
+        StreamingConfig(StreamingConfig),
+    }
+}
+/// User specified settings that are attached to the Security Command
+/// Center organization.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OrganizationSettings {
+    /// The relative resource name of the settings. See:
+    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name>
+    /// Example:
+    /// "organizations/{organization_id}/organizationSettings".
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// A flag that indicates if Asset Discovery should be enabled. If the flag is
+    /// set to `true`, then discovery of assets will occur. If it is set to `false,
+    /// all historical assets will remain, but discovery of future assets will not
+    /// occur.
+    #[prost(bool, tag="2")]
+    pub enable_asset_discovery: bool,
+    /// The configuration used for Asset Discovery runs.
+    #[prost(message, optional, tag="3")]
+    pub asset_discovery_config: ::core::option::Option<organization_settings::AssetDiscoveryConfig>,
+}
+/// Nested message and enum types in `OrganizationSettings`.
+pub mod organization_settings {
+    /// The configuration used for Asset Discovery runs.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct AssetDiscoveryConfig {
+        /// The project ids to use for filtering asset discovery.
+        #[prost(string, repeated, tag="1")]
+        pub project_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// The mode to use for filtering asset discovery.
+        #[prost(enumeration="asset_discovery_config::InclusionMode", tag="2")]
+        pub inclusion_mode: i32,
+        /// The folder ids to use for filtering asset discovery.
+        /// It consists of only digits, e.g., 756619654966.
+        #[prost(string, repeated, tag="3")]
+        pub folder_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    }
+    /// Nested message and enum types in `AssetDiscoveryConfig`.
+    pub mod asset_discovery_config {
+        /// The mode of inclusion when running Asset Discovery.
+        /// Asset discovery can be limited by explicitly identifying projects to be
+        /// included or excluded. If INCLUDE_ONLY is set, then only those projects
+        /// within the organization and their children are discovered during asset
+        /// discovery. If EXCLUDE is set, then projects that don't match those
+        /// projects are discovered during asset discovery. If neither are set, then
+        /// all projects within the organization are discovered during asset
+        /// discovery.
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+        #[repr(i32)]
+        pub enum InclusionMode {
+            /// Unspecified. Setting the mode with this value will disable
+            /// inclusion/exclusion filtering for Asset Discovery.
+            Unspecified = 0,
+            /// Asset Discovery will capture only the resources within the projects
+            /// specified. All other resources will be ignored.
+            IncludeOnly = 1,
+            /// Asset Discovery will ignore all resources under the projects specified.
+            /// All other resources will be retrieved.
+            Exclude = 2,
+        }
+    }
 }
 /// Security Command Center finding source. A finding source
 /// is an entity or a mechanism that can produce a finding. A source is like a
