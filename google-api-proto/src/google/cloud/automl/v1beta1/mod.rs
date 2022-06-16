@@ -1,357 +1,3 @@
-/// A time period inside of an example that has a time dimension (e.g. video).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TimeSegment {
-    /// Start of the time segment (inclusive), represented as the duration since
-    /// the example start.
-    #[prost(message, optional, tag="1")]
-    pub start_time_offset: ::core::option::Option<::prost_types::Duration>,
-    /// End of the time segment (exclusive), represented as the duration since the
-    /// example start.
-    #[prost(message, optional, tag="2")]
-    pub end_time_offset: ::core::option::Option<::prost_types::Duration>,
-}
-/// Contains annotation details specific to classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ClassificationAnnotation {
-    /// Output only. A confidence estimate between 0.0 and 1.0. A higher value
-    /// means greater confidence that the annotation is positive. If a user
-    /// approves an annotation as negative or positive, the score value remains
-    /// unchanged. If a user creates an annotation, the score is 0 for negative or
-    /// 1 for positive.
-    #[prost(float, tag="1")]
-    pub score: f32,
-}
-/// Contains annotation details specific to video classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoClassificationAnnotation {
-    /// Output only. Expresses the type of video classification. Possible values:
-    ///
-    /// *  `segment` - Classification done on a specified by user
-    ///        time segment of a video. AnnotationSpec is answered to be present
-    ///        in that time segment, if it is present in any part of it. The video
-    ///        ML model evaluations are done only for this type of classification.
-    ///
-    /// *  `shot`- Shot-level classification.
-    ///        AutoML Video Intelligence determines the boundaries
-    ///        for each camera shot in the entire segment of the video that user
-    ///        specified in the request configuration. AutoML Video Intelligence
-    ///        then returns labels and their confidence scores for each detected
-    ///        shot, along with the start and end time of the shot.
-    ///        WARNING: Model evaluation is not done for this classification type,
-    ///        the quality of it depends on training data, but there are no
-    ///        metrics provided to describe that quality.
-    ///
-    /// *  `1s_interval` - AutoML Video Intelligence returns labels and their
-    ///        confidence scores for each second of the entire segment of the video
-    ///        that user specified in the request configuration.
-    ///        WARNING: Model evaluation is not done for this classification type,
-    ///        the quality of it depends on training data, but there are no
-    ///        metrics provided to describe that quality.
-    #[prost(string, tag="1")]
-    pub r#type: ::prost::alloc::string::String,
-    /// Output only . The classification details of this annotation.
-    #[prost(message, optional, tag="2")]
-    pub classification_annotation: ::core::option::Option<ClassificationAnnotation>,
-    /// Output only . The time segment of the video to which the
-    /// annotation applies.
-    #[prost(message, optional, tag="3")]
-    pub time_segment: ::core::option::Option<TimeSegment>,
-}
-/// Model evaluation metrics for classification problems.
-/// Note: For Video Classification this metrics only describe quality of the
-/// Video Classification predictions of "segment_classification" type.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ClassificationEvaluationMetrics {
-    /// Output only. The Area Under Precision-Recall Curve metric. Micro-averaged
-    /// for the overall evaluation.
-    #[prost(float, tag="1")]
-    pub au_prc: f32,
-    /// Output only. The Area Under Precision-Recall Curve metric based on priors.
-    /// Micro-averaged for the overall evaluation.
-    /// Deprecated.
-    #[deprecated]
-    #[prost(float, tag="2")]
-    pub base_au_prc: f32,
-    /// Output only. The Area Under Receiver Operating Characteristic curve metric.
-    /// Micro-averaged for the overall evaluation.
-    #[prost(float, tag="6")]
-    pub au_roc: f32,
-    /// Output only. The Log Loss metric.
-    #[prost(float, tag="7")]
-    pub log_loss: f32,
-    /// Output only. Metrics for each confidence_threshold in
-    /// 0.00,0.05,0.10,...,0.95,0.96,0.97,0.98,0.99 and
-    /// position_threshold = INT32_MAX_VALUE.
-    /// ROC and precision-recall curves, and other aggregated metrics are derived
-    /// from them. The confidence metrics entries may also be supplied for
-    /// additional values of position_threshold, but from these no aggregated
-    /// metrics are computed.
-    #[prost(message, repeated, tag="3")]
-    pub confidence_metrics_entry: ::prost::alloc::vec::Vec<classification_evaluation_metrics::ConfidenceMetricsEntry>,
-    /// Output only. Confusion matrix of the evaluation.
-    /// Only set for MULTICLASS classification problems where number
-    /// of labels is no more than 10.
-    /// Only set for model level evaluation, not for evaluation per label.
-    #[prost(message, optional, tag="4")]
-    pub confusion_matrix: ::core::option::Option<classification_evaluation_metrics::ConfusionMatrix>,
-    /// Output only. The annotation spec ids used for this evaluation.
-    #[prost(string, repeated, tag="5")]
-    pub annotation_spec_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Nested message and enum types in `ClassificationEvaluationMetrics`.
-pub mod classification_evaluation_metrics {
-    /// Metrics for a single confidence threshold.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ConfidenceMetricsEntry {
-        /// Output only. Metrics are computed with an assumption that the model
-        /// never returns predictions with score lower than this value.
-        #[prost(float, tag="1")]
-        pub confidence_threshold: f32,
-        /// Output only. Metrics are computed with an assumption that the model
-        /// always returns at most this many predictions (ordered by their score,
-        /// descendingly), but they all still need to meet the confidence_threshold.
-        #[prost(int32, tag="14")]
-        pub position_threshold: i32,
-        /// Output only. Recall (True Positive Rate) for the given confidence
-        /// threshold.
-        #[prost(float, tag="2")]
-        pub recall: f32,
-        /// Output only. Precision for the given confidence threshold.
-        #[prost(float, tag="3")]
-        pub precision: f32,
-        /// Output only. False Positive Rate for the given confidence threshold.
-        #[prost(float, tag="8")]
-        pub false_positive_rate: f32,
-        /// Output only. The harmonic mean of recall and precision.
-        #[prost(float, tag="4")]
-        pub f1_score: f32,
-        /// Output only. The Recall (True Positive Rate) when only considering the
-        /// label that has the highest prediction score and not below the confidence
-        /// threshold for each example.
-        #[prost(float, tag="5")]
-        pub recall_at1: f32,
-        /// Output only. The precision when only considering the label that has the
-        /// highest prediction score and not below the confidence threshold for each
-        /// example.
-        #[prost(float, tag="6")]
-        pub precision_at1: f32,
-        /// Output only. The False Positive Rate when only considering the label that
-        /// has the highest prediction score and not below the confidence threshold
-        /// for each example.
-        #[prost(float, tag="9")]
-        pub false_positive_rate_at1: f32,
-        /// Output only. The harmonic mean of \[recall_at1][google.cloud.automl.v1beta1.ClassificationEvaluationMetrics.ConfidenceMetricsEntry.recall_at1\] and \[precision_at1][google.cloud.automl.v1beta1.ClassificationEvaluationMetrics.ConfidenceMetricsEntry.precision_at1\].
-        #[prost(float, tag="7")]
-        pub f1_score_at1: f32,
-        /// Output only. The number of model created labels that match a ground truth
-        /// label.
-        #[prost(int64, tag="10")]
-        pub true_positive_count: i64,
-        /// Output only. The number of model created labels that do not match a
-        /// ground truth label.
-        #[prost(int64, tag="11")]
-        pub false_positive_count: i64,
-        /// Output only. The number of ground truth labels that are not matched
-        /// by a model created label.
-        #[prost(int64, tag="12")]
-        pub false_negative_count: i64,
-        /// Output only. The number of labels that were not created by the model,
-        /// but if they would, they would not match a ground truth label.
-        #[prost(int64, tag="13")]
-        pub true_negative_count: i64,
-    }
-    /// Confusion matrix of the model running the classification.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ConfusionMatrix {
-        /// Output only. IDs of the annotation specs used in the confusion matrix.
-        /// For Tables CLASSIFICATION
-        ///
-        /// \[prediction_type][google.cloud.automl.v1beta1.TablesModelMetadata.prediction_type\]
-        /// only list of \[annotation_spec_display_name-s][\] is populated.
-        #[prost(string, repeated, tag="1")]
-        pub annotation_spec_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// Output only. Display name of the annotation specs used in the confusion
-        /// matrix, as they were at the moment of the evaluation. For Tables
-        /// CLASSIFICATION
-        ///
-        /// \[prediction_type-s][google.cloud.automl.v1beta1.TablesModelMetadata.prediction_type\],
-        /// distinct values of the target column at the moment of the model
-        /// evaluation are populated here.
-        #[prost(string, repeated, tag="3")]
-        pub display_name: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// Output only. Rows in the confusion matrix. The number of rows is equal to
-        /// the size of `annotation_spec_id`.
-        /// `row\[i].example_count[j\]` is the number of examples that have ground
-        /// truth of the `annotation_spec_id\[i\]` and are predicted as
-        /// `annotation_spec_id\[j\]` by the model being evaluated.
-        #[prost(message, repeated, tag="2")]
-        pub row: ::prost::alloc::vec::Vec<confusion_matrix::Row>,
-    }
-    /// Nested message and enum types in `ConfusionMatrix`.
-    pub mod confusion_matrix {
-        /// Output only. A row in the confusion matrix.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Row {
-            /// Output only. Value of the specific cell in the confusion matrix.
-            /// The number of values each row has (i.e. the length of the row) is equal
-            /// to the length of the `annotation_spec_id` field or, if that one is not
-            /// populated, length of the \[display_name][google.cloud.automl.v1beta1.ClassificationEvaluationMetrics.ConfusionMatrix.display_name\] field.
-            #[prost(int32, repeated, tag="1")]
-            pub example_count: ::prost::alloc::vec::Vec<i32>,
-        }
-    }
-}
-/// Type of the classification problem.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum ClassificationType {
-    /// An un-set value of this enum.
-    Unspecified = 0,
-    /// At most one label is allowed per example.
-    Multiclass = 1,
-    /// Multiple labels are allowed for one example.
-    Multilabel = 2,
-}
-/// A vertex represents a 2D point in the image.
-/// The normalized vertex coordinates are between 0 to 1 fractions relative to
-/// the original plane (image, video). E.g. if the plane (e.g. whole image) would
-/// have size 10 x 20 then a point with normalized coordinates (0.1, 0.3) would
-/// be at the position (1, 6) on that plane.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NormalizedVertex {
-    /// Required. Horizontal coordinate.
-    #[prost(float, tag="1")]
-    pub x: f32,
-    /// Required. Vertical coordinate.
-    #[prost(float, tag="2")]
-    pub y: f32,
-}
-/// A bounding polygon of a detected object on a plane.
-/// On output both vertices and normalized_vertices are provided.
-/// The polygon is formed by connecting vertices in the order they are listed.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BoundingPoly {
-    /// Output only . The bounding polygon normalized vertices.
-    #[prost(message, repeated, tag="2")]
-    pub normalized_vertices: ::prost::alloc::vec::Vec<NormalizedVertex>,
-}
-/// Annotation details for image object detection.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageObjectDetectionAnnotation {
-    /// Output only. The rectangle representing the object location.
-    #[prost(message, optional, tag="1")]
-    pub bounding_box: ::core::option::Option<BoundingPoly>,
-    /// Output only. The confidence that this annotation is positive for the parent example,
-    /// value in [0, 1], higher means higher positivity confidence.
-    #[prost(float, tag="2")]
-    pub score: f32,
-}
-/// Annotation details for video object tracking.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoObjectTrackingAnnotation {
-    /// Optional. The instance of the object, expressed as a positive integer. Used to tell
-    /// apart objects of the same type (i.e. AnnotationSpec) when multiple are
-    /// present on a single example.
-    /// NOTE: Instance ID prediction quality is not a part of model evaluation and
-    /// is done as best effort. Especially in cases when an entity goes
-    /// off-screen for a longer time (minutes), when it comes back it may be given
-    /// a new instance ID.
-    #[prost(string, tag="1")]
-    pub instance_id: ::prost::alloc::string::String,
-    /// Required. A time (frame) of a video to which this annotation pertains.
-    /// Represented as the duration since the video's start.
-    #[prost(message, optional, tag="2")]
-    pub time_offset: ::core::option::Option<::prost_types::Duration>,
-    /// Required. The rectangle representing the object location on the frame (i.e.
-    /// at the time_offset of the video).
-    #[prost(message, optional, tag="3")]
-    pub bounding_box: ::core::option::Option<BoundingPoly>,
-    /// Output only. The confidence that this annotation is positive for the video at
-    /// the time_offset, value in [0, 1], higher means higher positivity
-    /// confidence. For annotations created by the user the score is 1. When
-    /// user approves an annotation, the original float score is kept (and not
-    /// changed to 1).
-    #[prost(float, tag="4")]
-    pub score: f32,
-}
-/// Bounding box matching model metrics for a single intersection-over-union
-/// threshold and multiple label match confidence thresholds.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BoundingBoxMetricsEntry {
-    /// Output only. The intersection-over-union threshold value used to compute
-    /// this metrics entry.
-    #[prost(float, tag="1")]
-    pub iou_threshold: f32,
-    /// Output only. The mean average precision, most often close to au_prc.
-    #[prost(float, tag="2")]
-    pub mean_average_precision: f32,
-    /// Output only. Metrics for each label-match confidence_threshold from
-    /// 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99. Precision-recall curve is
-    /// derived from them.
-    #[prost(message, repeated, tag="3")]
-    pub confidence_metrics_entries: ::prost::alloc::vec::Vec<bounding_box_metrics_entry::ConfidenceMetricsEntry>,
-}
-/// Nested message and enum types in `BoundingBoxMetricsEntry`.
-pub mod bounding_box_metrics_entry {
-    /// Metrics for a single confidence threshold.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ConfidenceMetricsEntry {
-        /// Output only. The confidence threshold value used to compute the metrics.
-        #[prost(float, tag="1")]
-        pub confidence_threshold: f32,
-        /// Output only. Recall under the given confidence threshold.
-        #[prost(float, tag="2")]
-        pub recall: f32,
-        /// Output only. Precision under the given confidence threshold.
-        #[prost(float, tag="3")]
-        pub precision: f32,
-        /// Output only. The harmonic mean of recall and precision.
-        #[prost(float, tag="4")]
-        pub f1_score: f32,
-    }
-}
-/// Model evaluation metrics for image object detection problems.
-/// Evaluates prediction quality of labeled bounding boxes.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageObjectDetectionEvaluationMetrics {
-    /// Output only. The total number of bounding boxes (i.e. summed over all
-    /// images) the ground truth used to create this evaluation had.
-    #[prost(int32, tag="1")]
-    pub evaluated_bounding_box_count: i32,
-    /// Output only. The bounding boxes match metrics for each
-    /// Intersection-over-union threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
-    /// and each label confidence threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
-    /// pair.
-    #[prost(message, repeated, tag="2")]
-    pub bounding_box_metrics_entries: ::prost::alloc::vec::Vec<BoundingBoxMetricsEntry>,
-    /// Output only. The single metric for bounding boxes evaluation:
-    /// the mean_average_precision averaged over all bounding_box_metrics_entries.
-    #[prost(float, tag="3")]
-    pub bounding_box_mean_average_precision: f32,
-}
-/// Model evaluation metrics for video object tracking problems.
-/// Evaluates prediction quality of both labeled bounding boxes and labeled
-/// tracks (i.e. series of bounding boxes sharing same label and instance ID).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoObjectTrackingEvaluationMetrics {
-    /// Output only. The number of video frames used to create this evaluation.
-    #[prost(int32, tag="1")]
-    pub evaluated_frame_count: i32,
-    /// Output only. The total number of bounding boxes (i.e. summed over all
-    /// frames) the ground truth used to create this evaluation had.
-    #[prost(int32, tag="2")]
-    pub evaluated_bounding_box_count: i32,
-    /// Output only. The bounding boxes match metrics for each
-    /// Intersection-over-union threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
-    /// and each label confidence threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
-    /// pair.
-    #[prost(message, repeated, tag="4")]
-    pub bounding_box_metrics_entries: ::prost::alloc::vec::Vec<BoundingBoxMetricsEntry>,
-    /// Output only. The single metric for bounding boxes evaluation:
-    /// the mean_average_precision averaged over all bounding_box_metrics_entries.
-    #[prost(float, tag="6")]
-    pub bounding_box_mean_average_precision: f32,
-}
 /// The data statistics of a series of values that share the same DataType.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DataStats {
@@ -657,6 +303,463 @@ pub mod column_spec {
         #[prost(message, optional, tag="2")]
         pub correlation_stats: ::core::option::Option<super::CorrelationStats>,
     }
+}
+/// A time period inside of an example that has a time dimension (e.g. video).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TimeSegment {
+    /// Start of the time segment (inclusive), represented as the duration since
+    /// the example start.
+    #[prost(message, optional, tag="1")]
+    pub start_time_offset: ::core::option::Option<::prost_types::Duration>,
+    /// End of the time segment (exclusive), represented as the duration since the
+    /// example start.
+    #[prost(message, optional, tag="2")]
+    pub end_time_offset: ::core::option::Option<::prost_types::Duration>,
+}
+/// Contains annotation details specific to classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ClassificationAnnotation {
+    /// Output only. A confidence estimate between 0.0 and 1.0. A higher value
+    /// means greater confidence that the annotation is positive. If a user
+    /// approves an annotation as negative or positive, the score value remains
+    /// unchanged. If a user creates an annotation, the score is 0 for negative or
+    /// 1 for positive.
+    #[prost(float, tag="1")]
+    pub score: f32,
+}
+/// Contains annotation details specific to video classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoClassificationAnnotation {
+    /// Output only. Expresses the type of video classification. Possible values:
+    ///
+    /// *  `segment` - Classification done on a specified by user
+    ///        time segment of a video. AnnotationSpec is answered to be present
+    ///        in that time segment, if it is present in any part of it. The video
+    ///        ML model evaluations are done only for this type of classification.
+    ///
+    /// *  `shot`- Shot-level classification.
+    ///        AutoML Video Intelligence determines the boundaries
+    ///        for each camera shot in the entire segment of the video that user
+    ///        specified in the request configuration. AutoML Video Intelligence
+    ///        then returns labels and their confidence scores for each detected
+    ///        shot, along with the start and end time of the shot.
+    ///        WARNING: Model evaluation is not done for this classification type,
+    ///        the quality of it depends on training data, but there are no
+    ///        metrics provided to describe that quality.
+    ///
+    /// *  `1s_interval` - AutoML Video Intelligence returns labels and their
+    ///        confidence scores for each second of the entire segment of the video
+    ///        that user specified in the request configuration.
+    ///        WARNING: Model evaluation is not done for this classification type,
+    ///        the quality of it depends on training data, but there are no
+    ///        metrics provided to describe that quality.
+    #[prost(string, tag="1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// Output only . The classification details of this annotation.
+    #[prost(message, optional, tag="2")]
+    pub classification_annotation: ::core::option::Option<ClassificationAnnotation>,
+    /// Output only . The time segment of the video to which the
+    /// annotation applies.
+    #[prost(message, optional, tag="3")]
+    pub time_segment: ::core::option::Option<TimeSegment>,
+}
+/// Model evaluation metrics for classification problems.
+/// Note: For Video Classification this metrics only describe quality of the
+/// Video Classification predictions of "segment_classification" type.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ClassificationEvaluationMetrics {
+    /// Output only. The Area Under Precision-Recall Curve metric. Micro-averaged
+    /// for the overall evaluation.
+    #[prost(float, tag="1")]
+    pub au_prc: f32,
+    /// Output only. The Area Under Precision-Recall Curve metric based on priors.
+    /// Micro-averaged for the overall evaluation.
+    /// Deprecated.
+    #[deprecated]
+    #[prost(float, tag="2")]
+    pub base_au_prc: f32,
+    /// Output only. The Area Under Receiver Operating Characteristic curve metric.
+    /// Micro-averaged for the overall evaluation.
+    #[prost(float, tag="6")]
+    pub au_roc: f32,
+    /// Output only. The Log Loss metric.
+    #[prost(float, tag="7")]
+    pub log_loss: f32,
+    /// Output only. Metrics for each confidence_threshold in
+    /// 0.00,0.05,0.10,...,0.95,0.96,0.97,0.98,0.99 and
+    /// position_threshold = INT32_MAX_VALUE.
+    /// ROC and precision-recall curves, and other aggregated metrics are derived
+    /// from them. The confidence metrics entries may also be supplied for
+    /// additional values of position_threshold, but from these no aggregated
+    /// metrics are computed.
+    #[prost(message, repeated, tag="3")]
+    pub confidence_metrics_entry: ::prost::alloc::vec::Vec<classification_evaluation_metrics::ConfidenceMetricsEntry>,
+    /// Output only. Confusion matrix of the evaluation.
+    /// Only set for MULTICLASS classification problems where number
+    /// of labels is no more than 10.
+    /// Only set for model level evaluation, not for evaluation per label.
+    #[prost(message, optional, tag="4")]
+    pub confusion_matrix: ::core::option::Option<classification_evaluation_metrics::ConfusionMatrix>,
+    /// Output only. The annotation spec ids used for this evaluation.
+    #[prost(string, repeated, tag="5")]
+    pub annotation_spec_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `ClassificationEvaluationMetrics`.
+pub mod classification_evaluation_metrics {
+    /// Metrics for a single confidence threshold.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConfidenceMetricsEntry {
+        /// Output only. Metrics are computed with an assumption that the model
+        /// never returns predictions with score lower than this value.
+        #[prost(float, tag="1")]
+        pub confidence_threshold: f32,
+        /// Output only. Metrics are computed with an assumption that the model
+        /// always returns at most this many predictions (ordered by their score,
+        /// descendingly), but they all still need to meet the confidence_threshold.
+        #[prost(int32, tag="14")]
+        pub position_threshold: i32,
+        /// Output only. Recall (True Positive Rate) for the given confidence
+        /// threshold.
+        #[prost(float, tag="2")]
+        pub recall: f32,
+        /// Output only. Precision for the given confidence threshold.
+        #[prost(float, tag="3")]
+        pub precision: f32,
+        /// Output only. False Positive Rate for the given confidence threshold.
+        #[prost(float, tag="8")]
+        pub false_positive_rate: f32,
+        /// Output only. The harmonic mean of recall and precision.
+        #[prost(float, tag="4")]
+        pub f1_score: f32,
+        /// Output only. The Recall (True Positive Rate) when only considering the
+        /// label that has the highest prediction score and not below the confidence
+        /// threshold for each example.
+        #[prost(float, tag="5")]
+        pub recall_at1: f32,
+        /// Output only. The precision when only considering the label that has the
+        /// highest prediction score and not below the confidence threshold for each
+        /// example.
+        #[prost(float, tag="6")]
+        pub precision_at1: f32,
+        /// Output only. The False Positive Rate when only considering the label that
+        /// has the highest prediction score and not below the confidence threshold
+        /// for each example.
+        #[prost(float, tag="9")]
+        pub false_positive_rate_at1: f32,
+        /// Output only. The harmonic mean of \[recall_at1][google.cloud.automl.v1beta1.ClassificationEvaluationMetrics.ConfidenceMetricsEntry.recall_at1\] and \[precision_at1][google.cloud.automl.v1beta1.ClassificationEvaluationMetrics.ConfidenceMetricsEntry.precision_at1\].
+        #[prost(float, tag="7")]
+        pub f1_score_at1: f32,
+        /// Output only. The number of model created labels that match a ground truth
+        /// label.
+        #[prost(int64, tag="10")]
+        pub true_positive_count: i64,
+        /// Output only. The number of model created labels that do not match a
+        /// ground truth label.
+        #[prost(int64, tag="11")]
+        pub false_positive_count: i64,
+        /// Output only. The number of ground truth labels that are not matched
+        /// by a model created label.
+        #[prost(int64, tag="12")]
+        pub false_negative_count: i64,
+        /// Output only. The number of labels that were not created by the model,
+        /// but if they would, they would not match a ground truth label.
+        #[prost(int64, tag="13")]
+        pub true_negative_count: i64,
+    }
+    /// Confusion matrix of the model running the classification.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConfusionMatrix {
+        /// Output only. IDs of the annotation specs used in the confusion matrix.
+        /// For Tables CLASSIFICATION
+        ///
+        /// \[prediction_type][google.cloud.automl.v1beta1.TablesModelMetadata.prediction_type\]
+        /// only list of \[annotation_spec_display_name-s][\] is populated.
+        #[prost(string, repeated, tag="1")]
+        pub annotation_spec_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Output only. Display name of the annotation specs used in the confusion
+        /// matrix, as they were at the moment of the evaluation. For Tables
+        /// CLASSIFICATION
+        ///
+        /// \[prediction_type-s][google.cloud.automl.v1beta1.TablesModelMetadata.prediction_type\],
+        /// distinct values of the target column at the moment of the model
+        /// evaluation are populated here.
+        #[prost(string, repeated, tag="3")]
+        pub display_name: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Output only. Rows in the confusion matrix. The number of rows is equal to
+        /// the size of `annotation_spec_id`.
+        /// `row\[i].example_count[j\]` is the number of examples that have ground
+        /// truth of the `annotation_spec_id\[i\]` and are predicted as
+        /// `annotation_spec_id\[j\]` by the model being evaluated.
+        #[prost(message, repeated, tag="2")]
+        pub row: ::prost::alloc::vec::Vec<confusion_matrix::Row>,
+    }
+    /// Nested message and enum types in `ConfusionMatrix`.
+    pub mod confusion_matrix {
+        /// Output only. A row in the confusion matrix.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Row {
+            /// Output only. Value of the specific cell in the confusion matrix.
+            /// The number of values each row has (i.e. the length of the row) is equal
+            /// to the length of the `annotation_spec_id` field or, if that one is not
+            /// populated, length of the \[display_name][google.cloud.automl.v1beta1.ClassificationEvaluationMetrics.ConfusionMatrix.display_name\] field.
+            #[prost(int32, repeated, tag="1")]
+            pub example_count: ::prost::alloc::vec::Vec<i32>,
+        }
+    }
+}
+/// Type of the classification problem.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ClassificationType {
+    /// An un-set value of this enum.
+    Unspecified = 0,
+    /// At most one label is allowed per example.
+    Multiclass = 1,
+    /// Multiple labels are allowed for one example.
+    Multilabel = 2,
+}
+/// Contains annotation details specific to text sentiment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextSentimentAnnotation {
+    /// Output only. The sentiment with the semantic, as given to the
+    /// \[AutoMl.ImportData][google.cloud.automl.v1beta1.AutoMl.ImportData\] when populating the dataset from which the model used
+    /// for the prediction had been trained.
+    /// The sentiment values are between 0 and
+    /// Dataset.text_sentiment_dataset_metadata.sentiment_max (inclusive),
+    /// with higher value meaning more positive sentiment. They are completely
+    /// relative, i.e. 0 means least positive sentiment and sentiment_max means
+    /// the most positive from the sentiments present in the train data. Therefore
+    ///  e.g. if train data had only negative sentiment, then sentiment_max, would
+    /// be still negative (although least negative).
+    /// The sentiment shouldn't be confused with "score" or "magnitude"
+    /// from the previous Natural Language Sentiment Analysis API.
+    #[prost(int32, tag="1")]
+    pub sentiment: i32,
+}
+/// Model evaluation metrics for text sentiment problems.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextSentimentEvaluationMetrics {
+    /// Output only. Precision.
+    #[prost(float, tag="1")]
+    pub precision: f32,
+    /// Output only. Recall.
+    #[prost(float, tag="2")]
+    pub recall: f32,
+    /// Output only. The harmonic mean of recall and precision.
+    #[prost(float, tag="3")]
+    pub f1_score: f32,
+    /// Output only. Mean absolute error. Only set for the overall model
+    /// evaluation, not for evaluation of a single annotation spec.
+    #[prost(float, tag="4")]
+    pub mean_absolute_error: f32,
+    /// Output only. Mean squared error. Only set for the overall model
+    /// evaluation, not for evaluation of a single annotation spec.
+    #[prost(float, tag="5")]
+    pub mean_squared_error: f32,
+    /// Output only. Linear weighted kappa. Only set for the overall model
+    /// evaluation, not for evaluation of a single annotation spec.
+    #[prost(float, tag="6")]
+    pub linear_kappa: f32,
+    /// Output only. Quadratic weighted kappa. Only set for the overall model
+    /// evaluation, not for evaluation of a single annotation spec.
+    #[prost(float, tag="7")]
+    pub quadratic_kappa: f32,
+    /// Output only. Confusion matrix of the evaluation.
+    /// Only set for the overall model evaluation, not for evaluation of a single
+    /// annotation spec.
+    #[prost(message, optional, tag="8")]
+    pub confusion_matrix: ::core::option::Option<classification_evaluation_metrics::ConfusionMatrix>,
+    /// Output only. The annotation spec ids used for this evaluation.
+    /// Deprecated .
+    #[deprecated]
+    #[prost(string, repeated, tag="9")]
+    pub annotation_spec_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Dataset metadata for classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextClassificationDatasetMetadata {
+    /// Required. Type of the classification problem.
+    #[prost(enumeration="ClassificationType", tag="1")]
+    pub classification_type: i32,
+}
+/// Model metadata that is specific to text classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextClassificationModelMetadata {
+    /// Output only. Classification type of the dataset used to train this model.
+    #[prost(enumeration="ClassificationType", tag="3")]
+    pub classification_type: i32,
+}
+/// Dataset metadata that is specific to text extraction
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextExtractionDatasetMetadata {
+}
+/// Model metadata that is specific to text extraction.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextExtractionModelMetadata {
+    /// Indicates the scope of model use case.
+    ///
+    /// * `default`: Use to train a general text extraction model. Default value.
+    ///
+    /// * `health_care`: Use to train a text extraction model that is tuned for
+    ///   healthcare applications.
+    #[prost(string, tag="3")]
+    pub model_hint: ::prost::alloc::string::String,
+}
+/// Dataset metadata for text sentiment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextSentimentDatasetMetadata {
+    /// Required. A sentiment is expressed as an integer ordinal, where higher value
+    /// means a more positive sentiment. The range of sentiments that will be used
+    /// is between 0 and sentiment_max (inclusive on both ends), and all the values
+    /// in the range must be represented in the dataset before a model can be
+    /// created.
+    /// sentiment_max value must be between 1 and 10 (inclusive).
+    #[prost(int32, tag="1")]
+    pub sentiment_max: i32,
+}
+/// Model metadata that is specific to text sentiment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextSentimentModelMetadata {
+}
+/// A vertex represents a 2D point in the image.
+/// The normalized vertex coordinates are between 0 to 1 fractions relative to
+/// the original plane (image, video). E.g. if the plane (e.g. whole image) would
+/// have size 10 x 20 then a point with normalized coordinates (0.1, 0.3) would
+/// be at the position (1, 6) on that plane.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NormalizedVertex {
+    /// Required. Horizontal coordinate.
+    #[prost(float, tag="1")]
+    pub x: f32,
+    /// Required. Vertical coordinate.
+    #[prost(float, tag="2")]
+    pub y: f32,
+}
+/// A bounding polygon of a detected object on a plane.
+/// On output both vertices and normalized_vertices are provided.
+/// The polygon is formed by connecting vertices in the order they are listed.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BoundingPoly {
+    /// Output only . The bounding polygon normalized vertices.
+    #[prost(message, repeated, tag="2")]
+    pub normalized_vertices: ::prost::alloc::vec::Vec<NormalizedVertex>,
+}
+/// Annotation details for image object detection.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImageObjectDetectionAnnotation {
+    /// Output only. The rectangle representing the object location.
+    #[prost(message, optional, tag="1")]
+    pub bounding_box: ::core::option::Option<BoundingPoly>,
+    /// Output only. The confidence that this annotation is positive for the parent example,
+    /// value in [0, 1], higher means higher positivity confidence.
+    #[prost(float, tag="2")]
+    pub score: f32,
+}
+/// Annotation details for video object tracking.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoObjectTrackingAnnotation {
+    /// Optional. The instance of the object, expressed as a positive integer. Used to tell
+    /// apart objects of the same type (i.e. AnnotationSpec) when multiple are
+    /// present on a single example.
+    /// NOTE: Instance ID prediction quality is not a part of model evaluation and
+    /// is done as best effort. Especially in cases when an entity goes
+    /// off-screen for a longer time (minutes), when it comes back it may be given
+    /// a new instance ID.
+    #[prost(string, tag="1")]
+    pub instance_id: ::prost::alloc::string::String,
+    /// Required. A time (frame) of a video to which this annotation pertains.
+    /// Represented as the duration since the video's start.
+    #[prost(message, optional, tag="2")]
+    pub time_offset: ::core::option::Option<::prost_types::Duration>,
+    /// Required. The rectangle representing the object location on the frame (i.e.
+    /// at the time_offset of the video).
+    #[prost(message, optional, tag="3")]
+    pub bounding_box: ::core::option::Option<BoundingPoly>,
+    /// Output only. The confidence that this annotation is positive for the video at
+    /// the time_offset, value in [0, 1], higher means higher positivity
+    /// confidence. For annotations created by the user the score is 1. When
+    /// user approves an annotation, the original float score is kept (and not
+    /// changed to 1).
+    #[prost(float, tag="4")]
+    pub score: f32,
+}
+/// Bounding box matching model metrics for a single intersection-over-union
+/// threshold and multiple label match confidence thresholds.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BoundingBoxMetricsEntry {
+    /// Output only. The intersection-over-union threshold value used to compute
+    /// this metrics entry.
+    #[prost(float, tag="1")]
+    pub iou_threshold: f32,
+    /// Output only. The mean average precision, most often close to au_prc.
+    #[prost(float, tag="2")]
+    pub mean_average_precision: f32,
+    /// Output only. Metrics for each label-match confidence_threshold from
+    /// 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99. Precision-recall curve is
+    /// derived from them.
+    #[prost(message, repeated, tag="3")]
+    pub confidence_metrics_entries: ::prost::alloc::vec::Vec<bounding_box_metrics_entry::ConfidenceMetricsEntry>,
+}
+/// Nested message and enum types in `BoundingBoxMetricsEntry`.
+pub mod bounding_box_metrics_entry {
+    /// Metrics for a single confidence threshold.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConfidenceMetricsEntry {
+        /// Output only. The confidence threshold value used to compute the metrics.
+        #[prost(float, tag="1")]
+        pub confidence_threshold: f32,
+        /// Output only. Recall under the given confidence threshold.
+        #[prost(float, tag="2")]
+        pub recall: f32,
+        /// Output only. Precision under the given confidence threshold.
+        #[prost(float, tag="3")]
+        pub precision: f32,
+        /// Output only. The harmonic mean of recall and precision.
+        #[prost(float, tag="4")]
+        pub f1_score: f32,
+    }
+}
+/// Model evaluation metrics for image object detection problems.
+/// Evaluates prediction quality of labeled bounding boxes.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImageObjectDetectionEvaluationMetrics {
+    /// Output only. The total number of bounding boxes (i.e. summed over all
+    /// images) the ground truth used to create this evaluation had.
+    #[prost(int32, tag="1")]
+    pub evaluated_bounding_box_count: i32,
+    /// Output only. The bounding boxes match metrics for each
+    /// Intersection-over-union threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
+    /// and each label confidence threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
+    /// pair.
+    #[prost(message, repeated, tag="2")]
+    pub bounding_box_metrics_entries: ::prost::alloc::vec::Vec<BoundingBoxMetricsEntry>,
+    /// Output only. The single metric for bounding boxes evaluation:
+    /// the mean_average_precision averaged over all bounding_box_metrics_entries.
+    #[prost(float, tag="3")]
+    pub bounding_box_mean_average_precision: f32,
+}
+/// Model evaluation metrics for video object tracking problems.
+/// Evaluates prediction quality of both labeled bounding boxes and labeled
+/// tracks (i.e. series of bounding boxes sharing same label and instance ID).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoObjectTrackingEvaluationMetrics {
+    /// Output only. The number of video frames used to create this evaluation.
+    #[prost(int32, tag="1")]
+    pub evaluated_frame_count: i32,
+    /// Output only. The total number of bounding boxes (i.e. summed over all
+    /// frames) the ground truth used to create this evaluation had.
+    #[prost(int32, tag="2")]
+    pub evaluated_bounding_box_count: i32,
+    /// Output only. The bounding boxes match metrics for each
+    /// Intersection-over-union threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
+    /// and each label confidence threshold 0.05,0.10,...,0.95,0.96,0.97,0.98,0.99
+    /// pair.
+    #[prost(message, repeated, tag="4")]
+    pub bounding_box_metrics_entries: ::prost::alloc::vec::Vec<BoundingBoxMetricsEntry>,
+    /// Output only. The single metric for bounding boxes evaluation:
+    /// the mean_average_precision averaged over all bounding_box_metrics_entries.
+    #[prost(float, tag="6")]
+    pub bounding_box_mean_average_precision: f32,
 }
 /// Input configuration for ImportData Action.
 ///
@@ -2430,63 +2533,6 @@ pub mod text_extraction_evaluation_metrics {
         pub f1_score: f32,
     }
 }
-/// Contains annotation details specific to text sentiment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextSentimentAnnotation {
-    /// Output only. The sentiment with the semantic, as given to the
-    /// \[AutoMl.ImportData][google.cloud.automl.v1beta1.AutoMl.ImportData\] when populating the dataset from which the model used
-    /// for the prediction had been trained.
-    /// The sentiment values are between 0 and
-    /// Dataset.text_sentiment_dataset_metadata.sentiment_max (inclusive),
-    /// with higher value meaning more positive sentiment. They are completely
-    /// relative, i.e. 0 means least positive sentiment and sentiment_max means
-    /// the most positive from the sentiments present in the train data. Therefore
-    ///  e.g. if train data had only negative sentiment, then sentiment_max, would
-    /// be still negative (although least negative).
-    /// The sentiment shouldn't be confused with "score" or "magnitude"
-    /// from the previous Natural Language Sentiment Analysis API.
-    #[prost(int32, tag="1")]
-    pub sentiment: i32,
-}
-/// Model evaluation metrics for text sentiment problems.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextSentimentEvaluationMetrics {
-    /// Output only. Precision.
-    #[prost(float, tag="1")]
-    pub precision: f32,
-    /// Output only. Recall.
-    #[prost(float, tag="2")]
-    pub recall: f32,
-    /// Output only. The harmonic mean of recall and precision.
-    #[prost(float, tag="3")]
-    pub f1_score: f32,
-    /// Output only. Mean absolute error. Only set for the overall model
-    /// evaluation, not for evaluation of a single annotation spec.
-    #[prost(float, tag="4")]
-    pub mean_absolute_error: f32,
-    /// Output only. Mean squared error. Only set for the overall model
-    /// evaluation, not for evaluation of a single annotation spec.
-    #[prost(float, tag="5")]
-    pub mean_squared_error: f32,
-    /// Output only. Linear weighted kappa. Only set for the overall model
-    /// evaluation, not for evaluation of a single annotation spec.
-    #[prost(float, tag="6")]
-    pub linear_kappa: f32,
-    /// Output only. Quadratic weighted kappa. Only set for the overall model
-    /// evaluation, not for evaluation of a single annotation spec.
-    #[prost(float, tag="7")]
-    pub quadratic_kappa: f32,
-    /// Output only. Confusion matrix of the evaluation.
-    /// Only set for the overall model evaluation, not for evaluation of a single
-    /// annotation spec.
-    #[prost(message, optional, tag="8")]
-    pub confusion_matrix: ::core::option::Option<classification_evaluation_metrics::ConfusionMatrix>,
-    /// Output only. The annotation spec ids used for this evaluation.
-    /// Deprecated .
-    #[deprecated]
-    #[prost(string, repeated, tag="9")]
-    pub annotation_spec_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
 /// Dataset metadata that is specific to translation.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TranslationDatasetMetadata {
@@ -2770,52 +2816,6 @@ pub struct ImageObjectDetectionModelDeploymentMetadata {
     /// Must be between 1 and 100, inclusive on both ends.
     #[prost(int64, tag="1")]
     pub node_count: i64,
-}
-/// Dataset metadata for classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextClassificationDatasetMetadata {
-    /// Required. Type of the classification problem.
-    #[prost(enumeration="ClassificationType", tag="1")]
-    pub classification_type: i32,
-}
-/// Model metadata that is specific to text classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextClassificationModelMetadata {
-    /// Output only. Classification type of the dataset used to train this model.
-    #[prost(enumeration="ClassificationType", tag="3")]
-    pub classification_type: i32,
-}
-/// Dataset metadata that is specific to text extraction
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextExtractionDatasetMetadata {
-}
-/// Model metadata that is specific to text extraction.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextExtractionModelMetadata {
-    /// Indicates the scope of model use case.
-    ///
-    /// * `default`: Use to train a general text extraction model. Default value.
-    ///
-    /// * `health_care`: Use to train a text extraction model that is tuned for
-    ///   healthcare applications.
-    #[prost(string, tag="3")]
-    pub model_hint: ::prost::alloc::string::String,
-}
-/// Dataset metadata for text sentiment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextSentimentDatasetMetadata {
-    /// Required. A sentiment is expressed as an integer ordinal, where higher value
-    /// means a more positive sentiment. The range of sentiments that will be used
-    /// is between 0 and sentiment_max (inclusive on both ends), and all the values
-    /// in the range must be represented in the dataset before a model can be
-    /// created.
-    /// sentiment_max value must be between 1 and 10 (inclusive).
-    #[prost(int32, tag="1")]
-    pub sentiment_max: i32,
-}
-/// Model metadata that is specific to text sentiment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextSentimentModelMetadata {
 }
 /// Dataset metadata specific to video classification.
 /// All Video Classification datasets are treated as multi label.

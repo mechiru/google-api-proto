@@ -1,7 +1,3 @@
-/// The metadata message for \[google.cloud.location.Location.metadata][google.cloud.location.Location.metadata\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LocationMetadata {
-}
 /// A field of an index.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct IndexField {
@@ -558,4 +554,8 @@ pub mod firestore_admin_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
+}
+/// The metadata message for \[google.cloud.location.Location.metadata][google.cloud.location.Location.metadata\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LocationMetadata {
 }

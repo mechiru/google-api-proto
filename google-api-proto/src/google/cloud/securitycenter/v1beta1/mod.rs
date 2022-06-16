@@ -22,86 +22,6 @@ pub struct SecurityMarks {
     #[prost(btree_map="string, string", tag="2")]
     pub marks: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
 }
-/// Security Command Center finding.
-///
-/// A finding is a record of assessment data (security, risk, health or privacy)
-/// ingested into Security Command Center for presentation, notification,
-/// analysis, policy testing, and enforcement. For example, an XSS vulnerability
-/// in an App Engine application is a finding.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Finding {
-    /// The relative resource name of this finding. See:
-    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name>
-    /// Example:
-    /// "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}"
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Immutable. The relative resource name of the source the finding belongs to.
-    /// See:
-    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name>
-    /// This field is immutable after creation time.
-    /// For example:
-    /// "organizations/{organization_id}/sources/{source_id}"
-    #[prost(string, tag="2")]
-    pub parent: ::prost::alloc::string::String,
-    /// For findings on Google Cloud resources, the full resource
-    /// name of the Google Cloud resource this finding is for. See:
-    /// <https://cloud.google.com/apis/design/resource_names#full_resource_name>
-    /// When the finding is for a non-Google Cloud resource, the resourceName can
-    /// be a customer or partner defined string. This field is immutable after
-    /// creation time.
-    #[prost(string, tag="3")]
-    pub resource_name: ::prost::alloc::string::String,
-    /// The state of the finding.
-    #[prost(enumeration="finding::State", tag="4")]
-    pub state: i32,
-    /// The additional taxonomy group within findings from a given source.
-    /// This field is immutable after creation time.
-    /// Example: "XSS_FLASH_INJECTION"
-    #[prost(string, tag="5")]
-    pub category: ::prost::alloc::string::String,
-    /// The URI that, if available, points to a web page outside of Security
-    /// Command Center where additional information about the finding can be found.
-    /// This field is guaranteed to be either empty or a well formed URL.
-    #[prost(string, tag="6")]
-    pub external_uri: ::prost::alloc::string::String,
-    /// Source specific properties. These properties are managed by the source
-    /// that writes the finding. The key names in the source_properties map must be
-    /// between 1 and 255 characters, and must start with a letter and contain
-    /// alphanumeric characters or underscores only.
-    #[prost(btree_map="string, message", tag="7")]
-    pub source_properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::Value>,
-    /// Output only. User specified security marks. These marks are entirely
-    /// managed by the user and come from the SecurityMarks resource that belongs
-    /// to the finding.
-    #[prost(message, optional, tag="8")]
-    pub security_marks: ::core::option::Option<SecurityMarks>,
-    /// The time at which the event took place, or when an update to the finding
-    /// occurred. For example, if the finding represents an open firewall it would
-    /// capture the time the detector believes the firewall became open. The
-    /// accuracy is determined by the detector. If the finding were to be resolved
-    /// afterward, this time would reflect when the finding was resolved.
-    #[prost(message, optional, tag="9")]
-    pub event_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time at which the finding was created in Security Command Center.
-    #[prost(message, optional, tag="10")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `Finding`.
-pub mod finding {
-    /// The state of the finding.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Unspecified state.
-        Unspecified = 0,
-        /// The finding requires attention and has not been addressed yet.
-        Active = 1,
-        /// The finding has been fixed, triaged as a non-issue or otherwise addressed
-        /// and is no longer active.
-        Inactive = 2,
-    }
-}
 /// Security Command Center representation of a Google Cloud
 /// resource.
 ///
@@ -222,6 +142,86 @@ pub mod organization_settings {
             /// All other resources will be retrieved.
             Exclude = 2,
         }
+    }
+}
+/// Security Command Center finding.
+///
+/// A finding is a record of assessment data (security, risk, health or privacy)
+/// ingested into Security Command Center for presentation, notification,
+/// analysis, policy testing, and enforcement. For example, an XSS vulnerability
+/// in an App Engine application is a finding.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Finding {
+    /// The relative resource name of this finding. See:
+    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name>
+    /// Example:
+    /// "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}"
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Immutable. The relative resource name of the source the finding belongs to.
+    /// See:
+    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name>
+    /// This field is immutable after creation time.
+    /// For example:
+    /// "organizations/{organization_id}/sources/{source_id}"
+    #[prost(string, tag="2")]
+    pub parent: ::prost::alloc::string::String,
+    /// For findings on Google Cloud resources, the full resource
+    /// name of the Google Cloud resource this finding is for. See:
+    /// <https://cloud.google.com/apis/design/resource_names#full_resource_name>
+    /// When the finding is for a non-Google Cloud resource, the resourceName can
+    /// be a customer or partner defined string. This field is immutable after
+    /// creation time.
+    #[prost(string, tag="3")]
+    pub resource_name: ::prost::alloc::string::String,
+    /// The state of the finding.
+    #[prost(enumeration="finding::State", tag="4")]
+    pub state: i32,
+    /// The additional taxonomy group within findings from a given source.
+    /// This field is immutable after creation time.
+    /// Example: "XSS_FLASH_INJECTION"
+    #[prost(string, tag="5")]
+    pub category: ::prost::alloc::string::String,
+    /// The URI that, if available, points to a web page outside of Security
+    /// Command Center where additional information about the finding can be found.
+    /// This field is guaranteed to be either empty or a well formed URL.
+    #[prost(string, tag="6")]
+    pub external_uri: ::prost::alloc::string::String,
+    /// Source specific properties. These properties are managed by the source
+    /// that writes the finding. The key names in the source_properties map must be
+    /// between 1 and 255 characters, and must start with a letter and contain
+    /// alphanumeric characters or underscores only.
+    #[prost(btree_map="string, message", tag="7")]
+    pub source_properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost_types::Value>,
+    /// Output only. User specified security marks. These marks are entirely
+    /// managed by the user and come from the SecurityMarks resource that belongs
+    /// to the finding.
+    #[prost(message, optional, tag="8")]
+    pub security_marks: ::core::option::Option<SecurityMarks>,
+    /// The time at which the event took place, or when an update to the finding
+    /// occurred. For example, if the finding represents an open firewall it would
+    /// capture the time the detector believes the firewall became open. The
+    /// accuracy is determined by the detector. If the finding were to be resolved
+    /// afterward, this time would reflect when the finding was resolved.
+    #[prost(message, optional, tag="9")]
+    pub event_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time at which the finding was created in Security Command Center.
+    #[prost(message, optional, tag="10")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `Finding`.
+pub mod finding {
+    /// The state of the finding.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Unspecified state.
+        Unspecified = 0,
+        /// The finding requires attention and has not been addressed yet.
+        Active = 1,
+        /// The finding has been fixed, triaged as a non-issue or otherwise addressed
+        /// and is no longer active.
+        Inactive = 2,
     }
 }
 /// Security Command Center finding source. A finding source

@@ -1,3 +1,50 @@
+/// Metadata describing an \[Operation][google.longrunning.Operation\]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationMetadataV1 {
+    /// Target of the operation - for example
+    /// `projects/project-1/locations/region-1/functions/function-1`
+    #[prost(string, tag="1")]
+    pub target: ::prost::alloc::string::String,
+    /// Type of operation.
+    #[prost(enumeration="OperationType", tag="2")]
+    pub r#type: i32,
+    /// The original request that started the operation.
+    #[prost(message, optional, tag="3")]
+    pub request: ::core::option::Option<::prost_types::Any>,
+    /// Version id of the function created or updated by an API call.
+    /// This field is only populated for Create and Update operations.
+    #[prost(int64, tag="4")]
+    pub version_id: i64,
+    /// The last update timestamp of the operation.
+    #[prost(message, optional, tag="5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The Cloud Build ID of the function created or updated by an API call.
+    /// This field is only populated for Create and Update operations.
+    #[prost(string, tag="6")]
+    pub build_id: ::prost::alloc::string::String,
+    /// An identifier for Firebase function sources. Disclaimer: This field is only
+    /// supported for Firebase function deployments.
+    #[prost(string, tag="7")]
+    pub source_token: ::prost::alloc::string::String,
+    /// The Cloud Build Name of the function deployment.
+    /// This field is only populated for Create and Update operations.
+    /// `projects/<project-number>/locations/<region>/builds/<build-id>`.
+    #[prost(string, tag="8")]
+    pub build_name: ::prost::alloc::string::String,
+}
+/// A type of an operation.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum OperationType {
+    /// Unknown operation type.
+    OperationUnspecified = 0,
+    /// Triggered by CreateFunction call
+    CreateFunction = 1,
+    /// Triggered by UpdateFunction call
+    UpdateFunction = 2,
+    /// Triggered by DeleteFunction call.
+    DeleteFunction = 3,
+}
 /// Describes a Cloud Function that contains user computation executed in
 /// response to an event. It encapsulate function and triggers configurations.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1006,51 +1053,4 @@ pub mod cloud_functions_service_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
-}
-/// Metadata describing an \[Operation][google.longrunning.Operation\]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationMetadataV1 {
-    /// Target of the operation - for example
-    /// `projects/project-1/locations/region-1/functions/function-1`
-    #[prost(string, tag="1")]
-    pub target: ::prost::alloc::string::String,
-    /// Type of operation.
-    #[prost(enumeration="OperationType", tag="2")]
-    pub r#type: i32,
-    /// The original request that started the operation.
-    #[prost(message, optional, tag="3")]
-    pub request: ::core::option::Option<::prost_types::Any>,
-    /// Version id of the function created or updated by an API call.
-    /// This field is only populated for Create and Update operations.
-    #[prost(int64, tag="4")]
-    pub version_id: i64,
-    /// The last update timestamp of the operation.
-    #[prost(message, optional, tag="5")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The Cloud Build ID of the function created or updated by an API call.
-    /// This field is only populated for Create and Update operations.
-    #[prost(string, tag="6")]
-    pub build_id: ::prost::alloc::string::String,
-    /// An identifier for Firebase function sources. Disclaimer: This field is only
-    /// supported for Firebase function deployments.
-    #[prost(string, tag="7")]
-    pub source_token: ::prost::alloc::string::String,
-    /// The Cloud Build Name of the function deployment.
-    /// This field is only populated for Create and Update operations.
-    /// `projects/<project-number>/locations/<region>/builds/<build-id>`.
-    #[prost(string, tag="8")]
-    pub build_name: ::prost::alloc::string::String,
-}
-/// A type of an operation.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum OperationType {
-    /// Unknown operation type.
-    OperationUnspecified = 0,
-    /// Triggered by CreateFunction call
-    CreateFunction = 1,
-    /// Triggered by UpdateFunction call
-    UpdateFunction = 2,
-    /// Triggered by DeleteFunction call.
-    DeleteFunction = 3,
 }

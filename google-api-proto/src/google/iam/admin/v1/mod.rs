@@ -1,26 +1,3 @@
-/// Audit log information specific to Cloud IAM admin APIs. This message is
-/// serialized as an `Any` type in the `ServiceData` message of an
-/// `AuditLog` message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AuditData {
-    /// The permission_delta when when creating or updating a Role.
-    #[prost(message, optional, tag="1")]
-    pub permission_delta: ::core::option::Option<audit_data::PermissionDelta>,
-}
-/// Nested message and enum types in `AuditData`.
-pub mod audit_data {
-    /// A PermissionDelta message to record the added_permissions and
-    /// removed_permissions inside a role.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct PermissionDelta {
-        /// Added permissions.
-        #[prost(string, repeated, tag="1")]
-        pub added_permissions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// Removed permissions.
-        #[prost(string, repeated, tag="2")]
-        pub removed_permissions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    }
-}
 /// An IAM service account.
 ///
 /// A service account is an account for an application or a virtual machine (VM)
@@ -1882,5 +1859,28 @@ pub mod iam_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+    }
+}
+/// Audit log information specific to Cloud IAM admin APIs. This message is
+/// serialized as an `Any` type in the `ServiceData` message of an
+/// `AuditLog` message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AuditData {
+    /// The permission_delta when when creating or updating a Role.
+    #[prost(message, optional, tag="1")]
+    pub permission_delta: ::core::option::Option<audit_data::PermissionDelta>,
+}
+/// Nested message and enum types in `AuditData`.
+pub mod audit_data {
+    /// A PermissionDelta message to record the added_permissions and
+    /// removed_permissions inside a role.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct PermissionDelta {
+        /// Added permissions.
+        #[prost(string, repeated, tag="1")]
+        pub added_permissions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Removed permissions.
+        #[prost(string, repeated, tag="2")]
+        pub removed_permissions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     }
 }

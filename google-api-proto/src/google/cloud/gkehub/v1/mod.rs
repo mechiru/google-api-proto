@@ -1,190 +1,3 @@
-/// Feature represents the settings and status of any Hub Feature.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Feature {
-    /// Output only. The full, unique name of this Feature resource in the format
-    /// `projects/*/locations/*/features/*`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// GCP labels for this Feature.
-    #[prost(btree_map="string, string", tag="2")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Output only. State of the Feature resource itself.
-    #[prost(message, optional, tag="3")]
-    pub resource_state: ::core::option::Option<FeatureResourceState>,
-    /// Optional. Hub-wide Feature configuration. If this Feature does not support any
-    /// Hub-wide configuration, this field may be unused.
-    #[prost(message, optional, tag="4")]
-    pub spec: ::core::option::Option<CommonFeatureSpec>,
-    /// Optional. Membership-specific configuration for this Feature. If this Feature does
-    /// not support any per-Membership configuration, this field may be unused.
-    ///
-    /// The keys indicate which Membership the configuration is for, in the form:
-    ///
-    ///     projects/{p}/locations/{l}/memberships/{m}
-    ///
-    /// Where {p} is the project, {l} is a valid location and {m} is a valid
-    /// Membership in this project at that location. {p} WILL match the Feature's
-    /// project.
-    ///
-    /// {p} will always be returned as the project number, but the project ID is
-    /// also accepted during input. If the same Membership is specified in the map
-    /// twice (using the project ID form, and the project number form), exactly
-    /// ONE of the entries will be saved, with no guarantees as to which. For this
-    /// reason, it is recommended the same format be used for all entries when
-    /// mutating a Feature.
-    #[prost(btree_map="string, message", tag="5")]
-    pub membership_specs: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, MembershipFeatureSpec>,
-    /// Output only. The Hub-wide Feature state.
-    #[prost(message, optional, tag="6")]
-    pub state: ::core::option::Option<CommonFeatureState>,
-    /// Output only. Membership-specific Feature status. If this Feature does
-    /// report any per-Membership status, this field may be unused.
-    ///
-    /// The keys indicate which Membership the state is for, in the form:
-    ///
-    ///     projects/{p}/locations/{l}/memberships/{m}
-    ///
-    /// Where {p} is the project number, {l} is a valid location and {m} is a valid
-    /// Membership in this project at that location. {p} MUST match the Feature's
-    /// project number.
-    #[prost(btree_map="string, message", tag="7")]
-    pub membership_states: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, MembershipFeatureState>,
-    /// Output only. When the Feature resource was created.
-    #[prost(message, optional, tag="8")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. When the Feature resource was last updated.
-    #[prost(message, optional, tag="9")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. When the Feature resource was deleted.
-    #[prost(message, optional, tag="10")]
-    pub delete_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// FeatureResourceState describes the state of a Feature *resource* in the
-/// GkeHub API. See `FeatureState` for the "running state" of the Feature in the
-/// Hub and across Memberships.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FeatureResourceState {
-    /// The current state of the Feature resource in the Hub API.
-    #[prost(enumeration="feature_resource_state::State", tag="1")]
-    pub state: i32,
-}
-/// Nested message and enum types in `FeatureResourceState`.
-pub mod feature_resource_state {
-    /// State describes the lifecycle status of a Feature.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// State is unknown or not set.
-        Unspecified = 0,
-        /// The Feature is being enabled, and the Feature resource is being created.
-        /// Once complete, the corresponding Feature will be enabled in this Hub.
-        Enabling = 1,
-        /// The Feature is enabled in this Hub, and the Feature resource is fully
-        /// available.
-        Active = 2,
-        /// The Feature is being disabled in this Hub, and the Feature resource
-        /// is being deleted.
-        Disabling = 3,
-        /// The Feature resource is being updated.
-        Updating = 4,
-        /// The Feature resource is being updated by the Hub Service.
-        ServiceUpdating = 5,
-    }
-}
-/// FeatureState describes the high-level state of a Feature. It may be used to
-/// describe a Feature's state at the environ-level, or per-membershop, depending
-/// on the context.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FeatureState {
-    /// The high-level, machine-readable status of this Feature.
-    #[prost(enumeration="feature_state::Code", tag="1")]
-    pub code: i32,
-    /// A human-readable description of the current status.
-    #[prost(string, tag="2")]
-    pub description: ::prost::alloc::string::String,
-    /// The time this status and any related Feature-specific details were updated.
-    #[prost(message, optional, tag="3")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `FeatureState`.
-pub mod feature_state {
-    /// Code represents a machine-readable, high-level status of the Feature.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Code {
-        /// Unknown or not set.
-        Unspecified = 0,
-        /// The Feature is operating normally.
-        Ok = 1,
-        /// The Feature has encountered an issue, and is operating in a degraded
-        /// state. The Feature may need intervention to return to normal operation.
-        /// See the description and any associated Feature-specific details for more
-        /// information.
-        Warning = 2,
-        /// The Feature is not operating or is in a severely degraded state.
-        /// The Feature may need intervention to return to normal operation.
-        /// See the description and any associated Feature-specific details for more
-        /// information.
-        Error = 3,
-    }
-}
-/// CommonFeatureSpec contains Hub-wide configuration information
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CommonFeatureSpec {
-    #[prost(oneof="common_feature_spec::FeatureSpec", tags="102")]
-    pub feature_spec: ::core::option::Option<common_feature_spec::FeatureSpec>,
-}
-/// Nested message and enum types in `CommonFeatureSpec`.
-pub mod common_feature_spec {
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum FeatureSpec {
-        /// Multicluster Ingress-specific spec.
-        #[prost(message, tag="102")]
-        Multiclusteringress(super::super::multiclusteringress::v1::FeatureSpec),
-    }
-}
-/// CommonFeatureState contains Hub-wide Feature status information.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CommonFeatureState {
-    /// Output only. The "running state" of the Feature in this Hub.
-    #[prost(message, optional, tag="1")]
-    pub state: ::core::option::Option<FeatureState>,
-}
-/// MembershipFeatureSpec contains configuration information for a single
-/// Membership.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MembershipFeatureSpec {
-    #[prost(oneof="membership_feature_spec::FeatureSpec", tags="106")]
-    pub feature_spec: ::core::option::Option<membership_feature_spec::FeatureSpec>,
-}
-/// Nested message and enum types in `MembershipFeatureSpec`.
-pub mod membership_feature_spec {
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum FeatureSpec {
-        /// Config Management-specific spec.
-        #[prost(message, tag="106")]
-        Configmanagement(super::super::configmanagement::v1::MembershipSpec),
-    }
-}
-/// MembershipFeatureState contains Feature status information for a single
-/// Membership.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MembershipFeatureState {
-    /// The high-level state of this Feature for a single membership.
-    #[prost(message, optional, tag="1")]
-    pub state: ::core::option::Option<FeatureState>,
-    #[prost(oneof="membership_feature_state::FeatureState", tags="106")]
-    pub feature_state: ::core::option::Option<membership_feature_state::FeatureState>,
-}
-/// Nested message and enum types in `MembershipFeatureState`.
-pub mod membership_feature_state {
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum FeatureState {
-        /// Config Management-specific state.
-        #[prost(message, tag="106")]
-        Configmanagement(super::super::configmanagement::v1::MembershipState),
-    }
-}
 /// Membership contains information about a member cluster.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Membership {
@@ -457,6 +270,193 @@ pub struct Authority {
     /// and instead OIDC tokens will be validated using this field.
     #[prost(bytes="bytes", tag="4")]
     pub oidc_jwks: ::prost::bytes::Bytes,
+}
+/// Feature represents the settings and status of any Hub Feature.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Feature {
+    /// Output only. The full, unique name of this Feature resource in the format
+    /// `projects/*/locations/*/features/*`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// GCP labels for this Feature.
+    #[prost(btree_map="string, string", tag="2")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Output only. State of the Feature resource itself.
+    #[prost(message, optional, tag="3")]
+    pub resource_state: ::core::option::Option<FeatureResourceState>,
+    /// Optional. Hub-wide Feature configuration. If this Feature does not support any
+    /// Hub-wide configuration, this field may be unused.
+    #[prost(message, optional, tag="4")]
+    pub spec: ::core::option::Option<CommonFeatureSpec>,
+    /// Optional. Membership-specific configuration for this Feature. If this Feature does
+    /// not support any per-Membership configuration, this field may be unused.
+    ///
+    /// The keys indicate which Membership the configuration is for, in the form:
+    ///
+    ///     projects/{p}/locations/{l}/memberships/{m}
+    ///
+    /// Where {p} is the project, {l} is a valid location and {m} is a valid
+    /// Membership in this project at that location. {p} WILL match the Feature's
+    /// project.
+    ///
+    /// {p} will always be returned as the project number, but the project ID is
+    /// also accepted during input. If the same Membership is specified in the map
+    /// twice (using the project ID form, and the project number form), exactly
+    /// ONE of the entries will be saved, with no guarantees as to which. For this
+    /// reason, it is recommended the same format be used for all entries when
+    /// mutating a Feature.
+    #[prost(btree_map="string, message", tag="5")]
+    pub membership_specs: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, MembershipFeatureSpec>,
+    /// Output only. The Hub-wide Feature state.
+    #[prost(message, optional, tag="6")]
+    pub state: ::core::option::Option<CommonFeatureState>,
+    /// Output only. Membership-specific Feature status. If this Feature does
+    /// report any per-Membership status, this field may be unused.
+    ///
+    /// The keys indicate which Membership the state is for, in the form:
+    ///
+    ///     projects/{p}/locations/{l}/memberships/{m}
+    ///
+    /// Where {p} is the project number, {l} is a valid location and {m} is a valid
+    /// Membership in this project at that location. {p} MUST match the Feature's
+    /// project number.
+    #[prost(btree_map="string, message", tag="7")]
+    pub membership_states: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, MembershipFeatureState>,
+    /// Output only. When the Feature resource was created.
+    #[prost(message, optional, tag="8")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. When the Feature resource was last updated.
+    #[prost(message, optional, tag="9")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. When the Feature resource was deleted.
+    #[prost(message, optional, tag="10")]
+    pub delete_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// FeatureResourceState describes the state of a Feature *resource* in the
+/// GkeHub API. See `FeatureState` for the "running state" of the Feature in the
+/// Hub and across Memberships.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FeatureResourceState {
+    /// The current state of the Feature resource in the Hub API.
+    #[prost(enumeration="feature_resource_state::State", tag="1")]
+    pub state: i32,
+}
+/// Nested message and enum types in `FeatureResourceState`.
+pub mod feature_resource_state {
+    /// State describes the lifecycle status of a Feature.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// State is unknown or not set.
+        Unspecified = 0,
+        /// The Feature is being enabled, and the Feature resource is being created.
+        /// Once complete, the corresponding Feature will be enabled in this Hub.
+        Enabling = 1,
+        /// The Feature is enabled in this Hub, and the Feature resource is fully
+        /// available.
+        Active = 2,
+        /// The Feature is being disabled in this Hub, and the Feature resource
+        /// is being deleted.
+        Disabling = 3,
+        /// The Feature resource is being updated.
+        Updating = 4,
+        /// The Feature resource is being updated by the Hub Service.
+        ServiceUpdating = 5,
+    }
+}
+/// FeatureState describes the high-level state of a Feature. It may be used to
+/// describe a Feature's state at the environ-level, or per-membershop, depending
+/// on the context.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FeatureState {
+    /// The high-level, machine-readable status of this Feature.
+    #[prost(enumeration="feature_state::Code", tag="1")]
+    pub code: i32,
+    /// A human-readable description of the current status.
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
+    /// The time this status and any related Feature-specific details were updated.
+    #[prost(message, optional, tag="3")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `FeatureState`.
+pub mod feature_state {
+    /// Code represents a machine-readable, high-level status of the Feature.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Code {
+        /// Unknown or not set.
+        Unspecified = 0,
+        /// The Feature is operating normally.
+        Ok = 1,
+        /// The Feature has encountered an issue, and is operating in a degraded
+        /// state. The Feature may need intervention to return to normal operation.
+        /// See the description and any associated Feature-specific details for more
+        /// information.
+        Warning = 2,
+        /// The Feature is not operating or is in a severely degraded state.
+        /// The Feature may need intervention to return to normal operation.
+        /// See the description and any associated Feature-specific details for more
+        /// information.
+        Error = 3,
+    }
+}
+/// CommonFeatureSpec contains Hub-wide configuration information
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CommonFeatureSpec {
+    #[prost(oneof="common_feature_spec::FeatureSpec", tags="102")]
+    pub feature_spec: ::core::option::Option<common_feature_spec::FeatureSpec>,
+}
+/// Nested message and enum types in `CommonFeatureSpec`.
+pub mod common_feature_spec {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum FeatureSpec {
+        /// Multicluster Ingress-specific spec.
+        #[prost(message, tag="102")]
+        Multiclusteringress(super::super::multiclusteringress::v1::FeatureSpec),
+    }
+}
+/// CommonFeatureState contains Hub-wide Feature status information.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CommonFeatureState {
+    /// Output only. The "running state" of the Feature in this Hub.
+    #[prost(message, optional, tag="1")]
+    pub state: ::core::option::Option<FeatureState>,
+}
+/// MembershipFeatureSpec contains configuration information for a single
+/// Membership.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MembershipFeatureSpec {
+    #[prost(oneof="membership_feature_spec::FeatureSpec", tags="106")]
+    pub feature_spec: ::core::option::Option<membership_feature_spec::FeatureSpec>,
+}
+/// Nested message and enum types in `MembershipFeatureSpec`.
+pub mod membership_feature_spec {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum FeatureSpec {
+        /// Config Management-specific spec.
+        #[prost(message, tag="106")]
+        Configmanagement(super::super::configmanagement::v1::MembershipSpec),
+    }
+}
+/// MembershipFeatureState contains Feature status information for a single
+/// Membership.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MembershipFeatureState {
+    /// The high-level state of this Feature for a single membership.
+    #[prost(message, optional, tag="1")]
+    pub state: ::core::option::Option<FeatureState>,
+    #[prost(oneof="membership_feature_state::FeatureState", tags="106")]
+    pub feature_state: ::core::option::Option<membership_feature_state::FeatureState>,
+}
+/// Nested message and enum types in `MembershipFeatureState`.
+pub mod membership_feature_state {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum FeatureState {
+        /// Config Management-specific state.
+        #[prost(message, tag="106")]
+        Configmanagement(super::super::configmanagement::v1::MembershipState),
+    }
 }
 /// Request message for `GkeHub.ListMemberships` method.
 #[derive(Clone, PartialEq, ::prost::Message)]
