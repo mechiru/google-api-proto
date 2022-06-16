@@ -1,3 +1,15 @@
+/// Payload proto for "clouddeploy.googleapis.com/release_render"
+/// Platform Log event that describes the render status change.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReleaseRenderEvent {
+    /// Debug message for when a render transition occurs. Provides further
+    /// details as rendering progresses through render states.
+    #[prost(string, tag="1")]
+    pub message: ::prost::alloc::string::String,
+    /// The name of the `Release`.
+    #[prost(string, tag="2")]
+    pub release: ::prost::alloc::string::String,
+}
 /// Type indicates the type of the log entry and can be used as a filter.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -8,6 +20,21 @@ pub enum Type {
     PubsubNotificationFailure = 1,
     /// Release render status changed notification.
     RenderStatuesChange = 2,
+}
+/// Payload proto for "clouddeploy.googleapis.com/target_notification"
+/// Platform Log event that describes the failure to send target status change
+/// Pub/Sub notification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TargetNotificationEvent {
+    /// Debug message for when a notification fails to send.
+    #[prost(string, tag="1")]
+    pub message: ::prost::alloc::string::String,
+    /// The name of the `Target`.
+    #[prost(string, tag="2")]
+    pub target: ::prost::alloc::string::String,
+    /// Type of this notification, e.g. for a Pub/Sub failure.
+    #[prost(enumeration="Type", tag="3")]
+    pub r#type: i32,
 }
 /// Payload proto for "clouddeploy.googleapis.com/rollout_notification"
 /// Platform Log event that describes the failure to send rollout status change
@@ -33,29 +60,32 @@ pub struct RolloutNotificationEvent {
     #[prost(string, tag="6")]
     pub target_id: ::prost::alloc::string::String,
 }
-/// Payload proto for "clouddeploy.googleapis.com/release_render"
-/// Platform Log event that describes the render status change.
+/// Payload proto for "clouddeploy.googleapis.com/release_notification"
+/// Platform Log event that describes the failure to send release status change
+/// Pub/Sub notification.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReleaseRenderEvent {
-    /// Debug message for when a render transition occurs. Provides further
-    /// details as rendering progresses through render states.
+pub struct ReleaseNotificationEvent {
+    /// Debug message for when a notification fails to send.
     #[prost(string, tag="1")]
     pub message: ::prost::alloc::string::String,
     /// The name of the `Release`.
     #[prost(string, tag="2")]
     pub release: ::prost::alloc::string::String,
+    /// Type of this notification, e.g. for a Pub/Sub failure.
+    #[prost(enumeration="Type", tag="3")]
+    pub r#type: i32,
 }
-/// Payload proto for "clouddeploy.googleapis.com/target_notification"
-/// Platform Log event that describes the failure to send target status change
-/// Pub/Sub notification.
+/// Payload proto for "clouddeploy.googleapis.com/deliverypipeline_notification"
+/// Platform Log event that describes the failure to send delivery pipeline
+/// status change Pub/Sub notification.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TargetNotificationEvent {
+pub struct DeliveryPipelineNotificationEvent {
     /// Debug message for when a notification fails to send.
     #[prost(string, tag="1")]
     pub message: ::prost::alloc::string::String,
-    /// The name of the `Target`.
+    /// The name of the `Delivery Pipeline`.
     #[prost(string, tag="2")]
-    pub target: ::prost::alloc::string::String,
+    pub delivery_pipeline: ::prost::alloc::string::String,
     /// Type of this notification, e.g. for a Pub/Sub failure.
     #[prost(enumeration="Type", tag="3")]
     pub r#type: i32,
@@ -1698,34 +1728,4 @@ pub mod cloud_deploy_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
-}
-/// Payload proto for "clouddeploy.googleapis.com/deliverypipeline_notification"
-/// Platform Log event that describes the failure to send delivery pipeline
-/// status change Pub/Sub notification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeliveryPipelineNotificationEvent {
-    /// Debug message for when a notification fails to send.
-    #[prost(string, tag="1")]
-    pub message: ::prost::alloc::string::String,
-    /// The name of the `Delivery Pipeline`.
-    #[prost(string, tag="2")]
-    pub delivery_pipeline: ::prost::alloc::string::String,
-    /// Type of this notification, e.g. for a Pub/Sub failure.
-    #[prost(enumeration="Type", tag="3")]
-    pub r#type: i32,
-}
-/// Payload proto for "clouddeploy.googleapis.com/release_notification"
-/// Platform Log event that describes the failure to send release status change
-/// Pub/Sub notification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReleaseNotificationEvent {
-    /// Debug message for when a notification fails to send.
-    #[prost(string, tag="1")]
-    pub message: ::prost::alloc::string::String,
-    /// The name of the `Release`.
-    #[prost(string, tag="2")]
-    pub release: ::prost::alloc::string::String,
-    /// Type of this notification, e.g. for a Pub/Sub failure.
-    #[prost(enumeration="Type", tag="3")]
-    pub r#type: i32,
 }

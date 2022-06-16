@@ -1,200 +1,3 @@
-/// Configuration for how human labeling task should be done.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct HumanAnnotationConfig {
-    /// Required. Instruction resource name.
-    #[prost(string, tag="1")]
-    pub instruction: ::prost::alloc::string::String,
-    /// Required. A human-readable name for AnnotatedDataset defined by
-    /// users. Maximum of 64 characters
-    /// .
-    #[prost(string, tag="2")]
-    pub annotated_dataset_display_name: ::prost::alloc::string::String,
-    /// Optional. A human-readable description for AnnotatedDataset.
-    /// The description can be up to 10000 characters long.
-    #[prost(string, tag="3")]
-    pub annotated_dataset_description: ::prost::alloc::string::String,
-    /// Optional. A human-readable label used to logically group labeling tasks.
-    /// This string must match the regular expression `\[a-zA-Z\\d_-\]{0,128}`.
-    #[prost(string, tag="4")]
-    pub label_group: ::prost::alloc::string::String,
-    /// Optional. The Language of this question, as a
-    /// \[BCP-47\](<https://www.rfc-editor.org/rfc/bcp/bcp47.txt>).
-    /// Default value is en-US.
-    /// Only need to set this when task is language related. For example, French
-    /// text classification.
-    #[prost(string, tag="5")]
-    pub language_code: ::prost::alloc::string::String,
-    /// Optional. Replication of questions. Each question will be sent to up to
-    /// this number of contributors to label. Aggregated answers will be returned.
-    /// Default is set to 1.
-    /// For image related labeling, valid values are 1, 3, 5.
-    #[prost(int32, tag="6")]
-    pub replica_count: i32,
-    /// Optional. Maximum duration for contributors to answer a question. Maximum
-    /// is 3600 seconds. Default is 3600 seconds.
-    #[prost(message, optional, tag="7")]
-    pub question_duration: ::core::option::Option<::prost_types::Duration>,
-    /// Optional. If you want your own labeling contributors to manage and work on
-    /// this labeling request, you can set these contributors here. We will give
-    /// them access to the question types in crowdcompute. Note that these
-    /// emails must be registered in crowdcompute worker UI:
-    /// <https://crowd-compute.appspot.com/>
-    #[prost(string, repeated, tag="9")]
-    pub contributor_emails: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Email of the user who started the labeling task and should be notified by
-    /// email. If empty no notification will be sent.
-    #[prost(string, tag="10")]
-    pub user_email_address: ::prost::alloc::string::String,
-}
-/// Config for image classification human labeling task.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageClassificationConfig {
-    /// Required. Annotation spec set resource name.
-    #[prost(string, tag="1")]
-    pub annotation_spec_set: ::prost::alloc::string::String,
-    /// Optional. If allow_multi_label is true, contributors are able to choose
-    /// multiple labels for one image.
-    #[prost(bool, tag="2")]
-    pub allow_multi_label: bool,
-    /// Optional. The type of how to aggregate answers.
-    #[prost(enumeration="StringAggregationType", tag="3")]
-    pub answer_aggregation_type: i32,
-}
-/// Config for image bounding poly (and bounding box) human labeling task.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BoundingPolyConfig {
-    /// Required. Annotation spec set resource name.
-    #[prost(string, tag="1")]
-    pub annotation_spec_set: ::prost::alloc::string::String,
-    /// Optional. Instruction message showed on contributors UI.
-    #[prost(string, tag="2")]
-    pub instruction_message: ::prost::alloc::string::String,
-}
-/// Config for image polyline human labeling task.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PolylineConfig {
-    /// Required. Annotation spec set resource name.
-    #[prost(string, tag="1")]
-    pub annotation_spec_set: ::prost::alloc::string::String,
-    /// Optional. Instruction message showed on contributors UI.
-    #[prost(string, tag="2")]
-    pub instruction_message: ::prost::alloc::string::String,
-}
-/// Config for image segmentation
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SegmentationConfig {
-    /// Required. Annotation spec set resource name. format:
-    /// projects/{project_id}/annotationSpecSets/{annotation_spec_set_id}
-    #[prost(string, tag="1")]
-    pub annotation_spec_set: ::prost::alloc::string::String,
-    /// Instruction message showed on labelers UI.
-    #[prost(string, tag="2")]
-    pub instruction_message: ::prost::alloc::string::String,
-}
-/// Config for video classification human labeling task.
-/// Currently two types of video classification are supported:
-/// 1. Assign labels on the entire video.
-/// 2. Split the video into multiple video clips based on camera shot, and
-/// assign labels on each video clip.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoClassificationConfig {
-    /// Required. The list of annotation spec set configs.
-    /// Since watching a video clip takes much longer time than an image, we
-    /// support label with multiple AnnotationSpecSet at the same time. Labels
-    /// in each AnnotationSpecSet will be shown in a group to contributors.
-    /// Contributors can select one or more (depending on whether to allow multi
-    /// label) from each group.
-    #[prost(message, repeated, tag="1")]
-    pub annotation_spec_set_configs: ::prost::alloc::vec::Vec<video_classification_config::AnnotationSpecSetConfig>,
-    /// Optional. Option to apply shot detection on the video.
-    #[prost(bool, tag="2")]
-    pub apply_shot_detection: bool,
-}
-/// Nested message and enum types in `VideoClassificationConfig`.
-pub mod video_classification_config {
-    /// Annotation spec set with the setting of allowing multi labels or not.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct AnnotationSpecSetConfig {
-        /// Required. Annotation spec set resource name.
-        #[prost(string, tag="1")]
-        pub annotation_spec_set: ::prost::alloc::string::String,
-        /// Optional. If allow_multi_label is true, contributors are able to
-        /// choose multiple labels from one annotation spec set.
-        #[prost(bool, tag="2")]
-        pub allow_multi_label: bool,
-    }
-}
-/// Config for video object detection human labeling task.
-/// Object detection will be conducted on the images extracted from the video,
-/// and those objects will be labeled with bounding boxes.
-/// User need to specify the number of images to be extracted per second as the
-/// extraction frame rate.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ObjectDetectionConfig {
-    /// Required. Annotation spec set resource name.
-    #[prost(string, tag="1")]
-    pub annotation_spec_set: ::prost::alloc::string::String,
-    /// Required. Number of frames per second to be extracted from the video.
-    #[prost(double, tag="3")]
-    pub extraction_frame_rate: f64,
-}
-/// Config for video object tracking human labeling task.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ObjectTrackingConfig {
-    /// Required. Annotation spec set resource name.
-    #[prost(string, tag="1")]
-    pub annotation_spec_set: ::prost::alloc::string::String,
-}
-/// Config for video event human labeling task.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventConfig {
-    /// Required. The list of annotation spec set resource name. Similar to video
-    /// classification, we support selecting event from multiple AnnotationSpecSet
-    /// at the same time.
-    #[prost(string, repeated, tag="1")]
-    pub annotation_spec_sets: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Config for text classification human labeling task.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextClassificationConfig {
-    /// Optional. If allow_multi_label is true, contributors are able to choose
-    /// multiple labels for one text segment.
-    #[prost(bool, tag="1")]
-    pub allow_multi_label: bool,
-    /// Required. Annotation spec set resource name.
-    #[prost(string, tag="2")]
-    pub annotation_spec_set: ::prost::alloc::string::String,
-    /// Optional. Configs for sentiment selection.
-    #[prost(message, optional, tag="3")]
-    pub sentiment_config: ::core::option::Option<SentimentConfig>,
-}
-/// Config for setting up sentiments.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SentimentConfig {
-    /// If set to true, contributors will have the option to select sentiment of
-    /// the label they selected, to mark it as negative or positive label. Default
-    /// is false.
-    #[prost(bool, tag="1")]
-    pub enable_label_sentiment_selection: bool,
-}
-/// Config for text entity extraction human labeling task.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextEntityExtractionConfig {
-    /// Required. Annotation spec set resource name.
-    #[prost(string, tag="1")]
-    pub annotation_spec_set: ::prost::alloc::string::String,
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum StringAggregationType {
-    Unspecified = 0,
-    /// Majority vote to aggregate answers.
-    MajorityVote = 1,
-    /// Unanimous answers will be adopted.
-    UnanimousVote = 2,
-    /// Preserve all answers by crowd compute.
-    NoAggregation = 3,
-}
 /// An AnnotationSpecSet is a collection of label definitions. For example, in
 /// image classification tasks, you define a set of possible labels for images as
 /// an AnnotationSpecSet. An AnnotationSpecSet is immutable upon creation.
@@ -641,6 +444,203 @@ pub struct VideoPayload {
     /// Signed uri of the video file in the service bucket.
     #[prost(string, tag="5")]
     pub signed_uri: ::prost::alloc::string::String,
+}
+/// Configuration for how human labeling task should be done.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct HumanAnnotationConfig {
+    /// Required. Instruction resource name.
+    #[prost(string, tag="1")]
+    pub instruction: ::prost::alloc::string::String,
+    /// Required. A human-readable name for AnnotatedDataset defined by
+    /// users. Maximum of 64 characters
+    /// .
+    #[prost(string, tag="2")]
+    pub annotated_dataset_display_name: ::prost::alloc::string::String,
+    /// Optional. A human-readable description for AnnotatedDataset.
+    /// The description can be up to 10000 characters long.
+    #[prost(string, tag="3")]
+    pub annotated_dataset_description: ::prost::alloc::string::String,
+    /// Optional. A human-readable label used to logically group labeling tasks.
+    /// This string must match the regular expression `\[a-zA-Z\\d_-\]{0,128}`.
+    #[prost(string, tag="4")]
+    pub label_group: ::prost::alloc::string::String,
+    /// Optional. The Language of this question, as a
+    /// \[BCP-47\](<https://www.rfc-editor.org/rfc/bcp/bcp47.txt>).
+    /// Default value is en-US.
+    /// Only need to set this when task is language related. For example, French
+    /// text classification.
+    #[prost(string, tag="5")]
+    pub language_code: ::prost::alloc::string::String,
+    /// Optional. Replication of questions. Each question will be sent to up to
+    /// this number of contributors to label. Aggregated answers will be returned.
+    /// Default is set to 1.
+    /// For image related labeling, valid values are 1, 3, 5.
+    #[prost(int32, tag="6")]
+    pub replica_count: i32,
+    /// Optional. Maximum duration for contributors to answer a question. Maximum
+    /// is 3600 seconds. Default is 3600 seconds.
+    #[prost(message, optional, tag="7")]
+    pub question_duration: ::core::option::Option<::prost_types::Duration>,
+    /// Optional. If you want your own labeling contributors to manage and work on
+    /// this labeling request, you can set these contributors here. We will give
+    /// them access to the question types in crowdcompute. Note that these
+    /// emails must be registered in crowdcompute worker UI:
+    /// <https://crowd-compute.appspot.com/>
+    #[prost(string, repeated, tag="9")]
+    pub contributor_emails: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Email of the user who started the labeling task and should be notified by
+    /// email. If empty no notification will be sent.
+    #[prost(string, tag="10")]
+    pub user_email_address: ::prost::alloc::string::String,
+}
+/// Config for image classification human labeling task.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImageClassificationConfig {
+    /// Required. Annotation spec set resource name.
+    #[prost(string, tag="1")]
+    pub annotation_spec_set: ::prost::alloc::string::String,
+    /// Optional. If allow_multi_label is true, contributors are able to choose
+    /// multiple labels for one image.
+    #[prost(bool, tag="2")]
+    pub allow_multi_label: bool,
+    /// Optional. The type of how to aggregate answers.
+    #[prost(enumeration="StringAggregationType", tag="3")]
+    pub answer_aggregation_type: i32,
+}
+/// Config for image bounding poly (and bounding box) human labeling task.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BoundingPolyConfig {
+    /// Required. Annotation spec set resource name.
+    #[prost(string, tag="1")]
+    pub annotation_spec_set: ::prost::alloc::string::String,
+    /// Optional. Instruction message showed on contributors UI.
+    #[prost(string, tag="2")]
+    pub instruction_message: ::prost::alloc::string::String,
+}
+/// Config for image polyline human labeling task.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PolylineConfig {
+    /// Required. Annotation spec set resource name.
+    #[prost(string, tag="1")]
+    pub annotation_spec_set: ::prost::alloc::string::String,
+    /// Optional. Instruction message showed on contributors UI.
+    #[prost(string, tag="2")]
+    pub instruction_message: ::prost::alloc::string::String,
+}
+/// Config for image segmentation
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SegmentationConfig {
+    /// Required. Annotation spec set resource name. format:
+    /// projects/{project_id}/annotationSpecSets/{annotation_spec_set_id}
+    #[prost(string, tag="1")]
+    pub annotation_spec_set: ::prost::alloc::string::String,
+    /// Instruction message showed on labelers UI.
+    #[prost(string, tag="2")]
+    pub instruction_message: ::prost::alloc::string::String,
+}
+/// Config for video classification human labeling task.
+/// Currently two types of video classification are supported:
+/// 1. Assign labels on the entire video.
+/// 2. Split the video into multiple video clips based on camera shot, and
+/// assign labels on each video clip.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoClassificationConfig {
+    /// Required. The list of annotation spec set configs.
+    /// Since watching a video clip takes much longer time than an image, we
+    /// support label with multiple AnnotationSpecSet at the same time. Labels
+    /// in each AnnotationSpecSet will be shown in a group to contributors.
+    /// Contributors can select one or more (depending on whether to allow multi
+    /// label) from each group.
+    #[prost(message, repeated, tag="1")]
+    pub annotation_spec_set_configs: ::prost::alloc::vec::Vec<video_classification_config::AnnotationSpecSetConfig>,
+    /// Optional. Option to apply shot detection on the video.
+    #[prost(bool, tag="2")]
+    pub apply_shot_detection: bool,
+}
+/// Nested message and enum types in `VideoClassificationConfig`.
+pub mod video_classification_config {
+    /// Annotation spec set with the setting of allowing multi labels or not.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct AnnotationSpecSetConfig {
+        /// Required. Annotation spec set resource name.
+        #[prost(string, tag="1")]
+        pub annotation_spec_set: ::prost::alloc::string::String,
+        /// Optional. If allow_multi_label is true, contributors are able to
+        /// choose multiple labels from one annotation spec set.
+        #[prost(bool, tag="2")]
+        pub allow_multi_label: bool,
+    }
+}
+/// Config for video object detection human labeling task.
+/// Object detection will be conducted on the images extracted from the video,
+/// and those objects will be labeled with bounding boxes.
+/// User need to specify the number of images to be extracted per second as the
+/// extraction frame rate.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ObjectDetectionConfig {
+    /// Required. Annotation spec set resource name.
+    #[prost(string, tag="1")]
+    pub annotation_spec_set: ::prost::alloc::string::String,
+    /// Required. Number of frames per second to be extracted from the video.
+    #[prost(double, tag="3")]
+    pub extraction_frame_rate: f64,
+}
+/// Config for video object tracking human labeling task.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ObjectTrackingConfig {
+    /// Required. Annotation spec set resource name.
+    #[prost(string, tag="1")]
+    pub annotation_spec_set: ::prost::alloc::string::String,
+}
+/// Config for video event human labeling task.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventConfig {
+    /// Required. The list of annotation spec set resource name. Similar to video
+    /// classification, we support selecting event from multiple AnnotationSpecSet
+    /// at the same time.
+    #[prost(string, repeated, tag="1")]
+    pub annotation_spec_sets: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Config for text classification human labeling task.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextClassificationConfig {
+    /// Optional. If allow_multi_label is true, contributors are able to choose
+    /// multiple labels for one text segment.
+    #[prost(bool, tag="1")]
+    pub allow_multi_label: bool,
+    /// Required. Annotation spec set resource name.
+    #[prost(string, tag="2")]
+    pub annotation_spec_set: ::prost::alloc::string::String,
+    /// Optional. Configs for sentiment selection.
+    #[prost(message, optional, tag="3")]
+    pub sentiment_config: ::core::option::Option<SentimentConfig>,
+}
+/// Config for setting up sentiments.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SentimentConfig {
+    /// If set to true, contributors will have the option to select sentiment of
+    /// the label they selected, to mark it as negative or positive label. Default
+    /// is false.
+    #[prost(bool, tag="1")]
+    pub enable_label_sentiment_selection: bool,
+}
+/// Config for text entity extraction human labeling task.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextEntityExtractionConfig {
+    /// Required. Annotation spec set resource name.
+    #[prost(string, tag="1")]
+    pub annotation_spec_set: ::prost::alloc::string::String,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum StringAggregationType {
+    Unspecified = 0,
+    /// Majority vote to aggregate answers.
+    MajorityVote = 1,
+    /// Unanimous answers will be adopted.
+    UnanimousVote = 2,
+    /// Preserve all answers by crowd compute.
+    NoAggregation = 3,
 }
 /// Dataset is the resource to hold your data. You can request multiple labeling
 /// tasks for a dataset while each one will generate an AnnotatedDataset.

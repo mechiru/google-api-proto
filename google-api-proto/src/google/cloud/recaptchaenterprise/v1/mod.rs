@@ -116,7 +116,7 @@ pub struct Assessment {
     #[prost(message, optional, tag="6")]
     pub account_defender_assessment: ::core::option::Option<AccountDefenderAssessment>,
     /// Password leak verification info.
-    #[prost(message, optional, tag="7")]
+    #[prost(message, optional, tag="8")]
     pub private_password_leak_verification: ::core::option::Option<PrivatePasswordLeakVerification>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]

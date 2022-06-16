@@ -1,3 +1,376 @@
+/// Encapsulates a single service in Google Cloud Platform.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Service {
+    /// The resource name for the service.
+    /// Example: "services/DA34-426B-A397"
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The identifier for the service.
+    /// Example: "DA34-426B-A397"
+    #[prost(string, tag="2")]
+    pub service_id: ::prost::alloc::string::String,
+    /// A human readable display name for this service.
+    #[prost(string, tag="3")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The business under which the service is offered.
+    /// Ex. "businessEntities/GCP", "businessEntities/Maps"
+    #[prost(string, tag="4")]
+    pub business_entity_name: ::prost::alloc::string::String,
+}
+/// Encapsulates a single SKU in Google Cloud Platform
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Sku {
+    /// The resource name for the SKU.
+    /// Example: "services/DA34-426B-A397/skus/AA95-CD31-42FE"
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The identifier for the SKU.
+    /// Example: "AA95-CD31-42FE"
+    #[prost(string, tag="2")]
+    pub sku_id: ::prost::alloc::string::String,
+    /// A human readable description of the SKU, has a maximum length of 256
+    /// characters.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    /// The category hierarchy of this SKU, purely for organizational purpose.
+    #[prost(message, optional, tag="4")]
+    pub category: ::core::option::Option<Category>,
+    /// List of service regions this SKU is offered at.
+    /// Example: "asia-east1"
+    /// Service regions can be found at <https://cloud.google.com/about/locations/>
+    #[prost(string, repeated, tag="5")]
+    pub service_regions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// A timeline of pricing info for this SKU in chronological order.
+    #[prost(message, repeated, tag="6")]
+    pub pricing_info: ::prost::alloc::vec::Vec<PricingInfo>,
+    /// Identifies the service provider.
+    /// This is 'Google' for first party services in Google Cloud Platform.
+    #[prost(string, tag="7")]
+    pub service_provider_name: ::prost::alloc::string::String,
+}
+/// Represents the category hierarchy of a SKU.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Category {
+    /// The display name of the service this SKU belongs to.
+    #[prost(string, tag="1")]
+    pub service_display_name: ::prost::alloc::string::String,
+    /// The type of product the SKU refers to.
+    /// Example: "Compute", "Storage", "Network", "ApplicationServices" etc.
+    #[prost(string, tag="2")]
+    pub resource_family: ::prost::alloc::string::String,
+    /// A group classification for related SKUs.
+    /// Example: "RAM", "GPU", "Prediction", "Ops", "GoogleEgress" etc.
+    #[prost(string, tag="3")]
+    pub resource_group: ::prost::alloc::string::String,
+    /// Represents how the SKU is consumed.
+    /// Example: "OnDemand", "Preemptible", "Commit1Mo", "Commit1Yr" etc.
+    #[prost(string, tag="4")]
+    pub usage_type: ::prost::alloc::string::String,
+}
+/// Represents the pricing information for a SKU at a single point of time.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PricingInfo {
+    /// The timestamp from which this pricing was effective within the requested
+    /// time range. This is guaranteed to be greater than or equal to the
+    /// start_time field in the request and less than the end_time field in the
+    /// request. If a time range was not specified in the request this field will
+    /// be equivalent to a time within the last 12 hours, indicating the latest
+    /// pricing info.
+    #[prost(message, optional, tag="1")]
+    pub effective_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// An optional human readable summary of the pricing information, has a
+    /// maximum length of 256 characters.
+    #[prost(string, tag="2")]
+    pub summary: ::prost::alloc::string::String,
+    /// Expresses the pricing formula. See `PricingExpression` for an example.
+    #[prost(message, optional, tag="3")]
+    pub pricing_expression: ::core::option::Option<PricingExpression>,
+    /// Aggregation Info. This can be left unspecified if the pricing expression
+    /// doesn't require aggregation.
+    #[prost(message, optional, tag="4")]
+    pub aggregation_info: ::core::option::Option<AggregationInfo>,
+    /// Conversion rate used for currency conversion, from USD to the currency
+    /// specified in the request. This includes any surcharge collected for billing
+    /// in non USD currency. If a currency is not specified in the request this
+    /// defaults to 1.0.
+    /// Example: USD * currency_conversion_rate = JPY
+    #[prost(double, tag="5")]
+    pub currency_conversion_rate: f64,
+}
+/// Expresses a mathematical pricing formula. For Example:-
+///
+/// `usage_unit: GBy`
+/// `tiered_rates:`
+///    `[start_usage_amount: 20, unit_price: $10]`
+///    `[start_usage_amount: 100, unit_price: $5]`
+///
+/// The above expresses a pricing formula where the first 20GB is free, the
+/// next 80GB is priced at $10 per GB followed by $5 per GB for additional
+/// usage.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PricingExpression {
+    /// The short hand for unit of usage this pricing is specified in.
+    /// Example: usage_unit of "GiBy" means that usage is specified in "Gibi Byte".
+    #[prost(string, tag="1")]
+    pub usage_unit: ::prost::alloc::string::String,
+    /// The unit of usage in human readable form.
+    /// Example: "gibi byte".
+    #[prost(string, tag="4")]
+    pub usage_unit_description: ::prost::alloc::string::String,
+    /// The base unit for the SKU which is the unit used in usage exports.
+    /// Example: "By"
+    #[prost(string, tag="5")]
+    pub base_unit: ::prost::alloc::string::String,
+    /// The base unit in human readable form.
+    /// Example: "byte".
+    #[prost(string, tag="6")]
+    pub base_unit_description: ::prost::alloc::string::String,
+    /// Conversion factor for converting from price per usage_unit to price per
+    /// base_unit, and start_usage_amount to start_usage_amount in base_unit.
+    /// unit_price / base_unit_conversion_factor = price per base_unit.
+    /// start_usage_amount * base_unit_conversion_factor = start_usage_amount in
+    /// base_unit.
+    #[prost(double, tag="7")]
+    pub base_unit_conversion_factor: f64,
+    /// The recommended quantity of units for displaying pricing info. When
+    /// displaying pricing info it is recommended to display:
+    /// (unit_price * display_quantity) per display_quantity usage_unit.
+    /// This field does not affect the pricing formula and is for display purposes
+    /// only.
+    /// Example: If the unit_price is "0.0001 USD", the usage_unit is "GB" and
+    /// the display_quantity is "1000" then the recommended way of displaying the
+    /// pricing info is "0.10 USD per 1000 GB"
+    #[prost(double, tag="2")]
+    pub display_quantity: f64,
+    /// The list of tiered rates for this pricing. The total cost is computed by
+    /// applying each of the tiered rates on usage. This repeated list is sorted
+    /// by ascending order of start_usage_amount.
+    #[prost(message, repeated, tag="3")]
+    pub tiered_rates: ::prost::alloc::vec::Vec<pricing_expression::TierRate>,
+}
+/// Nested message and enum types in `PricingExpression`.
+pub mod pricing_expression {
+    /// The price rate indicating starting usage and its corresponding price.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct TierRate {
+        /// Usage is priced at this rate only after this amount.
+        /// Example: start_usage_amount of 10 indicates that the usage will be priced
+        /// at the unit_price after the first 10 usage_units.
+        #[prost(double, tag="1")]
+        pub start_usage_amount: f64,
+        /// The price per unit of usage.
+        /// Example: unit_price of amount $10 indicates that each unit will cost $10.
+        #[prost(message, optional, tag="2")]
+        pub unit_price: ::core::option::Option<super::super::super::super::r#type::Money>,
+    }
+}
+/// Represents the aggregation level and interval for pricing of a single SKU.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AggregationInfo {
+    #[prost(enumeration="aggregation_info::AggregationLevel", tag="1")]
+    pub aggregation_level: i32,
+    #[prost(enumeration="aggregation_info::AggregationInterval", tag="2")]
+    pub aggregation_interval: i32,
+    /// The number of intervals to aggregate over.
+    /// Example: If aggregation_level is "DAILY" and aggregation_count is 14,
+    /// aggregation will be over 14 days.
+    #[prost(int32, tag="3")]
+    pub aggregation_count: i32,
+}
+/// Nested message and enum types in `AggregationInfo`.
+pub mod aggregation_info {
+    /// The level at which usage is aggregated to compute cost.
+    /// Example: "ACCOUNT" aggregation level indicates that usage for tiered
+    /// pricing is aggregated across all projects in a single account.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AggregationLevel {
+        Unspecified = 0,
+        Account = 1,
+        Project = 2,
+    }
+    /// The interval at which usage is aggregated to compute cost.
+    /// Example: "MONTHLY" aggregation interval indicates that usage for tiered
+    /// pricing is aggregated every month.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AggregationInterval {
+        Unspecified = 0,
+        Daily = 1,
+        Monthly = 2,
+    }
+}
+/// Request message for `ListServices`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListServicesRequest {
+    /// Requested page size. Defaults to 5000.
+    #[prost(int32, tag="1")]
+    pub page_size: i32,
+    /// A token identifying a page of results to return. This should be a
+    /// `next_page_token` value returned from a previous `ListServices`
+    /// call. If unspecified, the first page of results is returned.
+    #[prost(string, tag="2")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response message for `ListServices`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListServicesResponse {
+    /// A list of services.
+    #[prost(message, repeated, tag="1")]
+    pub services: ::prost::alloc::vec::Vec<Service>,
+    /// A token to retrieve the next page of results. To retrieve the next page,
+    /// call `ListServices` again with the `page_token` field set to this
+    /// value. This field is empty if there are no more results to retrieve.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for `ListSkus`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSkusRequest {
+    /// Required. The name of the service.
+    /// Example: "services/DA34-426B-A397"
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional inclusive start time of the time range for which the pricing
+    /// versions will be returned. Timestamps in the future are not allowed.
+    /// The time range has to be within a single calendar month in
+    /// America/Los_Angeles timezone. Time range as a whole is optional. If not
+    /// specified, the latest pricing will be returned (up to 12 hours old at
+    /// most).
+    #[prost(message, optional, tag="2")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional exclusive end time of the time range for which the pricing
+    /// versions will be returned. Timestamps in the future are not allowed.
+    /// The time range has to be within a single calendar month in
+    /// America/Los_Angeles timezone. Time range as a whole is optional. If not
+    /// specified, the latest pricing will be returned (up to 12 hours old at
+    /// most).
+    #[prost(message, optional, tag="3")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The ISO 4217 currency code for the pricing info in the response proto.
+    /// Will use the conversion rate as of start_time.
+    /// Optional. If not specified USD will be used.
+    #[prost(string, tag="4")]
+    pub currency_code: ::prost::alloc::string::String,
+    /// Requested page size. Defaults to 5000.
+    #[prost(int32, tag="5")]
+    pub page_size: i32,
+    /// A token identifying a page of results to return. This should be a
+    /// `next_page_token` value returned from a previous `ListSkus`
+    /// call. If unspecified, the first page of results is returned.
+    #[prost(string, tag="6")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response message for `ListSkus`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSkusResponse {
+    /// The list of public SKUs of the given service.
+    #[prost(message, repeated, tag="1")]
+    pub skus: ::prost::alloc::vec::Vec<Sku>,
+    /// A token to retrieve the next page of results. To retrieve the next page,
+    /// call `ListSkus` again with the `page_token` field set to this
+    /// value. This field is empty if there are no more results to retrieve.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Generated client implementations.
+pub mod cloud_catalog_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// A catalog of Google Cloud Platform services and SKUs.
+    /// Provides pricing information and metadata on Google Cloud Platform services
+    /// and SKUs.
+    #[derive(Debug, Clone)]
+    pub struct CloudCatalogClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> CloudCatalogClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> CloudCatalogClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            CloudCatalogClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Lists all public cloud services.
+        pub async fn list_services(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListServicesRequest>,
+        ) -> Result<tonic::Response<super::ListServicesResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.billing.v1.CloudCatalog/ListServices",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists all publicly available SKUs for a given cloud service.
+        pub async fn list_skus(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListSkusRequest>,
+        ) -> Result<tonic::Response<super::ListSkusResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.billing.v1.CloudCatalog/ListSkus",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// A billing account in [GCP Console](<https://console.cloud.google.com/>).
 /// You can assign a billing account to one or more projects.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -501,379 +874,6 @@ pub mod cloud_billing_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.billing.v1.CloudBilling/TestIamPermissions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Encapsulates a single service in Google Cloud Platform.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Service {
-    /// The resource name for the service.
-    /// Example: "services/DA34-426B-A397"
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The identifier for the service.
-    /// Example: "DA34-426B-A397"
-    #[prost(string, tag="2")]
-    pub service_id: ::prost::alloc::string::String,
-    /// A human readable display name for this service.
-    #[prost(string, tag="3")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The business under which the service is offered.
-    /// Ex. "businessEntities/GCP", "businessEntities/Maps"
-    #[prost(string, tag="4")]
-    pub business_entity_name: ::prost::alloc::string::String,
-}
-/// Encapsulates a single SKU in Google Cloud Platform
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Sku {
-    /// The resource name for the SKU.
-    /// Example: "services/DA34-426B-A397/skus/AA95-CD31-42FE"
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The identifier for the SKU.
-    /// Example: "AA95-CD31-42FE"
-    #[prost(string, tag="2")]
-    pub sku_id: ::prost::alloc::string::String,
-    /// A human readable description of the SKU, has a maximum length of 256
-    /// characters.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    /// The category hierarchy of this SKU, purely for organizational purpose.
-    #[prost(message, optional, tag="4")]
-    pub category: ::core::option::Option<Category>,
-    /// List of service regions this SKU is offered at.
-    /// Example: "asia-east1"
-    /// Service regions can be found at <https://cloud.google.com/about/locations/>
-    #[prost(string, repeated, tag="5")]
-    pub service_regions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// A timeline of pricing info for this SKU in chronological order.
-    #[prost(message, repeated, tag="6")]
-    pub pricing_info: ::prost::alloc::vec::Vec<PricingInfo>,
-    /// Identifies the service provider.
-    /// This is 'Google' for first party services in Google Cloud Platform.
-    #[prost(string, tag="7")]
-    pub service_provider_name: ::prost::alloc::string::String,
-}
-/// Represents the category hierarchy of a SKU.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Category {
-    /// The display name of the service this SKU belongs to.
-    #[prost(string, tag="1")]
-    pub service_display_name: ::prost::alloc::string::String,
-    /// The type of product the SKU refers to.
-    /// Example: "Compute", "Storage", "Network", "ApplicationServices" etc.
-    #[prost(string, tag="2")]
-    pub resource_family: ::prost::alloc::string::String,
-    /// A group classification for related SKUs.
-    /// Example: "RAM", "GPU", "Prediction", "Ops", "GoogleEgress" etc.
-    #[prost(string, tag="3")]
-    pub resource_group: ::prost::alloc::string::String,
-    /// Represents how the SKU is consumed.
-    /// Example: "OnDemand", "Preemptible", "Commit1Mo", "Commit1Yr" etc.
-    #[prost(string, tag="4")]
-    pub usage_type: ::prost::alloc::string::String,
-}
-/// Represents the pricing information for a SKU at a single point of time.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PricingInfo {
-    /// The timestamp from which this pricing was effective within the requested
-    /// time range. This is guaranteed to be greater than or equal to the
-    /// start_time field in the request and less than the end_time field in the
-    /// request. If a time range was not specified in the request this field will
-    /// be equivalent to a time within the last 12 hours, indicating the latest
-    /// pricing info.
-    #[prost(message, optional, tag="1")]
-    pub effective_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// An optional human readable summary of the pricing information, has a
-    /// maximum length of 256 characters.
-    #[prost(string, tag="2")]
-    pub summary: ::prost::alloc::string::String,
-    /// Expresses the pricing formula. See `PricingExpression` for an example.
-    #[prost(message, optional, tag="3")]
-    pub pricing_expression: ::core::option::Option<PricingExpression>,
-    /// Aggregation Info. This can be left unspecified if the pricing expression
-    /// doesn't require aggregation.
-    #[prost(message, optional, tag="4")]
-    pub aggregation_info: ::core::option::Option<AggregationInfo>,
-    /// Conversion rate used for currency conversion, from USD to the currency
-    /// specified in the request. This includes any surcharge collected for billing
-    /// in non USD currency. If a currency is not specified in the request this
-    /// defaults to 1.0.
-    /// Example: USD * currency_conversion_rate = JPY
-    #[prost(double, tag="5")]
-    pub currency_conversion_rate: f64,
-}
-/// Expresses a mathematical pricing formula. For Example:-
-///
-/// `usage_unit: GBy`
-/// `tiered_rates:`
-///    `[start_usage_amount: 20, unit_price: $10]`
-///    `[start_usage_amount: 100, unit_price: $5]`
-///
-/// The above expresses a pricing formula where the first 20GB is free, the
-/// next 80GB is priced at $10 per GB followed by $5 per GB for additional
-/// usage.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PricingExpression {
-    /// The short hand for unit of usage this pricing is specified in.
-    /// Example: usage_unit of "GiBy" means that usage is specified in "Gibi Byte".
-    #[prost(string, tag="1")]
-    pub usage_unit: ::prost::alloc::string::String,
-    /// The unit of usage in human readable form.
-    /// Example: "gibi byte".
-    #[prost(string, tag="4")]
-    pub usage_unit_description: ::prost::alloc::string::String,
-    /// The base unit for the SKU which is the unit used in usage exports.
-    /// Example: "By"
-    #[prost(string, tag="5")]
-    pub base_unit: ::prost::alloc::string::String,
-    /// The base unit in human readable form.
-    /// Example: "byte".
-    #[prost(string, tag="6")]
-    pub base_unit_description: ::prost::alloc::string::String,
-    /// Conversion factor for converting from price per usage_unit to price per
-    /// base_unit, and start_usage_amount to start_usage_amount in base_unit.
-    /// unit_price / base_unit_conversion_factor = price per base_unit.
-    /// start_usage_amount * base_unit_conversion_factor = start_usage_amount in
-    /// base_unit.
-    #[prost(double, tag="7")]
-    pub base_unit_conversion_factor: f64,
-    /// The recommended quantity of units for displaying pricing info. When
-    /// displaying pricing info it is recommended to display:
-    /// (unit_price * display_quantity) per display_quantity usage_unit.
-    /// This field does not affect the pricing formula and is for display purposes
-    /// only.
-    /// Example: If the unit_price is "0.0001 USD", the usage_unit is "GB" and
-    /// the display_quantity is "1000" then the recommended way of displaying the
-    /// pricing info is "0.10 USD per 1000 GB"
-    #[prost(double, tag="2")]
-    pub display_quantity: f64,
-    /// The list of tiered rates for this pricing. The total cost is computed by
-    /// applying each of the tiered rates on usage. This repeated list is sorted
-    /// by ascending order of start_usage_amount.
-    #[prost(message, repeated, tag="3")]
-    pub tiered_rates: ::prost::alloc::vec::Vec<pricing_expression::TierRate>,
-}
-/// Nested message and enum types in `PricingExpression`.
-pub mod pricing_expression {
-    /// The price rate indicating starting usage and its corresponding price.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct TierRate {
-        /// Usage is priced at this rate only after this amount.
-        /// Example: start_usage_amount of 10 indicates that the usage will be priced
-        /// at the unit_price after the first 10 usage_units.
-        #[prost(double, tag="1")]
-        pub start_usage_amount: f64,
-        /// The price per unit of usage.
-        /// Example: unit_price of amount $10 indicates that each unit will cost $10.
-        #[prost(message, optional, tag="2")]
-        pub unit_price: ::core::option::Option<super::super::super::super::r#type::Money>,
-    }
-}
-/// Represents the aggregation level and interval for pricing of a single SKU.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AggregationInfo {
-    #[prost(enumeration="aggregation_info::AggregationLevel", tag="1")]
-    pub aggregation_level: i32,
-    #[prost(enumeration="aggregation_info::AggregationInterval", tag="2")]
-    pub aggregation_interval: i32,
-    /// The number of intervals to aggregate over.
-    /// Example: If aggregation_level is "DAILY" and aggregation_count is 14,
-    /// aggregation will be over 14 days.
-    #[prost(int32, tag="3")]
-    pub aggregation_count: i32,
-}
-/// Nested message and enum types in `AggregationInfo`.
-pub mod aggregation_info {
-    /// The level at which usage is aggregated to compute cost.
-    /// Example: "ACCOUNT" aggregation level indicates that usage for tiered
-    /// pricing is aggregated across all projects in a single account.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AggregationLevel {
-        Unspecified = 0,
-        Account = 1,
-        Project = 2,
-    }
-    /// The interval at which usage is aggregated to compute cost.
-    /// Example: "MONTHLY" aggregation interval indicates that usage for tiered
-    /// pricing is aggregated every month.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AggregationInterval {
-        Unspecified = 0,
-        Daily = 1,
-        Monthly = 2,
-    }
-}
-/// Request message for `ListServices`.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListServicesRequest {
-    /// Requested page size. Defaults to 5000.
-    #[prost(int32, tag="1")]
-    pub page_size: i32,
-    /// A token identifying a page of results to return. This should be a
-    /// `next_page_token` value returned from a previous `ListServices`
-    /// call. If unspecified, the first page of results is returned.
-    #[prost(string, tag="2")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response message for `ListServices`.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListServicesResponse {
-    /// A list of services.
-    #[prost(message, repeated, tag="1")]
-    pub services: ::prost::alloc::vec::Vec<Service>,
-    /// A token to retrieve the next page of results. To retrieve the next page,
-    /// call `ListServices` again with the `page_token` field set to this
-    /// value. This field is empty if there are no more results to retrieve.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request message for `ListSkus`.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListSkusRequest {
-    /// Required. The name of the service.
-    /// Example: "services/DA34-426B-A397"
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional inclusive start time of the time range for which the pricing
-    /// versions will be returned. Timestamps in the future are not allowed.
-    /// The time range has to be within a single calendar month in
-    /// America/Los_Angeles timezone. Time range as a whole is optional. If not
-    /// specified, the latest pricing will be returned (up to 12 hours old at
-    /// most).
-    #[prost(message, optional, tag="2")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional exclusive end time of the time range for which the pricing
-    /// versions will be returned. Timestamps in the future are not allowed.
-    /// The time range has to be within a single calendar month in
-    /// America/Los_Angeles timezone. Time range as a whole is optional. If not
-    /// specified, the latest pricing will be returned (up to 12 hours old at
-    /// most).
-    #[prost(message, optional, tag="3")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The ISO 4217 currency code for the pricing info in the response proto.
-    /// Will use the conversion rate as of start_time.
-    /// Optional. If not specified USD will be used.
-    #[prost(string, tag="4")]
-    pub currency_code: ::prost::alloc::string::String,
-    /// Requested page size. Defaults to 5000.
-    #[prost(int32, tag="5")]
-    pub page_size: i32,
-    /// A token identifying a page of results to return. This should be a
-    /// `next_page_token` value returned from a previous `ListSkus`
-    /// call. If unspecified, the first page of results is returned.
-    #[prost(string, tag="6")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response message for `ListSkus`.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListSkusResponse {
-    /// The list of public SKUs of the given service.
-    #[prost(message, repeated, tag="1")]
-    pub skus: ::prost::alloc::vec::Vec<Sku>,
-    /// A token to retrieve the next page of results. To retrieve the next page,
-    /// call `ListSkus` again with the `page_token` field set to this
-    /// value. This field is empty if there are no more results to retrieve.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Generated client implementations.
-pub mod cloud_catalog_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// A catalog of Google Cloud Platform services and SKUs.
-    /// Provides pricing information and metadata on Google Cloud Platform services
-    /// and SKUs.
-    #[derive(Debug, Clone)]
-    pub struct CloudCatalogClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> CloudCatalogClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> CloudCatalogClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            CloudCatalogClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Lists all public cloud services.
-        pub async fn list_services(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListServicesRequest>,
-        ) -> Result<tonic::Response<super::ListServicesResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.billing.v1.CloudCatalog/ListServices",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Lists all publicly available SKUs for a given cloud service.
-        pub async fn list_skus(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListSkusRequest>,
-        ) -> Result<tonic::Response<super::ListSkusResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.billing.v1.CloudCatalog/ListSkus",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

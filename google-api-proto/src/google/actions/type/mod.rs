@@ -1,3 +1,44 @@
+/// Represents a date and time range. This can represent:
+///
+/// * A range between points in time with time zone or offset, e.g. the duration
+///   of a flight which starts in the "America/New_York" time zone and ends in
+///   the "Australia/Sydney" time zone
+/// * A range between points in time without time zone/offset info, e.g. an
+///   appointment in local time
+/// * A range starting at a specific date and time, e.g. the range of time which
+///   can be measured in milliseconds since the Unix epoch (period starting with
+///   1970-01-01T00:00:00Z)
+/// * A range ending at a specific date and time, e.g. range of time before
+///   a deadline
+///
+/// When considering whether a DateTime falls within a DateTimeRange, the start
+/// of the range is inclusive and the end is exclusive.
+///
+/// While \[google.type.DateTime][google.type.DateTime\] allows zero years, DateTimeRange does not.
+/// Year must always be non-zero.
+///
+/// When both start and end are set, either both or neither must have a
+/// time_offset. When set, time_offset can be specified by either utc_offset or
+/// time_zone and must match for start and end, that is if start has utc_offset
+/// set then end must also have utc_offset set. The values of utc_offset or
+/// time_zone need not be the same for start and end.
+///
+/// When both start and end are set, start must be chronologically less than or
+/// equal to end. When start and end are equal, the range is empty.
+///
+/// The semantics of start and end are the same as those of
+/// \[google.type.DateTime][google.type.DateTime\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DateTimeRange {
+    /// DateTime at which the date range begins. If unset, the range has no
+    /// beginning bound.
+    #[prost(message, optional, tag="1")]
+    pub start: ::core::option::Option<super::super::r#type::DateTime>,
+    /// DateTime at which the date range ends. If unset, the range has no ending
+    /// bound.
+    #[prost(message, optional, tag="2")]
+    pub end: ::core::option::Option<super::super::r#type::DateTime>,
+}
 /// Represents a range based on whole or partial calendar dates, e.g. the
 /// duration of a hotel reservation or the Common Era. This can represent:
 ///
@@ -53,45 +94,4 @@ pub struct DateRange {
     /// bound.
     #[prost(message, optional, tag="2")]
     pub end: ::core::option::Option<super::super::r#type::Date>,
-}
-/// Represents a date and time range. This can represent:
-///
-/// * A range between points in time with time zone or offset, e.g. the duration
-///   of a flight which starts in the "America/New_York" time zone and ends in
-///   the "Australia/Sydney" time zone
-/// * A range between points in time without time zone/offset info, e.g. an
-///   appointment in local time
-/// * A range starting at a specific date and time, e.g. the range of time which
-///   can be measured in milliseconds since the Unix epoch (period starting with
-///   1970-01-01T00:00:00Z)
-/// * A range ending at a specific date and time, e.g. range of time before
-///   a deadline
-///
-/// When considering whether a DateTime falls within a DateTimeRange, the start
-/// of the range is inclusive and the end is exclusive.
-///
-/// While \[google.type.DateTime][google.type.DateTime\] allows zero years, DateTimeRange does not.
-/// Year must always be non-zero.
-///
-/// When both start and end are set, either both or neither must have a
-/// time_offset. When set, time_offset can be specified by either utc_offset or
-/// time_zone and must match for start and end, that is if start has utc_offset
-/// set then end must also have utc_offset set. The values of utc_offset or
-/// time_zone need not be the same for start and end.
-///
-/// When both start and end are set, start must be chronologically less than or
-/// equal to end. When start and end are equal, the range is empty.
-///
-/// The semantics of start and end are the same as those of
-/// \[google.type.DateTime][google.type.DateTime\].
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DateTimeRange {
-    /// DateTime at which the date range begins. If unset, the range has no
-    /// beginning bound.
-    #[prost(message, optional, tag="1")]
-    pub start: ::core::option::Option<super::super::r#type::DateTime>,
-    /// DateTime at which the date range ends. If unset, the range has no ending
-    /// bound.
-    #[prost(message, optional, tag="2")]
-    pub end: ::core::option::Option<super::super::r#type::DateTime>,
 }

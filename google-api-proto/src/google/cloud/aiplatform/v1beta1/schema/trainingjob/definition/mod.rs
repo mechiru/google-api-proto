@@ -17,112 +17,6 @@ pub struct AutoMlTextSentimentInputs {
     #[prost(int32, tag="1")]
     pub sentiment_max: i32,
 }
-/// A TrainingJob that trains and uploads an AutoML Image Classification Model.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlImageClassification {
-    /// The input parameters of this TrainingJob.
-    #[prost(message, optional, tag="1")]
-    pub inputs: ::core::option::Option<AutoMlImageClassificationInputs>,
-    /// The metadata information.
-    #[prost(message, optional, tag="2")]
-    pub metadata: ::core::option::Option<AutoMlImageClassificationMetadata>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlImageClassificationInputs {
-    #[prost(enumeration="auto_ml_image_classification_inputs::ModelType", tag="1")]
-    pub model_type: i32,
-    /// The ID of the `base` model. If it is specified, the new model will be
-    /// trained based on the `base` model. Otherwise, the new model will be
-    /// trained from scratch. The `base` model must be in the same
-    /// Project and Location as the new Model to train, and have the same
-    /// modelType.
-    #[prost(string, tag="2")]
-    pub base_model_id: ::prost::alloc::string::String,
-    /// The training budget of creating this model, expressed in milli node
-    /// hours i.e. 1,000 value in this field means 1 node hour. The actual
-    /// metadata.costMilliNodeHours will be equal or less than this value.
-    /// If further model training ceases to provide any improvements, it will
-    /// stop without using the full budget and the metadata.successfulStopReason
-    /// will be `model-converged`.
-    /// Note, node_hour  = actual_hour * number_of_nodes_involved.
-    /// For modelType `cloud`(default), the budget must be between 8,000
-    /// and 800,000 milli node hours, inclusive. The default value is 192,000
-    /// which represents one day in wall time, considering 8 nodes are used.
-    /// For model types `mobile-tf-low-latency-1`, `mobile-tf-versatile-1`,
-    /// `mobile-tf-high-accuracy-1`, the training budget must be between
-    /// 1,000 and 100,000 milli node hours, inclusive.
-    /// The default value is 24,000 which represents one day in wall time on a
-    /// single node that is used.
-    #[prost(int64, tag="3")]
-    pub budget_milli_node_hours: i64,
-    /// Use the entire training budget. This disables the early stopping feature.
-    /// When false the early stopping feature is enabled, which means that
-    /// AutoML Image Classification might stop training before the entire
-    /// training budget has been used.
-    #[prost(bool, tag="4")]
-    pub disable_early_stopping: bool,
-    /// If false, a single-label (multi-class) Model will be trained (i.e.
-    /// assuming that for each image just up to one annotation may be
-    /// applicable). If true, a multi-label Model will be trained (i.e.
-    /// assuming that for each image multiple annotations may be applicable).
-    #[prost(bool, tag="5")]
-    pub multi_label: bool,
-}
-/// Nested message and enum types in `AutoMlImageClassificationInputs`.
-pub mod auto_ml_image_classification_inputs {
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ModelType {
-        /// Should not be set.
-        Unspecified = 0,
-        /// A Model best tailored to be used within Google Cloud, and which cannot
-        /// be exported.
-        /// Default.
-        Cloud = 1,
-        /// A model that, in addition to being available within Google
-        /// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow
-        /// or Core ML model and used on a mobile or edge device afterwards.
-        /// Expected to have low latency, but may have lower prediction
-        /// quality than other mobile models.
-        MobileTfLowLatency1 = 2,
-        /// A model that, in addition to being available within Google
-        /// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow
-        /// or Core ML model and used on a mobile or edge device with afterwards.
-        MobileTfVersatile1 = 3,
-        /// A model that, in addition to being available within Google
-        /// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow
-        /// or Core ML model and used on a mobile or edge device afterwards.
-        /// Expected to have a higher latency, but should also have a higher
-        /// prediction quality than other mobile models.
-        MobileTfHighAccuracy1 = 4,
-    }
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlImageClassificationMetadata {
-    /// The actual training cost of creating this model, expressed in
-    /// milli node hours, i.e. 1,000 value in this field means 1 node hour.
-    /// Guaranteed to not exceed inputs.budgetMilliNodeHours.
-    #[prost(int64, tag="1")]
-    pub cost_milli_node_hours: i64,
-    /// For successful job completions, this is the reason why the job has
-    /// finished.
-    #[prost(enumeration="auto_ml_image_classification_metadata::SuccessfulStopReason", tag="2")]
-    pub successful_stop_reason: i32,
-}
-/// Nested message and enum types in `AutoMlImageClassificationMetadata`.
-pub mod auto_ml_image_classification_metadata {
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum SuccessfulStopReason {
-        /// Should not be set.
-        Unspecified = 0,
-        /// The inputs.budgetMilliNodeHours had been reached.
-        BudgetReached = 1,
-        /// Further training of the Model ceased to increase its quality, since it
-        /// already has converged.
-        ModelConverged = 2,
-    }
-}
 /// A TrainingJob that trains and uploads an AutoML Video Classification Model.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AutoMlVideoClassification {
@@ -167,44 +61,89 @@ pub struct AutoMlTextClassificationInputs {
     #[prost(bool, tag="1")]
     pub multi_label: bool,
 }
-/// A TrainingJob that trains and uploads an AutoML Video ObjectTracking Model.
+/// A TrainingJob that trains and uploads an AutoML Image Segmentation Model.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlVideoObjectTracking {
+pub struct AutoMlImageSegmentation {
     /// The input parameters of this TrainingJob.
     #[prost(message, optional, tag="1")]
-    pub inputs: ::core::option::Option<AutoMlVideoObjectTrackingInputs>,
+    pub inputs: ::core::option::Option<AutoMlImageSegmentationInputs>,
+    /// The metadata information.
+    #[prost(message, optional, tag="2")]
+    pub metadata: ::core::option::Option<AutoMlImageSegmentationMetadata>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlVideoObjectTrackingInputs {
-    #[prost(enumeration="auto_ml_video_object_tracking_inputs::ModelType", tag="1")]
+pub struct AutoMlImageSegmentationInputs {
+    #[prost(enumeration="auto_ml_image_segmentation_inputs::ModelType", tag="1")]
     pub model_type: i32,
+    /// The training budget of creating this model, expressed in milli node
+    /// hours i.e. 1,000 value in this field means 1 node hour. The actual
+    /// metadata.costMilliNodeHours will be equal or less than this value.
+    /// If further model training ceases to provide any improvements, it will
+    /// stop without using the full budget and the metadata.successfulStopReason
+    /// will be `model-converged`.
+    /// Note, node_hour  = actual_hour * number_of_nodes_involved. Or
+    /// actaul_wall_clock_hours = train_budget_milli_node_hours /
+    ///                           (number_of_nodes_involved * 1000)
+    /// For modelType `cloud-high-accuracy-1`(default), the budget must be between
+    /// 20,000 and 2,000,000 milli node hours, inclusive. The default value is
+    /// 192,000 which represents one day in wall time
+    /// (1000 milli * 24 hours * 8 nodes).
+    #[prost(int64, tag="2")]
+    pub budget_milli_node_hours: i64,
+    /// The ID of the `base` model. If it is specified, the new model will be
+    /// trained based on the `base` model. Otherwise, the new model will be
+    /// trained from scratch. The `base` model must be in the same
+    /// Project and Location as the new Model to train, and have the same
+    /// modelType.
+    #[prost(string, tag="3")]
+    pub base_model_id: ::prost::alloc::string::String,
 }
-/// Nested message and enum types in `AutoMlVideoObjectTrackingInputs`.
-pub mod auto_ml_video_object_tracking_inputs {
+/// Nested message and enum types in `AutoMlImageSegmentationInputs`.
+pub mod auto_ml_image_segmentation_inputs {
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum ModelType {
         /// Should not be set.
         Unspecified = 0,
-        /// A model best tailored to be used within Google Cloud, and which c annot
-        /// be exported. Default.
-        Cloud = 1,
-        /// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
-        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
-        MobileVersatile1 = 2,
-        /// A versatile model that is meant to be exported (see
-        /// ModelService.ExportModel) and used on a Google Coral device.
-        MobileCoralVersatile1 = 3,
-        /// A model that trades off quality for low latency, to be exported (see
-        /// ModelService.ExportModel) and used on a Google Coral device.
-        MobileCoralLowLatency1 = 4,
-        /// A versatile model that is meant to be exported (see
-        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
-        MobileJetsonVersatile1 = 5,
-        /// A model that trades off quality for low latency, to be exported (see
-        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
-        MobileJetsonLowLatency1 = 6,
+        /// A model to be used via prediction calls to uCAIP API. Expected
+        /// to have a higher latency, but should also have a higher prediction
+        /// quality than other models.
+        CloudHighAccuracy1 = 1,
+        /// A model to be used via prediction calls to uCAIP API. Expected
+        /// to have a lower latency but relatively lower prediction quality.
+        CloudLowAccuracy1 = 2,
+        /// A model that, in addition to being available within Google
+        /// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow
+        /// model and used on a mobile or edge device afterwards.
+        /// Expected to have low latency, but may have lower prediction
+        /// quality than other mobile models.
+        MobileTfLowLatency1 = 3,
+    }
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoMlImageSegmentationMetadata {
+    /// The actual training cost of creating this model, expressed in
+    /// milli node hours, i.e. 1,000 value in this field means 1 node hour.
+    /// Guaranteed to not exceed inputs.budgetMilliNodeHours.
+    #[prost(int64, tag="1")]
+    pub cost_milli_node_hours: i64,
+    /// For successful job completions, this is the reason why the job has
+    /// finished.
+    #[prost(enumeration="auto_ml_image_segmentation_metadata::SuccessfulStopReason", tag="2")]
+    pub successful_stop_reason: i32,
+}
+/// Nested message and enum types in `AutoMlImageSegmentationMetadata`.
+pub mod auto_ml_image_segmentation_metadata {
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SuccessfulStopReason {
+        /// Should not be set.
+        Unspecified = 0,
+        /// The inputs.budgetMilliNodeHours had been reached.
+        BudgetReached = 1,
+        /// Further training of the Model ceased to increase its quality, since it
+        /// already has converged.
+        ModelConverged = 2,
     }
 }
 /// Configuration for exporting test set predictions to a BigQuery table.
@@ -509,6 +448,189 @@ pub struct AutoMlTablesMetadata {
     #[prost(int64, tag="1")]
     pub train_cost_milli_node_hours: i64,
 }
+/// A TrainingJob that trains and uploads an AutoML Video Action Recognition
+/// Model.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoMlVideoActionRecognition {
+    /// The input parameters of this TrainingJob.
+    #[prost(message, optional, tag="1")]
+    pub inputs: ::core::option::Option<AutoMlVideoActionRecognitionInputs>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoMlVideoActionRecognitionInputs {
+    #[prost(enumeration="auto_ml_video_action_recognition_inputs::ModelType", tag="1")]
+    pub model_type: i32,
+}
+/// Nested message and enum types in `AutoMlVideoActionRecognitionInputs`.
+pub mod auto_ml_video_action_recognition_inputs {
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ModelType {
+        /// Should not be set.
+        Unspecified = 0,
+        /// A model best tailored to be used within Google Cloud, and which c annot
+        /// be exported. Default.
+        Cloud = 1,
+        /// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
+        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
+        MobileVersatile1 = 2,
+        /// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) to a Jetson device
+        /// afterwards.
+        MobileJetsonVersatile1 = 3,
+        /// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
+        /// TensorFlow Lite model and used on a Coral device afterwards.
+        MobileCoralVersatile1 = 4,
+    }
+}
+/// A TrainingJob that trains and uploads an AutoML Image Classification Model.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoMlImageClassification {
+    /// The input parameters of this TrainingJob.
+    #[prost(message, optional, tag="1")]
+    pub inputs: ::core::option::Option<AutoMlImageClassificationInputs>,
+    /// The metadata information.
+    #[prost(message, optional, tag="2")]
+    pub metadata: ::core::option::Option<AutoMlImageClassificationMetadata>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoMlImageClassificationInputs {
+    #[prost(enumeration="auto_ml_image_classification_inputs::ModelType", tag="1")]
+    pub model_type: i32,
+    /// The ID of the `base` model. If it is specified, the new model will be
+    /// trained based on the `base` model. Otherwise, the new model will be
+    /// trained from scratch. The `base` model must be in the same
+    /// Project and Location as the new Model to train, and have the same
+    /// modelType.
+    #[prost(string, tag="2")]
+    pub base_model_id: ::prost::alloc::string::String,
+    /// The training budget of creating this model, expressed in milli node
+    /// hours i.e. 1,000 value in this field means 1 node hour. The actual
+    /// metadata.costMilliNodeHours will be equal or less than this value.
+    /// If further model training ceases to provide any improvements, it will
+    /// stop without using the full budget and the metadata.successfulStopReason
+    /// will be `model-converged`.
+    /// Note, node_hour  = actual_hour * number_of_nodes_involved.
+    /// For modelType `cloud`(default), the budget must be between 8,000
+    /// and 800,000 milli node hours, inclusive. The default value is 192,000
+    /// which represents one day in wall time, considering 8 nodes are used.
+    /// For model types `mobile-tf-low-latency-1`, `mobile-tf-versatile-1`,
+    /// `mobile-tf-high-accuracy-1`, the training budget must be between
+    /// 1,000 and 100,000 milli node hours, inclusive.
+    /// The default value is 24,000 which represents one day in wall time on a
+    /// single node that is used.
+    #[prost(int64, tag="3")]
+    pub budget_milli_node_hours: i64,
+    /// Use the entire training budget. This disables the early stopping feature.
+    /// When false the early stopping feature is enabled, which means that
+    /// AutoML Image Classification might stop training before the entire
+    /// training budget has been used.
+    #[prost(bool, tag="4")]
+    pub disable_early_stopping: bool,
+    /// If false, a single-label (multi-class) Model will be trained (i.e.
+    /// assuming that for each image just up to one annotation may be
+    /// applicable). If true, a multi-label Model will be trained (i.e.
+    /// assuming that for each image multiple annotations may be applicable).
+    #[prost(bool, tag="5")]
+    pub multi_label: bool,
+}
+/// Nested message and enum types in `AutoMlImageClassificationInputs`.
+pub mod auto_ml_image_classification_inputs {
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ModelType {
+        /// Should not be set.
+        Unspecified = 0,
+        /// A Model best tailored to be used within Google Cloud, and which cannot
+        /// be exported.
+        /// Default.
+        Cloud = 1,
+        /// A model that, in addition to being available within Google
+        /// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow
+        /// or Core ML model and used on a mobile or edge device afterwards.
+        /// Expected to have low latency, but may have lower prediction
+        /// quality than other mobile models.
+        MobileTfLowLatency1 = 2,
+        /// A model that, in addition to being available within Google
+        /// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow
+        /// or Core ML model and used on a mobile or edge device with afterwards.
+        MobileTfVersatile1 = 3,
+        /// A model that, in addition to being available within Google
+        /// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow
+        /// or Core ML model and used on a mobile or edge device afterwards.
+        /// Expected to have a higher latency, but should also have a higher
+        /// prediction quality than other mobile models.
+        MobileTfHighAccuracy1 = 4,
+    }
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoMlImageClassificationMetadata {
+    /// The actual training cost of creating this model, expressed in
+    /// milli node hours, i.e. 1,000 value in this field means 1 node hour.
+    /// Guaranteed to not exceed inputs.budgetMilliNodeHours.
+    #[prost(int64, tag="1")]
+    pub cost_milli_node_hours: i64,
+    /// For successful job completions, this is the reason why the job has
+    /// finished.
+    #[prost(enumeration="auto_ml_image_classification_metadata::SuccessfulStopReason", tag="2")]
+    pub successful_stop_reason: i32,
+}
+/// Nested message and enum types in `AutoMlImageClassificationMetadata`.
+pub mod auto_ml_image_classification_metadata {
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SuccessfulStopReason {
+        /// Should not be set.
+        Unspecified = 0,
+        /// The inputs.budgetMilliNodeHours had been reached.
+        BudgetReached = 1,
+        /// Further training of the Model ceased to increase its quality, since it
+        /// already has converged.
+        ModelConverged = 2,
+    }
+}
+/// A TrainingJob that trains and uploads an AutoML Video ObjectTracking Model.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoMlVideoObjectTracking {
+    /// The input parameters of this TrainingJob.
+    #[prost(message, optional, tag="1")]
+    pub inputs: ::core::option::Option<AutoMlVideoObjectTrackingInputs>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoMlVideoObjectTrackingInputs {
+    #[prost(enumeration="auto_ml_video_object_tracking_inputs::ModelType", tag="1")]
+    pub model_type: i32,
+}
+/// Nested message and enum types in `AutoMlVideoObjectTrackingInputs`.
+pub mod auto_ml_video_object_tracking_inputs {
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ModelType {
+        /// Should not be set.
+        Unspecified = 0,
+        /// A model best tailored to be used within Google Cloud, and which c annot
+        /// be exported. Default.
+        Cloud = 1,
+        /// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
+        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
+        MobileVersatile1 = 2,
+        /// A versatile model that is meant to be exported (see
+        /// ModelService.ExportModel) and used on a Google Coral device.
+        MobileCoralVersatile1 = 3,
+        /// A model that trades off quality for low latency, to be exported (see
+        /// ModelService.ExportModel) and used on a Google Coral device.
+        MobileCoralLowLatency1 = 4,
+        /// A versatile model that is meant to be exported (see
+        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
+        MobileJetsonVersatile1 = 5,
+        /// A model that trades off quality for low latency, to be exported (see
+        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
+        MobileJetsonLowLatency1 = 6,
+    }
+}
 /// A TrainingJob that trains and uploads an AutoML Text Extraction Model.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AutoMlTextExtraction {
@@ -614,43 +736,6 @@ pub mod auto_ml_image_object_detection_metadata {
         /// Further training of the Model ceased to increase its quality, since it
         /// already has converged.
         ModelConverged = 2,
-    }
-}
-/// A TrainingJob that trains and uploads an AutoML Video Action Recognition
-/// Model.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlVideoActionRecognition {
-    /// The input parameters of this TrainingJob.
-    #[prost(message, optional, tag="1")]
-    pub inputs: ::core::option::Option<AutoMlVideoActionRecognitionInputs>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlVideoActionRecognitionInputs {
-    #[prost(enumeration="auto_ml_video_action_recognition_inputs::ModelType", tag="1")]
-    pub model_type: i32,
-}
-/// Nested message and enum types in `AutoMlVideoActionRecognitionInputs`.
-pub mod auto_ml_video_action_recognition_inputs {
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ModelType {
-        /// Should not be set.
-        Unspecified = 0,
-        /// A model best tailored to be used within Google Cloud, and which c annot
-        /// be exported. Default.
-        Cloud = 1,
-        /// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
-        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
-        MobileVersatile1 = 2,
-        /// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) to a Jetson device
-        /// afterwards.
-        MobileJetsonVersatile1 = 3,
-        /// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
-        /// TensorFlow Lite model and used on a Coral device afterwards.
-        MobileCoralVersatile1 = 4,
     }
 }
 /// A TrainingJob that trains and uploads an AutoML Forecasting Model.
@@ -932,89 +1017,4 @@ pub struct AutoMlForecastingMetadata {
     /// to not exceed the train budget.
     #[prost(int64, tag="1")]
     pub train_cost_milli_node_hours: i64,
-}
-/// A TrainingJob that trains and uploads an AutoML Image Segmentation Model.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlImageSegmentation {
-    /// The input parameters of this TrainingJob.
-    #[prost(message, optional, tag="1")]
-    pub inputs: ::core::option::Option<AutoMlImageSegmentationInputs>,
-    /// The metadata information.
-    #[prost(message, optional, tag="2")]
-    pub metadata: ::core::option::Option<AutoMlImageSegmentationMetadata>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlImageSegmentationInputs {
-    #[prost(enumeration="auto_ml_image_segmentation_inputs::ModelType", tag="1")]
-    pub model_type: i32,
-    /// The training budget of creating this model, expressed in milli node
-    /// hours i.e. 1,000 value in this field means 1 node hour. The actual
-    /// metadata.costMilliNodeHours will be equal or less than this value.
-    /// If further model training ceases to provide any improvements, it will
-    /// stop without using the full budget and the metadata.successfulStopReason
-    /// will be `model-converged`.
-    /// Note, node_hour  = actual_hour * number_of_nodes_involved. Or
-    /// actaul_wall_clock_hours = train_budget_milli_node_hours /
-    ///                           (number_of_nodes_involved * 1000)
-    /// For modelType `cloud-high-accuracy-1`(default), the budget must be between
-    /// 20,000 and 2,000,000 milli node hours, inclusive. The default value is
-    /// 192,000 which represents one day in wall time
-    /// (1000 milli * 24 hours * 8 nodes).
-    #[prost(int64, tag="2")]
-    pub budget_milli_node_hours: i64,
-    /// The ID of the `base` model. If it is specified, the new model will be
-    /// trained based on the `base` model. Otherwise, the new model will be
-    /// trained from scratch. The `base` model must be in the same
-    /// Project and Location as the new Model to train, and have the same
-    /// modelType.
-    #[prost(string, tag="3")]
-    pub base_model_id: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `AutoMlImageSegmentationInputs`.
-pub mod auto_ml_image_segmentation_inputs {
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ModelType {
-        /// Should not be set.
-        Unspecified = 0,
-        /// A model to be used via prediction calls to uCAIP API. Expected
-        /// to have a higher latency, but should also have a higher prediction
-        /// quality than other models.
-        CloudHighAccuracy1 = 1,
-        /// A model to be used via prediction calls to uCAIP API. Expected
-        /// to have a lower latency but relatively lower prediction quality.
-        CloudLowAccuracy1 = 2,
-        /// A model that, in addition to being available within Google
-        /// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow
-        /// model and used on a mobile or edge device afterwards.
-        /// Expected to have low latency, but may have lower prediction
-        /// quality than other mobile models.
-        MobileTfLowLatency1 = 3,
-    }
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoMlImageSegmentationMetadata {
-    /// The actual training cost of creating this model, expressed in
-    /// milli node hours, i.e. 1,000 value in this field means 1 node hour.
-    /// Guaranteed to not exceed inputs.budgetMilliNodeHours.
-    #[prost(int64, tag="1")]
-    pub cost_milli_node_hours: i64,
-    /// For successful job completions, this is the reason why the job has
-    /// finished.
-    #[prost(enumeration="auto_ml_image_segmentation_metadata::SuccessfulStopReason", tag="2")]
-    pub successful_stop_reason: i32,
-}
-/// Nested message and enum types in `AutoMlImageSegmentationMetadata`.
-pub mod auto_ml_image_segmentation_metadata {
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum SuccessfulStopReason {
-        /// Should not be set.
-        Unspecified = 0,
-        /// The inputs.budgetMilliNodeHours had been reached.
-        BudgetReached = 1,
-        /// Further training of the Model ceased to increase its quality, since it
-        /// already has converged.
-        ModelConverged = 2,
-    }
 }

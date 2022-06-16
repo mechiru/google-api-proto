@@ -439,7 +439,10 @@ pub struct FunnelNextAction {
     /// The dimension column added to the funnel visualization sub report response.
     /// The next action dimension returns the next dimension value of this
     /// dimension after the user has attained the `i`th funnel step.
-    /// `nextActionDimension` currently only supports the `eventName` dimension.
+    ///
+    /// `nextActionDimension` currently only supports `eventName` and most Page /
+    /// Screen dimensions like `pageTitle` and `pagePath`. `nextActionDimension`
+    /// cannot be a dimension expression.
     #[prost(message, optional, tag="1")]
     pub next_action_dimension: ::core::option::Option<Dimension>,
     /// The maximum number of distinct values of the breakdown dimension to return
@@ -1050,9 +1053,9 @@ pub mod funnel_filter_expression {
         /// The FunnelFilterExpression is NOT of `notExpression`.
         #[prost(message, tag="3")]
         NotExpression(::prost::alloc::boxed::Box<super::FunnelFilterExpression>),
-        /// A primitive funnel filter.
+        /// A funnel filter for a dimension or metric.
         #[prost(message, tag="4")]
-        FunnelFilter(super::FunnelFilter),
+        FunnelFieldFilter(super::FunnelFieldFilter),
         /// Creates a filter that matches events of a single event name. If a
         /// parameter filter expression is specified, only the subset of events that
         /// match both the single event name and the parameter filter expressions
@@ -1070,16 +1073,16 @@ pub struct FunnelFilterExpressionList {
 }
 /// An expression to filter dimension or metric values.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FunnelFilter {
+pub struct FunnelFieldFilter {
     /// The dimension name or metric name.
     #[prost(string, tag="1")]
     pub field_name: ::prost::alloc::string::String,
     /// Specify one type of filter.
-    #[prost(oneof="funnel_filter::OneFilter", tags="4, 5, 6, 7")]
-    pub one_filter: ::core::option::Option<funnel_filter::OneFilter>,
+    #[prost(oneof="funnel_field_filter::OneFilter", tags="4, 5, 6, 7")]
+    pub one_filter: ::core::option::Option<funnel_field_filter::OneFilter>,
 }
-/// Nested message and enum types in `FunnelFilter`.
-pub mod funnel_filter {
+/// Nested message and enum types in `FunnelFieldFilter`.
+pub mod funnel_field_filter {
     /// Specify one type of filter.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum OneFilter {
@@ -1388,9 +1391,12 @@ pub struct RunFunnelReportRequest {
     pub funnel_breakdown: ::core::option::Option<FunnelBreakdown>,
     /// If specified, next action adds a dimension to the funnel visualization sub
     /// report response. This next action dimension expands each funnel step to the
-    /// unique values of the next action. For example a breakdown by the
+    /// unique values of the next action. For example a next action of the
     /// `eventName` dimension will create rows for several events (i.e.
     /// `session_start` & `click`) and the total.
+    ///
+    /// Next action only supports `eventName` and most Page / Screen dimensions
+    /// like `pageTitle` and `pagePath`.
     #[prost(message, optional, tag="5")]
     pub funnel_next_action: ::core::option::Option<FunnelNextAction>,
     /// The funnel visualization type controls the dimensions present in the funnel
