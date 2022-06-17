@@ -180,7 +180,8 @@ pub struct ListNotificationsRequest {
     pub parent: ::prost::alloc::string::String,
     /// The maximum number of notifications to return. The service may return fewer
     /// than this value.
-    /// The maximum value is 100; values above 100 will be coerced to 100.
+    /// The default value is 100. Specifying a value above 100 will result in a
+    /// page_size of 100.
     #[prost(int32, tag="2")]
     pub page_size: i32,
     /// A page token, received from a previous `ListNotifications` call.
@@ -288,7 +289,7 @@ pub struct DeleteObjectRequest {
     /// there are no live versions of the object.
     #[prost(int64, optional, tag="5")]
     pub if_generation_match: ::core::option::Option<i64>,
-    /// Makes the operation conditional on whether the object's current generation
+    /// Makes the operation conditional on whether the object's live generation
     /// does not match the given value. If no live object exists, the precondition
     /// fails. Setting to 0 makes the operation succeed only if there is a live
     /// version of the object.
@@ -326,8 +327,8 @@ pub struct ReadObjectRequest {
     /// back from the end of the object to be returned. For example, if an object's
     /// length is 15 bytes, a ReadObjectRequest with `read_offset` = -5 and
     /// `read_limit` = 3 would return bytes 10 through 12 of the object. Requesting
-    /// a negative offset whose magnitude is larger than the size of the object
-    /// will result in an error.
+    /// a negative offset with magnitude larger than the size of the object will
+    /// return the entire object.
     #[prost(int64, tag="4")]
     pub read_offset: i64,
     /// The maximum number of `data` bytes the server is allowed to return in the
@@ -344,7 +345,7 @@ pub struct ReadObjectRequest {
     /// there are no live versions of the object.
     #[prost(int64, optional, tag="6")]
     pub if_generation_match: ::core::option::Option<i64>,
-    /// Makes the operation conditional on whether the object's current generation
+    /// Makes the operation conditional on whether the object's live generation
     /// does not match the given value. If no live object exists, the precondition
     /// fails. Setting to 0 makes the operation succeed only if there is a live
     /// version of the object.
@@ -387,7 +388,7 @@ pub struct GetObjectRequest {
     /// there are no live versions of the object.
     #[prost(int64, optional, tag="4")]
     pub if_generation_match: ::core::option::Option<i64>,
-    /// Makes the operation conditional on whether the object's current generation
+    /// Makes the operation conditional on whether the object's live generation
     /// does not match the given value. If no live object exists, the precondition
     /// fails. Setting to 0 makes the operation succeed only if there is a live
     /// version of the object.
@@ -451,7 +452,7 @@ pub struct WriteObjectSpec {
     /// succeed only if there are no live versions of the object.
     #[prost(int64, optional, tag="3")]
     pub if_generation_match: ::core::option::Option<i64>,
-    /// Makes the operation conditional on whether the object's current
+    /// Makes the operation conditional on whether the object's live
     /// generation does not match the given value. If no live object exists, the
     /// precondition fails. Setting to 0 makes the operation succeed only if
     /// there is a live version of the object.
@@ -710,7 +711,7 @@ pub struct RewriteObjectRequest {
     /// there are no live versions of the object.
     #[prost(int64, optional, tag="7")]
     pub if_generation_match: ::core::option::Option<i64>,
-    /// Makes the operation conditional on whether the object's current generation
+    /// Makes the operation conditional on whether the object's live generation
     /// does not match the given value. If no live object exists, the precondition
     /// fails. Setting to 0 makes the operation succeed only if there is a live
     /// version of the object.
@@ -724,11 +725,11 @@ pub struct RewriteObjectRequest {
     /// metageneration does not match the given value.
     #[prost(int64, optional, tag="10")]
     pub if_metageneration_not_match: ::core::option::Option<i64>,
-    /// Makes the operation conditional on whether the source object's current
+    /// Makes the operation conditional on whether the source object's live
     /// generation matches the given value.
     #[prost(int64, optional, tag="11")]
     pub if_source_generation_match: ::core::option::Option<i64>,
-    /// Makes the operation conditional on whether the source object's current
+    /// Makes the operation conditional on whether the source object's live
     /// generation does not match the given value.
     #[prost(int64, optional, tag="12")]
     pub if_source_generation_not_match: ::core::option::Option<i64>,
@@ -817,7 +818,7 @@ pub struct UpdateObjectRequest {
     /// The object's bucket and name fields are used to identify the object to
     /// update. If present, the object's generation field selects a specific
     /// revision of this object whose metadata should be updated. Otherwise,
-    /// assumes the current, live version of the object.
+    /// assumes the live version of the object.
     #[prost(message, optional, tag="1")]
     pub object: ::core::option::Option<Object>,
     /// Makes the operation conditional on whether the object's current generation
@@ -825,7 +826,7 @@ pub struct UpdateObjectRequest {
     /// there are no live versions of the object.
     #[prost(int64, optional, tag="2")]
     pub if_generation_match: ::core::option::Option<i64>,
-    /// Makes the operation conditional on whether the object's current generation
+    /// Makes the operation conditional on whether the object's live generation
     /// does not match the given value. If no live object exists, the precondition
     /// fails. Setting to 0 makes the operation succeed only if there is a live
     /// version of the object.
@@ -1038,6 +1039,11 @@ pub struct Bucket {
     /// name" of other Cloud Storage APIs. Example: "pub".
     #[prost(string, tag="2")]
     pub bucket_id: ::prost::alloc::string::String,
+    /// The etag of the bucket.
+    /// If included in the metadata of an UpdateBucketRequest, the operation will
+    /// only be performed if the etag matches that of the bucket.
+    #[prost(string, tag="29")]
+    pub etag: ::prost::alloc::string::String,
     /// Immutable. The project which owns this bucket.
     #[prost(string, tag="3")]
     pub project: ::prost::alloc::string::String,
@@ -1158,6 +1164,10 @@ pub struct Bucket {
     /// Reserved for future use.
     #[prost(bool, tag="25")]
     pub satisfies_pzs: bool,
+    /// Configuration that, if present, specifies the data placement for a Custom
+    /// Dual Region.
+    #[prost(message, optional, tag="26")]
+    pub custom_placement_config: ::core::option::Option<bucket::CustomPlacementConfig>,
     /// The bucket's Autoclass configuration. If there is no configuration, the
     /// Autoclass feature will be disabled and have no effect on the bucket.
     #[prost(message, optional, tag="28")]
@@ -1334,7 +1344,8 @@ pub mod bucket {
     /// Logging-related properties of a bucket.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct Logging {
-        /// The destination bucket where the current bucket's logs should be placed.
+        /// The destination bucket where the current bucket's logs should be placed,
+        /// using path format (like `projects/123456/buckets/foo`).
         #[prost(string, tag="1")]
         pub log_bucket: ::prost::alloc::string::String,
         /// A prefix for log object names.
@@ -1386,6 +1397,15 @@ pub mod bucket {
         #[prost(string, tag="2")]
         pub not_found_page: ::prost::alloc::string::String,
     }
+    /// Configuration for Custom Dual Regions.  It should specify precisely two
+    /// eligible regions within the same Multiregion. More information on regions
+    /// may be found \[<https://cloud.google.com/storage/docs/locations][here\].>
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CustomPlacementConfig {
+        /// List of locations to use for data placement.
+        #[prost(string, repeated, tag="1")]
+        pub data_locations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    }
     /// Configuration for a bucket's Autoclass feature.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct Autoclass {
@@ -1429,6 +1449,12 @@ pub struct BucketAccessControl {
     /// The ID for the entity, if any.
     #[prost(string, tag="4")]
     pub entity_id: ::prost::alloc::string::String,
+    /// The etag of the BucketAccessControl.
+    /// If included in the metadata of an update or delete request message, the
+    /// operation operation will only be performed if the etag matches that of the
+    /// bucket's BucketAccessControl.
+    #[prost(string, tag="8")]
+    pub etag: ::prost::alloc::string::String,
     /// The email address associated with the entity, if any.
     #[prost(string, tag="5")]
     pub email: ::prost::alloc::string::String,
@@ -1493,6 +1519,9 @@ pub struct HmacKeyMetadata {
     /// The last modification time of the HMAC key metadata.
     #[prost(message, optional, tag="7")]
     pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The etag of the HMAC key.
+    #[prost(string, tag="8")]
+    pub etag: ::prost::alloc::string::String,
 }
 /// A directive to publish Pub/Sub notifications upon changes to a bucket.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1507,6 +1536,11 @@ pub struct Notification {
     /// '//pubsub.googleapis.com/projects/{project-identifier}/topics/{my-topic}'
     #[prost(string, tag="2")]
     pub topic: ::prost::alloc::string::String,
+    /// The etag of the Notification.
+    /// If included in the metadata of GetNotificationRequest, the operation will
+    /// only be performed if the etag matches that of the Notification.
+    #[prost(string, tag="7")]
+    pub etag: ::prost::alloc::string::String,
     /// Optional. If present, only send notifications about listed event types. If empty,
     /// sent notifications for all event types.
     #[prost(string, repeated, tag="3")]
@@ -1550,6 +1584,12 @@ pub struct Object {
     /// Immutable. The name of the bucket containing this object.
     #[prost(string, tag="2")]
     pub bucket: ::prost::alloc::string::String,
+    /// The etag of the object.
+    /// If included in the metadata of an update or delete request message, the
+    /// operation will only be performed if the etag matches that of the live
+    /// object.
+    #[prost(string, tag="27")]
+    pub etag: ::prost::alloc::string::String,
     /// Immutable. The content generation of this object. Used for object versioning.
     /// Attempting to set or update this field will result in a
     /// \[FieldViolation][google.rpc.BadRequest.FieldViolation\].
@@ -1710,6 +1750,12 @@ pub struct ObjectAccessControl {
     /// The ID for the entity, if any.
     #[prost(string, tag="4")]
     pub entity_id: ::prost::alloc::string::String,
+    /// The etag of the ObjectAccessControl.
+    /// If included in the metadata of an update or delete request message, the
+    /// operation will only be performed if the etag matches that of the live
+    /// object's ObjectAccessControl.
+    #[prost(string, tag="8")]
+    pub etag: ::prost::alloc::string::String,
     /// The email address associated with the entity, if any.
     #[prost(string, tag="5")]
     pub email: ::prost::alloc::string::String,
@@ -2247,13 +2293,37 @@ pub mod storage_client {
         /// true, or else it is an error.
         ///
         /// For a resumable write, the client should instead call
-        /// `StartResumableWrite()` and provide that method an `WriteObjectSpec.`
+        /// `StartResumableWrite()`, populating a `WriteObjectSpec` into that request.
         /// They should then attach the returned `upload_id` to the first message of
-        /// each following call to `Create`. If there is an error or the connection is
-        /// broken during the resumable `Create()`, the client should check the status
-        /// of the `Create()` by calling `QueryWriteStatus()` and continue writing from
-        /// the returned `persisted_size`. This may be less than the amount of data the
-        /// client previously sent.
+        /// each following call to `WriteObject`. If the stream is closed before
+        /// finishing the upload (either explicitly by the client or due to a network
+        /// error or an error response from the server), the client should do as
+        /// follows:
+        ///   - Check the result Status of the stream, to determine if writing can be
+        ///     resumed on this stream or must be restarted from scratch (by calling
+        ///     `StartResumableWrite()`). The resumable errors are DEADLINE_EXCEEDED,
+        ///     INTERNAL, and UNAVAILABLE. For each case, the client should use binary
+        ///     exponential backoff before retrying.  Additionally, writes can be
+        ///     resumed after RESOURCE_EXHAUSTED errors, but only after taking
+        ///     appropriate measures, which may include reducing aggregate send rate
+        ///     across clients and/or requesting a quota increase for your project.
+        ///   - If the call to `WriteObject` returns `ABORTED`, that indicates
+        ///     concurrent attempts to update the resumable write, caused either by
+        ///     multiple racing clients or by a single client where the previous
+        ///     request was timed out on the client side but nonetheless reached the
+        ///     server. In this case the client should take steps to prevent further
+        ///     concurrent writes (e.g., increase the timeouts, stop using more than
+        ///     one process to perform the upload, etc.), and then should follow the
+        ///     steps below for resuming the upload.
+        ///   - For resumable errors, the client should call `QueryWriteStatus()` and
+        ///     then continue writing from the returned `persisted_size`. This may be
+        ///     less than the amount of data the client previously sent. Note also that
+        ///     it is acceptable to send data starting at an offset earlier than the
+        ///     returned `persisted_size`; in this case, the service will skip data at
+        ///     offsets that were already persisted (without checking that it matches
+        ///     the previously written data), and write only the data starting from the
+        ///     persisted offset. This behavior can make client-side handling simpler
+        ///     in some cases.
         ///
         /// The service will not view the object as complete until the client has
         /// sent a `WriteObjectRequest` with `finish_write` set to `true`. Sending any
@@ -2261,6 +2331,10 @@ pub mod storage_client {
         /// `true` will cause an error. The client **should** check the response it
         /// receives to determine how much data the service was able to commit and
         /// whether the service views the object as complete.
+        ///
+        /// Attempting to resume an already finalized object will result in an OK
+        /// status, with a WriteObjectResponse containing the finalized object's
+        /// metadata.
         pub async fn write_object(
             &mut self,
             request: impl tonic::IntoStreamingRequest<

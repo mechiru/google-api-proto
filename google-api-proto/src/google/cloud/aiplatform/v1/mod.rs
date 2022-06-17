@@ -10051,6 +10051,9 @@ pub struct UploadModelResponse {
     /// Format: `projects/{project}/locations/{location}/models/{model}`
     #[prost(string, tag="1")]
     pub model: ::prost::alloc::string::String,
+    /// Output only. The version ID of the model that is uploaded.
+    #[prost(string, tag="2")]
+    pub model_version_id: ::prost::alloc::string::String,
 }
 /// Request message for \[ModelService.GetModel][google.cloud.aiplatform.v1.ModelService.GetModel\].
 #[derive(Clone, PartialEq, ::prost::Message)]
