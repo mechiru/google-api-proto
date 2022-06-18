@@ -285,6 +285,8 @@ pub mod memcache;
     )
 )]
 pub mod metastore;
+#[cfg(any(feature = "google-cloud-networkanalyzer-logging-v1"))]
+pub mod networkanalyzer;
 #[cfg(
     any(
         feature = "google-cloud-networkconnectivity-v1",
