@@ -427,250 +427,6 @@ pub struct Debuggee {
     #[prost(btree_map="string, string", tag="11")]
     pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
 }
-/// Request to register a debuggee.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RegisterDebuggeeRequest {
-    /// Required. Debuggee information to register.
-    /// The fields `project`, `uniquifier`, `description` and `agent_version`
-    /// of the debuggee must be set.
-    #[prost(message, optional, tag="1")]
-    pub debuggee: ::core::option::Option<Debuggee>,
-}
-/// Response for registering a debuggee.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RegisterDebuggeeResponse {
-    /// Debuggee resource.
-    /// The field `id` is guaranteed to be set (in addition to the echoed fields).
-    /// If the field `is_disabled` is set to `true`, the agent should disable
-    /// itself by removing all breakpoints and detaching from the application.
-    /// It should however continue to poll `RegisterDebuggee` until reenabled.
-    #[prost(message, optional, tag="1")]
-    pub debuggee: ::core::option::Option<Debuggee>,
-}
-/// Request to list active breakpoints.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListActiveBreakpointsRequest {
-    /// Required. Identifies the debuggee.
-    #[prost(string, tag="1")]
-    pub debuggee_id: ::prost::alloc::string::String,
-    /// A token that, if specified, blocks the method call until the list
-    /// of active breakpoints has changed, or a server-selected timeout has
-    /// expired. The value should be set from the `next_wait_token` field in
-    /// the last response. The initial value should be set to `"init"`.
-    #[prost(string, tag="2")]
-    pub wait_token: ::prost::alloc::string::String,
-    /// If set to `true` (recommended), returns `google.rpc.Code.OK` status and
-    /// sets the `wait_expired` response field to `true` when the server-selected
-    /// timeout has expired.
-    ///
-    /// If set to `false` (deprecated), returns `google.rpc.Code.ABORTED` status
-    /// when the server-selected timeout has expired.
-    #[prost(bool, tag="3")]
-    pub success_on_timeout: bool,
-}
-/// Response for listing active breakpoints.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListActiveBreakpointsResponse {
-    /// List of all active breakpoints.
-    /// The fields `id` and `location` are guaranteed to be set on each breakpoint.
-    #[prost(message, repeated, tag="1")]
-    pub breakpoints: ::prost::alloc::vec::Vec<Breakpoint>,
-    /// A token that can be used in the next method call to block until
-    /// the list of breakpoints changes.
-    #[prost(string, tag="2")]
-    pub next_wait_token: ::prost::alloc::string::String,
-    /// If set to `true`, indicates that there is no change to the
-    /// list of active breakpoints and the server-selected timeout has expired.
-    /// The `breakpoints` field would be empty and should be ignored.
-    #[prost(bool, tag="3")]
-    pub wait_expired: bool,
-}
-/// Request to update an active breakpoint.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateActiveBreakpointRequest {
-    /// Required. Identifies the debuggee being debugged.
-    #[prost(string, tag="1")]
-    pub debuggee_id: ::prost::alloc::string::String,
-    /// Required. Updated breakpoint information.
-    /// The field `id` must be set.
-    /// The agent must echo all Breakpoint specification fields in the update.
-    #[prost(message, optional, tag="2")]
-    pub breakpoint: ::core::option::Option<Breakpoint>,
-}
-/// Response for updating an active breakpoint.
-/// The message is defined to allow future extensions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateActiveBreakpointResponse {
-}
-/// Generated client implementations.
-pub mod controller2_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// The Controller service provides the API for orchestrating a collection of
-    /// debugger agents to perform debugging tasks. These agents are each attached
-    /// to a process of an application which may include one or more replicas.
-    ///
-    /// The debugger agents register with the Controller to identify the application
-    /// being debugged, the Debuggee. All agents that register with the same data,
-    /// represent the same Debuggee, and are assigned the same `debuggee_id`.
-    ///
-    /// The debugger agents call the Controller to retrieve  the list of active
-    /// Breakpoints. Agents with the same `debuggee_id` get the same breakpoints
-    /// list. An agent that can fulfill the breakpoint request updates the
-    /// Controller with the breakpoint result. The controller selects the first
-    /// result received and discards the rest of the results.
-    /// Agents that poll again for active breakpoints will no longer have
-    /// the completed breakpoint in the list and should remove that breakpoint from
-    /// their attached process.
-    ///
-    /// The Controller service does not provide a way to retrieve the results of
-    /// a completed breakpoint. This functionality is available using the Debugger
-    /// service.
-    #[derive(Debug, Clone)]
-    pub struct Controller2Client<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> Controller2Client<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> Controller2Client<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            Controller2Client::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Registers the debuggee with the controller service.
-        ///
-        /// All agents attached to the same application must call this method with
-        /// exactly the same request content to get back the same stable `debuggee_id`.
-        /// Agents should call this method again whenever `google.rpc.Code.NOT_FOUND`
-        /// is returned from any controller method.
-        ///
-        /// This protocol allows the controller service to disable debuggees, recover
-        /// from data loss, or change the `debuggee_id` format. Agents must handle
-        /// `debuggee_id` value changing upon re-registration.
-        pub async fn register_debuggee(
-            &mut self,
-            request: impl tonic::IntoRequest<super::RegisterDebuggeeRequest>,
-        ) -> Result<tonic::Response<super::RegisterDebuggeeResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.clouddebugger.v2.Controller2/RegisterDebuggee",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Returns the list of all active breakpoints for the debuggee.
-        ///
-        /// The breakpoint specification (`location`, `condition`, and `expressions`
-        /// fields) is semantically immutable, although the field values may
-        /// change. For example, an agent may update the location line number
-        /// to reflect the actual line where the breakpoint was set, but this
-        /// doesn't change the breakpoint semantics.
-        ///
-        /// This means that an agent does not need to check if a breakpoint has changed
-        /// when it encounters the same breakpoint on a successive call.
-        /// Moreover, an agent should remember the breakpoints that are completed
-        /// until the controller removes them from the active list to avoid
-        /// setting those breakpoints again.
-        pub async fn list_active_breakpoints(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListActiveBreakpointsRequest>,
-        ) -> Result<
-            tonic::Response<super::ListActiveBreakpointsResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.clouddebugger.v2.Controller2/ListActiveBreakpoints",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Updates the breakpoint state or mutable fields.
-        /// The entire Breakpoint message must be sent back to the controller service.
-        ///
-        /// Updates to active breakpoint fields are only allowed if the new value
-        /// does not change the breakpoint specification. Updates to the `location`,
-        /// `condition` and `expressions` fields should not alter the breakpoint
-        /// semantics. These may only make changes such as canonicalizing a value
-        /// or snapping the location to the correct line of code.
-        pub async fn update_active_breakpoint(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateActiveBreakpointRequest>,
-        ) -> Result<
-            tonic::Response<super::UpdateActiveBreakpointResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.clouddebugger.v2.Controller2/UpdateActiveBreakpoint",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// Request to set a breakpoint
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetBreakpointRequest {
@@ -976,6 +732,250 @@ pub mod debugger2_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.devtools.clouddebugger.v2.Debugger2/ListDebuggees",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Request to register a debuggee.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RegisterDebuggeeRequest {
+    /// Required. Debuggee information to register.
+    /// The fields `project`, `uniquifier`, `description` and `agent_version`
+    /// of the debuggee must be set.
+    #[prost(message, optional, tag="1")]
+    pub debuggee: ::core::option::Option<Debuggee>,
+}
+/// Response for registering a debuggee.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RegisterDebuggeeResponse {
+    /// Debuggee resource.
+    /// The field `id` is guaranteed to be set (in addition to the echoed fields).
+    /// If the field `is_disabled` is set to `true`, the agent should disable
+    /// itself by removing all breakpoints and detaching from the application.
+    /// It should however continue to poll `RegisterDebuggee` until reenabled.
+    #[prost(message, optional, tag="1")]
+    pub debuggee: ::core::option::Option<Debuggee>,
+}
+/// Request to list active breakpoints.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListActiveBreakpointsRequest {
+    /// Required. Identifies the debuggee.
+    #[prost(string, tag="1")]
+    pub debuggee_id: ::prost::alloc::string::String,
+    /// A token that, if specified, blocks the method call until the list
+    /// of active breakpoints has changed, or a server-selected timeout has
+    /// expired. The value should be set from the `next_wait_token` field in
+    /// the last response. The initial value should be set to `"init"`.
+    #[prost(string, tag="2")]
+    pub wait_token: ::prost::alloc::string::String,
+    /// If set to `true` (recommended), returns `google.rpc.Code.OK` status and
+    /// sets the `wait_expired` response field to `true` when the server-selected
+    /// timeout has expired.
+    ///
+    /// If set to `false` (deprecated), returns `google.rpc.Code.ABORTED` status
+    /// when the server-selected timeout has expired.
+    #[prost(bool, tag="3")]
+    pub success_on_timeout: bool,
+}
+/// Response for listing active breakpoints.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListActiveBreakpointsResponse {
+    /// List of all active breakpoints.
+    /// The fields `id` and `location` are guaranteed to be set on each breakpoint.
+    #[prost(message, repeated, tag="1")]
+    pub breakpoints: ::prost::alloc::vec::Vec<Breakpoint>,
+    /// A token that can be used in the next method call to block until
+    /// the list of breakpoints changes.
+    #[prost(string, tag="2")]
+    pub next_wait_token: ::prost::alloc::string::String,
+    /// If set to `true`, indicates that there is no change to the
+    /// list of active breakpoints and the server-selected timeout has expired.
+    /// The `breakpoints` field would be empty and should be ignored.
+    #[prost(bool, tag="3")]
+    pub wait_expired: bool,
+}
+/// Request to update an active breakpoint.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateActiveBreakpointRequest {
+    /// Required. Identifies the debuggee being debugged.
+    #[prost(string, tag="1")]
+    pub debuggee_id: ::prost::alloc::string::String,
+    /// Required. Updated breakpoint information.
+    /// The field `id` must be set.
+    /// The agent must echo all Breakpoint specification fields in the update.
+    #[prost(message, optional, tag="2")]
+    pub breakpoint: ::core::option::Option<Breakpoint>,
+}
+/// Response for updating an active breakpoint.
+/// The message is defined to allow future extensions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateActiveBreakpointResponse {
+}
+/// Generated client implementations.
+pub mod controller2_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// The Controller service provides the API for orchestrating a collection of
+    /// debugger agents to perform debugging tasks. These agents are each attached
+    /// to a process of an application which may include one or more replicas.
+    ///
+    /// The debugger agents register with the Controller to identify the application
+    /// being debugged, the Debuggee. All agents that register with the same data,
+    /// represent the same Debuggee, and are assigned the same `debuggee_id`.
+    ///
+    /// The debugger agents call the Controller to retrieve  the list of active
+    /// Breakpoints. Agents with the same `debuggee_id` get the same breakpoints
+    /// list. An agent that can fulfill the breakpoint request updates the
+    /// Controller with the breakpoint result. The controller selects the first
+    /// result received and discards the rest of the results.
+    /// Agents that poll again for active breakpoints will no longer have
+    /// the completed breakpoint in the list and should remove that breakpoint from
+    /// their attached process.
+    ///
+    /// The Controller service does not provide a way to retrieve the results of
+    /// a completed breakpoint. This functionality is available using the Debugger
+    /// service.
+    #[derive(Debug, Clone)]
+    pub struct Controller2Client<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> Controller2Client<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> Controller2Client<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            Controller2Client::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Registers the debuggee with the controller service.
+        ///
+        /// All agents attached to the same application must call this method with
+        /// exactly the same request content to get back the same stable `debuggee_id`.
+        /// Agents should call this method again whenever `google.rpc.Code.NOT_FOUND`
+        /// is returned from any controller method.
+        ///
+        /// This protocol allows the controller service to disable debuggees, recover
+        /// from data loss, or change the `debuggee_id` format. Agents must handle
+        /// `debuggee_id` value changing upon re-registration.
+        pub async fn register_debuggee(
+            &mut self,
+            request: impl tonic::IntoRequest<super::RegisterDebuggeeRequest>,
+        ) -> Result<tonic::Response<super::RegisterDebuggeeResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.clouddebugger.v2.Controller2/RegisterDebuggee",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Returns the list of all active breakpoints for the debuggee.
+        ///
+        /// The breakpoint specification (`location`, `condition`, and `expressions`
+        /// fields) is semantically immutable, although the field values may
+        /// change. For example, an agent may update the location line number
+        /// to reflect the actual line where the breakpoint was set, but this
+        /// doesn't change the breakpoint semantics.
+        ///
+        /// This means that an agent does not need to check if a breakpoint has changed
+        /// when it encounters the same breakpoint on a successive call.
+        /// Moreover, an agent should remember the breakpoints that are completed
+        /// until the controller removes them from the active list to avoid
+        /// setting those breakpoints again.
+        pub async fn list_active_breakpoints(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListActiveBreakpointsRequest>,
+        ) -> Result<
+            tonic::Response<super::ListActiveBreakpointsResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.clouddebugger.v2.Controller2/ListActiveBreakpoints",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Updates the breakpoint state or mutable fields.
+        /// The entire Breakpoint message must be sent back to the controller service.
+        ///
+        /// Updates to active breakpoint fields are only allowed if the new value
+        /// does not change the breakpoint specification. Updates to the `location`,
+        /// `condition` and `expressions` fields should not alter the breakpoint
+        /// semantics. These may only make changes such as canonicalizing a value
+        /// or snapping the location to the correct line of code.
+        pub async fn update_active_breakpoint(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateActiveBreakpointRequest>,
+        ) -> Result<
+            tonic::Response<super::UpdateActiveBreakpointResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.clouddebugger.v2.Controller2/UpdateActiveBreakpoint",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

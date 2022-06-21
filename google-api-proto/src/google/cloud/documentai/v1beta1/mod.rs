@@ -31,356 +31,6 @@ pub struct BoundingPoly {
     #[prost(message, repeated, tag="2")]
     pub normalized_vertices: ::prost::alloc::vec::Vec<NormalizedVertex>,
 }
-/// Request to batch process documents as an asynchronous operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchProcessDocumentsRequest {
-    /// Required. Individual requests for each document.
-    #[prost(message, repeated, tag="1")]
-    pub requests: ::prost::alloc::vec::Vec<ProcessDocumentRequest>,
-    /// Target project and location to make a call.
-    ///
-    /// Format: `projects/{project-id}/locations/{location-id}`.
-    ///
-    /// If no location is specified, a region will be chosen automatically.
-    #[prost(string, tag="2")]
-    pub parent: ::prost::alloc::string::String,
-}
-/// Request to process one document.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProcessDocumentRequest {
-    /// Required. Information about the input file.
-    #[prost(message, optional, tag="1")]
-    pub input_config: ::core::option::Option<InputConfig>,
-    /// Required. The desired output location.
-    #[prost(message, optional, tag="2")]
-    pub output_config: ::core::option::Option<OutputConfig>,
-    /// Specifies a known document type for deeper structure detection. Valid
-    /// values are currently "general" and "invoice". If not provided, "general"\
-    /// is used as default. If any other value is given, the request is rejected.
-    #[prost(string, tag="3")]
-    pub document_type: ::prost::alloc::string::String,
-    /// Controls table extraction behavior. If not specified, the system will
-    /// decide reasonable defaults.
-    #[prost(message, optional, tag="4")]
-    pub table_extraction_params: ::core::option::Option<TableExtractionParams>,
-    /// Controls form extraction behavior. If not specified, the system will
-    /// decide reasonable defaults.
-    #[prost(message, optional, tag="5")]
-    pub form_extraction_params: ::core::option::Option<FormExtractionParams>,
-    /// Controls entity extraction behavior. If not specified, the system will
-    /// decide reasonable defaults.
-    #[prost(message, optional, tag="6")]
-    pub entity_extraction_params: ::core::option::Option<EntityExtractionParams>,
-    /// Controls OCR behavior. If not specified, the system will decide reasonable
-    /// defaults.
-    #[prost(message, optional, tag="7")]
-    pub ocr_params: ::core::option::Option<OcrParams>,
-}
-/// Response to an batch document processing request. This is returned in
-/// the LRO Operation after the operation is complete.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchProcessDocumentsResponse {
-    /// Responses for each individual document.
-    #[prost(message, repeated, tag="1")]
-    pub responses: ::prost::alloc::vec::Vec<ProcessDocumentResponse>,
-}
-/// Response to a single document processing request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProcessDocumentResponse {
-    /// Information about the input file. This is the same as the corresponding
-    /// input config in the request.
-    #[prost(message, optional, tag="1")]
-    pub input_config: ::core::option::Option<InputConfig>,
-    /// The output location of the parsed responses. The responses are written to
-    /// this location as JSON-serialized `Document` objects.
-    #[prost(message, optional, tag="2")]
-    pub output_config: ::core::option::Option<OutputConfig>,
-}
-/// Parameters to control Optical Character Recognition (OCR) behavior.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OcrParams {
-    /// List of languages to use for OCR. In most cases, an empty value
-    /// yields the best results since it enables automatic language detection. For
-    /// languages based on the Latin alphabet, setting `language_hints` is not
-    /// needed. In rare cases, when the language of the text in the image is known,
-    /// setting a hint will help get better results (although it will be a
-    /// significant hindrance if the hint is wrong). Document processing returns an
-    /// error if one or more of the specified languages is not one of the
-    /// supported languages.
-    #[prost(string, repeated, tag="1")]
-    pub language_hints: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Parameters to control table extraction behavior.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TableExtractionParams {
-    /// Whether to enable table extraction.
-    #[prost(bool, tag="1")]
-    pub enabled: bool,
-    /// Optional. Table bounding box hints that can be provided to complex cases
-    /// which our algorithm cannot locate the table(s) in.
-    #[prost(message, repeated, tag="2")]
-    pub table_bound_hints: ::prost::alloc::vec::Vec<TableBoundHint>,
-    /// Optional. Table header hints. The extraction will bias towards producing
-    /// these terms as table headers, which may improve accuracy.
-    #[prost(string, repeated, tag="3")]
-    pub header_hints: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Model version of the table extraction system. Default is "builtin/stable".
-    /// Specify "builtin/latest" for the latest model.
-    #[prost(string, tag="4")]
-    pub model_version: ::prost::alloc::string::String,
-}
-/// A hint for a table bounding box on the page for table parsing.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TableBoundHint {
-    /// Optional. Page number for multi-paged inputs this hint applies to. If not
-    /// provided, this hint will apply to all pages by default. This value is
-    /// 1-based.
-    #[prost(int32, tag="1")]
-    pub page_number: i32,
-    /// Bounding box hint for a table on this page. The coordinates must be
-    /// normalized to \[0,1\] and the bounding box must be an axis-aligned rectangle.
-    #[prost(message, optional, tag="2")]
-    pub bounding_box: ::core::option::Option<BoundingPoly>,
-}
-/// Parameters to control form extraction behavior.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FormExtractionParams {
-    /// Whether to enable form extraction.
-    #[prost(bool, tag="1")]
-    pub enabled: bool,
-    /// User can provide pairs of (key text, value type) to improve the parsing
-    /// result.
-    ///
-    /// For example, if a document has a field called "Date" that holds a date
-    /// value and a field called "Amount" that may hold either a currency value
-    /// (e.g., "$500.00") or a simple number value (e.g., "20"), you could use the
-    /// following hints: [ {"key": "Date", value_types: [ "DATE"]}, {"key":
-    /// "Amount", "value_types": [ "PRICE", "NUMBER" ]} ]
-    ///
-    /// If the value type is unknown, but you want to provide hints for the keys,
-    /// you can leave the value_types field blank. e.g. {"key": "Date",
-    /// "value_types": []}
-    #[prost(message, repeated, tag="2")]
-    pub key_value_pair_hints: ::prost::alloc::vec::Vec<KeyValuePairHint>,
-    /// Model version of the form extraction system. Default is
-    /// "builtin/stable". Specify "builtin/latest" for the latest model.
-    #[prost(string, tag="3")]
-    pub model_version: ::prost::alloc::string::String,
-}
-/// User-provided hint for key value pair.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct KeyValuePairHint {
-    /// The key text for the hint.
-    #[prost(string, tag="1")]
-    pub key: ::prost::alloc::string::String,
-    /// Type of the value. This is case-insensitive, and could be one of:
-    /// ADDRESS, LOCATION, ORGANIZATION, PERSON, PHONE_NUMBER,
-    /// ID, NUMBER, EMAIL, PRICE, TERMS, DATE, NAME. Types not in this list will
-    /// be ignored.
-    #[prost(string, repeated, tag="2")]
-    pub value_types: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Parameters to control entity extraction behavior.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EntityExtractionParams {
-    /// Whether to enable entity extraction.
-    #[prost(bool, tag="1")]
-    pub enabled: bool,
-    /// Model version of the entity extraction. Default is
-    /// "builtin/stable". Specify "builtin/latest" for the latest model.
-    #[prost(string, tag="2")]
-    pub model_version: ::prost::alloc::string::String,
-}
-/// The desired input location and metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InputConfig {
-    /// Required. Mimetype of the input. Current supported mimetypes are
-    /// application/pdf, image/tiff, and image/gif.
-    #[prost(string, tag="2")]
-    pub mime_type: ::prost::alloc::string::String,
-    /// Required.
-    #[prost(oneof="input_config::Source", tags="1")]
-    pub source: ::core::option::Option<input_config::Source>,
-}
-/// Nested message and enum types in `InputConfig`.
-pub mod input_config {
-    /// Required.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Source {
-        /// The Google Cloud Storage location to read the input from. This must be a
-        /// single file.
-        #[prost(message, tag="1")]
-        GcsSource(super::GcsSource),
-    }
-}
-/// The desired output location and metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OutputConfig {
-    /// The max number of pages to include into each output Document shard JSON on
-    /// Google Cloud Storage.
-    ///
-    /// The valid range is [1, 100]. If not specified, the default value is 20.
-    ///
-    /// For example, for one pdf file with 100 pages, 100 parsed pages will be
-    /// produced. If `pages_per_shard` = 20, then 5 Document shard JSON files each
-    /// containing 20 parsed pages will be written under the prefix
-    /// \[OutputConfig.gcs_destination.uri][\] and suffix pages-x-to-y.json where
-    /// x and y are 1-indexed page numbers.
-    ///
-    /// Example GCS outputs with 157 pages and pages_per_shard = 50:
-    ///
-    /// <prefix>pages-001-to-050.json
-    /// <prefix>pages-051-to-100.json
-    /// <prefix>pages-101-to-150.json
-    /// <prefix>pages-151-to-157.json
-    #[prost(int32, tag="2")]
-    pub pages_per_shard: i32,
-    /// Required.
-    #[prost(oneof="output_config::Destination", tags="1")]
-    pub destination: ::core::option::Option<output_config::Destination>,
-}
-/// Nested message and enum types in `OutputConfig`.
-pub mod output_config {
-    /// Required.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Destination {
-        /// The Google Cloud Storage location to write the output to.
-        #[prost(message, tag="1")]
-        GcsDestination(super::GcsDestination),
-    }
-}
-/// The Google Cloud Storage location where the input file will be read from.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GcsSource {
-    #[prost(string, tag="1")]
-    pub uri: ::prost::alloc::string::String,
-}
-/// The Google Cloud Storage location where the output file will be written to.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GcsDestination {
-    #[prost(string, tag="1")]
-    pub uri: ::prost::alloc::string::String,
-}
-/// Contains metadata for the BatchProcessDocuments operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationMetadata {
-    /// The state of the current batch processing.
-    #[prost(enumeration="operation_metadata::State", tag="1")]
-    pub state: i32,
-    /// A message providing more details about the current state of processing.
-    #[prost(string, tag="2")]
-    pub state_message: ::prost::alloc::string::String,
-    /// The creation time of the operation.
-    #[prost(message, optional, tag="3")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The last update time of the operation.
-    #[prost(message, optional, tag="4")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `OperationMetadata`.
-pub mod operation_metadata {
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// The default value. This value is used if the state is omitted.
-        Unspecified = 0,
-        /// Request is received.
-        Accepted = 1,
-        /// Request operation is waiting for scheduling.
-        Waiting = 2,
-        /// Request is being processed.
-        Running = 3,
-        /// The batch processing completed successfully.
-        Succeeded = 4,
-        /// The batch processing was cancelled.
-        Cancelled = 5,
-        /// The batch processing has failed.
-        Failed = 6,
-    }
-}
-/// Generated client implementations.
-pub mod document_understanding_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// Service to parse structured information from unstructured or semi-structured
-    /// documents using state-of-the-art Google AI such as natural language,
-    /// computer vision, and translation.
-    #[derive(Debug, Clone)]
-    pub struct DocumentUnderstandingServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> DocumentUnderstandingServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> DocumentUnderstandingServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            DocumentUnderstandingServiceClient::new(
-                InterceptedService::new(inner, interceptor),
-            )
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// LRO endpoint to batch process many documents.
-        pub async fn batch_process_documents(
-            &mut self,
-            request: impl tonic::IntoRequest<super::BatchProcessDocumentsRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.documentai.v1beta1.DocumentUnderstandingService/BatchProcessDocuments",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// Document represents the canonical document resource in Document Understanding
 /// AI.
 /// It is an interchange format that provides insights into documents and allows
@@ -842,5 +492,355 @@ pub mod document {
         /// representation, whereas JSON representations use base64.
         #[prost(bytes, tag="2")]
         Content(::prost::bytes::Bytes),
+    }
+}
+/// Request to batch process documents as an asynchronous operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchProcessDocumentsRequest {
+    /// Required. Individual requests for each document.
+    #[prost(message, repeated, tag="1")]
+    pub requests: ::prost::alloc::vec::Vec<ProcessDocumentRequest>,
+    /// Target project and location to make a call.
+    ///
+    /// Format: `projects/{project-id}/locations/{location-id}`.
+    ///
+    /// If no location is specified, a region will be chosen automatically.
+    #[prost(string, tag="2")]
+    pub parent: ::prost::alloc::string::String,
+}
+/// Request to process one document.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProcessDocumentRequest {
+    /// Required. Information about the input file.
+    #[prost(message, optional, tag="1")]
+    pub input_config: ::core::option::Option<InputConfig>,
+    /// Required. The desired output location.
+    #[prost(message, optional, tag="2")]
+    pub output_config: ::core::option::Option<OutputConfig>,
+    /// Specifies a known document type for deeper structure detection. Valid
+    /// values are currently "general" and "invoice". If not provided, "general"\
+    /// is used as default. If any other value is given, the request is rejected.
+    #[prost(string, tag="3")]
+    pub document_type: ::prost::alloc::string::String,
+    /// Controls table extraction behavior. If not specified, the system will
+    /// decide reasonable defaults.
+    #[prost(message, optional, tag="4")]
+    pub table_extraction_params: ::core::option::Option<TableExtractionParams>,
+    /// Controls form extraction behavior. If not specified, the system will
+    /// decide reasonable defaults.
+    #[prost(message, optional, tag="5")]
+    pub form_extraction_params: ::core::option::Option<FormExtractionParams>,
+    /// Controls entity extraction behavior. If not specified, the system will
+    /// decide reasonable defaults.
+    #[prost(message, optional, tag="6")]
+    pub entity_extraction_params: ::core::option::Option<EntityExtractionParams>,
+    /// Controls OCR behavior. If not specified, the system will decide reasonable
+    /// defaults.
+    #[prost(message, optional, tag="7")]
+    pub ocr_params: ::core::option::Option<OcrParams>,
+}
+/// Response to an batch document processing request. This is returned in
+/// the LRO Operation after the operation is complete.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchProcessDocumentsResponse {
+    /// Responses for each individual document.
+    #[prost(message, repeated, tag="1")]
+    pub responses: ::prost::alloc::vec::Vec<ProcessDocumentResponse>,
+}
+/// Response to a single document processing request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProcessDocumentResponse {
+    /// Information about the input file. This is the same as the corresponding
+    /// input config in the request.
+    #[prost(message, optional, tag="1")]
+    pub input_config: ::core::option::Option<InputConfig>,
+    /// The output location of the parsed responses. The responses are written to
+    /// this location as JSON-serialized `Document` objects.
+    #[prost(message, optional, tag="2")]
+    pub output_config: ::core::option::Option<OutputConfig>,
+}
+/// Parameters to control Optical Character Recognition (OCR) behavior.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OcrParams {
+    /// List of languages to use for OCR. In most cases, an empty value
+    /// yields the best results since it enables automatic language detection. For
+    /// languages based on the Latin alphabet, setting `language_hints` is not
+    /// needed. In rare cases, when the language of the text in the image is known,
+    /// setting a hint will help get better results (although it will be a
+    /// significant hindrance if the hint is wrong). Document processing returns an
+    /// error if one or more of the specified languages is not one of the
+    /// supported languages.
+    #[prost(string, repeated, tag="1")]
+    pub language_hints: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Parameters to control table extraction behavior.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TableExtractionParams {
+    /// Whether to enable table extraction.
+    #[prost(bool, tag="1")]
+    pub enabled: bool,
+    /// Optional. Table bounding box hints that can be provided to complex cases
+    /// which our algorithm cannot locate the table(s) in.
+    #[prost(message, repeated, tag="2")]
+    pub table_bound_hints: ::prost::alloc::vec::Vec<TableBoundHint>,
+    /// Optional. Table header hints. The extraction will bias towards producing
+    /// these terms as table headers, which may improve accuracy.
+    #[prost(string, repeated, tag="3")]
+    pub header_hints: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Model version of the table extraction system. Default is "builtin/stable".
+    /// Specify "builtin/latest" for the latest model.
+    #[prost(string, tag="4")]
+    pub model_version: ::prost::alloc::string::String,
+}
+/// A hint for a table bounding box on the page for table parsing.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TableBoundHint {
+    /// Optional. Page number for multi-paged inputs this hint applies to. If not
+    /// provided, this hint will apply to all pages by default. This value is
+    /// 1-based.
+    #[prost(int32, tag="1")]
+    pub page_number: i32,
+    /// Bounding box hint for a table on this page. The coordinates must be
+    /// normalized to \[0,1\] and the bounding box must be an axis-aligned rectangle.
+    #[prost(message, optional, tag="2")]
+    pub bounding_box: ::core::option::Option<BoundingPoly>,
+}
+/// Parameters to control form extraction behavior.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FormExtractionParams {
+    /// Whether to enable form extraction.
+    #[prost(bool, tag="1")]
+    pub enabled: bool,
+    /// User can provide pairs of (key text, value type) to improve the parsing
+    /// result.
+    ///
+    /// For example, if a document has a field called "Date" that holds a date
+    /// value and a field called "Amount" that may hold either a currency value
+    /// (e.g., "$500.00") or a simple number value (e.g., "20"), you could use the
+    /// following hints: [ {"key": "Date", value_types: [ "DATE"]}, {"key":
+    /// "Amount", "value_types": [ "PRICE", "NUMBER" ]} ]
+    ///
+    /// If the value type is unknown, but you want to provide hints for the keys,
+    /// you can leave the value_types field blank. e.g. {"key": "Date",
+    /// "value_types": []}
+    #[prost(message, repeated, tag="2")]
+    pub key_value_pair_hints: ::prost::alloc::vec::Vec<KeyValuePairHint>,
+    /// Model version of the form extraction system. Default is
+    /// "builtin/stable". Specify "builtin/latest" for the latest model.
+    #[prost(string, tag="3")]
+    pub model_version: ::prost::alloc::string::String,
+}
+/// User-provided hint for key value pair.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct KeyValuePairHint {
+    /// The key text for the hint.
+    #[prost(string, tag="1")]
+    pub key: ::prost::alloc::string::String,
+    /// Type of the value. This is case-insensitive, and could be one of:
+    /// ADDRESS, LOCATION, ORGANIZATION, PERSON, PHONE_NUMBER,
+    /// ID, NUMBER, EMAIL, PRICE, TERMS, DATE, NAME. Types not in this list will
+    /// be ignored.
+    #[prost(string, repeated, tag="2")]
+    pub value_types: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Parameters to control entity extraction behavior.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EntityExtractionParams {
+    /// Whether to enable entity extraction.
+    #[prost(bool, tag="1")]
+    pub enabled: bool,
+    /// Model version of the entity extraction. Default is
+    /// "builtin/stable". Specify "builtin/latest" for the latest model.
+    #[prost(string, tag="2")]
+    pub model_version: ::prost::alloc::string::String,
+}
+/// The desired input location and metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InputConfig {
+    /// Required. Mimetype of the input. Current supported mimetypes are
+    /// application/pdf, image/tiff, and image/gif.
+    #[prost(string, tag="2")]
+    pub mime_type: ::prost::alloc::string::String,
+    /// Required.
+    #[prost(oneof="input_config::Source", tags="1")]
+    pub source: ::core::option::Option<input_config::Source>,
+}
+/// Nested message and enum types in `InputConfig`.
+pub mod input_config {
+    /// Required.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Source {
+        /// The Google Cloud Storage location to read the input from. This must be a
+        /// single file.
+        #[prost(message, tag="1")]
+        GcsSource(super::GcsSource),
+    }
+}
+/// The desired output location and metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OutputConfig {
+    /// The max number of pages to include into each output Document shard JSON on
+    /// Google Cloud Storage.
+    ///
+    /// The valid range is [1, 100]. If not specified, the default value is 20.
+    ///
+    /// For example, for one pdf file with 100 pages, 100 parsed pages will be
+    /// produced. If `pages_per_shard` = 20, then 5 Document shard JSON files each
+    /// containing 20 parsed pages will be written under the prefix
+    /// \[OutputConfig.gcs_destination.uri][\] and suffix pages-x-to-y.json where
+    /// x and y are 1-indexed page numbers.
+    ///
+    /// Example GCS outputs with 157 pages and pages_per_shard = 50:
+    ///
+    /// <prefix>pages-001-to-050.json
+    /// <prefix>pages-051-to-100.json
+    /// <prefix>pages-101-to-150.json
+    /// <prefix>pages-151-to-157.json
+    #[prost(int32, tag="2")]
+    pub pages_per_shard: i32,
+    /// Required.
+    #[prost(oneof="output_config::Destination", tags="1")]
+    pub destination: ::core::option::Option<output_config::Destination>,
+}
+/// Nested message and enum types in `OutputConfig`.
+pub mod output_config {
+    /// Required.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Destination {
+        /// The Google Cloud Storage location to write the output to.
+        #[prost(message, tag="1")]
+        GcsDestination(super::GcsDestination),
+    }
+}
+/// The Google Cloud Storage location where the input file will be read from.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GcsSource {
+    #[prost(string, tag="1")]
+    pub uri: ::prost::alloc::string::String,
+}
+/// The Google Cloud Storage location where the output file will be written to.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GcsDestination {
+    #[prost(string, tag="1")]
+    pub uri: ::prost::alloc::string::String,
+}
+/// Contains metadata for the BatchProcessDocuments operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationMetadata {
+    /// The state of the current batch processing.
+    #[prost(enumeration="operation_metadata::State", tag="1")]
+    pub state: i32,
+    /// A message providing more details about the current state of processing.
+    #[prost(string, tag="2")]
+    pub state_message: ::prost::alloc::string::String,
+    /// The creation time of the operation.
+    #[prost(message, optional, tag="3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The last update time of the operation.
+    #[prost(message, optional, tag="4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `OperationMetadata`.
+pub mod operation_metadata {
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// The default value. This value is used if the state is omitted.
+        Unspecified = 0,
+        /// Request is received.
+        Accepted = 1,
+        /// Request operation is waiting for scheduling.
+        Waiting = 2,
+        /// Request is being processed.
+        Running = 3,
+        /// The batch processing completed successfully.
+        Succeeded = 4,
+        /// The batch processing was cancelled.
+        Cancelled = 5,
+        /// The batch processing has failed.
+        Failed = 6,
+    }
+}
+/// Generated client implementations.
+pub mod document_understanding_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// Service to parse structured information from unstructured or semi-structured
+    /// documents using state-of-the-art Google AI such as natural language,
+    /// computer vision, and translation.
+    #[derive(Debug, Clone)]
+    pub struct DocumentUnderstandingServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> DocumentUnderstandingServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> DocumentUnderstandingServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            DocumentUnderstandingServiceClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// LRO endpoint to batch process many documents.
+        pub async fn batch_process_documents(
+            &mut self,
+            request: impl tonic::IntoRequest<super::BatchProcessDocumentsRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.documentai.v1beta1.DocumentUnderstandingService/BatchProcessDocuments",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
     }
 }

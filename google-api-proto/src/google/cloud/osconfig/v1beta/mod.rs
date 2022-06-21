@@ -704,288 +704,6 @@ pub mod patch_rollout {
         ConcurrentZones = 2,
     }
 }
-/// Patch deployments are configurations that individual patch jobs use to
-/// complete a patch. These configurations include instance filter, package
-/// repository settings, and a schedule. For more information about creating and
-/// managing patch deployments, see [Scheduling patch
-/// jobs](<https://cloud.google.com/compute/docs/os-patch-management/schedule-patch-jobs>).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PatchDeployment {
-    /// Unique name for the patch deployment resource in a project. The patch
-    /// deployment name is in the form:
-    /// `projects/{project_id}/patchDeployments/{patch_deployment_id}`.
-    /// This field is ignored when you create a new patch deployment.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. Description of the patch deployment. Length of the description is limited
-    /// to 1024 characters.
-    #[prost(string, tag="2")]
-    pub description: ::prost::alloc::string::String,
-    /// Required. VM instances to patch.
-    #[prost(message, optional, tag="3")]
-    pub instance_filter: ::core::option::Option<PatchInstanceFilter>,
-    /// Optional. Patch configuration that is applied.
-    #[prost(message, optional, tag="4")]
-    pub patch_config: ::core::option::Option<PatchConfig>,
-    /// Optional. Duration of the patch. After the duration ends, the patch times out.
-    #[prost(message, optional, tag="5")]
-    pub duration: ::core::option::Option<::prost_types::Duration>,
-    /// Output only. Time the patch deployment was created. Timestamp is in
-    /// \[RFC3339\](<https://www.ietf.org/rfc/rfc3339.txt>) text format.
-    #[prost(message, optional, tag="8")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Time the patch deployment was last updated. Timestamp is in
-    /// \[RFC3339\](<https://www.ietf.org/rfc/rfc3339.txt>) text format.
-    #[prost(message, optional, tag="9")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The last time a patch job was started by this deployment.
-    /// Timestamp is in \[RFC3339\](<https://www.ietf.org/rfc/rfc3339.txt>) text
-    /// format.
-    #[prost(message, optional, tag="10")]
-    pub last_execute_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. Rollout strategy of the patch job.
-    #[prost(message, optional, tag="11")]
-    pub rollout: ::core::option::Option<PatchRollout>,
-    /// Output only. Current state of the patch deployment.
-    #[prost(enumeration="patch_deployment::State", tag="12")]
-    pub state: i32,
-    /// Schedule for the patch.
-    #[prost(oneof="patch_deployment::Schedule", tags="6, 7")]
-    pub schedule: ::core::option::Option<patch_deployment::Schedule>,
-}
-/// Nested message and enum types in `PatchDeployment`.
-pub mod patch_deployment {
-    /// Represents state of patch peployment.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// The default value. This value is used if the state is omitted.
-        Unspecified = 0,
-        /// Active value means that patch deployment generates Patch Jobs.
-        Active = 1,
-        /// Paused value means that patch deployment does not generate
-        /// Patch jobs. Requires user action to move in and out from this state.
-        Paused = 2,
-    }
-    /// Schedule for the patch.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Schedule {
-        /// Required. Schedule a one-time execution.
-        #[prost(message, tag="6")]
-        OneTimeSchedule(super::OneTimeSchedule),
-        /// Required. Schedule recurring executions.
-        #[prost(message, tag="7")]
-        RecurringSchedule(super::RecurringSchedule),
-    }
-}
-/// Sets the time for a one time patch deployment. Timestamp is in
-/// \[RFC3339\](<https://www.ietf.org/rfc/rfc3339.txt>) text format.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OneTimeSchedule {
-    /// Required. The desired patch job execution time.
-    #[prost(message, optional, tag="1")]
-    pub execute_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Sets the time for recurring patch deployments.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RecurringSchedule {
-    /// Required. Defines the time zone that `time_of_day` is relative to.
-    /// The rules for daylight saving time are determined by the chosen time zone.
-    #[prost(message, optional, tag="1")]
-    pub time_zone: ::core::option::Option<super::super::super::r#type::TimeZone>,
-    /// Optional. The time that the recurring schedule becomes effective.
-    /// Defaults to `create_time` of the patch deployment.
-    #[prost(message, optional, tag="2")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. The end time at which a recurring patch deployment schedule is no longer
-    /// active.
-    #[prost(message, optional, tag="3")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Required. Time of the day to run a recurring deployment.
-    #[prost(message, optional, tag="4")]
-    pub time_of_day: ::core::option::Option<super::super::super::r#type::TimeOfDay>,
-    /// Required. The frequency unit of this recurring schedule.
-    #[prost(enumeration="recurring_schedule::Frequency", tag="5")]
-    pub frequency: i32,
-    /// Output only. The time the last patch job ran successfully.
-    #[prost(message, optional, tag="9")]
-    pub last_execute_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The time the next patch job is scheduled to run.
-    #[prost(message, optional, tag="10")]
-    pub next_execute_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Configurations for this recurring schedule.
-    /// Configurations must match frequency.
-    #[prost(oneof="recurring_schedule::ScheduleConfig", tags="6, 7")]
-    pub schedule_config: ::core::option::Option<recurring_schedule::ScheduleConfig>,
-}
-/// Nested message and enum types in `RecurringSchedule`.
-pub mod recurring_schedule {
-    /// Specifies the frequency of the recurring patch deployments.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Frequency {
-        /// Invalid. A frequency must be specified.
-        Unspecified = 0,
-        /// Indicates that the frequency of recurrence should be expressed in terms
-        /// of weeks.
-        Weekly = 1,
-        /// Indicates that the frequency of recurrence should be expressed in terms
-        /// of months.
-        Monthly = 2,
-        /// Indicates that the frequency of recurrence should be expressed in terms
-        /// of days.
-        Daily = 3,
-    }
-    /// Configurations for this recurring schedule.
-    /// Configurations must match frequency.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum ScheduleConfig {
-        /// Required. Schedule with weekly executions.
-        #[prost(message, tag="6")]
-        Weekly(super::WeeklySchedule),
-        /// Required. Schedule with monthly executions.
-        #[prost(message, tag="7")]
-        Monthly(super::MonthlySchedule),
-    }
-}
-/// Represents a weekly schedule.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WeeklySchedule {
-    /// Required. Day of the week.
-    #[prost(enumeration="super::super::super::r#type::DayOfWeek", tag="1")]
-    pub day_of_week: i32,
-}
-/// Represents a monthly schedule. An example of a valid monthly schedule is
-/// "on the third Tuesday of the month" or "on the 15th of the month".
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MonthlySchedule {
-    /// One day in a month.
-    #[prost(oneof="monthly_schedule::DayOfMonth", tags="1, 2")]
-    pub day_of_month: ::core::option::Option<monthly_schedule::DayOfMonth>,
-}
-/// Nested message and enum types in `MonthlySchedule`.
-pub mod monthly_schedule {
-    /// One day in a month.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum DayOfMonth {
-        /// Required. Week day in a month.
-        #[prost(message, tag="1")]
-        WeekDayOfMonth(super::WeekDayOfMonth),
-        /// Required. One day of the month. 1-31 indicates the 1st to the 31st day. -1
-        /// indicates the last day of the month.
-        /// Months without the target day will be skipped. For example, a schedule to
-        /// run "every month on the 31st" will not run in February, April, June, etc.
-        #[prost(int32, tag="2")]
-        MonthDay(i32),
-    }
-}
-/// Represents one week day in a month. An example is "the 4th Sunday".
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WeekDayOfMonth {
-    /// Required. Week number in a month. 1-4 indicates the 1st to 4th week of the month. -1
-    /// indicates the last week of the month.
-    #[prost(int32, tag="1")]
-    pub week_ordinal: i32,
-    /// Required. A day of the week.
-    #[prost(enumeration="super::super::super::r#type::DayOfWeek", tag="2")]
-    pub day_of_week: i32,
-    /// Optional. Represents the number of days before or after the given week day of month
-    /// that the patch deployment is scheduled for. For example if `week_ordinal`
-    /// and `day_of_week` values point to the second day of the month and this
-    /// `day_offset` value is set to `3`, the patch deployment takes place three
-    /// days after the second Tuesday of the month. If this value is negative, for
-    /// example -5, the patches  are deployed five days before before the second
-    /// Tuesday of the month. Allowed values are in range `[-30, 30]`.
-    #[prost(int32, tag="3")]
-    pub day_offset: i32,
-}
-/// A request message for creating a patch deployment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreatePatchDeploymentRequest {
-    /// Required. The project to apply this patch deployment to in the form `projects/*`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. A name for the patch deployment in the project. When creating a name
-    /// the following rules apply:
-    /// * Must contain only lowercase letters, numbers, and hyphens.
-    /// * Must start with a letter.
-    /// * Must be between 1-63 characters.
-    /// * Must end with a number or a letter.
-    /// * Must be unique within the project.
-    #[prost(string, tag="2")]
-    pub patch_deployment_id: ::prost::alloc::string::String,
-    /// Required. The patch deployment to create.
-    #[prost(message, optional, tag="3")]
-    pub patch_deployment: ::core::option::Option<PatchDeployment>,
-}
-/// A request message for retrieving a patch deployment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetPatchDeploymentRequest {
-    /// Required. The resource name of the patch deployment in the form
-    /// `projects/*/patchDeployments/*`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// A request message for listing patch deployments.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPatchDeploymentsRequest {
-    /// Required. The resource name of the parent in the form `projects/*`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of patch deployments to return. Default is 100.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// Optional. A pagination token returned from a previous call to ListPatchDeployments
-    /// that indicates where this listing should continue from.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// A response message for listing patch deployments.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPatchDeploymentsResponse {
-    /// The list of patch deployments.
-    #[prost(message, repeated, tag="1")]
-    pub patch_deployments: ::prost::alloc::vec::Vec<PatchDeployment>,
-    /// A pagination token that can be used to get the next page of patch
-    /// deployments.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// A request message for deleting a patch deployment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeletePatchDeploymentRequest {
-    /// Required. The resource name of the patch deployment in the form
-    /// `projects/*/patchDeployments/*`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// A request message for updating a patch deployment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdatePatchDeploymentRequest {
-    /// Required. The patch deployment to Update.
-    #[prost(message, optional, tag="1")]
-    pub patch_deployment: ::core::option::Option<PatchDeployment>,
-    /// Optional. Field mask that controls which fields of the patch deployment should be
-    /// updated.
-    #[prost(message, optional, tag="2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// A request message for pausing a patch deployment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PausePatchDeploymentRequest {
-    /// Required. The resource name of the patch deployment in the form
-    /// `projects/*/patchDeployments/*`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// A request message for resuming a patch deployment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResumePatchDeploymentRequest {
-    /// Required. The resource name of the patch deployment in the form
-    /// `projects/*/patchDeployments/*`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
 /// An OS Config resource representing a guest configuration policy. These
 /// policies represent the desired state for VM instance guest environments
 /// including packages to install or remove, package repository configurations,
@@ -1775,6 +1493,288 @@ pub enum DesiredState {
     /// The agent ensures that the package is not installed and uninstall it
     /// if detected.
     Removed = 3,
+}
+/// Patch deployments are configurations that individual patch jobs use to
+/// complete a patch. These configurations include instance filter, package
+/// repository settings, and a schedule. For more information about creating and
+/// managing patch deployments, see [Scheduling patch
+/// jobs](<https://cloud.google.com/compute/docs/os-patch-management/schedule-patch-jobs>).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PatchDeployment {
+    /// Unique name for the patch deployment resource in a project. The patch
+    /// deployment name is in the form:
+    /// `projects/{project_id}/patchDeployments/{patch_deployment_id}`.
+    /// This field is ignored when you create a new patch deployment.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Description of the patch deployment. Length of the description is limited
+    /// to 1024 characters.
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
+    /// Required. VM instances to patch.
+    #[prost(message, optional, tag="3")]
+    pub instance_filter: ::core::option::Option<PatchInstanceFilter>,
+    /// Optional. Patch configuration that is applied.
+    #[prost(message, optional, tag="4")]
+    pub patch_config: ::core::option::Option<PatchConfig>,
+    /// Optional. Duration of the patch. After the duration ends, the patch times out.
+    #[prost(message, optional, tag="5")]
+    pub duration: ::core::option::Option<::prost_types::Duration>,
+    /// Output only. Time the patch deployment was created. Timestamp is in
+    /// \[RFC3339\](<https://www.ietf.org/rfc/rfc3339.txt>) text format.
+    #[prost(message, optional, tag="8")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Time the patch deployment was last updated. Timestamp is in
+    /// \[RFC3339\](<https://www.ietf.org/rfc/rfc3339.txt>) text format.
+    #[prost(message, optional, tag="9")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The last time a patch job was started by this deployment.
+    /// Timestamp is in \[RFC3339\](<https://www.ietf.org/rfc/rfc3339.txt>) text
+    /// format.
+    #[prost(message, optional, tag="10")]
+    pub last_execute_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. Rollout strategy of the patch job.
+    #[prost(message, optional, tag="11")]
+    pub rollout: ::core::option::Option<PatchRollout>,
+    /// Output only. Current state of the patch deployment.
+    #[prost(enumeration="patch_deployment::State", tag="12")]
+    pub state: i32,
+    /// Schedule for the patch.
+    #[prost(oneof="patch_deployment::Schedule", tags="6, 7")]
+    pub schedule: ::core::option::Option<patch_deployment::Schedule>,
+}
+/// Nested message and enum types in `PatchDeployment`.
+pub mod patch_deployment {
+    /// Represents state of patch peployment.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// The default value. This value is used if the state is omitted.
+        Unspecified = 0,
+        /// Active value means that patch deployment generates Patch Jobs.
+        Active = 1,
+        /// Paused value means that patch deployment does not generate
+        /// Patch jobs. Requires user action to move in and out from this state.
+        Paused = 2,
+    }
+    /// Schedule for the patch.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Schedule {
+        /// Required. Schedule a one-time execution.
+        #[prost(message, tag="6")]
+        OneTimeSchedule(super::OneTimeSchedule),
+        /// Required. Schedule recurring executions.
+        #[prost(message, tag="7")]
+        RecurringSchedule(super::RecurringSchedule),
+    }
+}
+/// Sets the time for a one time patch deployment. Timestamp is in
+/// \[RFC3339\](<https://www.ietf.org/rfc/rfc3339.txt>) text format.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OneTimeSchedule {
+    /// Required. The desired patch job execution time.
+    #[prost(message, optional, tag="1")]
+    pub execute_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Sets the time for recurring patch deployments.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RecurringSchedule {
+    /// Required. Defines the time zone that `time_of_day` is relative to.
+    /// The rules for daylight saving time are determined by the chosen time zone.
+    #[prost(message, optional, tag="1")]
+    pub time_zone: ::core::option::Option<super::super::super::r#type::TimeZone>,
+    /// Optional. The time that the recurring schedule becomes effective.
+    /// Defaults to `create_time` of the patch deployment.
+    #[prost(message, optional, tag="2")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. The end time at which a recurring patch deployment schedule is no longer
+    /// active.
+    #[prost(message, optional, tag="3")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Required. Time of the day to run a recurring deployment.
+    #[prost(message, optional, tag="4")]
+    pub time_of_day: ::core::option::Option<super::super::super::r#type::TimeOfDay>,
+    /// Required. The frequency unit of this recurring schedule.
+    #[prost(enumeration="recurring_schedule::Frequency", tag="5")]
+    pub frequency: i32,
+    /// Output only. The time the last patch job ran successfully.
+    #[prost(message, optional, tag="9")]
+    pub last_execute_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The time the next patch job is scheduled to run.
+    #[prost(message, optional, tag="10")]
+    pub next_execute_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Configurations for this recurring schedule.
+    /// Configurations must match frequency.
+    #[prost(oneof="recurring_schedule::ScheduleConfig", tags="6, 7")]
+    pub schedule_config: ::core::option::Option<recurring_schedule::ScheduleConfig>,
+}
+/// Nested message and enum types in `RecurringSchedule`.
+pub mod recurring_schedule {
+    /// Specifies the frequency of the recurring patch deployments.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Frequency {
+        /// Invalid. A frequency must be specified.
+        Unspecified = 0,
+        /// Indicates that the frequency of recurrence should be expressed in terms
+        /// of weeks.
+        Weekly = 1,
+        /// Indicates that the frequency of recurrence should be expressed in terms
+        /// of months.
+        Monthly = 2,
+        /// Indicates that the frequency of recurrence should be expressed in terms
+        /// of days.
+        Daily = 3,
+    }
+    /// Configurations for this recurring schedule.
+    /// Configurations must match frequency.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum ScheduleConfig {
+        /// Required. Schedule with weekly executions.
+        #[prost(message, tag="6")]
+        Weekly(super::WeeklySchedule),
+        /// Required. Schedule with monthly executions.
+        #[prost(message, tag="7")]
+        Monthly(super::MonthlySchedule),
+    }
+}
+/// Represents a weekly schedule.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WeeklySchedule {
+    /// Required. Day of the week.
+    #[prost(enumeration="super::super::super::r#type::DayOfWeek", tag="1")]
+    pub day_of_week: i32,
+}
+/// Represents a monthly schedule. An example of a valid monthly schedule is
+/// "on the third Tuesday of the month" or "on the 15th of the month".
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MonthlySchedule {
+    /// One day in a month.
+    #[prost(oneof="monthly_schedule::DayOfMonth", tags="1, 2")]
+    pub day_of_month: ::core::option::Option<monthly_schedule::DayOfMonth>,
+}
+/// Nested message and enum types in `MonthlySchedule`.
+pub mod monthly_schedule {
+    /// One day in a month.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum DayOfMonth {
+        /// Required. Week day in a month.
+        #[prost(message, tag="1")]
+        WeekDayOfMonth(super::WeekDayOfMonth),
+        /// Required. One day of the month. 1-31 indicates the 1st to the 31st day. -1
+        /// indicates the last day of the month.
+        /// Months without the target day will be skipped. For example, a schedule to
+        /// run "every month on the 31st" will not run in February, April, June, etc.
+        #[prost(int32, tag="2")]
+        MonthDay(i32),
+    }
+}
+/// Represents one week day in a month. An example is "the 4th Sunday".
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WeekDayOfMonth {
+    /// Required. Week number in a month. 1-4 indicates the 1st to 4th week of the month. -1
+    /// indicates the last week of the month.
+    #[prost(int32, tag="1")]
+    pub week_ordinal: i32,
+    /// Required. A day of the week.
+    #[prost(enumeration="super::super::super::r#type::DayOfWeek", tag="2")]
+    pub day_of_week: i32,
+    /// Optional. Represents the number of days before or after the given week day of month
+    /// that the patch deployment is scheduled for. For example if `week_ordinal`
+    /// and `day_of_week` values point to the second day of the month and this
+    /// `day_offset` value is set to `3`, the patch deployment takes place three
+    /// days after the second Tuesday of the month. If this value is negative, for
+    /// example -5, the patches  are deployed five days before before the second
+    /// Tuesday of the month. Allowed values are in range `[-30, 30]`.
+    #[prost(int32, tag="3")]
+    pub day_offset: i32,
+}
+/// A request message for creating a patch deployment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreatePatchDeploymentRequest {
+    /// Required. The project to apply this patch deployment to in the form `projects/*`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. A name for the patch deployment in the project. When creating a name
+    /// the following rules apply:
+    /// * Must contain only lowercase letters, numbers, and hyphens.
+    /// * Must start with a letter.
+    /// * Must be between 1-63 characters.
+    /// * Must end with a number or a letter.
+    /// * Must be unique within the project.
+    #[prost(string, tag="2")]
+    pub patch_deployment_id: ::prost::alloc::string::String,
+    /// Required. The patch deployment to create.
+    #[prost(message, optional, tag="3")]
+    pub patch_deployment: ::core::option::Option<PatchDeployment>,
+}
+/// A request message for retrieving a patch deployment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetPatchDeploymentRequest {
+    /// Required. The resource name of the patch deployment in the form
+    /// `projects/*/patchDeployments/*`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// A request message for listing patch deployments.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPatchDeploymentsRequest {
+    /// Required. The resource name of the parent in the form `projects/*`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. The maximum number of patch deployments to return. Default is 100.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// Optional. A pagination token returned from a previous call to ListPatchDeployments
+    /// that indicates where this listing should continue from.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// A response message for listing patch deployments.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPatchDeploymentsResponse {
+    /// The list of patch deployments.
+    #[prost(message, repeated, tag="1")]
+    pub patch_deployments: ::prost::alloc::vec::Vec<PatchDeployment>,
+    /// A pagination token that can be used to get the next page of patch
+    /// deployments.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// A request message for deleting a patch deployment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeletePatchDeploymentRequest {
+    /// Required. The resource name of the patch deployment in the form
+    /// `projects/*/patchDeployments/*`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// A request message for updating a patch deployment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdatePatchDeploymentRequest {
+    /// Required. The patch deployment to Update.
+    #[prost(message, optional, tag="1")]
+    pub patch_deployment: ::core::option::Option<PatchDeployment>,
+    /// Optional. Field mask that controls which fields of the patch deployment should be
+    /// updated.
+    #[prost(message, optional, tag="2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// A request message for pausing a patch deployment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PausePatchDeploymentRequest {
+    /// Required. The resource name of the patch deployment in the form
+    /// `projects/*/patchDeployments/*`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// A request message for resuming a patch deployment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResumePatchDeploymentRequest {
+    /// Required. The resource name of the patch deployment in the form
+    /// `projects/*/patchDeployments/*`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
 }
 /// Generated client implementations.
 pub mod os_config_service_client {

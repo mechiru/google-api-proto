@@ -1,67 +1,3 @@
-/// Native schema used by a resource represented as an entry. Used by query
-/// engines for deserializing and parsing source data.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PhysicalSchema {
-    #[prost(oneof="physical_schema::Schema", tags="1, 2, 3, 4, 5, 6")]
-    pub schema: ::core::option::Option<physical_schema::Schema>,
-}
-/// Nested message and enum types in `PhysicalSchema`.
-pub mod physical_schema {
-    /// Schema in Avro JSON format.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct AvroSchema {
-        /// JSON source of the Avro schema.
-        #[prost(string, tag="1")]
-        pub text: ::prost::alloc::string::String,
-    }
-    /// Schema in Thrift format.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ThriftSchema {
-        /// Thrift IDL source of the schema.
-        #[prost(string, tag="1")]
-        pub text: ::prost::alloc::string::String,
-    }
-    /// Schema in protocol buffer format.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ProtobufSchema {
-        /// Protocol buffer source of the schema.
-        #[prost(string, tag="1")]
-        pub text: ::prost::alloc::string::String,
-    }
-    /// Marks a Parquet-encoded data source.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ParquetSchema {
-    }
-    /// Marks an ORC-encoded data source.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct OrcSchema {
-    }
-    /// Marks a CSV-encoded data source.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CsvSchema {
-    }
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Schema {
-        /// Schema in Avro JSON format.
-        #[prost(message, tag="1")]
-        Avro(AvroSchema),
-        /// Schema in Thrift format.
-        #[prost(message, tag="2")]
-        Thrift(ThriftSchema),
-        /// Schema in protocol buffer format.
-        #[prost(message, tag="3")]
-        Protobuf(ProtobufSchema),
-        /// Marks a Parquet-encoded data source.
-        #[prost(message, tag="4")]
-        Parquet(ParquetSchema),
-        /// Marks an ORC-encoded data source.
-        #[prost(message, tag="5")]
-        Orc(OrcSchema),
-        /// Marks a CSV-encoded data source.
-        #[prost(message, tag="6")]
-        Csv(CsvSchema),
-    }
-}
 /// Entry metadata relevant only to the user and private to them.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PersonalDetails {
@@ -314,6 +250,70 @@ pub struct StorageProperties {
     /// File type in MIME format, for example, `text/plain`.
     #[prost(string, tag="2")]
     pub file_type: ::prost::alloc::string::String,
+}
+/// Native schema used by a resource represented as an entry. Used by query
+/// engines for deserializing and parsing source data.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PhysicalSchema {
+    #[prost(oneof="physical_schema::Schema", tags="1, 2, 3, 4, 5, 6")]
+    pub schema: ::core::option::Option<physical_schema::Schema>,
+}
+/// Nested message and enum types in `PhysicalSchema`.
+pub mod physical_schema {
+    /// Schema in Avro JSON format.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct AvroSchema {
+        /// JSON source of the Avro schema.
+        #[prost(string, tag="1")]
+        pub text: ::prost::alloc::string::String,
+    }
+    /// Schema in Thrift format.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ThriftSchema {
+        /// Thrift IDL source of the schema.
+        #[prost(string, tag="1")]
+        pub text: ::prost::alloc::string::String,
+    }
+    /// Schema in protocol buffer format.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ProtobufSchema {
+        /// Protocol buffer source of the schema.
+        #[prost(string, tag="1")]
+        pub text: ::prost::alloc::string::String,
+    }
+    /// Marks a Parquet-encoded data source.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ParquetSchema {
+    }
+    /// Marks an ORC-encoded data source.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct OrcSchema {
+    }
+    /// Marks a CSV-encoded data source.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CsvSchema {
+    }
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Schema {
+        /// Schema in Avro JSON format.
+        #[prost(message, tag="1")]
+        Avro(AvroSchema),
+        /// Schema in Thrift format.
+        #[prost(message, tag="2")]
+        Thrift(ThriftSchema),
+        /// Schema in protocol buffer format.
+        #[prost(message, tag="3")]
+        Protobuf(ProtobufSchema),
+        /// Marks a Parquet-encoded data source.
+        #[prost(message, tag="4")]
+        Parquet(ParquetSchema),
+        /// Marks an ORC-encoded data source.
+        #[prost(message, tag="5")]
+        Orc(OrcSchema),
+        /// Marks a CSV-encoded data source.
+        #[prost(message, tag="6")]
+        Csv(CsvSchema),
+    }
 }
 /// Common Dataplex fields.
 #[derive(Clone, PartialEq, ::prost::Message)]

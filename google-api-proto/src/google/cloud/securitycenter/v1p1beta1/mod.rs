@@ -140,67 +140,6 @@ pub mod finding {
         Low = 4,
     }
 }
-/// Message that contains the resource name and display name of a folder
-/// resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Folder {
-    /// Full resource name of this folder. See:
-    /// <https://cloud.google.com/apis/design/resource_names#full_resource_name>
-    #[prost(string, tag="1")]
-    pub resource_folder: ::prost::alloc::string::String,
-    /// The user defined display name for this folder.
-    #[prost(string, tag="2")]
-    pub resource_folder_display_name: ::prost::alloc::string::String,
-}
-/// Information related to the Google Cloud resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Resource {
-    /// The full resource name of the resource. See:
-    /// <https://cloud.google.com/apis/design/resource_names#full_resource_name>
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The full resource name of project that the resource belongs to.
-    #[prost(string, tag="2")]
-    pub project: ::prost::alloc::string::String,
-    /// The human readable name of project that the resource belongs to.
-    #[prost(string, tag="3")]
-    pub project_display_name: ::prost::alloc::string::String,
-    /// The full resource name of resource's parent.
-    #[prost(string, tag="4")]
-    pub parent: ::prost::alloc::string::String,
-    /// The human readable name of resource's parent.
-    #[prost(string, tag="5")]
-    pub parent_display_name: ::prost::alloc::string::String,
-    /// Output only. Contains a Folder message for each folder in the assets ancestry.
-    /// The first folder is the deepest nested folder, and the last folder is the
-    /// folder directly under the Organization.
-    #[prost(message, repeated, tag="7")]
-    pub folders: ::prost::alloc::vec::Vec<Folder>,
-}
-/// Security Command Center's Notification
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NotificationMessage {
-    /// Name of the notification config that generated current notification.
-    #[prost(string, tag="1")]
-    pub notification_config_name: ::prost::alloc::string::String,
-    /// The Cloud resource tied to the notification.
-    #[prost(message, optional, tag="3")]
-    pub resource: ::core::option::Option<Resource>,
-    /// Notification Event.
-    #[prost(oneof="notification_message::Event", tags="2")]
-    pub event: ::core::option::Option<notification_message::Event>,
-}
-/// Nested message and enum types in `NotificationMessage`.
-pub mod notification_message {
-    /// Notification Event.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Event {
-        /// If it's a Finding based notification config, this field will be
-        /// populated.
-        #[prost(message, tag="2")]
-        Finding(super::Finding),
-    }
-}
 /// Security Command Center notification configs.
 ///
 /// A notification config is a Security Command Center resource that contains the
@@ -277,6 +216,167 @@ pub mod notification_config {
         /// The config for triggering streaming-based notifications.
         #[prost(message, tag="6")]
         StreamingConfig(StreamingConfig),
+    }
+}
+/// Message that contains the resource name and display name of a folder
+/// resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Folder {
+    /// Full resource name of this folder. See:
+    /// <https://cloud.google.com/apis/design/resource_names#full_resource_name>
+    #[prost(string, tag="1")]
+    pub resource_folder: ::prost::alloc::string::String,
+    /// The user defined display name for this folder.
+    #[prost(string, tag="2")]
+    pub resource_folder_display_name: ::prost::alloc::string::String,
+}
+/// Information related to the Google Cloud resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Resource {
+    /// The full resource name of the resource. See:
+    /// <https://cloud.google.com/apis/design/resource_names#full_resource_name>
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The full resource name of project that the resource belongs to.
+    #[prost(string, tag="2")]
+    pub project: ::prost::alloc::string::String,
+    /// The human readable name of project that the resource belongs to.
+    #[prost(string, tag="3")]
+    pub project_display_name: ::prost::alloc::string::String,
+    /// The full resource name of resource's parent.
+    #[prost(string, tag="4")]
+    pub parent: ::prost::alloc::string::String,
+    /// The human readable name of resource's parent.
+    #[prost(string, tag="5")]
+    pub parent_display_name: ::prost::alloc::string::String,
+    /// Output only. Contains a Folder message for each folder in the assets ancestry.
+    /// The first folder is the deepest nested folder, and the last folder is the
+    /// folder directly under the Organization.
+    #[prost(message, repeated, tag="7")]
+    pub folders: ::prost::alloc::vec::Vec<Folder>,
+}
+/// User specified settings that are attached to the Security Command
+/// Center organization.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OrganizationSettings {
+    /// The relative resource name of the settings. See:
+    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name>
+    /// Example:
+    /// "organizations/{organization_id}/organizationSettings".
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// A flag that indicates if Asset Discovery should be enabled. If the flag is
+    /// set to `true`, then discovery of assets will occur. If it is set to `false,
+    /// all historical assets will remain, but discovery of future assets will not
+    /// occur.
+    #[prost(bool, tag="2")]
+    pub enable_asset_discovery: bool,
+    /// The configuration used for Asset Discovery runs.
+    #[prost(message, optional, tag="3")]
+    pub asset_discovery_config: ::core::option::Option<organization_settings::AssetDiscoveryConfig>,
+}
+/// Nested message and enum types in `OrganizationSettings`.
+pub mod organization_settings {
+    /// The configuration used for Asset Discovery runs.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct AssetDiscoveryConfig {
+        /// The project ids to use for filtering asset discovery.
+        #[prost(string, repeated, tag="1")]
+        pub project_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// The mode to use for filtering asset discovery.
+        #[prost(enumeration="asset_discovery_config::InclusionMode", tag="2")]
+        pub inclusion_mode: i32,
+        /// The folder ids to use for filtering asset discovery.
+        /// It consists of only digits, e.g., 756619654966.
+        #[prost(string, repeated, tag="3")]
+        pub folder_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    }
+    /// Nested message and enum types in `AssetDiscoveryConfig`.
+    pub mod asset_discovery_config {
+        /// The mode of inclusion when running Asset Discovery.
+        /// Asset discovery can be limited by explicitly identifying projects to be
+        /// included or excluded. If INCLUDE_ONLY is set, then only those projects
+        /// within the organization and their children are discovered during asset
+        /// discovery. If EXCLUDE is set, then projects that don't match those
+        /// projects are discovered during asset discovery. If neither are set, then
+        /// all projects within the organization are discovered during asset
+        /// discovery.
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+        #[repr(i32)]
+        pub enum InclusionMode {
+            /// Unspecified. Setting the mode with this value will disable
+            /// inclusion/exclusion filtering for Asset Discovery.
+            Unspecified = 0,
+            /// Asset Discovery will capture only the resources within the projects
+            /// specified. All other resources will be ignored.
+            IncludeOnly = 1,
+            /// Asset Discovery will ignore all resources under the projects specified.
+            /// All other resources will be retrieved.
+            Exclude = 2,
+        }
+    }
+}
+/// Security Command Center finding source. A finding source
+/// is an entity or a mechanism that can produce a finding. A source is like a
+/// container of findings that come from the same scanner, logger, monitor, etc.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Source {
+    /// The relative resource name of this source. See:
+    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name>
+    /// Example:
+    /// "organizations/{organization_id}/sources/{source_id}"
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The source's display name.
+    /// A source's display name must be unique amongst its siblings, for example,
+    /// two sources with the same parent can't share the same display name.
+    /// The display name must have a length between 1 and 64 characters
+    /// (inclusive).
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The description of the source (max of 1024 characters).
+    /// Example:
+    /// "Web Security Scanner is a web security scanner for common
+    /// vulnerabilities in App Engine applications. It can automatically
+    /// scan and detect four common vulnerabilities, including cross-site-scripting
+    /// (XSS), Flash injection, mixed content (HTTP in HTTPS), and
+    /// outdated/insecure libraries."
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    /// The canonical name of the finding. It's either
+    /// "organizations/{organization_id}/sources/{source_id}",
+    /// "folders/{folder_id}/sources/{source_id}" or
+    /// "projects/{project_number}/sources/{source_id}",
+    /// depending on the closest CRM ancestor of the resource associated with the
+    /// finding.
+    #[prost(string, tag="14")]
+    pub canonical_name: ::prost::alloc::string::String,
+}
+/// Response of asset discovery run
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RunAssetDiscoveryResponse {
+    /// The state of an asset discovery run.
+    #[prost(enumeration="run_asset_discovery_response::State", tag="1")]
+    pub state: i32,
+    /// The duration between asset discovery run start and end
+    #[prost(message, optional, tag="2")]
+    pub duration: ::core::option::Option<::prost_types::Duration>,
+}
+/// Nested message and enum types in `RunAssetDiscoveryResponse`.
+pub mod run_asset_discovery_response {
+    /// The state of an asset discovery run.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Asset discovery run state was unspecified.
+        Unspecified = 0,
+        /// Asset discovery run completed successfully.
+        Completed = 1,
+        /// Asset discovery run was cancelled with tasks still pending, as another
+        /// run for the same organization was started with a higher priority.
+        Superseded = 2,
+        /// Asset discovery run was killed and terminated.
+        Terminated = 3,
     }
 }
 /// Security Command Center representation of a Google Cloud
@@ -382,129 +482,29 @@ pub mod asset {
         pub policy_blob: ::prost::alloc::string::String,
     }
 }
-/// User specified settings that are attached to the Security Command
-/// Center organization.
+/// Security Command Center's Notification
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OrganizationSettings {
-    /// The relative resource name of the settings. See:
-    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name>
-    /// Example:
-    /// "organizations/{organization_id}/organizationSettings".
+pub struct NotificationMessage {
+    /// Name of the notification config that generated current notification.
     #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// A flag that indicates if Asset Discovery should be enabled. If the flag is
-    /// set to `true`, then discovery of assets will occur. If it is set to `false,
-    /// all historical assets will remain, but discovery of future assets will not
-    /// occur.
-    #[prost(bool, tag="2")]
-    pub enable_asset_discovery: bool,
-    /// The configuration used for Asset Discovery runs.
+    pub notification_config_name: ::prost::alloc::string::String,
+    /// The Cloud resource tied to the notification.
     #[prost(message, optional, tag="3")]
-    pub asset_discovery_config: ::core::option::Option<organization_settings::AssetDiscoveryConfig>,
+    pub resource: ::core::option::Option<Resource>,
+    /// Notification Event.
+    #[prost(oneof="notification_message::Event", tags="2")]
+    pub event: ::core::option::Option<notification_message::Event>,
 }
-/// Nested message and enum types in `OrganizationSettings`.
-pub mod organization_settings {
-    /// The configuration used for Asset Discovery runs.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct AssetDiscoveryConfig {
-        /// The project ids to use for filtering asset discovery.
-        #[prost(string, repeated, tag="1")]
-        pub project_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// The mode to use for filtering asset discovery.
-        #[prost(enumeration="asset_discovery_config::InclusionMode", tag="2")]
-        pub inclusion_mode: i32,
-        /// The folder ids to use for filtering asset discovery.
-        /// It consists of only digits, e.g., 756619654966.
-        #[prost(string, repeated, tag="3")]
-        pub folder_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+/// Nested message and enum types in `NotificationMessage`.
+pub mod notification_message {
+    /// Notification Event.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Event {
+        /// If it's a Finding based notification config, this field will be
+        /// populated.
+        #[prost(message, tag="2")]
+        Finding(super::Finding),
     }
-    /// Nested message and enum types in `AssetDiscoveryConfig`.
-    pub mod asset_discovery_config {
-        /// The mode of inclusion when running Asset Discovery.
-        /// Asset discovery can be limited by explicitly identifying projects to be
-        /// included or excluded. If INCLUDE_ONLY is set, then only those projects
-        /// within the organization and their children are discovered during asset
-        /// discovery. If EXCLUDE is set, then projects that don't match those
-        /// projects are discovered during asset discovery. If neither are set, then
-        /// all projects within the organization are discovered during asset
-        /// discovery.
-        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-        #[repr(i32)]
-        pub enum InclusionMode {
-            /// Unspecified. Setting the mode with this value will disable
-            /// inclusion/exclusion filtering for Asset Discovery.
-            Unspecified = 0,
-            /// Asset Discovery will capture only the resources within the projects
-            /// specified. All other resources will be ignored.
-            IncludeOnly = 1,
-            /// Asset Discovery will ignore all resources under the projects specified.
-            /// All other resources will be retrieved.
-            Exclude = 2,
-        }
-    }
-}
-/// Response of asset discovery run
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RunAssetDiscoveryResponse {
-    /// The state of an asset discovery run.
-    #[prost(enumeration="run_asset_discovery_response::State", tag="1")]
-    pub state: i32,
-    /// The duration between asset discovery run start and end
-    #[prost(message, optional, tag="2")]
-    pub duration: ::core::option::Option<::prost_types::Duration>,
-}
-/// Nested message and enum types in `RunAssetDiscoveryResponse`.
-pub mod run_asset_discovery_response {
-    /// The state of an asset discovery run.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Asset discovery run state was unspecified.
-        Unspecified = 0,
-        /// Asset discovery run completed successfully.
-        Completed = 1,
-        /// Asset discovery run was cancelled with tasks still pending, as another
-        /// run for the same organization was started with a higher priority.
-        Superseded = 2,
-        /// Asset discovery run was killed and terminated.
-        Terminated = 3,
-    }
-}
-/// Security Command Center finding source. A finding source
-/// is an entity or a mechanism that can produce a finding. A source is like a
-/// container of findings that come from the same scanner, logger, monitor, etc.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Source {
-    /// The relative resource name of this source. See:
-    /// <https://cloud.google.com/apis/design/resource_names#relative_resource_name>
-    /// Example:
-    /// "organizations/{organization_id}/sources/{source_id}"
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The source's display name.
-    /// A source's display name must be unique amongst its siblings, for example,
-    /// two sources with the same parent can't share the same display name.
-    /// The display name must have a length between 1 and 64 characters
-    /// (inclusive).
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The description of the source (max of 1024 characters).
-    /// Example:
-    /// "Web Security Scanner is a web security scanner for common
-    /// vulnerabilities in App Engine applications. It can automatically
-    /// scan and detect four common vulnerabilities, including cross-site-scripting
-    /// (XSS), Flash injection, mixed content (HTTP in HTTPS), and
-    /// outdated/insecure libraries."
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    /// The canonical name of the finding. It's either
-    /// "organizations/{organization_id}/sources/{source_id}",
-    /// "folders/{folder_id}/sources/{source_id}" or
-    /// "projects/{project_number}/sources/{source_id}",
-    /// depending on the closest CRM ancestor of the resource associated with the
-    /// finding.
-    #[prost(string, tag="14")]
-    pub canonical_name: ::prost::alloc::string::String,
 }
 /// Request message for creating a finding.
 #[derive(Clone, PartialEq, ::prost::Message)]

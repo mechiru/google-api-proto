@@ -175,6 +175,58 @@ pub enum UploadStatus {
     /// All post-processing is complete, and the invocation is now immutable.
     Immutable = 3,
 }
+/// Represents a configuration within an Invocation associated with one or more
+/// ConfiguredTargets. It captures the environment and other settings that
+/// were used.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Configuration {
+    /// The format of this Configuration resource name must be:
+    /// invocations/${INVOCATION_ID}/configs/${url_encode(CONFIG_ID)}
+    /// The configuration ID of "default" should be preferred for the default
+    /// configuration in a single-config invocation.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The resource ID components that identify the Configuration. They must match
+    /// the resource name after proper encoding.
+    #[prost(message, optional, tag="2")]
+    pub id: ::core::option::Option<configuration::Id>,
+    /// The aggregate status for this configuration.
+    #[prost(message, optional, tag="3")]
+    pub status_attributes: ::core::option::Option<StatusAttributes>,
+    /// Attributes that apply only to this configuration.
+    #[prost(message, optional, tag="5")]
+    pub configuration_attributes: ::core::option::Option<ConfigurationAttributes>,
+    /// Arbitrary name-value pairs.
+    /// This is implemented as a multi-map. Multiple properties are allowed with
+    /// the same key. Properties will be returned in lexicographical order by key.
+    #[prost(message, repeated, tag="6")]
+    pub properties: ::prost::alloc::vec::Vec<Property>,
+    /// A human-readable name for Configuration for UIs.
+    /// It is recommended that this name be unique.
+    /// If omitted, UIs should default to configuration_id.
+    #[prost(string, tag="8")]
+    pub display_name: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `Configuration`.
+pub mod configuration {
+    /// The resource ID components that identify the Configuration.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Id {
+        /// The Invocation ID.
+        #[prost(string, tag="1")]
+        pub invocation_id: ::prost::alloc::string::String,
+        /// The Configuration ID.
+        #[prost(string, tag="2")]
+        pub configuration_id: ::prost::alloc::string::String,
+    }
+}
+/// Attributes that apply only to the configuration.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ConfigurationAttributes {
+    /// The type of cpu. (e.g. "x86", "powerpc")
+    #[prost(string, tag="1")]
+    pub cpu: ::prost::alloc::string::String,
+}
 /// The metadata for a file or an archive file entry.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct File {
@@ -258,51 +310,48 @@ pub struct ArchiveEntry {
     #[prost(string, tag="3")]
     pub content_type: ::prost::alloc::string::String,
 }
-/// Each Target represents data for a given target in a given Invocation.
-/// ConfiguredTarget and Action resources under each Target contain the bulk of
-/// the data.
+/// Each ConfiguredTarget represents data for a given configuration of a given
+/// target in a given Invocation.
+/// Every ConfiguredTarget should have at least one Action as a child resource
+/// before the invocation is finalized. Refer to the Action's documentation for
+/// more info on this.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Target {
+pub struct ConfiguredTarget {
     /// The resource name.  Its format must be:
-    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}
+    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${url_encode(CONFIG_ID)}
+    /// where ${CONFIG_ID} must match the ID of an existing Configuration under
+    /// this Invocation.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// The resource ID components that identify the Target. They must match the
-    /// resource name after proper encoding.
+    /// The resource ID components that identify the ConfiguredTarget. They must
+    /// match the resource name after proper encoding.
     #[prost(message, optional, tag="2")]
-    pub id: ::core::option::Option<target::Id>,
-    /// This is the aggregate status of the target.
+    pub id: ::core::option::Option<configured_target::Id>,
+    /// The aggregate status for this configuration of this target. If testing
+    /// was not requested, set this to the build status (e.g. BUILT or
+    /// FAILED_TO_BUILD).
     #[prost(message, optional, tag="3")]
     pub status_attributes: ::core::option::Option<StatusAttributes>,
-    /// When this target started and its duration.
+    /// Captures the start time and duration of this configured target.
     #[prost(message, optional, tag="4")]
     pub timing: ::core::option::Option<Timing>,
-    /// Attributes that apply to all targets.
-    #[prost(message, optional, tag="5")]
-    pub target_attributes: ::core::option::Option<TargetAttributes>,
-    /// Attributes that apply to all test actions under this target.
+    /// Test specific attributes for this ConfiguredTarget.
     #[prost(message, optional, tag="6")]
-    pub test_attributes: ::core::option::Option<TestAttributes>,
+    pub test_attributes: ::core::option::Option<ConfiguredTestAttributes>,
     /// Arbitrary name-value pairs.
     /// This is implemented as a multi-map. Multiple properties are allowed with
     /// the same key. Properties will be returned in lexicographical order by key.
     #[prost(message, repeated, tag="7")]
     pub properties: ::prost::alloc::vec::Vec<Property>,
-    /// A list of file references for target level files.
+    /// A list of file references for configured target level files.
     /// The file IDs must be unique within this list. Duplicate file IDs will
     /// result in an error. Files will be returned in lexicographical order by ID.
-    /// Use this field to specify outputs not related to a configuration.
     #[prost(message, repeated, tag="8")]
     pub files: ::prost::alloc::vec::Vec<File>,
-    /// Provides a hint to clients as to whether to display the Target to users.
-    /// If true then clients likely want to display the Target by default.
-    /// Once set to true, this may not be set back to false.
-    #[prost(bool, tag="10")]
-    pub visible: bool,
 }
-/// Nested message and enum types in `Target`.
-pub mod target {
-    /// The resource ID components that identify the Target.
+/// Nested message and enum types in `ConfiguredTarget`.
+pub mod configured_target {
+    /// The resource ID components that identify the ConfiguredTarget.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct Id {
         /// The Invocation ID.
@@ -311,127 +360,36 @@ pub mod target {
         /// The Target ID.
         #[prost(string, tag="2")]
         pub target_id: ::prost::alloc::string::String,
+        /// The Configuration ID.
+        #[prost(string, tag="3")]
+        pub configuration_id: ::prost::alloc::string::String,
     }
 }
-/// Attributes that apply to all targets.
+/// Attributes that apply only to test actions under this configured target.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TargetAttributes {
-    /// If known, indicates the type of this target.  In bazel this corresponds
-    /// to the rule-suffix.
-    #[prost(enumeration="TargetType", tag="1")]
-    pub r#type: i32,
-    /// If known, the main language of this target, e.g. java, cc, python, etc.
-    #[prost(enumeration="Language", tag="2")]
-    pub language: i32,
-    /// The tags attribute of the build rule. These should be short, descriptive
-    /// words, and there should only be a few of them.
-    /// This is implemented as a set. All tags will be unique. Any duplicate tags
-    /// will be ignored. Tags will be returned in lexicographical order.
-    #[prost(string, repeated, tag="3")]
-    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Attributes that apply only to test actions under this target.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TestAttributes {
-    /// Indicates how big the user indicated the test action was.
-    #[prost(enumeration="TestSize", tag="1")]
-    pub size: i32,
-}
-/// These correspond to the suffix of the rule name. Eg cc_test has type TEST.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TargetType {
-    /// Unspecified by the build system.
-    Unspecified = 0,
-    /// An application e.g. ios_application.
-    Application = 1,
-    /// A binary target e.g. cc_binary.
-    Binary = 2,
-    /// A library target e.g. java_library
-    Library = 3,
-    /// A package
-    Package = 4,
-    /// Any test target, in bazel that means a rule with a '_test' suffix.
-    Test = 5,
-}
-/// Indicates how big the user indicated the test action was.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TestSize {
-    /// Unspecified by the user.
-    Unspecified = 0,
-    /// Unit test taking less than 1 minute.
-    Small = 1,
-    /// Integration tests taking less than 5 minutes.
-    Medium = 2,
-    /// End-to-end tests taking less than 15 minutes.
-    Large = 3,
-    /// Even bigger than LARGE.
-    Enormous = 4,
-    /// Something that doesn't fit into the above categories.
-    OtherSize = 5,
-}
-/// Summary of line coverage
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LineCoverageSummary {
-    /// Number of lines instrumented for coverage.
-    #[prost(int32, tag="1")]
-    pub instrumented_line_count: i32,
-    /// Number of instrumented lines that were executed by the test.
+pub struct ConfiguredTestAttributes {
+    /// Total number of test runs. For example, in bazel this is specified with
+    /// --runs_per_test. Zero if runs_per_test is not used.
     #[prost(int32, tag="2")]
-    pub executed_line_count: i32,
-}
-/// Summary of branch coverage
-/// A branch may be:
-///  * not executed.  Counted only in total.
-///  * executed but not taken.  Appears in total and executed.
-///  * executed and taken.  Appears in all three fields.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BranchCoverageSummary {
-    /// The number of branches present in the file.
-    #[prost(int32, tag="1")]
-    pub total_branch_count: i32,
-    /// The number of branches executed out of the total branches present.
-    /// A branch is executed when its condition is evaluated.
-    /// This is <= total_branch_count as not all branches are executed.
-    #[prost(int32, tag="2")]
-    pub executed_branch_count: i32,
-    /// The number of branches taken out of the total branches executed.
-    /// A branch is taken when its condition is satisfied.
-    /// This is <= executed_branch_count as not all executed branches are taken.
+    pub total_run_count: i32,
+    /// Total number of test shards. Zero if shard count was not specified.
     #[prost(int32, tag="3")]
-    pub taken_branch_count: i32,
+    pub total_shard_count: i32,
+    /// How long test is allowed to run.
+    #[prost(message, optional, tag="5")]
+    pub timeout_duration: ::core::option::Option<::prost_types::Duration>,
 }
-/// Summary of coverage in each language
+/// The download metadata for an invocation
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LanguageCoverageSummary {
-    /// This summary is for all files written in this programming language.
-    #[prost(enumeration="Language", tag="1")]
-    pub language: i32,
-    /// Summary of lines covered vs instrumented.
-    #[prost(message, optional, tag="2")]
-    pub line_summary: ::core::option::Option<LineCoverageSummary>,
-    /// Summary of branch coverage.
-    #[prost(message, optional, tag="3")]
-    pub branch_summary: ::core::option::Option<BranchCoverageSummary>,
-}
-/// The upload metadata for an invocation
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UploadMetadata {
-    /// The name of the upload metadata.  Its format will be:
-    /// invocations/${INVOCATION_ID}/uploadMetadata
+pub struct DownloadMetadata {
+    /// The name of the download metadata.  Its format will be:
+    /// invocations/${INVOCATION_ID}/downloadMetadata
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// The resume token of the last batch that was committed in the most recent
-    /// batch upload.
-    /// More information with resume_token could be found in
-    /// resultstore_upload.proto
-    #[prost(string, tag="2")]
-    pub resume_token: ::prost::alloc::string::String,
-    /// Client-specific data used to resume batch upload if an error occurs and
-    /// retry action is needed.
-    #[prost(bytes="bytes", tag="3")]
-    pub uploader_state: ::prost::bytes::Bytes,
+    /// Indicates the upload status of the invocation, whether it is
+    /// post-processing, or immutable, etc.
+    #[prost(enumeration="UploadStatus", tag="2")]
+    pub upload_status: i32,
 }
 /// Describes line coverage for a file
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1096,139 +1054,6 @@ pub enum TestCaching {
     /// The test result was not found in any cache, so it had to be run again.
     CacheMiss = 3,
 }
-/// Represents a configuration within an Invocation associated with one or more
-/// ConfiguredTargets. It captures the environment and other settings that
-/// were used.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Configuration {
-    /// The format of this Configuration resource name must be:
-    /// invocations/${INVOCATION_ID}/configs/${url_encode(CONFIG_ID)}
-    /// The configuration ID of "default" should be preferred for the default
-    /// configuration in a single-config invocation.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The resource ID components that identify the Configuration. They must match
-    /// the resource name after proper encoding.
-    #[prost(message, optional, tag="2")]
-    pub id: ::core::option::Option<configuration::Id>,
-    /// The aggregate status for this configuration.
-    #[prost(message, optional, tag="3")]
-    pub status_attributes: ::core::option::Option<StatusAttributes>,
-    /// Attributes that apply only to this configuration.
-    #[prost(message, optional, tag="5")]
-    pub configuration_attributes: ::core::option::Option<ConfigurationAttributes>,
-    /// Arbitrary name-value pairs.
-    /// This is implemented as a multi-map. Multiple properties are allowed with
-    /// the same key. Properties will be returned in lexicographical order by key.
-    #[prost(message, repeated, tag="6")]
-    pub properties: ::prost::alloc::vec::Vec<Property>,
-    /// A human-readable name for Configuration for UIs.
-    /// It is recommended that this name be unique.
-    /// If omitted, UIs should default to configuration_id.
-    #[prost(string, tag="8")]
-    pub display_name: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `Configuration`.
-pub mod configuration {
-    /// The resource ID components that identify the Configuration.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Id {
-        /// The Invocation ID.
-        #[prost(string, tag="1")]
-        pub invocation_id: ::prost::alloc::string::String,
-        /// The Configuration ID.
-        #[prost(string, tag="2")]
-        pub configuration_id: ::prost::alloc::string::String,
-    }
-}
-/// Attributes that apply only to the configuration.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConfigurationAttributes {
-    /// The type of cpu. (e.g. "x86", "powerpc")
-    #[prost(string, tag="1")]
-    pub cpu: ::prost::alloc::string::String,
-}
-/// Each ConfiguredTarget represents data for a given configuration of a given
-/// target in a given Invocation.
-/// Every ConfiguredTarget should have at least one Action as a child resource
-/// before the invocation is finalized. Refer to the Action's documentation for
-/// more info on this.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConfiguredTarget {
-    /// The resource name.  Its format must be:
-    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${url_encode(CONFIG_ID)}
-    /// where ${CONFIG_ID} must match the ID of an existing Configuration under
-    /// this Invocation.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The resource ID components that identify the ConfiguredTarget. They must
-    /// match the resource name after proper encoding.
-    #[prost(message, optional, tag="2")]
-    pub id: ::core::option::Option<configured_target::Id>,
-    /// The aggregate status for this configuration of this target. If testing
-    /// was not requested, set this to the build status (e.g. BUILT or
-    /// FAILED_TO_BUILD).
-    #[prost(message, optional, tag="3")]
-    pub status_attributes: ::core::option::Option<StatusAttributes>,
-    /// Captures the start time and duration of this configured target.
-    #[prost(message, optional, tag="4")]
-    pub timing: ::core::option::Option<Timing>,
-    /// Test specific attributes for this ConfiguredTarget.
-    #[prost(message, optional, tag="6")]
-    pub test_attributes: ::core::option::Option<ConfiguredTestAttributes>,
-    /// Arbitrary name-value pairs.
-    /// This is implemented as a multi-map. Multiple properties are allowed with
-    /// the same key. Properties will be returned in lexicographical order by key.
-    #[prost(message, repeated, tag="7")]
-    pub properties: ::prost::alloc::vec::Vec<Property>,
-    /// A list of file references for configured target level files.
-    /// The file IDs must be unique within this list. Duplicate file IDs will
-    /// result in an error. Files will be returned in lexicographical order by ID.
-    #[prost(message, repeated, tag="8")]
-    pub files: ::prost::alloc::vec::Vec<File>,
-}
-/// Nested message and enum types in `ConfiguredTarget`.
-pub mod configured_target {
-    /// The resource ID components that identify the ConfiguredTarget.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Id {
-        /// The Invocation ID.
-        #[prost(string, tag="1")]
-        pub invocation_id: ::prost::alloc::string::String,
-        /// The Target ID.
-        #[prost(string, tag="2")]
-        pub target_id: ::prost::alloc::string::String,
-        /// The Configuration ID.
-        #[prost(string, tag="3")]
-        pub configuration_id: ::prost::alloc::string::String,
-    }
-}
-/// Attributes that apply only to test actions under this configured target.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConfiguredTestAttributes {
-    /// Total number of test runs. For example, in bazel this is specified with
-    /// --runs_per_test. Zero if runs_per_test is not used.
-    #[prost(int32, tag="2")]
-    pub total_run_count: i32,
-    /// Total number of test shards. Zero if shard count was not specified.
-    #[prost(int32, tag="3")]
-    pub total_shard_count: i32,
-    /// How long test is allowed to run.
-    #[prost(message, optional, tag="5")]
-    pub timeout_duration: ::core::option::Option<::prost_types::Duration>,
-}
-/// The download metadata for an invocation
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DownloadMetadata {
-    /// The name of the download metadata.  Its format will be:
-    /// invocations/${INVOCATION_ID}/downloadMetadata
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Indicates the upload status of the invocation, whether it is
-    /// post-processing, or immutable, etc.
-    #[prost(enumeration="UploadStatus", tag="2")]
-    pub upload_status: i32,
-}
 /// This resource represents a set of Files and other (nested) FileSets.
 /// A FileSet is a node in the graph, and the file_sets field represents the
 /// outgoing edges. A resource may reference various nodes in the graph to
@@ -1274,6 +1099,50 @@ pub mod file_set {
         #[prost(string, tag="2")]
         pub file_set_id: ::prost::alloc::string::String,
     }
+}
+/// Summary of line coverage
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LineCoverageSummary {
+    /// Number of lines instrumented for coverage.
+    #[prost(int32, tag="1")]
+    pub instrumented_line_count: i32,
+    /// Number of instrumented lines that were executed by the test.
+    #[prost(int32, tag="2")]
+    pub executed_line_count: i32,
+}
+/// Summary of branch coverage
+/// A branch may be:
+///  * not executed.  Counted only in total.
+///  * executed but not taken.  Appears in total and executed.
+///  * executed and taken.  Appears in all three fields.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BranchCoverageSummary {
+    /// The number of branches present in the file.
+    #[prost(int32, tag="1")]
+    pub total_branch_count: i32,
+    /// The number of branches executed out of the total branches present.
+    /// A branch is executed when its condition is evaluated.
+    /// This is <= total_branch_count as not all branches are executed.
+    #[prost(int32, tag="2")]
+    pub executed_branch_count: i32,
+    /// The number of branches taken out of the total branches executed.
+    /// A branch is taken when its condition is satisfied.
+    /// This is <= executed_branch_count as not all executed branches are taken.
+    #[prost(int32, tag="3")]
+    pub taken_branch_count: i32,
+}
+/// Summary of coverage in each language
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LanguageCoverageSummary {
+    /// This summary is for all files written in this programming language.
+    #[prost(enumeration="Language", tag="1")]
+    pub language: i32,
+    /// Summary of lines covered vs instrumented.
+    #[prost(message, optional, tag="2")]
+    pub line_summary: ::core::option::Option<LineCoverageSummary>,
+    /// Summary of branch coverage.
+    #[prost(message, optional, tag="3")]
+    pub branch_summary: ::core::option::Option<BranchCoverageSummary>,
 }
 /// An Invocation typically represents the result of running a tool. Each has a
 /// unique ID, typically generated by the server. Target resources under each
@@ -1447,6 +1316,119 @@ pub struct InvocationContext {
     /// A URL pointing to a UI containing more information
     #[prost(string, tag="2")]
     pub url: ::prost::alloc::string::String,
+}
+/// Each Target represents data for a given target in a given Invocation.
+/// ConfiguredTarget and Action resources under each Target contain the bulk of
+/// the data.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Target {
+    /// The resource name.  Its format must be:
+    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The resource ID components that identify the Target. They must match the
+    /// resource name after proper encoding.
+    #[prost(message, optional, tag="2")]
+    pub id: ::core::option::Option<target::Id>,
+    /// This is the aggregate status of the target.
+    #[prost(message, optional, tag="3")]
+    pub status_attributes: ::core::option::Option<StatusAttributes>,
+    /// When this target started and its duration.
+    #[prost(message, optional, tag="4")]
+    pub timing: ::core::option::Option<Timing>,
+    /// Attributes that apply to all targets.
+    #[prost(message, optional, tag="5")]
+    pub target_attributes: ::core::option::Option<TargetAttributes>,
+    /// Attributes that apply to all test actions under this target.
+    #[prost(message, optional, tag="6")]
+    pub test_attributes: ::core::option::Option<TestAttributes>,
+    /// Arbitrary name-value pairs.
+    /// This is implemented as a multi-map. Multiple properties are allowed with
+    /// the same key. Properties will be returned in lexicographical order by key.
+    #[prost(message, repeated, tag="7")]
+    pub properties: ::prost::alloc::vec::Vec<Property>,
+    /// A list of file references for target level files.
+    /// The file IDs must be unique within this list. Duplicate file IDs will
+    /// result in an error. Files will be returned in lexicographical order by ID.
+    /// Use this field to specify outputs not related to a configuration.
+    #[prost(message, repeated, tag="8")]
+    pub files: ::prost::alloc::vec::Vec<File>,
+    /// Provides a hint to clients as to whether to display the Target to users.
+    /// If true then clients likely want to display the Target by default.
+    /// Once set to true, this may not be set back to false.
+    #[prost(bool, tag="10")]
+    pub visible: bool,
+}
+/// Nested message and enum types in `Target`.
+pub mod target {
+    /// The resource ID components that identify the Target.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Id {
+        /// The Invocation ID.
+        #[prost(string, tag="1")]
+        pub invocation_id: ::prost::alloc::string::String,
+        /// The Target ID.
+        #[prost(string, tag="2")]
+        pub target_id: ::prost::alloc::string::String,
+    }
+}
+/// Attributes that apply to all targets.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TargetAttributes {
+    /// If known, indicates the type of this target.  In bazel this corresponds
+    /// to the rule-suffix.
+    #[prost(enumeration="TargetType", tag="1")]
+    pub r#type: i32,
+    /// If known, the main language of this target, e.g. java, cc, python, etc.
+    #[prost(enumeration="Language", tag="2")]
+    pub language: i32,
+    /// The tags attribute of the build rule. These should be short, descriptive
+    /// words, and there should only be a few of them.
+    /// This is implemented as a set. All tags will be unique. Any duplicate tags
+    /// will be ignored. Tags will be returned in lexicographical order.
+    #[prost(string, repeated, tag="3")]
+    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Attributes that apply only to test actions under this target.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TestAttributes {
+    /// Indicates how big the user indicated the test action was.
+    #[prost(enumeration="TestSize", tag="1")]
+    pub size: i32,
+}
+/// These correspond to the suffix of the rule name. Eg cc_test has type TEST.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TargetType {
+    /// Unspecified by the build system.
+    Unspecified = 0,
+    /// An application e.g. ios_application.
+    Application = 1,
+    /// A binary target e.g. cc_binary.
+    Binary = 2,
+    /// A library target e.g. java_library
+    Library = 3,
+    /// A package
+    Package = 4,
+    /// Any test target, in bazel that means a rule with a '_test' suffix.
+    Test = 5,
+}
+/// Indicates how big the user indicated the test action was.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TestSize {
+    /// Unspecified by the user.
+    Unspecified = 0,
+    /// Unit test taking less than 1 minute.
+    Small = 1,
+    /// Integration tests taking less than 5 minutes.
+    Medium = 2,
+    /// End-to-end tests taking less than 15 minutes.
+    Large = 3,
+    /// Even bigger than LARGE.
+    Enormous = 4,
+    /// Something that doesn't fit into the above categories.
+    OtherSize = 5,
 }
 /// Request passed into GetInvocation
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2595,6 +2577,24 @@ pub mod result_store_download_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
+}
+/// The upload metadata for an invocation
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UploadMetadata {
+    /// The name of the upload metadata.  Its format will be:
+    /// invocations/${INVOCATION_ID}/uploadMetadata
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The resume token of the last batch that was committed in the most recent
+    /// batch upload.
+    /// More information with resume_token could be found in
+    /// resultstore_upload.proto
+    #[prost(string, tag="2")]
+    pub resume_token: ::prost::alloc::string::String,
+    /// Client-specific data used to resume batch upload if an error occurs and
+    /// retry action is needed.
+    #[prost(bytes="bytes", tag="3")]
+    pub uploader_state: ::prost::bytes::Bytes,
 }
 /// Request passed into CreateInvocation
 #[derive(Clone, PartialEq, ::prost::Message)]
