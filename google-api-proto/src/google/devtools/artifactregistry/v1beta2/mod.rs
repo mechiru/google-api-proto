@@ -1,109 +1,3 @@
-/// The Artifact Registry settings that apply to a Project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProjectSettings {
-    /// The name of the project's settings.
-    ///
-    /// Always of the form:
-    /// projects/{project-id}/projectSettings
-    ///
-    /// In update request: never set
-    /// In response: always set
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The redirection state of the legacy repositories in this project.
-    #[prost(enumeration="project_settings::RedirectionState", tag="2")]
-    pub legacy_redirection_state: i32,
-}
-/// Nested message and enum types in `ProjectSettings`.
-pub mod project_settings {
-    /// The possible redirection states for legacy repositories.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RedirectionState {
-        /// No redirection status has been set.
-        Unspecified = 0,
-        /// Redirection is disabled.
-        RedirectionFromGcrIoDisabled = 1,
-        /// Redirection is enabled.
-        RedirectionFromGcrIoEnabled = 2,
-        /// Redirection is enabled, and has been finalized so cannot be reverted.
-        RedirectionFromGcrIoFinalized = 3,
-    }
-}
-/// Gets the redirection status for a project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetProjectSettingsRequest {
-    /// Required. The name of the projectSettings resource.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Sets the settings of the project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateProjectSettingsRequest {
-    /// The project settings.
-    #[prost(message, optional, tag="2")]
-    pub project_settings: ::core::option::Option<ProjectSettings>,
-    /// Field mask to support partial updates.
-    #[prost(message, optional, tag="3")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Packages are named collections of versions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Package {
-    /// The name of the package, for example:
-    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1".
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The display name of the package.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The time when the package was created.
-    #[prost(message, optional, tag="5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time when the package was last updated. This includes publishing a new
-    /// version of the package.
-    #[prost(message, optional, tag="6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// The request to list packages.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPackagesRequest {
-    /// The name of the parent resource whose packages will be listed.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of packages to return.
-    /// Maximum page size is 10,000.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request, if any.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response from listing packages.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPackagesResponse {
-    /// The packages returned.
-    #[prost(message, repeated, tag="1")]
-    pub packages: ::prost::alloc::vec::Vec<Package>,
-    /// The token to retrieve the next page of packages, or empty if there are no
-    /// more packages to return.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request to retrieve a package.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetPackageRequest {
-    /// The name of the package to retrieve.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request to delete a package.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeletePackageRequest {
-    /// The name of the package to delete.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
 /// Tags point to a version and represent an alternative name that can be used
 /// to access the version.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -487,6 +381,63 @@ pub struct GetFileRequest {
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
 }
+/// Packages are named collections of versions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Package {
+    /// The name of the package, for example:
+    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1".
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The display name of the package.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The time when the package was created.
+    #[prost(message, optional, tag="5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time when the package was last updated. This includes publishing a new
+    /// version of the package.
+    #[prost(message, optional, tag="6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// The request to list packages.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPackagesRequest {
+    /// The name of the parent resource whose packages will be listed.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of packages to return.
+    /// Maximum page size is 10,000.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request, if any.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response from listing packages.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPackagesResponse {
+    /// The packages returned.
+    #[prost(message, repeated, tag="1")]
+    pub packages: ::prost::alloc::vec::Vec<Package>,
+    /// The token to retrieve the next page of packages, or empty if there are no
+    /// more packages to return.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request to retrieve a package.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetPackageRequest {
+    /// The name of the package to retrieve.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request to delete a package.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeletePackageRequest {
+    /// The name of the package to delete.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
 /// A Repository for storing artifacts with a specific format.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Repository {
@@ -644,6 +595,55 @@ pub struct DeleteRepositoryRequest {
     /// Required. The name of the repository to delete.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
+}
+/// The Artifact Registry settings that apply to a Project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProjectSettings {
+    /// The name of the project's settings.
+    ///
+    /// Always of the form:
+    /// projects/{project-id}/projectSettings
+    ///
+    /// In update request: never set
+    /// In response: always set
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The redirection state of the legacy repositories in this project.
+    #[prost(enumeration="project_settings::RedirectionState", tag="2")]
+    pub legacy_redirection_state: i32,
+}
+/// Nested message and enum types in `ProjectSettings`.
+pub mod project_settings {
+    /// The possible redirection states for legacy repositories.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RedirectionState {
+        /// No redirection status has been set.
+        Unspecified = 0,
+        /// Redirection is disabled.
+        RedirectionFromGcrIoDisabled = 1,
+        /// Redirection is enabled.
+        RedirectionFromGcrIoEnabled = 2,
+        /// Redirection is enabled, and has been finalized so cannot be reverted.
+        RedirectionFromGcrIoFinalized = 3,
+    }
+}
+/// Gets the redirection status for a project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetProjectSettingsRequest {
+    /// Required. The name of the projectSettings resource.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Sets the settings of the project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateProjectSettingsRequest {
+    /// The project settings.
+    #[prost(message, optional, tag="2")]
+    pub project_settings: ::core::option::Option<ProjectSettings>,
+    /// Field mask to support partial updates.
+    #[prost(message, optional, tag="3")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
 /// A detailed representation of a Yum artifact.
 #[derive(Clone, PartialEq, ::prost::Message)]

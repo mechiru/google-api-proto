@@ -1,3 +1,38 @@
+/// Arrow schema.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ArrowSchema {
+    /// IPC serialized Arrow schema.
+    #[prost(bytes="bytes", tag="1")]
+    pub serialized_schema: ::prost::bytes::Bytes,
+}
+/// Arrow RecordBatch.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ArrowRecordBatch {
+    /// IPC serialized Arrow RecordBatch.
+    #[prost(bytes="bytes", tag="1")]
+    pub serialized_record_batch: ::prost::bytes::Bytes,
+    /// The count of rows in the returning block.
+    #[prost(int64, tag="2")]
+    pub row_count: i64,
+}
+/// Avro schema.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AvroSchema {
+    /// Json serialized schema, as described at
+    /// <https://avro.apache.org/docs/1.8.1/spec.html>
+    #[prost(string, tag="1")]
+    pub schema: ::prost::alloc::string::String,
+}
+/// Avro rows.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AvroRows {
+    /// Binary serialized rows in a block.
+    #[prost(bytes="bytes", tag="1")]
+    pub serialized_binary_rows: ::prost::bytes::Bytes,
+    /// The count of rows in the returning block.
+    #[prost(int64, tag="2")]
+    pub row_count: i64,
+}
 /// Table reference that includes just the 3 strings needed to identify a table.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TableReference {
@@ -37,41 +72,6 @@ pub struct TableReadOptions {
     ///           "numeric_field BETWEEN 1.0 AND 5.0"
     #[prost(string, tag="2")]
     pub row_restriction: ::prost::alloc::string::String,
-}
-/// Arrow schema.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ArrowSchema {
-    /// IPC serialized Arrow schema.
-    #[prost(bytes="bytes", tag="1")]
-    pub serialized_schema: ::prost::bytes::Bytes,
-}
-/// Arrow RecordBatch.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ArrowRecordBatch {
-    /// IPC serialized Arrow RecordBatch.
-    #[prost(bytes="bytes", tag="1")]
-    pub serialized_record_batch: ::prost::bytes::Bytes,
-    /// The count of rows in the returning block.
-    #[prost(int64, tag="2")]
-    pub row_count: i64,
-}
-/// Avro schema.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AvroSchema {
-    /// Json serialized schema, as described at
-    /// <https://avro.apache.org/docs/1.8.1/spec.html>
-    #[prost(string, tag="1")]
-    pub schema: ::prost::alloc::string::String,
-}
-/// Avro rows.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AvroRows {
-    /// Binary serialized rows in a block.
-    #[prost(bytes="bytes", tag="1")]
-    pub serialized_binary_rows: ::prost::bytes::Bytes,
-    /// The count of rows in the returning block.
-    #[prost(int64, tag="2")]
-    pub row_count: i64,
 }
 /// Information about a single data stream within a read session.
 #[derive(Clone, PartialEq, ::prost::Message)]

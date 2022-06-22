@@ -987,232 +987,62 @@ pub enum DataType {
     /// Allowed for continuous evaluation.
     GeneralData = 6,
 }
-/// Response used for ImportData longrunning operation.
+/// Instruction of how to perform the labeling task for human operators.
+/// Currently only PDF instruction is supported.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportDataOperationResponse {
-    /// Ouptut only. The name of imported dataset.
-    #[prost(string, tag="1")]
-    pub dataset: ::prost::alloc::string::String,
-    /// Output only. Total number of examples requested to import
-    #[prost(int32, tag="2")]
-    pub total_count: i32,
-    /// Output only. Number of examples imported successfully.
-    #[prost(int32, tag="3")]
-    pub import_count: i32,
-}
-/// Response used for ExportDataset longrunning operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExportDataOperationResponse {
-    /// Ouptut only. The name of dataset.
-    /// "projects/*/datasets/*"
-    #[prost(string, tag="1")]
-    pub dataset: ::prost::alloc::string::String,
-    /// Output only. Total number of examples requested to export
-    #[prost(int32, tag="2")]
-    pub total_count: i32,
-    /// Output only. Number of examples exported successfully.
-    #[prost(int32, tag="3")]
-    pub export_count: i32,
-    /// Output only. Statistic infos of labels in the exported dataset.
-    #[prost(message, optional, tag="4")]
-    pub label_stats: ::core::option::Option<LabelStats>,
-    /// Output only. output_config in the ExportData request.
-    #[prost(message, optional, tag="5")]
-    pub output_config: ::core::option::Option<OutputConfig>,
-}
-/// Metadata of an ImportData operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportDataOperationMetadata {
-    /// Output only. The name of imported dataset.
-    /// "projects/*/datasets/*"
-    #[prost(string, tag="1")]
-    pub dataset: ::prost::alloc::string::String,
-    /// Output only. Partial failures encountered.
-    /// E.g. single files that couldn't be read.
-    /// Status details field will contain standard GCP error details.
-    #[prost(message, repeated, tag="2")]
-    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Output only. Timestamp when import dataset request was created.
-    #[prost(message, optional, tag="3")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Metadata of an ExportData operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExportDataOperationMetadata {
-    /// Output only. The name of dataset to be exported.
-    /// "projects/*/datasets/*"
-    #[prost(string, tag="1")]
-    pub dataset: ::prost::alloc::string::String,
-    /// Output only. Partial failures encountered.
-    /// E.g. single files that couldn't be read.
-    /// Status details field will contain standard GCP error details.
-    #[prost(message, repeated, tag="2")]
-    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Output only. Timestamp when export dataset request was created.
-    #[prost(message, optional, tag="3")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Metadata of a labeling operation, such as LabelImage or LabelVideo.
-/// Next tag: 20
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelOperationMetadata {
-    /// Output only. Progress of label operation. Range: [0, 100].
-    #[prost(int32, tag="1")]
-    pub progress_percent: i32,
-    /// Output only. Partial failures encountered.
-    /// E.g. single files that couldn't be read.
-    /// Status details field will contain standard GCP error details.
-    #[prost(message, repeated, tag="2")]
-    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Output only. Timestamp when labeling request was created.
-    #[prost(message, optional, tag="16")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Ouptut only. Details of specific label operation.
-    #[prost(oneof="label_operation_metadata::Details", tags="3, 4, 11, 14, 12, 15, 5, 6, 7, 8, 9, 13")]
-    pub details: ::core::option::Option<label_operation_metadata::Details>,
-}
-/// Nested message and enum types in `LabelOperationMetadata`.
-pub mod label_operation_metadata {
-    /// Ouptut only. Details of specific label operation.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Details {
-        /// Details of label image classification operation.
-        #[prost(message, tag="3")]
-        ImageClassificationDetails(super::LabelImageClassificationOperationMetadata),
-        /// Details of label image bounding box operation.
-        #[prost(message, tag="4")]
-        ImageBoundingBoxDetails(super::LabelImageBoundingBoxOperationMetadata),
-        /// Details of label image bounding poly operation.
-        #[prost(message, tag="11")]
-        ImageBoundingPolyDetails(super::LabelImageBoundingPolyOperationMetadata),
-        /// Details of label image oriented bounding box operation.
-        #[prost(message, tag="14")]
-        ImageOrientedBoundingBoxDetails(super::LabelImageOrientedBoundingBoxOperationMetadata),
-        /// Details of label image polyline operation.
-        #[prost(message, tag="12")]
-        ImagePolylineDetails(super::LabelImagePolylineOperationMetadata),
-        /// Details of label image segmentation operation.
-        #[prost(message, tag="15")]
-        ImageSegmentationDetails(super::LabelImageSegmentationOperationMetadata),
-        /// Details of label video classification operation.
-        #[prost(message, tag="5")]
-        VideoClassificationDetails(super::LabelVideoClassificationOperationMetadata),
-        /// Details of label video object detection operation.
-        #[prost(message, tag="6")]
-        VideoObjectDetectionDetails(super::LabelVideoObjectDetectionOperationMetadata),
-        /// Details of label video object tracking operation.
-        #[prost(message, tag="7")]
-        VideoObjectTrackingDetails(super::LabelVideoObjectTrackingOperationMetadata),
-        /// Details of label video event operation.
-        #[prost(message, tag="8")]
-        VideoEventDetails(super::LabelVideoEventOperationMetadata),
-        /// Details of label text classification operation.
-        #[prost(message, tag="9")]
-        TextClassificationDetails(super::LabelTextClassificationOperationMetadata),
-        /// Details of label text entity extraction operation.
-        #[prost(message, tag="13")]
-        TextEntityExtractionDetails(super::LabelTextEntityExtractionOperationMetadata),
-    }
-}
-/// Metadata of a LabelImageClassification operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelImageClassificationOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag="1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Details of a LabelImageBoundingBox operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelImageBoundingBoxOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag="1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Details of a LabelImageOrientedBoundingBox operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelImageOrientedBoundingBoxOperationMetadata {
-    /// Basic human annotation config.
-    #[prost(message, optional, tag="1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Details of LabelImageBoundingPoly operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelImageBoundingPolyOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag="1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Details of LabelImagePolyline operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelImagePolylineOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag="1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Details of a LabelImageSegmentation operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelImageSegmentationOperationMetadata {
-    /// Basic human annotation config.
-    #[prost(message, optional, tag="1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Details of a LabelVideoClassification operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelVideoClassificationOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag="1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Details of a LabelVideoObjectDetection operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelVideoObjectDetectionOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag="1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Details of a LabelVideoObjectTracking operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelVideoObjectTrackingOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag="1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Details of a LabelVideoEvent operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelVideoEventOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag="1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Details of a LabelTextClassification operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelTextClassificationOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag="1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Details of a LabelTextEntityExtraction operation metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LabelTextEntityExtractionOperationMetadata {
-    /// Basic human annotation config used in labeling request.
-    #[prost(message, optional, tag="1")]
-    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
-}
-/// Metadata of a CreateInstruction operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateInstructionMetadata {
-    /// The name of the created Instruction.
+pub struct Instruction {
+    /// Output only. Instruction resource name, format:
     /// projects/{project_id}/instructions/{instruction_id}
     #[prost(string, tag="1")]
-    pub instruction: ::prost::alloc::string::String,
-    /// Partial failures encountered.
-    /// E.g. single files that couldn't be read.
-    /// Status details field will contain standard GCP error details.
-    #[prost(message, repeated, tag="2")]
-    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Timestamp when create instruction request was created.
-    #[prost(message, optional, tag="3")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The display name of the instruction. Maximum of 64 characters.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Optional. User-provided description of the instruction.
+    /// The description can be up to 10000 characters long.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. Creation time of instruction.
+    #[prost(message, optional, tag="4")]
     pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Last update time of instruction.
+    #[prost(message, optional, tag="5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Required. The data type of this instruction.
+    #[prost(enumeration="DataType", tag="6")]
+    pub data_type: i32,
+    /// Deprecated: this instruction format is not supported any more.
+    /// Instruction from a CSV file, such as for classification task.
+    /// The CSV file should have exact two columns, in the following format:
+    ///
+    /// * The first column is labeled data, such as an image reference, text.
+    /// * The second column is comma separated labels associated with data.
+    #[deprecated]
+    #[prost(message, optional, tag="7")]
+    pub csv_instruction: ::core::option::Option<CsvInstruction>,
+    /// Instruction from a PDF document. The PDF should be in a Cloud Storage
+    /// bucket.
+    #[prost(message, optional, tag="9")]
+    pub pdf_instruction: ::core::option::Option<PdfInstruction>,
+    /// Output only. The names of any related resources that are blocking changes
+    /// to the instruction.
+    #[prost(string, repeated, tag="10")]
+    pub blocking_resources: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Deprecated: this instruction format is not supported any more.
+/// Instruction from a CSV file.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsvInstruction {
+    /// CSV file for the instruction. Only gcs path is allowed.
+    #[prost(string, tag="1")]
+    pub gcs_file_uri: ::prost::alloc::string::String,
+}
+/// Instruction from a PDF file.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PdfInstruction {
+    /// PDF file for the instruction. Only gcs path is allowed.
+    #[prost(string, tag="1")]
+    pub gcs_file_uri: ::prost::alloc::string::String,
 }
 /// Describes an evaluation between a machine learning model's predictions and
 /// ground truth labels. Created when an \[EvaluationJob][google.cloud.datalabeling.v1beta1.EvaluationJob\] runs successfully.
@@ -1665,63 +1495,6 @@ pub struct Attempt {
     /// Details of errors that occurred.
     #[prost(message, repeated, tag="2")]
     pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-}
-/// Instruction of how to perform the labeling task for human operators.
-/// Currently only PDF instruction is supported.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Instruction {
-    /// Output only. Instruction resource name, format:
-    /// projects/{project_id}/instructions/{instruction_id}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The display name of the instruction. Maximum of 64 characters.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Optional. User-provided description of the instruction.
-    /// The description can be up to 10000 characters long.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. Creation time of instruction.
-    #[prost(message, optional, tag="4")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Last update time of instruction.
-    #[prost(message, optional, tag="5")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Required. The data type of this instruction.
-    #[prost(enumeration="DataType", tag="6")]
-    pub data_type: i32,
-    /// Deprecated: this instruction format is not supported any more.
-    /// Instruction from a CSV file, such as for classification task.
-    /// The CSV file should have exact two columns, in the following format:
-    ///
-    /// * The first column is labeled data, such as an image reference, text.
-    /// * The second column is comma separated labels associated with data.
-    #[deprecated]
-    #[prost(message, optional, tag="7")]
-    pub csv_instruction: ::core::option::Option<CsvInstruction>,
-    /// Instruction from a PDF document. The PDF should be in a Cloud Storage
-    /// bucket.
-    #[prost(message, optional, tag="9")]
-    pub pdf_instruction: ::core::option::Option<PdfInstruction>,
-    /// Output only. The names of any related resources that are blocking changes
-    /// to the instruction.
-    #[prost(string, repeated, tag="10")]
-    pub blocking_resources: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Deprecated: this instruction format is not supported any more.
-/// Instruction from a CSV file.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsvInstruction {
-    /// CSV file for the instruction. Only gcs path is allowed.
-    #[prost(string, tag="1")]
-    pub gcs_file_uri: ::prost::alloc::string::String,
-}
-/// Instruction from a PDF file.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PdfInstruction {
-    /// PDF file for the instruction. Only gcs path is allowed.
-    #[prost(string, tag="1")]
-    pub gcs_file_uri: ::prost::alloc::string::String,
 }
 /// Request message for CreateDataset.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3260,4 +3033,231 @@ pub mod data_labeling_service_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
+}
+/// Response used for ImportData longrunning operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportDataOperationResponse {
+    /// Ouptut only. The name of imported dataset.
+    #[prost(string, tag="1")]
+    pub dataset: ::prost::alloc::string::String,
+    /// Output only. Total number of examples requested to import
+    #[prost(int32, tag="2")]
+    pub total_count: i32,
+    /// Output only. Number of examples imported successfully.
+    #[prost(int32, tag="3")]
+    pub import_count: i32,
+}
+/// Response used for ExportDataset longrunning operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportDataOperationResponse {
+    /// Ouptut only. The name of dataset.
+    /// "projects/*/datasets/*"
+    #[prost(string, tag="1")]
+    pub dataset: ::prost::alloc::string::String,
+    /// Output only. Total number of examples requested to export
+    #[prost(int32, tag="2")]
+    pub total_count: i32,
+    /// Output only. Number of examples exported successfully.
+    #[prost(int32, tag="3")]
+    pub export_count: i32,
+    /// Output only. Statistic infos of labels in the exported dataset.
+    #[prost(message, optional, tag="4")]
+    pub label_stats: ::core::option::Option<LabelStats>,
+    /// Output only. output_config in the ExportData request.
+    #[prost(message, optional, tag="5")]
+    pub output_config: ::core::option::Option<OutputConfig>,
+}
+/// Metadata of an ImportData operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportDataOperationMetadata {
+    /// Output only. The name of imported dataset.
+    /// "projects/*/datasets/*"
+    #[prost(string, tag="1")]
+    pub dataset: ::prost::alloc::string::String,
+    /// Output only. Partial failures encountered.
+    /// E.g. single files that couldn't be read.
+    /// Status details field will contain standard GCP error details.
+    #[prost(message, repeated, tag="2")]
+    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Output only. Timestamp when import dataset request was created.
+    #[prost(message, optional, tag="3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Metadata of an ExportData operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportDataOperationMetadata {
+    /// Output only. The name of dataset to be exported.
+    /// "projects/*/datasets/*"
+    #[prost(string, tag="1")]
+    pub dataset: ::prost::alloc::string::String,
+    /// Output only. Partial failures encountered.
+    /// E.g. single files that couldn't be read.
+    /// Status details field will contain standard GCP error details.
+    #[prost(message, repeated, tag="2")]
+    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Output only. Timestamp when export dataset request was created.
+    #[prost(message, optional, tag="3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Metadata of a labeling operation, such as LabelImage or LabelVideo.
+/// Next tag: 20
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelOperationMetadata {
+    /// Output only. Progress of label operation. Range: [0, 100].
+    #[prost(int32, tag="1")]
+    pub progress_percent: i32,
+    /// Output only. Partial failures encountered.
+    /// E.g. single files that couldn't be read.
+    /// Status details field will contain standard GCP error details.
+    #[prost(message, repeated, tag="2")]
+    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Output only. Timestamp when labeling request was created.
+    #[prost(message, optional, tag="16")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Ouptut only. Details of specific label operation.
+    #[prost(oneof="label_operation_metadata::Details", tags="3, 4, 11, 14, 12, 15, 5, 6, 7, 8, 9, 13")]
+    pub details: ::core::option::Option<label_operation_metadata::Details>,
+}
+/// Nested message and enum types in `LabelOperationMetadata`.
+pub mod label_operation_metadata {
+    /// Ouptut only. Details of specific label operation.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Details {
+        /// Details of label image classification operation.
+        #[prost(message, tag="3")]
+        ImageClassificationDetails(super::LabelImageClassificationOperationMetadata),
+        /// Details of label image bounding box operation.
+        #[prost(message, tag="4")]
+        ImageBoundingBoxDetails(super::LabelImageBoundingBoxOperationMetadata),
+        /// Details of label image bounding poly operation.
+        #[prost(message, tag="11")]
+        ImageBoundingPolyDetails(super::LabelImageBoundingPolyOperationMetadata),
+        /// Details of label image oriented bounding box operation.
+        #[prost(message, tag="14")]
+        ImageOrientedBoundingBoxDetails(super::LabelImageOrientedBoundingBoxOperationMetadata),
+        /// Details of label image polyline operation.
+        #[prost(message, tag="12")]
+        ImagePolylineDetails(super::LabelImagePolylineOperationMetadata),
+        /// Details of label image segmentation operation.
+        #[prost(message, tag="15")]
+        ImageSegmentationDetails(super::LabelImageSegmentationOperationMetadata),
+        /// Details of label video classification operation.
+        #[prost(message, tag="5")]
+        VideoClassificationDetails(super::LabelVideoClassificationOperationMetadata),
+        /// Details of label video object detection operation.
+        #[prost(message, tag="6")]
+        VideoObjectDetectionDetails(super::LabelVideoObjectDetectionOperationMetadata),
+        /// Details of label video object tracking operation.
+        #[prost(message, tag="7")]
+        VideoObjectTrackingDetails(super::LabelVideoObjectTrackingOperationMetadata),
+        /// Details of label video event operation.
+        #[prost(message, tag="8")]
+        VideoEventDetails(super::LabelVideoEventOperationMetadata),
+        /// Details of label text classification operation.
+        #[prost(message, tag="9")]
+        TextClassificationDetails(super::LabelTextClassificationOperationMetadata),
+        /// Details of label text entity extraction operation.
+        #[prost(message, tag="13")]
+        TextEntityExtractionDetails(super::LabelTextEntityExtractionOperationMetadata),
+    }
+}
+/// Metadata of a LabelImageClassification operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelImageClassificationOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag="1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelImageBoundingBox operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelImageBoundingBoxOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag="1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelImageOrientedBoundingBox operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelImageOrientedBoundingBoxOperationMetadata {
+    /// Basic human annotation config.
+    #[prost(message, optional, tag="1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of LabelImageBoundingPoly operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelImageBoundingPolyOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag="1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of LabelImagePolyline operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelImagePolylineOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag="1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelImageSegmentation operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelImageSegmentationOperationMetadata {
+    /// Basic human annotation config.
+    #[prost(message, optional, tag="1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelVideoClassification operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelVideoClassificationOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag="1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelVideoObjectDetection operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelVideoObjectDetectionOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag="1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelVideoObjectTracking operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelVideoObjectTrackingOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag="1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelVideoEvent operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelVideoEventOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag="1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelTextClassification operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelTextClassificationOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag="1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Details of a LabelTextEntityExtraction operation metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LabelTextEntityExtractionOperationMetadata {
+    /// Basic human annotation config used in labeling request.
+    #[prost(message, optional, tag="1")]
+    pub basic_config: ::core::option::Option<HumanAnnotationConfig>,
+}
+/// Metadata of a CreateInstruction operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateInstructionMetadata {
+    /// The name of the created Instruction.
+    /// projects/{project_id}/instructions/{instruction_id}
+    #[prost(string, tag="1")]
+    pub instruction: ::prost::alloc::string::String,
+    /// Partial failures encountered.
+    /// E.g. single files that couldn't be read.
+    /// Status details field will contain standard GCP error details.
+    #[prost(message, repeated, tag="2")]
+    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Timestamp when create instruction request was created.
+    #[prost(message, optional, tag="3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
 }

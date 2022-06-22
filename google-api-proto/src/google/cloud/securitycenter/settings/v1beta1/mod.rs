@@ -1,49 +1,13 @@
-// If this field is populated and billing_tier is STANDARD, this is
-// indication of a point in the _past_ when a PREMIUM access ended.
-
-/// Billing settings
+/// Sink Settings for Security Command Center
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BillingSettings {
-    /// Output only. Billing tier selected by customer
-    #[prost(enumeration="BillingTier", tag="1")]
-    pub billing_tier: i32,
-    /// Output only. Type of billing method
-    #[prost(enumeration="BillingType", tag="2")]
-    pub billing_type: i32,
-    /// Output only. The absolute point in time when the subscription became effective.
-    /// Can be compared to expire_time value to determine full contract duration
-    #[prost(message, optional, tag="3")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The absolute point in time when the subscription expires.
-    ///
-    /// If this field is populated and billing_tier is STANDARD, this is
-    /// indication of a point in the _past_ when a PREMIUM access ended.
-    #[prost(message, optional, tag="4")]
-    pub expire_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Billing tier options
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum BillingTier {
-    /// Default value. This value is unused.
-    Unspecified = 0,
-    /// The standard billing tier.
-    Standard = 1,
-    /// The premium billing tier.
-    Premium = 2,
-}
-/// Billing type
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum BillingType {
-    /// Default billing type
-    Unspecified = 0,
-    /// Subscription for Premium billing tier
-    Subscription = 1,
-    /// Trial subscription for Premium billing tier
-    TrialSubscription = 2,
-    /// Alpha customer for Premium billing tier
-    Alpha = 3,
+pub struct SinkSettings {
+    /// The resource name of the project to send logs to. This project must be
+    /// part of the same organization where the Security Center API is
+    /// enabled. The format is `projects/{project}`. If it is empty, we do
+    /// not output logs. If a project ID is provided it will be normalized to a
+    /// project number.
+    #[prost(string, tag="1")]
+    pub logging_sink_project: ::prost::alloc::string::String,
 }
 /// Component Settings for Security Command Center
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -185,6 +149,53 @@ pub enum ComponentEnablementState {
     /// Inherit the state from resources parent folder or organization.
     Inherit = 3,
 }
+// If this field is populated and billing_tier is STANDARD, this is
+// indication of a point in the _past_ when a PREMIUM access ended.
+
+/// Billing settings
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BillingSettings {
+    /// Output only. Billing tier selected by customer
+    #[prost(enumeration="BillingTier", tag="1")]
+    pub billing_tier: i32,
+    /// Output only. Type of billing method
+    #[prost(enumeration="BillingType", tag="2")]
+    pub billing_type: i32,
+    /// Output only. The absolute point in time when the subscription became effective.
+    /// Can be compared to expire_time value to determine full contract duration
+    #[prost(message, optional, tag="3")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The absolute point in time when the subscription expires.
+    ///
+    /// If this field is populated and billing_tier is STANDARD, this is
+    /// indication of a point in the _past_ when a PREMIUM access ended.
+    #[prost(message, optional, tag="4")]
+    pub expire_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Billing tier options
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum BillingTier {
+    /// Default value. This value is unused.
+    Unspecified = 0,
+    /// The standard billing tier.
+    Standard = 1,
+    /// The premium billing tier.
+    Premium = 2,
+}
+/// Billing type
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum BillingType {
+    /// Default billing type
+    Unspecified = 0,
+    /// Subscription for Premium billing tier
+    Subscription = 1,
+    /// Trial subscription for Premium billing tier
+    TrialSubscription = 2,
+    /// Alpha customer for Premium billing tier
+    Alpha = 3,
+}
 /// Detector is a set of detectors or scanners act as individual checks done
 /// within a component e.g. bad IP, bad domains, IAM anomaly, cryptomining, open
 /// firewall, etc. Detector is independent of Organization, meaning each detector
@@ -212,17 +223,6 @@ pub struct Detector {
     /// with PCI compliance.
     #[prost(string, repeated, tag="4")]
     pub detector_labels: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Sink Settings for Security Command Center
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SinkSettings {
-    /// The resource name of the project to send logs to. This project must be
-    /// part of the same organization where the Security Center API is
-    /// enabled. The format is `projects/{project}`. If it is empty, we do
-    /// not output logs. If a project ID is provided it will be normalized to a
-    /// project number.
-    #[prost(string, tag="1")]
-    pub logging_sink_project: ::prost::alloc::string::String,
 }
 /// Common configuration settings for all of Security Center.
 #[derive(Clone, PartialEq, ::prost::Message)]

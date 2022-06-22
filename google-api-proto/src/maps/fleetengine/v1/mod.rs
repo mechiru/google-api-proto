@@ -314,6 +314,322 @@ pub enum LocationSensor {
     /// The fused location provider in Google Play services.
     FusedLocationProvider = 100,
 }
+/// Trip metadata.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Trip {
+    /// Output only. In the format "providers/{provider}/trips/{trip}"
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// ID of the vehicle making this trip.
+    #[prost(string, tag="2")]
+    pub vehicle_id: ::prost::alloc::string::String,
+    /// Current status of the trip.
+    #[prost(enumeration="TripStatus", tag="3")]
+    pub trip_status: i32,
+    /// The type of the trip.
+    #[prost(enumeration="TripType", tag="4")]
+    pub trip_type: i32,
+    /// Location where customer indicates they will be picked up.
+    #[prost(message, optional, tag="5")]
+    pub pickup_point: ::core::option::Option<TerminalLocation>,
+    /// Input only. The actual location when and where customer was picked up.
+    /// This field is for provider to provide feedback on actual pickup
+    /// information.
+    #[prost(message, optional, tag="22")]
+    pub actual_pickup_point: ::core::option::Option<StopLocation>,
+    /// Input only. The actual time and location of the driver arrival at
+    /// the pickup point.
+    /// This field is for provider to provide feedback on actual arrival
+    /// information at the pickup point.
+    #[prost(message, optional, tag="32")]
+    pub actual_pickup_arrival_point: ::core::option::Option<StopLocation>,
+    /// Output only. Either the estimated future time when the rider(s) will be picked up, or
+    /// the actual time when they were picked up.
+    #[prost(message, optional, tag="6")]
+    pub pickup_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Intermediate stops in order that the trip requests (in addition
+    /// to pickup and dropoff). Initially this will not be supported for shared
+    /// trips.
+    #[prost(message, repeated, tag="14")]
+    pub intermediate_destinations: ::prost::alloc::vec::Vec<TerminalLocation>,
+    /// Indicates the last time the `intermediate_destinations` was modified.
+    /// Your server should cache this value and pass it in `UpdateTripRequest`
+    /// when update `intermediate_destination_index` to ensure the
+    /// Trip.intermediate_destinations is not changed.
+    #[prost(message, optional, tag="25")]
+    pub intermediate_destinations_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// When `TripStatus` is `ENROUTE_TO_INTERMEDIATE_DESTINATION`, a number between
+    /// \[0..N-1\] indicating which intermediate destination the vehicle will cross
+    /// next.
+    /// When `TripStatus` is `ARRIVED_AT_INTERMEDIATE_DESTINATION`, a number
+    /// between \[0..N-1\] indicating which intermediate destination the vehicle is
+    /// at. The provider sets this value. If there are no
+    /// `intermediate_destinations`, this field is ignored.
+    #[prost(int32, tag="15")]
+    pub intermediate_destination_index: i32,
+    /// Input only. The actual time and location of the driver's arrival at
+    /// an intermediate destination.
+    /// This field is for provider to provide feedback on actual arrival
+    /// information at intermediate destinations.
+    #[prost(message, repeated, tag="33")]
+    pub actual_intermediate_destination_arrival_points: ::prost::alloc::vec::Vec<StopLocation>,
+    /// Input only. The actual time and location when and where the customer was picked up from
+    /// an intermediate destination.
+    /// This field is for provider to provide feedback on actual pickup
+    /// information at intermediate destinations.
+    #[prost(message, repeated, tag="34")]
+    pub actual_intermediate_destinations: ::prost::alloc::vec::Vec<StopLocation>,
+    /// Location where customer indicates they will be dropped off.
+    #[prost(message, optional, tag="7")]
+    pub dropoff_point: ::core::option::Option<TerminalLocation>,
+    /// Input only. The actual time and location when and where customer was dropped off.
+    /// This field is for provider to provide feedback on actual dropoff
+    /// information.
+    #[prost(message, optional, tag="23")]
+    pub actual_dropoff_point: ::core::option::Option<StopLocation>,
+    /// Output only. Either the estimated future time when the rider(s) will be dropped off at
+    /// the final destination, or the actual time when they were dropped off.
+    #[prost(message, optional, tag="8")]
+    pub dropoff_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The full path from the current location to the dropoff point, inclusive.
+    /// If this is a shared ride, this path could include waypoints from other
+    /// trips.
+    #[prost(message, repeated, tag="16")]
+    pub remaining_waypoints: ::prost::alloc::vec::Vec<TripWaypoint>,
+    /// This field supports manual ordering of the waypoints for the trip.
+    /// It contains all of the remaining waypoints of vehicle assigned, as well as
+    /// the pickup and drop-off waypoints for this trip.
+    /// If the trip hasn't been assigned to a vehicle, then this field is ignored.
+    /// For privacy reasons, this field is only populated by the server on
+    /// UpdateTrip and CreateTrip calls, and NOT on GetTrip calls.
+    #[prost(message, repeated, tag="20")]
+    pub vehicle_waypoints: ::prost::alloc::vec::Vec<TripWaypoint>,
+    /// Output only. Anticipated route for this trip to the first entry in remaining_waypoints.
+    /// If back_to_back or shared trips are enabled, the waypoints may belong to a
+    /// different trip.
+    #[prost(message, repeated, tag="9")]
+    pub route: ::prost::alloc::vec::Vec<super::super::super::google::r#type::LatLng>,
+    /// Output only. An encoded path to the next waypoint. This field facilitates journey
+    /// sharing between a driver app and a rider app. Note: This field is intended
+    /// only for use by the Driver SDK and Consumer SDK.
+    #[prost(string, tag="21")]
+    pub current_route_segment: ::prost::alloc::string::String,
+    /// Output only. Indicates the last time the route was modified.  Note: This field is
+    /// intended only for use by the Driver SDK and Consumer SDK.
+    #[prost(message, optional, tag="17")]
+    pub current_route_segment_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Indicates the traffic conditions along the `current_route_segment` when
+    /// they're available. Note: This field is intended only for use by the Driver
+    /// SDK and Consumer SDK.
+    #[prost(message, optional, tag="28")]
+    pub current_route_segment_traffic: ::core::option::Option<ConsumableTrafficPolyline>,
+    /// Output only. Indicates the last time the `current_route_segment_traffic` was modified.
+    /// Note: This field is intended only for use by the Driver SDK and Consumer
+    /// SDK.
+    #[prost(message, optional, tag="30")]
+    pub current_route_segment_traffic_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The waypoint where `current_route_segment` ends.
+    #[prost(message, optional, tag="24")]
+    pub current_route_segment_end_point: ::core::option::Option<TripWaypoint>,
+    /// Output only. The remaining driving distance in `current_route_segment` field. This
+    /// field facilitates journey sharing between a driver and rider. The value
+    /// is unspecified if the trip is not assigned to a vehicle or the trip is
+    /// completed or cancelled.
+    #[prost(message, optional, tag="12")]
+    pub remaining_distance_meters: ::core::option::Option<i32>,
+    /// Output only. The ETA to the next waypoint (the first entry in the
+    /// `remaining_waypoints` field). This field facilitates journey sharing
+    /// between a driver and a consumer. The value is unspecified if the trip is
+    /// not assigned to a vehicle, or the trip is inactive (completed or
+    /// cancelled).
+    #[prost(message, optional, tag="13")]
+    pub eta_to_first_waypoint: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The duration from when the Trip data is returned to the time in
+    /// `Trip.eta_to_first_waypoint`.
+    #[prost(message, optional, tag="27")]
+    pub remaining_time_to_first_waypoint: ::core::option::Option<::prost_types::Duration>,
+    /// Output only. Indicates the last time that `remaining_waypoints` was changed (a
+    /// waypoint was added, removed, or changed).
+    #[prost(message, optional, tag="19")]
+    pub remaining_waypoints_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Indicates the last time the `remaining_waypoints.path_to_waypoint` and
+    /// `remaining_waypoints.traffic_to_waypoint` were modified. Your client app
+    /// should cache this value and pass it in `GetTripRequest` to ensure the
+    /// paths and traffic for `remaining_waypoints` are only returned if updated.
+    #[prost(message, optional, tag="29")]
+    pub remaining_waypoints_route_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// Immutable. Indicates the number of passengers on this trip and does not include the
+    /// driver. A vehicle must have available capacity to be returned
+    /// in SearchVehicles.
+    #[prost(int32, tag="10")]
+    pub number_of_passengers: i32,
+    /// Output only. Indicates the last reported location of the vehicle along the route.
+    #[prost(message, optional, tag="11")]
+    pub last_location: ::core::option::Option<VehicleLocation>,
+    /// Output only. Indicates whether the vehicle's `last_location` can be snapped to
+    /// the current_route_segment. False if `last_location` or
+    /// `current_route_segment` doesn't exist.
+    /// It is computed by Fleet Engine. Any update from clients will be ignored.
+    #[prost(bool, tag="26")]
+    pub last_location_snappable: bool,
+    /// The subset of Trip fields that are populated and how they should be
+    /// interpreted.
+    #[prost(enumeration="TripView", tag="31")]
+    pub view: i32,
+}
+/// The actual location where a stop (pickup/dropoff) happened.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StopLocation {
+    /// Required. Denotes the actual location.
+    #[prost(message, optional, tag="1")]
+    pub point: ::core::option::Option<super::super::super::google::r#type::LatLng>,
+    /// Indicates when the stop happened.
+    #[prost(message, optional, tag="2")]
+    pub timestamp: ::core::option::Option<::prost_types::Timestamp>,
+    /// Input only. Deprecated.  Use the timestamp field.
+    #[deprecated]
+    #[prost(message, optional, tag="3")]
+    pub stop_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// The status of a trip indicating its progression.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TripStatus {
+    /// Default, used for unspecified or unrecognized trip status.
+    UnknownTripStatus = 0,
+    /// Newly created trip.
+    New = 1,
+    /// The driver is on their way to the pickup point.
+    EnrouteToPickup = 2,
+    /// The driver has arrived at the pickup point.
+    ArrivedAtPickup = 3,
+    /// The driver has arrived at an intermediate destination and is waiting for
+    /// the rider.
+    ArrivedAtIntermediateDestination = 7,
+    /// The driver is on their way to an intermediate destination
+    /// (not the dropoff point).
+    EnrouteToIntermediateDestination = 8,
+    /// The driver has picked up the rider and is on their way to the
+    /// next destination.
+    EnrouteToDropoff = 4,
+    /// The rider has been dropped off and the trip is complete.
+    Complete = 5,
+    /// The trip was canceled prior to pickup by the driver, rider, or
+    /// rideshare provider.
+    Canceled = 6,
+}
+/// A set of values that indicate upon which platform the request was issued.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum BillingPlatformIdentifier {
+    /// Default. Used for unspecified platforms.
+    Unspecified = 0,
+    /// The platform is a client server.
+    Server = 1,
+    /// The platform is a web browser.
+    Web = 2,
+    /// The platform is an Android mobile device.
+    Android = 3,
+    /// The platform is an IOS mobile device.
+    Ios = 4,
+    /// Other platforms that are not listed in this enumeration.
+    Others = 5,
+}
+/// Selector for different sets of Trip fields in a `GetTrip` response.  See
+/// \[AIP-157\](<https://google.aip.dev/157>) for context. Additional views are
+/// likely to be added.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TripView {
+    /// The default value. For backwards-compatibility, the API will default to an
+    /// SDK view. To ensure stability and support, customers are
+    /// advised to select a `TripView` other than `SDK`.
+    Unspecified = 0,
+    /// Includes fields that may not be interpretable or supportable using
+    /// publicly available libraries.
+    Sdk = 1,
+    /// Trip fields are populated for the Journey Sharing use case. This view is
+    /// intended for server-to-server communications.
+    JourneySharingV1s = 2,
+}
+/// A RequestHeader contains fields common to all Fleet Engine RPC requests.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RequestHeader {
+    /// The BCP-47 language code, such as en-US or sr-Latn. For more information,
+    /// see <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.> If none
+    /// is specified, the response may be in any language, with a preference for
+    /// English if such a name exists. Field value example: `en-US`.
+    #[prost(string, tag="1")]
+    pub language_code: ::prost::alloc::string::String,
+    /// Required. CLDR region code of the region where the request originates.
+    /// Field value example: `US`.
+    #[prost(string, tag="2")]
+    pub region_code: ::prost::alloc::string::String,
+    /// Version of the calling SDK, if applicable.
+    /// The version format is "major.minor.patch", example: `1.1.2`.
+    #[prost(string, tag="3")]
+    pub sdk_version: ::prost::alloc::string::String,
+    /// Version of the operating system on which the calling SDK is running.
+    /// Field value examples: `4.4.1`, `12.1`.
+    #[prost(string, tag="4")]
+    pub os_version: ::prost::alloc::string::String,
+    /// Model of the device on which the calling SDK is running.
+    /// Field value examples: `iPhone12,1`, `SM-G920F`.
+    #[prost(string, tag="5")]
+    pub device_model: ::prost::alloc::string::String,
+    /// The type of SDK sending the request.
+    #[prost(enumeration="request_header::SdkType", tag="6")]
+    pub sdk_type: i32,
+    /// Version of the MapSDK which the calling SDK depends on, if applicable.
+    /// The version format is "major.minor.patch", example: `5.2.1`.
+    #[prost(string, tag="7")]
+    pub maps_sdk_version: ::prost::alloc::string::String,
+    /// Version of the NavSDK which the calling SDK depends on, if applicable.
+    /// The version format is "major.minor.patch", example: `2.1.0`.
+    #[prost(string, tag="8")]
+    pub nav_sdk_version: ::prost::alloc::string::String,
+    /// Platform of the calling SDK.
+    #[prost(enumeration="request_header::Platform", tag="9")]
+    pub platform: i32,
+    /// Manufacturer of the Android device from the calling SDK, only applicable
+    /// for the Android SDKs.
+    /// Field value example: `Samsung`.
+    #[prost(string, tag="10")]
+    pub manufacturer: ::prost::alloc::string::String,
+    /// Android API level of the calling SDK, only applicable for the Android SDKs.
+    /// Field value example: `23`.
+    #[prost(int32, tag="11")]
+    pub android_api_level: i32,
+}
+/// Nested message and enum types in `RequestHeader`.
+pub mod request_header {
+    /// Possible types of SDK.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SdkType {
+        /// The default value. This value is used if the `sdk_type` is omitted.
+        Unspecified = 0,
+        /// The calling SDK is Consumer.
+        Consumer = 1,
+        /// The calling SDK is Driver.
+        Driver = 2,
+        /// The calling SDK is JavaScript.
+        Javascript = 3,
+    }
+    /// The platform of the calling SDK.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Platform {
+        /// The default value. This value is used if the platform is omitted.
+        Unspecified = 0,
+        /// The request is coming from Android.
+        Android = 1,
+        /// The request is coming from iOS.
+        Ios = 2,
+        /// The request is coming from the web.
+        Web = 3,
+    }
+}
 /// Vehicle metadata.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Vehicle {
@@ -620,737 +936,6 @@ pub enum PowerSource {
     Wireless = 3,
     /// Battery is unplugged.
     Unplugged = 4,
-}
-/// A RequestHeader contains fields common to all Fleet Engine RPC requests.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RequestHeader {
-    /// The BCP-47 language code, such as en-US or sr-Latn. For more information,
-    /// see <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.> If none
-    /// is specified, the response may be in any language, with a preference for
-    /// English if such a name exists. Field value example: `en-US`.
-    #[prost(string, tag="1")]
-    pub language_code: ::prost::alloc::string::String,
-    /// Required. CLDR region code of the region where the request originates.
-    /// Field value example: `US`.
-    #[prost(string, tag="2")]
-    pub region_code: ::prost::alloc::string::String,
-    /// Version of the calling SDK, if applicable.
-    /// The version format is "major.minor.patch", example: `1.1.2`.
-    #[prost(string, tag="3")]
-    pub sdk_version: ::prost::alloc::string::String,
-    /// Version of the operating system on which the calling SDK is running.
-    /// Field value examples: `4.4.1`, `12.1`.
-    #[prost(string, tag="4")]
-    pub os_version: ::prost::alloc::string::String,
-    /// Model of the device on which the calling SDK is running.
-    /// Field value examples: `iPhone12,1`, `SM-G920F`.
-    #[prost(string, tag="5")]
-    pub device_model: ::prost::alloc::string::String,
-    /// The type of SDK sending the request.
-    #[prost(enumeration="request_header::SdkType", tag="6")]
-    pub sdk_type: i32,
-    /// Version of the MapSDK which the calling SDK depends on, if applicable.
-    /// The version format is "major.minor.patch", example: `5.2.1`.
-    #[prost(string, tag="7")]
-    pub maps_sdk_version: ::prost::alloc::string::String,
-    /// Version of the NavSDK which the calling SDK depends on, if applicable.
-    /// The version format is "major.minor.patch", example: `2.1.0`.
-    #[prost(string, tag="8")]
-    pub nav_sdk_version: ::prost::alloc::string::String,
-    /// Platform of the calling SDK.
-    #[prost(enumeration="request_header::Platform", tag="9")]
-    pub platform: i32,
-    /// Manufacturer of the Android device from the calling SDK, only applicable
-    /// for the Android SDKs.
-    /// Field value example: `Samsung`.
-    #[prost(string, tag="10")]
-    pub manufacturer: ::prost::alloc::string::String,
-    /// Android API level of the calling SDK, only applicable for the Android SDKs.
-    /// Field value example: `23`.
-    #[prost(int32, tag="11")]
-    pub android_api_level: i32,
-}
-/// Nested message and enum types in `RequestHeader`.
-pub mod request_header {
-    /// Possible types of SDK.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum SdkType {
-        /// The default value. This value is used if the `sdk_type` is omitted.
-        Unspecified = 0,
-        /// The calling SDK is Consumer.
-        Consumer = 1,
-        /// The calling SDK is Driver.
-        Driver = 2,
-        /// The calling SDK is JavaScript.
-        Javascript = 3,
-    }
-    /// The platform of the calling SDK.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Platform {
-        /// The default value. This value is used if the platform is omitted.
-        Unspecified = 0,
-        /// The request is coming from Android.
-        Android = 1,
-        /// The request is coming from iOS.
-        Ios = 2,
-        /// The request is coming from the web.
-        Web = 3,
-    }
-}
-/// Trip metadata.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Trip {
-    /// Output only. In the format "providers/{provider}/trips/{trip}"
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// ID of the vehicle making this trip.
-    #[prost(string, tag="2")]
-    pub vehicle_id: ::prost::alloc::string::String,
-    /// Current status of the trip.
-    #[prost(enumeration="TripStatus", tag="3")]
-    pub trip_status: i32,
-    /// The type of the trip.
-    #[prost(enumeration="TripType", tag="4")]
-    pub trip_type: i32,
-    /// Location where customer indicates they will be picked up.
-    #[prost(message, optional, tag="5")]
-    pub pickup_point: ::core::option::Option<TerminalLocation>,
-    /// Input only. The actual location when and where customer was picked up.
-    /// This field is for provider to provide feedback on actual pickup
-    /// information.
-    #[prost(message, optional, tag="22")]
-    pub actual_pickup_point: ::core::option::Option<StopLocation>,
-    /// Input only. The actual time and location of the driver arrival at
-    /// the pickup point.
-    /// This field is for provider to provide feedback on actual arrival
-    /// information at the pickup point.
-    #[prost(message, optional, tag="32")]
-    pub actual_pickup_arrival_point: ::core::option::Option<StopLocation>,
-    /// Output only. Either the estimated future time when the rider(s) will be picked up, or
-    /// the actual time when they were picked up.
-    #[prost(message, optional, tag="6")]
-    pub pickup_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Intermediate stops in order that the trip requests (in addition
-    /// to pickup and dropoff). Initially this will not be supported for shared
-    /// trips.
-    #[prost(message, repeated, tag="14")]
-    pub intermediate_destinations: ::prost::alloc::vec::Vec<TerminalLocation>,
-    /// Indicates the last time the `intermediate_destinations` was modified.
-    /// Your server should cache this value and pass it in `UpdateTripRequest`
-    /// when update `intermediate_destination_index` to ensure the
-    /// Trip.intermediate_destinations is not changed.
-    #[prost(message, optional, tag="25")]
-    pub intermediate_destinations_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// When `TripStatus` is `ENROUTE_TO_INTERMEDIATE_DESTINATION`, a number between
-    /// \[0..N-1\] indicating which intermediate destination the vehicle will cross
-    /// next.
-    /// When `TripStatus` is `ARRIVED_AT_INTERMEDIATE_DESTINATION`, a number
-    /// between \[0..N-1\] indicating which intermediate destination the vehicle is
-    /// at. The provider sets this value. If there are no
-    /// `intermediate_destinations`, this field is ignored.
-    #[prost(int32, tag="15")]
-    pub intermediate_destination_index: i32,
-    /// Input only. The actual time and location of the driver's arrival at
-    /// an intermediate destination.
-    /// This field is for provider to provide feedback on actual arrival
-    /// information at intermediate destinations.
-    #[prost(message, repeated, tag="33")]
-    pub actual_intermediate_destination_arrival_points: ::prost::alloc::vec::Vec<StopLocation>,
-    /// Input only. The actual time and location when and where the customer was picked up from
-    /// an intermediate destination.
-    /// This field is for provider to provide feedback on actual pickup
-    /// information at intermediate destinations.
-    #[prost(message, repeated, tag="34")]
-    pub actual_intermediate_destinations: ::prost::alloc::vec::Vec<StopLocation>,
-    /// Location where customer indicates they will be dropped off.
-    #[prost(message, optional, tag="7")]
-    pub dropoff_point: ::core::option::Option<TerminalLocation>,
-    /// Input only. The actual time and location when and where customer was dropped off.
-    /// This field is for provider to provide feedback on actual dropoff
-    /// information.
-    #[prost(message, optional, tag="23")]
-    pub actual_dropoff_point: ::core::option::Option<StopLocation>,
-    /// Output only. Either the estimated future time when the rider(s) will be dropped off at
-    /// the final destination, or the actual time when they were dropped off.
-    #[prost(message, optional, tag="8")]
-    pub dropoff_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The full path from the current location to the dropoff point, inclusive.
-    /// If this is a shared ride, this path could include waypoints from other
-    /// trips.
-    #[prost(message, repeated, tag="16")]
-    pub remaining_waypoints: ::prost::alloc::vec::Vec<TripWaypoint>,
-    /// This field supports manual ordering of the waypoints for the trip.
-    /// It contains all of the remaining waypoints of vehicle assigned, as well as
-    /// the pickup and drop-off waypoints for this trip.
-    /// If the trip hasn't been assigned to a vehicle, then this field is ignored.
-    /// For privacy reasons, this field is only populated by the server on
-    /// UpdateTrip and CreateTrip calls, and NOT on GetTrip calls.
-    #[prost(message, repeated, tag="20")]
-    pub vehicle_waypoints: ::prost::alloc::vec::Vec<TripWaypoint>,
-    /// Output only. Anticipated route for this trip to the first entry in remaining_waypoints.
-    /// If back_to_back or shared trips are enabled, the waypoints may belong to a
-    /// different trip.
-    #[prost(message, repeated, tag="9")]
-    pub route: ::prost::alloc::vec::Vec<super::super::super::google::r#type::LatLng>,
-    /// Output only. An encoded path to the next waypoint. This field facilitates journey
-    /// sharing between a driver app and a rider app. Note: This field is intended
-    /// only for use by the Driver SDK and Consumer SDK.
-    #[prost(string, tag="21")]
-    pub current_route_segment: ::prost::alloc::string::String,
-    /// Output only. Indicates the last time the route was modified.  Note: This field is
-    /// intended only for use by the Driver SDK and Consumer SDK.
-    #[prost(message, optional, tag="17")]
-    pub current_route_segment_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Indicates the traffic conditions along the `current_route_segment` when
-    /// they're available. Note: This field is intended only for use by the Driver
-    /// SDK and Consumer SDK.
-    #[prost(message, optional, tag="28")]
-    pub current_route_segment_traffic: ::core::option::Option<ConsumableTrafficPolyline>,
-    /// Output only. Indicates the last time the `current_route_segment_traffic` was modified.
-    /// Note: This field is intended only for use by the Driver SDK and Consumer
-    /// SDK.
-    #[prost(message, optional, tag="30")]
-    pub current_route_segment_traffic_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The waypoint where `current_route_segment` ends.
-    #[prost(message, optional, tag="24")]
-    pub current_route_segment_end_point: ::core::option::Option<TripWaypoint>,
-    /// Output only. The remaining driving distance in `current_route_segment` field. This
-    /// field facilitates journey sharing between a driver and rider. The value
-    /// is unspecified if the trip is not assigned to a vehicle or the trip is
-    /// completed or cancelled.
-    #[prost(message, optional, tag="12")]
-    pub remaining_distance_meters: ::core::option::Option<i32>,
-    /// Output only. The ETA to the next waypoint (the first entry in the
-    /// `remaining_waypoints` field). This field facilitates journey sharing
-    /// between a driver and a consumer. The value is unspecified if the trip is
-    /// not assigned to a vehicle, or the trip is inactive (completed or
-    /// cancelled).
-    #[prost(message, optional, tag="13")]
-    pub eta_to_first_waypoint: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The duration from when the Trip data is returned to the time in
-    /// `Trip.eta_to_first_waypoint`.
-    #[prost(message, optional, tag="27")]
-    pub remaining_time_to_first_waypoint: ::core::option::Option<::prost_types::Duration>,
-    /// Output only. Indicates the last time that `remaining_waypoints` was changed (a
-    /// waypoint was added, removed, or changed).
-    #[prost(message, optional, tag="19")]
-    pub remaining_waypoints_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Indicates the last time the `remaining_waypoints.path_to_waypoint` and
-    /// `remaining_waypoints.traffic_to_waypoint` were modified. Your client app
-    /// should cache this value and pass it in `GetTripRequest` to ensure the
-    /// paths and traffic for `remaining_waypoints` are only returned if updated.
-    #[prost(message, optional, tag="29")]
-    pub remaining_waypoints_route_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// Immutable. Indicates the number of passengers on this trip and does not include the
-    /// driver. A vehicle must have available capacity to be returned
-    /// in SearchVehicles.
-    #[prost(int32, tag="10")]
-    pub number_of_passengers: i32,
-    /// Output only. Indicates the last reported location of the vehicle along the route.
-    #[prost(message, optional, tag="11")]
-    pub last_location: ::core::option::Option<VehicleLocation>,
-    /// Output only. Indicates whether the vehicle's `last_location` can be snapped to
-    /// the current_route_segment. False if `last_location` or
-    /// `current_route_segment` doesn't exist.
-    /// It is computed by Fleet Engine. Any update from clients will be ignored.
-    #[prost(bool, tag="26")]
-    pub last_location_snappable: bool,
-    /// The subset of Trip fields that are populated and how they should be
-    /// interpreted.
-    #[prost(enumeration="TripView", tag="31")]
-    pub view: i32,
-}
-/// The actual location where a stop (pickup/dropoff) happened.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StopLocation {
-    /// Required. Denotes the actual location.
-    #[prost(message, optional, tag="1")]
-    pub point: ::core::option::Option<super::super::super::google::r#type::LatLng>,
-    /// Indicates when the stop happened.
-    #[prost(message, optional, tag="2")]
-    pub timestamp: ::core::option::Option<::prost_types::Timestamp>,
-    /// Input only. Deprecated.  Use the timestamp field.
-    #[deprecated]
-    #[prost(message, optional, tag="3")]
-    pub stop_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// The status of a trip indicating its progression.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TripStatus {
-    /// Default, used for unspecified or unrecognized trip status.
-    UnknownTripStatus = 0,
-    /// Newly created trip.
-    New = 1,
-    /// The driver is on their way to the pickup point.
-    EnrouteToPickup = 2,
-    /// The driver has arrived at the pickup point.
-    ArrivedAtPickup = 3,
-    /// The driver has arrived at an intermediate destination and is waiting for
-    /// the rider.
-    ArrivedAtIntermediateDestination = 7,
-    /// The driver is on their way to an intermediate destination
-    /// (not the dropoff point).
-    EnrouteToIntermediateDestination = 8,
-    /// The driver has picked up the rider and is on their way to the
-    /// next destination.
-    EnrouteToDropoff = 4,
-    /// The rider has been dropped off and the trip is complete.
-    Complete = 5,
-    /// The trip was canceled prior to pickup by the driver, rider, or
-    /// rideshare provider.
-    Canceled = 6,
-}
-/// A set of values that indicate upon which platform the request was issued.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum BillingPlatformIdentifier {
-    /// Default. Used for unspecified platforms.
-    Unspecified = 0,
-    /// The platform is a client server.
-    Server = 1,
-    /// The platform is a web browser.
-    Web = 2,
-    /// The platform is an Android mobile device.
-    Android = 3,
-    /// The platform is an IOS mobile device.
-    Ios = 4,
-    /// Other platforms that are not listed in this enumeration.
-    Others = 5,
-}
-/// Selector for different sets of Trip fields in a `GetTrip` response.  See
-/// \[AIP-157\](<https://google.aip.dev/157>) for context. Additional views are
-/// likely to be added.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TripView {
-    /// The default value. For backwards-compatibility, the API will default to an
-    /// SDK view. To ensure stability and support, customers are
-    /// advised to select a `TripView` other than `SDK`.
-    Unspecified = 0,
-    /// Includes fields that may not be interpretable or supportable using
-    /// publicly available libraries.
-    Sdk = 1,
-    /// Trip fields are populated for the Journey Sharing use case. This view is
-    /// intended for server-to-server communications.
-    JourneySharingV1s = 2,
-}
-/// CreateTrip request message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateTripRequest {
-    /// The standard Fleet Engine request header.
-    #[prost(message, optional, tag="1")]
-    pub header: ::core::option::Option<RequestHeader>,
-    /// Required. Must be in the format `providers/{provider}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
-    #[prost(string, tag="3")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Unique Trip ID.
-    /// Subject to the following restrictions:
-    ///
-    /// * Must be a valid Unicode string.
-    /// * Limited to a maximum length of 64 characters.
-    /// * Normalized according to Unicode Normalization Form C
-    /// (<http://www.unicode.org/reports/tr15/>).
-    /// * May not contain any of the following ASCII characters: '/', ':', '?',
-    /// ',', or '#'.
-    #[prost(string, tag="5")]
-    pub trip_id: ::prost::alloc::string::String,
-    /// Required. Trip entity to create.
-    ///
-    /// When creating a Trip, the following fields are required:
-    ///
-    /// * `trip_type`
-    /// * `pickup_point`
-    ///
-    /// The following fields are used if you provide them:
-    ///
-    /// * `number_of_passengers`
-    /// * `vehicle_id`
-    /// * `dropoff_point`
-    /// * `intermediate_destinations`
-    ///
-    /// Only `EXCLUSIVE` trips support multiple destinations.
-    ///
-    /// When `vehicle_id` is set for a shared trip, you must supply
-    /// the list of `Trip.vehicle_waypoints` to specify the order of the remaining
-    /// waypoints for the vehicle, otherwise the waypoint order will be
-    /// undetermined.
-    ///
-    /// When you specify `Trip.vehicle_waypoints`, the list must contain all
-    /// the remaining waypoints of the vehicle's trips, with no extra waypoints.
-    /// You must order these waypoints such that for a given trip, the pickup
-    /// point is before intermediate destinations, and all intermediate
-    /// destinations come before the drop-off point. An `EXCLUSIVE` trip's
-    /// waypoints must not interleave with any other trips.
-    ///
-    /// The `trip_id`, `waypoint_type` and `location` fields are used, and all
-    /// other TripWaypoint fields in `vehicle_waypoints` are ignored.
-    ///
-    /// All other Trip fields are ignored.
-    #[prost(message, optional, tag="4")]
-    pub trip: ::core::option::Option<Trip>,
-}
-/// GetTrip request message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetTripRequest {
-    /// The standard Fleet Engine request header.
-    #[prost(message, optional, tag="1")]
-    pub header: ::core::option::Option<RequestHeader>,
-    /// Required. Must be in the format `providers/{provider}/trips/{trip}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
-    #[prost(string, tag="3")]
-    pub name: ::prost::alloc::string::String,
-    /// The subset of Trip fields that should be returned and their interpretation.
-    #[prost(enumeration="TripView", tag="11")]
-    pub view: i32,
-    /// Indicates the minimum timestamp (exclusive) for which `Trip.route` or
-    /// `Trip.current_route_segment` data are retrieved. If route data are
-    /// unchanged since this timestamp, the route field is not set in the response.
-    /// If a minimum is unspecified, the route data are always retrieved.
-    #[prost(message, optional, tag="6")]
-    pub current_route_segment_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// Indicates the minimum timestamp (exclusive) for which
-    /// `Trip.remaining_waypoints` are retrieved. If they are unchanged since this
-    /// timestamp, the `remaining_waypoints` are not set in the response. If this
-    /// field is unspecified, `remaining_waypoints` is always retrieved.
-    #[prost(message, optional, tag="7")]
-    pub remaining_waypoints_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// The returned current route format, `LAT_LNG_LIST_TYPE` (in `Trip.route`),
-    /// or `ENCODED_POLYLINE_TYPE` (in `Trip.current_route_segment`). The default
-    /// is `LAT_LNG_LIST_TYPE`.
-    #[prost(enumeration="PolylineFormatType", tag="8")]
-    pub route_format_type: i32,
-    /// Indicates the minimum timestamp (exclusive) for which
-    /// `Trip.current_route_segment_traffic` is retrieved. If traffic data are
-    /// unchanged since this timestamp, the `current_route_segment_traffic` field
-    /// is not set in the response. If a minimum is unspecified, the traffic data
-    /// are always retrieved. Note that traffic is only available for On-Demand
-    /// Rides and Deliveries Solution customers.
-    #[prost(message, optional, tag="9")]
-    pub current_route_segment_traffic_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// Indicates the minimum timestamp (exclusive) for which
-    /// `Trip.remaining_waypoints.traffic_to_waypoint` and
-    /// `Trip.remaining_waypoints.path_to_waypoint` data are retrieved. If data are
-    /// unchanged since this timestamp, the fields above are
-    /// not set in the response. If `remaining_waypoints_route_version` is
-    /// unspecified, traffic and path are always retrieved.
-    #[prost(message, optional, tag="10")]
-    pub remaining_waypoints_route_version: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// ReportBillableTrip request message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReportBillableTripRequest {
-    /// Required. Must be in the format
-    /// `providers/{provider}/billableTrips/{billable_trip}`. The
-    /// provider must be the Project ID (for example, `sample-cloud-project`) of
-    /// the Google Cloud Project of which the service account making this call is a
-    /// member.
-    #[prost(string, tag="2")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. Two letter country code of the country where the trip takes place. Price is
-    /// defined according to country code.
-    #[prost(string, tag="3")]
-    pub country_code: ::prost::alloc::string::String,
-    /// The platform upon which the request was issued.
-    #[prost(enumeration="BillingPlatformIdentifier", tag="5")]
-    pub platform: i32,
-    /// The identifiers that are directly related to the trip being reported. These
-    /// are usually IDs (for example, session IDs) of pre-booking operations done
-    /// before the trip ID is available. The number of `related_ids` is
-    /// limited to 50.
-    #[prost(string, repeated, tag="6")]
-    pub related_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The type of GMP product solution (for example,
-    /// `ON_DEMAND_RIDESHARING_AND_DELIVERIES`) used for the reported trip.
-    #[prost(enumeration="report_billable_trip_request::SolutionType", tag="7")]
-    pub solution_type: i32,
-}
-/// Nested message and enum types in `ReportBillableTripRequest`.
-pub mod report_billable_trip_request {
-    /// Selector for different solution types of a reported trip.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum SolutionType {
-        /// The default value. For backwards-compatibility, the API will use
-        /// `ON_DEMAND_RIDESHARING_AND_DELIVERIES` by default which is the first
-        /// supported solution type.
-        Unspecified = 0,
-        /// The solution is an on-demand ridesharing and deliveries trip.
-        OnDemandRidesharingAndDeliveries = 1,
-    }
-}
-/// UpdateTrip request message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateTripRequest {
-    /// The standard Fleet Engine request header.
-    #[prost(message, optional, tag="1")]
-    pub header: ::core::option::Option<RequestHeader>,
-    /// Required. Must be in the format
-    /// `providers/{provider}/trips/{trip}`. The provider must
-    /// be the Project ID (for example, `sample-consumer-project`) of the Google
-    /// Cloud Project of which the service account making this call is a member.
-    #[prost(string, tag="3")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The Trip associated with the update.
-    ///
-    /// The following fields are maintained by the Fleet Engine. Do not update
-    /// them using Trip.update.
-    ///
-    /// * `current_route_segment`
-    /// * `current_route_segment_end_point`
-    /// * `current_route_segment_traffic`
-    /// * `current_route_segment_traffic_version`
-    /// * `current_route_segment_version`
-    /// * `dropoff_time`
-    /// * `eta_to_next_waypoint`
-    /// * `intermediate_destinations_version`
-    /// * `last_location`
-    /// * `name`
-    /// * `number_of_passengers`
-    /// * `pickup_time`
-    /// * `remaining_distance_meters`
-    /// * `remaining_time_to_first_waypoint`
-    /// * `remaining_waypoints`
-    /// * `remaining_waypoints_version`
-    /// * `route`
-    ///
-    /// When you update the `Trip.vehicle_id` for a shared trip, you must supply
-    /// the list of `Trip.vehicle_waypoints` to specify the order of the remaining
-    /// waypoints, otherwise the order will be undetermined.
-    ///
-    /// When you specify `Trip.vehicle_waypoints`, the list must contain all
-    /// the remaining waypoints of the vehicle's trips, with no extra waypoints.
-    /// You must order these waypoints such that for a given trip, the pickup
-    /// point is before intermediate destinations, and all intermediate
-    /// destinations come before the drop-off point. An `EXCLUSIVE` trip's
-    /// waypoints must not interleave with any other trips.
-    /// The `trip_id`, `waypoint_type` and `location` fields are used, and all
-    /// other TripWaypoint fields in `vehicle_waypoints` are ignored.
-    ///
-    /// To avoid a race condition for trips with multiple destinations, you
-    /// should provide `Trip.intermediate_destinations_version` when updating
-    /// the trip status to `ENROUTE_TO_INTERMEDIATE_DESTINATION`. The
-    /// `Trip.intermediate_destinations_version` passed must be consistent with
-    /// Fleet Engine's version. If it isn't, the request fails.
-    #[prost(message, optional, tag="4")]
-    pub trip: ::core::option::Option<Trip>,
-    /// Required. The field mask indicating which fields in Trip to update.
-    /// The `update_mask` must contain at least one field.
-    #[prost(message, optional, tag="5")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// SearchTrips request message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchTripsRequest {
-    /// The standard Fleet Engine request header.
-    #[prost(message, optional, tag="1")]
-    pub header: ::core::option::Option<RequestHeader>,
-    /// Required. Must be in the format `providers/{provider}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
-    #[prost(string, tag="3")]
-    pub parent: ::prost::alloc::string::String,
-    /// The vehicle associated with the trips in the request. If unspecified, the
-    /// returned trips do not contain:
-    ///
-    /// * `current_route_segment`
-    /// * `remaining_waypoints`
-    /// * `remaining_distance_meters`
-    /// * `eta_to_first_waypoint`
-    #[prost(string, tag="4")]
-    pub vehicle_id: ::prost::alloc::string::String,
-    /// If set to true, only Trips that influence the drivers route
-    /// are included in the response.
-    #[prost(bool, tag="5")]
-    pub active_trips_only: bool,
-    /// If not set, the server will decide the number of
-    /// results to return.
-    #[prost(int32, tag="6")]
-    pub page_size: i32,
-    /// Set this to a value previously returned in the
-    /// SearchTripsResponse to continue from previous results.
-    #[prost(string, tag="7")]
-    pub page_token: ::prost::alloc::string::String,
-    /// If specified, returns the trips that have not been updated after
-    /// the time `(current - minimum_staleness)`.
-    #[prost(message, optional, tag="8")]
-    pub minimum_staleness: ::core::option::Option<::prost_types::Duration>,
-}
-/// SearchTrips response message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchTripsResponse {
-    /// The list of trips for the requested vehicle.
-    #[prost(message, repeated, tag="1")]
-    pub trips: ::prost::alloc::vec::Vec<Trip>,
-    /// Pass this token in the SearchTripsRequest to continue to
-    /// list results. If all results have been returned, this field is an empty
-    /// string or not present in the response.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Generated client implementations.
-pub mod trip_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// Trip management service.
-    #[derive(Debug, Clone)]
-    pub struct TripServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> TripServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> TripServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            TripServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Creates a trip in the Fleet Engine and returns the new trip.
-        pub async fn create_trip(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateTripRequest>,
-        ) -> Result<tonic::Response<super::Trip>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/maps.fleetengine.v1.TripService/CreateTrip",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Get information about a single trip.
-        pub async fn get_trip(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetTripRequest>,
-        ) -> Result<tonic::Response<super::Trip>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/maps.fleetengine.v1.TripService/GetTrip",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Report billable trip usage.
-        pub async fn report_billable_trip(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ReportBillableTripRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/maps.fleetengine.v1.TripService/ReportBillableTrip",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Get all the trips for a specific vehicle.
-        pub async fn search_trips(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SearchTripsRequest>,
-        ) -> Result<tonic::Response<super::SearchTripsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/maps.fleetengine.v1.TripService/SearchTrips",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Updates trip data.
-        pub async fn update_trip(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateTripRequest>,
-        ) -> Result<tonic::Response<super::Trip>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/maps.fleetengine.v1.TripService/UpdateTrip",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
 }
 /// `CreateVehicle` request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2186,6 +1771,421 @@ pub mod vehicle_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/maps.fleetengine.v1.VehicleService/SearchFuzzedVehicles",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// CreateTrip request message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateTripRequest {
+    /// The standard Fleet Engine request header.
+    #[prost(message, optional, tag="1")]
+    pub header: ::core::option::Option<RequestHeader>,
+    /// Required. Must be in the format `providers/{provider}`.
+    /// The provider must be the Project ID (for example, `sample-cloud-project`)
+    /// of the Google Cloud Project of which the service account making
+    /// this call is a member.
+    #[prost(string, tag="3")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Unique Trip ID.
+    /// Subject to the following restrictions:
+    ///
+    /// * Must be a valid Unicode string.
+    /// * Limited to a maximum length of 64 characters.
+    /// * Normalized according to Unicode Normalization Form C
+    /// (<http://www.unicode.org/reports/tr15/>).
+    /// * May not contain any of the following ASCII characters: '/', ':', '?',
+    /// ',', or '#'.
+    #[prost(string, tag="5")]
+    pub trip_id: ::prost::alloc::string::String,
+    /// Required. Trip entity to create.
+    ///
+    /// When creating a Trip, the following fields are required:
+    ///
+    /// * `trip_type`
+    /// * `pickup_point`
+    ///
+    /// The following fields are used if you provide them:
+    ///
+    /// * `number_of_passengers`
+    /// * `vehicle_id`
+    /// * `dropoff_point`
+    /// * `intermediate_destinations`
+    ///
+    /// Only `EXCLUSIVE` trips support multiple destinations.
+    ///
+    /// When `vehicle_id` is set for a shared trip, you must supply
+    /// the list of `Trip.vehicle_waypoints` to specify the order of the remaining
+    /// waypoints for the vehicle, otherwise the waypoint order will be
+    /// undetermined.
+    ///
+    /// When you specify `Trip.vehicle_waypoints`, the list must contain all
+    /// the remaining waypoints of the vehicle's trips, with no extra waypoints.
+    /// You must order these waypoints such that for a given trip, the pickup
+    /// point is before intermediate destinations, and all intermediate
+    /// destinations come before the drop-off point. An `EXCLUSIVE` trip's
+    /// waypoints must not interleave with any other trips.
+    ///
+    /// The `trip_id`, `waypoint_type` and `location` fields are used, and all
+    /// other TripWaypoint fields in `vehicle_waypoints` are ignored.
+    ///
+    /// All other Trip fields are ignored.
+    #[prost(message, optional, tag="4")]
+    pub trip: ::core::option::Option<Trip>,
+}
+/// GetTrip request message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetTripRequest {
+    /// The standard Fleet Engine request header.
+    #[prost(message, optional, tag="1")]
+    pub header: ::core::option::Option<RequestHeader>,
+    /// Required. Must be in the format `providers/{provider}/trips/{trip}`.
+    /// The provider must be the Project ID (for example, `sample-cloud-project`)
+    /// of the Google Cloud Project of which the service account making
+    /// this call is a member.
+    #[prost(string, tag="3")]
+    pub name: ::prost::alloc::string::String,
+    /// The subset of Trip fields that should be returned and their interpretation.
+    #[prost(enumeration="TripView", tag="11")]
+    pub view: i32,
+    /// Indicates the minimum timestamp (exclusive) for which `Trip.route` or
+    /// `Trip.current_route_segment` data are retrieved. If route data are
+    /// unchanged since this timestamp, the route field is not set in the response.
+    /// If a minimum is unspecified, the route data are always retrieved.
+    #[prost(message, optional, tag="6")]
+    pub current_route_segment_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// Indicates the minimum timestamp (exclusive) for which
+    /// `Trip.remaining_waypoints` are retrieved. If they are unchanged since this
+    /// timestamp, the `remaining_waypoints` are not set in the response. If this
+    /// field is unspecified, `remaining_waypoints` is always retrieved.
+    #[prost(message, optional, tag="7")]
+    pub remaining_waypoints_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// The returned current route format, `LAT_LNG_LIST_TYPE` (in `Trip.route`),
+    /// or `ENCODED_POLYLINE_TYPE` (in `Trip.current_route_segment`). The default
+    /// is `LAT_LNG_LIST_TYPE`.
+    #[prost(enumeration="PolylineFormatType", tag="8")]
+    pub route_format_type: i32,
+    /// Indicates the minimum timestamp (exclusive) for which
+    /// `Trip.current_route_segment_traffic` is retrieved. If traffic data are
+    /// unchanged since this timestamp, the `current_route_segment_traffic` field
+    /// is not set in the response. If a minimum is unspecified, the traffic data
+    /// are always retrieved. Note that traffic is only available for On-Demand
+    /// Rides and Deliveries Solution customers.
+    #[prost(message, optional, tag="9")]
+    pub current_route_segment_traffic_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// Indicates the minimum timestamp (exclusive) for which
+    /// `Trip.remaining_waypoints.traffic_to_waypoint` and
+    /// `Trip.remaining_waypoints.path_to_waypoint` data are retrieved. If data are
+    /// unchanged since this timestamp, the fields above are
+    /// not set in the response. If `remaining_waypoints_route_version` is
+    /// unspecified, traffic and path are always retrieved.
+    #[prost(message, optional, tag="10")]
+    pub remaining_waypoints_route_version: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// ReportBillableTrip request message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReportBillableTripRequest {
+    /// Required. Must be in the format
+    /// `providers/{provider}/billableTrips/{billable_trip}`. The
+    /// provider must be the Project ID (for example, `sample-cloud-project`) of
+    /// the Google Cloud Project of which the service account making this call is a
+    /// member.
+    #[prost(string, tag="2")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. Two letter country code of the country where the trip takes place. Price is
+    /// defined according to country code.
+    #[prost(string, tag="3")]
+    pub country_code: ::prost::alloc::string::String,
+    /// The platform upon which the request was issued.
+    #[prost(enumeration="BillingPlatformIdentifier", tag="5")]
+    pub platform: i32,
+    /// The identifiers that are directly related to the trip being reported. These
+    /// are usually IDs (for example, session IDs) of pre-booking operations done
+    /// before the trip ID is available. The number of `related_ids` is
+    /// limited to 50.
+    #[prost(string, repeated, tag="6")]
+    pub related_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The type of GMP product solution (for example,
+    /// `ON_DEMAND_RIDESHARING_AND_DELIVERIES`) used for the reported trip.
+    #[prost(enumeration="report_billable_trip_request::SolutionType", tag="7")]
+    pub solution_type: i32,
+}
+/// Nested message and enum types in `ReportBillableTripRequest`.
+pub mod report_billable_trip_request {
+    /// Selector for different solution types of a reported trip.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SolutionType {
+        /// The default value. For backwards-compatibility, the API will use
+        /// `ON_DEMAND_RIDESHARING_AND_DELIVERIES` by default which is the first
+        /// supported solution type.
+        Unspecified = 0,
+        /// The solution is an on-demand ridesharing and deliveries trip.
+        OnDemandRidesharingAndDeliveries = 1,
+    }
+}
+/// UpdateTrip request message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateTripRequest {
+    /// The standard Fleet Engine request header.
+    #[prost(message, optional, tag="1")]
+    pub header: ::core::option::Option<RequestHeader>,
+    /// Required. Must be in the format
+    /// `providers/{provider}/trips/{trip}`. The provider must
+    /// be the Project ID (for example, `sample-consumer-project`) of the Google
+    /// Cloud Project of which the service account making this call is a member.
+    #[prost(string, tag="3")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The Trip associated with the update.
+    ///
+    /// The following fields are maintained by the Fleet Engine. Do not update
+    /// them using Trip.update.
+    ///
+    /// * `current_route_segment`
+    /// * `current_route_segment_end_point`
+    /// * `current_route_segment_traffic`
+    /// * `current_route_segment_traffic_version`
+    /// * `current_route_segment_version`
+    /// * `dropoff_time`
+    /// * `eta_to_next_waypoint`
+    /// * `intermediate_destinations_version`
+    /// * `last_location`
+    /// * `name`
+    /// * `number_of_passengers`
+    /// * `pickup_time`
+    /// * `remaining_distance_meters`
+    /// * `remaining_time_to_first_waypoint`
+    /// * `remaining_waypoints`
+    /// * `remaining_waypoints_version`
+    /// * `route`
+    ///
+    /// When you update the `Trip.vehicle_id` for a shared trip, you must supply
+    /// the list of `Trip.vehicle_waypoints` to specify the order of the remaining
+    /// waypoints, otherwise the order will be undetermined.
+    ///
+    /// When you specify `Trip.vehicle_waypoints`, the list must contain all
+    /// the remaining waypoints of the vehicle's trips, with no extra waypoints.
+    /// You must order these waypoints such that for a given trip, the pickup
+    /// point is before intermediate destinations, and all intermediate
+    /// destinations come before the drop-off point. An `EXCLUSIVE` trip's
+    /// waypoints must not interleave with any other trips.
+    /// The `trip_id`, `waypoint_type` and `location` fields are used, and all
+    /// other TripWaypoint fields in `vehicle_waypoints` are ignored.
+    ///
+    /// To avoid a race condition for trips with multiple destinations, you
+    /// should provide `Trip.intermediate_destinations_version` when updating
+    /// the trip status to `ENROUTE_TO_INTERMEDIATE_DESTINATION`. The
+    /// `Trip.intermediate_destinations_version` passed must be consistent with
+    /// Fleet Engine's version. If it isn't, the request fails.
+    #[prost(message, optional, tag="4")]
+    pub trip: ::core::option::Option<Trip>,
+    /// Required. The field mask indicating which fields in Trip to update.
+    /// The `update_mask` must contain at least one field.
+    #[prost(message, optional, tag="5")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// SearchTrips request message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchTripsRequest {
+    /// The standard Fleet Engine request header.
+    #[prost(message, optional, tag="1")]
+    pub header: ::core::option::Option<RequestHeader>,
+    /// Required. Must be in the format `providers/{provider}`.
+    /// The provider must be the Project ID (for example, `sample-cloud-project`)
+    /// of the Google Cloud Project of which the service account making
+    /// this call is a member.
+    #[prost(string, tag="3")]
+    pub parent: ::prost::alloc::string::String,
+    /// The vehicle associated with the trips in the request. If unspecified, the
+    /// returned trips do not contain:
+    ///
+    /// * `current_route_segment`
+    /// * `remaining_waypoints`
+    /// * `remaining_distance_meters`
+    /// * `eta_to_first_waypoint`
+    #[prost(string, tag="4")]
+    pub vehicle_id: ::prost::alloc::string::String,
+    /// If set to true, only Trips that influence the drivers route
+    /// are included in the response.
+    #[prost(bool, tag="5")]
+    pub active_trips_only: bool,
+    /// If not set, the server will decide the number of
+    /// results to return.
+    #[prost(int32, tag="6")]
+    pub page_size: i32,
+    /// Set this to a value previously returned in the
+    /// SearchTripsResponse to continue from previous results.
+    #[prost(string, tag="7")]
+    pub page_token: ::prost::alloc::string::String,
+    /// If specified, returns the trips that have not been updated after
+    /// the time `(current - minimum_staleness)`.
+    #[prost(message, optional, tag="8")]
+    pub minimum_staleness: ::core::option::Option<::prost_types::Duration>,
+}
+/// SearchTrips response message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchTripsResponse {
+    /// The list of trips for the requested vehicle.
+    #[prost(message, repeated, tag="1")]
+    pub trips: ::prost::alloc::vec::Vec<Trip>,
+    /// Pass this token in the SearchTripsRequest to continue to
+    /// list results. If all results have been returned, this field is an empty
+    /// string or not present in the response.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Generated client implementations.
+pub mod trip_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// Trip management service.
+    #[derive(Debug, Clone)]
+    pub struct TripServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> TripServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> TripServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            TripServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Creates a trip in the Fleet Engine and returns the new trip.
+        pub async fn create_trip(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateTripRequest>,
+        ) -> Result<tonic::Response<super::Trip>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/maps.fleetengine.v1.TripService/CreateTrip",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Get information about a single trip.
+        pub async fn get_trip(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetTripRequest>,
+        ) -> Result<tonic::Response<super::Trip>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/maps.fleetengine.v1.TripService/GetTrip",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Report billable trip usage.
+        pub async fn report_billable_trip(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ReportBillableTripRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/maps.fleetengine.v1.TripService/ReportBillableTrip",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Get all the trips for a specific vehicle.
+        pub async fn search_trips(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SearchTripsRequest>,
+        ) -> Result<tonic::Response<super::SearchTripsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/maps.fleetengine.v1.TripService/SearchTrips",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Updates trip data.
+        pub async fn update_trip(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateTripRequest>,
+        ) -> Result<tonic::Response<super::Trip>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/maps.fleetengine.v1.TripService/UpdateTrip",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

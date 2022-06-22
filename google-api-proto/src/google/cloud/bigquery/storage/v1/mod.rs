@@ -44,27 +44,9 @@ pub mod arrow_serialization_options {
         Zstd = 2,
     }
 }
-/// Avro schema.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AvroSchema {
-    /// Json serialized schema, as described at
-    /// <https://avro.apache.org/docs/1.8.1/spec.html.>
-    #[prost(string, tag="1")]
-    pub schema: ::prost::alloc::string::String,
-}
-/// Avro rows.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AvroRows {
-    /// Binary serialized rows in a block.
-    #[prost(bytes="bytes", tag="1")]
-    pub serialized_binary_rows: ::prost::bytes::Bytes,
-    /// \[Deprecated\] The count of rows in the returning block.
-    /// Please use the format-independent ReadRowsResponse.row_count instead.
-    #[deprecated]
-    #[prost(int64, tag="2")]
-    pub row_count: i64,
-}
-/// Schema of a table.
+/// Schema of a table. This schema is a subset of
+/// google.cloud.bigquery.v2.TableSchema containing information necessary to
+/// generate valid message to write to BigQuery.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TableSchema {
     /// Describes the fields in a table.
@@ -191,6 +173,50 @@ pub mod table_field_schema {
         Repeated = 3,
     }
 }
+/// ProtoSchema describes the schema of the serialized protocol buffer data rows.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProtoSchema {
+    /// Descriptor for input message.  The provided descriptor must be self
+    /// contained, such that data rows sent can be fully decoded using only the
+    /// single descriptor.  For data rows that are compositions of multiple
+    /// independent messages, this means the descriptor may need to be transformed
+    /// to only use nested types:
+    /// <https://developers.google.com/protocol-buffers/docs/proto#nested>
+    ///
+    /// For additional information for how proto types and values map onto BigQuery
+    /// see: <https://cloud.google.com/bigquery/docs/write-api#data_type_conversions>
+    #[prost(message, optional, tag="1")]
+    pub proto_descriptor: ::core::option::Option<::prost_types::DescriptorProto>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProtoRows {
+    /// A sequence of rows serialized as a Protocol Buffer.
+    ///
+    /// See <https://developers.google.com/protocol-buffers/docs/overview> for more
+    /// information on deserializing this field.
+    #[prost(bytes="bytes", repeated, tag="1")]
+    pub serialized_rows: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
+}
+/// Avro schema.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AvroSchema {
+    /// Json serialized schema, as described at
+    /// <https://avro.apache.org/docs/1.8.1/spec.html.>
+    #[prost(string, tag="1")]
+    pub schema: ::prost::alloc::string::String,
+}
+/// Avro rows.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AvroRows {
+    /// Binary serialized rows in a block.
+    #[prost(bytes="bytes", tag="1")]
+    pub serialized_binary_rows: ::prost::bytes::Bytes,
+    /// \[Deprecated\] The count of rows in the returning block.
+    /// Please use the format-independent ReadRowsResponse.row_count instead.
+    #[deprecated]
+    #[prost(int64, tag="2")]
+    pub row_count: i64,
+}
 /// Information about the ReadSession.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ReadSession {
@@ -203,7 +229,7 @@ pub struct ReadSession {
     /// automatically assigned and currently cannot be specified or updated.
     #[prost(message, optional, tag="2")]
     pub expire_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Immutable. Data format of the output data.
+    /// Immutable. Data format of the output data. DATA_FORMAT_UNSPECIFIED not supported.
     #[prost(enumeration="DataFormat", tag="3")]
     pub data_format: i32,
     /// Immutable. Table that this ReadSession is reading from, in the form
@@ -369,6 +395,7 @@ pub mod write_stream {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum DataFormat {
+    /// Data format is unspecified.
     Unspecified = 0,
     /// Avro is a standard open source row based file format.
     /// See <https://avro.apache.org/> for more details.
@@ -376,30 +403,6 @@ pub enum DataFormat {
     /// Arrow is a standard open source column-based message format.
     /// See <https://arrow.apache.org/> for more details.
     Arrow = 2,
-}
-/// ProtoSchema describes the schema of the serialized protocol buffer data rows.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProtoSchema {
-    /// Descriptor for input message.  The provided descriptor must be self
-    /// contained, such that data rows sent can be fully decoded using only the
-    /// single descriptor.  For data rows that are compositions of multiple
-    /// independent messages, this means the descriptor may need to be transformed
-    /// to only use nested types:
-    /// <https://developers.google.com/protocol-buffers/docs/proto#nested>
-    ///
-    /// For additional information for how proto types and values map onto BigQuery
-    /// see: <https://cloud.google.com/bigquery/docs/write-api#data_type_conversions>
-    #[prost(message, optional, tag="1")]
-    pub proto_descriptor: ::core::option::Option<::prost_types::DescriptorProto>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProtoRows {
-    /// A sequence of rows serialized as a Protocol Buffer.
-    ///
-    /// See <https://developers.google.com/protocol-buffers/docs/overview> for more
-    /// information on deserializing this field.
-    #[prost(bytes="bytes", repeated, tag="1")]
-    pub serialized_rows: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
 }
 /// Request message for `CreateReadSession`.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -414,11 +417,13 @@ pub struct CreateReadSessionRequest {
     /// Max initial number of streams. If unset or zero, the server will
     /// provide a value of streams so as to produce reasonable throughput. Must be
     /// non-negative. The number of streams may be lower than the requested number,
-    /// depending on the amount parallelism that is reasonable for the table. Error
-    /// will be returned if the max count is greater than the current system
-    /// max limit of 1,000.
+    /// depending on the amount parallelism that is reasonable for the table.
+    /// There is a default system max limit of 1,000.
     ///
-    /// Streams must be read starting from offset 0.
+    /// This must be greater than or equal to preferred_min_stream_count.
+    /// Typically, clients should either leave this unset to let the system to
+    /// determine an upper bound OR set this a size for the maximum "units of work"
+    /// it can gracefully handle.
     #[prost(int32, tag="3")]
     pub max_stream_count: i32,
 }
@@ -492,7 +497,7 @@ pub struct ReadRowsResponse {
     pub rows: ::core::option::Option<read_rows_response::Rows>,
     /// The schema for the read. If read_options.selected_fields is set, the
     /// schema may be different from the table schema as it will only contain
-    /// the selected fields. This schema is equivelant to the one returned by
+    /// the selected fields. This schema is equivalent to the one returned by
     /// CreateSession. This field is only populated in the first ReadRowsResponse
     /// RPC.
     #[prost(oneof="read_rows_response::Schema", tags="7, 8")]
@@ -512,7 +517,7 @@ pub mod read_rows_response {
     }
     /// The schema for the read. If read_options.selected_fields is set, the
     /// schema may be different from the table schema as it will only contain
-    /// the selected fields. This schema is equivelant to the one returned by
+    /// the selected fields. This schema is equivalent to the one returned by
     /// CreateSession. This field is only populated in the first ReadRowsResponse
     /// RPC.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
@@ -640,6 +645,11 @@ pub struct AppendRowsResponse {
     /// updates have occurred.
     #[prost(message, optional, tag="3")]
     pub updated_schema: ::core::option::Option<TableSchema>,
+    /// If a request failed due to corrupted rows, no rows in the batch will be
+    /// appended. The API will return row level error info, so that the caller can
+    /// remove the bad rows and retry the request.
+    #[prost(message, repeated, tag="4")]
+    pub row_errors: ::prost::alloc::vec::Vec<RowError>,
     #[prost(oneof="append_rows_response::Response", tags="1, 2")]
     pub response: ::core::option::Option<append_rows_response::Response>,
 }
@@ -796,6 +806,31 @@ pub mod storage_error {
         OffsetAlreadyExists = 8,
         /// Offset out of range.
         OffsetOutOfRange = 9,
+    }
+}
+/// The message that presents row level error info in a request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RowError {
+    /// Index of the malformed row in the request.
+    #[prost(int64, tag="1")]
+    pub index: i64,
+    /// Structured error reason for a row error.
+    #[prost(enumeration="row_error::RowErrorCode", tag="2")]
+    pub code: i32,
+    /// Description of the issue encountered when processing the row.
+    #[prost(string, tag="3")]
+    pub message: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `RowError`.
+pub mod row_error {
+    /// Error code for `RowError`.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RowErrorCode {
+        /// Default error.
+        Unspecified = 0,
+        /// One or more fields in the row has errors.
+        FieldsError = 1,
     }
 }
 /// Generated client implementations.
