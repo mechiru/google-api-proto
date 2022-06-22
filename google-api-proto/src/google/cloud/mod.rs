@@ -52,6 +52,16 @@ pub mod baremetalsolution;
 pub mod batch;
 #[cfg(
     any(
+        feature = "google-cloud-beyondcorp-appconnections-v1",
+        feature = "google-cloud-beyondcorp-appconnectors-v1",
+        feature = "google-cloud-beyondcorp-appgateways-v1",
+        feature = "google-cloud-beyondcorp-clientconnectorservices-v1",
+        feature = "google-cloud-beyondcorp-clientgateways-v1",
+    )
+)]
+pub mod beyondcorp;
+#[cfg(
+    any(
         feature = "google-cloud-bigquery-connection-v1",
         feature = "google-cloud-bigquery-connection-v1beta1",
         feature = "google-cloud-bigquery-dataexchange-common",

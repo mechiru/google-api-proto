@@ -1,0 +1,10 @@
+#[cfg(any(feature = "google-cloud-beyondcorp-appconnections-v1"))]
+pub mod appconnections;
+#[cfg(any(feature = "google-cloud-beyondcorp-appconnectors-v1"))]
+pub mod appconnectors;
+#[cfg(any(feature = "google-cloud-beyondcorp-appgateways-v1"))]
+pub mod appgateways;
+#[cfg(any(feature = "google-cloud-beyondcorp-clientconnectorservices-v1"))]
+pub mod clientconnectorservices;
+#[cfg(any(feature = "google-cloud-beyondcorp-clientgateways-v1"))]
+pub mod clientgateways;
