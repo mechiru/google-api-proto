@@ -31,6 +31,38 @@ pub struct BoundingPoly {
     #[prost(message, repeated, tag="2")]
     pub normalized_vertices: ::prost::alloc::vec::Vec<NormalizedVertex>,
 }
+/// A processor type is responsible for performing a certain document
+/// understanding task on a certain type of document.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProcessorType {
+    /// The resource name of the processor type.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The type of the processor.
+    #[prost(string, tag="2")]
+    pub r#type: ::prost::alloc::string::String,
+    /// The processor category.
+    #[prost(string, tag="3")]
+    pub category: ::prost::alloc::string::String,
+    /// The locations in which this processor is available.
+    #[prost(message, repeated, tag="4")]
+    pub available_locations: ::prost::alloc::vec::Vec<processor_type::LocationInfo>,
+    /// Whether the processor type allows creation. If yes, user can create a
+    /// processor of this processor type. Otherwise, user needs to require for
+    /// whitelisting.
+    #[prost(bool, tag="6")]
+    pub allow_creation: bool,
+}
+/// Nested message and enum types in `ProcessorType`.
+pub mod processor_type {
+    /// The location information about where the processor is available.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct LocationInfo {
+        /// The location id.
+        #[prost(string, tag="1")]
+        pub location_id: ::prost::alloc::string::String,
+    }
+}
 /// Document represents the canonical document resource in Document Understanding
 /// AI.
 /// It is an interchange format that provides insights into documents and allows
@@ -1050,38 +1082,6 @@ pub mod processor {
         Failed = 6,
         /// The processor is being deleted, will be removed if successful.
         Deleting = 7,
-    }
-}
-/// A processor type is responsible for performing a certain document
-/// understanding task on a certain type of document.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProcessorType {
-    /// The resource name of the processor type.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The type of the processor.
-    #[prost(string, tag="2")]
-    pub r#type: ::prost::alloc::string::String,
-    /// The processor category.
-    #[prost(string, tag="3")]
-    pub category: ::prost::alloc::string::String,
-    /// The locations in which this processor is available.
-    #[prost(message, repeated, tag="4")]
-    pub available_locations: ::prost::alloc::vec::Vec<processor_type::LocationInfo>,
-    /// Whether the processor type allows creation. If yes, user can create a
-    /// processor of this processor type. Otherwise, user needs to require for
-    /// whitelisting.
-    #[prost(bool, tag="6")]
-    pub allow_creation: bool,
-}
-/// Nested message and enum types in `ProcessorType`.
-pub mod processor_type {
-    /// The location information about where the processor is available.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct LocationInfo {
-        /// The location id.
-        #[prost(string, tag="1")]
-        pub location_id: ::prost::alloc::string::String,
     }
 }
 /// Request message for the process document method.

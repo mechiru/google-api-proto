@@ -1,504 +1,3 @@
-/// Represents a Pubsub snapshot.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PubsubSnapshotMetadata {
-    /// The name of the Pubsub topic.
-    #[prost(string, tag="1")]
-    pub topic_name: ::prost::alloc::string::String,
-    /// The name of the Pubsub snapshot.
-    #[prost(string, tag="2")]
-    pub snapshot_name: ::prost::alloc::string::String,
-    /// The expire time of the Pubsub snapshot.
-    #[prost(message, optional, tag="3")]
-    pub expire_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Represents a snapshot of a job.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Snapshot {
-    /// The unique ID of this snapshot.
-    #[prost(string, tag="1")]
-    pub id: ::prost::alloc::string::String,
-    /// The project this snapshot belongs to.
-    #[prost(string, tag="2")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The job this snapshot was created from.
-    #[prost(string, tag="3")]
-    pub source_job_id: ::prost::alloc::string::String,
-    /// The time this snapshot was created.
-    #[prost(message, optional, tag="4")]
-    pub creation_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time after which this snapshot will be automatically deleted.
-    #[prost(message, optional, tag="5")]
-    pub ttl: ::core::option::Option<::prost_types::Duration>,
-    /// State of the snapshot.
-    #[prost(enumeration="SnapshotState", tag="6")]
-    pub state: i32,
-    /// Pub/Sub snapshot metadata.
-    #[prost(message, repeated, tag="7")]
-    pub pubsub_metadata: ::prost::alloc::vec::Vec<PubsubSnapshotMetadata>,
-    /// User specified description of the snapshot. Maybe empty.
-    #[prost(string, tag="8")]
-    pub description: ::prost::alloc::string::String,
-    /// The disk byte size of the snapshot. Only available for snapshots in READY
-    /// state.
-    #[prost(int64, tag="9")]
-    pub disk_size_bytes: i64,
-    /// Cloud region where this snapshot lives in, e.g., "us-central1".
-    #[prost(string, tag="10")]
-    pub region: ::prost::alloc::string::String,
-}
-/// Request to get information about a snapshot
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetSnapshotRequest {
-    /// The ID of the Cloud Platform project that the snapshot belongs to.
-    #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The ID of the snapshot.
-    #[prost(string, tag="2")]
-    pub snapshot_id: ::prost::alloc::string::String,
-    /// The location that contains this snapshot.
-    #[prost(string, tag="3")]
-    pub location: ::prost::alloc::string::String,
-}
-/// Request to delete a snapshot.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteSnapshotRequest {
-    /// The ID of the Cloud Platform project that the snapshot belongs to.
-    #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The ID of the snapshot.
-    #[prost(string, tag="2")]
-    pub snapshot_id: ::prost::alloc::string::String,
-    /// The location that contains this snapshot.
-    #[prost(string, tag="3")]
-    pub location: ::prost::alloc::string::String,
-}
-/// Response from deleting a snapshot.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteSnapshotResponse {
-}
-/// Request to list snapshots.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListSnapshotsRequest {
-    /// The project ID to list snapshots for.
-    #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// If specified, list snapshots created from this job.
-    #[prost(string, tag="3")]
-    pub job_id: ::prost::alloc::string::String,
-    /// The location to list snapshots in.
-    #[prost(string, tag="2")]
-    pub location: ::prost::alloc::string::String,
-}
-/// List of snapshots.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListSnapshotsResponse {
-    /// Returned snapshots.
-    #[prost(message, repeated, tag="1")]
-    pub snapshots: ::prost::alloc::vec::Vec<Snapshot>,
-}
-/// Snapshot state.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum SnapshotState {
-    /// Unknown state.
-    UnknownSnapshotState = 0,
-    /// Snapshot intent to create has been persisted, snapshotting of state has not
-    /// yet started.
-    Pending = 1,
-    /// Snapshotting is being performed.
-    Running = 2,
-    /// Snapshot has been created and is ready to be used.
-    Ready = 3,
-    /// Snapshot failed to be created.
-    Failed = 4,
-    /// Snapshot has been deleted.
-    Deleted = 5,
-}
-/// Generated client implementations.
-pub mod snapshots_v1_beta3_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// Provides methods to manage snapshots of Google Cloud Dataflow jobs.
-    #[derive(Debug, Clone)]
-    pub struct SnapshotsV1Beta3Client<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> SnapshotsV1Beta3Client<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> SnapshotsV1Beta3Client<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            SnapshotsV1Beta3Client::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Gets information about a snapshot.
-        pub async fn get_snapshot(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetSnapshotRequest>,
-        ) -> Result<tonic::Response<super::Snapshot>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.dataflow.v1beta3.SnapshotsV1Beta3/GetSnapshot",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes a snapshot.
-        pub async fn delete_snapshot(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteSnapshotRequest>,
-        ) -> Result<tonic::Response<super::DeleteSnapshotResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.dataflow.v1beta3.SnapshotsV1Beta3/DeleteSnapshot",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Lists snapshots.
-        pub async fn list_snapshots(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListSnapshotsRequest>,
-        ) -> Result<tonic::Response<super::ListSnapshotsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.dataflow.v1beta3.SnapshotsV1Beta3/ListSnapshots",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// A particular message pertaining to a Dataflow job.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct JobMessage {
-    /// Deprecated.
-    #[prost(string, tag="1")]
-    pub id: ::prost::alloc::string::String,
-    /// The timestamp of the message.
-    #[prost(message, optional, tag="2")]
-    pub time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The text of the message.
-    #[prost(string, tag="3")]
-    pub message_text: ::prost::alloc::string::String,
-    /// Importance level of the message.
-    #[prost(enumeration="JobMessageImportance", tag="4")]
-    pub message_importance: i32,
-}
-/// A rich message format, including a human readable string, a key for
-/// identifying the message, and structured data associated with the message for
-/// programmatic consumption.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StructuredMessage {
-    /// Human-readable version of message.
-    #[prost(string, tag="1")]
-    pub message_text: ::prost::alloc::string::String,
-    /// Identifier for this message type.  Used by external systems to
-    /// internationalize or personalize message.
-    #[prost(string, tag="2")]
-    pub message_key: ::prost::alloc::string::String,
-    /// The structured data associated with this message.
-    #[prost(message, repeated, tag="3")]
-    pub parameters: ::prost::alloc::vec::Vec<structured_message::Parameter>,
-}
-/// Nested message and enum types in `StructuredMessage`.
-pub mod structured_message {
-    /// Structured data associated with this message.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Parameter {
-        /// Key or name for this parameter.
-        #[prost(string, tag="1")]
-        pub key: ::prost::alloc::string::String,
-        /// Value for this parameter.
-        #[prost(message, optional, tag="2")]
-        pub value: ::core::option::Option<::prost_types::Value>,
-    }
-}
-/// A structured message reporting an autoscaling decision made by the Dataflow
-/// service.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AutoscalingEvent {
-    /// The current number of workers the job has.
-    #[prost(int64, tag="1")]
-    pub current_num_workers: i64,
-    /// The target number of workers the worker pool wants to resize to use.
-    #[prost(int64, tag="2")]
-    pub target_num_workers: i64,
-    /// The type of autoscaling event to report.
-    #[prost(enumeration="autoscaling_event::AutoscalingEventType", tag="3")]
-    pub event_type: i32,
-    /// A message describing why the system decided to adjust the current
-    /// number of workers, why it failed, or why the system decided to
-    /// not make any changes to the number of workers.
-    #[prost(message, optional, tag="4")]
-    pub description: ::core::option::Option<StructuredMessage>,
-    /// The time this event was emitted to indicate a new target or current
-    /// num_workers value.
-    #[prost(message, optional, tag="5")]
-    pub time: ::core::option::Option<::prost_types::Timestamp>,
-    /// A short and friendly name for the worker pool this event refers to.
-    #[prost(string, tag="7")]
-    pub worker_pool: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `AutoscalingEvent`.
-pub mod autoscaling_event {
-    /// Indicates the type of autoscaling event.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AutoscalingEventType {
-        /// Default type for the enum.  Value should never be returned.
-        TypeUnknown = 0,
-        /// The TARGET_NUM_WORKERS_CHANGED type should be used when the target
-        /// worker pool size has changed at the start of an actuation. An event
-        /// should always be specified as TARGET_NUM_WORKERS_CHANGED if it reflects
-        /// a change in the target_num_workers.
-        TargetNumWorkersChanged = 1,
-        /// The CURRENT_NUM_WORKERS_CHANGED type should be used when actual worker
-        /// pool size has been changed, but the target_num_workers has not changed.
-        CurrentNumWorkersChanged = 2,
-        /// The ACTUATION_FAILURE type should be used when we want to report
-        /// an error to the user indicating why the current number of workers
-        /// in the pool could not be changed.
-        /// Displayed in the current status and history widgets.
-        ActuationFailure = 3,
-        /// Used when we want to report to the user a reason why we are
-        /// not currently adjusting the number of workers.
-        /// Should specify both target_num_workers, current_num_workers and a
-        /// decision_message.
-        NoChange = 4,
-    }
-}
-/// Request to list job messages.
-/// Up to max_results messages will be returned in the time range specified
-/// starting with the oldest messages first. If no time range is specified
-/// the results with start with the oldest message.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListJobMessagesRequest {
-    /// A project id.
-    #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The job to get messages about.
-    #[prost(string, tag="2")]
-    pub job_id: ::prost::alloc::string::String,
-    /// Filter to only get messages with importance >= level
-    #[prost(enumeration="JobMessageImportance", tag="3")]
-    pub minimum_importance: i32,
-    /// If specified, determines the maximum number of messages to
-    /// return.  If unspecified, the service may choose an appropriate
-    /// default, or may return an arbitrarily large number of results.
-    #[prost(int32, tag="4")]
-    pub page_size: i32,
-    /// If supplied, this should be the value of next_page_token returned
-    /// by an earlier call. This will cause the next page of results to
-    /// be returned.
-    #[prost(string, tag="5")]
-    pub page_token: ::prost::alloc::string::String,
-    /// If specified, return only messages with timestamps >= start_time.
-    /// The default is the job creation time (i.e. beginning of messages).
-    #[prost(message, optional, tag="6")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Return only messages with timestamps < end_time. The default is now
-    /// (i.e. return up to the latest messages available).
-    #[prost(message, optional, tag="7")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The [regional endpoint]
-    /// (<https://cloud.google.com/dataflow/docs/concepts/regional-endpoints>) that
-    /// contains the job specified by job_id.
-    #[prost(string, tag="8")]
-    pub location: ::prost::alloc::string::String,
-}
-/// Response to a request to list job messages.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListJobMessagesResponse {
-    /// Messages in ascending timestamp order.
-    #[prost(message, repeated, tag="1")]
-    pub job_messages: ::prost::alloc::vec::Vec<JobMessage>,
-    /// The token to obtain the next page of results if there are more.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-    /// Autoscaling events in ascending timestamp order.
-    #[prost(message, repeated, tag="3")]
-    pub autoscaling_events: ::prost::alloc::vec::Vec<AutoscalingEvent>,
-}
-/// Indicates the importance of the message.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum JobMessageImportance {
-    /// The message importance isn't specified, or is unknown.
-    Unknown = 0,
-    /// The message is at the 'debug' level: typically only useful for
-    /// software engineers working on the code the job is running.
-    /// Typically, Dataflow pipeline runners do not display log messages
-    /// at this level by default.
-    JobMessageDebug = 1,
-    /// The message is at the 'detailed' level: somewhat verbose, but
-    /// potentially useful to users.  Typically, Dataflow pipeline
-    /// runners do not display log messages at this level by default.
-    /// These messages are displayed by default in the Dataflow
-    /// monitoring UI.
-    JobMessageDetailed = 2,
-    /// The message is at the 'basic' level: useful for keeping
-    /// track of the execution of a Dataflow pipeline.  Typically,
-    /// Dataflow pipeline runners display log messages at this level by
-    /// default, and these messages are displayed by default in the
-    /// Dataflow monitoring UI.
-    JobMessageBasic = 5,
-    /// The message is at the 'warning' level: indicating a condition
-    /// pertaining to a job which may require human intervention.
-    /// Typically, Dataflow pipeline runners display log messages at this
-    /// level by default, and these messages are displayed by default in
-    /// the Dataflow monitoring UI.
-    JobMessageWarning = 3,
-    /// The message is at the 'error' level: indicating a condition
-    /// preventing a job from succeeding.  Typically, Dataflow pipeline
-    /// runners display log messages at this level by default, and these
-    /// messages are displayed by default in the Dataflow monitoring UI.
-    JobMessageError = 4,
-}
-/// Generated client implementations.
-pub mod messages_v1_beta3_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// The Dataflow Messages API is used for monitoring the progress of
-    /// Dataflow jobs.
-    #[derive(Debug, Clone)]
-    pub struct MessagesV1Beta3Client<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> MessagesV1Beta3Client<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> MessagesV1Beta3Client<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            MessagesV1Beta3Client::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Request the job status.
-        ///
-        /// To request the status of a job, we recommend using
-        /// `projects.locations.jobs.messages.list` with a [regional endpoint]
-        /// (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using
-        /// `projects.jobs.messages.list` is not recommended, as you can only request
-        /// the status of jobs that are running in `us-central1`.
-        pub async fn list_job_messages(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListJobMessagesRequest>,
-        ) -> Result<tonic::Response<super::ListJobMessagesResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.dataflow.v1beta3.MessagesV1Beta3/ListJobMessages",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// Identifies a metric, by describing the source which generated the
 /// metric.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1684,6 +1183,238 @@ pub enum ShuffleMode {
     VmBased = 1,
     /// Shuffle is done on the service side.
     ServiceBased = 2,
+}
+/// Represents a Pubsub snapshot.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PubsubSnapshotMetadata {
+    /// The name of the Pubsub topic.
+    #[prost(string, tag="1")]
+    pub topic_name: ::prost::alloc::string::String,
+    /// The name of the Pubsub snapshot.
+    #[prost(string, tag="2")]
+    pub snapshot_name: ::prost::alloc::string::String,
+    /// The expire time of the Pubsub snapshot.
+    #[prost(message, optional, tag="3")]
+    pub expire_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Represents a snapshot of a job.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Snapshot {
+    /// The unique ID of this snapshot.
+    #[prost(string, tag="1")]
+    pub id: ::prost::alloc::string::String,
+    /// The project this snapshot belongs to.
+    #[prost(string, tag="2")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The job this snapshot was created from.
+    #[prost(string, tag="3")]
+    pub source_job_id: ::prost::alloc::string::String,
+    /// The time this snapshot was created.
+    #[prost(message, optional, tag="4")]
+    pub creation_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time after which this snapshot will be automatically deleted.
+    #[prost(message, optional, tag="5")]
+    pub ttl: ::core::option::Option<::prost_types::Duration>,
+    /// State of the snapshot.
+    #[prost(enumeration="SnapshotState", tag="6")]
+    pub state: i32,
+    /// Pub/Sub snapshot metadata.
+    #[prost(message, repeated, tag="7")]
+    pub pubsub_metadata: ::prost::alloc::vec::Vec<PubsubSnapshotMetadata>,
+    /// User specified description of the snapshot. Maybe empty.
+    #[prost(string, tag="8")]
+    pub description: ::prost::alloc::string::String,
+    /// The disk byte size of the snapshot. Only available for snapshots in READY
+    /// state.
+    #[prost(int64, tag="9")]
+    pub disk_size_bytes: i64,
+    /// Cloud region where this snapshot lives in, e.g., "us-central1".
+    #[prost(string, tag="10")]
+    pub region: ::prost::alloc::string::String,
+}
+/// Request to get information about a snapshot
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetSnapshotRequest {
+    /// The ID of the Cloud Platform project that the snapshot belongs to.
+    #[prost(string, tag="1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The ID of the snapshot.
+    #[prost(string, tag="2")]
+    pub snapshot_id: ::prost::alloc::string::String,
+    /// The location that contains this snapshot.
+    #[prost(string, tag="3")]
+    pub location: ::prost::alloc::string::String,
+}
+/// Request to delete a snapshot.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteSnapshotRequest {
+    /// The ID of the Cloud Platform project that the snapshot belongs to.
+    #[prost(string, tag="1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The ID of the snapshot.
+    #[prost(string, tag="2")]
+    pub snapshot_id: ::prost::alloc::string::String,
+    /// The location that contains this snapshot.
+    #[prost(string, tag="3")]
+    pub location: ::prost::alloc::string::String,
+}
+/// Response from deleting a snapshot.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteSnapshotResponse {
+}
+/// Request to list snapshots.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSnapshotsRequest {
+    /// The project ID to list snapshots for.
+    #[prost(string, tag="1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// If specified, list snapshots created from this job.
+    #[prost(string, tag="3")]
+    pub job_id: ::prost::alloc::string::String,
+    /// The location to list snapshots in.
+    #[prost(string, tag="2")]
+    pub location: ::prost::alloc::string::String,
+}
+/// List of snapshots.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSnapshotsResponse {
+    /// Returned snapshots.
+    #[prost(message, repeated, tag="1")]
+    pub snapshots: ::prost::alloc::vec::Vec<Snapshot>,
+}
+/// Snapshot state.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum SnapshotState {
+    /// Unknown state.
+    UnknownSnapshotState = 0,
+    /// Snapshot intent to create has been persisted, snapshotting of state has not
+    /// yet started.
+    Pending = 1,
+    /// Snapshotting is being performed.
+    Running = 2,
+    /// Snapshot has been created and is ready to be used.
+    Ready = 3,
+    /// Snapshot failed to be created.
+    Failed = 4,
+    /// Snapshot has been deleted.
+    Deleted = 5,
+}
+/// Generated client implementations.
+pub mod snapshots_v1_beta3_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// Provides methods to manage snapshots of Google Cloud Dataflow jobs.
+    #[derive(Debug, Clone)]
+    pub struct SnapshotsV1Beta3Client<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> SnapshotsV1Beta3Client<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> SnapshotsV1Beta3Client<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            SnapshotsV1Beta3Client::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Gets information about a snapshot.
+        pub async fn get_snapshot(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetSnapshotRequest>,
+        ) -> Result<tonic::Response<super::Snapshot>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.dataflow.v1beta3.SnapshotsV1Beta3/GetSnapshot",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes a snapshot.
+        pub async fn delete_snapshot(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteSnapshotRequest>,
+        ) -> Result<tonic::Response<super::DeleteSnapshotResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.dataflow.v1beta3.SnapshotsV1Beta3/DeleteSnapshot",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists snapshots.
+        pub async fn list_snapshots(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListSnapshotsRequest>,
+        ) -> Result<tonic::Response<super::ListSnapshotsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.dataflow.v1beta3.SnapshotsV1Beta3/ListSnapshots",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
 }
 /// Defines a job to be run by the Cloud Dataflow service.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3492,6 +3223,275 @@ pub mod flex_templates_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.dataflow.v1beta3.FlexTemplatesService/LaunchFlexTemplate",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// A particular message pertaining to a Dataflow job.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct JobMessage {
+    /// Deprecated.
+    #[prost(string, tag="1")]
+    pub id: ::prost::alloc::string::String,
+    /// The timestamp of the message.
+    #[prost(message, optional, tag="2")]
+    pub time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The text of the message.
+    #[prost(string, tag="3")]
+    pub message_text: ::prost::alloc::string::String,
+    /// Importance level of the message.
+    #[prost(enumeration="JobMessageImportance", tag="4")]
+    pub message_importance: i32,
+}
+/// A rich message format, including a human readable string, a key for
+/// identifying the message, and structured data associated with the message for
+/// programmatic consumption.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StructuredMessage {
+    /// Human-readable version of message.
+    #[prost(string, tag="1")]
+    pub message_text: ::prost::alloc::string::String,
+    /// Identifier for this message type.  Used by external systems to
+    /// internationalize or personalize message.
+    #[prost(string, tag="2")]
+    pub message_key: ::prost::alloc::string::String,
+    /// The structured data associated with this message.
+    #[prost(message, repeated, tag="3")]
+    pub parameters: ::prost::alloc::vec::Vec<structured_message::Parameter>,
+}
+/// Nested message and enum types in `StructuredMessage`.
+pub mod structured_message {
+    /// Structured data associated with this message.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Parameter {
+        /// Key or name for this parameter.
+        #[prost(string, tag="1")]
+        pub key: ::prost::alloc::string::String,
+        /// Value for this parameter.
+        #[prost(message, optional, tag="2")]
+        pub value: ::core::option::Option<::prost_types::Value>,
+    }
+}
+/// A structured message reporting an autoscaling decision made by the Dataflow
+/// service.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AutoscalingEvent {
+    /// The current number of workers the job has.
+    #[prost(int64, tag="1")]
+    pub current_num_workers: i64,
+    /// The target number of workers the worker pool wants to resize to use.
+    #[prost(int64, tag="2")]
+    pub target_num_workers: i64,
+    /// The type of autoscaling event to report.
+    #[prost(enumeration="autoscaling_event::AutoscalingEventType", tag="3")]
+    pub event_type: i32,
+    /// A message describing why the system decided to adjust the current
+    /// number of workers, why it failed, or why the system decided to
+    /// not make any changes to the number of workers.
+    #[prost(message, optional, tag="4")]
+    pub description: ::core::option::Option<StructuredMessage>,
+    /// The time this event was emitted to indicate a new target or current
+    /// num_workers value.
+    #[prost(message, optional, tag="5")]
+    pub time: ::core::option::Option<::prost_types::Timestamp>,
+    /// A short and friendly name for the worker pool this event refers to.
+    #[prost(string, tag="7")]
+    pub worker_pool: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `AutoscalingEvent`.
+pub mod autoscaling_event {
+    /// Indicates the type of autoscaling event.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AutoscalingEventType {
+        /// Default type for the enum.  Value should never be returned.
+        TypeUnknown = 0,
+        /// The TARGET_NUM_WORKERS_CHANGED type should be used when the target
+        /// worker pool size has changed at the start of an actuation. An event
+        /// should always be specified as TARGET_NUM_WORKERS_CHANGED if it reflects
+        /// a change in the target_num_workers.
+        TargetNumWorkersChanged = 1,
+        /// The CURRENT_NUM_WORKERS_CHANGED type should be used when actual worker
+        /// pool size has been changed, but the target_num_workers has not changed.
+        CurrentNumWorkersChanged = 2,
+        /// The ACTUATION_FAILURE type should be used when we want to report
+        /// an error to the user indicating why the current number of workers
+        /// in the pool could not be changed.
+        /// Displayed in the current status and history widgets.
+        ActuationFailure = 3,
+        /// Used when we want to report to the user a reason why we are
+        /// not currently adjusting the number of workers.
+        /// Should specify both target_num_workers, current_num_workers and a
+        /// decision_message.
+        NoChange = 4,
+    }
+}
+/// Request to list job messages.
+/// Up to max_results messages will be returned in the time range specified
+/// starting with the oldest messages first. If no time range is specified
+/// the results with start with the oldest message.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListJobMessagesRequest {
+    /// A project id.
+    #[prost(string, tag="1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The job to get messages about.
+    #[prost(string, tag="2")]
+    pub job_id: ::prost::alloc::string::String,
+    /// Filter to only get messages with importance >= level
+    #[prost(enumeration="JobMessageImportance", tag="3")]
+    pub minimum_importance: i32,
+    /// If specified, determines the maximum number of messages to
+    /// return.  If unspecified, the service may choose an appropriate
+    /// default, or may return an arbitrarily large number of results.
+    #[prost(int32, tag="4")]
+    pub page_size: i32,
+    /// If supplied, this should be the value of next_page_token returned
+    /// by an earlier call. This will cause the next page of results to
+    /// be returned.
+    #[prost(string, tag="5")]
+    pub page_token: ::prost::alloc::string::String,
+    /// If specified, return only messages with timestamps >= start_time.
+    /// The default is the job creation time (i.e. beginning of messages).
+    #[prost(message, optional, tag="6")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Return only messages with timestamps < end_time. The default is now
+    /// (i.e. return up to the latest messages available).
+    #[prost(message, optional, tag="7")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The [regional endpoint]
+    /// (<https://cloud.google.com/dataflow/docs/concepts/regional-endpoints>) that
+    /// contains the job specified by job_id.
+    #[prost(string, tag="8")]
+    pub location: ::prost::alloc::string::String,
+}
+/// Response to a request to list job messages.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListJobMessagesResponse {
+    /// Messages in ascending timestamp order.
+    #[prost(message, repeated, tag="1")]
+    pub job_messages: ::prost::alloc::vec::Vec<JobMessage>,
+    /// The token to obtain the next page of results if there are more.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+    /// Autoscaling events in ascending timestamp order.
+    #[prost(message, repeated, tag="3")]
+    pub autoscaling_events: ::prost::alloc::vec::Vec<AutoscalingEvent>,
+}
+/// Indicates the importance of the message.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum JobMessageImportance {
+    /// The message importance isn't specified, or is unknown.
+    Unknown = 0,
+    /// The message is at the 'debug' level: typically only useful for
+    /// software engineers working on the code the job is running.
+    /// Typically, Dataflow pipeline runners do not display log messages
+    /// at this level by default.
+    JobMessageDebug = 1,
+    /// The message is at the 'detailed' level: somewhat verbose, but
+    /// potentially useful to users.  Typically, Dataflow pipeline
+    /// runners do not display log messages at this level by default.
+    /// These messages are displayed by default in the Dataflow
+    /// monitoring UI.
+    JobMessageDetailed = 2,
+    /// The message is at the 'basic' level: useful for keeping
+    /// track of the execution of a Dataflow pipeline.  Typically,
+    /// Dataflow pipeline runners display log messages at this level by
+    /// default, and these messages are displayed by default in the
+    /// Dataflow monitoring UI.
+    JobMessageBasic = 5,
+    /// The message is at the 'warning' level: indicating a condition
+    /// pertaining to a job which may require human intervention.
+    /// Typically, Dataflow pipeline runners display log messages at this
+    /// level by default, and these messages are displayed by default in
+    /// the Dataflow monitoring UI.
+    JobMessageWarning = 3,
+    /// The message is at the 'error' level: indicating a condition
+    /// preventing a job from succeeding.  Typically, Dataflow pipeline
+    /// runners display log messages at this level by default, and these
+    /// messages are displayed by default in the Dataflow monitoring UI.
+    JobMessageError = 4,
+}
+/// Generated client implementations.
+pub mod messages_v1_beta3_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// The Dataflow Messages API is used for monitoring the progress of
+    /// Dataflow jobs.
+    #[derive(Debug, Clone)]
+    pub struct MessagesV1Beta3Client<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> MessagesV1Beta3Client<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> MessagesV1Beta3Client<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            MessagesV1Beta3Client::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Request the job status.
+        ///
+        /// To request the status of a job, we recommend using
+        /// `projects.locations.jobs.messages.list` with a [regional endpoint]
+        /// (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using
+        /// `projects.jobs.messages.list` is not recommended, as you can only request
+        /// the status of jobs that are running in `us-central1`.
+        pub async fn list_job_messages(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListJobMessagesRequest>,
+        ) -> Result<tonic::Response<super::ListJobMessagesResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.dataflow.v1beta3.MessagesV1Beta3/ListJobMessages",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

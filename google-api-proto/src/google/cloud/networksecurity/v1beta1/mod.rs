@@ -1,250 +1,3 @@
-/// AuthorizationPolicy is a resource that specifies how a server
-/// should authorize incoming connections. This resource in itself does
-/// not change the configuration unless it's attached to a target https
-/// proxy or endpoint config selector resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AuthorizationPolicy {
-    /// Required. Name of the AuthorizationPolicy resource. It matches pattern
-    /// `projects/{project}/locations/{location}/authorizationPolicies/<authorization_policy>`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. Free-text description of the resource.
-    #[prost(string, tag="2")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. The timestamp when the resource was created.
-    #[prost(message, optional, tag="3")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The timestamp when the resource was updated.
-    #[prost(message, optional, tag="4")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. Set of label tags associated with the AuthorizationPolicy resource.
-    #[prost(btree_map="string, string", tag="5")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Required. The action to take when a rule match is found. Possible values
-    /// are "ALLOW" or "DENY".
-    #[prost(enumeration="authorization_policy::Action", tag="6")]
-    pub action: i32,
-    /// Optional. List of rules to match. Note that at least one of the rules must match in
-    /// order for the action specified in the 'action' field to be taken. A rule is
-    /// a match if there is a matching source and destination. If left blank, the
-    /// action specified in the `action` field will be applied on every request.
-    #[prost(message, repeated, tag="7")]
-    pub rules: ::prost::alloc::vec::Vec<authorization_policy::Rule>,
-}
-/// Nested message and enum types in `AuthorizationPolicy`.
-pub mod authorization_policy {
-    /// Specification of rules.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Rule {
-        /// Optional. List of attributes for the traffic source. All of the sources must match.
-        /// A source is a match if both principals and ip_blocks match. If not set,
-        /// the action specified in the 'action' field will be applied without any
-        /// rule checks for the source.
-        #[prost(message, repeated, tag="1")]
-        pub sources: ::prost::alloc::vec::Vec<rule::Source>,
-        /// Optional. List of attributes for the traffic destination. All of the destinations
-        /// must match. A destination is a match if a request matches all the
-        /// specified hosts, ports, methods and headers. If not set, the
-        /// action specified in the 'action' field will be applied without any rule
-        /// checks for the destination.
-        #[prost(message, repeated, tag="2")]
-        pub destinations: ::prost::alloc::vec::Vec<rule::Destination>,
-    }
-    /// Nested message and enum types in `Rule`.
-    pub mod rule {
-        /// Specification of traffic source attributes.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Source {
-            /// Optional. List of peer identities to match for authorization. At least one
-            /// principal should match. Each peer can be an exact match, or a prefix
-            /// match (example, "namespace/*") or a suffix match (example, //
-            /// */service-account") or a presence match "*". Authorization based on the
-            /// principal name without certificate validation (configured by
-            /// ServerTlsPolicy resource) is considered insecure.
-            #[prost(string, repeated, tag="1")]
-            pub principals: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// Optional. List of CIDR ranges to match based on source IP address. At least one
-            /// IP block should match. Single IP (e.g., "1.2.3.4") and CIDR (e.g.,
-            /// "1.2.3.0/24") are supported. Authorization based on source IP alone
-            /// should be avoided. The IP addresses of any load balancers or proxies
-            /// should be considered untrusted.
-            #[prost(string, repeated, tag="2")]
-            pub ip_blocks: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        }
-        /// Specification of traffic destination attributes.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Destination {
-            /// Required. List of host names to match. Matched against the ":authority" header in
-            /// http requests. At least one host should match. Each host can be an
-            /// exact match, or a prefix match (example "mydomain.*") or a suffix
-            /// match (example // *.myorg.com") or a presence(any) match "*".
-            #[prost(string, repeated, tag="1")]
-            pub hosts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// Required. List of destination ports to match. At least one port should match.
-            #[prost(uint32, repeated, packed="false", tag="2")]
-            pub ports: ::prost::alloc::vec::Vec<u32>,
-            /// Optional. A list of HTTP methods to match. At least one method should
-            /// match. Should not be set for gRPC services.
-            #[prost(string, repeated, tag="4")]
-            pub methods: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// Optional. Match against key:value pair in http header. Provides a flexible match
-            /// based on HTTP headers, for potentially advanced use cases. At least one
-            /// header should match. Avoid using header matches to make authorization
-            /// decisions unless there is a strong guarantee that requests arrive
-            /// through a trusted client or proxy.
-            #[prost(message, optional, tag="5")]
-            pub http_header_match: ::core::option::Option<destination::HttpHeaderMatch>,
-        }
-        /// Nested message and enum types in `Destination`.
-        pub mod destination {
-            /// Specification of HTTP header match atrributes.
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            pub struct HttpHeaderMatch {
-                /// Required. The name of the HTTP header to match. For matching
-                /// against the HTTP request's authority, use a headerMatch
-                /// with the header name ":authority". For matching a
-                /// request's method, use the headerName ":method".
-                #[prost(string, tag="1")]
-                pub header_name: ::prost::alloc::string::String,
-                #[prost(oneof="http_header_match::Type", tags="2")]
-                pub r#type: ::core::option::Option<http_header_match::Type>,
-            }
-            /// Nested message and enum types in `HttpHeaderMatch`.
-            pub mod http_header_match {
-                #[derive(Clone, PartialEq, ::prost::Oneof)]
-                pub enum Type {
-                    /// Required. The value of the header must match the regular expression
-                    /// specified in regexMatch. For regular expression grammar,
-                    /// please see: en.cppreference.com/w/cpp/regex/ecmascript
-                    /// For matching against a port specified in the HTTP
-                    /// request, use a headerMatch with headerName set to Host
-                    /// and a regular expression that satisfies the RFC2616 Host
-                    /// header's port specifier.
-                    #[prost(string, tag="2")]
-                    RegexMatch(::prost::alloc::string::String),
-                }
-            }
-        }
-    }
-    /// Possible values that define what action to take.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Action {
-        /// Default value.
-        Unspecified = 0,
-        /// Grant access.
-        Allow = 1,
-        /// Deny access.
-        /// Deny rules should be avoided unless they are used to provide a default
-        /// "deny all" fallback.
-        Deny = 2,
-    }
-}
-/// Request used with the ListAuthorizationPolicies method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListAuthorizationPoliciesRequest {
-    /// Required. The project and location from which the AuthorizationPolicies
-    /// should be listed, specified in the format
-    /// `projects/{project}/locations/{location}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Maximum number of AuthorizationPolicies to return per call.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// The value returned by the last
-    /// `ListAuthorizationPoliciesResponse` Indicates that this is a
-    /// continuation of a prior `ListAuthorizationPolicies` call, and
-    /// that the system should return the next page of data.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response returned by the ListAuthorizationPolicies method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListAuthorizationPoliciesResponse {
-    /// List of AuthorizationPolicies resources.
-    #[prost(message, repeated, tag="1")]
-    pub authorization_policies: ::prost::alloc::vec::Vec<AuthorizationPolicy>,
-    /// If there might be more results than those appearing in this response, then
-    /// `next_page_token` is included. To get the next set of results, call this
-    /// method again using the value of `next_page_token` as `page_token`.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request used by the GetAuthorizationPolicy method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetAuthorizationPolicyRequest {
-    /// Required. A name of the AuthorizationPolicy to get. Must be in the format
-    /// `projects/{project}/locations/{location}/authorizationPolicies/*`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request used by the CreateAuthorizationPolicy method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateAuthorizationPolicyRequest {
-    /// Required. The parent resource of the AuthorizationPolicy. Must be in the
-    /// format `projects/{project}/locations/{location}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Short name of the AuthorizationPolicy resource to be created.
-    /// This value should be 1-63 characters long, containing only
-    /// letters, numbers, hyphens, and underscores, and should not start
-    /// with a number. E.g. "authz_policy".
-    #[prost(string, tag="2")]
-    pub authorization_policy_id: ::prost::alloc::string::String,
-    /// Required. AuthorizationPolicy resource to be created.
-    #[prost(message, optional, tag="3")]
-    pub authorization_policy: ::core::option::Option<AuthorizationPolicy>,
-}
-/// Request used by the UpdateAuthorizationPolicy method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateAuthorizationPolicyRequest {
-    /// Optional. Field mask is used to specify the fields to be overwritten in the
-    /// AuthorizationPolicy resource by the update.
-    /// The fields specified in the update_mask are relative to the resource, not
-    /// the full request. A field will be overwritten if it is in the mask. If the
-    /// user does not provide a mask then all fields will be overwritten.
-    #[prost(message, optional, tag="1")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-    /// Required. Updated AuthorizationPolicy resource.
-    #[prost(message, optional, tag="2")]
-    pub authorization_policy: ::core::option::Option<AuthorizationPolicy>,
-}
-/// Request used by the DeleteAuthorizationPolicy method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteAuthorizationPolicyRequest {
-    /// Required. A name of the AuthorizationPolicy to delete. Must be in the format
-    /// `projects/{project}/locations/{location}/authorizationPolicies/*`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Represents the metadata of the long-running operation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OperationMetadata {
-    /// Output only. The time the operation was created.
-    #[prost(message, optional, tag="1")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The time the operation finished running.
-    #[prost(message, optional, tag="2")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Server-defined resource path for the target of the operation.
-    #[prost(string, tag="3")]
-    pub target: ::prost::alloc::string::String,
-    /// Output only. Name of the verb executed by the operation.
-    #[prost(string, tag="4")]
-    pub verb: ::prost::alloc::string::String,
-    /// Output only. Human-readable status of the operation, if any.
-    #[prost(string, tag="5")]
-    pub status_message: ::prost::alloc::string::String,
-    /// Output only. Identifies whether the user has requested cancellation
-    /// of the operation. Operations that have successfully been cancelled
-    /// have \[Operation.error][\] value with a \[google.rpc.Status.code][google.rpc.Status.code\] of 1,
-    /// corresponding to `Code.CANCELLED`.
-    #[prost(bool, tag="6")]
-    pub requested_cancellation: bool,
-    /// Output only. API version used to start the operation.
-    #[prost(string, tag="7")]
-    pub api_version: ::prost::alloc::string::String,
-}
 /// Specification of the GRPC Endpoint.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GrpcEndpoint {
@@ -559,6 +312,253 @@ pub struct DeleteClientTlsPolicyRequest {
     /// the format `projects/*/locations/{location}/clientTlsPolicies/*`.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
+}
+/// AuthorizationPolicy is a resource that specifies how a server
+/// should authorize incoming connections. This resource in itself does
+/// not change the configuration unless it's attached to a target https
+/// proxy or endpoint config selector resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AuthorizationPolicy {
+    /// Required. Name of the AuthorizationPolicy resource. It matches pattern
+    /// `projects/{project}/locations/{location}/authorizationPolicies/<authorization_policy>`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Free-text description of the resource.
+    #[prost(string, tag="2")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. The timestamp when the resource was created.
+    #[prost(message, optional, tag="3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The timestamp when the resource was updated.
+    #[prost(message, optional, tag="4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. Set of label tags associated with the AuthorizationPolicy resource.
+    #[prost(btree_map="string, string", tag="5")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Required. The action to take when a rule match is found. Possible values
+    /// are "ALLOW" or "DENY".
+    #[prost(enumeration="authorization_policy::Action", tag="6")]
+    pub action: i32,
+    /// Optional. List of rules to match. Note that at least one of the rules must match in
+    /// order for the action specified in the 'action' field to be taken. A rule is
+    /// a match if there is a matching source and destination. If left blank, the
+    /// action specified in the `action` field will be applied on every request.
+    #[prost(message, repeated, tag="7")]
+    pub rules: ::prost::alloc::vec::Vec<authorization_policy::Rule>,
+}
+/// Nested message and enum types in `AuthorizationPolicy`.
+pub mod authorization_policy {
+    /// Specification of rules.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Rule {
+        /// Optional. List of attributes for the traffic source. All of the sources must match.
+        /// A source is a match if both principals and ip_blocks match. If not set,
+        /// the action specified in the 'action' field will be applied without any
+        /// rule checks for the source.
+        #[prost(message, repeated, tag="1")]
+        pub sources: ::prost::alloc::vec::Vec<rule::Source>,
+        /// Optional. List of attributes for the traffic destination. All of the destinations
+        /// must match. A destination is a match if a request matches all the
+        /// specified hosts, ports, methods and headers. If not set, the
+        /// action specified in the 'action' field will be applied without any rule
+        /// checks for the destination.
+        #[prost(message, repeated, tag="2")]
+        pub destinations: ::prost::alloc::vec::Vec<rule::Destination>,
+    }
+    /// Nested message and enum types in `Rule`.
+    pub mod rule {
+        /// Specification of traffic source attributes.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Source {
+            /// Optional. List of peer identities to match for authorization. At least one
+            /// principal should match. Each peer can be an exact match, or a prefix
+            /// match (example, "namespace/*") or a suffix match (example, //
+            /// */service-account") or a presence match "*". Authorization based on the
+            /// principal name without certificate validation (configured by
+            /// ServerTlsPolicy resource) is considered insecure.
+            #[prost(string, repeated, tag="1")]
+            pub principals: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// Optional. List of CIDR ranges to match based on source IP address. At least one
+            /// IP block should match. Single IP (e.g., "1.2.3.4") and CIDR (e.g.,
+            /// "1.2.3.0/24") are supported. Authorization based on source IP alone
+            /// should be avoided. The IP addresses of any load balancers or proxies
+            /// should be considered untrusted.
+            #[prost(string, repeated, tag="2")]
+            pub ip_blocks: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        }
+        /// Specification of traffic destination attributes.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Destination {
+            /// Required. List of host names to match. Matched against the ":authority" header in
+            /// http requests. At least one host should match. Each host can be an
+            /// exact match, or a prefix match (example "mydomain.*") or a suffix
+            /// match (example // *.myorg.com") or a presence(any) match "*".
+            #[prost(string, repeated, tag="1")]
+            pub hosts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// Required. List of destination ports to match. At least one port should match.
+            #[prost(uint32, repeated, packed="false", tag="2")]
+            pub ports: ::prost::alloc::vec::Vec<u32>,
+            /// Optional. A list of HTTP methods to match. At least one method should
+            /// match. Should not be set for gRPC services.
+            #[prost(string, repeated, tag="4")]
+            pub methods: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// Optional. Match against key:value pair in http header. Provides a flexible match
+            /// based on HTTP headers, for potentially advanced use cases. At least one
+            /// header should match. Avoid using header matches to make authorization
+            /// decisions unless there is a strong guarantee that requests arrive
+            /// through a trusted client or proxy.
+            #[prost(message, optional, tag="5")]
+            pub http_header_match: ::core::option::Option<destination::HttpHeaderMatch>,
+        }
+        /// Nested message and enum types in `Destination`.
+        pub mod destination {
+            /// Specification of HTTP header match atrributes.
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            pub struct HttpHeaderMatch {
+                /// Required. The name of the HTTP header to match. For matching
+                /// against the HTTP request's authority, use a headerMatch
+                /// with the header name ":authority". For matching a
+                /// request's method, use the headerName ":method".
+                #[prost(string, tag="1")]
+                pub header_name: ::prost::alloc::string::String,
+                #[prost(oneof="http_header_match::Type", tags="2")]
+                pub r#type: ::core::option::Option<http_header_match::Type>,
+            }
+            /// Nested message and enum types in `HttpHeaderMatch`.
+            pub mod http_header_match {
+                #[derive(Clone, PartialEq, ::prost::Oneof)]
+                pub enum Type {
+                    /// Required. The value of the header must match the regular expression
+                    /// specified in regexMatch. For regular expression grammar,
+                    /// please see: en.cppreference.com/w/cpp/regex/ecmascript
+                    /// For matching against a port specified in the HTTP
+                    /// request, use a headerMatch with headerName set to Host
+                    /// and a regular expression that satisfies the RFC2616 Host
+                    /// header's port specifier.
+                    #[prost(string, tag="2")]
+                    RegexMatch(::prost::alloc::string::String),
+                }
+            }
+        }
+    }
+    /// Possible values that define what action to take.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Action {
+        /// Default value.
+        Unspecified = 0,
+        /// Grant access.
+        Allow = 1,
+        /// Deny access.
+        /// Deny rules should be avoided unless they are used to provide a default
+        /// "deny all" fallback.
+        Deny = 2,
+    }
+}
+/// Request used with the ListAuthorizationPolicies method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListAuthorizationPoliciesRequest {
+    /// Required. The project and location from which the AuthorizationPolicies
+    /// should be listed, specified in the format
+    /// `projects/{project}/locations/{location}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Maximum number of AuthorizationPolicies to return per call.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// The value returned by the last
+    /// `ListAuthorizationPoliciesResponse` Indicates that this is a
+    /// continuation of a prior `ListAuthorizationPolicies` call, and
+    /// that the system should return the next page of data.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response returned by the ListAuthorizationPolicies method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListAuthorizationPoliciesResponse {
+    /// List of AuthorizationPolicies resources.
+    #[prost(message, repeated, tag="1")]
+    pub authorization_policies: ::prost::alloc::vec::Vec<AuthorizationPolicy>,
+    /// If there might be more results than those appearing in this response, then
+    /// `next_page_token` is included. To get the next set of results, call this
+    /// method again using the value of `next_page_token` as `page_token`.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request used by the GetAuthorizationPolicy method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetAuthorizationPolicyRequest {
+    /// Required. A name of the AuthorizationPolicy to get. Must be in the format
+    /// `projects/{project}/locations/{location}/authorizationPolicies/*`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request used by the CreateAuthorizationPolicy method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateAuthorizationPolicyRequest {
+    /// Required. The parent resource of the AuthorizationPolicy. Must be in the
+    /// format `projects/{project}/locations/{location}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Short name of the AuthorizationPolicy resource to be created.
+    /// This value should be 1-63 characters long, containing only
+    /// letters, numbers, hyphens, and underscores, and should not start
+    /// with a number. E.g. "authz_policy".
+    #[prost(string, tag="2")]
+    pub authorization_policy_id: ::prost::alloc::string::String,
+    /// Required. AuthorizationPolicy resource to be created.
+    #[prost(message, optional, tag="3")]
+    pub authorization_policy: ::core::option::Option<AuthorizationPolicy>,
+}
+/// Request used by the UpdateAuthorizationPolicy method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateAuthorizationPolicyRequest {
+    /// Optional. Field mask is used to specify the fields to be overwritten in the
+    /// AuthorizationPolicy resource by the update.
+    /// The fields specified in the update_mask are relative to the resource, not
+    /// the full request. A field will be overwritten if it is in the mask. If the
+    /// user does not provide a mask then all fields will be overwritten.
+    #[prost(message, optional, tag="1")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// Required. Updated AuthorizationPolicy resource.
+    #[prost(message, optional, tag="2")]
+    pub authorization_policy: ::core::option::Option<AuthorizationPolicy>,
+}
+/// Request used by the DeleteAuthorizationPolicy method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteAuthorizationPolicyRequest {
+    /// Required. A name of the AuthorizationPolicy to delete. Must be in the format
+    /// `projects/{project}/locations/{location}/authorizationPolicies/*`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Represents the metadata of the long-running operation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationMetadata {
+    /// Output only. The time the operation was created.
+    #[prost(message, optional, tag="1")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The time the operation finished running.
+    #[prost(message, optional, tag="2")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Server-defined resource path for the target of the operation.
+    #[prost(string, tag="3")]
+    pub target: ::prost::alloc::string::String,
+    /// Output only. Name of the verb executed by the operation.
+    #[prost(string, tag="4")]
+    pub verb: ::prost::alloc::string::String,
+    /// Output only. Human-readable status of the operation, if any.
+    #[prost(string, tag="5")]
+    pub status_message: ::prost::alloc::string::String,
+    /// Output only. Identifies whether the user has requested cancellation
+    /// of the operation. Operations that have successfully been cancelled
+    /// have \[Operation.error][\] value with a \[google.rpc.Status.code][google.rpc.Status.code\] of 1,
+    /// corresponding to `Code.CANCELLED`.
+    #[prost(bool, tag="6")]
+    pub requested_cancellation: bool,
+    /// Output only. API version used to start the operation.
+    #[prost(string, tag="7")]
+    pub api_version: ::prost::alloc::string::String,
 }
 /// Generated client implementations.
 pub mod network_security_client {

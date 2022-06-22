@@ -1,382 +1,3 @@
-/// The description a notebook execution workload.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExecutionTemplate {
-    /// Required. Scale tier of the hardware used for notebook execution.
-    /// DEPRECATED Will be discontinued. As right now only CUSTOM is supported.
-    #[deprecated]
-    #[prost(enumeration="execution_template::ScaleTier", tag="1")]
-    pub scale_tier: i32,
-    /// Specifies the type of virtual machine to use for your training
-    /// job's master worker. You must specify this field when `scaleTier` is set to
-    /// `CUSTOM`.
-    ///
-    /// You can use certain Compute Engine machine types directly in this field.
-    /// The following types are supported:
-    ///
-    /// - `n1-standard-4`
-    /// - `n1-standard-8`
-    /// - `n1-standard-16`
-    /// - `n1-standard-32`
-    /// - `n1-standard-64`
-    /// - `n1-standard-96`
-    /// - `n1-highmem-2`
-    /// - `n1-highmem-4`
-    /// - `n1-highmem-8`
-    /// - `n1-highmem-16`
-    /// - `n1-highmem-32`
-    /// - `n1-highmem-64`
-    /// - `n1-highmem-96`
-    /// - `n1-highcpu-16`
-    /// - `n1-highcpu-32`
-    /// - `n1-highcpu-64`
-    /// - `n1-highcpu-96`
-    ///
-    ///
-    /// Alternatively, you can use the following legacy machine types:
-    ///
-    /// - `standard`
-    /// - `large_model`
-    /// - `complex_model_s`
-    /// - `complex_model_m`
-    /// - `complex_model_l`
-    /// - `standard_gpu`
-    /// - `complex_model_m_gpu`
-    /// - `complex_model_l_gpu`
-    /// - `standard_p100`
-    /// - `complex_model_m_p100`
-    /// - `standard_v100`
-    /// - `large_model_v100`
-    /// - `complex_model_m_v100`
-    /// - `complex_model_l_v100`
-    ///
-    ///
-    /// Finally, if you want to use a TPU for training, specify `cloud_tpu` in this
-    /// field. Learn more about the [special configuration options for training
-    /// with
-    /// TPU](<https://cloud.google.com/ai-platform/training/docs/using-tpus#configuring_a_custom_tpu_machine>).
-    #[prost(string, tag="2")]
-    pub master_type: ::prost::alloc::string::String,
-    /// Configuration (count and accelerator type) for hardware running notebook
-    /// execution.
-    #[prost(message, optional, tag="3")]
-    pub accelerator_config: ::core::option::Option<execution_template::SchedulerAcceleratorConfig>,
-    /// Labels for execution.
-    /// If execution is scheduled, a field included will be 'nbs-scheduled'.
-    /// Otherwise, it is an immediate execution, and an included field will be
-    /// 'nbs-immediate'. Use fields to efficiently index between various types of
-    /// executions.
-    #[prost(btree_map="string, string", tag="4")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Path to the notebook file to execute.
-    /// Must be in a Google Cloud Storage bucket.
-    /// Format: `gs://{bucket_name}/{folder}/{notebook_file_name}`
-    /// Ex: `gs://notebook_user/scheduled_notebooks/sentiment_notebook.ipynb`
-    #[prost(string, tag="5")]
-    pub input_notebook_file: ::prost::alloc::string::String,
-    /// Container Image URI to a DLVM
-    /// Example: 'gcr.io/deeplearning-platform-release/base-cu100'
-    /// More examples can be found at:
-    /// <https://cloud.google.com/ai-platform/deep-learning-containers/docs/choosing-container>
-    #[prost(string, tag="6")]
-    pub container_image_uri: ::prost::alloc::string::String,
-    /// Path to the notebook folder to write to.
-    /// Must be in a Google Cloud Storage bucket path.
-    /// Format: `gs://{bucket_name}/{folder}`
-    /// Ex: `gs://notebook_user/scheduled_notebooks`
-    #[prost(string, tag="7")]
-    pub output_notebook_folder: ::prost::alloc::string::String,
-    /// Parameters to be overridden in the notebook during execution.
-    /// Ref <https://papermill.readthedocs.io/en/latest/usage-parameterize.html> on
-    /// how to specifying parameters in the input notebook and pass them here
-    /// in an YAML file.
-    /// Ex: `gs://notebook_user/scheduled_notebooks/sentiment_notebook_params.yaml`
-    #[prost(string, tag="8")]
-    pub params_yaml_file: ::prost::alloc::string::String,
-    /// Parameters used within the 'input_notebook_file' notebook.
-    #[prost(string, tag="9")]
-    pub parameters: ::prost::alloc::string::String,
-    /// The email address of a service account to use when running the execution.
-    /// You must have the `iam.serviceAccounts.actAs` permission for the specified
-    /// service account.
-    #[prost(string, tag="10")]
-    pub service_account: ::prost::alloc::string::String,
-    /// The type of Job to be used on this execution.
-    #[prost(enumeration="execution_template::JobType", tag="11")]
-    pub job_type: i32,
-    /// Name of the kernel spec to use. This must be specified if the
-    /// kernel spec name on the execution target does not match the name in the
-    /// input notebook file.
-    #[prost(string, tag="14")]
-    pub kernel_spec: ::prost::alloc::string::String,
-    /// The name of a Vertex AI \[Tensorboard\] resource to which this execution
-    /// will upload Tensorboard logs.
-    /// Format:
-    /// `projects/{project}/locations/{location}/tensorboards/{tensorboard}`
-    #[prost(string, tag="15")]
-    pub tensorboard: ::prost::alloc::string::String,
-    /// Parameters for an execution type.
-    /// NOTE: There are currently no extra parameters for VertexAI jobs.
-    #[prost(oneof="execution_template::JobParameters", tags="12, 13")]
-    pub job_parameters: ::core::option::Option<execution_template::JobParameters>,
-}
-/// Nested message and enum types in `ExecutionTemplate`.
-pub mod execution_template {
-    /// Definition of a hardware accelerator. Note that not all combinations
-    /// of `type` and `core_count` are valid. Check [GPUs on
-    /// Compute Engine](<https://cloud.google.com/compute/docs/gpus>) to find a valid
-    /// combination. TPUs are not supported.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SchedulerAcceleratorConfig {
-        /// Type of this accelerator.
-        #[prost(enumeration="SchedulerAcceleratorType", tag="1")]
-        pub r#type: i32,
-        /// Count of cores of this accelerator.
-        #[prost(int64, tag="2")]
-        pub core_count: i64,
-    }
-    /// Parameters used in Dataproc JobType executions.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct DataprocParameters {
-        /// URI for cluster used to run Dataproc execution.
-        /// Format: `projects/{PROJECT_ID}/regions/{REGION}/clusters/{CLUSTER_NAME}`
-        #[prost(string, tag="1")]
-        pub cluster: ::prost::alloc::string::String,
-    }
-    /// Parameters used in Vertex AI JobType executions.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct VertexAiParameters {
-        /// The full name of the Compute Engine
-        /// \[network\](/compute/docs/networks-and-firewalls#networks) to which the Job
-        /// should be peered. For example, `projects/12345/global/networks/myVPC`.
-        /// \[Format\](<https://cloud.google.com/compute/docs/reference/rest/v1/networks/insert>)
-        /// is of the form `projects/{project}/global/networks/{network}`.
-        /// Where {project} is a project number, as in `12345`, and {network} is a
-        /// network name.
-        ///
-        /// Private services access must already be configured for the network. If
-        /// left unspecified, the job is not peered with any network.
-        #[prost(string, tag="1")]
-        pub network: ::prost::alloc::string::String,
-        /// Environment variables.
-        ///  At most 100 environment variables can be specified and unique.
-        /// Example: GCP_BUCKET=gs://my-bucket/samples/
-        #[prost(btree_map="string, string", tag="2")]
-        pub env: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    }
-    /// Required. Specifies the machine types, the number of replicas for workers
-    /// and parameter servers.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ScaleTier {
-        /// Unspecified Scale Tier.
-        Unspecified = 0,
-        /// A single worker instance. This tier is suitable for learning how to use
-        /// Cloud ML, and for experimenting with new models using small datasets.
-        Basic = 1,
-        /// Many workers and a few parameter servers.
-        Standard1 = 2,
-        /// A large number of workers with many parameter servers.
-        Premium1 = 3,
-        /// A single worker instance with a K80 GPU.
-        BasicGpu = 4,
-        /// A single worker instance with a Cloud TPU.
-        BasicTpu = 5,
-        /// The CUSTOM tier is not a set tier, but rather enables you to use your
-        /// own cluster specification. When you use this tier, set values to
-        /// configure your processing cluster according to these guidelines:
-        ///
-        /// *   You _must_ set `ExecutionTemplate.masterType` to specify the type
-        ///     of machine to use for your master node. This is the only required
-        ///     setting.
-        Custom = 6,
-    }
-    /// Hardware accelerator types for AI Platform Training jobs.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum SchedulerAcceleratorType {
-        /// Unspecified accelerator type. Default to no GPU.
-        Unspecified = 0,
-        /// Nvidia Tesla K80 GPU.
-        NvidiaTeslaK80 = 1,
-        /// Nvidia Tesla P100 GPU.
-        NvidiaTeslaP100 = 2,
-        /// Nvidia Tesla V100 GPU.
-        NvidiaTeslaV100 = 3,
-        /// Nvidia Tesla P4 GPU.
-        NvidiaTeslaP4 = 4,
-        /// Nvidia Tesla T4 GPU.
-        NvidiaTeslaT4 = 5,
-        /// Nvidia Tesla A100 GPU.
-        NvidiaTeslaA100 = 10,
-        /// TPU v2.
-        TpuV2 = 6,
-        /// TPU v3.
-        TpuV3 = 7,
-    }
-    /// The backend used for this execution.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum JobType {
-        /// No type specified.
-        Unspecified = 0,
-        /// Custom Job in `aiplatform.googleapis.com`.
-        /// Default value for an execution.
-        VertexAi = 1,
-        /// Run execution on a cluster with Dataproc as a job.
-        /// <https://cloud.google.com/dataproc/docs/reference/rest/v1/projects.regions.jobs>
-        Dataproc = 2,
-    }
-    /// Parameters for an execution type.
-    /// NOTE: There are currently no extra parameters for VertexAI jobs.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum JobParameters {
-        /// Parameters used in Dataproc JobType executions.
-        #[prost(message, tag="12")]
-        DataprocParameters(DataprocParameters),
-        /// Parameters used in Vertex AI JobType executions.
-        #[prost(message, tag="13")]
-        VertexAiParameters(VertexAiParameters),
-    }
-}
-/// The definition of a single executed notebook.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Execution {
-    /// execute metadata including name, hardware spec, region, labels, etc.
-    #[prost(message, optional, tag="1")]
-    pub execution_template: ::core::option::Option<ExecutionTemplate>,
-    /// Output only. The resource name of the execute. Format:
-    /// `projects/{project_id}/locations/{location}/executions/{execution_id}`
-    #[prost(string, tag="2")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Name used for UI purposes.
-    /// Name can only contain alphanumeric characters and underscores '_'.
-    #[prost(string, tag="3")]
-    pub display_name: ::prost::alloc::string::String,
-    /// A brief description of this execution.
-    #[prost(string, tag="4")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. Time the Execution was instantiated.
-    #[prost(message, optional, tag="5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Time the Execution was last updated.
-    #[prost(message, optional, tag="6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. State of the underlying AI Platform job.
-    #[prost(enumeration="execution::State", tag="7")]
-    pub state: i32,
-    /// Output notebook file generated by this execution
-    #[prost(string, tag="8")]
-    pub output_notebook_file: ::prost::alloc::string::String,
-    /// Output only. The URI of the external job used to execute the notebook.
-    #[prost(string, tag="9")]
-    pub job_uri: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `Execution`.
-pub mod execution {
-    /// Enum description of the state of the underlying AIP job.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// The job state is unspecified.
-        Unspecified = 0,
-        /// The job has been just created and processing has not yet begun.
-        Queued = 1,
-        /// The service is preparing to execution the job.
-        Preparing = 2,
-        /// The job is in progress.
-        Running = 3,
-        /// The job completed successfully.
-        Succeeded = 4,
-        /// The job failed.
-        /// `error_message` should contain the details of the failure.
-        Failed = 5,
-        /// The job is being cancelled.
-        /// `error_message` should describe the reason for the cancellation.
-        Cancelling = 6,
-        /// The job has been cancelled.
-        /// `error_message` should describe the reason for the cancellation.
-        Cancelled = 7,
-        /// The job has become expired (relevant to Vertex AI jobs)
-        /// <https://cloud.google.com/vertex-ai/docs/reference/rest/v1/JobState>
-        Expired = 9,
-        /// The Execution is being created.
-        Initializing = 10,
-    }
-}
-/// The definition of a schedule.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Schedule {
-    /// Output only. The name of this schedule. Format:
-    /// `projects/{project_id}/locations/{location}/schedules/{schedule_id}`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Display name used for UI purposes.
-    /// Name can only contain alphanumeric characters, hyphens '-',
-    /// and underscores '_'.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// A brief description of this environment.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    #[prost(enumeration="schedule::State", tag="4")]
-    pub state: i32,
-    /// Cron-tab formatted schedule by which the job will execute.
-    /// Format: minute, hour, day of month, month, day of week,
-    /// e.g. 0 0 * * WED = every Wednesday
-    /// More examples: <https://crontab.guru/examples.html>
-    #[prost(string, tag="5")]
-    pub cron_schedule: ::prost::alloc::string::String,
-    /// Timezone on which the cron_schedule.
-    /// The value of this field must be a time zone name from the tz database.
-    /// TZ Database: <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>
-    ///
-    /// Note that some time zones include a provision for daylight savings time.
-    /// The rules for daylight saving time are determined by the chosen tz.
-    /// For UTC use the string "utc". If a time zone is not specified,
-    /// the default will be in UTC (also known as GMT).
-    #[prost(string, tag="6")]
-    pub time_zone: ::prost::alloc::string::String,
-    /// Output only. Time the schedule was created.
-    #[prost(message, optional, tag="7")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Time the schedule was last updated.
-    #[prost(message, optional, tag="8")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Notebook Execution Template corresponding to this schedule.
-    #[prost(message, optional, tag="9")]
-    pub execution_template: ::core::option::Option<ExecutionTemplate>,
-    /// Output only. The most recent execution names triggered from this schedule and their
-    /// corresponding states.
-    #[prost(message, repeated, tag="10")]
-    pub recent_executions: ::prost::alloc::vec::Vec<Execution>,
-}
-/// Nested message and enum types in `Schedule`.
-pub mod schedule {
-    /// State of the job.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Unspecified state.
-        Unspecified = 0,
-        /// The job is executing normally.
-        Enabled = 1,
-        /// The job is paused by the user. It will not execute. A user can
-        /// intentionally pause the job using
-        /// \[PauseJobRequest][\].
-        Paused = 2,
-        /// The job is disabled by the system due to error. The user
-        /// cannot directly set a job to be disabled.
-        Disabled = 3,
-        /// The job state resulting from a failed \[CloudScheduler.UpdateJob][\]
-        /// operation. To recover a job from this state, retry
-        /// \[CloudScheduler.UpdateJob][\] until a successful response is received.
-        UpdateFailed = 4,
-        /// The schedule resource is being created.
-        Initializing = 5,
-        /// The schedule resource is being deleted.
-        Deleting = 6,
-    }
-}
 /// Notebook instance configurations that can be updated.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InstanceConfig {
@@ -387,43 +8,6 @@ pub struct InstanceConfig {
     /// Verifies core internal services are running.
     #[prost(bool, tag="2")]
     pub enable_health_monitoring: bool,
-}
-/// The definition of an Event for a managed / semi-managed notebook instance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Event {
-    /// Event report time.
-    #[prost(message, optional, tag="1")]
-    pub report_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Event type.
-    #[prost(enumeration="event::EventType", tag="2")]
-    pub r#type: i32,
-    /// Optional. Event details. This field is used to pass event information.
-    #[prost(btree_map="string, string", tag="3")]
-    pub details: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-}
-/// Nested message and enum types in `Event`.
-pub mod event {
-    /// The definition of the event types.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum EventType {
-        /// Event is not specified.
-        Unspecified = 0,
-        /// The instance / runtime is idle
-        Idle = 1,
-        /// The instance / runtime is available.
-        /// This event indicates that instance / runtime underlying compute is
-        /// operational.
-        Heartbeat = 2,
-        /// The instance / runtime health is available.
-        /// This event indicates that instance / runtime health information.
-        Health = 3,
-        /// The instance / runtime is available.
-        /// This event allows instance / runtime to send Host maintenance
-        /// information to Control Plane.
-        /// <https://cloud.google.com/compute/docs/gpus/gpu-host-maintenance>
-        Maintenance = 4,
-    }
 }
 /// Definition of a software environment that is used to start a notebook
 /// instance.
@@ -1001,6 +585,422 @@ pub mod instance {
         /// Use a container image to start the notebook instance.
         #[prost(message, tag="3")]
         ContainerImage(super::ContainerImage),
+    }
+}
+/// The definition of an Event for a managed / semi-managed notebook instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Event {
+    /// Event report time.
+    #[prost(message, optional, tag="1")]
+    pub report_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Event type.
+    #[prost(enumeration="event::EventType", tag="2")]
+    pub r#type: i32,
+    /// Optional. Event details. This field is used to pass event information.
+    #[prost(btree_map="string, string", tag="3")]
+    pub details: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `Event`.
+pub mod event {
+    /// The definition of the event types.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EventType {
+        /// Event is not specified.
+        Unspecified = 0,
+        /// The instance / runtime is idle
+        Idle = 1,
+        /// The instance / runtime is available.
+        /// This event indicates that instance / runtime underlying compute is
+        /// operational.
+        Heartbeat = 2,
+        /// The instance / runtime health is available.
+        /// This event indicates that instance / runtime health information.
+        Health = 3,
+        /// The instance / runtime is available.
+        /// This event allows instance / runtime to send Host maintenance
+        /// information to Control Plane.
+        /// <https://cloud.google.com/compute/docs/gpus/gpu-host-maintenance>
+        Maintenance = 4,
+    }
+}
+/// The description a notebook execution workload.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExecutionTemplate {
+    /// Required. Scale tier of the hardware used for notebook execution.
+    /// DEPRECATED Will be discontinued. As right now only CUSTOM is supported.
+    #[deprecated]
+    #[prost(enumeration="execution_template::ScaleTier", tag="1")]
+    pub scale_tier: i32,
+    /// Specifies the type of virtual machine to use for your training
+    /// job's master worker. You must specify this field when `scaleTier` is set to
+    /// `CUSTOM`.
+    ///
+    /// You can use certain Compute Engine machine types directly in this field.
+    /// The following types are supported:
+    ///
+    /// - `n1-standard-4`
+    /// - `n1-standard-8`
+    /// - `n1-standard-16`
+    /// - `n1-standard-32`
+    /// - `n1-standard-64`
+    /// - `n1-standard-96`
+    /// - `n1-highmem-2`
+    /// - `n1-highmem-4`
+    /// - `n1-highmem-8`
+    /// - `n1-highmem-16`
+    /// - `n1-highmem-32`
+    /// - `n1-highmem-64`
+    /// - `n1-highmem-96`
+    /// - `n1-highcpu-16`
+    /// - `n1-highcpu-32`
+    /// - `n1-highcpu-64`
+    /// - `n1-highcpu-96`
+    ///
+    ///
+    /// Alternatively, you can use the following legacy machine types:
+    ///
+    /// - `standard`
+    /// - `large_model`
+    /// - `complex_model_s`
+    /// - `complex_model_m`
+    /// - `complex_model_l`
+    /// - `standard_gpu`
+    /// - `complex_model_m_gpu`
+    /// - `complex_model_l_gpu`
+    /// - `standard_p100`
+    /// - `complex_model_m_p100`
+    /// - `standard_v100`
+    /// - `large_model_v100`
+    /// - `complex_model_m_v100`
+    /// - `complex_model_l_v100`
+    ///
+    ///
+    /// Finally, if you want to use a TPU for training, specify `cloud_tpu` in this
+    /// field. Learn more about the [special configuration options for training
+    /// with
+    /// TPU](<https://cloud.google.com/ai-platform/training/docs/using-tpus#configuring_a_custom_tpu_machine>).
+    #[prost(string, tag="2")]
+    pub master_type: ::prost::alloc::string::String,
+    /// Configuration (count and accelerator type) for hardware running notebook
+    /// execution.
+    #[prost(message, optional, tag="3")]
+    pub accelerator_config: ::core::option::Option<execution_template::SchedulerAcceleratorConfig>,
+    /// Labels for execution.
+    /// If execution is scheduled, a field included will be 'nbs-scheduled'.
+    /// Otherwise, it is an immediate execution, and an included field will be
+    /// 'nbs-immediate'. Use fields to efficiently index between various types of
+    /// executions.
+    #[prost(btree_map="string, string", tag="4")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Path to the notebook file to execute.
+    /// Must be in a Google Cloud Storage bucket.
+    /// Format: `gs://{bucket_name}/{folder}/{notebook_file_name}`
+    /// Ex: `gs://notebook_user/scheduled_notebooks/sentiment_notebook.ipynb`
+    #[prost(string, tag="5")]
+    pub input_notebook_file: ::prost::alloc::string::String,
+    /// Container Image URI to a DLVM
+    /// Example: 'gcr.io/deeplearning-platform-release/base-cu100'
+    /// More examples can be found at:
+    /// <https://cloud.google.com/ai-platform/deep-learning-containers/docs/choosing-container>
+    #[prost(string, tag="6")]
+    pub container_image_uri: ::prost::alloc::string::String,
+    /// Path to the notebook folder to write to.
+    /// Must be in a Google Cloud Storage bucket path.
+    /// Format: `gs://{bucket_name}/{folder}`
+    /// Ex: `gs://notebook_user/scheduled_notebooks`
+    #[prost(string, tag="7")]
+    pub output_notebook_folder: ::prost::alloc::string::String,
+    /// Parameters to be overridden in the notebook during execution.
+    /// Ref <https://papermill.readthedocs.io/en/latest/usage-parameterize.html> on
+    /// how to specifying parameters in the input notebook and pass them here
+    /// in an YAML file.
+    /// Ex: `gs://notebook_user/scheduled_notebooks/sentiment_notebook_params.yaml`
+    #[prost(string, tag="8")]
+    pub params_yaml_file: ::prost::alloc::string::String,
+    /// Parameters used within the 'input_notebook_file' notebook.
+    #[prost(string, tag="9")]
+    pub parameters: ::prost::alloc::string::String,
+    /// The email address of a service account to use when running the execution.
+    /// You must have the `iam.serviceAccounts.actAs` permission for the specified
+    /// service account.
+    #[prost(string, tag="10")]
+    pub service_account: ::prost::alloc::string::String,
+    /// The type of Job to be used on this execution.
+    #[prost(enumeration="execution_template::JobType", tag="11")]
+    pub job_type: i32,
+    /// Name of the kernel spec to use. This must be specified if the
+    /// kernel spec name on the execution target does not match the name in the
+    /// input notebook file.
+    #[prost(string, tag="14")]
+    pub kernel_spec: ::prost::alloc::string::String,
+    /// The name of a Vertex AI \[Tensorboard\] resource to which this execution
+    /// will upload Tensorboard logs.
+    /// Format:
+    /// `projects/{project}/locations/{location}/tensorboards/{tensorboard}`
+    #[prost(string, tag="15")]
+    pub tensorboard: ::prost::alloc::string::String,
+    /// Parameters for an execution type.
+    /// NOTE: There are currently no extra parameters for VertexAI jobs.
+    #[prost(oneof="execution_template::JobParameters", tags="12, 13")]
+    pub job_parameters: ::core::option::Option<execution_template::JobParameters>,
+}
+/// Nested message and enum types in `ExecutionTemplate`.
+pub mod execution_template {
+    /// Definition of a hardware accelerator. Note that not all combinations
+    /// of `type` and `core_count` are valid. Check [GPUs on
+    /// Compute Engine](<https://cloud.google.com/compute/docs/gpus>) to find a valid
+    /// combination. TPUs are not supported.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SchedulerAcceleratorConfig {
+        /// Type of this accelerator.
+        #[prost(enumeration="SchedulerAcceleratorType", tag="1")]
+        pub r#type: i32,
+        /// Count of cores of this accelerator.
+        #[prost(int64, tag="2")]
+        pub core_count: i64,
+    }
+    /// Parameters used in Dataproc JobType executions.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct DataprocParameters {
+        /// URI for cluster used to run Dataproc execution.
+        /// Format: `projects/{PROJECT_ID}/regions/{REGION}/clusters/{CLUSTER_NAME}`
+        #[prost(string, tag="1")]
+        pub cluster: ::prost::alloc::string::String,
+    }
+    /// Parameters used in Vertex AI JobType executions.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct VertexAiParameters {
+        /// The full name of the Compute Engine
+        /// \[network\](/compute/docs/networks-and-firewalls#networks) to which the Job
+        /// should be peered. For example, `projects/12345/global/networks/myVPC`.
+        /// \[Format\](<https://cloud.google.com/compute/docs/reference/rest/v1/networks/insert>)
+        /// is of the form `projects/{project}/global/networks/{network}`.
+        /// Where {project} is a project number, as in `12345`, and {network} is a
+        /// network name.
+        ///
+        /// Private services access must already be configured for the network. If
+        /// left unspecified, the job is not peered with any network.
+        #[prost(string, tag="1")]
+        pub network: ::prost::alloc::string::String,
+        /// Environment variables.
+        ///  At most 100 environment variables can be specified and unique.
+        /// Example: GCP_BUCKET=gs://my-bucket/samples/
+        #[prost(btree_map="string, string", tag="2")]
+        pub env: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    }
+    /// Required. Specifies the machine types, the number of replicas for workers
+    /// and parameter servers.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ScaleTier {
+        /// Unspecified Scale Tier.
+        Unspecified = 0,
+        /// A single worker instance. This tier is suitable for learning how to use
+        /// Cloud ML, and for experimenting with new models using small datasets.
+        Basic = 1,
+        /// Many workers and a few parameter servers.
+        Standard1 = 2,
+        /// A large number of workers with many parameter servers.
+        Premium1 = 3,
+        /// A single worker instance with a K80 GPU.
+        BasicGpu = 4,
+        /// A single worker instance with a Cloud TPU.
+        BasicTpu = 5,
+        /// The CUSTOM tier is not a set tier, but rather enables you to use your
+        /// own cluster specification. When you use this tier, set values to
+        /// configure your processing cluster according to these guidelines:
+        ///
+        /// *   You _must_ set `ExecutionTemplate.masterType` to specify the type
+        ///     of machine to use for your master node. This is the only required
+        ///     setting.
+        Custom = 6,
+    }
+    /// Hardware accelerator types for AI Platform Training jobs.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SchedulerAcceleratorType {
+        /// Unspecified accelerator type. Default to no GPU.
+        Unspecified = 0,
+        /// Nvidia Tesla K80 GPU.
+        NvidiaTeslaK80 = 1,
+        /// Nvidia Tesla P100 GPU.
+        NvidiaTeslaP100 = 2,
+        /// Nvidia Tesla V100 GPU.
+        NvidiaTeslaV100 = 3,
+        /// Nvidia Tesla P4 GPU.
+        NvidiaTeslaP4 = 4,
+        /// Nvidia Tesla T4 GPU.
+        NvidiaTeslaT4 = 5,
+        /// Nvidia Tesla A100 GPU.
+        NvidiaTeslaA100 = 10,
+        /// TPU v2.
+        TpuV2 = 6,
+        /// TPU v3.
+        TpuV3 = 7,
+    }
+    /// The backend used for this execution.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum JobType {
+        /// No type specified.
+        Unspecified = 0,
+        /// Custom Job in `aiplatform.googleapis.com`.
+        /// Default value for an execution.
+        VertexAi = 1,
+        /// Run execution on a cluster with Dataproc as a job.
+        /// <https://cloud.google.com/dataproc/docs/reference/rest/v1/projects.regions.jobs>
+        Dataproc = 2,
+    }
+    /// Parameters for an execution type.
+    /// NOTE: There are currently no extra parameters for VertexAI jobs.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum JobParameters {
+        /// Parameters used in Dataproc JobType executions.
+        #[prost(message, tag="12")]
+        DataprocParameters(DataprocParameters),
+        /// Parameters used in Vertex AI JobType executions.
+        #[prost(message, tag="13")]
+        VertexAiParameters(VertexAiParameters),
+    }
+}
+/// The definition of a single executed notebook.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Execution {
+    /// execute metadata including name, hardware spec, region, labels, etc.
+    #[prost(message, optional, tag="1")]
+    pub execution_template: ::core::option::Option<ExecutionTemplate>,
+    /// Output only. The resource name of the execute. Format:
+    /// `projects/{project_id}/locations/{location}/executions/{execution_id}`
+    #[prost(string, tag="2")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Name used for UI purposes.
+    /// Name can only contain alphanumeric characters and underscores '_'.
+    #[prost(string, tag="3")]
+    pub display_name: ::prost::alloc::string::String,
+    /// A brief description of this execution.
+    #[prost(string, tag="4")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. Time the Execution was instantiated.
+    #[prost(message, optional, tag="5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Time the Execution was last updated.
+    #[prost(message, optional, tag="6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. State of the underlying AI Platform job.
+    #[prost(enumeration="execution::State", tag="7")]
+    pub state: i32,
+    /// Output notebook file generated by this execution
+    #[prost(string, tag="8")]
+    pub output_notebook_file: ::prost::alloc::string::String,
+    /// Output only. The URI of the external job used to execute the notebook.
+    #[prost(string, tag="9")]
+    pub job_uri: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `Execution`.
+pub mod execution {
+    /// Enum description of the state of the underlying AIP job.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// The job state is unspecified.
+        Unspecified = 0,
+        /// The job has been just created and processing has not yet begun.
+        Queued = 1,
+        /// The service is preparing to execution the job.
+        Preparing = 2,
+        /// The job is in progress.
+        Running = 3,
+        /// The job completed successfully.
+        Succeeded = 4,
+        /// The job failed.
+        /// `error_message` should contain the details of the failure.
+        Failed = 5,
+        /// The job is being cancelled.
+        /// `error_message` should describe the reason for the cancellation.
+        Cancelling = 6,
+        /// The job has been cancelled.
+        /// `error_message` should describe the reason for the cancellation.
+        Cancelled = 7,
+        /// The job has become expired (relevant to Vertex AI jobs)
+        /// <https://cloud.google.com/vertex-ai/docs/reference/rest/v1/JobState>
+        Expired = 9,
+        /// The Execution is being created.
+        Initializing = 10,
+    }
+}
+/// The definition of a schedule.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Schedule {
+    /// Output only. The name of this schedule. Format:
+    /// `projects/{project_id}/locations/{location}/schedules/{schedule_id}`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Display name used for UI purposes.
+    /// Name can only contain alphanumeric characters, hyphens '-',
+    /// and underscores '_'.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// A brief description of this environment.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    #[prost(enumeration="schedule::State", tag="4")]
+    pub state: i32,
+    /// Cron-tab formatted schedule by which the job will execute.
+    /// Format: minute, hour, day of month, month, day of week,
+    /// e.g. 0 0 * * WED = every Wednesday
+    /// More examples: <https://crontab.guru/examples.html>
+    #[prost(string, tag="5")]
+    pub cron_schedule: ::prost::alloc::string::String,
+    /// Timezone on which the cron_schedule.
+    /// The value of this field must be a time zone name from the tz database.
+    /// TZ Database: <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>
+    ///
+    /// Note that some time zones include a provision for daylight savings time.
+    /// The rules for daylight saving time are determined by the chosen tz.
+    /// For UTC use the string "utc". If a time zone is not specified,
+    /// the default will be in UTC (also known as GMT).
+    #[prost(string, tag="6")]
+    pub time_zone: ::prost::alloc::string::String,
+    /// Output only. Time the schedule was created.
+    #[prost(message, optional, tag="7")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Time the schedule was last updated.
+    #[prost(message, optional, tag="8")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Notebook Execution Template corresponding to this schedule.
+    #[prost(message, optional, tag="9")]
+    pub execution_template: ::core::option::Option<ExecutionTemplate>,
+    /// Output only. The most recent execution names triggered from this schedule and their
+    /// corresponding states.
+    #[prost(message, repeated, tag="10")]
+    pub recent_executions: ::prost::alloc::vec::Vec<Execution>,
+}
+/// Nested message and enum types in `Schedule`.
+pub mod schedule {
+    /// State of the job.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Unspecified state.
+        Unspecified = 0,
+        /// The job is executing normally.
+        Enabled = 1,
+        /// The job is paused by the user. It will not execute. A user can
+        /// intentionally pause the job using
+        /// \[PauseJobRequest][\].
+        Paused = 2,
+        /// The job is disabled by the system due to error. The user
+        /// cannot directly set a job to be disabled.
+        Disabled = 3,
+        /// The job state resulting from a failed \[CloudScheduler.UpdateJob][\]
+        /// operation. To recover a job from this state, retry
+        /// \[CloudScheduler.UpdateJob][\] until a successful response is received.
+        UpdateFailed = 4,
+        /// The schedule resource is being created.
+        Initializing = 5,
+        /// The schedule resource is being deleted.
+        Deleting = 6,
     }
 }
 /// Represents the metadata of the long-running operation.
