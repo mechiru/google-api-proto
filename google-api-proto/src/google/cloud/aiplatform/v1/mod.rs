@@ -2533,6 +2533,9 @@ pub struct DeployedModel {
     /// version, if no version is specified, the default version will be deployed.
     #[prost(string, tag="2")]
     pub model: ::prost::alloc::string::String,
+    /// Output only. The version ID of the model that is deployed.
+    #[prost(string, tag="18")]
+    pub model_version_id: ::prost::alloc::string::String,
     /// The display name of the DeployedModel. If not provided upon creation,
     /// the Model's display_name is used.
     #[prost(string, tag="3")]
@@ -4180,6 +4183,9 @@ pub struct BatchPredictionJob {
     /// the version, if no version is specified, the default version will be used.
     #[prost(string, tag="3")]
     pub model: ::prost::alloc::string::String,
+    /// Output only. The version ID of the Model that produces the predictions via this job.
+    #[prost(string, tag="30")]
+    pub model_version_id: ::prost::alloc::string::String,
     /// Contains model information necessary to perform batch prediction without
     /// requiring uploading to model registry.
     /// Exactly one of model and unmanaged_container_model must be set.
@@ -7428,6 +7434,10 @@ pub struct PredictResponse {
     /// this prediction hits.
     #[prost(string, tag="3")]
     pub model: ::prost::alloc::string::String,
+    /// Output only. The version ID of the Model which is deployed as the DeployedModel that
+    /// this prediction hits.
+    #[prost(string, tag="5")]
+    pub model_version_id: ::prost::alloc::string::String,
     /// Output only. The [display name]\[google.cloud.aiplatform.v1.Model.display_name\] of the Model which is deployed as
     /// the DeployedModel that this prediction hits.
     #[prost(string, tag="4")]
@@ -8969,6 +8979,25 @@ pub struct ImportModelEvaluationRequest {
     #[prost(message, optional, tag="2")]
     pub model_evaluation: ::core::option::Option<ModelEvaluation>,
 }
+/// Request message for \[ModelService.BatchImportModelEvaluationSlices][google.cloud.aiplatform.v1.ModelService.BatchImportModelEvaluationSlices\]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchImportModelEvaluationSlicesRequest {
+    /// Required. The name of the parent ModelEvaluation resource.
+    /// Format:
+    /// `projects/{project}/locations/{location}/models/{model}/evaluations/{evaluation}`
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Model evaluation slice resource to be imported.
+    #[prost(message, repeated, tag="2")]
+    pub model_evaluation_slices: ::prost::alloc::vec::Vec<ModelEvaluationSlice>,
+}
+/// Response message for \[ModelService.BatchImportModelEvaluationSlices][google.cloud.aiplatform.v1.ModelService.BatchImportModelEvaluationSlices\]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchImportModelEvaluationSlicesResponse {
+    /// Output only. List of imported \[ModelEvaluationSlice.name][google.cloud.aiplatform.v1.ModelEvaluationSlice.name\].
+    #[prost(string, repeated, tag="1")]
+    pub imported_model_evaluation_slices: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
 /// Request message for \[ModelService.GetModelEvaluation][google.cloud.aiplatform.v1.ModelService.GetModelEvaluation\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetModelEvaluationRequest {
@@ -9332,6 +9361,31 @@ pub mod model_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.aiplatform.v1.ModelService/ImportModelEvaluation",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Imports a list of externally generated ModelEvaluationSlice.
+        pub async fn batch_import_model_evaluation_slices(
+            &mut self,
+            request: impl tonic::IntoRequest<
+                super::BatchImportModelEvaluationSlicesRequest,
+            >,
+        ) -> Result<
+            tonic::Response<super::BatchImportModelEvaluationSlicesResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.aiplatform.v1.ModelService/BatchImportModelEvaluationSlices",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
