@@ -3521,6 +3521,56 @@ pub enum PipelineState {
     /// The pipeline has been stopped, and can be resumed.
     Paused = 8,
 }
+/// A SavedQuery is a view of the dataset. It references a subset of annotations
+/// by problem type and filters.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SavedQuery {
+    /// Output only. Resource name of the SavedQuery.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The user-defined name of the SavedQuery.
+    /// The name can be up to 128 characters long and can consist of any UTF-8
+    /// characters.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Some additional information about the SavedQuery.
+    #[prost(message, optional, tag="12")]
+    pub metadata: ::core::option::Option<::prost_types::Value>,
+    /// Output only. Timestamp when this SavedQuery was created.
+    #[prost(message, optional, tag="3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Timestamp when SavedQuery was last updated.
+    #[prost(message, optional, tag="4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Filters on the Annotations in the dataset.
+    #[prost(string, tag="5")]
+    pub annotation_filter: ::prost::alloc::string::String,
+    /// Required. Problem type of the SavedQuery.
+    /// Allowed values:
+    /// * IMAGE_CLASSIFICATION_SINGLE_LABEL
+    /// * IMAGE_CLASSIFICATION_MULTI_LABEL
+    /// * IMAGE_BOUNDING_POLY
+    /// * IMAGE_BOUNDING_BOX
+    /// * TEXT_CLASSIFICATION_SINGLE_LABEL
+    /// * TEXT_CLASSIFICATION_MULTI_LABEL
+    /// * TEXT_EXTRACTION
+    /// * TEXT_SENTIMENT
+    /// * VIDEO_CLASSIFICATION
+    /// * VIDEO_OBJECT_TRACKING
+    #[prost(string, tag="6")]
+    pub problem_type: ::prost::alloc::string::String,
+    /// Output only. Number of AnnotationSpecs in the context of the SavedQuery.
+    #[prost(int32, tag="10")]
+    pub annotation_spec_count: i32,
+    /// Used to perform a consistent read-modify-write update. If not set, a blind
+    /// "overwrite" update happens.
+    #[prost(string, tag="8")]
+    pub etag: ::prost::alloc::string::String,
+    /// Output only. If the Annotations belonging to the SavedQuery can be used for AutoML
+    /// training.
+    #[prost(bool, tag="9")]
+    pub support_automl_training: bool,
+}
 /// A collection of metrics calculated by comparing Model's predictions on a
 /// slice of the test data against ground truth annotations.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -7052,6 +7102,20 @@ pub struct InputDataConfig {
     /// \[annotation_schema_uri][google.cloud.aiplatform.v1beta1.InputDataConfig.annotation_schema_uri\].
     #[prost(string, tag="9")]
     pub annotation_schema_uri: ::prost::alloc::string::String,
+    /// Only applicable to Datasets that have SavedQueries.
+    ///
+    /// The ID of a SavedQuery (annotation set) under the Dataset specified by
+    /// \[dataset_id][google.cloud.aiplatform.v1beta1.InputDataConfig.dataset_id\] used for filtering Annotations for training.
+    ///
+    /// Only Annotations that are associated with this SavedQuery are used in
+    /// respectively training. When used in conjunction with
+    /// \[annotations_filter][google.cloud.aiplatform.v1beta1.InputDataConfig.annotations_filter\], the Annotations used for training are filtered by
+    /// both \[saved_query_id][google.cloud.aiplatform.v1beta1.InputDataConfig.saved_query_id\] and \[annotations_filter][google.cloud.aiplatform.v1beta1.InputDataConfig.annotations_filter\].
+    ///
+    /// Only one of \[saved_query_id][google.cloud.aiplatform.v1beta1.InputDataConfig.saved_query_id\] and \[annotation_schema_uri][google.cloud.aiplatform.v1beta1.InputDataConfig.annotation_schema_uri\] should be
+    /// specified as both of them represent the same thing: problem type.
+    #[prost(string, tag="7")]
+    pub saved_query_id: ::prost::alloc::string::String,
     /// The instructions how the input data should be split between the
     /// training, validation and test sets.
     /// If no split type is provided, the \[fraction_split][google.cloud.aiplatform.v1beta1.InputDataConfig.fraction_split\] is used by default.
@@ -14035,6 +14099,41 @@ pub struct ListDataItemsResponse {
     #[prost(string, tag="2")]
     pub next_page_token: ::prost::alloc::string::String,
 }
+/// Request message for \[DatasetService.ListSavedQueries][google.cloud.aiplatform.v1beta1.DatasetService.ListSavedQueries\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSavedQueriesRequest {
+    /// Required. The resource name of the Dataset to list SavedQueries from.
+    /// Format:
+    /// `projects/{project}/locations/{location}/datasets/{dataset}`
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The standard list filter.
+    #[prost(string, tag="2")]
+    pub filter: ::prost::alloc::string::String,
+    /// The standard list page size.
+    #[prost(int32, tag="3")]
+    pub page_size: i32,
+    /// The standard list page token.
+    #[prost(string, tag="4")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Mask specifying which fields to read.
+    #[prost(message, optional, tag="5")]
+    pub read_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// A comma-separated list of fields to order by, sorted in ascending order.
+    /// Use "desc" after a field name for descending.
+    #[prost(string, tag="6")]
+    pub order_by: ::prost::alloc::string::String,
+}
+/// Response message for \[DatasetService.ListSavedQueries][google.cloud.aiplatform.v1beta1.DatasetService.ListSavedQueries\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListSavedQueriesResponse {
+    /// A list of SavedQueries that match the specified filter in the request.
+    #[prost(message, repeated, tag="1")]
+    pub saved_queries: ::prost::alloc::vec::Vec<SavedQuery>,
+    /// The standard List next-page token.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
 /// Request message for \[DatasetService.GetAnnotationSpec][google.cloud.aiplatform.v1beta1.DatasetService.GetAnnotationSpec\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetAnnotationSpecRequest {
@@ -14306,6 +14405,26 @@ pub mod dataset_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.aiplatform.v1beta1.DatasetService/ListDataItems",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists SavedQueries in a Dataset.
+        pub async fn list_saved_queries(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListSavedQueriesRequest>,
+        ) -> Result<tonic::Response<super::ListSavedQueriesResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.aiplatform.v1beta1.DatasetService/ListSavedQueries",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
