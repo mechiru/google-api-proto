@@ -53,9 +53,9 @@ pub struct ListRepositoriesRequest {
     /// `projects/*/locations/*`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// Optional. Maximum number of repositories to return. The server may return
-    /// fewer items than requested. If unspecified, the server will pick an
-    /// appropriate default.
+    /// Optional. Maximum number of repositories to return. The server may return fewer
+    /// items than requested. If unspecified, the server will pick an appropriate
+    /// default.
     #[prost(int32, tag="2")]
     pub page_size: i32,
     /// Optional. Page token received from a previous `ListRepositories` call.
@@ -65,9 +65,9 @@ pub struct ListRepositoriesRequest {
     /// must match the call that provided the page token.
     #[prost(string, tag="3")]
     pub page_token: ::prost::alloc::string::String,
-    /// Optional. This field only supports ordering by `name`. If unspecified, the
-    /// server will choose the ordering. If specified, the default order is
-    /// ascending for the `name` field.
+    /// Optional. This field only supports ordering by `name`. If unspecified, the server
+    /// will choose the ordering. If specified, the default order is ascending for
+    /// the `name` field.
     #[prost(string, tag="4")]
     pub order_by: ::prost::alloc::string::String,
     /// Optional. Filter for the returned list.
@@ -95,23 +95,23 @@ pub struct GetRepositoryRequest {
 /// `CreateRepository` request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateRepositoryRequest {
-    /// Required. The location in which to create the repository. Must be in the
-    /// format `projects/*/locations/*`.
+    /// Required. The location in which to create the repository. Must be in the format
+    /// `projects/*/locations/*`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
     /// Required. The repository to create.
     #[prost(message, optional, tag="2")]
     pub repository: ::core::option::Option<Repository>,
-    /// Required. The ID to use for the repository, which will become the final
-    /// component of the repository's resource name.
+    /// Required. The ID to use for the repository, which will become the final component of
+    /// the repository's resource name.
     #[prost(string, tag="3")]
     pub repository_id: ::prost::alloc::string::String,
 }
 /// `UpdateRepository` request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateRepositoryRequest {
-    /// Optional. Specifies the fields to be updated in the repository. If left
-    /// unset, all fields will be updated.
+    /// Optional. Specifies the fields to be updated in the repository. If left unset,
+    /// all fields will be updated.
     #[prost(message, optional, tag="1")]
     pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
     /// Required. The repository to update.
@@ -158,9 +158,9 @@ pub struct ListWorkspacesRequest {
     /// format `projects/*/locations/*/repositories/*`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// Optional. Maximum number of workspaces to return. The server may return
-    /// fewer items than requested. If unspecified, the server will pick an
-    /// appropriate default.
+    /// Optional. Maximum number of workspaces to return. The server may return fewer
+    /// items than requested. If unspecified, the server will pick an appropriate
+    /// default.
     #[prost(int32, tag="2")]
     pub page_size: i32,
     /// Optional. Page token received from a previous `ListWorkspaces` call.
@@ -170,9 +170,9 @@ pub struct ListWorkspacesRequest {
     /// must match the call that provided the page token.
     #[prost(string, tag="3")]
     pub page_token: ::prost::alloc::string::String,
-    /// Optional. This field only supports ordering by `name`. If unspecified, the
-    /// server will choose the ordering. If specified, the default order is
-    /// ascending for the `name` field.
+    /// Optional. This field only supports ordering by `name`. If unspecified, the server
+    /// will choose the ordering. If specified, the default order is ascending for
+    /// the `name` field.
     #[prost(string, tag="4")]
     pub order_by: ::prost::alloc::string::String,
     /// Optional. Filter for the returned list.
@@ -200,15 +200,15 @@ pub struct GetWorkspaceRequest {
 /// `CreateWorkspace` request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateWorkspaceRequest {
-    /// Required. The repository in which to create the workspace. Must be in the
-    /// format `projects/*/locations/*/repositories/*`.
+    /// Required. The repository in which to create the workspace. Must be in the format
+    /// `projects/*/locations/*/repositories/*`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
     /// Required. The workspace to create.
     #[prost(message, optional, tag="2")]
     pub workspace: ::core::option::Option<Workspace>,
-    /// Required. The ID to use for the workspace, which will become the final
-    /// component of the workspace's resource name.
+    /// Required. The ID to use for the workspace, which will become the final component of
+    /// the workspace's resource name.
     #[prost(string, tag="3")]
     pub workspace_id: ::prost::alloc::string::String,
 }
@@ -235,12 +235,12 @@ pub struct PullGitCommitsRequest {
     /// Required. The workspace's name.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Optional. The name of the branch in the Git remote from which to pull
-    /// commits. If left unset, the repository's default branch name will be used.
+    /// Optional. The name of the branch in the Git remote from which to pull commits.
+    /// If left unset, the repository's default branch name will be used.
     #[prost(string, tag="2")]
     pub remote_branch: ::prost::alloc::string::String,
-    /// Required. The author of any merge commit which may be created as a result
-    /// of merging fetched Git commits into this workspace.
+    /// Required. The author of any merge commit which may be created as a result of merging
+    /// fetched Git commits into this workspace.
     #[prost(message, optional, tag="3")]
     pub author: ::core::option::Option<CommitAuthor>,
 }
@@ -250,9 +250,8 @@ pub struct PushGitCommitsRequest {
     /// Required. The workspace's name.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Optional. The name of the branch in the Git remote to which commits should
-    /// be pushed. If left unset, the repository's default branch name will be
-    /// used.
+    /// Optional. The name of the branch in the Git remote to which commits should be pushed.
+    /// If left unset, the repository's default branch name will be used.
     #[prost(string, tag="2")]
     pub remote_branch: ::prost::alloc::string::String,
 }
@@ -308,9 +307,9 @@ pub struct FetchGitAheadBehindRequest {
     /// Required. The workspace's name.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Optional. The name of the branch in the Git remote against which this
-    /// workspace should be compared. If left unset, the repository's default
-    /// branch name will be used.
+    /// Optional. The name of the branch in the Git remote against which this workspace
+    /// should be compared. If left unset, the repository's default branch name
+    /// will be used.
     #[prost(string, tag="2")]
     pub remote_branch: ::prost::alloc::string::String,
 }
@@ -336,8 +335,8 @@ pub struct CommitWorkspaceChangesRequest {
     /// Optional. The commit's message.
     #[prost(string, tag="2")]
     pub commit_message: ::prost::alloc::string::String,
-    /// Optional. Full file paths to commit including filename, rooted at workspace
-    /// root. If left empty, all files will be committed.
+    /// Optional. Full file paths to commit including filename, rooted at workspace root. If
+    /// left empty, all files will be committed.
     #[prost(string, repeated, tag="3")]
     pub paths: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
@@ -347,8 +346,8 @@ pub struct ResetWorkspaceChangesRequest {
     /// Required. The workspace's name.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Optional. Full file paths to reset back to their committed state including
-    /// filename, rooted at workspace root. If left empty, all files will be reset.
+    /// Optional. Full file paths to reset back to their committed state including filename,
+    /// rooted at workspace root. If left empty, all files will be reset.
     #[prost(string, repeated, tag="2")]
     pub paths: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// Optional. If set to true, untracked files will be deleted.
@@ -361,8 +360,7 @@ pub struct FetchFileDiffRequest {
     /// Required. The workspace's name.
     #[prost(string, tag="1")]
     pub workspace: ::prost::alloc::string::String,
-    /// Required. The file's full path including filename, relative to the
-    /// workspace root.
+    /// Required. The file's full path including filename, relative to the workspace root.
     #[prost(string, tag="2")]
     pub path: ::prost::alloc::string::String,
 }
@@ -379,8 +377,8 @@ pub struct QueryDirectoryContentsRequest {
     /// Required. The workspace's name.
     #[prost(string, tag="1")]
     pub workspace: ::prost::alloc::string::String,
-    /// Optional. The directory's full path including directory name, relative to
-    /// the workspace root. If left unset, the workspace root is used.
+    /// Optional. The directory's full path including directory name, relative to the
+    /// workspace root. If left unset, the workspace root is used.
     #[prost(string, tag="2")]
     pub path: ::prost::alloc::string::String,
     /// Optional. Maximum number of paths to return. The server may return fewer
@@ -388,8 +386,8 @@ pub struct QueryDirectoryContentsRequest {
     /// default.
     #[prost(int32, tag="3")]
     pub page_size: i32,
-    /// Optional. Page token received from a previous `QueryDirectoryContents`
-    /// call. Provide this to retrieve the subsequent page.
+    /// Optional. Page token received from a previous `QueryDirectoryContents` call.
+    /// Provide this to retrieve the subsequent page.
     ///
     /// When paginating, all other parameters provided to
     /// `QueryDirectoryContents` must match the call that provided the page
@@ -435,8 +433,8 @@ pub struct MakeDirectoryRequest {
     /// Required. The workspace's name.
     #[prost(string, tag="1")]
     pub workspace: ::prost::alloc::string::String,
-    /// Required. The directory's full path including directory name, relative to
-    /// the workspace root.
+    /// Required. The directory's full path including directory name, relative to the
+    /// workspace root.
     #[prost(string, tag="2")]
     pub path: ::prost::alloc::string::String,
 }
@@ -450,8 +448,8 @@ pub struct RemoveDirectoryRequest {
     /// Required. The workspace's name.
     #[prost(string, tag="1")]
     pub workspace: ::prost::alloc::string::String,
-    /// Required. The directory's full path including directory name, relative to
-    /// the workspace root.
+    /// Required. The directory's full path including directory name, relative to the
+    /// workspace root.
     #[prost(string, tag="2")]
     pub path: ::prost::alloc::string::String,
 }
@@ -461,12 +459,12 @@ pub struct MoveDirectoryRequest {
     /// Required. The workspace's name.
     #[prost(string, tag="1")]
     pub workspace: ::prost::alloc::string::String,
-    /// Required. The directory's full path including directory name, relative to
-    /// the workspace root.
+    /// Required. The directory's full path including directory name, relative to the
+    /// workspace root.
     #[prost(string, tag="2")]
     pub path: ::prost::alloc::string::String,
-    /// Required. The new path for the directory including directory name, rooted
-    /// at workspace root.
+    /// Required. The new path for the directory including directory name, rooted at
+    /// workspace root.
     #[prost(string, tag="3")]
     pub new_path: ::prost::alloc::string::String,
 }
@@ -480,8 +478,7 @@ pub struct ReadFileRequest {
     /// Required. The workspace's name.
     #[prost(string, tag="1")]
     pub workspace: ::prost::alloc::string::String,
-    /// Required. The file's full path including filename, relative to the
-    /// workspace root.
+    /// Required. The file's full path including filename, relative to the workspace root.
     #[prost(string, tag="2")]
     pub path: ::prost::alloc::string::String,
 }
@@ -498,8 +495,7 @@ pub struct RemoveFileRequest {
     /// Required. The workspace's name.
     #[prost(string, tag="1")]
     pub workspace: ::prost::alloc::string::String,
-    /// Required. The file's full path including filename, relative to the
-    /// workspace root.
+    /// Required. The file's full path including filename, relative to the workspace root.
     #[prost(string, tag="2")]
     pub path: ::prost::alloc::string::String,
 }
@@ -509,12 +505,10 @@ pub struct MoveFileRequest {
     /// Required. The workspace's name.
     #[prost(string, tag="1")]
     pub workspace: ::prost::alloc::string::String,
-    /// Required. The file's full path including filename, relative to the
-    /// workspace root.
+    /// Required. The file's full path including filename, relative to the workspace root.
     #[prost(string, tag="2")]
     pub path: ::prost::alloc::string::String,
-    /// Required. The file's new path including filename, relative to the workspace
-    /// root.
+    /// Required. The file's new path including filename, relative to the workspace root.
     #[prost(string, tag="3")]
     pub new_path: ::prost::alloc::string::String,
 }
@@ -556,8 +550,8 @@ pub struct CompilationResult {
     /// Output only. The compilation result's name.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Immutable. If set, fields of `code_compilation_overrides` override the
-    /// default compilation settings that are specified in dataform.json.
+    /// Immutable. If set, fields of `code_compilation_overrides` override the default
+    /// compilation settings that are specified in dataform.json.
     #[prost(message, optional, tag="4")]
     pub code_compilation_config: ::core::option::Option<compilation_result::CodeCompilationConfig>,
     /// Output only. The version of `@dataform/core` that was used for compilation.
@@ -580,19 +574,24 @@ pub mod compilation_result {
         /// Optional. The default schema (BigQuery dataset ID).
         #[prost(string, tag="2")]
         pub default_schema: ::prost::alloc::string::String,
+        /// Optional. The default BigQuery location to use. Defaults to "US".
+        /// See the BigQuery docs for a full list of locations:
+        /// <https://cloud.google.com/bigquery/docs/locations.>
+        #[prost(string, tag="8")]
+        pub default_location: ::prost::alloc::string::String,
         /// Optional. The default schema (BigQuery dataset ID) for assertions.
         #[prost(string, tag="3")]
         pub assertion_schema: ::prost::alloc::string::String,
-        /// Optional. User-defined variables that are made available to project code
-        /// during compilation.
+        /// Optional. User-defined variables that are made available to project code during
+        /// compilation.
         #[prost(btree_map="string, string", tag="4")]
         pub vars: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-        /// Optional. The suffix that should be appended to all database (Google
-        /// Cloud project ID) names.
+        /// Optional. The suffix that should be appended to all database (Google Cloud project
+        /// ID) names.
         #[prost(string, tag="5")]
         pub database_suffix: ::prost::alloc::string::String,
-        /// Optional. The suffix that should be appended to all schema (BigQuery
-        /// dataset ID) names.
+        /// Optional. The suffix that should be appended to all schema (BigQuery dataset ID)
+        /// names.
         #[prost(string, tag="6")]
         pub schema_suffix: ::prost::alloc::string::String,
         /// Optional. The prefix that should be prepended to all table names.
@@ -608,19 +607,19 @@ pub mod compilation_result {
         /// Output only. The error's full stack trace.
         #[prost(string, tag="2")]
         pub stack: ::prost::alloc::string::String,
-        /// Output only. The path of the file where this error occurred, if
-        /// available, relative to the project root.
+        /// Output only. The path of the file where this error occurred, if available, relative to
+        /// the project root.
         #[prost(string, tag="3")]
         pub path: ::prost::alloc::string::String,
-        /// Output only. The identifier of the action where this error occurred, if
-        /// available.
+        /// Output only. The identifier of the action where this error occurred, if available.
         #[prost(message, optional, tag="4")]
         pub action_target: ::core::option::Option<super::Target>,
     }
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Source {
-        /// Immutable. Git commit/tag/branch name at which the repository should be
-        /// compiled. Must exist in the remote repository. Examples:
+        /// Immutable. Git commit/tag/branch name at which the repository should be compiled.
+        /// Must exist in the remote repository.
+        /// Examples:
         /// - a commit SHA: `12ade345`
         /// - a tag: `tag1`
         /// - a branch name: `branch1`
@@ -635,17 +634,17 @@ pub mod compilation_result {
 /// `ListCompilationResults` request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListCompilationResultsRequest {
-    /// Required. The repository in which to list compilation results. Must be in
-    /// the format `projects/*/locations/*/repositories/*`.
+    /// Required. The repository in which to list compilation results. Must be in the
+    /// format `projects/*/locations/*/repositories/*`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// Optional. Maximum number of compilation results to return. The server may
-    /// return fewer items than requested. If unspecified, the server will pick an
+    /// Optional. Maximum number of compilation results to return. The server may return
+    /// fewer items than requested. If unspecified, the server will pick an
     /// appropriate default.
     #[prost(int32, tag="2")]
     pub page_size: i32,
-    /// Optional. Page token received from a previous `ListCompilationResults`
-    /// call. Provide this to retrieve the subsequent page.
+    /// Optional. Page token received from a previous `ListCompilationResults` call.
+    /// Provide this to retrieve the subsequent page.
     ///
     /// When paginating, all other parameters provided to `ListCompilationResults`
     /// must match the call that provided the page token.
@@ -673,8 +672,8 @@ pub struct GetCompilationResultRequest {
 /// `CreateCompilationResult` request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateCompilationResultRequest {
-    /// Required. The repository in which to create the compilation result. Must be
-    /// in the format `projects/*/locations/*/repositories/*`.
+    /// Required. The repository in which to create the compilation result. Must be in the
+    /// format `projects/*/locations/*/repositories/*`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
     /// Required. The compilation result to create.
@@ -781,6 +780,19 @@ pub mod compilation_result_action {
         /// A list of columns or SQL expressions used to cluster the table.
         #[prost(string, repeated, tag="11")]
         pub cluster_expressions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Sets the partition expiration in days.
+        #[prost(int32, tag="12")]
+        pub partition_expiration_days: i32,
+        /// Specifies whether queries on this table must include a predicate filter
+        /// that filters on the partitioning column.
+        #[prost(bool, tag="13")]
+        pub require_partition_filter: bool,
+        /// Additional options that will be provided as key/value pairs into the
+        /// options clause of a create table/view statement. See
+        /// <https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language>
+        /// for more information on which options are supported.
+        #[prost(btree_map="string, string", tag="14")]
+        pub additional_options: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
     }
     /// Nested message and enum types in `Relation`.
     pub mod relation {
@@ -826,6 +838,8 @@ pub mod compilation_result_action {
             View = 2,
             /// The relation is an incrementalized table.
             IncrementalTable = 3,
+            /// The relation is a materialized view.
+            MaterializedView = 4,
         }
     }
     /// Represents a list of arbitrary database operations.
@@ -909,22 +923,21 @@ pub struct QueryCompilationResultActionsRequest {
     /// Required. The compilation result's name.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Optional. Maximum number of compilation results to return. The server may
-    /// return fewer items than requested. If unspecified, the server will pick an
+    /// Optional. Maximum number of compilation results to return. The server may return
+    /// fewer items than requested. If unspecified, the server will pick an
     /// appropriate default.
     #[prost(int32, tag="2")]
     pub page_size: i32,
-    /// Optional. Page token received from a previous
-    /// `QueryCompilationResultActions` call. Provide this to retrieve the
-    /// subsequent page.
+    /// Optional. Page token received from a previous `QueryCompilationResultActions` call.
+    /// Provide this to retrieve the subsequent page.
     ///
     /// When paginating, all other parameters provided to
     /// `QueryCompilationResultActions` must match the call that provided the page
     /// token.
     #[prost(string, tag="3")]
     pub page_token: ::prost::alloc::string::String,
-    /// Optional. Optional filter for the returned list. Filtering is only
-    /// currently supported on the `file_path` field.
+    /// Optional. Optional filter for the returned list. Filtering is only currently
+    /// supported on the `file_path` field.
     #[prost(string, tag="4")]
     pub filter: ::prost::alloc::string::String,
 }
@@ -933,7 +946,7 @@ pub struct QueryCompilationResultActionsRequest {
 pub struct QueryCompilationResultActionsResponse {
     /// List of compilation result actions.
     #[prost(message, repeated, tag="1")]
-    pub action_compilation_results: ::prost::alloc::vec::Vec<CompilationResultAction>,
+    pub compilation_result_actions: ::prost::alloc::vec::Vec<CompilationResultAction>,
     /// A token, which can be sent as `page_token` to retrieve the next page.
     /// If this field is omitted, there are no subsequent pages.
     #[prost(string, tag="2")]
@@ -945,8 +958,8 @@ pub struct WorkflowInvocation {
     /// Output only. The workflow invocation's name.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Immutable. The name of the compilation result to compile. Must be in the
-    /// format `projects/*/locations/*/repositories/*/compilationResults/*`.
+    /// Immutable. The name of the compilation result to compile. Must be in the format
+    /// `projects/*/locations/*/repositories/*/compilationResults/*`.
     #[prost(string, tag="2")]
     pub compilation_result: ::prost::alloc::string::String,
     /// Immutable. If left unset, a default InvocationConfig will be used.
@@ -972,16 +985,15 @@ pub mod workflow_invocation {
         /// Immutable. The set of tags to include.
         #[prost(string, repeated, tag="2")]
         pub included_tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// Immutable. When set to true, transitive dependencies of included actions
-        /// will be executed.
+        /// Immutable. When set to true, transitive dependencies of included actions will be
+        /// executed.
         #[prost(bool, tag="3")]
         pub transitive_dependencies_included: bool,
-        /// Immutable. When set to true, transitive dependents of included actions
-        /// will be executed.
+        /// Immutable. When set to true, transitive dependents of included actions will be
+        /// executed.
         #[prost(bool, tag="4")]
         pub transitive_dependents_included: bool,
-        /// Immutable. When set to true, any incremental tables will be fully
-        /// refreshed.
+        /// Immutable. When set to true, any incremental tables will be fully refreshed.
         #[prost(bool, tag="5")]
         pub fully_refresh_incremental_tables_enabled: bool,
     }
@@ -999,22 +1011,25 @@ pub mod workflow_invocation {
         Cancelled = 3,
         /// The workflow invocation failed. A terminal state.
         Failed = 4,
+        /// The workflow invocation is being cancelled, but some actions are still
+        /// running.
+        Canceling = 5,
     }
 }
 /// `ListWorkflowInvocations` request message.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListWorkflowInvocationsRequest {
-    /// Required. The parent resource of the WorkflowInvocation type. Must be in
-    /// the format `projects/*/locations/*/repositories/*`.
+    /// Required. The parent resource of the WorkflowInvocation type. Must be in the
+    /// format `projects/*/locations/*/repositories/*`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// Optional. Maximum number of workflow invocations to return. The server may
-    /// return fewer items than requested. If unspecified, the server will pick an
+    /// Optional. Maximum number of workflow invocations to return. The server may return
+    /// fewer items than requested. If unspecified, the server will pick an
     /// appropriate default.
     #[prost(int32, tag="2")]
     pub page_size: i32,
-    /// Optional. Page token received from a previous `ListWorkflowInvocations`
-    /// call. Provide this to retrieve the subsequent page.
+    /// Optional. Page token received from a previous `ListWorkflowInvocations` call.
+    /// Provide this to retrieve the subsequent page.
     ///
     /// When paginating, all other parameters provided to `ListWorkflowInvocations`
     /// must match the call that provided the page token.
@@ -1066,26 +1081,36 @@ pub struct CancelWorkflowInvocationRequest {
 /// Represents a single action in a workflow invocation.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct WorkflowInvocationAction {
-    /// Output only. This action's identifier. Unique within the workflow
-    /// invocation.
+    /// Output only. This action's identifier. Unique within the workflow invocation.
     #[prost(message, optional, tag="1")]
     pub target: ::core::option::Option<Target>,
-    /// Output only. The action's identifier if the project had been compiled
-    /// without any overrides configured. Unique within the compilation result.
+    /// Output only. The action's identifier if the project had been compiled without any
+    /// overrides configured. Unique within the compilation result.
     #[prost(message, optional, tag="2")]
     pub canonical_target: ::core::option::Option<Target>,
     /// Output only. This action's current state.
     #[prost(enumeration="workflow_invocation_action::State", tag="4")]
     pub state: i32,
     /// Output only. This action's timing details.
-    /// `start_time` will be set if the action is in one of the states: `RUNNING`,
-    /// `SUCCEEDED`, `CANCELLED`, `FAILED`. `end_time` will be set if the action is
-    /// in one of the states: `SUCCEEDED`, `CANCELLED`, `FAILED`.
+    /// `start_time` will be set if the action is in [RUNNING, SUCCEEDED,
+    /// CANCELLED, FAILED] state.
+    /// `end_time` will be set if the action is in [SUCCEEDED, CANCELLED, FAILED]
+    /// state.
     #[prost(message, optional, tag="5")]
     pub invocation_timing: ::core::option::Option<super::super::super::r#type::Interval>,
+    /// Output only. The workflow action's bigquery action details.
+    #[prost(message, optional, tag="6")]
+    pub bigquery_action: ::core::option::Option<workflow_invocation_action::BigQueryAction>,
 }
 /// Nested message and enum types in `WorkflowInvocationAction`.
 pub mod workflow_invocation_action {
+    /// Represents a workflow action that will run against BigQuery.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct BigQueryAction {
+        /// Output only. The generated BigQuery SQL script that will be executed.
+        #[prost(string, tag="1")]
+        pub sql_script: ::prost::alloc::string::String,
+    }
     /// Represents the current state of an workflow invocation action.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
@@ -1114,22 +1139,21 @@ pub struct QueryWorkflowInvocationActionsRequest {
     /// Required. The workflow invocation's name.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Optional. Maximum number of workflow invocations to return. The server may
-    /// return fewer items than requested. If unspecified, the server will pick an
+    /// Optional. Maximum number of workflow invocations to return. The server may return
+    /// fewer items than requested. If unspecified, the server will pick an
     /// appropriate default.
     #[prost(int32, tag="2")]
     pub page_size: i32,
-    /// Optional. Page token received from a previous
-    /// `QueryWorkflowInvocationActions` call. Provide this to retrieve the
-    /// subsequent page.
+    /// Optional. Page token received from a previous `QueryWorkflowInvocationActions` call.
+    /// Provide this to retrieve the subsequent page.
     ///
     /// When paginating, all other parameters provided to
     /// `QueryWorkflowInvocationActions` must match the call that provided the page
     /// token.
     #[prost(string, tag="3")]
     pub page_token: ::prost::alloc::string::String,
-    /// Optional. Optional filter for the returned list. Filtering is only
-    /// currently supported on the `file_path` field.
+    /// Optional. Optional filter for the returned list. Filtering is only currently
+    /// supported on the `file_path` field.
     #[prost(string, tag="4")]
     pub filter: ::prost::alloc::string::String,
 }
@@ -1148,6 +1172,8 @@ pub struct QueryWorkflowInvocationActionsResponse {
 pub mod dataform_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
+    /// Dataform is a service to develop, create, document, test, and update curated
+    /// tables in BigQuery.
     #[derive(Debug, Clone)]
     pub struct DataformClient<T> {
         inner: tonic::client::Grpc<T>,
@@ -1394,6 +1420,26 @@ pub mod dataform_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.dataform.v1alpha2.Dataform/DeleteWorkspace",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Installs dependency NPM packages (inside a Workspace).
+        pub async fn install_npm_packages(
+            &mut self,
+            request: impl tonic::IntoRequest<super::InstallNpmPackagesRequest>,
+        ) -> Result<tonic::Response<super::InstallNpmPackagesResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataform.v1alpha2.Dataform/InstallNpmPackages",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -1701,26 +1747,6 @@ pub mod dataform_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.dataform.v1alpha2.Dataform/WriteFile",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Installs dependency NPM packages (inside a Workspace).
-        pub async fn install_npm_packages(
-            &mut self,
-            request: impl tonic::IntoRequest<super::InstallNpmPackagesRequest>,
-        ) -> Result<tonic::Response<super::InstallNpmPackagesResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataform.v1alpha2.Dataform/InstallNpmPackages",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
