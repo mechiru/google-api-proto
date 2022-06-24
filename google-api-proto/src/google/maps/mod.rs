@@ -11,5 +11,7 @@ pub mod regionlookup;
 pub mod roads;
 #[cfg(any(feature = "google-maps-routes-v1", feature = "google-maps-routes-v1alpha"))]
 pub mod routes;
+#[cfg(any(feature = "google-maps-routing-v2"))]
+pub mod routing;
 #[cfg(any(feature = "google-maps-unity"))]
 pub mod unity;

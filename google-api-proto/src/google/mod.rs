@@ -454,6 +454,7 @@ pub mod longrunning;
         feature = "google-maps-roads-v1op",
         feature = "google-maps-routes-v1",
         feature = "google-maps-routes-v1alpha",
+        feature = "google-maps-routing-v2",
         feature = "google-maps-unity",
     )
 )]

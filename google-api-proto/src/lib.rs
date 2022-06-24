@@ -368,6 +368,7 @@ pub mod ccc;
         feature = "google-maps-roads-v1op",
         feature = "google-maps-routes-v1",
         feature = "google-maps-routes-v1alpha",
+        feature = "google-maps-routing-v2",
         feature = "google-maps-unity",
         feature = "google-monitoring-dashboard-v1",
         feature = "google-monitoring-metricsscope-v1",
