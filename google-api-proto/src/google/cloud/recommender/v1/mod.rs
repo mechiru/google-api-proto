@@ -443,6 +443,104 @@ pub mod recommendation_state_info {
         Dismissed = 5,
     }
 }
+/// Configuration for an InsightType.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InsightTypeConfig {
+    /// Name of insight type config.
+    /// Eg,
+    /// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]/config
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// InsightTypeGenerationConfig which configures the generation of
+    /// insights for this insight type.
+    #[prost(message, optional, tag="2")]
+    pub insight_type_generation_config: ::core::option::Option<InsightTypeGenerationConfig>,
+    /// Fingerprint of the InsightTypeConfig. Provides optimistic locking when
+    /// updating.
+    #[prost(string, tag="3")]
+    pub etag: ::prost::alloc::string::String,
+    /// Last time when the config was updated.
+    #[prost(message, optional, tag="4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Immutable. The revision ID of the config.
+    /// A new revision is committed whenever the config is changed in any way.
+    /// The format is an 8-character hexadecimal string.
+    #[prost(string, tag="5")]
+    pub revision_id: ::prost::alloc::string::String,
+    /// Allows clients to store small amounts of arbitrary data. Annotations must
+    /// follow the Kubernetes syntax.
+    /// The total size of all keys and values combined is limited to 256k.
+    /// Key can have 2 segments: prefix (optional) and name (required),
+    /// separated by a slash (/).
+    /// Prefix must be a DNS subdomain.
+    /// Name must be 63 characters or less, begin and end with alphanumerics,
+    /// with dashes (-), underscores (_), dots (.), and alphanumerics between.
+    #[prost(btree_map="string, string", tag="6")]
+    pub annotations: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// A user-settable field to provide a human-readable name to be used in user
+    /// interfaces.
+    #[prost(string, tag="7")]
+    pub display_name: ::prost::alloc::string::String,
+}
+/// A configuration to customize the generation of insights.
+/// Eg, customizing the lookback period considered when generating a
+/// insight.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InsightTypeGenerationConfig {
+    /// Parameters for this InsightTypeGenerationConfig. These configs can be used
+    /// by or are applied to all subtypes.
+    #[prost(message, optional, tag="1")]
+    pub params: ::core::option::Option<::prost_types::Struct>,
+}
+/// Configuration for a Recommender.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RecommenderConfig {
+    /// Name of recommender config.
+    /// Eg,
+    /// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]/config
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// RecommenderGenerationConfig which configures the Generation of
+    /// recommendations for this recommender.
+    #[prost(message, optional, tag="2")]
+    pub recommender_generation_config: ::core::option::Option<RecommenderGenerationConfig>,
+    /// Fingerprint of the RecommenderConfig. Provides optimistic locking when
+    /// updating.
+    #[prost(string, tag="3")]
+    pub etag: ::prost::alloc::string::String,
+    /// Last time when the config was updated.
+    #[prost(message, optional, tag="4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Immutable. The revision ID of the config.
+    /// A new revision is committed whenever the config is changed in any way.
+    /// The format is an 8-character hexadecimal string.
+    #[prost(string, tag="5")]
+    pub revision_id: ::prost::alloc::string::String,
+    /// Allows clients to store small amounts of arbitrary data. Annotations must
+    /// follow the Kubernetes syntax.
+    /// The total size of all keys and values combined is limited to 256k.
+    /// Key can have 2 segments: prefix (optional) and name (required),
+    /// separated by a slash (/).
+    /// Prefix must be a DNS subdomain.
+    /// Name must be 63 characters or less, begin and end with alphanumerics,
+    /// with dashes (-), underscores (_), dots (.), and alphanumerics between.
+    #[prost(btree_map="string, string", tag="6")]
+    pub annotations: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// A user-settable field to provide a human-readable name to be used in user
+    /// interfaces.
+    #[prost(string, tag="7")]
+    pub display_name: ::prost::alloc::string::String,
+}
+/// A Configuration to customize the generation of recommendations.
+/// Eg, customizing the lookback period considered when generating a
+/// recommendation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RecommenderGenerationConfig {
+    /// Parameters for this RecommenderGenerationConfig. These configs can be used
+    /// by or are applied to all subtypes.
+    #[prost(message, optional, tag="1")]
+    pub params: ::core::option::Option<::prost_types::Struct>,
+}
 /// Request for the `ListInsights` method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListInsightsRequest {
@@ -465,15 +563,15 @@ pub struct ListInsightsRequest {
     /// <https://cloud.google.com/recommender/docs/insights/insight-types.>
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of results to return from this request.  Non-positive
-    /// values are ignored. If not specified, the server will determine the number
-    /// of results to return.
+    /// Optional. The maximum number of results to return from this request.
+    /// Non-positive values are ignored. If not specified, the server will
+    /// determine the number of results to return.
     #[prost(int32, tag="2")]
     pub page_size: i32,
-    /// Optional. If present, retrieves the next batch of results from the preceding call to
-    /// this method. `page_token` must be the value of `next_page_token` from the
-    /// previous response. The values of other method parameters must be identical
-    /// to those in the previous call.
+    /// Optional. If present, retrieves the next batch of results from the
+    /// preceding call to this method. `page_token` must be the value of
+    /// `next_page_token` from the previous response. The values of other method
+    /// parameters must be identical to those in the previous call.
     #[prost(string, tag="3")]
     pub page_token: ::prost::alloc::string::String,
     /// Optional. Filter expression to restrict the insights returned. Supported
@@ -524,8 +622,8 @@ pub struct MarkInsightAcceptedRequest {
     /// Required. Name of the insight.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Optional. State properties user wish to include with this state.  Full replace of the
-    /// current state_metadata.
+    /// Optional. State properties user wish to include with this state.  Full
+    /// replace of the current state_metadata.
     #[prost(btree_map="string, string", tag="2")]
     pub state_metadata: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
     /// Required. Fingerprint of the Insight. Provides optimistic locking.
@@ -554,15 +652,15 @@ pub struct ListRecommendationsRequest {
     /// <https://cloud.google.com/recommender/docs/recommenders.>
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// Optional. The maximum number of results to return from this request.  Non-positive
-    /// values are ignored. If not specified, the server will determine the number
-    /// of results to return.
+    /// Optional. The maximum number of results to return from this request.
+    /// Non-positive values are ignored. If not specified, the server will
+    /// determine the number of results to return.
     #[prost(int32, tag="2")]
     pub page_size: i32,
-    /// Optional. If present, retrieves the next batch of results from the preceding call to
-    /// this method. `page_token` must be the value of `next_page_token` from the
-    /// previous response. The values of other method parameters must be identical
-    /// to those in the previous call.
+    /// Optional. If present, retrieves the next batch of results from the
+    /// preceding call to this method. `page_token` must be the value of
+    /// `next_page_token` from the previous response. The values of other method
+    /// parameters must be identical to those in the previous call.
     #[prost(string, tag="3")]
     pub page_token: ::prost::alloc::string::String,
     /// Filter expression to restrict the recommendations returned. Supported
@@ -654,6 +752,64 @@ pub struct MarkRecommendationFailedRequest {
     /// Required. Fingerprint of the Recommendation. Provides optimistic locking.
     #[prost(string, tag="3")]
     pub etag: ::prost::alloc::string::String,
+}
+/// Request for the GetRecommenderConfig` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetRecommenderConfigRequest {
+    /// Required. Name of the Recommendation Config to get.
+    ///
+    /// Acceptable formats:
+    ///
+    /// * `projects/\[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]/config`
+    ///
+    /// * `projects/\[PROJECT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]/config`
+    ///
+    /// * `organizations/\[ORGANIZATION_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID\]/config`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for the `UpdateRecommenderConfig` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateRecommenderConfigRequest {
+    /// Required. The RecommenderConfig to update.
+    #[prost(message, optional, tag="1")]
+    pub recommender_config: ::core::option::Option<RecommenderConfig>,
+    /// The list of fields to be updated.
+    #[prost(message, optional, tag="2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// If true, validate the request and preview the change, but do not actually
+    /// update it.
+    #[prost(bool, tag="3")]
+    pub validate_only: bool,
+}
+/// Request for the GetInsightTypeConfig` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetInsightTypeConfigRequest {
+    /// Required. Name of the InsightTypeConfig to get.
+    ///
+    /// Acceptable formats:
+    ///
+    /// * `projects/\[PROJECT_NUMBER]/locations/global/recommenders/[INSIGHT_TYPE_ID\]/config`
+    ///
+    /// * `projects/\[PROJECT_ID]/locations/global/recommenders/[INSIGHT_TYPE_ID\]/config`
+    ///
+    /// * `organizations/\[ORGANIZATION_ID]/locations/global/recommenders/[INSIGHT_TYPE_ID\]/config`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request for the `UpdateInsightTypeConfig` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateInsightTypeConfigRequest {
+    /// Required. The InsightTypeConfig to update.
+    #[prost(message, optional, tag="1")]
+    pub insight_type_config: ::core::option::Option<InsightTypeConfig>,
+    /// The list of fields to be updated.
+    #[prost(message, optional, tag="2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// If true, validate the request and preview the change, but do not actually
+    /// update it.
+    #[prost(bool, tag="3")]
+    pub validate_only: bool,
 }
 /// Generated client implementations.
 pub mod recommender_client {
@@ -907,6 +1063,90 @@ pub mod recommender_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.recommender.v1.Recommender/MarkRecommendationFailed",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets the requested Recommender Config. There is only one instance of the
+        /// config for each Recommender.
+        pub async fn get_recommender_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetRecommenderConfigRequest>,
+        ) -> Result<tonic::Response<super::RecommenderConfig>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.recommender.v1.Recommender/GetRecommenderConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Updates a Recommender Config. This will create a new revision of the
+        /// config.
+        pub async fn update_recommender_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateRecommenderConfigRequest>,
+        ) -> Result<tonic::Response<super::RecommenderConfig>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.recommender.v1.Recommender/UpdateRecommenderConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets the requested InsightTypeConfig. There is only one instance of the
+        /// config for each InsightType.
+        pub async fn get_insight_type_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetInsightTypeConfigRequest>,
+        ) -> Result<tonic::Response<super::InsightTypeConfig>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.recommender.v1.Recommender/GetInsightTypeConfig",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Updates an InsightTypeConfig change. This will create a new revision of the
+        /// config.
+        pub async fn update_insight_type_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateInsightTypeConfigRequest>,
+        ) -> Result<tonic::Response<super::InsightTypeConfig>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.recommender.v1.Recommender/UpdateInsightTypeConfig",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
