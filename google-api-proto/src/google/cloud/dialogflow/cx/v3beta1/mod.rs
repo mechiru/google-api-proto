@@ -5951,7 +5951,13 @@ pub mod versions_client {
 }
 /// Hierarchical advanced settings for agent/flow/page/fulfillment/parameter.
 /// Settings exposed at lower level overrides the settings exposed at higher
-/// level.
+/// level. Overriding occurs at the sub-setting level. For example, the
+/// playback_interruption_settings at fulfillment level only overrides the
+/// playback_interruption_settings at the agent level, leaving other settings
+/// at the agent level unchanged.
+///
+/// DTMF settings does not override each other. DTMF settings set at different
+/// levels define DTMF detections running in parallel.
 ///
 /// Hierarchy: Agent->Flow->Page->Fulfillment/Parameter.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -7509,6 +7515,9 @@ pub struct DeleteWebhookRequest {
 }
 /// The request message for a webhook call. The request is sent as a JSON object
 /// and the field names will be presented in camel cases.
+///
+/// You may see undocumented fields in an actual request. These fields are used
+/// internally by Dialogflow and should be ignored.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct WebhookRequest {
     /// Always present. The unique identifier of the \[DetectIntentResponse][google.cloud.dialogflow.cx.v3beta1.DetectIntentResponse\] that

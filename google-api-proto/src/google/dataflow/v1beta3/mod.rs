@@ -1436,7 +1436,7 @@ pub struct Job {
     /// existing Job.
     ///
     /// The name must match the regular expression
-    /// `\[a-z]([-a-z0-9]{0,38}[a-z0-9\])?`
+    /// `\[a-z]([-a-z0-9]{0,1022}[a-z0-9\])?`
     #[prost(string, tag="3")]
     pub name: ::prost::alloc::string::String,
     /// The type of Cloud Dataflow job.

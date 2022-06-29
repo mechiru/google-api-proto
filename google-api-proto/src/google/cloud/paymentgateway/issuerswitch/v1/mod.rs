@@ -1539,8 +1539,9 @@ pub struct ListFinancialTransactionsRequest {
     ///
     ///   * `transactionType` - The transaction type of the financial
     ///   transaction. Must be one of \[TransactionType][google.cloud.paymentgateway.issuerswitch.v1.TransactionType\] values. For financial
-    ///   transactions, only valid transaction types are `DEBIT`, `CREDIT` and
-    ///   `REVERSAL`. Allowed comparison operators: `=`.
+    ///   transactions, only valid transaction types are `TRANSACTION_TYPE_CREDIT`,
+    ///   `TRANSACTION_TYPE_DEBIT` and `TRANSACTION_TYPE_REVERSAL`. Allowed
+    ///   comparison operators: `=`.
     ///   * `transactionID` - The UPI transaction ID of the financial
     ///   transaction. Allowed comparison operators: `=`.
     ///   * `RRN` - The retrieval reference number of the transaction. Allowed
@@ -1806,9 +1807,15 @@ pub struct ExportFinancialTransactionsRequest {
     /// `projects/{project}`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// Transaction type for the financial transaction API.
-    /// If no transactionType is specified, records of all transaction types will
-    /// be returned.
+    /// Transaction type for the financial transaction API. The possible values for
+    /// transaction type are
+    ///
+    /// * TRANSACTION_TYPE_CREDIT
+    /// * TRANSACTION_TYPE_DEBIT
+    /// * TRANSACTION_TYPE_REVERSAL
+    ///
+    /// If no transaction type is specified, records of all the above transaction
+    /// types will be exported.
     #[prost(enumeration="TransactionType", tag="2")]
     pub transaction_type: i32,
     /// The start time for the query.
@@ -1825,7 +1832,19 @@ pub struct ExportMetadataTransactionsRequest {
     /// `projects/{project}`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// API type - any valid API type for UPI related API's except SETTLE_PAYMENT.
+    /// API type of the metadata transaction API. The possible values for API type
+    /// are
+    ///
+    /// * BALANCE
+    /// * CHECK_STATUS
+    /// * HEART_BEAT
+    /// * INITIATE_REGISTRATION
+    /// * LIST_ACCOUNTS
+    /// * UPDATE_CREDENTIALS
+    /// * VALIDATE_REGISTRATION
+    ///
+    /// If no API type is specified, records of all the above API types will be
+    /// exported.
     #[prost(enumeration="ApiType", tag="2")]
     pub api_type: i32,
     /// The start time for the query.
@@ -1842,10 +1861,15 @@ pub struct ExportMandateTransactionsRequest {
     /// `projects/{project}`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// Transaction type for the mandate transaction API.
-    /// If no transactionType is specified, records of all 3 transaction types i.e.
-    /// `TRANSACTION_TYPE_CREATE`, `TRANSACTION_TYPE_REVOKE` and
-    /// `TRANSACTION_TYPE_UPDATE` for mandate API will be exported.
+    /// Transaction type for the mandate transaction API.  The possible values for
+    /// transaction type are
+    ///
+    /// * TRANSACTION_TYPE_CREATE
+    /// * TRANSACTION_TYPE_REVOKE
+    /// * TRANSACTION_TYPE_UPDATE
+    ///
+    /// If no transaction type is specified, records of all the above transaction
+    /// types will be exported.
     #[prost(enumeration="TransactionType", tag="2")]
     pub transaction_type: i32,
     /// The start time for the query.
@@ -1862,9 +1886,18 @@ pub struct ExportComplaintTransactionsRequest {
     /// `projects/{project}`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// Transaction type for the complaint transaction API.
-    /// If no transactionType is specified, records of all complaint / dispute
-    /// related transaction types will be exported.
+    /// Transaction type for the complaint transaction API. The possible values for
+    /// transaction type are
+    ///
+    /// * TRANSACTION_TYPE_CHECK_STATUS
+    /// * TRANSACTION_TYPE_COMPLAINT
+    /// * TRANSACTION_TYPE_DISPUTE
+    /// * TRANSACTION_TYPE_REFUND
+    /// * TRANSACTION_TYPE_REVERSAL
+    /// * TRANSACTION_TYPE_STATUS_UPDATE
+    ///
+    /// If no transaction type is specified, records of all the above transaction
+    /// types will be exported.
     #[prost(enumeration="TransactionType", tag="2")]
     pub transaction_type: i32,
     /// The start time for the query.
