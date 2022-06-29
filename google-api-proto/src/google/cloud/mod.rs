@@ -358,6 +358,8 @@ pub mod osconfig;
     )
 )]
 pub mod oslogin;
+#[cfg(any(feature = "google-cloud-paymentgateway-issuerswitch-v1"))]
+pub mod paymentgateway;
 #[cfg(any(feature = "google-cloud-phishingprotection-v1beta1"))]
 pub mod phishingprotection;
 #[cfg(any(feature = "google-cloud-policytroubleshooter-v1"))]
