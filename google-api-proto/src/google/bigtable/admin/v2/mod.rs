@@ -469,6 +469,14 @@ pub struct AutoscalingTargets {
     /// will return INVALID_ARGUMENT error.
     #[prost(int32, tag="2")]
     pub cpu_utilization_percent: i32,
+    /// The storage utilization that the Autoscaler should be trying to achieve.
+    /// This number is limited between 2560 (2.5TiB) and 5120 (5TiB) for a SSD
+    /// cluster and between 8192 (8TiB) and 16384 (16TiB) for an HDD cluster;
+    /// otherwise it will return INVALID_ARGUMENT error. If this value is set to 0,
+    /// it will be treated as if it were set to the default value: 2560 for SSD,
+    /// 8192 for HDD.
+    #[prost(int32, tag="3")]
+    pub storage_utilization_gib_per_node: i32,
 }
 /// Limits for the number of nodes a Cluster can autoscale up/down to.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1883,6 +1891,30 @@ pub struct DeleteTableRequest {
     pub name: ::prost::alloc::string::String,
 }
 /// Request message for
+/// \[google.bigtable.admin.v2.BigtableTableAdmin.UndeleteTable][google.bigtable.admin.v2.BigtableTableAdmin.UndeleteTable\]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UndeleteTableRequest {
+    /// Required. The unique name of the table to be restored.
+    /// Values are of the form
+    /// `projects/{project}/instances/{instance}/tables/{table}`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Metadata type for the operation returned by
+/// \[google.bigtable.admin.v2.BigtableTableAdmin.UndeleteTable][google.bigtable.admin.v2.BigtableTableAdmin.UndeleteTable\].
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UndeleteTableMetadata {
+    /// The name of the table being restored.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The time at which this operation started.
+    #[prost(message, optional, tag="2")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// If set, the time at which this operation finished or was cancelled.
+    #[prost(message, optional, tag="3")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Request message for
 /// \[google.bigtable.admin.v2.BigtableTableAdmin.ModifyColumnFamilies][google.bigtable.admin.v2.BigtableTableAdmin.ModifyColumnFamilies\]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ModifyColumnFamiliesRequest {
@@ -1906,13 +1938,13 @@ pub mod modify_column_families_request {
         /// The ID of the column family to be modified.
         #[prost(string, tag="1")]
         pub id: ::prost::alloc::string::String,
-        /// Column familiy modifications.
+        /// Column family modifications.
         #[prost(oneof="modification::Mod", tags="2, 3, 4")]
         pub r#mod: ::core::option::Option<modification::Mod>,
     }
     /// Nested message and enum types in `Modification`.
     pub mod modification {
-        /// Column familiy modifications.
+        /// Column family modifications.
         #[derive(Clone, PartialEq, ::prost::Oneof)]
         pub enum Mod {
             /// Create a new column family with the specified schema, or fail if
@@ -2441,6 +2473,29 @@ pub mod bigtable_table_admin_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.bigtable.admin.v2.BigtableTableAdmin/DeleteTable",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Restores a specified table which was accidentally deleted.
+        pub async fn undelete_table(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UndeleteTableRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableTableAdmin/UndeleteTable",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
