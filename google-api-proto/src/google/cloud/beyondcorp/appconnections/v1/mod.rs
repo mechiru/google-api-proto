@@ -199,7 +199,7 @@ pub mod resolve_app_connections_response {
         #[prost(message, optional, tag="1")]
         pub app_connection: ::core::option::Option<super::AppConnection>,
         /// If type=GCP_REGIONAL_MIG, contains most recent VM instances, like
-        /// "<https://www.googleapis.com/compute/v1/projects/{project_id}/zones/{zone_id}/instances/{instance_id}".>
+        /// `<https://www.googleapis.com/compute/v1/projects/{project_id}/zones/{zone_id}/instances/{instance_id}`.>
         #[prost(string, repeated, tag="2")]
         pub recent_mig_vms: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     }
@@ -276,7 +276,7 @@ pub mod app_connection {
         #[prost(int32, tag="4")]
         pub ingress_port: i32,
         /// Required. AppGateway name in following format:
-        /// projects/{project_id}/locations/{location_id}/appgateways/{gateway_id}
+        /// `projects/{project_id}/locations/{location_id}/appgateways/{gateway_id}`
         #[prost(string, tag="5")]
         pub app_gateway: ::prost::alloc::string::String,
     }

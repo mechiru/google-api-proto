@@ -6,6 +6,8 @@ pub struct LinuxNodeConfig {
     ///
     /// The following parameters are supported.
     ///
+    /// net.core.busy_poll
+    /// net.core.busy_read
     /// net.core.netdev_max_backlog
     /// net.core.rmem_max
     /// net.core.wmem_default
@@ -53,8 +55,20 @@ pub struct NodeKubeletConfig {
     /// The value must be a positive duration.
     #[prost(string, tag="3")]
     pub cpu_cfs_quota_period: ::prost::alloc::string::String,
+    /// Set the Pod PID limits. See
+    /// <https://kubernetes.io/docs/concepts/policy/pid-limiting/#pod-pid-limits>
+    ///
+    /// Controls the maximum number of processes allowed to run in a pod. The value
+    /// must be greater than or equal to 1024 and less than 4194304.
+    #[prost(int64, tag="4")]
+    pub pod_pids_limit: i64,
 }
 /// Parameters that describe the nodes in a cluster.
+///
+/// GKE Autopilot clusters do not
+/// recognize parameters in `NodeConfig`. Use
+/// \[AutoprovisioningNodePoolDefaults][google.container.v1.AutoprovisioningNodePoolDefaults\]
+/// instead.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct NodeConfig {
     /// The name of a Google Compute Engine [machine
@@ -97,6 +111,7 @@ pub struct NodeConfig {
     /// in length. These are reflected as part of a URL in the metadata server.
     /// Additionally, to avoid ambiguity, keys must not conflict with any other
     /// metadata keys for the project or be one of the reserved keys:
+    ///
     ///  - "cluster-location"
     ///  - "cluster-name"
     ///  - "cluster-uid"
@@ -228,6 +243,14 @@ pub struct NodeConfig {
     /// Enable or disable gvnic in the node pool.
     #[prost(message, optional, tag="29")]
     pub gvnic: ::core::option::Option<VirtualNic>,
+    /// Spot flag for enabling Spot VM, which is a rebrand of
+    /// the existing preemptible flag.
+    #[prost(bool, tag="32")]
+    pub spot: bool,
+    /// Confidential nodes config.
+    /// All the nodes in the node pool will be Confidential VM once enabled.
+    #[prost(message, optional, tag="35")]
+    pub confidential_nodes: ::core::option::Option<ConfidentialNodes>,
 }
 /// Specifies options for controlling advanced machine features.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -282,6 +305,31 @@ pub struct NodeNetworkConfig {
     /// This field cannot be changed after the node pool has been created.
     #[prost(string, tag="6")]
     pub pod_ipv4_cidr_block: ::prost::alloc::string::String,
+    /// Network bandwidth tier configuration.
+    #[prost(message, optional, tag="11")]
+    pub network_performance_config: ::core::option::Option<node_network_config::NetworkPerformanceConfig>,
+}
+/// Nested message and enum types in `NodeNetworkConfig`.
+pub mod node_network_config {
+    /// Configuration of all network bandwidth tiers
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct NetworkPerformanceConfig {
+        /// Specifies the total network bandwidth tier for the NodePool.
+        #[prost(enumeration="network_performance_config::Tier", optional, tag="1")]
+        pub total_egress_bandwidth_tier: ::core::option::Option<i32>,
+    }
+    /// Nested message and enum types in `NetworkPerformanceConfig`.
+    pub mod network_performance_config {
+        /// Node network tier
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+        #[repr(i32)]
+        pub enum Tier {
+            /// Default value
+            Unspecified = 0,
+            /// Higher bandwidth, actual values based on VM size.
+            Tier1 = 1,
+        }
+    }
 }
 /// A set of Shielded Instance options.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -396,6 +444,30 @@ pub mod node_taint {
         /// NoExecute
         NoExecute = 3,
     }
+}
+/// Collection of Kubernetes [node
+/// taints](<https://kubernetes.io/docs/concepts/configuration/taint-and-toleration>).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NodeTaints {
+    /// List of node taints.
+    #[prost(message, repeated, tag="1")]
+    pub taints: ::prost::alloc::vec::Vec<NodeTaint>,
+}
+/// Collection of node-level [Kubernetes
+/// labels](<https://kubernetes.io/docs/concepts/overview/working-with-objects/labels>).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NodeLabels {
+    /// Map of node label keys and node label values.
+    #[prost(btree_map="string, string", tag="1")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+}
+/// Collection of Compute Engine network tags that can be applied to a node's
+/// underlying VM instance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NetworkTags {
+    /// List of network tags.
+    #[prost(string, repeated, tag="1")]
+    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// The authentication information for accessing the master endpoint.
 /// Authentication can be done using HTTP basic auth or using client
@@ -700,6 +772,27 @@ pub struct BinaryAuthorization {
     /// images will be validated by Binary Authorization.
     #[prost(bool, tag="1")]
     pub enabled: bool,
+    /// Mode of operation for binauthz policy evaluation. Currently the only
+    /// options are equivalent to enable/disable. If unspecified, defaults to
+    /// DISABLED.
+    #[prost(enumeration="binary_authorization::EvaluationMode", tag="2")]
+    pub evaluation_mode: i32,
+}
+/// Nested message and enum types in `BinaryAuthorization`.
+pub mod binary_authorization {
+    /// Binary Authorization mode of operation.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EvaluationMode {
+        /// Default value
+        Unspecified = 0,
+        /// Disable BinaryAuthorization
+        Disabled = 1,
+        /// Enforce Kubernetes admission requests with BinaryAuthorization using the
+        /// project's singleton policy. This is equivalent to setting the
+        /// enabled boolean to true.
+        ProjectSingletonPolicyEnforce = 2,
+    }
 }
 /// Configuration for controlling how IPs are allocated in the cluster.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1014,9 +1107,13 @@ pub struct Cluster {
     /// Notification configuration of the cluster.
     #[prost(message, optional, tag="49")]
     pub notification_config: ::core::option::Option<NotificationConfig>,
-    /// Configuration of Confidential Nodes
+    /// Configuration of Confidential Nodes.
+    /// All the nodes in the cluster will be Confidential VM once enabled.
     #[prost(message, optional, tag="50")]
     pub confidential_nodes: ::core::option::Option<ConfidentialNodes>,
+    /// Configuration for Identity Service component.
+    #[prost(message, optional, tag="54")]
+    pub identity_service_config: ::core::option::Option<IdentityServiceConfig>,
     /// [Output only] Server-defined URL for the resource.
     #[prost(string, tag="100")]
     pub self_link: ::prost::alloc::string::String,
@@ -1133,6 +1230,10 @@ pub struct Cluster {
     /// Monitoring configuration for the cluster.
     #[prost(message, optional, tag="133")]
     pub monitoring_config: ::core::option::Option<MonitoringConfig>,
+    /// Node pool configs that apply to all auto-provisioned node pools
+    /// in autopilot clusters and node auto-provisioning enabled clusters.
+    #[prost(message, optional, tag="136")]
+    pub node_pool_auto_config: ::core::option::Option<NodePoolAutoConfig>,
 }
 /// Nested message and enum types in `Cluster`.
 pub mod cluster {
@@ -1161,6 +1262,17 @@ pub mod cluster {
         Degraded = 6,
     }
 }
+/// Node pool configs that apply to all auto-provisioned node pools
+/// in autopilot clusters and node auto-provisioning enabled clusters.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NodePoolAutoConfig {
+    /// The list of instance tags applied to all nodes. Tags are used to identify
+    /// valid sources or targets for network firewalls and are specified by
+    /// the client during cluster creation. Each tag within the list
+    /// must comply with RFC1035.
+    #[prost(message, optional, tag="1")]
+    pub network_tags: ::core::option::Option<NetworkTags>,
+}
 /// Subset of Nodepool message that has defaults.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct NodePoolDefaults {
@@ -1171,7 +1283,7 @@ pub struct NodePoolDefaults {
 /// Subset of NodeConfig message that has defaults.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct NodeConfigDefaults {
-    /// GCFS (Google Container File System, a.k.a Riptide) options.
+    /// GCFS (Google Container File System, a.k.a. Riptide) options.
     #[prost(message, optional, tag="1")]
     pub gcfs_config: ::core::option::Option<GcfsConfig>,
 }
@@ -1312,6 +1424,9 @@ pub struct ClusterUpdate {
     /// The desired monitoring configuration.
     #[prost(message, optional, tag="65")]
     pub desired_monitoring_config: ::core::option::Option<MonitoringConfig>,
+    /// The desired Identity Service component configuration.
+    #[prost(message, optional, tag="66")]
+    pub desired_identity_service_config: ::core::option::Option<IdentityServiceConfig>,
     /// ServiceExternalIPsConfig specifies the config for the use of Services with
     /// ExternalIPs field.
     #[prost(message, optional, tag="60")]
@@ -1331,6 +1446,10 @@ pub struct ClusterUpdate {
     /// The desired GCFS config for the cluster
     #[prost(message, optional, tag="109")]
     pub desired_gcfs_config: ::core::option::Option<GcfsConfig>,
+    /// The desired network tags that apply to all auto-provisioned node pools
+    /// in autopilot clusters and node auto-provisioning enabled clusters.
+    #[prost(message, optional, tag="110")]
+    pub desired_node_pool_auto_config_network_tags: ::core::option::Option<NetworkTags>,
 }
 /// This operation resource represents operations that may have happened or are
 /// happening on the cluster. All fields are output only.
@@ -1510,7 +1629,7 @@ pub mod operation_progress {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateClusterRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the parent field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -1535,7 +1654,7 @@ pub struct CreateClusterRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetClusterRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -1561,7 +1680,7 @@ pub struct GetClusterRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateClusterRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -1590,7 +1709,7 @@ pub struct UpdateClusterRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateNodePoolRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -1646,15 +1765,37 @@ pub struct UpdateNodePoolRequest {
     /// Upgrade settings control disruption and speed of the upgrade.
     #[prost(message, optional, tag="15")]
     pub upgrade_settings: ::core::option::Option<node_pool::UpgradeSettings>,
+    /// The desired network tags to be applied to all nodes in the node pool.
+    /// If this field is not present, the tags will not be changed. Otherwise,
+    /// the existing network tags will be *replaced* with the provided tags.
+    #[prost(message, optional, tag="16")]
+    pub tags: ::core::option::Option<NetworkTags>,
+    /// The desired node taints to be applied to all nodes in the node pool.
+    /// If this field is not present, the taints will not be changed. Otherwise,
+    /// the existing node taints will be *replaced* with the provided taints.
+    #[prost(message, optional, tag="17")]
+    pub taints: ::core::option::Option<NodeTaints>,
+    /// The desired node labels to be applied to all nodes in the node pool.
+    /// If this field is not present, the labels will not be changed. Otherwise,
+    /// the existing node labels will be *replaced* with the provided labels.
+    #[prost(message, optional, tag="18")]
+    pub labels: ::core::option::Option<NodeLabels>,
     /// Parameters that can be configured on Linux nodes.
     #[prost(message, optional, tag="19")]
     pub linux_node_config: ::core::option::Option<LinuxNodeConfig>,
     /// Node kubelet configs.
     #[prost(message, optional, tag="20")]
     pub kubelet_config: ::core::option::Option<NodeKubeletConfig>,
+    /// Node network config.
+    #[prost(message, optional, tag="21")]
+    pub node_network_config: ::core::option::Option<NodeNetworkConfig>,
     /// GCFS config.
     #[prost(message, optional, tag="22")]
     pub gcfs_config: ::core::option::Option<GcfsConfig>,
+    /// Confidential nodes config.
+    /// All the nodes in the node pool will be Confidential VM once enabled.
+    #[prost(message, optional, tag="23")]
+    pub confidential_nodes: ::core::option::Option<ConfidentialNodes>,
     /// Enable or disable gvnic on the node pool.
     #[prost(message, optional, tag="29")]
     pub gvnic: ::core::option::Option<VirtualNic>,
@@ -1663,7 +1804,7 @@ pub struct UpdateNodePoolRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetNodePoolAutoscalingRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -1698,7 +1839,7 @@ pub struct SetNodePoolAutoscalingRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetLoggingServiceRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -1737,7 +1878,7 @@ pub struct SetLoggingServiceRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetMonitoringServiceRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -1776,7 +1917,7 @@ pub struct SetMonitoringServiceRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetAddonsConfigRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -1806,7 +1947,7 @@ pub struct SetAddonsConfigRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetLocationsRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -1841,7 +1982,7 @@ pub struct SetLocationsRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UpdateMasterRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -1879,7 +2020,7 @@ pub struct UpdateMasterRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetMasterAuthRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -1930,7 +2071,7 @@ pub mod set_master_auth_request {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeleteClusterRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -1956,7 +2097,7 @@ pub struct DeleteClusterRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListClustersRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the parent field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -1990,7 +2131,7 @@ pub struct ListClustersResponse {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetOperationRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -2016,7 +2157,7 @@ pub struct GetOperationRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListOperationsRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the parent field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -2038,7 +2179,7 @@ pub struct ListOperationsRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CancelOperationRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -2075,7 +2216,7 @@ pub struct ListOperationsResponse {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetServerConfigRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -2134,7 +2275,7 @@ pub mod server_config {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateNodePoolRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://developers.google.com/console/help/new/#projectnumber>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the parent field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -2154,7 +2295,7 @@ pub struct CreateNodePoolRequest {
     /// Required. The node pool to create.
     #[prost(message, optional, tag="4")]
     pub node_pool: ::core::option::Option<NodePool>,
-    /// The parent (project, location, cluster id) where the node pool will be
+    /// The parent (project, location, cluster name) where the node pool will be
     /// created. Specified in the format
     /// `projects/*/locations/*/clusters/*`.
     #[prost(string, tag="6")]
@@ -2164,7 +2305,7 @@ pub struct CreateNodePoolRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeleteNodePoolRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://developers.google.com/console/help/new/#projectnumber>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -2196,7 +2337,7 @@ pub struct DeleteNodePoolRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListNodePoolsRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://developers.google.com/console/help/new/#projectnumber>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the parent field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -2213,7 +2354,7 @@ pub struct ListNodePoolsRequest {
     #[deprecated]
     #[prost(string, tag="3")]
     pub cluster_id: ::prost::alloc::string::String,
-    /// The parent (project, location, cluster id) where the node pools will be
+    /// The parent (project, location, cluster name) where the node pools will be
     /// listed. Specified in the format `projects/*/locations/*/clusters/*`.
     #[prost(string, tag="5")]
     pub parent: ::prost::alloc::string::String,
@@ -2222,7 +2363,7 @@ pub struct ListNodePoolsRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetNodePoolRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://developers.google.com/console/help/new/#projectnumber>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -2249,6 +2390,51 @@ pub struct GetNodePoolRequest {
     /// `projects/*/locations/*/clusters/*/nodePools/*`.
     #[prost(string, tag="6")]
     pub name: ::prost::alloc::string::String,
+}
+/// Settings for blue-green upgrade.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BlueGreenSettings {
+    /// Time needed after draining entire blue pool. After this period, blue pool
+    /// will be cleaned up.
+    #[prost(message, optional, tag="2")]
+    pub node_pool_soak_duration: ::core::option::Option<::prost_types::Duration>,
+    /// The rollout policy controls the general rollout progress of blue-green.
+    #[prost(oneof="blue_green_settings::RolloutPolicy", tags="1")]
+    pub rollout_policy: ::core::option::Option<blue_green_settings::RolloutPolicy>,
+}
+/// Nested message and enum types in `BlueGreenSettings`.
+pub mod blue_green_settings {
+    /// Standard rollout policy is the default policy for blue-green.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct StandardRolloutPolicy {
+        /// Soak time after each batch gets drained. Default to zero.
+        #[prost(message, optional, tag="3")]
+        pub batch_soak_duration: ::core::option::Option<::prost_types::Duration>,
+        /// Blue pool size to drain in a batch.
+        #[prost(oneof="standard_rollout_policy::UpdateBatchSize", tags="1, 2")]
+        pub update_batch_size: ::core::option::Option<standard_rollout_policy::UpdateBatchSize>,
+    }
+    /// Nested message and enum types in `StandardRolloutPolicy`.
+    pub mod standard_rollout_policy {
+        /// Blue pool size to drain in a batch.
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum UpdateBatchSize {
+            /// Percentage of the bool pool nodes to drain in a batch.
+            /// The range of this field should be (0.0, 1.0].
+            #[prost(float, tag="1")]
+            BatchPercentage(f32),
+            /// Number of blue nodes to drain in a batch.
+            #[prost(int32, tag="2")]
+            BatchNodeCount(i32),
+        }
+    }
+    /// The rollout policy controls the general rollout progress of blue-green.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum RolloutPolicy {
+        /// Standard policy for the blue-green upgrade.
+        #[prost(message, tag="1")]
+        StandardRolloutPolicy(StandardRolloutPolicy),
+    }
 }
 /// NodePool contains the name and configuration for a cluster's node pool.
 /// Node pools are a set of nodes (i.e. VM's), with a common configuration and
@@ -2295,6 +2481,8 @@ pub struct NodePool {
     /// [Output only] The resource URLs of the [managed instance
     /// groups](<https://cloud.google.com/compute/docs/instance-groups/creating-groups-of-managed-instances>)
     /// associated with this node pool.
+    /// During the node pool blue-green upgrade operation, the URLs contain both
+    /// blue and green resources.
     #[prost(string, repeated, tag="102")]
     pub instance_group_urls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// [Output only] The status of the nodes in this pool instance.
@@ -2326,6 +2514,10 @@ pub struct NodePool {
     /// Upgrade settings control disruption and speed of the upgrade.
     #[prost(message, optional, tag="107")]
     pub upgrade_settings: ::core::option::Option<node_pool::UpgradeSettings>,
+    /// Output only. [Output only] Update info contains relevant information during a node
+    /// pool update.
+    #[prost(message, optional, tag="109")]
+    pub update_info: ::core::option::Option<node_pool::UpdateInfo>,
 }
 /// Nested message and enum types in `NodePool`.
 pub mod node_pool {
@@ -2352,6 +2544,29 @@ pub mod node_pool {
     /// simultaneously. It creates 2 additional (upgraded) nodes, then it brings
     /// down 3 old (not yet upgraded) nodes at the same time. This ensures that
     /// there are always at least 4 nodes available.
+    ///
+    /// These upgrade settings configure the upgrade strategy for the node pool.
+    /// Use strategy to switch between the strategies applied to the node pool.
+    ///
+    /// If the strategy is ROLLING, use max_surge and max_unavailable to control
+    /// the level of parallelism and the level of disruption caused by upgrade.
+    /// 1. maxSurge controls the number of additional nodes that can be added to
+    /// the node pool temporarily for the time of the upgrade to increase the
+    /// number of available nodes.
+    /// 2. maxUnavailable controls the number of nodes that can be simultaneously
+    /// unavailable.
+    /// 3. (maxUnavailable + maxSurge) determines the level of parallelism (how
+    /// many nodes are being upgraded at the same time).
+    ///
+    /// If the strategy is BLUE_GREEN, use blue_green_settings to configure the
+    /// blue-green upgrade related settings.
+    /// 1. standard_rollout_policy is the default policy. The policy is used to
+    /// control the way blue pool gets drained. The draining is executed in the
+    /// batch mode. The batch size could be specified as either percentage of the
+    /// node pool size or the number of nodes. batch_soak_duration is the soak
+    /// time after each batch gets drained.
+    /// 2. node_pool_soak_duration is the soak time after all blue nodes are
+    /// drained. After this period, the blue pool nodes will be deleted.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct UpgradeSettings {
         /// The maximum number of nodes that can be created beyond the current size
@@ -2363,6 +2578,71 @@ pub mod node_pool {
         /// Ready.
         #[prost(int32, tag="2")]
         pub max_unavailable: i32,
+        /// Update strategy of the node pool.
+        #[prost(enumeration="super::NodePoolUpdateStrategy", optional, tag="3")]
+        pub strategy: ::core::option::Option<i32>,
+        /// Settings for blue-green upgrade strategy.
+        #[prost(message, optional, tag="4")]
+        pub blue_green_settings: ::core::option::Option<super::BlueGreenSettings>,
+    }
+    /// UpdateInfo contains resource (instance groups, etc), status and other
+    /// intermediate information relevant to a node pool upgrade.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct UpdateInfo {
+        /// Information of a blue-green upgrade.
+        #[prost(message, optional, tag="1")]
+        pub blue_green_info: ::core::option::Option<update_info::BlueGreenInfo>,
+    }
+    /// Nested message and enum types in `UpdateInfo`.
+    pub mod update_info {
+        /// Information relevant to blue-green upgrade.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct BlueGreenInfo {
+            /// Current blue-green upgrade phase.
+            #[prost(enumeration="blue_green_info::Phase", tag="1")]
+            pub phase: i32,
+            /// The resource URLs of the [managed instance groups]
+            /// (/compute/docs/instance-groups/creating-groups-of-managed-instances)
+            /// associated with blue pool.
+            #[prost(string, repeated, tag="2")]
+            pub blue_instance_group_urls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// The resource URLs of the [managed instance groups]
+            /// (/compute/docs/instance-groups/creating-groups-of-managed-instances)
+            /// associated with green pool.
+            #[prost(string, repeated, tag="3")]
+            pub green_instance_group_urls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// Time to start deleting blue pool to complete blue-green upgrade,
+            /// in \[RFC3339\](<https://www.ietf.org/rfc/rfc3339.txt>) text format.
+            #[prost(string, tag="4")]
+            pub blue_pool_deletion_start_time: ::prost::alloc::string::String,
+            /// Version of green pool.
+            #[prost(string, tag="5")]
+            pub green_pool_version: ::prost::alloc::string::String,
+        }
+        /// Nested message and enum types in `BlueGreenInfo`.
+        pub mod blue_green_info {
+            /// Phase represents the different stages blue-green upgrade is running in.
+            #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+            #[repr(i32)]
+            pub enum Phase {
+                /// Unspecified phase.
+                Unspecified = 0,
+                /// blue-green upgrade has been initiated.
+                UpdateStarted = 1,
+                /// Start creating green pool nodes.
+                CreatingGreenPool = 2,
+                /// Start cordoning blue pool nodes.
+                CordoningBluePool = 3,
+                /// Start draining blue pool nodes.
+                DrainingBluePool = 4,
+                /// Start soaking time after draining entire blue pool.
+                NodePoolSoaking = 5,
+                /// Start deleting blue nodes.
+                DeletingBluePool = 6,
+                /// Rollback has been initiated.
+                RollbackStarted = 7,
+            }
+        }
     }
     /// The current status of the node pool instance.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -2573,7 +2853,7 @@ pub struct DailyMaintenanceWindow {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetNodePoolManagementRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -2608,7 +2888,7 @@ pub struct SetNodePoolManagementRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetNodePoolSizeRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -2639,13 +2919,23 @@ pub struct SetNodePoolSizeRequest {
     #[prost(string, tag="7")]
     pub name: ::prost::alloc::string::String,
 }
+/// CompleteNodePoolUpgradeRequest sets the name of target node pool to complete
+/// upgrade.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CompleteNodePoolUpgradeRequest {
+    /// The name (project, location, cluster, node pool id) of the node pool to
+    /// complete upgrade.
+    /// Specified in the format 'projects/*/locations/*/clusters/*/nodePools/*'.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
 /// RollbackNodePoolUpgradeRequest rollbacks the previously Aborted or Failed
 /// NodePool upgrade. This will be an no-op if the last upgrade successfully
 /// completed.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RollbackNodePoolUpgradeRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -2672,6 +2962,10 @@ pub struct RollbackNodePoolUpgradeRequest {
     /// Specified in the format `projects/*/locations/*/clusters/*/nodePools/*`.
     #[prost(string, tag="6")]
     pub name: ::prost::alloc::string::String,
+    /// Option for rollback to ignore the PodDisruptionBudget.
+    /// Default value is false.
+    #[prost(bool, tag="7")]
+    pub respect_pdb: bool,
 }
 /// ListNodePoolsResponse is the result of ListNodePoolsRequest.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2736,15 +3030,18 @@ pub struct AutoprovisioningNodePoolDefaults {
     /// Specifies the node management options for NAP created node-pools.
     #[prost(message, optional, tag="4")]
     pub management: ::core::option::Option<NodeManagement>,
-    /// Minimum CPU platform to be used for NAP created node pools.
+    /// Deprecated. Minimum CPU platform to be used for NAP created node pools.
     /// The instance may be scheduled on the specified or newer CPU platform.
     /// Applicable values are the friendly names of CPU platforms, such as
     /// minCpuPlatform: Intel Haswell or
     /// minCpuPlatform: Intel Sandy Bridge. For more
     /// information, read [how to specify min CPU
     /// platform](<https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform>)
+    /// This field is deprecated, min_cpu_platform should be specified using
+    /// cloud.google.com/requested-min-cpu-platform label selector on the pod.
     /// To unset the min cpu platform field pass "automatic"
     /// as field value.
+    #[deprecated]
     #[prost(string, tag="5")]
     pub min_cpu_platform: ::prost::alloc::string::String,
     /// Size of the disk attached to each node, specified in GB.
@@ -2806,6 +3103,37 @@ pub struct NodePoolAutoscaling {
     /// Can this node pool be deleted automatically.
     #[prost(bool, tag="4")]
     pub autoprovisioned: bool,
+    /// Location policy used when scaling up a nodepool.
+    #[prost(enumeration="node_pool_autoscaling::LocationPolicy", tag="5")]
+    pub location_policy: i32,
+    /// Minimum number of nodes in the node pool. Must be greater than 1 less than
+    /// total_max_node_count.
+    /// The total_*_node_count fields are mutually exclusive with the *_node_count
+    /// fields.
+    #[prost(int32, tag="6")]
+    pub total_min_node_count: i32,
+    /// Maximum number of nodes in the node pool. Must be greater than
+    /// total_min_node_count. There has to be enough quota to scale up the cluster.
+    /// The total_*_node_count fields are mutually exclusive with the *_node_count
+    /// fields.
+    #[prost(int32, tag="7")]
+    pub total_max_node_count: i32,
+}
+/// Nested message and enum types in `NodePoolAutoscaling`.
+pub mod node_pool_autoscaling {
+    /// Location policy specifies how zones are picked when scaling up the
+    /// nodepool.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum LocationPolicy {
+        /// Not set.
+        Unspecified = 0,
+        /// BALANCED is a best effort policy that aims to balance the sizes of
+        /// different zones.
+        Balanced = 1,
+        /// ANY policy picks zones that have the highest capacity available.
+        Any = 2,
+    }
 }
 /// SetLabelsRequest sets the Google Cloud Platform labels on a Google Container
 /// Engine cluster, which will in turn set them for Google Compute Engine
@@ -2813,7 +3141,7 @@ pub struct NodePoolAutoscaling {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetLabelsRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://developers.google.com/console/help/new/#projectnumber>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -2841,7 +3169,7 @@ pub struct SetLabelsRequest {
     /// resource to get the latest fingerprint.
     #[prost(string, tag="5")]
     pub label_fingerprint: ::prost::alloc::string::String,
-    /// The name (project, location, cluster id) of the cluster to set labels.
+    /// The name (project, location, cluster name) of the cluster to set labels.
     /// Specified in the format `projects/*/locations/*/clusters/*`.
     #[prost(string, tag="7")]
     pub name: ::prost::alloc::string::String,
@@ -2851,7 +3179,7 @@ pub struct SetLabelsRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetLegacyAbacRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -2871,8 +3199,8 @@ pub struct SetLegacyAbacRequest {
     /// Required. Whether ABAC authorization will be enabled in the cluster.
     #[prost(bool, tag="4")]
     pub enabled: bool,
-    /// The name (project, location, cluster id) of the cluster to set legacy abac.
-    /// Specified in the format `projects/*/locations/*/clusters/*`.
+    /// The name (project, location, cluster name) of the cluster to set legacy
+    /// abac. Specified in the format `projects/*/locations/*/clusters/*`.
     #[prost(string, tag="6")]
     pub name: ::prost::alloc::string::String,
 }
@@ -2881,7 +3209,7 @@ pub struct SetLegacyAbacRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct StartIpRotationRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://developers.google.com/console/help/new/#projectnumber>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -2898,7 +3226,7 @@ pub struct StartIpRotationRequest {
     #[deprecated]
     #[prost(string, tag="3")]
     pub cluster_id: ::prost::alloc::string::String,
-    /// The name (project, location, cluster id) of the cluster to start IP
+    /// The name (project, location, cluster name) of the cluster to start IP
     /// rotation. Specified in the format `projects/*/locations/*/clusters/*`.
     #[prost(string, tag="6")]
     pub name: ::prost::alloc::string::String,
@@ -2910,7 +3238,7 @@ pub struct StartIpRotationRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CompleteIpRotationRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://developers.google.com/console/help/new/#projectnumber>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -2927,7 +3255,7 @@ pub struct CompleteIpRotationRequest {
     #[deprecated]
     #[prost(string, tag="3")]
     pub cluster_id: ::prost::alloc::string::String,
-    /// The name (project, location, cluster id) of the cluster to complete IP
+    /// The name (project, location, cluster name) of the cluster to complete IP
     /// rotation. Specified in the format `projects/*/locations/*/clusters/*`.
     #[prost(string, tag="7")]
     pub name: ::prost::alloc::string::String,
@@ -2947,6 +3275,32 @@ pub struct AcceleratorConfig {
     /// guide](<https://docs.nvidia.com/datacenter/tesla/mig-user-guide/#partitioning>).
     #[prost(string, tag="3")]
     pub gpu_partition_size: ::prost::alloc::string::String,
+    /// The configuration for GPU sharing options.
+    #[prost(message, optional, tag="5")]
+    pub gpu_sharing_config: ::core::option::Option<GpuSharingConfig>,
+}
+/// GPUSharingConfig represents the GPU sharing configuration for Hardware
+/// Accelerators.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GpuSharingConfig {
+    /// The max number of containers that can share a physical GPU.
+    #[prost(int64, tag="1")]
+    pub max_shared_clients_per_gpu: i64,
+    /// The type of GPU sharing strategy to enable on the GPU node.
+    #[prost(enumeration="gpu_sharing_config::GpuSharingStrategy", optional, tag="2")]
+    pub gpu_sharing_strategy: ::core::option::Option<i32>,
+}
+/// Nested message and enum types in `GPUSharingConfig`.
+pub mod gpu_sharing_config {
+    /// The type of GPU sharing strategy currently provided.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum GpuSharingStrategy {
+        /// Default value.
+        Unspecified = 0,
+        /// GPUs are time-shared between containers.
+        TimeSharing = 1,
+    }
 }
 /// WorkloadMetadataConfig defines the metadata configuration to expose to
 /// workloads on the node pool.
@@ -2980,7 +3334,7 @@ pub mod workload_metadata_config {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetNetworkPolicyRequest {
     /// Deprecated. The Google Developers Console [project ID or project
-    /// number](<https://developers.google.com/console/help/new/#projectnumber>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     /// This field has been deprecated and replaced by the name field.
     #[deprecated]
     #[prost(string, tag="1")]
@@ -3000,7 +3354,7 @@ pub struct SetNetworkPolicyRequest {
     /// Required. Configuration options for the NetworkPolicy feature.
     #[prost(message, optional, tag="4")]
     pub network_policy: ::core::option::Option<NetworkPolicy>,
-    /// The name (project, location, cluster id) of the cluster to set networking
+    /// The name (project, location, cluster name) of the cluster to set networking
     /// policy. Specified in the format `projects/*/locations/*/clusters/*`.
     #[prost(string, tag="6")]
     pub name: ::prost::alloc::string::String,
@@ -3009,7 +3363,7 @@ pub struct SetNetworkPolicyRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SetMaintenancePolicyRequest {
     /// Required. The Google Developers Console [project ID or project
-    /// number](<https://support.google.com/cloud/answer/6158840>).
+    /// number](<https://cloud.google.com/resource-manager/docs/creating-managing-projects>).
     #[prost(string, tag="1")]
     pub project_id: ::prost::alloc::string::String,
     /// Required. The name of the Google Compute Engine
@@ -3024,8 +3378,8 @@ pub struct SetMaintenancePolicyRequest {
     /// clears the existing maintenance policy.
     #[prost(message, optional, tag="4")]
     pub maintenance_policy: ::core::option::Option<MaintenancePolicy>,
-    /// The name (project, location, cluster id) of the cluster to set maintenance
-    /// policy.
+    /// The name (project, location, cluster name) of the cluster to set
+    /// maintenance policy.
     /// Specified in the format `projects/*/locations/*/clusters/*`.
     #[prost(string, tag="5")]
     pub name: ::prost::alloc::string::String,
@@ -3164,7 +3518,7 @@ pub struct GetOpenIdConfigResponse {
 /// Discovery 1.0 specification for details.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetJsonWebKeysRequest {
-    /// The cluster (project, location, cluster id) to get keys for. Specified in
+    /// The cluster (project, location, cluster name) to get keys for. Specified in
     /// the format `projects/*/locations/*/clusters/*`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
@@ -3310,6 +3664,14 @@ pub struct WorkloadIdentityConfig {
     /// The workload pool to attach all Kubernetes service accounts to.
     #[prost(string, tag="2")]
     pub workload_pool: ::prost::alloc::string::String,
+}
+/// IdentityServiceConfig is configuration for Identity Service which allows
+/// customers to use external identity providers with the K8S API
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct IdentityServiceConfig {
+    /// Whether to enable the Identity Service component
+    #[prost(bool, tag="1")]
+    pub enabled: bool,
 }
 /// Configuration for issuance of mTLS keys and certificates to Kubernetes pods.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3570,8 +3932,7 @@ pub mod notification_config {
 /// makes nodes run on confidential VMs.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ConfidentialNodes {
-    /// Whether Confidential Nodes feature is enabled for all nodes in this
-    /// cluster.
+    /// Whether Confidential Nodes feature is enabled.
     #[prost(bool, tag="1")]
     pub enabled: bool,
 }
@@ -3702,6 +4063,10 @@ pub struct MonitoringConfig {
     /// Monitoring components configuration
     #[prost(message, optional, tag="1")]
     pub component_config: ::core::option::Option<MonitoringComponentConfig>,
+    /// Enable Google Cloud Managed Service for Prometheus
+    /// in the cluster.
+    #[prost(message, optional, tag="2")]
+    pub managed_prometheus_config: ::core::option::Option<ManagedPrometheusConfig>,
 }
 /// MonitoringComponentConfig is cluster monitoring component configuration.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3721,7 +4086,21 @@ pub mod monitoring_component_config {
         Unspecified = 0,
         /// system components
         SystemComponents = 1,
+        /// kube-apiserver
+        Apiserver = 3,
+        /// kube-scheduler
+        Scheduler = 4,
+        /// kube-controller-manager
+        ControllerManager = 5,
     }
+}
+/// ManagedPrometheusConfig defines the configuration for
+/// Google Cloud Managed Service for Prometheus.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ManagedPrometheusConfig {
+    /// Enable Managed Collection.
+    #[prost(bool, tag="1")]
+    pub enabled: bool,
 }
 /// PrivateIPv6GoogleAccess controls whether and how the pods can communicate
 /// with Google Services through gRPC over IPv6.
@@ -3736,6 +4115,18 @@ pub enum PrivateIPv6GoogleAccess {
     PrivateIpv6GoogleAccessToGoogle = 2,
     /// Enables priate IPv6 access to and from Google Services
     PrivateIpv6GoogleAccessBidirectional = 3,
+}
+/// UpgradeResourceType is the resource type that is upgrading. It is used
+/// in upgrade notifications.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum UpgradeResourceType {
+    /// Default value. This shouldn't be used.
+    Unspecified = 0,
+    /// Master / control plane
+    Master = 1,
+    /// Node pool
+    NodePool = 2,
 }
 /// The datapath provider selects the implementation of the Kubernetes networking
 /// model for service resolution and network policy enforcement.
@@ -3752,17 +4143,17 @@ pub enum DatapathProvider {
     /// for more.
     AdvancedDatapath = 2,
 }
-/// UpgradeResourceType is the resource type that is upgrading. It is used
-/// in upgrade notifications.
+/// Strategy used for node pool update.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-pub enum UpgradeResourceType {
-    /// Default value. This shouldn't be used.
+pub enum NodePoolUpdateStrategy {
+    /// Default value.
     Unspecified = 0,
-    /// Master / control plane
-    Master = 1,
-    /// Node pool
-    NodePool = 2,
+    /// blue-green upgrade.
+    BlueGreen = 2,
+    /// SURGE is the traditional way of upgrade a node pool.
+    /// max_surge and max_unavailable determines the level of upgrade parallelism.
+    Surge = 3,
 }
 /// Generated client implementations.
 pub mod cluster_manager_client {
@@ -4285,6 +4676,27 @@ pub mod cluster_manager_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.container.v1.ClusterManager/DeleteNodePool",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// CompleteNodePoolUpgrade will signal an on-going node pool upgrade to
+        /// complete.
+        pub async fn complete_node_pool_upgrade(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CompleteNodePoolUpgradeRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.container.v1.ClusterManager/CompleteNodePoolUpgrade",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

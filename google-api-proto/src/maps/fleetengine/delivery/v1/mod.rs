@@ -58,7 +58,8 @@ pub struct DeliveryVehicleLocation {
     /// Accuracy of `speed` in meters/second.
     #[prost(message, optional, tag="7")]
     pub speed_accuracy: ::core::option::Option<f64>,
-    /// The time when `location` was reported by the sensor.
+    /// The time when `location` was reported by the sensor according to the
+    /// sensor's clock.
     #[prost(message, optional, tag="4")]
     pub update_time: ::core::option::Option<::prost_types::Timestamp>,
     /// Output only. The time when the server received the location information.
@@ -94,8 +95,7 @@ pub struct DeliveryVehicleLocation {
     /// Input only. Accuracy of `raw_location` as a radius, in meters.
     #[prost(message, optional, tag="25")]
     pub raw_location_accuracy: ::core::option::Option<f64>,
-    /// Input only. Supplemental location provided by the integrating app, such as the location
-    /// provided by Fused Location Provider.
+    /// Input only. Supplemental location provided by the integrating app.
     #[prost(message, optional, tag="18")]
     pub supplemental_location: ::core::option::Option<super::super::super::super::google::r#type::LatLng>,
     /// Input only. Timestamp associated with the supplemental location.

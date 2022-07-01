@@ -327,6 +327,8 @@ pub mod workload {
         EuRegionsAndSupport = 8,
         /// Assured Workloads For Canada Regions and Support controls
         CaRegionsAndSupport = 9,
+        /// International Traffic in Arms Regulations
+        Itar = 10,
     }
     /// Key Access Justifications(KAJ) Enrollment State.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
