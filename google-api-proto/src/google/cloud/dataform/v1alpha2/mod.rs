@@ -1152,10 +1152,6 @@ pub struct QueryWorkflowInvocationActionsRequest {
     /// token.
     #[prost(string, tag="3")]
     pub page_token: ::prost::alloc::string::String,
-    /// Optional. Optional filter for the returned list. Filtering is only currently
-    /// supported on the `file_path` field.
-    #[prost(string, tag="4")]
-    pub filter: ::prost::alloc::string::String,
 }
 /// `QueryWorkflowInvocationActions` response message.
 #[derive(Clone, PartialEq, ::prost::Message)]

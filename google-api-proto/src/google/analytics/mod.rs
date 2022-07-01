@@ -1,4 +1,9 @@
-#[cfg(any(feature = "google-analytics-admin-v1alpha"))]
+#[cfg(
+    any(
+        feature = "google-analytics-admin-v1alpha",
+        feature = "google-analytics-admin-v1beta",
+    )
+)]
 pub mod admin;
 #[cfg(
     any(

@@ -58,6 +58,7 @@ google-ads-googleads-v9-errors = ["google-ads-googleads-v9-common", "google-ads-
 google-ads-googleads-v9-resources = ["google-ads-googleads-v9-common", "google-ads-googleads-v9-enums", "google-ads-googleads-v9-errors", "google-api"]
 google-ads-googleads-v9-services = ["google-ads-googleads-v9-common", "google-ads-googleads-v9-enums", "google-ads-googleads-v9-resources", "google-api", "google-longrunning", "google-rpc"]
 google-analytics-admin-v1alpha = ["google-api"]
+google-analytics-admin-v1beta = ["google-api"]
 google-analytics-data-v1alpha = ["google-api"]
 google-analytics-data-v1beta = ["google-api"]
 google-api = []
