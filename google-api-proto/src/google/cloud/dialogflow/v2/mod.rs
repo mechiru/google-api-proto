@@ -3093,7 +3093,8 @@ pub struct QueryResult {
     #[prost(bool, tag="5")]
     pub all_required_params_present: bool,
     /// Indicates whether the conversational query triggers a cancellation for slot
-    /// filling.
+    /// filling. For more information, see the [cancel slot filling
+    /// documentation](<https://cloud.google.com/dialogflow/es/docs/intents-actions-parameters#cancel>).
     #[prost(bool, tag="21")]
     pub cancels_slot_filling: bool,
     /// The text to be pronounced to the user or shown on the screen.
@@ -3378,6 +3379,9 @@ pub mod streaming_recognition_result {
         EndOfSingleUtterance = 2,
     }
 }
+/// ============================================================================
+/// Auxiliary proto messages.
+///
 /// Represents the natural language text to be processed.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TextInput {
@@ -4492,12 +4496,13 @@ pub struct ListAnswerRecordsRequest {
     /// ID>`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// Required. Filters to restrict results to specific answer records.
-    /// Filter on answer record type. Currently predicates on `type` is supported,
-    /// valid values are `ARTICLE_ANSWER`, `FAQ_ANSWER`.
+    /// Optional. Filters to restrict results to specific answer records.
+    ///
+    /// Marked deprecated as it hasn't been, and isn't currently, supported.
     ///
     /// For more information about filtering, see
     /// [API Filtering](<https://aip.dev/160>).
+    #[deprecated]
     #[prost(string, tag="2")]
     pub filter: ::prost::alloc::string::String,
     /// Optional. The maximum number of records to return in a single page.
@@ -7734,7 +7739,8 @@ pub mod human_agent_assistant_config {
     }
     /// Custom conversation models used in agent assist feature.
     ///
-    /// Supported feature: ARTICLE_SUGGESTION, SMART_COMPOSE, SMART_REPLY.
+    /// Supported feature: ARTICLE_SUGGESTION, SMART_COMPOSE, SMART_REPLY,
+    /// CONVERSATION_SUMMARIZATION.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct ConversationModelConfig {
         /// Conversation model resource name. Format: `projects/<Project

@@ -85,6 +85,20 @@ pub mod connection {
         Esp = 50,
     }
 }
+/// The details pertaining to specific contacts
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ContactDetails {
+    /// A list of contacts
+    #[prost(message, repeated, tag="1")]
+    pub contacts: ::prost::alloc::vec::Vec<Contact>,
+}
+/// Representa a single contact's email address
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Contact {
+    /// An email address e.g. "person123@company.com"
+    #[prost(string, tag="1")]
+    pub email: ::prost::alloc::string::String,
+}
 /// Exfiltration represents a data exfiltration attempt of one or more
 /// sources to one or more targets.  Sources represent the source
 /// of data that is exfiltrated, and Targets represents the destination the
@@ -181,6 +195,64 @@ pub struct Indicator {
     /// List of domains associated to the Finding.
     #[prost(string, repeated, tag="2")]
     pub domains: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The list of matched signatures indicating that the given
+    /// process is present in the environment.
+    #[prost(message, repeated, tag="3")]
+    pub signatures: ::prost::alloc::vec::Vec<indicator::ProcessSignature>,
+}
+/// Nested message and enum types in `Indicator`.
+pub mod indicator {
+    /// Indicates what signature matched this process.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ProcessSignature {
+        #[prost(oneof="process_signature::Signature", tags="6, 7")]
+        pub signature: ::core::option::Option<process_signature::Signature>,
+    }
+    /// Nested message and enum types in `ProcessSignature`.
+    pub mod process_signature {
+        /// A signature corresponding to memory page hashes.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct MemoryHashSignature {
+            /// The binary family.
+            #[prost(string, tag="1")]
+            pub binary_family: ::prost::alloc::string::String,
+            /// The list of memory hash detections contributing to the binary family
+            /// match.
+            #[prost(message, repeated, tag="4")]
+            pub detections: ::prost::alloc::vec::Vec<memory_hash_signature::Detection>,
+        }
+        /// Nested message and enum types in `MemoryHashSignature`.
+        pub mod memory_hash_signature {
+            /// Memory hash detection contributing to the binary family match.
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            pub struct Detection {
+                /// The name of the binary associated with the memory hash
+                /// signature detection.
+                #[prost(string, tag="2")]
+                pub binary: ::prost::alloc::string::String,
+                /// The percentage of memory page hashes in the signature
+                /// that were matched.
+                #[prost(double, tag="3")]
+                pub percent_pages_matched: f64,
+            }
+        }
+        /// A signature corresponding to a YARA rule.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct YaraRuleSignature {
+            /// The name of the YARA rule.
+            #[prost(string, tag="5")]
+            pub yara_rule: ::prost::alloc::string::String,
+        }
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Signature {
+            /// Signature indicating that a binary family was matched.
+            #[prost(message, tag="6")]
+            MemoryHashSignature(MemoryHashSignature),
+            /// Signature indicating that a YARA rule was matched.
+            #[prost(message, tag="7")]
+            YaraRuleSignature(YaraRuleSignature),
+        }
+    }
 }
 /// MITRE ATT&CK tactics and techniques related to this finding.
 /// See: <https://attack.mitre.org>
@@ -328,7 +400,7 @@ pub struct File {
     #[prost(int64, tag="2")]
     pub size: i64,
     /// SHA256 hash of the first hashed_size bytes of the file encoded as a
-    /// hex string.  If hashed_size == size, hash_sha256 represents the SHA256 hash
+    /// hex string.  If hashed_size == size, sha256 represents the SHA256 hash
     /// of the entire file.
     #[prost(string, tag="3")]
     pub sha256: ::prost::alloc::string::String,
@@ -348,6 +420,10 @@ pub struct File {
 /// Represents an operating system process.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Process {
+    /// The process name visible in utilities like `top` and `ps`; it can
+    /// be accessed via `/proc/\[pid\]/comm` and changed with `prctl(PR_SET_NAME)`.
+    #[prost(string, tag="12")]
+    pub name: ::prost::alloc::string::String,
     /// File information for the process executable.
     #[prost(message, optional, tag="3")]
     pub binary: ::core::option::Option<File>,
@@ -713,8 +789,8 @@ pub struct Finding {
     /// Output only. The most recent time this finding was muted or unmuted.
     #[prost(message, optional, tag="21")]
     pub mute_update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Third party SIEM/SOAR fields within SCC, contains external
-    /// system information and external system finding fields.
+    /// Output only. Third party SIEM/SOAR fields within SCC, contains external system
+    /// information and external system finding fields.
     #[prost(btree_map="string, message", tag="22")]
     pub external_systems: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ExternalSystem>,
     /// MITRE ATT&CK tactics and techniques related to this finding.
@@ -737,6 +813,25 @@ pub struct Finding {
     /// Represents operating system processes associated with the Finding.
     #[prost(message, repeated, tag="30")]
     pub processes: ::prost::alloc::vec::Vec<Process>,
+    /// Output only. Map containing the point of contacts for the given finding. The key
+    /// represents the type of contact, while the value contains a list of all the
+    /// contacts that pertain. Please refer to:
+    /// <https://cloud.google.com/resource-manager/docs/managing-notification-contacts#notification-categories>
+    ///
+    ///     {
+    ///       "security": {
+    ///         "contacts": [
+    ///           {
+    ///             "email": "person1@company.com"
+    ///           },
+    ///           {
+    ///             "email": "person2@company.com"
+    ///           }
+    ///         ]
+    ///       }
+    ///     }
+    #[prost(btree_map="string, message", tag="33")]
+    pub contacts: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ContactDetails>,
     /// Contains compliance information for security standards associated to the
     /// finding.
     #[prost(message, repeated, tag="34")]
