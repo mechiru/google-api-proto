@@ -193,6 +193,7 @@ pub mod filestore;
 #[cfg(
     any(
         feature = "google-cloud-functions-v1",
+        feature = "google-cloud-functions-v2",
         feature = "google-cloud-functions-v2alpha",
         feature = "google-cloud-functions-v2beta",
     )
