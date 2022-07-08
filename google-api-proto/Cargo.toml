@@ -152,6 +152,7 @@ google-cloud-certificatemanager-v1 = ["google-api", "google-cloud", "google-long
 google-cloud-channel-v1 = ["google-api", "google-cloud", "google-longrunning", "google-type"]
 google-cloud-clouddms-logging-v1 = ["google-api", "google-cloud", "google-rpc"]
 google-cloud-clouddms-v1 = ["google-api", "google-cloud", "google-longrunning", "google-rpc"]
+google-cloud-commerce-consumer-procurement-v1alpha1 = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-common = ["google-api", "google-cloud"]
 google-cloud-compute-v1 = ["google-api", "google-cloud"]
 google-cloud-compute-v1small = ["google-api", "google-cloud"]
