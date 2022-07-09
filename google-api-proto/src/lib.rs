@@ -277,6 +277,7 @@ pub mod ccc;
         feature = "google-cloud-speech-v1p1beta1",
         feature = "google-cloud-sql-v1",
         feature = "google-cloud-sql-v1beta4",
+        feature = "google-cloud-stream-logging-v1",
         feature = "google-cloud-support-common",
         feature = "google-cloud-support-v1alpha1",
         feature = "google-cloud-talent-v4",
