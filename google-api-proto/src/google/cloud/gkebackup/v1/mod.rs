@@ -31,6 +31,204 @@ pub struct EncryptionKey {
     #[prost(string, tag="1")]
     pub gcp_kms_encryption_key: ::prost::alloc::string::String,
 }
+/// Represents a request to perform a single point-in-time capture of
+/// some portion of the state of a GKE cluster, the record of the backup
+/// operation itself, and an anchor for the underlying artifacts that
+/// comprise the Backup (the config backup and VolumeBackups).
+/// Next id: 28
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Backup {
+    /// Output only. The fully qualified name of the Backup.
+    /// projects/*/locations/*/backupPlans/*/backups/*
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Server generated global unique identifier of
+    /// \[UUID4\](<https://en.wikipedia.org/wiki/Universally_unique_identifier>)
+    #[prost(string, tag="2")]
+    pub uid: ::prost::alloc::string::String,
+    /// Output only. The timestamp when this Backup resource was created.
+    #[prost(message, optional, tag="3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The timestamp when this Backup resource was last updated.
+    #[prost(message, optional, tag="4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. This flag indicates whether this Backup resource was created manually
+    /// by a user or via a schedule in the BackupPlan. A value of True means that
+    /// the Backup was created manually.
+    #[prost(bool, tag="5")]
+    pub manual: bool,
+    /// A set of custom labels supplied by user.
+    #[prost(btree_map="string, string", tag="6")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Minimum age for this Backup (in days). If this field is set to a non-zero
+    /// value, the Backup will be "locked" against deletion (either manual or
+    /// automatic deletion) for the number of days provided (measured from the
+    /// creation time of the Backup).  MUST be an integer value between 0-90
+    /// (inclusive).
+    ///
+    /// Defaults to parent BackupPlan's
+    /// \[backup_delete_lock_days][google.cloud.gkebackup.v1.BackupPlan.RetentionPolicy.backup_delete_lock_days\]
+    /// setting and may only be increased
+    /// (either at creation time or in a subsequent update).
+    #[prost(int32, tag="7")]
+    pub delete_lock_days: i32,
+    /// Output only. The time at which an existing delete lock will expire for this backup
+    /// (calculated from create_time + \[delete_lock_days][google.cloud.gkebackup.v1.Backup.delete_lock_days\]).
+    #[prost(message, optional, tag="8")]
+    pub delete_lock_expire_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The age (in days) after which this Backup will be automatically deleted.
+    /// Must be an integer value >= 0:
+    ///
+    /// - If 0, no automatic deletion will occur for this Backup.
+    /// - If not 0, this must be >= \[delete_lock_days][google.cloud.gkebackup.v1.Backup.delete_lock_days\].
+    ///
+    /// Once a Backup is created, this value may only be increased.
+    ///
+    /// Defaults to the parent BackupPlan's
+    /// \[backup_retain_days][google.cloud.gkebackup.v1.BackupPlan.RetentionPolicy.backup_retain_days\] value.
+    #[prost(int32, tag="9")]
+    pub retain_days: i32,
+    /// Output only. The time at which this Backup will be automatically deleted (calculated
+    /// from create_time + \[retain_days][google.cloud.gkebackup.v1.Backup.retain_days\]).
+    #[prost(message, optional, tag="10")]
+    pub retain_expire_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The customer managed encryption key that was used to encrypt the Backup's
+    /// artifacts.  Inherited from the parent BackupPlan's
+    /// \[encryption_key][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.encryption_key\] value.
+    #[prost(message, optional, tag="11")]
+    pub encryption_key: ::core::option::Option<EncryptionKey>,
+    /// Output only. Whether or not the Backup contains volume data.  Controlled by the parent
+    /// BackupPlan's
+    /// \[include_volume_data][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.include_volume_data\] value.
+    #[prost(bool, tag="15")]
+    pub contains_volume_data: bool,
+    /// Output only. Whether or not the Backup contains Kubernetes Secrets.  Controlled by the
+    /// parent BackupPlan's
+    /// \[include_secrets][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.include_secrets\] value.
+    #[prost(bool, tag="16")]
+    pub contains_secrets: bool,
+    /// Output only. Information about the GKE cluster from which this Backup was created.
+    #[prost(message, optional, tag="17")]
+    pub cluster_metadata: ::core::option::Option<backup::ClusterMetadata>,
+    /// Output only. Current state of the Backup
+    #[prost(enumeration="backup::State", tag="18")]
+    pub state: i32,
+    /// Output only. Human-readable description of why the backup is in the current `state`.
+    #[prost(string, tag="19")]
+    pub state_reason: ::prost::alloc::string::String,
+    /// Output only. Completion time of the Backup
+    #[prost(message, optional, tag="20")]
+    pub complete_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The total number of Kubernetes resources included in the Backup.
+    #[prost(int32, tag="21")]
+    pub resource_count: i32,
+    /// Output only. The total number of volume backups contained in the Backup.
+    #[prost(int32, tag="22")]
+    pub volume_count: i32,
+    /// Output only. The total size of the Backup in bytes = config backup size + sum(volume
+    /// backup sizes)
+    #[prost(int64, tag="23")]
+    pub size_bytes: i64,
+    /// Output only. `etag` is used for optimistic concurrency control as a way to help
+    /// prevent simultaneous updates of a backup from overwriting each other.
+    /// It is strongly suggested that systems make use of the `etag` in the
+    /// read-modify-write cycle to perform backup updates in order to avoid
+    /// race conditions: An `etag` is returned in the response to `GetBackup`,
+    /// and systems are expected to put that etag in the request to
+    /// `UpdateBackup` or `DeleteBackup` to ensure that their change will be
+    /// applied to the same version of the resource.
+    #[prost(string, tag="24")]
+    pub etag: ::prost::alloc::string::String,
+    /// User specified descriptive string for this Backup.
+    #[prost(string, tag="25")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. The total number of Kubernetes Pods contained in the Backup.
+    #[prost(int32, tag="26")]
+    pub pod_count: i32,
+    /// Output only. The size of the config backup in bytes.
+    #[prost(int64, tag="27")]
+    pub config_backup_size_bytes: i64,
+    /// Defines the "scope" of the Backup - which namespaced resources in the
+    /// cluster were included in the Backup.  Inherited from the parent
+    /// BackupPlan's \[backup_scope][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.backup_scope\] value.
+    #[prost(oneof="backup::BackupScope", tags="12, 13, 14")]
+    pub backup_scope: ::core::option::Option<backup::BackupScope>,
+}
+/// Nested message and enum types in `Backup`.
+pub mod backup {
+    /// Information about the GKE cluster from which this Backup was created.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ClusterMetadata {
+        /// The source cluster from which this Backup was created.
+        /// Valid formats:
+        ///
+        ///   - projects/*/locations/*/clusters/*
+        ///   - projects/*/zones/*/clusters/*
+        ///
+        /// This is inherited from the parent BackupPlan's
+        /// \[cluster][google.cloud.gkebackup.v1.BackupPlan.cluster\] field.
+        #[prost(string, tag="1")]
+        pub cluster: ::prost::alloc::string::String,
+        /// The Kubernetes server version of the source cluster.
+        #[prost(string, tag="2")]
+        pub k8s_version: ::prost::alloc::string::String,
+        /// A list of the Backup for GKE CRD versions found in the cluster.
+        #[prost(btree_map="string, string", tag="3")]
+        pub backup_crd_versions: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+        /// Platform-specific version
+        #[prost(oneof="cluster_metadata::PlatformVersion", tags="4, 5")]
+        pub platform_version: ::core::option::Option<cluster_metadata::PlatformVersion>,
+    }
+    /// Nested message and enum types in `ClusterMetadata`.
+    pub mod cluster_metadata {
+        /// Platform-specific version
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum PlatformVersion {
+            /// GKE version
+            #[prost(string, tag="4")]
+            GkeVersion(::prost::alloc::string::String),
+            /// Anthos version
+            #[prost(string, tag="5")]
+            AnthosVersion(::prost::alloc::string::String),
+        }
+    }
+    /// State
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// The Backup resource is in the process of being created.
+        Unspecified = 0,
+        /// The Backup resource has been created and the associated BackupJob
+        /// Kubernetes resource has been injected into the source cluster.
+        Creating = 1,
+        /// The gkebackup agent in the cluster has begun executing the backup
+        /// operation.
+        InProgress = 2,
+        /// The backup operation has completed successfully.
+        Succeeded = 3,
+        /// The backup operation has failed.
+        Failed = 4,
+        /// This Backup resource (and its associated artifacts) is in the process
+        /// of being deleted.
+        Deleting = 5,
+    }
+    /// Defines the "scope" of the Backup - which namespaced resources in the
+    /// cluster were included in the Backup.  Inherited from the parent
+    /// BackupPlan's \[backup_scope][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.backup_scope\] value.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum BackupScope {
+        /// Output only. If True, all namespaces were included in the Backup.
+        #[prost(bool, tag="12")]
+        AllNamespaces(bool),
+        /// Output only. If set, the list of namespaces that were included in the Backup.
+        #[prost(message, tag="13")]
+        SelectedNamespaces(super::Namespaces),
+        /// Output only. If set, the list of ProtectedApplications whose resources were included
+        /// in the Backup.
+        #[prost(message, tag="14")]
+        SelectedApplications(super::NamespacedNames),
+    }
+}
 /// Represents both a request to Restore some portion of a Backup into
 /// a target GKE cluster and a record of the restore operation itself.
 /// Next id: 18
@@ -320,203 +518,60 @@ pub mod restore_config {
         SelectedApplications(super::NamespacedNames),
     }
 }
-/// Represents a request to perform a single point-in-time capture of
-/// some portion of the state of a GKE cluster, the record of the backup
-/// operation itself, and an anchor for the underlying artifacts that
-/// comprise the Backup (the config backup and VolumeBackups).
-/// Next id: 28
+/// The configuration of a potential series of Restore operations to be performed
+/// against Backups belong to a particular BackupPlan.
+/// Next id: 11
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Backup {
-    /// Output only. The fully qualified name of the Backup.
-    /// projects/*/locations/*/backupPlans/*/backups/*
+pub struct RestorePlan {
+    /// Output only. The full name of the RestorePlan resource.
+    /// Format: projects/*/locations/*/restorePlans/*.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
     /// Output only. Server generated global unique identifier of
-    /// \[UUID4\](<https://en.wikipedia.org/wiki/Universally_unique_identifier>)
+    /// \[UUID\](<https://en.wikipedia.org/wiki/Universally_unique_identifier>) format.
     #[prost(string, tag="2")]
     pub uid: ::prost::alloc::string::String,
-    /// Output only. The timestamp when this Backup resource was created.
+    /// Output only. The timestamp when this RestorePlan resource was
+    /// created.
     #[prost(message, optional, tag="3")]
     pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The timestamp when this Backup resource was last updated.
+    /// Output only. The timestamp when this RestorePlan resource was last
+    /// updated.
     #[prost(message, optional, tag="4")]
     pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. This flag indicates whether this Backup resource was created manually
-    /// by a user or via a schedule in the BackupPlan. A value of True means that
-    /// the Backup was created manually.
-    #[prost(bool, tag="5")]
-    pub manual: bool,
-    /// A set of custom labels supplied by user.
-    #[prost(btree_map="string, string", tag="6")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Minimum age for this Backup (in days). If this field is set to a non-zero
-    /// value, the Backup will be "locked" against deletion (either manual or
-    /// automatic deletion) for the number of days provided (measured from the
-    /// creation time of the Backup).  MUST be an integer value between 0-90
-    /// (inclusive).
-    ///
-    /// Defaults to parent BackupPlan's
-    /// \[backup_delete_lock_days][google.cloud.gkebackup.v1.BackupPlan.RetentionPolicy.backup_delete_lock_days\]
-    /// setting and may only be increased
-    /// (either at creation time or in a subsequent update).
-    #[prost(int32, tag="7")]
-    pub delete_lock_days: i32,
-    /// Output only. The time at which an existing delete lock will expire for this backup
-    /// (calculated from create_time + \[delete_lock_days][google.cloud.gkebackup.v1.Backup.delete_lock_days\]).
-    #[prost(message, optional, tag="8")]
-    pub delete_lock_expire_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The age (in days) after which this Backup will be automatically deleted.
-    /// Must be an integer value >= 0:
-    ///
-    /// - If 0, no automatic deletion will occur for this Backup.
-    /// - If not 0, this must be >= \[delete_lock_days][google.cloud.gkebackup.v1.Backup.delete_lock_days\].
-    ///
-    /// Once a Backup is created, this value may only be increased.
-    ///
-    /// Defaults to the parent BackupPlan's
-    /// \[backup_retain_days][google.cloud.gkebackup.v1.BackupPlan.RetentionPolicy.backup_retain_days\] value.
-    #[prost(int32, tag="9")]
-    pub retain_days: i32,
-    /// Output only. The time at which this Backup will be automatically deleted (calculated
-    /// from create_time + \[retain_days][google.cloud.gkebackup.v1.Backup.retain_days\]).
-    #[prost(message, optional, tag="10")]
-    pub retain_expire_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The customer managed encryption key that was used to encrypt the Backup's
-    /// artifacts.  Inherited from the parent BackupPlan's
-    /// \[encryption_key][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.encryption_key\] value.
-    #[prost(message, optional, tag="11")]
-    pub encryption_key: ::core::option::Option<EncryptionKey>,
-    /// Output only. Whether or not the Backup contains volume data.  Controlled by the parent
-    /// BackupPlan's
-    /// \[include_volume_data][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.include_volume_data\] value.
-    #[prost(bool, tag="15")]
-    pub contains_volume_data: bool,
-    /// Output only. Whether or not the Backup contains Kubernetes Secrets.  Controlled by the
-    /// parent BackupPlan's
-    /// \[include_secrets][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.include_secrets\] value.
-    #[prost(bool, tag="16")]
-    pub contains_secrets: bool,
-    /// Output only. Information about the GKE cluster from which this Backup was created.
-    #[prost(message, optional, tag="17")]
-    pub cluster_metadata: ::core::option::Option<backup::ClusterMetadata>,
-    /// Output only. Current state of the Backup
-    #[prost(enumeration="backup::State", tag="18")]
-    pub state: i32,
-    /// Output only. Human-readable description of why the backup is in the current `state`.
-    #[prost(string, tag="19")]
-    pub state_reason: ::prost::alloc::string::String,
-    /// Output only. Completion time of the Backup
-    #[prost(message, optional, tag="20")]
-    pub complete_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The total number of Kubernetes resources included in the Backup.
-    #[prost(int32, tag="21")]
-    pub resource_count: i32,
-    /// Output only. The total number of volume backups contained in the Backup.
-    #[prost(int32, tag="22")]
-    pub volume_count: i32,
-    /// Output only. The total size of the Backup in bytes = config backup size + sum(volume
-    /// backup sizes)
-    #[prost(int64, tag="23")]
-    pub size_bytes: i64,
-    /// Output only. `etag` is used for optimistic concurrency control as a way to help
-    /// prevent simultaneous updates of a backup from overwriting each other.
-    /// It is strongly suggested that systems make use of the `etag` in the
-    /// read-modify-write cycle to perform backup updates in order to avoid
-    /// race conditions: An `etag` is returned in the response to `GetBackup`,
-    /// and systems are expected to put that etag in the request to
-    /// `UpdateBackup` or `DeleteBackup` to ensure that their change will be
-    /// applied to the same version of the resource.
-    #[prost(string, tag="24")]
-    pub etag: ::prost::alloc::string::String,
-    /// User specified descriptive string for this Backup.
-    #[prost(string, tag="25")]
+    /// User specified descriptive string for this RestorePlan.
+    #[prost(string, tag="5")]
     pub description: ::prost::alloc::string::String,
-    /// Output only. The total number of Kubernetes Pods contained in the Backup.
-    #[prost(int32, tag="26")]
-    pub pod_count: i32,
-    /// Output only. The size of the config backup in bytes.
-    #[prost(int64, tag="27")]
-    pub config_backup_size_bytes: i64,
-    /// Defines the "scope" of the Backup - which namespaced resources in the
-    /// cluster were included in the Backup.  Inherited from the parent
-    /// BackupPlan's \[backup_scope][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.backup_scope\] value.
-    #[prost(oneof="backup::BackupScope", tags="12, 13, 14")]
-    pub backup_scope: ::core::option::Option<backup::BackupScope>,
-}
-/// Nested message and enum types in `Backup`.
-pub mod backup {
-    /// Information about the GKE cluster from which this Backup was created.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ClusterMetadata {
-        /// The source cluster from which this Backup was created.
-        /// Valid formats:
-        ///
-        ///   - projects/*/locations/*/clusters/*
-        ///   - projects/*/zones/*/clusters/*
-        ///
-        /// This is inherited from the parent BackupPlan's
-        /// \[cluster][google.cloud.gkebackup.v1.BackupPlan.cluster\] field.
-        #[prost(string, tag="1")]
-        pub cluster: ::prost::alloc::string::String,
-        /// The Kubernetes server version of the source cluster.
-        #[prost(string, tag="2")]
-        pub k8s_version: ::prost::alloc::string::String,
-        /// A list of the Backup for GKE CRD versions found in the cluster.
-        #[prost(btree_map="string, string", tag="3")]
-        pub backup_crd_versions: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-        /// Platform-specific version
-        #[prost(oneof="cluster_metadata::PlatformVersion", tags="4, 5")]
-        pub platform_version: ::core::option::Option<cluster_metadata::PlatformVersion>,
-    }
-    /// Nested message and enum types in `ClusterMetadata`.
-    pub mod cluster_metadata {
-        /// Platform-specific version
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum PlatformVersion {
-            /// GKE version
-            #[prost(string, tag="4")]
-            GkeVersion(::prost::alloc::string::String),
-            /// Anthos version
-            #[prost(string, tag="5")]
-            AnthosVersion(::prost::alloc::string::String),
-        }
-    }
-    /// State
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// The Backup resource is in the process of being created.
-        Unspecified = 0,
-        /// The Backup resource has been created and the associated BackupJob
-        /// Kubernetes resource has been injected into the source cluster.
-        Creating = 1,
-        /// The gkebackup agent in the cluster has begun executing the backup
-        /// operation.
-        InProgress = 2,
-        /// The backup operation has completed successfully.
-        Succeeded = 3,
-        /// The backup operation has failed.
-        Failed = 4,
-        /// This Backup resource (and its associated artifacts) is in the process
-        /// of being deleted.
-        Deleting = 5,
-    }
-    /// Defines the "scope" of the Backup - which namespaced resources in the
-    /// cluster were included in the Backup.  Inherited from the parent
-    /// BackupPlan's \[backup_scope][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.backup_scope\] value.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum BackupScope {
-        /// Output only. If True, all namespaces were included in the Backup.
-        #[prost(bool, tag="12")]
-        AllNamespaces(bool),
-        /// Output only. If set, the list of namespaces that were included in the Backup.
-        #[prost(message, tag="13")]
-        SelectedNamespaces(super::Namespaces),
-        /// Output only. If set, the list of ProtectedApplications whose resources were included
-        /// in the Backup.
-        #[prost(message, tag="14")]
-        SelectedApplications(super::NamespacedNames),
-    }
+    /// Required. Immutable. A reference to the \[BackupPlan][google.cloud.gkebackup.v1.BackupPlan\] from which Backups may be used as the
+    /// source for Restores created via this RestorePlan.
+    /// Format: projects/*/locations/*/backupPlans/*.
+    #[prost(string, tag="6")]
+    pub backup_plan: ::prost::alloc::string::String,
+    /// Required. Immutable. The target cluster into which Restores created via this RestorePlan
+    /// will restore data. NOTE: the cluster's region must be the same as the
+    /// RestorePlan.
+    /// Valid formats:
+    ///
+    ///   - projects/*/locations/*/clusters/*
+    ///   - projects/*/zones/*/clusters/*
+    #[prost(string, tag="7")]
+    pub cluster: ::prost::alloc::string::String,
+    /// Required. Configuration of Restores created via this RestorePlan.
+    #[prost(message, optional, tag="8")]
+    pub restore_config: ::core::option::Option<RestoreConfig>,
+    /// A set of custom labels supplied by user.
+    #[prost(btree_map="string, string", tag="9")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Output only. `etag` is used for optimistic concurrency control as a way to help
+    /// prevent simultaneous updates of a restore from overwriting each other.
+    /// It is strongly suggested that systems make use of the `etag` in the
+    /// read-modify-write cycle to perform restore updates in order to avoid
+    /// race conditions: An `etag` is returned in the response to `GetRestorePlan`,
+    /// and systems are expected to put that etag in the request to
+    /// `UpdateRestorePlan` or `DeleteRestorePlan` to ensure that their change
+    /// will be applied to the same version of the resource.
+    #[prost(string, tag="10")]
+    pub etag: ::prost::alloc::string::String,
 }
 /// Defines the configuration and scheduling for a "line" of Backups.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -687,61 +742,6 @@ pub mod backup_plan {
             SelectedApplications(super::super::NamespacedNames),
         }
     }
-}
-/// The configuration of a potential series of Restore operations to be performed
-/// against Backups belong to a particular BackupPlan.
-/// Next id: 11
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RestorePlan {
-    /// Output only. The full name of the RestorePlan resource.
-    /// Format: projects/*/locations/*/restorePlans/*.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Server generated global unique identifier of
-    /// \[UUID\](<https://en.wikipedia.org/wiki/Universally_unique_identifier>) format.
-    #[prost(string, tag="2")]
-    pub uid: ::prost::alloc::string::String,
-    /// Output only. The timestamp when this RestorePlan resource was
-    /// created.
-    #[prost(message, optional, tag="3")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The timestamp when this RestorePlan resource was last
-    /// updated.
-    #[prost(message, optional, tag="4")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// User specified descriptive string for this RestorePlan.
-    #[prost(string, tag="5")]
-    pub description: ::prost::alloc::string::String,
-    /// Required. Immutable. A reference to the \[BackupPlan][google.cloud.gkebackup.v1.BackupPlan\] from which Backups may be used as the
-    /// source for Restores created via this RestorePlan.
-    /// Format: projects/*/locations/*/backupPlans/*.
-    #[prost(string, tag="6")]
-    pub backup_plan: ::prost::alloc::string::String,
-    /// Required. Immutable. The target cluster into which Restores created via this RestorePlan
-    /// will restore data. NOTE: the cluster's region must be the same as the
-    /// RestorePlan.
-    /// Valid formats:
-    ///
-    ///   - projects/*/locations/*/clusters/*
-    ///   - projects/*/zones/*/clusters/*
-    #[prost(string, tag="7")]
-    pub cluster: ::prost::alloc::string::String,
-    /// Required. Configuration of Restores created via this RestorePlan.
-    #[prost(message, optional, tag="8")]
-    pub restore_config: ::core::option::Option<RestoreConfig>,
-    /// A set of custom labels supplied by user.
-    #[prost(btree_map="string, string", tag="9")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Output only. `etag` is used for optimistic concurrency control as a way to help
-    /// prevent simultaneous updates of a restore from overwriting each other.
-    /// It is strongly suggested that systems make use of the `etag` in the
-    /// read-modify-write cycle to perform restore updates in order to avoid
-    /// race conditions: An `etag` is returned in the response to `GetRestorePlan`,
-    /// and systems are expected to put that etag in the request to
-    /// `UpdateRestorePlan` or `DeleteRestorePlan` to ensure that their change
-    /// will be applied to the same version of the resource.
-    #[prost(string, tag="10")]
-    pub etag: ::prost::alloc::string::String,
 }
 /// Represents the backup of a specific persistent volume as a component of a
 /// Backup - both the record of the operation and a pointer to the underlying

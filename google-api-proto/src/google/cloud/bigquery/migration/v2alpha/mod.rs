@@ -1,3 +1,328 @@
+/// The request of translating a SQL query to Standard SQL.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TranslateQueryRequest {
+    /// Required. The name of the project to which this translation request belongs.
+    /// Example: `projects/foo/locations/bar`
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The source SQL dialect of `queries`.
+    #[prost(enumeration="translate_query_request::SqlTranslationSourceDialect", tag="2")]
+    pub source_dialect: i32,
+    /// Required. The query to be translated.
+    #[prost(string, tag="3")]
+    pub query: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `TranslateQueryRequest`.
+pub mod translate_query_request {
+    /// Supported SQL translation source dialects.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SqlTranslationSourceDialect {
+        /// SqlTranslationSourceDialect not specified.
+        Unspecified = 0,
+        /// Teradata SQL.
+        Teradata = 1,
+    }
+}
+/// The response of translating a SQL query to Standard SQL.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TranslateQueryResponse {
+    /// Output only. Immutable. The unique identifier for the SQL translation job.
+    /// Example: `projects/123/locations/us/translation/1234`
+    #[prost(string, tag="4")]
+    pub translation_job: ::prost::alloc::string::String,
+    /// The translated result. This will be empty if the translation fails.
+    #[prost(string, tag="1")]
+    pub translated_query: ::prost::alloc::string::String,
+    /// The list of errors encountered during the translation, if present.
+    #[prost(message, repeated, tag="2")]
+    pub errors: ::prost::alloc::vec::Vec<SqlTranslationError>,
+    /// The list of warnings encountered during the translation, if present,
+    /// indicates non-semantically correct translation.
+    #[prost(message, repeated, tag="3")]
+    pub warnings: ::prost::alloc::vec::Vec<SqlTranslationWarning>,
+}
+/// Structured error object capturing the error message and the location in the
+/// source text where the error occurs.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SqlTranslationErrorDetail {
+    /// Specifies the row from the source text where the error occurred.
+    #[prost(int64, tag="1")]
+    pub row: i64,
+    /// Specifie the column from the source texts where the error occurred.
+    #[prost(int64, tag="2")]
+    pub column: i64,
+    /// A human-readable description of the error.
+    #[prost(string, tag="3")]
+    pub message: ::prost::alloc::string::String,
+}
+/// The detailed error object if the SQL translation job fails.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SqlTranslationError {
+    /// The type of SQL translation error.
+    #[prost(enumeration="sql_translation_error::SqlTranslationErrorType", tag="1")]
+    pub error_type: i32,
+    /// Specifies the details of the error, including the error message and
+    /// location from the source text.
+    #[prost(message, optional, tag="2")]
+    pub error_detail: ::core::option::Option<SqlTranslationErrorDetail>,
+}
+/// Nested message and enum types in `SqlTranslationError`.
+pub mod sql_translation_error {
+    /// The error type of the SQL translation job.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum SqlTranslationErrorType {
+        /// SqlTranslationErrorType not specified.
+        Unspecified = 0,
+        /// Failed to parse the input text as a SQL query.
+        SqlParseError = 1,
+        /// Found unsupported functions in the input SQL query that are not able to
+        /// translate.
+        UnsupportedSqlFunction = 2,
+    }
+}
+/// The detailed warning object if the SQL translation job is completed but not
+/// semantically correct.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SqlTranslationWarning {
+    /// Specifies the details of the warning, including the warning message and
+    /// location from the source text.
+    #[prost(message, optional, tag="1")]
+    pub warning_detail: ::core::option::Option<SqlTranslationErrorDetail>,
+}
+/// Generated client implementations.
+pub mod sql_translation_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// Provides other SQL dialects to GoogleSQL translation operations.
+    #[derive(Debug, Clone)]
+    pub struct SqlTranslationServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> SqlTranslationServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> SqlTranslationServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            SqlTranslationServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Translates input queries from source dialects to GoogleSQL.
+        pub async fn translate_query(
+            &mut self,
+            request: impl tonic::IntoRequest<super::TranslateQueryRequest>,
+        ) -> Result<tonic::Response<super::TranslateQueryResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.bigquery.migration.v2alpha.SqlTranslationService/TranslateQuery",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// The metrics object for a SubTask.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TimeSeries {
+    /// Required. The name of the metric.
+    ///
+    /// If the metric is not known by the service yet, it will be auto-created.
+    #[prost(string, tag="1")]
+    pub metric: ::prost::alloc::string::String,
+    /// Required. The value type of the time series.
+    #[prost(enumeration="super::super::super::super::api::metric_descriptor::ValueType", tag="2")]
+    pub value_type: i32,
+    /// Optional. The metric kind of the time series.
+    ///
+    /// If present, it must be the same as the metric kind of the associated
+    /// metric. If the associated metric's descriptor must be auto-created, then
+    /// this field specifies the metric kind of the new descriptor and must be
+    /// either `GAUGE` (the default) or `CUMULATIVE`.
+    #[prost(enumeration="super::super::super::super::api::metric_descriptor::MetricKind", tag="3")]
+    pub metric_kind: i32,
+    /// Required. The data points of this time series. When listing time series, points are
+    /// returned in reverse time order.
+    ///
+    /// When creating a time series, this field must contain exactly one point and
+    /// the point's type must be the same as the value type of the associated
+    /// metric. If the associated metric's descriptor must be auto-created, then
+    /// the value type of the descriptor is determined by the point's type, which
+    /// must be `BOOL`, `INT64`, `DOUBLE`, or `DISTRIBUTION`.
+    #[prost(message, repeated, tag="4")]
+    pub points: ::prost::alloc::vec::Vec<Point>,
+}
+/// A single data point in a time series.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Point {
+    /// The time interval to which the data point applies.  For `GAUGE` metrics,
+    /// the start time does not need to be supplied, but if it is supplied, it must
+    /// equal the end time.  For `DELTA` metrics, the start and end time should
+    /// specify a non-zero interval, with subsequent points specifying contiguous
+    /// and non-overlapping intervals.  For `CUMULATIVE` metrics, the start and end
+    /// time should specify a non-zero interval, with subsequent points specifying
+    /// the same start time and increasing end times, until an event resets the
+    /// cumulative value to zero and sets a new start time for the following
+    /// points.
+    #[prost(message, optional, tag="1")]
+    pub interval: ::core::option::Option<TimeInterval>,
+    /// The value of the data point.
+    #[prost(message, optional, tag="2")]
+    pub value: ::core::option::Option<TypedValue>,
+}
+/// A time interval extending just after a start time through an end time.
+/// If the start time is the same as the end time, then the interval
+/// represents a single point in time.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TimeInterval {
+    /// Optional. The beginning of the time interval.  The default value
+    /// for the start time is the end time. The start time must not be
+    /// later than the end time.
+    #[prost(message, optional, tag="1")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Required. The end of the time interval.
+    #[prost(message, optional, tag="2")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// A single strongly-typed value.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TypedValue {
+    /// The typed value field.
+    #[prost(oneof="typed_value::Value", tags="1, 2, 3, 4, 5")]
+    pub value: ::core::option::Option<typed_value::Value>,
+}
+/// Nested message and enum types in `TypedValue`.
+pub mod typed_value {
+    /// The typed value field.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Value {
+        /// A Boolean value: `true` or `false`.
+        #[prost(bool, tag="1")]
+        BoolValue(bool),
+        /// A 64-bit integer. Its range is approximately +/-9.2x10^18.
+        #[prost(int64, tag="2")]
+        Int64Value(i64),
+        /// A 64-bit double-precision floating-point number. Its magnitude
+        /// is approximately +/-10^(+/-300) and it has 16 significant digits of
+        /// precision.
+        #[prost(double, tag="3")]
+        DoubleValue(f64),
+        /// A variable-length string value.
+        #[prost(string, tag="4")]
+        StringValue(::prost::alloc::string::String),
+        /// A distribution value.
+        #[prost(message, tag="5")]
+        DistributionValue(super::super::super::super::super::api::Distribution),
+    }
+}
+/// Provides details for errors and the corresponding resources.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResourceErrorDetail {
+    /// Required. Information about the resource where the error is located.
+    #[prost(message, optional, tag="1")]
+    pub resource_info: ::core::option::Option<super::super::super::super::rpc::ResourceInfo>,
+    /// Required. The error details for the resource.
+    #[prost(message, repeated, tag="2")]
+    pub error_details: ::prost::alloc::vec::Vec<ErrorDetail>,
+    /// Required. How many errors there are in total for the resource. Truncation can be
+    /// indicated by having an `error_count` that is higher than the size of
+    /// `error_details`.
+    #[prost(int32, tag="3")]
+    pub error_count: i32,
+}
+/// Provides details for errors, e.g. issues that where encountered when
+/// processing a subtask.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ErrorDetail {
+    /// Optional. The exact location within the resource (if applicable).
+    #[prost(message, optional, tag="1")]
+    pub location: ::core::option::Option<ErrorLocation>,
+    /// Required. Describes the cause of the error with structured detail.
+    #[prost(message, optional, tag="2")]
+    pub error_info: ::core::option::Option<super::super::super::super::rpc::ErrorInfo>,
+}
+/// Holds information about where the error is located.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ErrorLocation {
+    /// Optional. If applicable, denotes the line where the error occurred. A zero value
+    /// means that there is no line information.
+    #[prost(int32, tag="1")]
+    pub line: i32,
+    /// Optional. If applicable, denotes the column where the error occurred. A zero value
+    /// means that there is no columns information.
+    #[prost(int32, tag="2")]
+    pub column: i32,
+}
+/// Assessment task config.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssessmentTaskDetails {
+    /// Required. The Cloud Storage path for assessment input files.
+    #[prost(string, tag="1")]
+    pub input_path: ::prost::alloc::string::String,
+    /// Required. The BigQuery dataset for output.
+    #[prost(string, tag="2")]
+    pub output_dataset: ::prost::alloc::string::String,
+    /// Optional. An optional Cloud Storage path to write the query logs (which is
+    /// then used as an input path on the translation task)
+    #[prost(string, tag="3")]
+    pub querylogs_path: ::prost::alloc::string::String,
+    /// Required. The data source or data warehouse type (eg: TERADATA/REDSHIFT)
+    /// from which the input data is extracted.
+    #[prost(string, tag="4")]
+    pub data_source: ::prost::alloc::string::String,
+}
+/// Details for an assessment task orchestration result.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssessmentOrchestrationResultDetails {
+    /// Optional. The version used for the output table schemas.
+    #[prost(string, tag="1")]
+    pub output_tables_schema_version: ::prost::alloc::string::String,
+}
 /// Mapping between an input and output file to be translated in a subtask.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TranslationFileMapping {
@@ -181,162 +506,6 @@ pub struct DatasetReference {
     /// The ID of the project containing this dataset.
     #[prost(string, tag="2")]
     pub project_id: ::prost::alloc::string::String,
-}
-/// Assessment task config.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AssessmentTaskDetails {
-    /// Required. The Cloud Storage path for assessment input files.
-    #[prost(string, tag="1")]
-    pub input_path: ::prost::alloc::string::String,
-    /// Required. The BigQuery dataset for output.
-    #[prost(string, tag="2")]
-    pub output_dataset: ::prost::alloc::string::String,
-    /// Optional. An optional Cloud Storage path to write the query logs (which is
-    /// then used as an input path on the translation task)
-    #[prost(string, tag="3")]
-    pub querylogs_path: ::prost::alloc::string::String,
-    /// Required. The data source or data warehouse type (eg: TERADATA/REDSHIFT)
-    /// from which the input data is extracted.
-    #[prost(string, tag="4")]
-    pub data_source: ::prost::alloc::string::String,
-}
-/// Details for an assessment task orchestration result.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AssessmentOrchestrationResultDetails {
-    /// Optional. The version used for the output table schemas.
-    #[prost(string, tag="1")]
-    pub output_tables_schema_version: ::prost::alloc::string::String,
-}
-/// Provides details for errors and the corresponding resources.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResourceErrorDetail {
-    /// Required. Information about the resource where the error is located.
-    #[prost(message, optional, tag="1")]
-    pub resource_info: ::core::option::Option<super::super::super::super::rpc::ResourceInfo>,
-    /// Required. The error details for the resource.
-    #[prost(message, repeated, tag="2")]
-    pub error_details: ::prost::alloc::vec::Vec<ErrorDetail>,
-    /// Required. How many errors there are in total for the resource. Truncation can be
-    /// indicated by having an `error_count` that is higher than the size of
-    /// `error_details`.
-    #[prost(int32, tag="3")]
-    pub error_count: i32,
-}
-/// Provides details for errors, e.g. issues that where encountered when
-/// processing a subtask.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ErrorDetail {
-    /// Optional. The exact location within the resource (if applicable).
-    #[prost(message, optional, tag="1")]
-    pub location: ::core::option::Option<ErrorLocation>,
-    /// Required. Describes the cause of the error with structured detail.
-    #[prost(message, optional, tag="2")]
-    pub error_info: ::core::option::Option<super::super::super::super::rpc::ErrorInfo>,
-}
-/// Holds information about where the error is located.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ErrorLocation {
-    /// Optional. If applicable, denotes the line where the error occurred. A zero value
-    /// means that there is no line information.
-    #[prost(int32, tag="1")]
-    pub line: i32,
-    /// Optional. If applicable, denotes the column where the error occurred. A zero value
-    /// means that there is no columns information.
-    #[prost(int32, tag="2")]
-    pub column: i32,
-}
-/// The metrics object for a SubTask.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TimeSeries {
-    /// Required. The name of the metric.
-    ///
-    /// If the metric is not known by the service yet, it will be auto-created.
-    #[prost(string, tag="1")]
-    pub metric: ::prost::alloc::string::String,
-    /// Required. The value type of the time series.
-    #[prost(enumeration="super::super::super::super::api::metric_descriptor::ValueType", tag="2")]
-    pub value_type: i32,
-    /// Optional. The metric kind of the time series.
-    ///
-    /// If present, it must be the same as the metric kind of the associated
-    /// metric. If the associated metric's descriptor must be auto-created, then
-    /// this field specifies the metric kind of the new descriptor and must be
-    /// either `GAUGE` (the default) or `CUMULATIVE`.
-    #[prost(enumeration="super::super::super::super::api::metric_descriptor::MetricKind", tag="3")]
-    pub metric_kind: i32,
-    /// Required. The data points of this time series. When listing time series, points are
-    /// returned in reverse time order.
-    ///
-    /// When creating a time series, this field must contain exactly one point and
-    /// the point's type must be the same as the value type of the associated
-    /// metric. If the associated metric's descriptor must be auto-created, then
-    /// the value type of the descriptor is determined by the point's type, which
-    /// must be `BOOL`, `INT64`, `DOUBLE`, or `DISTRIBUTION`.
-    #[prost(message, repeated, tag="4")]
-    pub points: ::prost::alloc::vec::Vec<Point>,
-}
-/// A single data point in a time series.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Point {
-    /// The time interval to which the data point applies.  For `GAUGE` metrics,
-    /// the start time does not need to be supplied, but if it is supplied, it must
-    /// equal the end time.  For `DELTA` metrics, the start and end time should
-    /// specify a non-zero interval, with subsequent points specifying contiguous
-    /// and non-overlapping intervals.  For `CUMULATIVE` metrics, the start and end
-    /// time should specify a non-zero interval, with subsequent points specifying
-    /// the same start time and increasing end times, until an event resets the
-    /// cumulative value to zero and sets a new start time for the following
-    /// points.
-    #[prost(message, optional, tag="1")]
-    pub interval: ::core::option::Option<TimeInterval>,
-    /// The value of the data point.
-    #[prost(message, optional, tag="2")]
-    pub value: ::core::option::Option<TypedValue>,
-}
-/// A time interval extending just after a start time through an end time.
-/// If the start time is the same as the end time, then the interval
-/// represents a single point in time.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TimeInterval {
-    /// Optional. The beginning of the time interval.  The default value
-    /// for the start time is the end time. The start time must not be
-    /// later than the end time.
-    #[prost(message, optional, tag="1")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Required. The end of the time interval.
-    #[prost(message, optional, tag="2")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// A single strongly-typed value.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TypedValue {
-    /// The typed value field.
-    #[prost(oneof="typed_value::Value", tags="1, 2, 3, 4, 5")]
-    pub value: ::core::option::Option<typed_value::Value>,
-}
-/// Nested message and enum types in `TypedValue`.
-pub mod typed_value {
-    /// The typed value field.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Value {
-        /// A Boolean value: `true` or `false`.
-        #[prost(bool, tag="1")]
-        BoolValue(bool),
-        /// A 64-bit integer. Its range is approximately +/-9.2x10^18.
-        #[prost(int64, tag="2")]
-        Int64Value(i64),
-        /// A 64-bit double-precision floating-point number. Its magnitude
-        /// is approximately +/-10^(+/-300) and it has 16 significant digits of
-        /// precision.
-        #[prost(double, tag="3")]
-        DoubleValue(f64),
-        /// A variable-length string value.
-        #[prost(string, tag="4")]
-        StringValue(::prost::alloc::string::String),
-        /// A distribution value.
-        #[prost(message, tag="5")]
-        DistributionValue(super::super::super::super::super::api::Distribution),
-    }
 }
 /// A migration workflow which specifies what needs to be done for an EDW
 /// migration.
@@ -539,175 +708,6 @@ pub mod migration_task_orchestration_result {
         /// Details specific to assessment task types.
         #[prost(message, tag="1")]
         AssessmentDetails(super::AssessmentOrchestrationResultDetails),
-    }
-}
-/// The request of translating a SQL query to Standard SQL.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TranslateQueryRequest {
-    /// Required. The name of the project to which this translation request belongs.
-    /// Example: `projects/foo/locations/bar`
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The source SQL dialect of `queries`.
-    #[prost(enumeration="translate_query_request::SqlTranslationSourceDialect", tag="2")]
-    pub source_dialect: i32,
-    /// Required. The query to be translated.
-    #[prost(string, tag="3")]
-    pub query: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `TranslateQueryRequest`.
-pub mod translate_query_request {
-    /// Supported SQL translation source dialects.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum SqlTranslationSourceDialect {
-        /// SqlTranslationSourceDialect not specified.
-        Unspecified = 0,
-        /// Teradata SQL.
-        Teradata = 1,
-    }
-}
-/// The response of translating a SQL query to Standard SQL.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TranslateQueryResponse {
-    /// Output only. Immutable. The unique identifier for the SQL translation job.
-    /// Example: `projects/123/locations/us/translation/1234`
-    #[prost(string, tag="4")]
-    pub translation_job: ::prost::alloc::string::String,
-    /// The translated result. This will be empty if the translation fails.
-    #[prost(string, tag="1")]
-    pub translated_query: ::prost::alloc::string::String,
-    /// The list of errors encountered during the translation, if present.
-    #[prost(message, repeated, tag="2")]
-    pub errors: ::prost::alloc::vec::Vec<SqlTranslationError>,
-    /// The list of warnings encountered during the translation, if present,
-    /// indicates non-semantically correct translation.
-    #[prost(message, repeated, tag="3")]
-    pub warnings: ::prost::alloc::vec::Vec<SqlTranslationWarning>,
-}
-/// Structured error object capturing the error message and the location in the
-/// source text where the error occurs.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SqlTranslationErrorDetail {
-    /// Specifies the row from the source text where the error occurred.
-    #[prost(int64, tag="1")]
-    pub row: i64,
-    /// Specifie the column from the source texts where the error occurred.
-    #[prost(int64, tag="2")]
-    pub column: i64,
-    /// A human-readable description of the error.
-    #[prost(string, tag="3")]
-    pub message: ::prost::alloc::string::String,
-}
-/// The detailed error object if the SQL translation job fails.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SqlTranslationError {
-    /// The type of SQL translation error.
-    #[prost(enumeration="sql_translation_error::SqlTranslationErrorType", tag="1")]
-    pub error_type: i32,
-    /// Specifies the details of the error, including the error message and
-    /// location from the source text.
-    #[prost(message, optional, tag="2")]
-    pub error_detail: ::core::option::Option<SqlTranslationErrorDetail>,
-}
-/// Nested message and enum types in `SqlTranslationError`.
-pub mod sql_translation_error {
-    /// The error type of the SQL translation job.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum SqlTranslationErrorType {
-        /// SqlTranslationErrorType not specified.
-        Unspecified = 0,
-        /// Failed to parse the input text as a SQL query.
-        SqlParseError = 1,
-        /// Found unsupported functions in the input SQL query that are not able to
-        /// translate.
-        UnsupportedSqlFunction = 2,
-    }
-}
-/// The detailed warning object if the SQL translation job is completed but not
-/// semantically correct.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SqlTranslationWarning {
-    /// Specifies the details of the warning, including the warning message and
-    /// location from the source text.
-    #[prost(message, optional, tag="1")]
-    pub warning_detail: ::core::option::Option<SqlTranslationErrorDetail>,
-}
-/// Generated client implementations.
-pub mod sql_translation_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// Provides other SQL dialects to GoogleSQL translation operations.
-    #[derive(Debug, Clone)]
-    pub struct SqlTranslationServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> SqlTranslationServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> SqlTranslationServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            SqlTranslationServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Translates input queries from source dialects to GoogleSQL.
-        pub async fn translate_query(
-            &mut self,
-            request: impl tonic::IntoRequest<super::TranslateQueryRequest>,
-        ) -> Result<tonic::Response<super::TranslateQueryResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.bigquery.migration.v2alpha.SqlTranslationService/TranslateQuery",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
     }
 }
 /// Request to create a migration workflow resource.

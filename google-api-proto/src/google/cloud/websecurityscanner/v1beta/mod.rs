@@ -1,3 +1,19 @@
+/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web
+/// Security Scanner Service crawls the web applications, following all links
+/// within the scope of sites, to find the URLs to test against.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CrawledUrl {
+    /// The http method of the request that was used to visit the URL, in
+    /// uppercase.
+    #[prost(string, tag="1")]
+    pub http_method: ::prost::alloc::string::String,
+    /// The URL that was crawled.
+    #[prost(string, tag="2")]
+    pub url: ::prost::alloc::string::String,
+    /// The body of the request that was used to visit the URL.
+    #[prost(string, tag="3")]
+    pub body: ::prost::alloc::string::String,
+}
 /// ! Information about a vulnerability with an HTML.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Form {
@@ -137,39 +153,16 @@ pub struct Finding {
     #[prost(message, optional, tag="14")]
     pub xss: ::core::option::Option<Xss>,
 }
-/// Output only.
-/// Defines a warning trace message for ScanRun. Warning traces provide customers
-/// with useful information that helps make the scanning process more effective.
+/// A FindingTypeStats resource represents stats regarding a specific FindingType
+/// of Findings under a given ScanRun.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ScanRunWarningTrace {
-    /// Indicates the warning code.
-    #[prost(enumeration="scan_run_warning_trace::Code", tag="1")]
-    pub code: i32,
-}
-/// Nested message and enum types in `ScanRunWarningTrace`.
-pub mod scan_run_warning_trace {
-    /// Output only.
-    /// Defines a warning message code.
-    /// Next id: 6
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Code {
-        /// Default value is never used.
-        Unspecified = 0,
-        /// Indicates that a scan discovered an unexpectedly low number of URLs. This
-        /// is sometimes caused by complex navigation features or by using a single
-        /// URL for numerous pages.
-        InsufficientCrawlResults = 1,
-        /// Indicates that a scan discovered too many URLs to test, or excessive
-        /// redundant URLs.
-        TooManyCrawlResults = 2,
-        /// Indicates that too many tests have been generated for the scan. Customer
-        /// should try reducing the number of starting URLs, increasing the QPS rate,
-        /// or narrowing down the scope of the scan using the excluded patterns.
-        TooManyFuzzTasks = 3,
-        /// Indicates that a scan is blocked by IAP.
-        BlockedByIap = 4,
-    }
+pub struct FindingTypeStats {
+    /// The finding type associated with the stats.
+    #[prost(string, tag="1")]
+    pub finding_type: ::prost::alloc::string::String,
+    /// The count of findings belonging to this finding type.
+    #[prost(int32, tag="2")]
+    pub finding_count: i32,
 }
 /// Defines a custom error message used by CreateScanConfig and UpdateScanConfig
 /// APIs when scan configuration validation fails. It is also reported as part of
@@ -340,6 +333,40 @@ pub mod scan_run_error_trace {
         /// pages. When available, most_common_http_error_code field indicates the
         /// most common HTTP error code encountered during the scan.
         TooManyHttpErrors = 6,
+    }
+}
+/// Output only.
+/// Defines a warning trace message for ScanRun. Warning traces provide customers
+/// with useful information that helps make the scanning process more effective.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ScanRunWarningTrace {
+    /// Indicates the warning code.
+    #[prost(enumeration="scan_run_warning_trace::Code", tag="1")]
+    pub code: i32,
+}
+/// Nested message and enum types in `ScanRunWarningTrace`.
+pub mod scan_run_warning_trace {
+    /// Output only.
+    /// Defines a warning message code.
+    /// Next id: 6
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Code {
+        /// Default value is never used.
+        Unspecified = 0,
+        /// Indicates that a scan discovered an unexpectedly low number of URLs. This
+        /// is sometimes caused by complex navigation features or by using a single
+        /// URL for numerous pages.
+        InsufficientCrawlResults = 1,
+        /// Indicates that a scan discovered too many URLs to test, or excessive
+        /// redundant URLs.
+        TooManyCrawlResults = 2,
+        /// Indicates that too many tests have been generated for the scan. Customer
+        /// should try reducing the number of starting URLs, increasing the QPS rate,
+        /// or narrowing down the scope of the scan using the excluded patterns.
+        TooManyFuzzTasks = 3,
+        /// Indicates that a scan is blocked by IAP.
+        BlockedByIap = 4,
     }
 }
 /// A ScanRun is a output-only resource representing an actual run of the scan.
@@ -584,33 +611,6 @@ pub mod scan_config {
         /// Do not export results of this scan to Cloud Security Command Center.
         Disabled = 2,
     }
-}
-/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web
-/// Security Scanner Service crawls the web applications, following all links
-/// within the scope of sites, to find the URLs to test against.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CrawledUrl {
-    /// The http method of the request that was used to visit the URL, in
-    /// uppercase.
-    #[prost(string, tag="1")]
-    pub http_method: ::prost::alloc::string::String,
-    /// The URL that was crawled.
-    #[prost(string, tag="2")]
-    pub url: ::prost::alloc::string::String,
-    /// The body of the request that was used to visit the URL.
-    #[prost(string, tag="3")]
-    pub body: ::prost::alloc::string::String,
-}
-/// A FindingTypeStats resource represents stats regarding a specific FindingType
-/// of Findings under a given ScanRun.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FindingTypeStats {
-    /// The finding type associated with the stats.
-    #[prost(string, tag="1")]
-    pub finding_type: ::prost::alloc::string::String,
-    /// The count of findings belonging to this finding type.
-    #[prost(int32, tag="2")]
-    pub finding_count: i32,
 }
 /// Request for the `CreateScanConfig` method.
 #[derive(Clone, PartialEq, ::prost::Message)]

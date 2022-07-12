@@ -2149,6 +2149,186 @@ pub enum SqlFlagType {
     /// Comma-separated list of the strings in a SqlFlagType enum.
     RepeatedString = 7,
 }
+/// Connect settings retrieval request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetConnectSettingsRequest {
+    /// Cloud SQL instance ID. This does not include the project ID.
+    #[prost(string, tag="1")]
+    pub instance: ::prost::alloc::string::String,
+    /// Project ID of the project that contains the instance.
+    #[prost(string, tag="2")]
+    pub project: ::prost::alloc::string::String,
+    /// Optional. Optional snapshot read timestamp to trade freshness for performance.
+    #[prost(message, optional, tag="7")]
+    pub read_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Connect settings retrieval response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ConnectSettings {
+    /// This is always `sql#connectSettings`.
+    #[prost(string, tag="1")]
+    pub kind: ::prost::alloc::string::String,
+    /// SSL configuration.
+    #[prost(message, optional, tag="2")]
+    pub server_ca_cert: ::core::option::Option<SslCert>,
+    /// The assigned IP addresses for the instance.
+    #[prost(message, repeated, tag="3")]
+    pub ip_addresses: ::prost::alloc::vec::Vec<IpMapping>,
+    /// The cloud region for the instance. e.g. `us-central1`, `europe-west1`.
+    /// The region cannot be changed after instance creation.
+    #[prost(string, tag="4")]
+    pub region: ::prost::alloc::string::String,
+    /// The database engine type and version. The `databaseVersion`
+    /// field cannot be changed after instance creation.
+    ///   MySQL instances: `MYSQL_8_0`, `MYSQL_5_7` (default),
+    /// or `MYSQL_5_6`.
+    ///   PostgreSQL instances: `POSTGRES_9_6`, `POSTGRES_10`,
+    /// `POSTGRES_11` or `POSTGRES_12` (default), `POSTGRES_13`, or `POSTGRES_14`.
+    ///   SQL Server instances: `SQLSERVER_2017_STANDARD` (default),
+    /// `SQLSERVER_2017_ENTERPRISE`, `SQLSERVER_2017_EXPRESS`,
+    /// `SQLSERVER_2017_WEB`, `SQLSERVER_2019_STANDARD`,
+    /// `SQLSERVER_2019_ENTERPRISE`, `SQLSERVER_2019_EXPRESS`, or
+    /// `SQLSERVER_2019_WEB`.
+    #[prost(enumeration="SqlDatabaseVersion", tag="31")]
+    pub database_version: i32,
+    /// `SECOND_GEN`: Cloud SQL database instance.
+    /// `EXTERNAL`: A database server that is not managed by Google.
+    /// This property is read-only; use the `tier` property in the `settings`
+    /// object to determine the database type.
+    #[prost(enumeration="SqlBackendType", tag="32")]
+    pub backend_type: i32,
+}
+/// Ephemeral certificate creation request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GenerateEphemeralCertRequest {
+    /// Cloud SQL instance ID. This does not include the project ID.
+    #[prost(string, tag="1")]
+    pub instance: ::prost::alloc::string::String,
+    /// Project ID of the project that contains the instance.
+    #[prost(string, tag="2")]
+    pub project: ::prost::alloc::string::String,
+    /// PEM encoded public key to include in the signed certificate.
+    #[prost(string, tag="3")]
+    pub public_key: ::prost::alloc::string::String,
+    /// Optional. Access token to include in the signed certificate.
+    #[prost(string, tag="4")]
+    pub access_token: ::prost::alloc::string::String,
+    /// Optional. Optional snapshot read timestamp to trade freshness for performance.
+    #[prost(message, optional, tag="7")]
+    pub read_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. If set, it will contain the cert valid duration.
+    #[prost(message, optional, tag="12")]
+    pub valid_duration: ::core::option::Option<::prost_types::Duration>,
+}
+/// Ephemeral certificate creation request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GenerateEphemeralCertResponse {
+    /// Generated cert
+    #[prost(message, optional, tag="1")]
+    pub ephemeral_cert: ::core::option::Option<SslCert>,
+}
+/// Generated client implementations.
+pub mod sql_connect_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// Cloud SQL connect service.
+    #[derive(Debug, Clone)]
+    pub struct SqlConnectServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> SqlConnectServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> SqlConnectServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            SqlConnectServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Retrieves connect settings about a Cloud SQL instance.
+        pub async fn get_connect_settings(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetConnectSettingsRequest>,
+        ) -> Result<tonic::Response<super::ConnectSettings>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.sql.v1beta4.SqlConnectService/GetConnectSettings",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Generates a short-lived X509 certificate containing the provided public key
+        /// and signed by a private key specific to the target instance. Users may use
+        /// the certificate to authenticate as themselves when connecting to the
+        /// database.
+        pub async fn generate_ephemeral_cert(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GenerateEphemeralCertRequest>,
+        ) -> Result<
+            tonic::Response<super::GenerateEphemeralCertResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.sql.v1beta4.SqlConnectService/GenerateEphemeralCert",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SqlBackupRunsDeleteRequest {
     /// The ID of the backup run to delete. To find a backup run ID, use the
@@ -4172,186 +4352,6 @@ pub mod sql_users_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.sql.v1beta4.SqlUsersService/Update",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Connect settings retrieval request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetConnectSettingsRequest {
-    /// Cloud SQL instance ID. This does not include the project ID.
-    #[prost(string, tag="1")]
-    pub instance: ::prost::alloc::string::String,
-    /// Project ID of the project that contains the instance.
-    #[prost(string, tag="2")]
-    pub project: ::prost::alloc::string::String,
-    /// Optional. Optional snapshot read timestamp to trade freshness for performance.
-    #[prost(message, optional, tag="7")]
-    pub read_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Connect settings retrieval response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConnectSettings {
-    /// This is always `sql#connectSettings`.
-    #[prost(string, tag="1")]
-    pub kind: ::prost::alloc::string::String,
-    /// SSL configuration.
-    #[prost(message, optional, tag="2")]
-    pub server_ca_cert: ::core::option::Option<SslCert>,
-    /// The assigned IP addresses for the instance.
-    #[prost(message, repeated, tag="3")]
-    pub ip_addresses: ::prost::alloc::vec::Vec<IpMapping>,
-    /// The cloud region for the instance. e.g. `us-central1`, `europe-west1`.
-    /// The region cannot be changed after instance creation.
-    #[prost(string, tag="4")]
-    pub region: ::prost::alloc::string::String,
-    /// The database engine type and version. The `databaseVersion`
-    /// field cannot be changed after instance creation.
-    ///   MySQL instances: `MYSQL_8_0`, `MYSQL_5_7` (default),
-    /// or `MYSQL_5_6`.
-    ///   PostgreSQL instances: `POSTGRES_9_6`, `POSTGRES_10`,
-    /// `POSTGRES_11` or `POSTGRES_12` (default), `POSTGRES_13`, or `POSTGRES_14`.
-    ///   SQL Server instances: `SQLSERVER_2017_STANDARD` (default),
-    /// `SQLSERVER_2017_ENTERPRISE`, `SQLSERVER_2017_EXPRESS`,
-    /// `SQLSERVER_2017_WEB`, `SQLSERVER_2019_STANDARD`,
-    /// `SQLSERVER_2019_ENTERPRISE`, `SQLSERVER_2019_EXPRESS`, or
-    /// `SQLSERVER_2019_WEB`.
-    #[prost(enumeration="SqlDatabaseVersion", tag="31")]
-    pub database_version: i32,
-    /// `SECOND_GEN`: Cloud SQL database instance.
-    /// `EXTERNAL`: A database server that is not managed by Google.
-    /// This property is read-only; use the `tier` property in the `settings`
-    /// object to determine the database type.
-    #[prost(enumeration="SqlBackendType", tag="32")]
-    pub backend_type: i32,
-}
-/// Ephemeral certificate creation request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GenerateEphemeralCertRequest {
-    /// Cloud SQL instance ID. This does not include the project ID.
-    #[prost(string, tag="1")]
-    pub instance: ::prost::alloc::string::String,
-    /// Project ID of the project that contains the instance.
-    #[prost(string, tag="2")]
-    pub project: ::prost::alloc::string::String,
-    /// PEM encoded public key to include in the signed certificate.
-    #[prost(string, tag="3")]
-    pub public_key: ::prost::alloc::string::String,
-    /// Optional. Access token to include in the signed certificate.
-    #[prost(string, tag="4")]
-    pub access_token: ::prost::alloc::string::String,
-    /// Optional. Optional snapshot read timestamp to trade freshness for performance.
-    #[prost(message, optional, tag="7")]
-    pub read_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. If set, it will contain the cert valid duration.
-    #[prost(message, optional, tag="12")]
-    pub valid_duration: ::core::option::Option<::prost_types::Duration>,
-}
-/// Ephemeral certificate creation request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GenerateEphemeralCertResponse {
-    /// Generated cert
-    #[prost(message, optional, tag="1")]
-    pub ephemeral_cert: ::core::option::Option<SslCert>,
-}
-/// Generated client implementations.
-pub mod sql_connect_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// Cloud SQL connect service.
-    #[derive(Debug, Clone)]
-    pub struct SqlConnectServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> SqlConnectServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> SqlConnectServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            SqlConnectServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Retrieves connect settings about a Cloud SQL instance.
-        pub async fn get_connect_settings(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetConnectSettingsRequest>,
-        ) -> Result<tonic::Response<super::ConnectSettings>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.sql.v1beta4.SqlConnectService/GetConnectSettings",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Generates a short-lived X509 certificate containing the provided public key
-        /// and signed by a private key specific to the target instance. Users may use
-        /// the certificate to authenticate as themselves when connecting to the
-        /// database.
-        pub async fn generate_ephemeral_cert(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GenerateEphemeralCertRequest>,
-        ) -> Result<
-            tonic::Response<super::GenerateEphemeralCertResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.sql.v1beta4.SqlConnectService/GenerateEphemeralCert",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

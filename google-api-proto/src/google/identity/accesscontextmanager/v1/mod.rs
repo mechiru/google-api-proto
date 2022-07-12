@@ -1,62 +1,3 @@
-/// Restricts access to Cloud Console and Google Cloud APIs for a set of users
-/// using Context-Aware Access.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GcpUserAccessBinding {
-    /// Immutable. Assigned by the server during creation. The last segment has an arbitrary
-    /// length and has only URI unreserved characters (as defined by
-    /// [RFC 3986 Section 2.3](<https://tools.ietf.org/html/rfc3986#section-2.3>)).
-    /// Should not be specified by the client during creation.
-    /// Example: "organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N"
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. Immutable. Google Group id whose members are subject to this binding's restrictions.
-    /// See "id" in the [G Suite Directory API's Groups resource]
-    /// (<https://developers.google.com/admin-sdk/directory/v1/reference/groups#resource>).
-    /// If a group's email address/alias is changed, this resource will continue
-    /// to point at the changed group. This field does not accept group email
-    /// addresses or aliases.
-    /// Example: "01d520gv4vjcrht"
-    #[prost(string, tag="2")]
-    pub group_key: ::prost::alloc::string::String,
-    /// Required. Access level that a user must have to be granted access. Only one access
-    /// level is supported, not multiple. This repeated field must have exactly
-    /// one element.
-    /// Example: "accessPolicies/9522/accessLevels/device_trusted"
-    #[prost(string, repeated, tag="3")]
-    pub access_levels: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// `AccessPolicy` is a container for `AccessLevels` (which define the necessary
-/// attributes to use Google Cloud services) and `ServicePerimeters` (which
-/// define regions of services able to freely pass data within a perimeter). An
-/// access policy is globally visible within an organization, and the
-/// restrictions it specifies apply to all projects within an organization.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AccessPolicy {
-    /// Output only. Resource name of the `AccessPolicy`. Format:
-    /// `accessPolicies/{access_policy}`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The parent of this `AccessPolicy` in the Cloud Resource
-    /// Hierarchy. Currently immutable once created. Format:
-    /// `organizations/{organization_id}`
-    #[prost(string, tag="2")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Human readable title. Does not affect behavior.
-    #[prost(string, tag="3")]
-    pub title: ::prost::alloc::string::String,
-    /// Output only. Time the `AccessPolicy` was created in UTC.
-    #[prost(message, optional, tag="4")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Time the `AccessPolicy` was updated in UTC.
-    #[prost(message, optional, tag="5")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. An opaque identifier for the current version of the
-    /// `AccessPolicy`. This will always be a strongly validated etag, meaning that
-    /// two Access Polices will be identical if and only if their etags are
-    /// identical. Clients should not expect this to be in any specific format.
-    #[prost(string, tag="6")]
-    pub etag: ::prost::alloc::string::String,
-}
 /// An `AccessLevel` is a label that can be applied to requests to Google Cloud
 /// services, along with a list of requirements necessary for the label to be
 /// applied.
@@ -228,6 +169,38 @@ pub struct OsConstraint {
     /// the API targeted by the request.
     #[prost(bool, tag="3")]
     pub require_verified_chrome_os: bool,
+}
+/// `AccessPolicy` is a container for `AccessLevels` (which define the necessary
+/// attributes to use Google Cloud services) and `ServicePerimeters` (which
+/// define regions of services able to freely pass data within a perimeter). An
+/// access policy is globally visible within an organization, and the
+/// restrictions it specifies apply to all projects within an organization.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AccessPolicy {
+    /// Output only. Resource name of the `AccessPolicy`. Format:
+    /// `accessPolicies/{access_policy}`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The parent of this `AccessPolicy` in the Cloud Resource
+    /// Hierarchy. Currently immutable once created. Format:
+    /// `organizations/{organization_id}`
+    #[prost(string, tag="2")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Human readable title. Does not affect behavior.
+    #[prost(string, tag="3")]
+    pub title: ::prost::alloc::string::String,
+    /// Output only. Time the `AccessPolicy` was created in UTC.
+    #[prost(message, optional, tag="4")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Time the `AccessPolicy` was updated in UTC.
+    #[prost(message, optional, tag="5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. An opaque identifier for the current version of the
+    /// `AccessPolicy`. This will always be a strongly validated etag, meaning that
+    /// two Access Polices will be identical if and only if their etags are
+    /// identical. Clients should not expect this to be in any specific format.
+    #[prost(string, tag="6")]
+    pub etag: ::prost::alloc::string::String,
 }
 /// `ServicePerimeter` describes a set of Google Cloud resources which can freely
 /// import and export data amongst themselves, but not export outside of the
@@ -690,6 +663,33 @@ pub mod service_perimeter_config {
         /// Authorize access from all service accounts outside the perimeter.
         AnyServiceAccount = 3,
     }
+}
+/// Restricts access to Cloud Console and Google Cloud APIs for a set of users
+/// using Context-Aware Access.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GcpUserAccessBinding {
+    /// Immutable. Assigned by the server during creation. The last segment has an arbitrary
+    /// length and has only URI unreserved characters (as defined by
+    /// [RFC 3986 Section 2.3](<https://tools.ietf.org/html/rfc3986#section-2.3>)).
+    /// Should not be specified by the client during creation.
+    /// Example: "organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N"
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. Immutable. Google Group id whose members are subject to this binding's restrictions.
+    /// See "id" in the [G Suite Directory API's Groups resource]
+    /// (<https://developers.google.com/admin-sdk/directory/v1/reference/groups#resource>).
+    /// If a group's email address/alias is changed, this resource will continue
+    /// to point at the changed group. This field does not accept group email
+    /// addresses or aliases.
+    /// Example: "01d520gv4vjcrht"
+    #[prost(string, tag="2")]
+    pub group_key: ::prost::alloc::string::String,
+    /// Required. Access level that a user must have to be granted access. Only one access
+    /// level is supported, not multiple. This repeated field must have exactly
+    /// one element.
+    /// Example: "accessPolicies/9522/accessLevels/device_trusted"
+    #[prost(string, repeated, tag="3")]
+    pub access_levels: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// A request to list all `AccessPolicies` for a container.
 #[derive(Clone, PartialEq, ::prost::Message)]

@@ -749,349 +749,6 @@ pub enum State {
     /// Resource is active but has unresolved actions.
     ActionRequired = 4,
 }
-/// A task represents a user-visible job.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Task {
-    /// Output only. The relative resource name of the task, of the form:
-    /// projects/{project_number}/locations/{location_id}/lakes/{lake_id}/
-    /// tasks/{task_id}.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. System generated globally unique ID for the task. This ID will be
-    /// different if the task is deleted and re-created with the same name.
-    #[prost(string, tag="2")]
-    pub uid: ::prost::alloc::string::String,
-    /// Output only. The time when the task was created.
-    #[prost(message, optional, tag="3")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The time when the task was last updated.
-    #[prost(message, optional, tag="4")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. Description of the task.
-    #[prost(string, tag="5")]
-    pub description: ::prost::alloc::string::String,
-    /// Optional. User friendly display name.
-    #[prost(string, tag="6")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Output only. Current state of the task.
-    #[prost(enumeration="State", tag="7")]
-    pub state: i32,
-    /// Optional. User-defined labels for the task.
-    #[prost(btree_map="string, string", tag="8")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Required. Spec related to how often and when a task should be triggered.
-    #[prost(message, optional, tag="100")]
-    pub trigger_spec: ::core::option::Option<task::TriggerSpec>,
-    /// Required. Spec related to how a task is executed.
-    #[prost(message, optional, tag="101")]
-    pub execution_spec: ::core::option::Option<task::ExecutionSpec>,
-    /// Task template specific user-specified config.
-    #[prost(oneof="task::Config", tags="300")]
-    pub config: ::core::option::Option<task::Config>,
-}
-/// Nested message and enum types in `Task`.
-pub mod task {
-    /// Configuration for the underlying infrastructure used to run workloads.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct InfrastructureSpec {
-        /// Hardware config.
-        #[prost(oneof="infrastructure_spec::Resources", tags="52")]
-        pub resources: ::core::option::Option<infrastructure_spec::Resources>,
-        /// Software config.
-        #[prost(oneof="infrastructure_spec::Runtime", tags="101")]
-        pub runtime: ::core::option::Option<infrastructure_spec::Runtime>,
-        /// Networking config.
-        #[prost(oneof="infrastructure_spec::Network", tags="150")]
-        pub network: ::core::option::Option<infrastructure_spec::Network>,
-    }
-    /// Nested message and enum types in `InfrastructureSpec`.
-    pub mod infrastructure_spec {
-        /// Batch compute resources associated with the task.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct BatchComputeResources {
-            /// Optional. Total number of job executors.
-            #[prost(int32, tag="1")]
-            pub executors_count: i32,
-            /// Optional. Max configurable executors.
-            /// If max_executors_count > executors_count, then auto-scaling is enabled.
-            #[prost(int32, tag="2")]
-            pub max_executors_count: i32,
-        }
-        /// Container Image Runtime Configuration used with Batch execution.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct ContainerImageRuntime {
-            /// Optional. A list of Java JARS to add to the classpath.
-            /// Valid input includes Cloud Storage URIs to Jar binaries.
-            /// For example, `gs://bucket-name/my/path/to/file.jar`.
-            #[prost(string, repeated, tag="2")]
-            pub java_jars: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// Optional. A list of python packages to be installed.
-            /// Valid formats include Cloud Storage URI to a PIP installable library.
-            /// For example, `gs://bucket-name/my/path/to/lib.tar.gz`.
-            #[prost(string, repeated, tag="3")]
-            pub python_packages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// Optional. Override to common configuration of open source components installed on
-            /// the Dataproc cluster.
-            /// The properties to set on daemon config files.
-            /// Property keys are specified in `prefix:property` format, for example
-            /// `core:hadoop.tmp.dir`.
-            /// For more information, see [Cluster
-            /// properties](<https://cloud.google.com/dataproc/docs/concepts/cluster-properties>).
-            #[prost(btree_map="string, string", tag="4")]
-            pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-        }
-        /// Cloud VPC Network used to run the infrastructure.
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct VpcNetwork {
-            /// Optional. List of network tags to apply to the job.
-            #[prost(string, repeated, tag="3")]
-            pub network_tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// The Cloud VPC network identifier.
-            #[prost(oneof="vpc_network::NetworkName", tags="1, 2")]
-            pub network_name: ::core::option::Option<vpc_network::NetworkName>,
-        }
-        /// Nested message and enum types in `VpcNetwork`.
-        pub mod vpc_network {
-            /// The Cloud VPC network identifier.
-            #[derive(Clone, PartialEq, ::prost::Oneof)]
-            pub enum NetworkName {
-                /// Optional. The Cloud VPC network in which the job is run. By default, the Cloud
-                /// VPC network named Default within the project is used.
-                #[prost(string, tag="1")]
-                Network(::prost::alloc::string::String),
-                /// Optional. The Cloud VPC sub-network in which the job is run.
-                #[prost(string, tag="2")]
-                SubNetwork(::prost::alloc::string::String),
-            }
-        }
-        /// Hardware config.
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum Resources {
-            /// Compute resources needed for a Task when using Dataproc Serverless.
-            #[prost(message, tag="52")]
-            Batch(BatchComputeResources),
-        }
-        /// Software config.
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum Runtime {
-            /// Container Image Runtime Configuration.
-            #[prost(message, tag="101")]
-            ContainerImage(ContainerImageRuntime),
-        }
-        /// Networking config.
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum Network {
-            /// Vpc network.
-            #[prost(message, tag="150")]
-            VpcNetwork(VpcNetwork),
-        }
-    }
-    /// Task scheduling and trigger settings.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct TriggerSpec {
-        /// Required. Immutable. Trigger type of the user-specified Task.
-        #[prost(enumeration="trigger_spec::Type", tag="5")]
-        pub r#type: i32,
-        /// Optional. The first run of the task will be after this time.
-        /// If not specified, the task will run shortly after being submitted if
-        /// ON_DEMAND and based on the schedule if RECURRING.
-        #[prost(message, optional, tag="6")]
-        pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-        /// Optional. Prevent the task from executing.
-        /// This does not cancel already running tasks. It is intended to temporarily
-        /// disable RECURRING tasks.
-        #[prost(bool, tag="4")]
-        pub disabled: bool,
-        /// Optional. Number of retry attempts before aborting.
-        /// Set to zero to never attempt to retry a failed task.
-        #[prost(int32, tag="7")]
-        pub max_retries: i32,
-        /// Trigger only applies for `RECURRING` tasks.
-        #[prost(oneof="trigger_spec::Trigger", tags="100")]
-        pub trigger: ::core::option::Option<trigger_spec::Trigger>,
-    }
-    /// Nested message and enum types in `TriggerSpec`.
-    pub mod trigger_spec {
-        /// Determines how often and when the job will run.
-        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-        #[repr(i32)]
-        pub enum Type {
-            /// Unspecified trigger type.
-            Unspecified = 0,
-            /// The task runs one-time shortly after Task Creation.
-            OnDemand = 1,
-            /// The task is scheduled to run periodically.
-            Recurring = 2,
-        }
-        /// Trigger only applies for `RECURRING` tasks.
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum Trigger {
-            /// Optional. Cron schedule (<https://en.wikipedia.org/wiki/Cron>) for running
-            /// tasks periodically.
-            /// To explicitly set a timezone to the cron tab, apply a prefix in the
-            /// cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}".
-            /// The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone
-            /// database. For example, "CRON_TZ=America/New_York 1 * * * *", or
-            /// "TZ=America/New_York 1 * * * *".
-            /// This field is required for RECURRING tasks.
-            #[prost(string, tag="100")]
-            Schedule(::prost::alloc::string::String),
-        }
-    }
-    /// Execution related settings, like retry and service_account.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ExecutionSpec {
-        /// Optional. The arguments to pass to the task.
-        /// The args can use placeholders of the format ${placeholder} as
-        /// part of key/value string. These will be interpolated before passing the
-        /// args to the driver. Currently supported placeholders:
-        /// - ${task_id}
-        /// - ${job_time}
-        /// To pass positional args, set the key as TASK_ARGS. The value should be a
-        /// comma-separated string of all the positional arguments. To use a
-        /// delimiter other than comma, refer to
-        /// <https://cloud.google.com/sdk/gcloud/reference/topic/escaping.> In case of
-        /// other keys being present in the args, then TASK_ARGS will be passed as
-        /// the last argument.
-        #[prost(btree_map="string, string", tag="4")]
-        pub args: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-        /// Required. Service account to use to execute a task.
-        /// If not provided, the default Compute service account for the project is
-        /// used.
-        #[prost(string, tag="5")]
-        pub service_account: ::prost::alloc::string::String,
-        /// Optional. The maximum duration after which the job execution is expired.
-        #[prost(message, optional, tag="8")]
-        pub max_job_execution_lifetime: ::core::option::Option<::prost_types::Duration>,
-    }
-    /// User-specified config for running a Spark task.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SparkTaskConfig {
-        /// Optional. Cloud Storage URIs of files to be placed in the working directory of each
-        /// executor.
-        #[prost(string, repeated, tag="3")]
-        pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// Optional. Cloud Storage URIs of archives to be extracted into the working directory
-        /// of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and
-        /// .zip.
-        #[prost(string, repeated, tag="4")]
-        pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        /// Optional. Infrastructure specification for the execution.
-        #[prost(message, optional, tag="6")]
-        pub infrastructure_spec: ::core::option::Option<InfrastructureSpec>,
-        /// Required. The specification of the main method to call to drive the
-        /// job. Specify either the jar file that contains the main class or the
-        /// main class name.
-        #[prost(oneof="spark_task_config::Driver", tags="100, 101, 102, 104, 105")]
-        pub driver: ::core::option::Option<spark_task_config::Driver>,
-    }
-    /// Nested message and enum types in `SparkTaskConfig`.
-    pub mod spark_task_config {
-        /// Required. The specification of the main method to call to drive the
-        /// job. Specify either the jar file that contains the main class or the
-        /// main class name.
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum Driver {
-            /// The Cloud Storage URI of the jar file that contains the main class.
-            /// The execution args are passed in as a sequence of named process
-            /// arguments (`--key=value`).
-            #[prost(string, tag="100")]
-            MainJarFileUri(::prost::alloc::string::String),
-            /// The name of the driver's main class. The jar file that contains the
-            /// class must be in the default CLASSPATH or specified in
-            /// `jar_file_uris`.
-            /// The execution args are passed in as a sequence of named process
-            /// arguments (`--key=value`).
-            #[prost(string, tag="101")]
-            MainClass(::prost::alloc::string::String),
-            /// The Gcloud Storage URI of the main Python file to use as the driver.
-            /// Must be a .py file. The execution args are passed in as a sequence of
-            /// named process arguments (`--key=value`).
-            #[prost(string, tag="102")]
-            PythonScriptFile(::prost::alloc::string::String),
-            /// A reference to a query file. This can be the Cloud Storage URI of the
-            /// query file or it can the path to a SqlScript Content. The execution
-            /// args are used to declare a set of script variables
-            /// (`set key="value";`).
-            #[prost(string, tag="104")]
-            SqlScriptFile(::prost::alloc::string::String),
-            /// The query text.
-            /// The execution args are used to declare a set of script variables
-            /// (`set key="value";`).
-            #[prost(string, tag="105")]
-            SqlScript(::prost::alloc::string::String),
-        }
-    }
-    /// Task template specific user-specified config.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Config {
-        /// Config related to running custom Spark tasks.
-        #[prost(message, tag="300")]
-        Spark(SparkTaskConfig),
-    }
-}
-/// A job represents an instance of a task.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Job {
-    /// Output only. The relative resource name of the job, of the form:
-    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/tasks/{task_id}/jobs/{job_id}`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. System generated globally unique ID for the job.
-    #[prost(string, tag="2")]
-    pub uid: ::prost::alloc::string::String,
-    /// Output only. The time when the job was started.
-    #[prost(message, optional, tag="3")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The time when the job ended.
-    #[prost(message, optional, tag="4")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Execution state for the job.
-    #[prost(enumeration="job::State", tag="5")]
-    pub state: i32,
-    /// Output only. The number of times the job has been retried (excluding the
-    /// initial attempt).
-    #[prost(uint32, tag="6")]
-    pub retry_count: u32,
-    /// Output only. The underlying service running a job.
-    #[prost(enumeration="job::Service", tag="7")]
-    pub service: i32,
-    /// Output only. The full resource name for the job run under a particular service.
-    #[prost(string, tag="8")]
-    pub service_job: ::prost::alloc::string::String,
-    /// Output only. Additional information about the current state.
-    #[prost(string, tag="9")]
-    pub message: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `Job`.
-pub mod job {
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Service {
-        /// Service used to run the job is unspecified.
-        Unspecified = 0,
-        /// Dataproc service is used to run this job.
-        Dataproc = 1,
-    }
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// The job state is unknown.
-        Unspecified = 0,
-        /// The job is running.
-        Running = 1,
-        /// The job is cancelling.
-        Cancelling = 2,
-        /// The job cancellation was successful.
-        Cancelled = 3,
-        /// The job completed successfully.
-        Succeeded = 4,
-        /// The job is no longer running due to an error.
-        Failed = 5,
-        /// The job was cancelled outside of Dataplex.
-        Aborted = 6,
-    }
-}
 /// Environment represents a user-visible compute infrastructure for analytics
 /// within a lake.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1601,273 +1258,347 @@ pub mod content_service_client {
         }
     }
 }
-/// The payload associated with Discovery data processing.
+/// A task represents a user-visible job.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DiscoveryEvent {
-    /// The log message.
+pub struct Task {
+    /// Output only. The relative resource name of the task, of the form:
+    /// projects/{project_number}/locations/{location_id}/lakes/{lake_id}/
+    /// tasks/{task_id}.
     #[prost(string, tag="1")]
-    pub message: ::prost::alloc::string::String,
-    /// The id of the associated lake.
+    pub name: ::prost::alloc::string::String,
+    /// Output only. System generated globally unique ID for the task. This ID will be
+    /// different if the task is deleted and re-created with the same name.
     #[prost(string, tag="2")]
-    pub lake_id: ::prost::alloc::string::String,
-    /// The id of the associated zone.
-    #[prost(string, tag="3")]
-    pub zone_id: ::prost::alloc::string::String,
-    /// The id of the associated asset.
-    #[prost(string, tag="4")]
-    pub asset_id: ::prost::alloc::string::String,
-    /// The data location associated with the event.
+    pub uid: ::prost::alloc::string::String,
+    /// Output only. The time when the task was created.
+    #[prost(message, optional, tag="3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The time when the task was last updated.
+    #[prost(message, optional, tag="4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. Description of the task.
     #[prost(string, tag="5")]
-    pub data_location: ::prost::alloc::string::String,
-    /// The type of the event being logged.
-    #[prost(enumeration="discovery_event::EventType", tag="10")]
-    pub r#type: i32,
-    /// Additional details about the event.
-    #[prost(oneof="discovery_event::Details", tags="20, 21, 22, 23")]
-    pub details: ::core::option::Option<discovery_event::Details>,
+    pub description: ::prost::alloc::string::String,
+    /// Optional. User friendly display name.
+    #[prost(string, tag="6")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Output only. Current state of the task.
+    #[prost(enumeration="State", tag="7")]
+    pub state: i32,
+    /// Optional. User-defined labels for the task.
+    #[prost(btree_map="string, string", tag="8")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Required. Spec related to how often and when a task should be triggered.
+    #[prost(message, optional, tag="100")]
+    pub trigger_spec: ::core::option::Option<task::TriggerSpec>,
+    /// Required. Spec related to how a task is executed.
+    #[prost(message, optional, tag="101")]
+    pub execution_spec: ::core::option::Option<task::ExecutionSpec>,
+    /// Task template specific user-specified config.
+    #[prost(oneof="task::Config", tags="300")]
+    pub config: ::core::option::Option<task::Config>,
 }
-/// Nested message and enum types in `DiscoveryEvent`.
-pub mod discovery_event {
-    /// Details about configuration events.
+/// Nested message and enum types in `Task`.
+pub mod task {
+    /// Configuration for the underlying infrastructure used to run workloads.
     #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ConfigDetails {
-        /// A list of discovery configuration parameters in effect.
-        /// The keys are the field paths within DiscoverySpec.
-        /// Eg. includePatterns, excludePatterns, csvOptions.disableTypeInference,
-        /// etc.
-        #[prost(btree_map="string, string", tag="1")]
-        pub parameters: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    pub struct InfrastructureSpec {
+        /// Hardware config.
+        #[prost(oneof="infrastructure_spec::Resources", tags="52")]
+        pub resources: ::core::option::Option<infrastructure_spec::Resources>,
+        /// Software config.
+        #[prost(oneof="infrastructure_spec::Runtime", tags="101")]
+        pub runtime: ::core::option::Option<infrastructure_spec::Runtime>,
+        /// Networking config.
+        #[prost(oneof="infrastructure_spec::Network", tags="150")]
+        pub network: ::core::option::Option<infrastructure_spec::Network>,
     }
-    /// Details about the entity.
+    /// Nested message and enum types in `InfrastructureSpec`.
+    pub mod infrastructure_spec {
+        /// Batch compute resources associated with the task.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct BatchComputeResources {
+            /// Optional. Total number of job executors.
+            #[prost(int32, tag="1")]
+            pub executors_count: i32,
+            /// Optional. Max configurable executors.
+            /// If max_executors_count > executors_count, then auto-scaling is enabled.
+            #[prost(int32, tag="2")]
+            pub max_executors_count: i32,
+        }
+        /// Container Image Runtime Configuration used with Batch execution.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct ContainerImageRuntime {
+            /// Optional. A list of Java JARS to add to the classpath.
+            /// Valid input includes Cloud Storage URIs to Jar binaries.
+            /// For example, `gs://bucket-name/my/path/to/file.jar`.
+            #[prost(string, repeated, tag="2")]
+            pub java_jars: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// Optional. A list of python packages to be installed.
+            /// Valid formats include Cloud Storage URI to a PIP installable library.
+            /// For example, `gs://bucket-name/my/path/to/lib.tar.gz`.
+            #[prost(string, repeated, tag="3")]
+            pub python_packages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// Optional. Override to common configuration of open source components installed on
+            /// the Dataproc cluster.
+            /// The properties to set on daemon config files.
+            /// Property keys are specified in `prefix:property` format, for example
+            /// `core:hadoop.tmp.dir`.
+            /// For more information, see [Cluster
+            /// properties](<https://cloud.google.com/dataproc/docs/concepts/cluster-properties>).
+            #[prost(btree_map="string, string", tag="4")]
+            pub properties: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+        }
+        /// Cloud VPC Network used to run the infrastructure.
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct VpcNetwork {
+            /// Optional. List of network tags to apply to the job.
+            #[prost(string, repeated, tag="3")]
+            pub network_tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// The Cloud VPC network identifier.
+            #[prost(oneof="vpc_network::NetworkName", tags="1, 2")]
+            pub network_name: ::core::option::Option<vpc_network::NetworkName>,
+        }
+        /// Nested message and enum types in `VpcNetwork`.
+        pub mod vpc_network {
+            /// The Cloud VPC network identifier.
+            #[derive(Clone, PartialEq, ::prost::Oneof)]
+            pub enum NetworkName {
+                /// Optional. The Cloud VPC network in which the job is run. By default, the Cloud
+                /// VPC network named Default within the project is used.
+                #[prost(string, tag="1")]
+                Network(::prost::alloc::string::String),
+                /// Optional. The Cloud VPC sub-network in which the job is run.
+                #[prost(string, tag="2")]
+                SubNetwork(::prost::alloc::string::String),
+            }
+        }
+        /// Hardware config.
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Resources {
+            /// Compute resources needed for a Task when using Dataproc Serverless.
+            #[prost(message, tag="52")]
+            Batch(BatchComputeResources),
+        }
+        /// Software config.
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Runtime {
+            /// Container Image Runtime Configuration.
+            #[prost(message, tag="101")]
+            ContainerImage(ContainerImageRuntime),
+        }
+        /// Networking config.
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Network {
+            /// Vpc network.
+            #[prost(message, tag="150")]
+            VpcNetwork(VpcNetwork),
+        }
+    }
+    /// Task scheduling and trigger settings.
     #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct EntityDetails {
-        /// The name of the entity resource.
-        /// The name is the fully-qualified resource name.
-        #[prost(string, tag="1")]
-        pub entity: ::prost::alloc::string::String,
-        /// The type of the entity resource.
-        #[prost(enumeration="EntityType", tag="2")]
+    pub struct TriggerSpec {
+        /// Required. Immutable. Trigger type of the user-specified Task.
+        #[prost(enumeration="trigger_spec::Type", tag="5")]
         pub r#type: i32,
+        /// Optional. The first run of the task will be after this time.
+        /// If not specified, the task will run shortly after being submitted if
+        /// ON_DEMAND and based on the schedule if RECURRING.
+        #[prost(message, optional, tag="6")]
+        pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+        /// Optional. Prevent the task from executing.
+        /// This does not cancel already running tasks. It is intended to temporarily
+        /// disable RECURRING tasks.
+        #[prost(bool, tag="4")]
+        pub disabled: bool,
+        /// Optional. Number of retry attempts before aborting.
+        /// Set to zero to never attempt to retry a failed task.
+        #[prost(int32, tag="7")]
+        pub max_retries: i32,
+        /// Trigger only applies for `RECURRING` tasks.
+        #[prost(oneof="trigger_spec::Trigger", tags="100")]
+        pub trigger: ::core::option::Option<trigger_spec::Trigger>,
     }
-    /// Details about the partition.
+    /// Nested message and enum types in `TriggerSpec`.
+    pub mod trigger_spec {
+        /// Determines how often and when the job will run.
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+        #[repr(i32)]
+        pub enum Type {
+            /// Unspecified trigger type.
+            Unspecified = 0,
+            /// The task runs one-time shortly after Task Creation.
+            OnDemand = 1,
+            /// The task is scheduled to run periodically.
+            Recurring = 2,
+        }
+        /// Trigger only applies for `RECURRING` tasks.
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Trigger {
+            /// Optional. Cron schedule (<https://en.wikipedia.org/wiki/Cron>) for running
+            /// tasks periodically.
+            /// To explicitly set a timezone to the cron tab, apply a prefix in the
+            /// cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}".
+            /// The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone
+            /// database. For example, "CRON_TZ=America/New_York 1 * * * *", or
+            /// "TZ=America/New_York 1 * * * *".
+            /// This field is required for RECURRING tasks.
+            #[prost(string, tag="100")]
+            Schedule(::prost::alloc::string::String),
+        }
+    }
+    /// Execution related settings, like retry and service_account.
     #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct PartitionDetails {
-        /// The name to the partition resource.
-        /// The name is the fully-qualified resource name.
-        #[prost(string, tag="1")]
-        pub partition: ::prost::alloc::string::String,
-        /// The name to the containing entity resource.
-        /// The name is the fully-qualified resource name.
-        #[prost(string, tag="2")]
-        pub entity: ::prost::alloc::string::String,
-        /// The type of the containing entity resource.
-        #[prost(enumeration="EntityType", tag="3")]
-        pub r#type: i32,
+    pub struct ExecutionSpec {
+        /// Optional. The arguments to pass to the task.
+        /// The args can use placeholders of the format ${placeholder} as
+        /// part of key/value string. These will be interpolated before passing the
+        /// args to the driver. Currently supported placeholders:
+        /// - ${task_id}
+        /// - ${job_time}
+        /// To pass positional args, set the key as TASK_ARGS. The value should be a
+        /// comma-separated string of all the positional arguments. To use a
+        /// delimiter other than comma, refer to
+        /// <https://cloud.google.com/sdk/gcloud/reference/topic/escaping.> In case of
+        /// other keys being present in the args, then TASK_ARGS will be passed as
+        /// the last argument.
+        #[prost(btree_map="string, string", tag="4")]
+        pub args: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+        /// Required. Service account to use to execute a task.
+        /// If not provided, the default Compute service account for the project is
+        /// used.
+        #[prost(string, tag="5")]
+        pub service_account: ::prost::alloc::string::String,
+        /// Optional. The maximum duration after which the job execution is expired.
+        #[prost(message, optional, tag="8")]
+        pub max_job_execution_lifetime: ::core::option::Option<::prost_types::Duration>,
     }
-    /// Details about the action.
+    /// User-specified config for running a Spark task.
     #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ActionDetails {
-        /// The type of action.
-        /// Eg. IncompatibleDataSchema, InvalidDataFormat
-        #[prost(string, tag="1")]
-        pub r#type: ::prost::alloc::string::String,
+    pub struct SparkTaskConfig {
+        /// Optional. Cloud Storage URIs of files to be placed in the working directory of each
+        /// executor.
+        #[prost(string, repeated, tag="3")]
+        pub file_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Optional. Cloud Storage URIs of archives to be extracted into the working directory
+        /// of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and
+        /// .zip.
+        #[prost(string, repeated, tag="4")]
+        pub archive_uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        /// Optional. Infrastructure specification for the execution.
+        #[prost(message, optional, tag="6")]
+        pub infrastructure_spec: ::core::option::Option<InfrastructureSpec>,
+        /// Required. The specification of the main method to call to drive the
+        /// job. Specify either the jar file that contains the main class or the
+        /// main class name.
+        #[prost(oneof="spark_task_config::Driver", tags="100, 101, 102, 104, 105")]
+        pub driver: ::core::option::Option<spark_task_config::Driver>,
     }
-    /// The type of the event.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum EventType {
-        /// An unspecified event type.
-        Unspecified = 0,
-        /// An event representing discovery configuration in effect.
-        Config = 1,
-        /// An event representing a metadata entity being created.
-        EntityCreated = 2,
-        /// An event representing a metadata entity being updated.
-        EntityUpdated = 3,
-        /// An event representing a metadata entity being deleted.
-        EntityDeleted = 4,
-        /// An event representing a partition being created.
-        PartitionCreated = 5,
-        /// An event representing a partition being updated.
-        PartitionUpdated = 6,
-        /// An event representing a partition being deleted.
-        PartitionDeleted = 7,
+    /// Nested message and enum types in `SparkTaskConfig`.
+    pub mod spark_task_config {
+        /// Required. The specification of the main method to call to drive the
+        /// job. Specify either the jar file that contains the main class or the
+        /// main class name.
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Driver {
+            /// The Cloud Storage URI of the jar file that contains the main class.
+            /// The execution args are passed in as a sequence of named process
+            /// arguments (`--key=value`).
+            #[prost(string, tag="100")]
+            MainJarFileUri(::prost::alloc::string::String),
+            /// The name of the driver's main class. The jar file that contains the
+            /// class must be in the default CLASSPATH or specified in
+            /// `jar_file_uris`.
+            /// The execution args are passed in as a sequence of named process
+            /// arguments (`--key=value`).
+            #[prost(string, tag="101")]
+            MainClass(::prost::alloc::string::String),
+            /// The Gcloud Storage URI of the main Python file to use as the driver.
+            /// Must be a .py file. The execution args are passed in as a sequence of
+            /// named process arguments (`--key=value`).
+            #[prost(string, tag="102")]
+            PythonScriptFile(::prost::alloc::string::String),
+            /// A reference to a query file. This can be the Cloud Storage URI of the
+            /// query file or it can the path to a SqlScript Content. The execution
+            /// args are used to declare a set of script variables
+            /// (`set key="value";`).
+            #[prost(string, tag="104")]
+            SqlScriptFile(::prost::alloc::string::String),
+            /// The query text.
+            /// The execution args are used to declare a set of script variables
+            /// (`set key="value";`).
+            #[prost(string, tag="105")]
+            SqlScript(::prost::alloc::string::String),
+        }
     }
-    /// The type of the entity.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum EntityType {
-        /// An unspecified event type.
-        Unspecified = 0,
-        /// Entities representing structured data.
-        Table = 1,
-        /// Entities representing unstructured data.
-        Fileset = 2,
-    }
-    /// Additional details about the event.
+    /// Task template specific user-specified config.
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Details {
-        /// Details about discovery configuration in effect.
-        #[prost(message, tag="20")]
-        Config(ConfigDetails),
-        /// Details about the entity associated with the event.
-        #[prost(message, tag="21")]
-        Entity(EntityDetails),
-        /// Details about the partition associated with the event.
-        #[prost(message, tag="22")]
-        Partition(PartitionDetails),
-        /// Details about the action associated with the event.
-        #[prost(message, tag="23")]
-        Action(ActionDetails),
+    pub enum Config {
+        /// Config related to running custom Spark tasks.
+        #[prost(message, tag="300")]
+        Spark(SparkTaskConfig),
     }
 }
-/// The payload associated with Job logs that contains events describing jobs
-/// that have run within a Lake.
+/// A job represents an instance of a task.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct JobEvent {
-    /// The log message.
+pub struct Job {
+    /// Output only. The relative resource name of the job, of the form:
+    /// `projects/{project_number}/locations/{location_id}/lakes/{lake_id}/tasks/{task_id}/jobs/{job_id}`.
     #[prost(string, tag="1")]
-    pub message: ::prost::alloc::string::String,
-    /// The unique id identifying the job.
+    pub name: ::prost::alloc::string::String,
+    /// Output only. System generated globally unique ID for the job.
     #[prost(string, tag="2")]
-    pub job_id: ::prost::alloc::string::String,
-    /// The time when the job started running.
+    pub uid: ::prost::alloc::string::String,
+    /// Output only. The time when the job was started.
     #[prost(message, optional, tag="3")]
     pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time when the job ended running.
+    /// Output only. The time when the job ended.
     #[prost(message, optional, tag="4")]
     pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The job state on completion.
-    #[prost(enumeration="job_event::State", tag="5")]
+    /// Output only. Execution state for the job.
+    #[prost(enumeration="job::State", tag="5")]
     pub state: i32,
-    /// The number of retries.
-    #[prost(int32, tag="6")]
-    pub retries: i32,
-    /// The type of the job.
-    #[prost(enumeration="job_event::Type", tag="7")]
-    pub r#type: i32,
-    /// The service used to execute the job.
-    #[prost(enumeration="job_event::Service", tag="8")]
+    /// Output only. The number of times the job has been retried (excluding the
+    /// initial attempt).
+    #[prost(uint32, tag="6")]
+    pub retry_count: u32,
+    /// Output only. The underlying service running a job.
+    #[prost(enumeration="job::Service", tag="7")]
     pub service: i32,
-    /// The reference to the job within the service.
-    #[prost(string, tag="9")]
+    /// Output only. The full resource name for the job run under a particular service.
+    #[prost(string, tag="8")]
     pub service_job: ::prost::alloc::string::String,
+    /// Output only. Additional information about the current state.
+    #[prost(string, tag="9")]
+    pub message: ::prost::alloc::string::String,
 }
-/// Nested message and enum types in `JobEvent`.
-pub mod job_event {
-    /// The type of the job.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// Unspecified job type.
-        Unspecified = 0,
-        /// Spark jobs.
-        Spark = 1,
-        /// Notebook jobs.
-        Notebook = 2,
-    }
-    /// The completion status of the job.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Unspecified job state.
-        Unspecified = 0,
-        /// Job successfully completed.
-        Succeeded = 1,
-        /// Job was unsuccessful.
-        Failed = 2,
-        /// Job was cancelled by the user.
-        Cancelled = 3,
-        /// Job was cancelled or aborted via the service executing the job.
-        Aborted = 4,
-    }
-    /// The service used to execute the job.
+/// Nested message and enum types in `Job`.
+pub mod job {
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Service {
-        /// Unspecified service.
+        /// Service used to run the job is unspecified.
         Unspecified = 0,
-        /// Cloud Dataproc.
+        /// Dataproc service is used to run this job.
         Dataproc = 1,
     }
-}
-/// These messages contain information about sessions within an environment.
-/// The monitored resource is 'Environment'.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SessionEvent {
-    /// The log message.
-    #[prost(string, tag="1")]
-    pub message: ::prost::alloc::string::String,
-    /// The information about the user that created the session.
-    #[prost(string, tag="2")]
-    pub user_id: ::prost::alloc::string::String,
-    /// Unique identifier for the session.
-    #[prost(string, tag="3")]
-    pub session_id: ::prost::alloc::string::String,
-    /// The type of the event.
-    #[prost(enumeration="session_event::EventType", tag="4")]
-    pub r#type: i32,
-    /// Additional information about the Query metadata.
-    #[prost(oneof="session_event::Detail", tags="5")]
-    pub detail: ::core::option::Option<session_event::Detail>,
-}
-/// Nested message and enum types in `SessionEvent`.
-pub mod session_event {
-    /// Execution details of the query.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct QueryDetail {
-        /// The unique Query id identifying the query.
-        #[prost(string, tag="1")]
-        pub query_id: ::prost::alloc::string::String,
-        /// The query text executed.
-        #[prost(string, tag="2")]
-        pub query_text: ::prost::alloc::string::String,
-        /// Query Execution engine.
-        #[prost(enumeration="query_detail::Engine", tag="3")]
-        pub engine: i32,
-        /// Time taken for execution of the query.
-        #[prost(message, optional, tag="4")]
-        pub duration: ::core::option::Option<::prost_types::Duration>,
-        /// The size of results the query produced.
-        #[prost(int64, tag="5")]
-        pub result_size_bytes: i64,
-        /// The data processed by the query.
-        #[prost(int64, tag="6")]
-        pub data_processed_bytes: i64,
-    }
-    /// Nested message and enum types in `QueryDetail`.
-    pub mod query_detail {
-        /// Query Execution engine.
-        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-        #[repr(i32)]
-        pub enum Engine {
-            /// An unspecified Engine type.
-            Unspecified = 0,
-            /// Spark-sql engine is specified in Query.
-            SparkSql = 1,
-            /// BigQuery engine is specified in Query.
-            Bigquery = 2,
-        }
-    }
-    /// The type of the event.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum EventType {
-        /// An unspecified event type.
+    pub enum State {
+        /// The job state is unknown.
         Unspecified = 0,
-        /// Event for start of a session.
-        Start = 1,
-        /// Event for stop of a session.
-        Stop = 2,
-        /// Query events in the session.
-        Query = 3,
-    }
-    /// Additional information about the Query metadata.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Detail {
-        /// The execution details of the query.
-        #[prost(message, tag="5")]
-        Query(QueryDetail),
+        /// The job is running.
+        Running = 1,
+        /// The job is cancelling.
+        Cancelling = 2,
+        /// The job cancellation was successful.
+        Cancelled = 3,
+        /// The job completed successfully.
+        Succeeded = 4,
+        /// The job is no longer running due to an error.
+        Failed = 5,
+        /// The job was cancelled outside of Dataplex.
+        Aborted = 6,
     }
 }
 /// Create lake request.
@@ -4088,5 +3819,274 @@ pub mod metadata_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+    }
+}
+/// The payload associated with Discovery data processing.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DiscoveryEvent {
+    /// The log message.
+    #[prost(string, tag="1")]
+    pub message: ::prost::alloc::string::String,
+    /// The id of the associated lake.
+    #[prost(string, tag="2")]
+    pub lake_id: ::prost::alloc::string::String,
+    /// The id of the associated zone.
+    #[prost(string, tag="3")]
+    pub zone_id: ::prost::alloc::string::String,
+    /// The id of the associated asset.
+    #[prost(string, tag="4")]
+    pub asset_id: ::prost::alloc::string::String,
+    /// The data location associated with the event.
+    #[prost(string, tag="5")]
+    pub data_location: ::prost::alloc::string::String,
+    /// The type of the event being logged.
+    #[prost(enumeration="discovery_event::EventType", tag="10")]
+    pub r#type: i32,
+    /// Additional details about the event.
+    #[prost(oneof="discovery_event::Details", tags="20, 21, 22, 23")]
+    pub details: ::core::option::Option<discovery_event::Details>,
+}
+/// Nested message and enum types in `DiscoveryEvent`.
+pub mod discovery_event {
+    /// Details about configuration events.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConfigDetails {
+        /// A list of discovery configuration parameters in effect.
+        /// The keys are the field paths within DiscoverySpec.
+        /// Eg. includePatterns, excludePatterns, csvOptions.disableTypeInference,
+        /// etc.
+        #[prost(btree_map="string, string", tag="1")]
+        pub parameters: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    }
+    /// Details about the entity.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct EntityDetails {
+        /// The name of the entity resource.
+        /// The name is the fully-qualified resource name.
+        #[prost(string, tag="1")]
+        pub entity: ::prost::alloc::string::String,
+        /// The type of the entity resource.
+        #[prost(enumeration="EntityType", tag="2")]
+        pub r#type: i32,
+    }
+    /// Details about the partition.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct PartitionDetails {
+        /// The name to the partition resource.
+        /// The name is the fully-qualified resource name.
+        #[prost(string, tag="1")]
+        pub partition: ::prost::alloc::string::String,
+        /// The name to the containing entity resource.
+        /// The name is the fully-qualified resource name.
+        #[prost(string, tag="2")]
+        pub entity: ::prost::alloc::string::String,
+        /// The type of the containing entity resource.
+        #[prost(enumeration="EntityType", tag="3")]
+        pub r#type: i32,
+    }
+    /// Details about the action.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ActionDetails {
+        /// The type of action.
+        /// Eg. IncompatibleDataSchema, InvalidDataFormat
+        #[prost(string, tag="1")]
+        pub r#type: ::prost::alloc::string::String,
+    }
+    /// The type of the event.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EventType {
+        /// An unspecified event type.
+        Unspecified = 0,
+        /// An event representing discovery configuration in effect.
+        Config = 1,
+        /// An event representing a metadata entity being created.
+        EntityCreated = 2,
+        /// An event representing a metadata entity being updated.
+        EntityUpdated = 3,
+        /// An event representing a metadata entity being deleted.
+        EntityDeleted = 4,
+        /// An event representing a partition being created.
+        PartitionCreated = 5,
+        /// An event representing a partition being updated.
+        PartitionUpdated = 6,
+        /// An event representing a partition being deleted.
+        PartitionDeleted = 7,
+    }
+    /// The type of the entity.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EntityType {
+        /// An unspecified event type.
+        Unspecified = 0,
+        /// Entities representing structured data.
+        Table = 1,
+        /// Entities representing unstructured data.
+        Fileset = 2,
+    }
+    /// Additional details about the event.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Details {
+        /// Details about discovery configuration in effect.
+        #[prost(message, tag="20")]
+        Config(ConfigDetails),
+        /// Details about the entity associated with the event.
+        #[prost(message, tag="21")]
+        Entity(EntityDetails),
+        /// Details about the partition associated with the event.
+        #[prost(message, tag="22")]
+        Partition(PartitionDetails),
+        /// Details about the action associated with the event.
+        #[prost(message, tag="23")]
+        Action(ActionDetails),
+    }
+}
+/// The payload associated with Job logs that contains events describing jobs
+/// that have run within a Lake.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct JobEvent {
+    /// The log message.
+    #[prost(string, tag="1")]
+    pub message: ::prost::alloc::string::String,
+    /// The unique id identifying the job.
+    #[prost(string, tag="2")]
+    pub job_id: ::prost::alloc::string::String,
+    /// The time when the job started running.
+    #[prost(message, optional, tag="3")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time when the job ended running.
+    #[prost(message, optional, tag="4")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The job state on completion.
+    #[prost(enumeration="job_event::State", tag="5")]
+    pub state: i32,
+    /// The number of retries.
+    #[prost(int32, tag="6")]
+    pub retries: i32,
+    /// The type of the job.
+    #[prost(enumeration="job_event::Type", tag="7")]
+    pub r#type: i32,
+    /// The service used to execute the job.
+    #[prost(enumeration="job_event::Service", tag="8")]
+    pub service: i32,
+    /// The reference to the job within the service.
+    #[prost(string, tag="9")]
+    pub service_job: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `JobEvent`.
+pub mod job_event {
+    /// The type of the job.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// Unspecified job type.
+        Unspecified = 0,
+        /// Spark jobs.
+        Spark = 1,
+        /// Notebook jobs.
+        Notebook = 2,
+    }
+    /// The completion status of the job.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Unspecified job state.
+        Unspecified = 0,
+        /// Job successfully completed.
+        Succeeded = 1,
+        /// Job was unsuccessful.
+        Failed = 2,
+        /// Job was cancelled by the user.
+        Cancelled = 3,
+        /// Job was cancelled or aborted via the service executing the job.
+        Aborted = 4,
+    }
+    /// The service used to execute the job.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Service {
+        /// Unspecified service.
+        Unspecified = 0,
+        /// Cloud Dataproc.
+        Dataproc = 1,
+    }
+}
+/// These messages contain information about sessions within an environment.
+/// The monitored resource is 'Environment'.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SessionEvent {
+    /// The log message.
+    #[prost(string, tag="1")]
+    pub message: ::prost::alloc::string::String,
+    /// The information about the user that created the session.
+    #[prost(string, tag="2")]
+    pub user_id: ::prost::alloc::string::String,
+    /// Unique identifier for the session.
+    #[prost(string, tag="3")]
+    pub session_id: ::prost::alloc::string::String,
+    /// The type of the event.
+    #[prost(enumeration="session_event::EventType", tag="4")]
+    pub r#type: i32,
+    /// Additional information about the Query metadata.
+    #[prost(oneof="session_event::Detail", tags="5")]
+    pub detail: ::core::option::Option<session_event::Detail>,
+}
+/// Nested message and enum types in `SessionEvent`.
+pub mod session_event {
+    /// Execution details of the query.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct QueryDetail {
+        /// The unique Query id identifying the query.
+        #[prost(string, tag="1")]
+        pub query_id: ::prost::alloc::string::String,
+        /// The query text executed.
+        #[prost(string, tag="2")]
+        pub query_text: ::prost::alloc::string::String,
+        /// Query Execution engine.
+        #[prost(enumeration="query_detail::Engine", tag="3")]
+        pub engine: i32,
+        /// Time taken for execution of the query.
+        #[prost(message, optional, tag="4")]
+        pub duration: ::core::option::Option<::prost_types::Duration>,
+        /// The size of results the query produced.
+        #[prost(int64, tag="5")]
+        pub result_size_bytes: i64,
+        /// The data processed by the query.
+        #[prost(int64, tag="6")]
+        pub data_processed_bytes: i64,
+    }
+    /// Nested message and enum types in `QueryDetail`.
+    pub mod query_detail {
+        /// Query Execution engine.
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+        #[repr(i32)]
+        pub enum Engine {
+            /// An unspecified Engine type.
+            Unspecified = 0,
+            /// Spark-sql engine is specified in Query.
+            SparkSql = 1,
+            /// BigQuery engine is specified in Query.
+            Bigquery = 2,
+        }
+    }
+    /// The type of the event.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EventType {
+        /// An unspecified event type.
+        Unspecified = 0,
+        /// Event for start of a session.
+        Start = 1,
+        /// Event for stop of a session.
+        Stop = 2,
+        /// Query events in the session.
+        Query = 3,
+    }
+    /// Additional information about the Query metadata.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Detail {
+        /// The execution details of the query.
+        #[prost(message, tag="5")]
+        Query(QueryDetail),
     }
 }

@@ -1,3 +1,75 @@
+/// A representation of the Channel resource.
+/// A Channel is a resource on which event providers publish their events.
+/// The published events are delivered through the transport associated with the
+/// channel. Note that a channel is associated with exactly one event provider.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Channel {
+    /// Required. The resource name of the channel. Must be unique within the location
+    /// on the project and must be in
+    /// `projects/{project}/locations/{location}/channels/{channel_id}` format.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Server assigned unique identifier for the channel. The value is a UUID4
+    /// string and guaranteed to remain unchanged until the resource is deleted.
+    #[prost(string, tag="2")]
+    pub uid: ::prost::alloc::string::String,
+    /// Output only. The creation time.
+    #[prost(message, optional, tag="5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The last-modified time.
+    #[prost(message, optional, tag="6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Required. The name of the event provider (e.g. Eventarc SaaS partner) associated
+    /// with the channel. This provider will be granted permissions to publish
+    /// events to the channel. Format:
+    /// `projects/{project}/locations/{location}/providers/{provider_id}`.
+    #[prost(string, tag="7")]
+    pub provider: ::prost::alloc::string::String,
+    /// Output only. The state of a Channel.
+    #[prost(enumeration="channel::State", tag="9")]
+    pub state: i32,
+    /// Output only. The activation token for the channel. The token must be used by the
+    /// provider to register the channel for publishing.
+    #[prost(string, tag="10")]
+    pub activation_token: ::prost::alloc::string::String,
+    #[prost(oneof="channel::Transport", tags="8")]
+    pub transport: ::core::option::Option<channel::Transport>,
+}
+/// Nested message and enum types in `Channel`.
+pub mod channel {
+    /// State lists all the possible states of a Channel
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Default value. This value is unused.
+        Unspecified = 0,
+        /// The PENDING state indicates that a Channel has been created successfully
+        /// and there is a new activation token available for the subscriber to use
+        /// to convey the Channel to the provider in order to create a Connection.
+        Pending = 1,
+        /// The ACTIVE state indicates that a Channel has been successfully
+        /// connected with the event provider.
+        /// An ACTIVE Channel is ready to receive and route events from the
+        /// event provider.
+        Active = 2,
+        /// The INACTIVE state means that the Channel cannot receive events
+        /// permanently. There are two possible cases this state can happen:
+        /// 1. The SaaS provider disconnected from this Channel.
+        /// 2. The Channel activation token has expired but the SaaS provider
+        ///    wasn't connected.
+        /// To re-establish a Connection with a provider, the subscriber
+        /// should create a new Channel and give it to the provider.
+        Inactive = 3,
+    }
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Transport {
+        /// Output only. The name of the Pub/Sub topic created and managed by Eventarc system as
+        /// a transport for the event delivery. Format:
+        /// `projects/{project}/topics/{topic_id}`.
+        #[prost(string, tag="8")]
+        PubsubTopic(::prost::alloc::string::String),
+    }
+}
 /// A representation of the trigger resource.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Trigger {
@@ -212,78 +284,6 @@ pub struct ChannelConnection {
     /// provider project. This field will not be stored in the provider resource.
     #[prost(string, tag="8")]
     pub activation_token: ::prost::alloc::string::String,
-}
-/// A representation of the Channel resource.
-/// A Channel is a resource on which event providers publish their events.
-/// The published events are delivered through the transport associated with the
-/// channel. Note that a channel is associated with exactly one event provider.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Channel {
-    /// Required. The resource name of the channel. Must be unique within the location
-    /// on the project and must be in
-    /// `projects/{project}/locations/{location}/channels/{channel_id}` format.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Server assigned unique identifier for the channel. The value is a UUID4
-    /// string and guaranteed to remain unchanged until the resource is deleted.
-    #[prost(string, tag="2")]
-    pub uid: ::prost::alloc::string::String,
-    /// Output only. The creation time.
-    #[prost(message, optional, tag="5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The last-modified time.
-    #[prost(message, optional, tag="6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Required. The name of the event provider (e.g. Eventarc SaaS partner) associated
-    /// with the channel. This provider will be granted permissions to publish
-    /// events to the channel. Format:
-    /// `projects/{project}/locations/{location}/providers/{provider_id}`.
-    #[prost(string, tag="7")]
-    pub provider: ::prost::alloc::string::String,
-    /// Output only. The state of a Channel.
-    #[prost(enumeration="channel::State", tag="9")]
-    pub state: i32,
-    /// Output only. The activation token for the channel. The token must be used by the
-    /// provider to register the channel for publishing.
-    #[prost(string, tag="10")]
-    pub activation_token: ::prost::alloc::string::String,
-    #[prost(oneof="channel::Transport", tags="8")]
-    pub transport: ::core::option::Option<channel::Transport>,
-}
-/// Nested message and enum types in `Channel`.
-pub mod channel {
-    /// State lists all the possible states of a Channel
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Default value. This value is unused.
-        Unspecified = 0,
-        /// The PENDING state indicates that a Channel has been created successfully
-        /// and there is a new activation token available for the subscriber to use
-        /// to convey the Channel to the provider in order to create a Connection.
-        Pending = 1,
-        /// The ACTIVE state indicates that a Channel has been successfully
-        /// connected with the event provider.
-        /// An ACTIVE Channel is ready to receive and route events from the
-        /// event provider.
-        Active = 2,
-        /// The INACTIVE state means that the Channel cannot receive events
-        /// permanently. There are two possible cases this state can happen:
-        /// 1. The SaaS provider disconnected from this Channel.
-        /// 2. The Channel activation token has expired but the SaaS provider
-        ///    wasn't connected.
-        /// To re-establish a Connection with a provider, the subscriber
-        /// should create a new Channel and give it to the provider.
-        Inactive = 3,
-    }
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Transport {
-        /// Output only. The name of the Pub/Sub topic created and managed by Eventarc system as
-        /// a transport for the event delivery. Format:
-        /// `projects/{project}/topics/{topic_id}`.
-        #[prost(string, tag="8")]
-        PubsubTopic(::prost::alloc::string::String),
-    }
 }
 /// A representation of the Provider resource.
 #[derive(Clone, PartialEq, ::prost::Message)]

@@ -763,6 +763,559 @@ pub mod files {
         DataFiles(super::DataFiles),
     }
 }
+/// Contains information about execution event which happened during processing
+/// Actions Builder conversation request. For an overview of the stages involved
+/// in a conversation request, see
+/// <https://developers.google.com/assistant/conversational/actions.>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExecutionEvent {
+    /// Timestamp when the event happened.
+    #[prost(message, optional, tag="1")]
+    pub event_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// State of the execution during this event.
+    #[prost(message, optional, tag="2")]
+    pub execution_state: ::core::option::Option<ExecutionState>,
+    /// Resulting status of particular execution step.
+    #[prost(message, optional, tag="3")]
+    pub status: ::core::option::Option<super::super::super::rpc::Status>,
+    /// List of warnings generated during execution of this Event. Warnings are
+    /// tips for the developer discovered during the conversation request. These
+    /// are usually non-critical and do not halt the execution of the request. For
+    /// example, a warnings might be generated when webhook tries to override a
+    /// custom Type which does not exist. Errors are reported as a failed status
+    /// code, but warnings can be present even when the status is OK.
+    #[prost(string, repeated, tag="17")]
+    pub warning_messages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Detailed information specific to different of events that may be involved
+    /// in processing a conversation round. The field set here defines the type of
+    /// this event.
+    #[prost(oneof="execution_event::EventData", tags="4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16")]
+    pub event_data: ::core::option::Option<execution_event::EventData>,
+}
+/// Nested message and enum types in `ExecutionEvent`.
+pub mod execution_event {
+    /// Detailed information specific to different of events that may be involved
+    /// in processing a conversation round. The field set here defines the type of
+    /// this event.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum EventData {
+        /// User input handling event.
+        #[prost(message, tag="4")]
+        UserInput(super::UserConversationInput),
+        /// Intent matching event.
+        #[prost(message, tag="5")]
+        IntentMatch(super::IntentMatch),
+        /// Condition evaluation event.
+        #[prost(message, tag="6")]
+        ConditionsEvaluated(super::ConditionsEvaluated),
+        /// OnSceneEnter execution event.
+        #[prost(message, tag="7")]
+        OnSceneEnter(super::OnSceneEnter),
+        /// Webhook request dispatch event.
+        #[prost(message, tag="8")]
+        WebhookRequest(super::WebhookRequest),
+        /// Webhook response receipt event.
+        #[prost(message, tag="9")]
+        WebhookResponse(super::WebhookResponse),
+        /// Webhook-initiated transition event.
+        #[prost(message, tag="10")]
+        WebhookInitiatedTransition(super::WebhookInitiatedTransition),
+        /// Slot matching event.
+        #[prost(message, tag="11")]
+        SlotMatch(super::SlotMatch),
+        /// Slot requesting event.
+        #[prost(message, tag="12")]
+        SlotRequested(super::SlotRequested),
+        /// Slot validation event.
+        #[prost(message, tag="13")]
+        SlotValidated(super::SlotValidated),
+        /// Form filling event.
+        #[prost(message, tag="14")]
+        FormFilled(super::FormFilled),
+        /// Waiting-for-user-input event.
+        #[prost(message, tag="15")]
+        WaitingUserInput(super::WaitingForUserInput),
+        /// End-of-conversation event.
+        #[prost(message, tag="16")]
+        EndConversation(super::EndConversation),
+    }
+}
+/// Current state of the execution.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExecutionState {
+    /// ID of the scene which is currently  active.
+    #[prost(string, tag="1")]
+    pub current_scene_id: ::prost::alloc::string::String,
+    /// State of the session storage:
+    /// <https://developers.google.com/assistant/conversational/storage-session>
+    #[prost(message, optional, tag="2")]
+    pub session_storage: ::core::option::Option<::prost_types::Struct>,
+    /// State of the slots filling, if applicable:
+    /// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
+    #[prost(message, optional, tag="5")]
+    pub slots: ::core::option::Option<Slots>,
+    /// Prompt queue:
+    /// <https://developers.google.com/assistant/conversational/prompts>
+    #[prost(message, repeated, tag="7")]
+    pub prompt_queue: ::prost::alloc::vec::Vec<conversation::Prompt>,
+    /// State of the user storage:
+    /// <https://developers.google.com/assistant/conversational/storage-user>
+    #[prost(message, optional, tag="6")]
+    pub user_storage: ::core::option::Option<::prost_types::Struct>,
+    /// State of the home storage:
+    /// <https://developers.google.com/assistant/conversational/storage-home>
+    #[prost(message, optional, tag="8")]
+    pub household_storage: ::core::option::Option<::prost_types::Struct>,
+}
+/// Represents the current state of a the scene's slots.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Slots {
+    /// The current status of slot filling.
+    #[prost(enumeration="conversation::SlotFillingStatus", tag="2")]
+    pub status: i32,
+    /// The slots associated with the current scene.
+    #[prost(btree_map="string, message", tag="3")]
+    pub slots: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, conversation::Slot>,
+}
+/// Information related to user input.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UserConversationInput {
+    /// Type of user input. E.g. keyboard, voice, touch, etc.
+    #[prost(string, tag="1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// Original text input from the user.
+    #[prost(string, tag="2")]
+    pub original_query: ::prost::alloc::string::String,
+}
+/// Information about triggered intent match (global or within a scene):
+/// <https://developers.google.com/assistant/conversational/intents>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct IntentMatch {
+    /// Intent id which triggered this interaction.
+    #[prost(string, tag="1")]
+    pub intent_id: ::prost::alloc::string::String,
+    /// Parameters of intent which triggered this interaction.
+    #[prost(btree_map="string, message", tag="5")]
+    pub intent_parameters: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, conversation::IntentParameterValue>,
+    /// Name of the handler attached to this interaction.
+    #[prost(string, tag="3")]
+    pub handler: ::prost::alloc::string::String,
+    /// Scene to which this interaction leads to.
+    #[prost(string, tag="4")]
+    pub next_scene_id: ::prost::alloc::string::String,
+}
+/// Results of conditions evaluation:
+/// <https://developers.google.com/assistant/conversational/scenes#conditions>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ConditionsEvaluated {
+    /// List of conditions which were evaluated to 'false'.
+    #[prost(message, repeated, tag="1")]
+    pub failed_conditions: ::prost::alloc::vec::Vec<Condition>,
+    /// The first condition which was evaluated to 'true', if any.
+    #[prost(message, optional, tag="2")]
+    pub success_condition: ::core::option::Option<Condition>,
+}
+/// Evaluated condition.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Condition {
+    /// Expression specified in this condition.
+    #[prost(string, tag="1")]
+    pub expression: ::prost::alloc::string::String,
+    /// Handler name specified in evaluated condition.
+    #[prost(string, tag="2")]
+    pub handler: ::prost::alloc::string::String,
+    /// Destination scene specified in evaluated condition.
+    #[prost(string, tag="3")]
+    pub next_scene_id: ::prost::alloc::string::String,
+}
+/// Information about execution of onSceneEnter stage:
+/// <https://developers.google.com/assistant/conversational/scenes#on_enter>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OnSceneEnter {
+    /// Handler name specified in onSceneEnter event.
+    #[prost(string, tag="1")]
+    pub handler: ::prost::alloc::string::String,
+}
+/// Event triggered by destination scene returned from webhook:
+/// <https://developers.google.com/assistant/conversational/webhooks#transition_scenes>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WebhookInitiatedTransition {
+    /// ID of the scene the transition is leading to.
+    #[prost(string, tag="1")]
+    pub next_scene_id: ::prost::alloc::string::String,
+}
+/// Information about a request dispatched to the Action webhook:
+/// <https://developers.google.com/assistant/conversational/webhooks#payloads>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WebhookRequest {
+    /// Payload of the webhook request.
+    #[prost(string, tag="1")]
+    pub request_json: ::prost::alloc::string::String,
+}
+/// Information about a response received from the Action webhook:
+/// <https://developers.google.com/assistant/conversational/webhooks#payloads>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WebhookResponse {
+    /// Payload of the webhook response.
+    #[prost(string, tag="1")]
+    pub response_json: ::prost::alloc::string::String,
+}
+/// Information about matched slot(s):
+/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SlotMatch {
+    /// Parameters extracted by NLU from user input.
+    #[prost(btree_map="string, message", tag="2")]
+    pub nlu_parameters: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, conversation::IntentParameterValue>,
+}
+/// Information about currently requested slot:
+/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SlotRequested {
+    /// Name of the requested slot.
+    #[prost(string, tag="1")]
+    pub slot: ::prost::alloc::string::String,
+    /// Slot prompt.
+    #[prost(message, optional, tag="3")]
+    pub prompt: ::core::option::Option<conversation::Prompt>,
+}
+/// Event which happens after webhook validation was finished for slot(s):
+/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SlotValidated {
+}
+/// Event which happens when form is fully filled:
+/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FormFilled {
+}
+/// Event which happens when system needs user input:
+/// <https://developers.google.com/assistant/conversational/scenes#input>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WaitingForUserInput {
+}
+/// Event which informs that conversation with agent was ended.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EndConversation {
+}
+/// Request for playing a round of the conversation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SendInteractionRequest {
+    /// Required. The project being tested, indicated by the Project ID.
+    /// Format: projects/{project}
+    #[prost(string, tag="1")]
+    pub project: ::prost::alloc::string::String,
+    /// Required. Input provided by the user.
+    #[prost(message, optional, tag="2")]
+    pub input: ::core::option::Option<UserInput>,
+    /// Required. Properties of the device used for interacting with the Action.
+    #[prost(message, optional, tag="3")]
+    pub device_properties: ::core::option::Option<DeviceProperties>,
+    /// Opaque token that must be passed as received from SendInteractionResponse
+    /// on the previous interaction. This can be left unset in order to start a new
+    /// conversation, either as the first interaction of a testing session or to
+    /// abandon a previous conversation and start a new one.
+    #[prost(string, tag="4")]
+    pub conversation_token: ::prost::alloc::string::String,
+}
+/// User input provided on a conversation round.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UserInput {
+    /// Content of the input sent by the user.
+    #[prost(string, tag="1")]
+    pub query: ::prost::alloc::string::String,
+    /// Type of the input.
+    #[prost(enumeration="user_input::InputType", tag="2")]
+    pub r#type: i32,
+}
+/// Nested message and enum types in `UserInput`.
+pub mod user_input {
+    /// Indicates the input source, typed query or voice query.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum InputType {
+        /// Unspecified input source.
+        Unspecified = 0,
+        /// Query from a GUI interaction.
+        Touch = 1,
+        /// Voice query.
+        Voice = 2,
+        /// Typed query.
+        Keyboard = 3,
+        /// The action was triggered by a URL link.
+        Url = 4,
+    }
+}
+/// Properties of device relevant to a conversation round.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeviceProperties {
+    /// Surface used for interacting with the Action.
+    #[prost(enumeration="device_properties::Surface", tag="1")]
+    pub surface: i32,
+    /// Device location such as latitude, longitude, and formatted address.
+    #[prost(message, optional, tag="2")]
+    pub location: ::core::option::Option<Location>,
+    /// Locale as set on the device.
+    /// The format should follow BCP 47: <https://tools.ietf.org/html/bcp47>
+    /// Examples: en, en-US, es-419 (more examples at
+    /// <https://tools.ietf.org/html/bcp47#appendix-A>).
+    #[prost(string, tag="3")]
+    pub locale: ::prost::alloc::string::String,
+    /// Time zone as set on the device.
+    /// The format should follow the IANA Time Zone Database, e.g.
+    /// "America/New_York": <https://www.iana.org/time-zones>
+    #[prost(string, tag="4")]
+    pub time_zone: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `DeviceProperties`.
+pub mod device_properties {
+    /// Possible surfaces used to interact with the Action.
+    /// Additional values may be included in the future.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Surface {
+        /// Default value. This value is unused.
+        Unspecified = 0,
+        /// Speaker (e.g. Google Home).
+        Speaker = 1,
+        /// Phone.
+        Phone = 2,
+        /// Allo Chat.
+        Allo = 3,
+        /// Smart Display Device.
+        SmartDisplay = 4,
+        /// KaiOS.
+        KaiOs = 5,
+    }
+}
+/// Container that represents a location.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Location {
+    /// Geo coordinates.
+    /// Requires the \[DEVICE_PRECISE_LOCATION\]
+    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] permission.
+    #[prost(message, optional, tag="1")]
+    pub coordinates: ::core::option::Option<super::super::super::r#type::LatLng>,
+    /// Display address, e.g., "1600 Amphitheatre Pkwy, Mountain View, CA 94043".
+    /// Requires the \[DEVICE_PRECISE_LOCATION\]
+    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] permission.
+    #[prost(string, tag="2")]
+    pub formatted_address: ::prost::alloc::string::String,
+    /// Zip code.
+    /// Requires the \[DEVICE_PRECISE_LOCATION\]
+    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] or
+    /// \[DEVICE_COARSE_LOCATION\]
+    /// \[google.actions.v2.Permission.DEVICE_COARSE_LOCATION\] permission.
+    #[prost(string, tag="3")]
+    pub zip_code: ::prost::alloc::string::String,
+    /// City.
+    /// Requires the \[DEVICE_PRECISE_LOCATION\]
+    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] or
+    /// \[DEVICE_COARSE_LOCATION\]
+    /// \[google.actions.v2.Permission.DEVICE_COARSE_LOCATION\] permission.
+    #[prost(string, tag="4")]
+    pub city: ::prost::alloc::string::String,
+}
+/// Response to a round of the conversation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SendInteractionResponse {
+    /// Output provided to the user.
+    #[prost(message, optional, tag="1")]
+    pub output: ::core::option::Option<Output>,
+    /// Diagnostics information that explains how the request was handled.
+    #[prost(message, optional, tag="2")]
+    pub diagnostics: ::core::option::Option<Diagnostics>,
+    /// Opaque token to be set on SendInteractionRequest on the next RPC call in
+    /// order to continue the same conversation.
+    #[prost(string, tag="3")]
+    pub conversation_token: ::prost::alloc::string::String,
+}
+/// User-visible output to the conversation round.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Output {
+    /// Spoken response sent to user as a plain string.
+    #[prost(string, tag="1")]
+    pub text: ::prost::alloc::string::String,
+    /// Speech content produced by the Action. This may include markup elements
+    /// such as SSML.
+    #[prost(string, repeated, tag="2")]
+    pub speech: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Interactive Canvas content.
+    #[prost(message, optional, tag="3")]
+    pub canvas: ::core::option::Option<conversation::Canvas>,
+    /// State of the prompt at the end of the conversation round.
+    /// More information about the prompt:
+    /// <https://developers.google.com/assistant/conversational/prompts>
+    #[prost(message, optional, tag="4")]
+    pub actions_builder_prompt: ::core::option::Option<conversation::Prompt>,
+}
+/// Diagnostics information related to the conversation round.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Diagnostics {
+    /// List of events with details about processing of the conversation round
+    /// throughout the stages of the Actions Builder interaction model.
+    /// Populated for Actions Builder & Actions SDK apps only.
+    #[prost(message, repeated, tag="1")]
+    pub actions_builder_events: ::prost::alloc::vec::Vec<ExecutionEvent>,
+}
+/// Request for finding matching intents.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MatchIntentsRequest {
+    /// Required. The project being tested, indicated by the Project ID.
+    /// Format: projects/{project}
+    #[prost(string, tag="1")]
+    pub project: ::prost::alloc::string::String,
+    /// Required. User query as plain text.
+    #[prost(string, tag="2")]
+    pub query: ::prost::alloc::string::String,
+    /// Required. Locale to use to evaluate the query, such as "en".
+    /// The format should follow BCP 47: <https://tools.ietf.org/html/bcp47>
+    /// See the list of supported languages in
+    /// <https://developers.google.com/assistant/console/languages-locales>
+    #[prost(string, tag="3")]
+    pub locale: ::prost::alloc::string::String,
+}
+/// Response for finding matching intents.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MatchIntentsResponse {
+    /// Intents matched, ordered from most to least relevant. Only the first
+    /// 50 matches are returned.
+    #[prost(message, repeated, tag="1")]
+    pub matched_intents: ::prost::alloc::vec::Vec<conversation::Intent>,
+}
+/// Request for setting Web & App Activity preferences.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SetWebAndAppActivityControlRequest {
+    /// Whether the setting should be set to an enabled or disabled state.
+    #[prost(bool, tag="1")]
+    pub enabled: bool,
+}
+/// Generated client implementations.
+pub mod actions_testing_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// Actions Testing API which allows developers to run automated tests.
+    #[derive(Debug, Clone)]
+    pub struct ActionsTestingClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ActionsTestingClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ActionsTestingClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            ActionsTestingClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Plays one round of the conversation.
+        pub async fn send_interaction(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SendInteractionRequest>,
+        ) -> Result<tonic::Response<super::SendInteractionResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.actions.sdk.v2.ActionsTesting/SendInteraction",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Finds the intents that match a given query.
+        pub async fn match_intents(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MatchIntentsRequest>,
+        ) -> Result<tonic::Response<super::MatchIntentsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.actions.sdk.v2.ActionsTesting/MatchIntents",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Sets the Web & App Activity control on a service account.
+        ///
+        /// It is necessary to have this setting enabled in order to use call Actions.
+        /// The setting is originally disabled for service accounts, and it is
+        /// preserved until set to a different value. This means it only needs to be
+        /// enabled once per account (and not necessarily once per test), unless it is
+        /// later disabled.
+        ///
+        /// Returns an error if the caller is not a service account. User accounts can
+        /// change this setting via the Activity Controls page. See
+        /// https://support.google.com/websearch/answer/54068.
+        pub async fn set_web_and_app_activity_control(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SetWebAndAppActivityControlRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.actions.sdk.v2.ActionsTesting/SetWebAndAppActivityControl",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// Wrapper for repeated validation result.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ValidationResults {
@@ -792,6 +1345,22 @@ pub mod validation_result {
         #[prost(string, tag="1")]
         pub language_code: ::prost::alloc::string::String,
     }
+}
+/// Definition of release channel resource.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReleaseChannel {
+    /// The unique name of the release channel in the following format.
+    /// `projects/{project}/releaseChannels/{release_channel}`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Version currently deployed to this release channel in the following format:
+    /// `projects/{project}/versions/{version}`.
+    #[prost(string, tag="2")]
+    pub current_version: ::prost::alloc::string::String,
+    /// Version to be deployed to this release channel in the following format:
+    /// `projects/{project}/versions/{version}`.
+    #[prost(string, tag="3")]
+    pub pending_version: ::prost::alloc::string::String,
 }
 /// Definition of version resource.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -853,22 +1422,6 @@ pub mod version {
             Deleted = 9,
         }
     }
-}
-/// Definition of release channel resource.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReleaseChannel {
-    /// The unique name of the release channel in the following format.
-    /// `projects/{project}/releaseChannels/{release_channel}`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Version currently deployed to this release channel in the following format:
-    /// `projects/{project}/versions/{version}`.
-    #[prost(string, tag="2")]
-    pub current_version: ::prost::alloc::string::String,
-    /// Version to be deployed to this release channel in the following format:
-    /// `projects/{project}/versions/{version}`.
-    #[prost(string, tag="3")]
-    pub pending_version: ::prost::alloc::string::String,
 }
 /// Streaming RPC request for WriteDraft.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1439,559 +1992,6 @@ pub mod actions_sdk_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.actions.sdk.v2.ActionsSdk/ListVersions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Contains information about execution event which happened during processing
-/// Actions Builder conversation request. For an overview of the stages involved
-/// in a conversation request, see
-/// <https://developers.google.com/assistant/conversational/actions.>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExecutionEvent {
-    /// Timestamp when the event happened.
-    #[prost(message, optional, tag="1")]
-    pub event_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// State of the execution during this event.
-    #[prost(message, optional, tag="2")]
-    pub execution_state: ::core::option::Option<ExecutionState>,
-    /// Resulting status of particular execution step.
-    #[prost(message, optional, tag="3")]
-    pub status: ::core::option::Option<super::super::super::rpc::Status>,
-    /// List of warnings generated during execution of this Event. Warnings are
-    /// tips for the developer discovered during the conversation request. These
-    /// are usually non-critical and do not halt the execution of the request. For
-    /// example, a warnings might be generated when webhook tries to override a
-    /// custom Type which does not exist. Errors are reported as a failed status
-    /// code, but warnings can be present even when the status is OK.
-    #[prost(string, repeated, tag="17")]
-    pub warning_messages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Detailed information specific to different of events that may be involved
-    /// in processing a conversation round. The field set here defines the type of
-    /// this event.
-    #[prost(oneof="execution_event::EventData", tags="4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16")]
-    pub event_data: ::core::option::Option<execution_event::EventData>,
-}
-/// Nested message and enum types in `ExecutionEvent`.
-pub mod execution_event {
-    /// Detailed information specific to different of events that may be involved
-    /// in processing a conversation round. The field set here defines the type of
-    /// this event.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum EventData {
-        /// User input handling event.
-        #[prost(message, tag="4")]
-        UserInput(super::UserConversationInput),
-        /// Intent matching event.
-        #[prost(message, tag="5")]
-        IntentMatch(super::IntentMatch),
-        /// Condition evaluation event.
-        #[prost(message, tag="6")]
-        ConditionsEvaluated(super::ConditionsEvaluated),
-        /// OnSceneEnter execution event.
-        #[prost(message, tag="7")]
-        OnSceneEnter(super::OnSceneEnter),
-        /// Webhook request dispatch event.
-        #[prost(message, tag="8")]
-        WebhookRequest(super::WebhookRequest),
-        /// Webhook response receipt event.
-        #[prost(message, tag="9")]
-        WebhookResponse(super::WebhookResponse),
-        /// Webhook-initiated transition event.
-        #[prost(message, tag="10")]
-        WebhookInitiatedTransition(super::WebhookInitiatedTransition),
-        /// Slot matching event.
-        #[prost(message, tag="11")]
-        SlotMatch(super::SlotMatch),
-        /// Slot requesting event.
-        #[prost(message, tag="12")]
-        SlotRequested(super::SlotRequested),
-        /// Slot validation event.
-        #[prost(message, tag="13")]
-        SlotValidated(super::SlotValidated),
-        /// Form filling event.
-        #[prost(message, tag="14")]
-        FormFilled(super::FormFilled),
-        /// Waiting-for-user-input event.
-        #[prost(message, tag="15")]
-        WaitingUserInput(super::WaitingForUserInput),
-        /// End-of-conversation event.
-        #[prost(message, tag="16")]
-        EndConversation(super::EndConversation),
-    }
-}
-/// Current state of the execution.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExecutionState {
-    /// ID of the scene which is currently  active.
-    #[prost(string, tag="1")]
-    pub current_scene_id: ::prost::alloc::string::String,
-    /// State of the session storage:
-    /// <https://developers.google.com/assistant/conversational/storage-session>
-    #[prost(message, optional, tag="2")]
-    pub session_storage: ::core::option::Option<::prost_types::Struct>,
-    /// State of the slots filling, if applicable:
-    /// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
-    #[prost(message, optional, tag="5")]
-    pub slots: ::core::option::Option<Slots>,
-    /// Prompt queue:
-    /// <https://developers.google.com/assistant/conversational/prompts>
-    #[prost(message, repeated, tag="7")]
-    pub prompt_queue: ::prost::alloc::vec::Vec<conversation::Prompt>,
-    /// State of the user storage:
-    /// <https://developers.google.com/assistant/conversational/storage-user>
-    #[prost(message, optional, tag="6")]
-    pub user_storage: ::core::option::Option<::prost_types::Struct>,
-    /// State of the home storage:
-    /// <https://developers.google.com/assistant/conversational/storage-home>
-    #[prost(message, optional, tag="8")]
-    pub household_storage: ::core::option::Option<::prost_types::Struct>,
-}
-/// Represents the current state of a the scene's slots.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Slots {
-    /// The current status of slot filling.
-    #[prost(enumeration="conversation::SlotFillingStatus", tag="2")]
-    pub status: i32,
-    /// The slots associated with the current scene.
-    #[prost(btree_map="string, message", tag="3")]
-    pub slots: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, conversation::Slot>,
-}
-/// Information related to user input.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UserConversationInput {
-    /// Type of user input. E.g. keyboard, voice, touch, etc.
-    #[prost(string, tag="1")]
-    pub r#type: ::prost::alloc::string::String,
-    /// Original text input from the user.
-    #[prost(string, tag="2")]
-    pub original_query: ::prost::alloc::string::String,
-}
-/// Information about triggered intent match (global or within a scene):
-/// <https://developers.google.com/assistant/conversational/intents>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct IntentMatch {
-    /// Intent id which triggered this interaction.
-    #[prost(string, tag="1")]
-    pub intent_id: ::prost::alloc::string::String,
-    /// Parameters of intent which triggered this interaction.
-    #[prost(btree_map="string, message", tag="5")]
-    pub intent_parameters: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, conversation::IntentParameterValue>,
-    /// Name of the handler attached to this interaction.
-    #[prost(string, tag="3")]
-    pub handler: ::prost::alloc::string::String,
-    /// Scene to which this interaction leads to.
-    #[prost(string, tag="4")]
-    pub next_scene_id: ::prost::alloc::string::String,
-}
-/// Results of conditions evaluation:
-/// <https://developers.google.com/assistant/conversational/scenes#conditions>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConditionsEvaluated {
-    /// List of conditions which were evaluated to 'false'.
-    #[prost(message, repeated, tag="1")]
-    pub failed_conditions: ::prost::alloc::vec::Vec<Condition>,
-    /// The first condition which was evaluated to 'true', if any.
-    #[prost(message, optional, tag="2")]
-    pub success_condition: ::core::option::Option<Condition>,
-}
-/// Evaluated condition.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Condition {
-    /// Expression specified in this condition.
-    #[prost(string, tag="1")]
-    pub expression: ::prost::alloc::string::String,
-    /// Handler name specified in evaluated condition.
-    #[prost(string, tag="2")]
-    pub handler: ::prost::alloc::string::String,
-    /// Destination scene specified in evaluated condition.
-    #[prost(string, tag="3")]
-    pub next_scene_id: ::prost::alloc::string::String,
-}
-/// Information about execution of onSceneEnter stage:
-/// <https://developers.google.com/assistant/conversational/scenes#on_enter>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct OnSceneEnter {
-    /// Handler name specified in onSceneEnter event.
-    #[prost(string, tag="1")]
-    pub handler: ::prost::alloc::string::String,
-}
-/// Event triggered by destination scene returned from webhook:
-/// <https://developers.google.com/assistant/conversational/webhooks#transition_scenes>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WebhookInitiatedTransition {
-    /// ID of the scene the transition is leading to.
-    #[prost(string, tag="1")]
-    pub next_scene_id: ::prost::alloc::string::String,
-}
-/// Information about a request dispatched to the Action webhook:
-/// <https://developers.google.com/assistant/conversational/webhooks#payloads>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WebhookRequest {
-    /// Payload of the webhook request.
-    #[prost(string, tag="1")]
-    pub request_json: ::prost::alloc::string::String,
-}
-/// Information about a response received from the Action webhook:
-/// <https://developers.google.com/assistant/conversational/webhooks#payloads>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WebhookResponse {
-    /// Payload of the webhook response.
-    #[prost(string, tag="1")]
-    pub response_json: ::prost::alloc::string::String,
-}
-/// Information about matched slot(s):
-/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SlotMatch {
-    /// Parameters extracted by NLU from user input.
-    #[prost(btree_map="string, message", tag="2")]
-    pub nlu_parameters: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, conversation::IntentParameterValue>,
-}
-/// Information about currently requested slot:
-/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SlotRequested {
-    /// Name of the requested slot.
-    #[prost(string, tag="1")]
-    pub slot: ::prost::alloc::string::String,
-    /// Slot prompt.
-    #[prost(message, optional, tag="3")]
-    pub prompt: ::core::option::Option<conversation::Prompt>,
-}
-/// Event which happens after webhook validation was finished for slot(s):
-/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SlotValidated {
-}
-/// Event which happens when form is fully filled:
-/// <https://developers.google.com/assistant/conversational/scenes#slot_filling>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FormFilled {
-}
-/// Event which happens when system needs user input:
-/// <https://developers.google.com/assistant/conversational/scenes#input>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WaitingForUserInput {
-}
-/// Event which informs that conversation with agent was ended.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EndConversation {
-}
-/// Request for playing a round of the conversation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SendInteractionRequest {
-    /// Required. The project being tested, indicated by the Project ID.
-    /// Format: projects/{project}
-    #[prost(string, tag="1")]
-    pub project: ::prost::alloc::string::String,
-    /// Required. Input provided by the user.
-    #[prost(message, optional, tag="2")]
-    pub input: ::core::option::Option<UserInput>,
-    /// Required. Properties of the device used for interacting with the Action.
-    #[prost(message, optional, tag="3")]
-    pub device_properties: ::core::option::Option<DeviceProperties>,
-    /// Opaque token that must be passed as received from SendInteractionResponse
-    /// on the previous interaction. This can be left unset in order to start a new
-    /// conversation, either as the first interaction of a testing session or to
-    /// abandon a previous conversation and start a new one.
-    #[prost(string, tag="4")]
-    pub conversation_token: ::prost::alloc::string::String,
-}
-/// User input provided on a conversation round.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UserInput {
-    /// Content of the input sent by the user.
-    #[prost(string, tag="1")]
-    pub query: ::prost::alloc::string::String,
-    /// Type of the input.
-    #[prost(enumeration="user_input::InputType", tag="2")]
-    pub r#type: i32,
-}
-/// Nested message and enum types in `UserInput`.
-pub mod user_input {
-    /// Indicates the input source, typed query or voice query.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum InputType {
-        /// Unspecified input source.
-        Unspecified = 0,
-        /// Query from a GUI interaction.
-        Touch = 1,
-        /// Voice query.
-        Voice = 2,
-        /// Typed query.
-        Keyboard = 3,
-        /// The action was triggered by a URL link.
-        Url = 4,
-    }
-}
-/// Properties of device relevant to a conversation round.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeviceProperties {
-    /// Surface used for interacting with the Action.
-    #[prost(enumeration="device_properties::Surface", tag="1")]
-    pub surface: i32,
-    /// Device location such as latitude, longitude, and formatted address.
-    #[prost(message, optional, tag="2")]
-    pub location: ::core::option::Option<Location>,
-    /// Locale as set on the device.
-    /// The format should follow BCP 47: <https://tools.ietf.org/html/bcp47>
-    /// Examples: en, en-US, es-419 (more examples at
-    /// <https://tools.ietf.org/html/bcp47#appendix-A>).
-    #[prost(string, tag="3")]
-    pub locale: ::prost::alloc::string::String,
-    /// Time zone as set on the device.
-    /// The format should follow the IANA Time Zone Database, e.g.
-    /// "America/New_York": <https://www.iana.org/time-zones>
-    #[prost(string, tag="4")]
-    pub time_zone: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `DeviceProperties`.
-pub mod device_properties {
-    /// Possible surfaces used to interact with the Action.
-    /// Additional values may be included in the future.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Surface {
-        /// Default value. This value is unused.
-        Unspecified = 0,
-        /// Speaker (e.g. Google Home).
-        Speaker = 1,
-        /// Phone.
-        Phone = 2,
-        /// Allo Chat.
-        Allo = 3,
-        /// Smart Display Device.
-        SmartDisplay = 4,
-        /// KaiOS.
-        KaiOs = 5,
-    }
-}
-/// Container that represents a location.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Location {
-    /// Geo coordinates.
-    /// Requires the \[DEVICE_PRECISE_LOCATION\]
-    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] permission.
-    #[prost(message, optional, tag="1")]
-    pub coordinates: ::core::option::Option<super::super::super::r#type::LatLng>,
-    /// Display address, e.g., "1600 Amphitheatre Pkwy, Mountain View, CA 94043".
-    /// Requires the \[DEVICE_PRECISE_LOCATION\]
-    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] permission.
-    #[prost(string, tag="2")]
-    pub formatted_address: ::prost::alloc::string::String,
-    /// Zip code.
-    /// Requires the \[DEVICE_PRECISE_LOCATION\]
-    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] or
-    /// \[DEVICE_COARSE_LOCATION\]
-    /// \[google.actions.v2.Permission.DEVICE_COARSE_LOCATION\] permission.
-    #[prost(string, tag="3")]
-    pub zip_code: ::prost::alloc::string::String,
-    /// City.
-    /// Requires the \[DEVICE_PRECISE_LOCATION\]
-    /// \[google.actions.v2.Permission.DEVICE_PRECISE_LOCATION\] or
-    /// \[DEVICE_COARSE_LOCATION\]
-    /// \[google.actions.v2.Permission.DEVICE_COARSE_LOCATION\] permission.
-    #[prost(string, tag="4")]
-    pub city: ::prost::alloc::string::String,
-}
-/// Response to a round of the conversation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SendInteractionResponse {
-    /// Output provided to the user.
-    #[prost(message, optional, tag="1")]
-    pub output: ::core::option::Option<Output>,
-    /// Diagnostics information that explains how the request was handled.
-    #[prost(message, optional, tag="2")]
-    pub diagnostics: ::core::option::Option<Diagnostics>,
-    /// Opaque token to be set on SendInteractionRequest on the next RPC call in
-    /// order to continue the same conversation.
-    #[prost(string, tag="3")]
-    pub conversation_token: ::prost::alloc::string::String,
-}
-/// User-visible output to the conversation round.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Output {
-    /// Spoken response sent to user as a plain string.
-    #[prost(string, tag="1")]
-    pub text: ::prost::alloc::string::String,
-    /// Speech content produced by the Action. This may include markup elements
-    /// such as SSML.
-    #[prost(string, repeated, tag="2")]
-    pub speech: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Interactive Canvas content.
-    #[prost(message, optional, tag="3")]
-    pub canvas: ::core::option::Option<conversation::Canvas>,
-    /// State of the prompt at the end of the conversation round.
-    /// More information about the prompt:
-    /// <https://developers.google.com/assistant/conversational/prompts>
-    #[prost(message, optional, tag="4")]
-    pub actions_builder_prompt: ::core::option::Option<conversation::Prompt>,
-}
-/// Diagnostics information related to the conversation round.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Diagnostics {
-    /// List of events with details about processing of the conversation round
-    /// throughout the stages of the Actions Builder interaction model.
-    /// Populated for Actions Builder & Actions SDK apps only.
-    #[prost(message, repeated, tag="1")]
-    pub actions_builder_events: ::prost::alloc::vec::Vec<ExecutionEvent>,
-}
-/// Request for finding matching intents.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MatchIntentsRequest {
-    /// Required. The project being tested, indicated by the Project ID.
-    /// Format: projects/{project}
-    #[prost(string, tag="1")]
-    pub project: ::prost::alloc::string::String,
-    /// Required. User query as plain text.
-    #[prost(string, tag="2")]
-    pub query: ::prost::alloc::string::String,
-    /// Required. Locale to use to evaluate the query, such as "en".
-    /// The format should follow BCP 47: <https://tools.ietf.org/html/bcp47>
-    /// See the list of supported languages in
-    /// <https://developers.google.com/assistant/console/languages-locales>
-    #[prost(string, tag="3")]
-    pub locale: ::prost::alloc::string::String,
-}
-/// Response for finding matching intents.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MatchIntentsResponse {
-    /// Intents matched, ordered from most to least relevant. Only the first
-    /// 50 matches are returned.
-    #[prost(message, repeated, tag="1")]
-    pub matched_intents: ::prost::alloc::vec::Vec<conversation::Intent>,
-}
-/// Request for setting Web & App Activity preferences.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SetWebAndAppActivityControlRequest {
-    /// Whether the setting should be set to an enabled or disabled state.
-    #[prost(bool, tag="1")]
-    pub enabled: bool,
-}
-/// Generated client implementations.
-pub mod actions_testing_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// Actions Testing API which allows developers to run automated tests.
-    #[derive(Debug, Clone)]
-    pub struct ActionsTestingClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ActionsTestingClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ActionsTestingClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            ActionsTestingClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Plays one round of the conversation.
-        pub async fn send_interaction(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SendInteractionRequest>,
-        ) -> Result<tonic::Response<super::SendInteractionResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.actions.sdk.v2.ActionsTesting/SendInteraction",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Finds the intents that match a given query.
-        pub async fn match_intents(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MatchIntentsRequest>,
-        ) -> Result<tonic::Response<super::MatchIntentsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.actions.sdk.v2.ActionsTesting/MatchIntents",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Sets the Web & App Activity control on a service account.
-        ///
-        /// It is necessary to have this setting enabled in order to use call Actions.
-        /// The setting is originally disabled for service accounts, and it is
-        /// preserved until set to a different value. This means it only needs to be
-        /// enabled once per account (and not necessarily once per test), unless it is
-        /// later disabled.
-        ///
-        /// Returns an error if the caller is not a service account. User accounts can
-        /// change this setting via the Activity Controls page. See
-        /// https://support.google.com/websearch/answer/54068.
-        pub async fn set_web_and_app_activity_control(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SetWebAndAppActivityControlRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.actions.sdk.v2.ActionsTesting/SetWebAndAppActivityControl",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

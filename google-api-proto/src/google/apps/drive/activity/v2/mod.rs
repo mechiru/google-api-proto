@@ -894,58 +894,6 @@ pub mod settings_change {
         }
     }
 }
-/// Response message for querying Drive activity.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryDriveActivityResponse {
-    /// List of activity requested.
-    #[prost(message, repeated, tag="1")]
-    pub activities: ::prost::alloc::vec::Vec<DriveActivity>,
-    /// Token to retrieve the next page of results, or
-    /// empty if there are no more results in the list.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// A single Drive activity comprising one or more Actions by one or more
-/// Actors on one or more Targets. Some Action groupings occur spontaneously,
-/// such as moving an item into a shared folder triggering a permission change.
-/// Other groupings of related Actions, such as multiple Actors editing one item
-/// or moving multiple files into a new folder, are controlled by the selection
-/// of a ConsolidationStrategy in the QueryDriveActivityRequest.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DriveActivity {
-    /// Key information about the primary action for this activity. This is either
-    /// representative, or the most important, of all actions in the activity,
-    /// according to the ConsolidationStrategy in the request.
-    #[prost(message, optional, tag="2")]
-    pub primary_action_detail: ::core::option::Option<ActionDetail>,
-    /// All actor(s) responsible for the activity.
-    #[prost(message, repeated, tag="3")]
-    pub actors: ::prost::alloc::vec::Vec<Actor>,
-    /// Details on all actions in this activity.
-    #[prost(message, repeated, tag="4")]
-    pub actions: ::prost::alloc::vec::Vec<Action>,
-    /// All Google Drive objects this activity is about (e.g. file, folder, drive).
-    /// This represents the state of the target immediately after the actions
-    /// occurred.
-    #[prost(message, repeated, tag="5")]
-    pub targets: ::prost::alloc::vec::Vec<Target>,
-    /// The period of time when this activity occurred.
-    #[prost(oneof="drive_activity::Time", tags="6, 7")]
-    pub time: ::core::option::Option<drive_activity::Time>,
-}
-/// Nested message and enum types in `DriveActivity`.
-pub mod drive_activity {
-    /// The period of time when this activity occurred.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Time {
-        /// The activity occurred at this specific time.
-        #[prost(message, tag="6")]
-        Timestamp(::prost_types::Timestamp),
-        /// The activity occurred over this time range.
-        #[prost(message, tag="7")]
-        TimeRange(super::TimeRange),
-    }
-}
 /// The request message for querying Drive activity.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct QueryDriveActivityRequest {
@@ -1041,6 +989,58 @@ pub mod consolidation_strategy {
         /// The individual activities are consolidated using the legacy strategy.
         #[prost(message, tag="2")]
         Legacy(Legacy),
+    }
+}
+/// Response message for querying Drive activity.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryDriveActivityResponse {
+    /// List of activity requested.
+    #[prost(message, repeated, tag="1")]
+    pub activities: ::prost::alloc::vec::Vec<DriveActivity>,
+    /// Token to retrieve the next page of results, or
+    /// empty if there are no more results in the list.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// A single Drive activity comprising one or more Actions by one or more
+/// Actors on one or more Targets. Some Action groupings occur spontaneously,
+/// such as moving an item into a shared folder triggering a permission change.
+/// Other groupings of related Actions, such as multiple Actors editing one item
+/// or moving multiple files into a new folder, are controlled by the selection
+/// of a ConsolidationStrategy in the QueryDriveActivityRequest.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DriveActivity {
+    /// Key information about the primary action for this activity. This is either
+    /// representative, or the most important, of all actions in the activity,
+    /// according to the ConsolidationStrategy in the request.
+    #[prost(message, optional, tag="2")]
+    pub primary_action_detail: ::core::option::Option<ActionDetail>,
+    /// All actor(s) responsible for the activity.
+    #[prost(message, repeated, tag="3")]
+    pub actors: ::prost::alloc::vec::Vec<Actor>,
+    /// Details on all actions in this activity.
+    #[prost(message, repeated, tag="4")]
+    pub actions: ::prost::alloc::vec::Vec<Action>,
+    /// All Google Drive objects this activity is about (e.g. file, folder, drive).
+    /// This represents the state of the target immediately after the actions
+    /// occurred.
+    #[prost(message, repeated, tag="5")]
+    pub targets: ::prost::alloc::vec::Vec<Target>,
+    /// The period of time when this activity occurred.
+    #[prost(oneof="drive_activity::Time", tags="6, 7")]
+    pub time: ::core::option::Option<drive_activity::Time>,
+}
+/// Nested message and enum types in `DriveActivity`.
+pub mod drive_activity {
+    /// The period of time when this activity occurred.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Time {
+        /// The activity occurred at this specific time.
+        #[prost(message, tag="6")]
+        Timestamp(::prost_types::Timestamp),
+        /// The activity occurred over this time range.
+        #[prost(message, tag="7")]
+        TimeRange(super::TimeRange),
     }
 }
 /// Generated client implementations.

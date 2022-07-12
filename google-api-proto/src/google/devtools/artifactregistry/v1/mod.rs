@@ -1,296 +1,3 @@
-/// The Artifact Registry settings that apply to a Project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProjectSettings {
-    /// The name of the project's settings.
-    ///
-    /// Always of the form:
-    /// projects/{project-id}/projectSettings
-    ///
-    /// In update request: never set
-    /// In response: always set
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The redirection state of the legacy repositories in this project.
-    #[prost(enumeration="project_settings::RedirectionState", tag="2")]
-    pub legacy_redirection_state: i32,
-}
-/// Nested message and enum types in `ProjectSettings`.
-pub mod project_settings {
-    /// The possible redirection states for legacy repositories.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum RedirectionState {
-        /// No redirection status has been set.
-        Unspecified = 0,
-        /// Redirection is disabled.
-        RedirectionFromGcrIoDisabled = 1,
-        /// Redirection is enabled.
-        RedirectionFromGcrIoEnabled = 2,
-        /// Redirection is enabled, and has been finalized so cannot be reverted.
-        RedirectionFromGcrIoFinalized = 3,
-    }
-}
-/// Gets the redirection status for a project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetProjectSettingsRequest {
-    /// Required. The name of the projectSettings resource.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Sets the settings of the project.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateProjectSettingsRequest {
-    /// The project settings.
-    #[prost(message, optional, tag="2")]
-    pub project_settings: ::core::option::Option<ProjectSettings>,
-    /// Field mask to support partial updates.
-    #[prost(message, optional, tag="3")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Packages are named collections of versions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Package {
-    /// The name of the package, for example:
-    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1".
-    /// If the package ID part contains slashes, the slashes are escaped.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The display name of the package.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The time when the package was created.
-    #[prost(message, optional, tag="5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time when the package was last updated. This includes publishing a new
-    /// version of the package.
-    #[prost(message, optional, tag="6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// The request to list packages.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPackagesRequest {
-    /// Required. The name of the parent resource whose packages will be listed.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of packages to return. Maximum page size is 1,000.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request, if any.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response from listing packages.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPackagesResponse {
-    /// The packages returned.
-    #[prost(message, repeated, tag="1")]
-    pub packages: ::prost::alloc::vec::Vec<Package>,
-    /// The token to retrieve the next page of packages, or empty if there are no
-    /// more packages to return.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request to retrieve a package.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetPackageRequest {
-    /// Required. The name of the package to retrieve.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request to delete a package.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeletePackageRequest {
-    /// Required. The name of the package to delete.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Tags point to a version and represent an alternative name that can be used
-/// to access the version.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Tag {
-    /// The name of the tag, for example:
-    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1".
-    /// If the package part contains slashes, the slashes are escaped.
-    /// The tag part can only have characters in \[a-zA-Z0-9\-._~:@\], anything else
-    /// must be URL encoded.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The name of the version the tag refers to, for example:
-    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/sha256:5243811"
-    /// If the package or version ID parts contain slashes, the slashes are
-    /// escaped.
-    #[prost(string, tag="2")]
-    pub version: ::prost::alloc::string::String,
-}
-/// The request to list tags.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTagsRequest {
-    /// The name of the parent resource whose tags will be listed.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// An expression for filtering the results of the request. Filter rules are
-    /// case insensitive. The fields eligible for filtering are:
-    ///
-    ///   * `version`
-    ///
-    ///  An example of using a filter:
-    ///
-    ///   * `version="projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/1.0"`
-    ///   --> Tags that are applied to the version `1.0` in package `pkg1`.
-    #[prost(string, tag="4")]
-    pub filter: ::prost::alloc::string::String,
-    /// The maximum number of tags to return. Maximum page size is 10,000.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request, if any.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response from listing tags.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTagsResponse {
-    /// The tags returned.
-    #[prost(message, repeated, tag="1")]
-    pub tags: ::prost::alloc::vec::Vec<Tag>,
-    /// The token to retrieve the next page of tags, or empty if there are no
-    /// more tags to return.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request to retrieve a tag.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetTagRequest {
-    /// The name of the tag to retrieve.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request to create a new tag.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateTagRequest {
-    /// The name of the parent resource where the tag will be created.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The tag id to use for this repository.
-    #[prost(string, tag="2")]
-    pub tag_id: ::prost::alloc::string::String,
-    /// The tag to be created.
-    #[prost(message, optional, tag="3")]
-    pub tag: ::core::option::Option<Tag>,
-}
-/// The request to create or update a tag.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateTagRequest {
-    /// The tag that replaces the resource on the server.
-    #[prost(message, optional, tag="1")]
-    pub tag: ::core::option::Option<Tag>,
-    /// The update mask applies to the resource. For the `FieldMask` definition,
-    /// see
-    /// <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask>
-    #[prost(message, optional, tag="2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// The request to delete a tag.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteTagRequest {
-    /// The name of the tag to delete.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The body of a version resource. A version resource represents a
-/// collection of components, such as files and other data. This may correspond
-/// to a version in many package management schemes.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Version {
-    /// The name of the version, for example:
-    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/art1".
-    /// If the package or version ID parts contain slashes, the slashes are
-    /// escaped.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. Description of the version, as specified in its metadata.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    /// The time when the version was created.
-    #[prost(message, optional, tag="5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time when the version was last updated.
-    #[prost(message, optional, tag="6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. A list of related tags. Will contain up to 100 tags that
-    /// reference this version.
-    #[prost(message, repeated, tag="7")]
-    pub related_tags: ::prost::alloc::vec::Vec<Tag>,
-    /// Output only. Repository-specific Metadata stored against this version.
-    /// The fields returned are defined by the underlying repository-specific
-    /// resource. Currently, the only resource in use is
-    /// \[DockerImage][google.devtools.artifactregistry.v1.DockerImage\]
-    #[prost(message, optional, tag="8")]
-    pub metadata: ::core::option::Option<::prost_types::Struct>,
-}
-/// The request to list versions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListVersionsRequest {
-    /// The name of the parent resource whose versions will be listed.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of versions to return. Maximum page size is 1,000.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request, if any.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-    /// The view that should be returned in the response.
-    #[prost(enumeration="VersionView", tag="4")]
-    pub view: i32,
-    /// Optional. The field to order the results by.
-    #[prost(string, tag="5")]
-    pub order_by: ::prost::alloc::string::String,
-}
-/// The response from listing versions.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListVersionsResponse {
-    /// The versions returned.
-    #[prost(message, repeated, tag="1")]
-    pub versions: ::prost::alloc::vec::Vec<Version>,
-    /// The token to retrieve the next page of versions, or empty if there are no
-    /// more versions to return.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request to retrieve a version.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetVersionRequest {
-    /// The name of the version to retrieve.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The view that should be returned in the response.
-    #[prost(enumeration="VersionView", tag="2")]
-    pub view: i32,
-}
-/// The request to delete a version.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteVersionRequest {
-    /// The name of the version to delete.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// By default, a version that is tagged may not be deleted. If force=true, the
-    /// version and any tags pointing to the version are deleted.
-    #[prost(bool, tag="2")]
-    pub force: bool,
-}
-/// The view, which determines what version information is returned in a
-/// response.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum VersionView {
-    /// The default / unset value.
-    /// The API will default to the BASIC view.
-    Unspecified = 0,
-    /// Includes basic information about the version, but not any related tags.
-    Basic = 1,
-    /// Include everything.
-    Full = 2,
-}
 /// A detailed representation of an Apt artifact. Information in the record
 /// is derived from the archive's control file.
 /// See <https://www.debian.org/doc/debian-policy/ch-controlfields.html>
@@ -571,6 +278,63 @@ pub struct GetFileRequest {
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
 }
+/// Packages are named collections of versions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Package {
+    /// The name of the package, for example:
+    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1".
+    /// If the package ID part contains slashes, the slashes are escaped.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The display name of the package.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The time when the package was created.
+    #[prost(message, optional, tag="5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time when the package was last updated. This includes publishing a new
+    /// version of the package.
+    #[prost(message, optional, tag="6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// The request to list packages.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPackagesRequest {
+    /// Required. The name of the parent resource whose packages will be listed.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of packages to return. Maximum page size is 1,000.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request, if any.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response from listing packages.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPackagesResponse {
+    /// The packages returned.
+    #[prost(message, repeated, tag="1")]
+    pub packages: ::prost::alloc::vec::Vec<Package>,
+    /// The token to retrieve the next page of packages, or empty if there are no
+    /// more packages to return.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request to retrieve a package.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetPackageRequest {
+    /// Required. The name of the package to retrieve.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request to delete a package.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeletePackageRequest {
+    /// Required. The name of the package to delete.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
 /// A Repository for storing artifacts with a specific format.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Repository {
@@ -728,6 +492,242 @@ pub struct DeleteRepositoryRequest {
     /// Required. The name of the repository to delete.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
+}
+/// The Artifact Registry settings that apply to a Project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProjectSettings {
+    /// The name of the project's settings.
+    ///
+    /// Always of the form:
+    /// projects/{project-id}/projectSettings
+    ///
+    /// In update request: never set
+    /// In response: always set
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The redirection state of the legacy repositories in this project.
+    #[prost(enumeration="project_settings::RedirectionState", tag="2")]
+    pub legacy_redirection_state: i32,
+}
+/// Nested message and enum types in `ProjectSettings`.
+pub mod project_settings {
+    /// The possible redirection states for legacy repositories.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum RedirectionState {
+        /// No redirection status has been set.
+        Unspecified = 0,
+        /// Redirection is disabled.
+        RedirectionFromGcrIoDisabled = 1,
+        /// Redirection is enabled.
+        RedirectionFromGcrIoEnabled = 2,
+        /// Redirection is enabled, and has been finalized so cannot be reverted.
+        RedirectionFromGcrIoFinalized = 3,
+    }
+}
+/// Gets the redirection status for a project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetProjectSettingsRequest {
+    /// Required. The name of the projectSettings resource.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Sets the settings of the project.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateProjectSettingsRequest {
+    /// The project settings.
+    #[prost(message, optional, tag="2")]
+    pub project_settings: ::core::option::Option<ProjectSettings>,
+    /// Field mask to support partial updates.
+    #[prost(message, optional, tag="3")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Tags point to a version and represent an alternative name that can be used
+/// to access the version.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Tag {
+    /// The name of the tag, for example:
+    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1".
+    /// If the package part contains slashes, the slashes are escaped.
+    /// The tag part can only have characters in \[a-zA-Z0-9\-._~:@\], anything else
+    /// must be URL encoded.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The name of the version the tag refers to, for example:
+    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/sha256:5243811"
+    /// If the package or version ID parts contain slashes, the slashes are
+    /// escaped.
+    #[prost(string, tag="2")]
+    pub version: ::prost::alloc::string::String,
+}
+/// The request to list tags.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTagsRequest {
+    /// The name of the parent resource whose tags will be listed.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// An expression for filtering the results of the request. Filter rules are
+    /// case insensitive. The fields eligible for filtering are:
+    ///
+    ///   * `version`
+    ///
+    ///  An example of using a filter:
+    ///
+    ///   * `version="projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/1.0"`
+    ///   --> Tags that are applied to the version `1.0` in package `pkg1`.
+    #[prost(string, tag="4")]
+    pub filter: ::prost::alloc::string::String,
+    /// The maximum number of tags to return. Maximum page size is 10,000.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request, if any.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response from listing tags.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTagsResponse {
+    /// The tags returned.
+    #[prost(message, repeated, tag="1")]
+    pub tags: ::prost::alloc::vec::Vec<Tag>,
+    /// The token to retrieve the next page of tags, or empty if there are no
+    /// more tags to return.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request to retrieve a tag.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetTagRequest {
+    /// The name of the tag to retrieve.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request to create a new tag.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateTagRequest {
+    /// The name of the parent resource where the tag will be created.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The tag id to use for this repository.
+    #[prost(string, tag="2")]
+    pub tag_id: ::prost::alloc::string::String,
+    /// The tag to be created.
+    #[prost(message, optional, tag="3")]
+    pub tag: ::core::option::Option<Tag>,
+}
+/// The request to create or update a tag.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateTagRequest {
+    /// The tag that replaces the resource on the server.
+    #[prost(message, optional, tag="1")]
+    pub tag: ::core::option::Option<Tag>,
+    /// The update mask applies to the resource. For the `FieldMask` definition,
+    /// see
+    /// <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask>
+    #[prost(message, optional, tag="2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// The request to delete a tag.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteTagRequest {
+    /// The name of the tag to delete.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The body of a version resource. A version resource represents a
+/// collection of components, such as files and other data. This may correspond
+/// to a version in many package management schemes.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Version {
+    /// The name of the version, for example:
+    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/art1".
+    /// If the package or version ID parts contain slashes, the slashes are
+    /// escaped.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Description of the version, as specified in its metadata.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    /// The time when the version was created.
+    #[prost(message, optional, tag="5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time when the version was last updated.
+    #[prost(message, optional, tag="6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. A list of related tags. Will contain up to 100 tags that
+    /// reference this version.
+    #[prost(message, repeated, tag="7")]
+    pub related_tags: ::prost::alloc::vec::Vec<Tag>,
+    /// Output only. Repository-specific Metadata stored against this version.
+    /// The fields returned are defined by the underlying repository-specific
+    /// resource. Currently, the only resource in use is
+    /// \[DockerImage][google.devtools.artifactregistry.v1.DockerImage\]
+    #[prost(message, optional, tag="8")]
+    pub metadata: ::core::option::Option<::prost_types::Struct>,
+}
+/// The request to list versions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListVersionsRequest {
+    /// The name of the parent resource whose versions will be listed.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of versions to return. Maximum page size is 1,000.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request, if any.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// The view that should be returned in the response.
+    #[prost(enumeration="VersionView", tag="4")]
+    pub view: i32,
+    /// Optional. The field to order the results by.
+    #[prost(string, tag="5")]
+    pub order_by: ::prost::alloc::string::String,
+}
+/// The response from listing versions.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListVersionsResponse {
+    /// The versions returned.
+    #[prost(message, repeated, tag="1")]
+    pub versions: ::prost::alloc::vec::Vec<Version>,
+    /// The token to retrieve the next page of versions, or empty if there are no
+    /// more versions to return.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request to retrieve a version.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetVersionRequest {
+    /// The name of the version to retrieve.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The view that should be returned in the response.
+    #[prost(enumeration="VersionView", tag="2")]
+    pub view: i32,
+}
+/// The request to delete a version.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteVersionRequest {
+    /// The name of the version to delete.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// By default, a version that is tagged may not be deleted. If force=true, the
+    /// version and any tags pointing to the version are deleted.
+    #[prost(bool, tag="2")]
+    pub force: bool,
+}
+/// The view, which determines what version information is returned in a
+/// response.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum VersionView {
+    /// The default / unset value.
+    /// The API will default to the BASIC view.
+    Unspecified = 0,
+    /// Includes basic information about the version, but not any related tags.
+    Basic = 1,
+    /// Include everything.
+    Full = 2,
 }
 /// A detailed representation of a Yum artifact.
 #[derive(Clone, PartialEq, ::prost::Message)]
