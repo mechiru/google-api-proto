@@ -242,6 +242,7 @@ google-cloud-networkconnectivity-v1 = ["google-api", "google-cloud", "google-lon
 google-cloud-networkconnectivity-v1alpha1 = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-networkmanagement-v1 = ["google-api", "google-cloud", "google-longrunning", "google-rpc"]
 google-cloud-networkmanagement-v1beta1 = ["google-api", "google-cloud", "google-longrunning", "google-rpc"]
+google-cloud-networksecurity-v1 = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-networksecurity-v1beta1 = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-networkservices-v1 = ["google-api", "google-cloud", "google-longrunning"]
 google-cloud-networkservices-v1beta1 = ["google-api", "google-cloud", "google-longrunning"]

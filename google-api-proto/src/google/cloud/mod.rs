@@ -314,7 +314,12 @@ pub mod networkconnectivity;
     )
 )]
 pub mod networkmanagement;
-#[cfg(any(feature = "google-cloud-networksecurity-v1beta1"))]
+#[cfg(
+    any(
+        feature = "google-cloud-networksecurity-v1",
+        feature = "google-cloud-networksecurity-v1beta1",
+    )
+)]
 pub mod networksecurity;
 #[cfg(
     any(

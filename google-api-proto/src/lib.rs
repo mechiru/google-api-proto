@@ -214,6 +214,7 @@ pub mod ccc;
         feature = "google-cloud-networkconnectivity-v1alpha1",
         feature = "google-cloud-networkmanagement-v1",
         feature = "google-cloud-networkmanagement-v1beta1",
+        feature = "google-cloud-networksecurity-v1",
         feature = "google-cloud-networksecurity-v1beta1",
         feature = "google-cloud-networkservices-v1",
         feature = "google-cloud-networkservices-v1beta1",
