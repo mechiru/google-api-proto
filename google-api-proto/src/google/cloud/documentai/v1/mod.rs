@@ -78,42 +78,6 @@ pub mod document_output_config {
         GcsOutputConfig(GcsOutputConfig),
     }
 }
-/// The common metadata for long running operations.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CommonOperationMetadata {
-    /// The state of the operation.
-    #[prost(enumeration="common_operation_metadata::State", tag="1")]
-    pub state: i32,
-    /// A message providing more details about the current state of processing.
-    #[prost(string, tag="2")]
-    pub state_message: ::prost::alloc::string::String,
-    /// The creation time of the operation.
-    #[prost(message, optional, tag="3")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The last update time of the operation.
-    #[prost(message, optional, tag="4")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Nested message and enum types in `CommonOperationMetadata`.
-pub mod common_operation_metadata {
-    /// State of the longrunning operation.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Unspecified state.
-        Unspecified = 0,
-        /// Operation is still running.
-        Running = 1,
-        /// Operation is being cancelled.
-        Cancelling = 2,
-        /// Operation succeeded.
-        Succeeded = 3,
-        /// Operation failed.
-        Failed = 4,
-        /// Operation is cancelled.
-        Cancelled = 5,
-    }
-}
 /// A vertex represents a 2D point in the image.
 /// NOTE: the vertex coordinates are in the same scale as the original image.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -989,6 +953,42 @@ pub mod document {
         /// representation, whereas JSON representations use base64.
         #[prost(bytes, tag="2")]
         Content(::prost::bytes::Bytes),
+    }
+}
+/// The common metadata for long running operations.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CommonOperationMetadata {
+    /// The state of the operation.
+    #[prost(enumeration="common_operation_metadata::State", tag="1")]
+    pub state: i32,
+    /// A message providing more details about the current state of processing.
+    #[prost(string, tag="2")]
+    pub state_message: ::prost::alloc::string::String,
+    /// The creation time of the operation.
+    #[prost(message, optional, tag="3")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The last update time of the operation.
+    #[prost(message, optional, tag="4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `CommonOperationMetadata`.
+pub mod common_operation_metadata {
+    /// State of the longrunning operation.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Unspecified state.
+        Unspecified = 0,
+        /// Operation is still running.
+        Running = 1,
+        /// Operation is being cancelled.
+        Cancelling = 2,
+        /// Operation succeeded.
+        Succeeded = 3,
+        /// Operation failed.
+        Failed = 4,
+        /// Operation is cancelled.
+        Cancelled = 5,
     }
 }
 /// Request message for the process document method.

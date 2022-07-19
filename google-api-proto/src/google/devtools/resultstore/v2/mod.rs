@@ -258,48 +258,51 @@ pub struct ArchiveEntry {
     #[prost(string, tag="3")]
     pub content_type: ::prost::alloc::string::String,
 }
-/// Each ConfiguredTarget represents data for a given configuration of a given
-/// target in a given Invocation.
-/// Every ConfiguredTarget should have at least one Action as a child resource
-/// before the invocation is finalized. Refer to the Action's documentation for
-/// more info on this.
+/// Each Target represents data for a given target in a given Invocation.
+/// ConfiguredTarget and Action resources under each Target contain the bulk of
+/// the data.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConfiguredTarget {
+pub struct Target {
     /// The resource name.  Its format must be:
-    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${url_encode(CONFIG_ID)}
-    /// where ${CONFIG_ID} must match the ID of an existing Configuration under
-    /// this Invocation.
+    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// The resource ID components that identify the ConfiguredTarget. They must
-    /// match the resource name after proper encoding.
+    /// The resource ID components that identify the Target. They must match the
+    /// resource name after proper encoding.
     #[prost(message, optional, tag="2")]
-    pub id: ::core::option::Option<configured_target::Id>,
-    /// The aggregate status for this configuration of this target. If testing
-    /// was not requested, set this to the build status (e.g. BUILT or
-    /// FAILED_TO_BUILD).
+    pub id: ::core::option::Option<target::Id>,
+    /// This is the aggregate status of the target.
     #[prost(message, optional, tag="3")]
     pub status_attributes: ::core::option::Option<StatusAttributes>,
-    /// Captures the start time and duration of this configured target.
+    /// When this target started and its duration.
     #[prost(message, optional, tag="4")]
     pub timing: ::core::option::Option<Timing>,
-    /// Test specific attributes for this ConfiguredTarget.
+    /// Attributes that apply to all targets.
+    #[prost(message, optional, tag="5")]
+    pub target_attributes: ::core::option::Option<TargetAttributes>,
+    /// Attributes that apply to all test actions under this target.
     #[prost(message, optional, tag="6")]
-    pub test_attributes: ::core::option::Option<ConfiguredTestAttributes>,
+    pub test_attributes: ::core::option::Option<TestAttributes>,
     /// Arbitrary name-value pairs.
     /// This is implemented as a multi-map. Multiple properties are allowed with
     /// the same key. Properties will be returned in lexicographical order by key.
     #[prost(message, repeated, tag="7")]
     pub properties: ::prost::alloc::vec::Vec<Property>,
-    /// A list of file references for configured target level files.
+    /// A list of file references for target level files.
     /// The file IDs must be unique within this list. Duplicate file IDs will
     /// result in an error. Files will be returned in lexicographical order by ID.
+    /// Use this field to specify outputs not related to a configuration.
     #[prost(message, repeated, tag="8")]
     pub files: ::prost::alloc::vec::Vec<File>,
+    /// Provides a hint to clients as to whether to display the Target to users.
+    /// If true then clients likely want to display the Target by default.
+    /// Once set to true, this may not be set back to false.
+    #[prost(bool, tag="10")]
+    pub visible: bool,
 }
-/// Nested message and enum types in `ConfiguredTarget`.
-pub mod configured_target {
-    /// The resource ID components that identify the ConfiguredTarget.
+/// Nested message and enum types in `Target`.
+pub mod target {
+    /// The resource ID components that identify the Target.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct Id {
         /// The Invocation ID.
@@ -308,24 +311,65 @@ pub mod configured_target {
         /// The Target ID.
         #[prost(string, tag="2")]
         pub target_id: ::prost::alloc::string::String,
-        /// The Configuration ID.
-        #[prost(string, tag="3")]
-        pub configuration_id: ::prost::alloc::string::String,
     }
 }
-/// Attributes that apply only to test actions under this configured target.
+/// Attributes that apply to all targets.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ConfiguredTestAttributes {
-    /// Total number of test runs. For example, in bazel this is specified with
-    /// --runs_per_test. Zero if runs_per_test is not used.
-    #[prost(int32, tag="2")]
-    pub total_run_count: i32,
-    /// Total number of test shards. Zero if shard count was not specified.
-    #[prost(int32, tag="3")]
-    pub total_shard_count: i32,
-    /// How long test is allowed to run.
-    #[prost(message, optional, tag="5")]
-    pub timeout_duration: ::core::option::Option<::prost_types::Duration>,
+pub struct TargetAttributes {
+    /// If known, indicates the type of this target.  In bazel this corresponds
+    /// to the rule-suffix.
+    #[prost(enumeration="TargetType", tag="1")]
+    pub r#type: i32,
+    /// If known, the main language of this target, e.g. java, cc, python, etc.
+    #[prost(enumeration="Language", tag="2")]
+    pub language: i32,
+    /// The tags attribute of the build rule. These should be short, descriptive
+    /// words, and there should only be a few of them.
+    /// This is implemented as a set. All tags will be unique. Any duplicate tags
+    /// will be ignored. Tags will be returned in lexicographical order.
+    #[prost(string, repeated, tag="3")]
+    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Attributes that apply only to test actions under this target.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TestAttributes {
+    /// Indicates how big the user indicated the test action was.
+    #[prost(enumeration="TestSize", tag="1")]
+    pub size: i32,
+}
+/// These correspond to the suffix of the rule name. Eg cc_test has type TEST.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TargetType {
+    /// Unspecified by the build system.
+    Unspecified = 0,
+    /// An application e.g. ios_application.
+    Application = 1,
+    /// A binary target e.g. cc_binary.
+    Binary = 2,
+    /// A library target e.g. java_library
+    Library = 3,
+    /// A package
+    Package = 4,
+    /// Any test target, in bazel that means a rule with a '_test' suffix.
+    Test = 5,
+}
+/// Indicates how big the user indicated the test action was.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TestSize {
+    /// Unspecified by the user.
+    Unspecified = 0,
+    /// Unit test taking less than 1 minute.
+    Small = 1,
+    /// Integration tests taking less than 5 minutes.
+    Medium = 2,
+    /// End-to-end tests taking less than 15 minutes.
+    Large = 3,
+    /// Even bigger than LARGE.
+    Enormous = 4,
+    /// Something that doesn't fit into the above categories.
+    OtherSize = 5,
 }
 /// Describes line coverage for a file
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -420,50 +464,6 @@ pub struct AggregateCoverage {
     #[prost(message, repeated, tag="1")]
     pub file_coverages: ::prost::alloc::vec::Vec<FileCoverage>,
 }
-/// Summary of line coverage
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LineCoverageSummary {
-    /// Number of lines instrumented for coverage.
-    #[prost(int32, tag="1")]
-    pub instrumented_line_count: i32,
-    /// Number of instrumented lines that were executed by the test.
-    #[prost(int32, tag="2")]
-    pub executed_line_count: i32,
-}
-/// Summary of branch coverage
-/// A branch may be:
-///  * not executed.  Counted only in total.
-///  * executed but not taken.  Appears in total and executed.
-///  * executed and taken.  Appears in all three fields.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BranchCoverageSummary {
-    /// The number of branches present in the file.
-    #[prost(int32, tag="1")]
-    pub total_branch_count: i32,
-    /// The number of branches executed out of the total branches present.
-    /// A branch is executed when its condition is evaluated.
-    /// This is <= total_branch_count as not all branches are executed.
-    #[prost(int32, tag="2")]
-    pub executed_branch_count: i32,
-    /// The number of branches taken out of the total branches executed.
-    /// A branch is taken when its condition is satisfied.
-    /// This is <= executed_branch_count as not all executed branches are taken.
-    #[prost(int32, tag="3")]
-    pub taken_branch_count: i32,
-}
-/// Summary of coverage in each language
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LanguageCoverageSummary {
-    /// This summary is for all files written in this programming language.
-    #[prost(enumeration="Language", tag="1")]
-    pub language: i32,
-    /// Summary of lines covered vs instrumented.
-    #[prost(message, optional, tag="2")]
-    pub line_summary: ::core::option::Option<LineCoverageSummary>,
-    /// Summary of branch coverage.
-    #[prost(message, optional, tag="3")]
-    pub branch_summary: ::core::option::Option<BranchCoverageSummary>,
-}
 /// Stores errors reading or parsing a file during post-processing.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FileProcessingErrors {
@@ -506,225 +506,6 @@ pub enum FileProcessingErrorType {
     NotFound = 7,
     /// File is empty but was expected to have content.
     FileEmpty = 8,
-}
-/// An Invocation typically represents the result of running a tool. Each has a
-/// unique ID, typically generated by the server. Target resources under each
-/// Invocation contain the bulk of the data.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Invocation {
-    /// The resource name.  Its format must be:
-    /// invocations/${INVOCATION_ID}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The resource ID components that identify the Invocation. They must match
-    /// the resource name after proper encoding.
-    #[prost(message, optional, tag="2")]
-    pub id: ::core::option::Option<invocation::Id>,
-    /// The aggregate status of the invocation.
-    #[prost(message, optional, tag="3")]
-    pub status_attributes: ::core::option::Option<StatusAttributes>,
-    /// When this invocation started and its duration.
-    #[prost(message, optional, tag="4")]
-    pub timing: ::core::option::Option<Timing>,
-    /// Attributes of this invocation.
-    #[prost(message, optional, tag="5")]
-    pub invocation_attributes: ::core::option::Option<InvocationAttributes>,
-    /// The workspace the tool was run in.
-    #[prost(message, optional, tag="6")]
-    pub workspace_info: ::core::option::Option<WorkspaceInfo>,
-    /// Arbitrary name-value pairs.
-    /// This is implemented as a multi-map. Multiple properties are allowed with
-    /// the same key. Properties will be returned in lexicographical order by key.
-    #[prost(message, repeated, tag="7")]
-    pub properties: ::prost::alloc::vec::Vec<Property>,
-    /// A list of file references for invocation level files.
-    /// The file IDs must be unique within this list. Duplicate file IDs will
-    /// result in an error. Files will be returned in lexicographical order by ID.
-    /// Use this field to specify build logs, and other invocation level logs.
-    ///
-    /// Files with the following reserved file IDs cause specific post-processing
-    /// or have special handling. These files must be immediately available to
-    /// ResultStore for processing when the reference is uploaded.
-    ///
-    /// build.log: The primary log for the Invocation.
-    /// coverage_report.lcov: Aggregate coverage report for the invocation.
-    #[prost(message, repeated, tag="8")]
-    pub files: ::prost::alloc::vec::Vec<File>,
-    /// Summary of aggregate coverage across all Actions in this Invocation.
-    /// If missing, this data will be populated by the server from the
-    /// coverage_report.lcov file or the union of all ActionCoverages under this
-    /// invocation (in that order).
-    #[prost(message, repeated, tag="9")]
-    pub coverage_summaries: ::prost::alloc::vec::Vec<LanguageCoverageSummary>,
-    /// Aggregate code coverage for all build and test Actions within this
-    /// Invocation. If missing, this data will be populated by the server
-    /// from the coverage_report.lcov file or the union of all ActionCoverages
-    /// under this invocation (in that order).
-    #[prost(message, optional, tag="10")]
-    pub aggregate_coverage: ::core::option::Option<AggregateCoverage>,
-    /// NOT IMPLEMENTED.
-    /// ResultStore will read and parse Files with reserved IDs listed above. Read
-    /// and parse errors for all these Files are reported here.
-    /// This is implemented as a map, with one FileProcessingErrors for each file.
-    /// Typically produced when parsing Files, but may also be provided directly
-    /// by clients.
-    #[prost(message, repeated, tag="11")]
-    pub file_processing_errors: ::prost::alloc::vec::Vec<FileProcessingErrors>,
-}
-/// Nested message and enum types in `Invocation`.
-pub mod invocation {
-    /// The resource ID components that identify the Invocation.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Id {
-        /// The Invocation ID.
-        #[prost(string, tag="1")]
-        pub invocation_id: ::prost::alloc::string::String,
-    }
-}
-/// If known, represents the state of the user/build-system workspace.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WorkspaceContext {
-}
-/// Describes the workspace under which the tool was invoked, this includes
-/// information that was fed into the command, the source code referenced, and
-/// the tool itself.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WorkspaceInfo {
-    /// Data about the workspace that might be useful for debugging.
-    #[prost(message, optional, tag="1")]
-    pub workspace_context: ::core::option::Option<WorkspaceContext>,
-    /// Where the tool was invoked
-    #[prost(string, tag="3")]
-    pub hostname: ::prost::alloc::string::String,
-    /// The client's working directory where the build/test was run from.
-    #[prost(string, tag="4")]
-    pub working_directory: ::prost::alloc::string::String,
-    /// Tools should set tool_tag to the name of the tool or use case.
-    #[prost(string, tag="5")]
-    pub tool_tag: ::prost::alloc::string::String,
-    /// The command lines invoked. The first command line is the one typed by the
-    /// user, then each one after that should be an expansion of the previous
-    /// command line.
-    #[prost(message, repeated, tag="7")]
-    pub command_lines: ::prost::alloc::vec::Vec<CommandLine>,
-}
-/// The command and arguments that produced this Invocation.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CommandLine {
-    /// A label describing this command line.
-    #[prost(string, tag="1")]
-    pub label: ::prost::alloc::string::String,
-    /// The command-line tool that is run: argv\[0\].
-    #[prost(string, tag="2")]
-    pub tool: ::prost::alloc::string::String,
-    /// The arguments to the above tool: argv\[1]...argv[N\].
-    #[prost(string, repeated, tag="3")]
-    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The subcommand that was run with the tool, usually "build" or "test".
-    /// For example, in the Bazel command "bazel build //foo", this would be set
-    /// to "build". Omit if the tool doesn't accept a subcommand.  This is must
-    /// be a reference to one of values in args.
-    #[prost(string, tag="4")]
-    pub command: ::prost::alloc::string::String,
-}
-/// Attributes that apply to all invocations.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InvocationAttributes {
-    /// Immutable. The Cloud Project that owns this invocation (this is different than the
-    /// Consumer Cloud Project that calls this API).
-    /// This must be set in the CreateInvocation call, and can't be changed.
-    /// As input, callers can set this field to a project id (string) or a
-    /// stringified int64 project number. As output, the API populates this field
-    /// with the stringified int64 project number (per
-    /// <https://google.aip.dev/cloud/2510>).
-    #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// The list of users in the command chain.  The first user in this sequence
-    /// is the one who instigated the first command in the chain. For example,
-    /// this might contain just the user that ran a Bazel command, or a robot
-    /// that tested a change as part of a CI system. It could also contain the user
-    /// that manually triggered a CI test, then the robot that ran the test.
-    #[prost(string, repeated, tag="2")]
-    pub users: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Labels to categorize this invocation.
-    /// This is implemented as a set. All labels will be unique. Any duplicate
-    /// labels added will be ignored. Labels will be returned in lexicographical
-    /// order. Labels should be a list of words describing the Invocation. Labels
-    /// should be short, easy to read, and you shouldn't have more than a handful.
-    /// Labels should not be used for unique properties such as unique IDs. Use
-    /// properties in cases that don't meet these conditions.
-    #[prost(string, repeated, tag="3")]
-    pub labels: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// This field describes the overall context or purpose of this invocation.
-    /// It will be used in the UI to give users more information about
-    /// how or why this invocation was run.
-    #[prost(string, tag="4")]
-    pub description: ::prost::alloc::string::String,
-    /// If this Invocation was run in the context of a larger Continuous
-    /// Integration build or other automated system, this field may contain more
-    /// information about the greater context.
-    #[prost(message, repeated, tag="6")]
-    pub invocation_contexts: ::prost::alloc::vec::Vec<InvocationContext>,
-    /// Exit code of the process that ran the invocation. A non-zero value
-    /// means failure. For example, the exit code of a "bazel test" command.
-    #[prost(int32, tag="7")]
-    pub exit_code: i32,
-}
-/// Describes the invocation context which includes a display name and URL.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InvocationContext {
-    /// A human readable name for the context under which this Invocation was run.
-    #[prost(string, tag="1")]
-    pub display_name: ::prost::alloc::string::String,
-    /// A URL pointing to a UI containing more information
-    #[prost(string, tag="2")]
-    pub url: ::prost::alloc::string::String,
-}
-/// This resource represents a set of Files and other (nested) FileSets.
-/// A FileSet is a node in the graph, and the file_sets field represents the
-/// outgoing edges. A resource may reference various nodes in the graph to
-/// represent the transitive closure of all files from those nodes.
-/// The FileSets must form a directed acyclic graph. The Upload API is unable to
-/// enforce that the graph is acyclic at write time, and if cycles are written,
-/// it may cause issues at read time.
-///
-/// A FileSet may be referenced by other resources in conjunction with Files.
-///
-/// Clients should prefer using Files directly under resources. Clients should
-/// not use FileSets unless their usecase requires a directed acyclic graph of
-/// Files.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FileSet {
-    /// The format of this FileSet resource name must be:
-    /// invocations/${INVOCATION_ID}/fileSets/${url_encode(FILE_SET_ID)}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The resource ID components that identify the file set. They must match the
-    /// resource name after proper encoding.
-    #[prost(message, optional, tag="2")]
-    pub id: ::core::option::Option<file_set::Id>,
-    /// List of names of other file sets that are referenced from this one.
-    /// Each name must point to a file set under the same invocation. The name
-    /// format must be: invocations/${INVOCATION_ID}/fileSets/${FILE_SET_ID}
-    #[prost(string, repeated, tag="3")]
-    pub file_sets: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Files that are contained within this file set.
-    /// The uid field in the file should be unique for the Invocation.
-    #[prost(message, repeated, tag="4")]
-    pub files: ::prost::alloc::vec::Vec<File>,
-}
-/// Nested message and enum types in `FileSet`.
-pub mod file_set {
-    /// The resource ID components that identify the FileSet.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Id {
-        /// The Invocation ID.
-        #[prost(string, tag="1")]
-        pub invocation_id: ::prost::alloc::string::String,
-        /// The FileSet ID.
-        #[prost(string, tag="2")]
-        pub file_set_id: ::prost::alloc::string::String,
-    }
 }
 /// The result of running a test suite, as reported in a <testsuite> element of
 /// an XML log.
@@ -1253,6 +1034,235 @@ pub enum TestCaching {
     /// The test result was not found in any cache, so it had to be run again.
     CacheMiss = 3,
 }
+/// The download metadata for an invocation
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DownloadMetadata {
+    /// The name of the download metadata.  Its format will be:
+    /// invocations/${INVOCATION_ID}/downloadMetadata
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Indicates the upload status of the invocation, whether it is
+    /// post-processing, or immutable, etc.
+    #[prost(enumeration="UploadStatus", tag="2")]
+    pub upload_status: i32,
+}
+/// Summary of line coverage
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LineCoverageSummary {
+    /// Number of lines instrumented for coverage.
+    #[prost(int32, tag="1")]
+    pub instrumented_line_count: i32,
+    /// Number of instrumented lines that were executed by the test.
+    #[prost(int32, tag="2")]
+    pub executed_line_count: i32,
+}
+/// Summary of branch coverage
+/// A branch may be:
+///  * not executed.  Counted only in total.
+///  * executed but not taken.  Appears in total and executed.
+///  * executed and taken.  Appears in all three fields.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BranchCoverageSummary {
+    /// The number of branches present in the file.
+    #[prost(int32, tag="1")]
+    pub total_branch_count: i32,
+    /// The number of branches executed out of the total branches present.
+    /// A branch is executed when its condition is evaluated.
+    /// This is <= total_branch_count as not all branches are executed.
+    #[prost(int32, tag="2")]
+    pub executed_branch_count: i32,
+    /// The number of branches taken out of the total branches executed.
+    /// A branch is taken when its condition is satisfied.
+    /// This is <= executed_branch_count as not all executed branches are taken.
+    #[prost(int32, tag="3")]
+    pub taken_branch_count: i32,
+}
+/// Summary of coverage in each language
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LanguageCoverageSummary {
+    /// This summary is for all files written in this programming language.
+    #[prost(enumeration="Language", tag="1")]
+    pub language: i32,
+    /// Summary of lines covered vs instrumented.
+    #[prost(message, optional, tag="2")]
+    pub line_summary: ::core::option::Option<LineCoverageSummary>,
+    /// Summary of branch coverage.
+    #[prost(message, optional, tag="3")]
+    pub branch_summary: ::core::option::Option<BranchCoverageSummary>,
+}
+/// An Invocation typically represents the result of running a tool. Each has a
+/// unique ID, typically generated by the server. Target resources under each
+/// Invocation contain the bulk of the data.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Invocation {
+    /// The resource name.  Its format must be:
+    /// invocations/${INVOCATION_ID}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The resource ID components that identify the Invocation. They must match
+    /// the resource name after proper encoding.
+    #[prost(message, optional, tag="2")]
+    pub id: ::core::option::Option<invocation::Id>,
+    /// The aggregate status of the invocation.
+    #[prost(message, optional, tag="3")]
+    pub status_attributes: ::core::option::Option<StatusAttributes>,
+    /// When this invocation started and its duration.
+    #[prost(message, optional, tag="4")]
+    pub timing: ::core::option::Option<Timing>,
+    /// Attributes of this invocation.
+    #[prost(message, optional, tag="5")]
+    pub invocation_attributes: ::core::option::Option<InvocationAttributes>,
+    /// The workspace the tool was run in.
+    #[prost(message, optional, tag="6")]
+    pub workspace_info: ::core::option::Option<WorkspaceInfo>,
+    /// Arbitrary name-value pairs.
+    /// This is implemented as a multi-map. Multiple properties are allowed with
+    /// the same key. Properties will be returned in lexicographical order by key.
+    #[prost(message, repeated, tag="7")]
+    pub properties: ::prost::alloc::vec::Vec<Property>,
+    /// A list of file references for invocation level files.
+    /// The file IDs must be unique within this list. Duplicate file IDs will
+    /// result in an error. Files will be returned in lexicographical order by ID.
+    /// Use this field to specify build logs, and other invocation level logs.
+    ///
+    /// Files with the following reserved file IDs cause specific post-processing
+    /// or have special handling. These files must be immediately available to
+    /// ResultStore for processing when the reference is uploaded.
+    ///
+    /// build.log: The primary log for the Invocation.
+    /// coverage_report.lcov: Aggregate coverage report for the invocation.
+    #[prost(message, repeated, tag="8")]
+    pub files: ::prost::alloc::vec::Vec<File>,
+    /// Summary of aggregate coverage across all Actions in this Invocation.
+    /// If missing, this data will be populated by the server from the
+    /// coverage_report.lcov file or the union of all ActionCoverages under this
+    /// invocation (in that order).
+    #[prost(message, repeated, tag="9")]
+    pub coverage_summaries: ::prost::alloc::vec::Vec<LanguageCoverageSummary>,
+    /// Aggregate code coverage for all build and test Actions within this
+    /// Invocation. If missing, this data will be populated by the server
+    /// from the coverage_report.lcov file or the union of all ActionCoverages
+    /// under this invocation (in that order).
+    #[prost(message, optional, tag="10")]
+    pub aggregate_coverage: ::core::option::Option<AggregateCoverage>,
+    /// NOT IMPLEMENTED.
+    /// ResultStore will read and parse Files with reserved IDs listed above. Read
+    /// and parse errors for all these Files are reported here.
+    /// This is implemented as a map, with one FileProcessingErrors for each file.
+    /// Typically produced when parsing Files, but may also be provided directly
+    /// by clients.
+    #[prost(message, repeated, tag="11")]
+    pub file_processing_errors: ::prost::alloc::vec::Vec<FileProcessingErrors>,
+}
+/// Nested message and enum types in `Invocation`.
+pub mod invocation {
+    /// The resource ID components that identify the Invocation.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Id {
+        /// The Invocation ID.
+        #[prost(string, tag="1")]
+        pub invocation_id: ::prost::alloc::string::String,
+    }
+}
+/// If known, represents the state of the user/build-system workspace.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WorkspaceContext {
+}
+/// Describes the workspace under which the tool was invoked, this includes
+/// information that was fed into the command, the source code referenced, and
+/// the tool itself.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WorkspaceInfo {
+    /// Data about the workspace that might be useful for debugging.
+    #[prost(message, optional, tag="1")]
+    pub workspace_context: ::core::option::Option<WorkspaceContext>,
+    /// Where the tool was invoked
+    #[prost(string, tag="3")]
+    pub hostname: ::prost::alloc::string::String,
+    /// The client's working directory where the build/test was run from.
+    #[prost(string, tag="4")]
+    pub working_directory: ::prost::alloc::string::String,
+    /// Tools should set tool_tag to the name of the tool or use case.
+    #[prost(string, tag="5")]
+    pub tool_tag: ::prost::alloc::string::String,
+    /// The command lines invoked. The first command line is the one typed by the
+    /// user, then each one after that should be an expansion of the previous
+    /// command line.
+    #[prost(message, repeated, tag="7")]
+    pub command_lines: ::prost::alloc::vec::Vec<CommandLine>,
+}
+/// The command and arguments that produced this Invocation.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CommandLine {
+    /// A label describing this command line.
+    #[prost(string, tag="1")]
+    pub label: ::prost::alloc::string::String,
+    /// The command-line tool that is run: argv\[0\].
+    #[prost(string, tag="2")]
+    pub tool: ::prost::alloc::string::String,
+    /// The arguments to the above tool: argv\[1]...argv[N\].
+    #[prost(string, repeated, tag="3")]
+    pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The subcommand that was run with the tool, usually "build" or "test".
+    /// For example, in the Bazel command "bazel build //foo", this would be set
+    /// to "build". Omit if the tool doesn't accept a subcommand.  This is must
+    /// be a reference to one of values in args.
+    #[prost(string, tag="4")]
+    pub command: ::prost::alloc::string::String,
+}
+/// Attributes that apply to all invocations.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InvocationAttributes {
+    /// Immutable. The Cloud Project that owns this invocation (this is different than the
+    /// Consumer Cloud Project that calls this API).
+    /// This must be set in the CreateInvocation call, and can't be changed.
+    /// As input, callers can set this field to a project id (string) or a
+    /// stringified int64 project number. As output, the API populates this field
+    /// with the stringified int64 project number (per
+    /// <https://google.aip.dev/cloud/2510>).
+    #[prost(string, tag="1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// The list of users in the command chain.  The first user in this sequence
+    /// is the one who instigated the first command in the chain. For example,
+    /// this might contain just the user that ran a Bazel command, or a robot
+    /// that tested a change as part of a CI system. It could also contain the user
+    /// that manually triggered a CI test, then the robot that ran the test.
+    #[prost(string, repeated, tag="2")]
+    pub users: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Labels to categorize this invocation.
+    /// This is implemented as a set. All labels will be unique. Any duplicate
+    /// labels added will be ignored. Labels will be returned in lexicographical
+    /// order. Labels should be a list of words describing the Invocation. Labels
+    /// should be short, easy to read, and you shouldn't have more than a handful.
+    /// Labels should not be used for unique properties such as unique IDs. Use
+    /// properties in cases that don't meet these conditions.
+    #[prost(string, repeated, tag="3")]
+    pub labels: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// This field describes the overall context or purpose of this invocation.
+    /// It will be used in the UI to give users more information about
+    /// how or why this invocation was run.
+    #[prost(string, tag="4")]
+    pub description: ::prost::alloc::string::String,
+    /// If this Invocation was run in the context of a larger Continuous
+    /// Integration build or other automated system, this field may contain more
+    /// information about the greater context.
+    #[prost(message, repeated, tag="6")]
+    pub invocation_contexts: ::prost::alloc::vec::Vec<InvocationContext>,
+    /// Exit code of the process that ran the invocation. A non-zero value
+    /// means failure. For example, the exit code of a "bazel test" command.
+    #[prost(int32, tag="7")]
+    pub exit_code: i32,
+}
+/// Describes the invocation context which includes a display name and URL.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InvocationContext {
+    /// A human readable name for the context under which this Invocation was run.
+    #[prost(string, tag="1")]
+    pub display_name: ::prost::alloc::string::String,
+    /// A URL pointing to a UI containing more information
+    #[prost(string, tag="2")]
+    pub url: ::prost::alloc::string::String,
+}
 /// Represents a configuration within an Invocation associated with one or more
 /// ConfiguredTargets. It captures the environment and other settings that
 /// were used.
@@ -1305,51 +1315,48 @@ pub struct ConfigurationAttributes {
     #[prost(string, tag="1")]
     pub cpu: ::prost::alloc::string::String,
 }
-/// Each Target represents data for a given target in a given Invocation.
-/// ConfiguredTarget and Action resources under each Target contain the bulk of
-/// the data.
+/// Each ConfiguredTarget represents data for a given configuration of a given
+/// target in a given Invocation.
+/// Every ConfiguredTarget should have at least one Action as a child resource
+/// before the invocation is finalized. Refer to the Action's documentation for
+/// more info on this.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Target {
+pub struct ConfiguredTarget {
     /// The resource name.  Its format must be:
-    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}
+    /// invocations/${INVOCATION_ID}/targets/${url_encode(TARGET_ID)}/configuredTargets/${url_encode(CONFIG_ID)}
+    /// where ${CONFIG_ID} must match the ID of an existing Configuration under
+    /// this Invocation.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// The resource ID components that identify the Target. They must match the
-    /// resource name after proper encoding.
+    /// The resource ID components that identify the ConfiguredTarget. They must
+    /// match the resource name after proper encoding.
     #[prost(message, optional, tag="2")]
-    pub id: ::core::option::Option<target::Id>,
-    /// This is the aggregate status of the target.
+    pub id: ::core::option::Option<configured_target::Id>,
+    /// The aggregate status for this configuration of this target. If testing
+    /// was not requested, set this to the build status (e.g. BUILT or
+    /// FAILED_TO_BUILD).
     #[prost(message, optional, tag="3")]
     pub status_attributes: ::core::option::Option<StatusAttributes>,
-    /// When this target started and its duration.
+    /// Captures the start time and duration of this configured target.
     #[prost(message, optional, tag="4")]
     pub timing: ::core::option::Option<Timing>,
-    /// Attributes that apply to all targets.
-    #[prost(message, optional, tag="5")]
-    pub target_attributes: ::core::option::Option<TargetAttributes>,
-    /// Attributes that apply to all test actions under this target.
+    /// Test specific attributes for this ConfiguredTarget.
     #[prost(message, optional, tag="6")]
-    pub test_attributes: ::core::option::Option<TestAttributes>,
+    pub test_attributes: ::core::option::Option<ConfiguredTestAttributes>,
     /// Arbitrary name-value pairs.
     /// This is implemented as a multi-map. Multiple properties are allowed with
     /// the same key. Properties will be returned in lexicographical order by key.
     #[prost(message, repeated, tag="7")]
     pub properties: ::prost::alloc::vec::Vec<Property>,
-    /// A list of file references for target level files.
+    /// A list of file references for configured target level files.
     /// The file IDs must be unique within this list. Duplicate file IDs will
     /// result in an error. Files will be returned in lexicographical order by ID.
-    /// Use this field to specify outputs not related to a configuration.
     #[prost(message, repeated, tag="8")]
     pub files: ::prost::alloc::vec::Vec<File>,
-    /// Provides a hint to clients as to whether to display the Target to users.
-    /// If true then clients likely want to display the Target by default.
-    /// Once set to true, this may not be set back to false.
-    #[prost(bool, tag="10")]
-    pub visible: bool,
 }
-/// Nested message and enum types in `Target`.
-pub mod target {
-    /// The resource ID components that identify the Target.
+/// Nested message and enum types in `ConfiguredTarget`.
+pub mod configured_target {
+    /// The resource ID components that identify the ConfiguredTarget.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct Id {
         /// The Invocation ID.
@@ -1358,65 +1365,70 @@ pub mod target {
         /// The Target ID.
         #[prost(string, tag="2")]
         pub target_id: ::prost::alloc::string::String,
+        /// The Configuration ID.
+        #[prost(string, tag="3")]
+        pub configuration_id: ::prost::alloc::string::String,
     }
 }
-/// Attributes that apply to all targets.
+/// Attributes that apply only to test actions under this configured target.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TargetAttributes {
-    /// If known, indicates the type of this target.  In bazel this corresponds
-    /// to the rule-suffix.
-    #[prost(enumeration="TargetType", tag="1")]
-    pub r#type: i32,
-    /// If known, the main language of this target, e.g. java, cc, python, etc.
-    #[prost(enumeration="Language", tag="2")]
-    pub language: i32,
-    /// The tags attribute of the build rule. These should be short, descriptive
-    /// words, and there should only be a few of them.
-    /// This is implemented as a set. All tags will be unique. Any duplicate tags
-    /// will be ignored. Tags will be returned in lexicographical order.
+pub struct ConfiguredTestAttributes {
+    /// Total number of test runs. For example, in bazel this is specified with
+    /// --runs_per_test. Zero if runs_per_test is not used.
+    #[prost(int32, tag="2")]
+    pub total_run_count: i32,
+    /// Total number of test shards. Zero if shard count was not specified.
+    #[prost(int32, tag="3")]
+    pub total_shard_count: i32,
+    /// How long test is allowed to run.
+    #[prost(message, optional, tag="5")]
+    pub timeout_duration: ::core::option::Option<::prost_types::Duration>,
+}
+/// This resource represents a set of Files and other (nested) FileSets.
+/// A FileSet is a node in the graph, and the file_sets field represents the
+/// outgoing edges. A resource may reference various nodes in the graph to
+/// represent the transitive closure of all files from those nodes.
+/// The FileSets must form a directed acyclic graph. The Upload API is unable to
+/// enforce that the graph is acyclic at write time, and if cycles are written,
+/// it may cause issues at read time.
+///
+/// A FileSet may be referenced by other resources in conjunction with Files.
+///
+/// Clients should prefer using Files directly under resources. Clients should
+/// not use FileSets unless their usecase requires a directed acyclic graph of
+/// Files.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FileSet {
+    /// The format of this FileSet resource name must be:
+    /// invocations/${INVOCATION_ID}/fileSets/${url_encode(FILE_SET_ID)}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The resource ID components that identify the file set. They must match the
+    /// resource name after proper encoding.
+    #[prost(message, optional, tag="2")]
+    pub id: ::core::option::Option<file_set::Id>,
+    /// List of names of other file sets that are referenced from this one.
+    /// Each name must point to a file set under the same invocation. The name
+    /// format must be: invocations/${INVOCATION_ID}/fileSets/${FILE_SET_ID}
     #[prost(string, repeated, tag="3")]
-    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    pub file_sets: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Files that are contained within this file set.
+    /// The uid field in the file should be unique for the Invocation.
+    #[prost(message, repeated, tag="4")]
+    pub files: ::prost::alloc::vec::Vec<File>,
 }
-/// Attributes that apply only to test actions under this target.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TestAttributes {
-    /// Indicates how big the user indicated the test action was.
-    #[prost(enumeration="TestSize", tag="1")]
-    pub size: i32,
-}
-/// These correspond to the suffix of the rule name. Eg cc_test has type TEST.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TargetType {
-    /// Unspecified by the build system.
-    Unspecified = 0,
-    /// An application e.g. ios_application.
-    Application = 1,
-    /// A binary target e.g. cc_binary.
-    Binary = 2,
-    /// A library target e.g. java_library
-    Library = 3,
-    /// A package
-    Package = 4,
-    /// Any test target, in bazel that means a rule with a '_test' suffix.
-    Test = 5,
-}
-/// Indicates how big the user indicated the test action was.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TestSize {
-    /// Unspecified by the user.
-    Unspecified = 0,
-    /// Unit test taking less than 1 minute.
-    Small = 1,
-    /// Integration tests taking less than 5 minutes.
-    Medium = 2,
-    /// End-to-end tests taking less than 15 minutes.
-    Large = 3,
-    /// Even bigger than LARGE.
-    Enormous = 4,
-    /// Something that doesn't fit into the above categories.
-    OtherSize = 5,
+/// Nested message and enum types in `FileSet`.
+pub mod file_set {
+    /// The resource ID components that identify the FileSet.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Id {
+        /// The Invocation ID.
+        #[prost(string, tag="1")]
+        pub invocation_id: ::prost::alloc::string::String,
+        /// The FileSet ID.
+        #[prost(string, tag="2")]
+        pub file_set_id: ::prost::alloc::string::String,
+    }
 }
 /// The upload metadata for an invocation
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2982,18 +2994,6 @@ pub mod result_store_upload_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
-}
-/// The download metadata for an invocation
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DownloadMetadata {
-    /// The name of the download metadata.  Its format will be:
-    /// invocations/${INVOCATION_ID}/downloadMetadata
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Indicates the upload status of the invocation, whether it is
-    /// post-processing, or immutable, etc.
-    #[prost(enumeration="UploadStatus", tag="2")]
-    pub upload_status: i32,
 }
 /// Request passed into GetInvocation
 #[derive(Clone, PartialEq, ::prost::Message)]

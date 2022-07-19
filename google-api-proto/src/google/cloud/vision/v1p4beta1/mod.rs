@@ -46,6 +46,42 @@ pub struct Position {
     #[prost(float, tag="3")]
     pub z: f32,
 }
+/// Parameters for a celebrity recognition request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FaceRecognitionParams {
+    /// The resource names for one or more
+    /// \[CelebritySet][google.cloud.vision.v1p4beta1.CelebritySet\]s. A celebrity
+    /// set is preloaded and can be specified as "builtin/default". If this is
+    /// specified, the algorithm will try to match the faces detected in the input
+    /// image to the Celebrities in the CelebritySets.
+    #[prost(string, repeated, tag="1")]
+    pub celebrity_set: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// A Celebrity is a group of Faces with an identity.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Celebrity {
+    /// The resource name of the preloaded Celebrity. Has the format
+    /// `builtin/{mid}`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// The Celebrity's display name.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The Celebrity's description.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+}
+/// Information about a face's identity.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FaceRecognitionResult {
+    /// The \[Celebrity][google.cloud.vision.v1p4beta1.Celebrity\] that this face was
+    /// matched to.
+    #[prost(message, optional, tag="1")]
+    pub celebrity: ::core::option::Option<Celebrity>,
+    /// Recognition confidence. Range [0, 1].
+    #[prost(float, tag="2")]
+    pub confidence: f32,
+}
 /// A Product contains ReferenceImages.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Product {
@@ -1253,42 +1289,6 @@ pub mod product_search_client {
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
-}
-/// Parameters for a celebrity recognition request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FaceRecognitionParams {
-    /// The resource names for one or more
-    /// \[CelebritySet][google.cloud.vision.v1p4beta1.CelebritySet\]s. A celebrity
-    /// set is preloaded and can be specified as "builtin/default". If this is
-    /// specified, the algorithm will try to match the faces detected in the input
-    /// image to the Celebrities in the CelebritySets.
-    #[prost(string, repeated, tag="1")]
-    pub celebrity_set: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// A Celebrity is a group of Faces with an identity.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Celebrity {
-    /// The resource name of the preloaded Celebrity. Has the format
-    /// `builtin/{mid}`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// The Celebrity's display name.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The Celebrity's description.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-}
-/// Information about a face's identity.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FaceRecognitionResult {
-    /// The \[Celebrity][google.cloud.vision.v1p4beta1.Celebrity\] that this face was
-    /// matched to.
-    #[prost(message, optional, tag="1")]
-    pub celebrity: ::core::option::Option<Celebrity>,
-    /// Recognition confidence. Range [0, 1].
-    #[prost(float, tag="2")]
-    pub confidence: f32,
 }
 /// Parameters for a product search request.
 #[derive(Clone, PartialEq, ::prost::Message)]

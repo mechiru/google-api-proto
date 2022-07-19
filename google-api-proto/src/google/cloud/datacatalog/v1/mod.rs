@@ -1,3 +1,308 @@
+/// Entry metadata relevant only to the user and private to them.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PersonalDetails {
+    /// True if the entry is starred by the user; false otherwise.
+    #[prost(bool, tag="1")]
+    pub starred: bool,
+    /// Set if the entry is starred; unset otherwise.
+    #[prost(message, optional, tag="2")]
+    pub star_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// This enum lists all the systems that Data Catalog integrates with.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum IntegratedSystem {
+    /// Default unknown system.
+    Unspecified = 0,
+    /// BigQuery.
+    Bigquery = 1,
+    /// Cloud Pub/Sub.
+    CloudPubsub = 2,
+    /// Dataproc Metastore.
+    DataprocMetastore = 3,
+    /// Dataplex.
+    Dataplex = 4,
+}
+/// Native schema used by a resource represented as an entry. Used by query
+/// engines for deserializing and parsing source data.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PhysicalSchema {
+    #[prost(oneof="physical_schema::Schema", tags="1, 2, 3, 4, 5, 6")]
+    pub schema: ::core::option::Option<physical_schema::Schema>,
+}
+/// Nested message and enum types in `PhysicalSchema`.
+pub mod physical_schema {
+    /// Schema in Avro JSON format.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct AvroSchema {
+        /// JSON source of the Avro schema.
+        #[prost(string, tag="1")]
+        pub text: ::prost::alloc::string::String,
+    }
+    /// Schema in Thrift format.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ThriftSchema {
+        /// Thrift IDL source of the schema.
+        #[prost(string, tag="1")]
+        pub text: ::prost::alloc::string::String,
+    }
+    /// Schema in protocol buffer format.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ProtobufSchema {
+        /// Protocol buffer source of the schema.
+        #[prost(string, tag="1")]
+        pub text: ::prost::alloc::string::String,
+    }
+    /// Marks a Parquet-encoded data source.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ParquetSchema {
+    }
+    /// Marks an ORC-encoded data source.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct OrcSchema {
+    }
+    /// Marks a CSV-encoded data source.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CsvSchema {
+    }
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Schema {
+        /// Schema in Avro JSON format.
+        #[prost(message, tag="1")]
+        Avro(AvroSchema),
+        /// Schema in Thrift format.
+        #[prost(message, tag="2")]
+        Thrift(ThriftSchema),
+        /// Schema in protocol buffer format.
+        #[prost(message, tag="3")]
+        Protobuf(ProtobufSchema),
+        /// Marks a Parquet-encoded data source.
+        #[prost(message, tag="4")]
+        Parquet(ParquetSchema),
+        /// Marks an ORC-encoded data source.
+        #[prost(message, tag="5")]
+        Orc(OrcSchema),
+        /// Marks a CSV-encoded data source.
+        #[prost(message, tag="6")]
+        Csv(CsvSchema),
+    }
+}
+/// Common Dataplex fields.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataplexSpec {
+    /// Fully qualified resource name of an asset in Dataplex, to which the
+    /// underlying data source (Cloud Storage bucket or BigQuery dataset) of the
+    /// entity is attached.
+    #[prost(string, tag="1")]
+    pub asset: ::prost::alloc::string::String,
+    /// Format of the data.
+    #[prost(message, optional, tag="2")]
+    pub data_format: ::core::option::Option<PhysicalSchema>,
+    /// Compression format of the data, e.g., zip, gzip etc.
+    #[prost(string, tag="3")]
+    pub compression_format: ::prost::alloc::string::String,
+    /// Project ID of the underlying Cloud Storage or BigQuery data. Note that
+    /// this may not be the same project as the correspondingly Dataplex lake /
+    /// zone / asset.
+    #[prost(string, tag="4")]
+    pub project_id: ::prost::alloc::string::String,
+}
+/// Entry specyfication for a Dataplex fileset.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataplexFilesetSpec {
+    /// Common Dataplex fields.
+    #[prost(message, optional, tag="1")]
+    pub dataplex_spec: ::core::option::Option<DataplexSpec>,
+}
+/// Entry specification for a Dataplex table.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataplexTableSpec {
+    /// List of external tables registered by Dataplex in other systems based on
+    /// the same underlying data.
+    ///
+    /// External tables allow to query this data in those systems.
+    #[prost(message, repeated, tag="1")]
+    pub external_tables: ::prost::alloc::vec::Vec<DataplexExternalTable>,
+    /// Common Dataplex fields.
+    #[prost(message, optional, tag="2")]
+    pub dataplex_spec: ::core::option::Option<DataplexSpec>,
+    /// Indicates if the table schema is managed by the user or not.
+    #[prost(bool, tag="3")]
+    pub user_managed: bool,
+}
+/// External table registered by Dataplex.
+/// Dataplex publishes data discovered from an asset into multiple other systems
+/// (BigQuery, DPMS) in form of tables. We call them "external tables". External
+/// tables are also synced into the Data Catalog.
+/// This message contains pointers to
+/// those external tables (fully qualified name, resource name et cetera) within
+/// the Data Catalog.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataplexExternalTable {
+    /// Service in which the external table is registered.
+    #[prost(enumeration="IntegratedSystem", tag="1")]
+    pub system: i32,
+    /// Fully qualified name (FQN) of the external table.
+    #[prost(string, tag="28")]
+    pub fully_qualified_name: ::prost::alloc::string::String,
+    /// Google Cloud resource name of the external table.
+    #[prost(string, tag="3")]
+    pub google_cloud_resource: ::prost::alloc::string::String,
+    /// Name of the Data Catalog entry representing the external table.
+    #[prost(string, tag="4")]
+    pub data_catalog_entry: ::prost::alloc::string::String,
+}
+/// Describes a BigQuery table.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BigQueryTableSpec {
+    /// Output only. The table source type.
+    #[prost(enumeration="TableSourceType", tag="1")]
+    pub table_source_type: i32,
+    /// Output only.
+    #[prost(oneof="big_query_table_spec::TypeSpec", tags="2, 3")]
+    pub type_spec: ::core::option::Option<big_query_table_spec::TypeSpec>,
+}
+/// Nested message and enum types in `BigQueryTableSpec`.
+pub mod big_query_table_spec {
+    /// Output only.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum TypeSpec {
+        /// Table view specification. Populated only if
+        /// the `table_source_type` is `BIGQUERY_VIEW`.
+        #[prost(message, tag="2")]
+        ViewSpec(super::ViewSpec),
+        /// Specification of a BigQuery table. Populated only if
+        /// the `table_source_type` is `BIGQUERY_TABLE`.
+        #[prost(message, tag="3")]
+        TableSpec(super::TableSpec),
+    }
+}
+/// Table view specification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ViewSpec {
+    /// Output only. The query that defines the table view.
+    #[prost(string, tag="1")]
+    pub view_query: ::prost::alloc::string::String,
+}
+/// Normal BigQuery table specification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TableSpec {
+    /// Output only. If the table is date-sharded, that is, it matches the `\[prefix\]YYYYMMDD`
+    /// name pattern, this field is the Data Catalog resource name of the
+    /// date-sharded grouped entry. For example:
+    ///
+    /// `projects/{PROJECT_ID}/locations/{LOCATION}/entrygroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`.
+    ///
+    /// Otherwise, `grouped_entry` is empty.
+    #[prost(string, tag="1")]
+    pub grouped_entry: ::prost::alloc::string::String,
+}
+/// Specification for a group of BigQuery tables with the `\[prefix\]YYYYMMDD` name
+/// pattern.
+///
+/// For more information, see [Introduction to partitioned tables]
+/// (<https://cloud.google.com/bigquery/docs/partitioned-tables#partitioning_versus_sharding>).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BigQueryDateShardedSpec {
+    /// Output only. The Data Catalog resource name of the dataset entry the current table
+    /// belongs to. For example:
+    ///
+    /// `projects/{PROJECT_ID}/locations/{LOCATION}/entrygroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`.
+    #[prost(string, tag="1")]
+    pub dataset: ::prost::alloc::string::String,
+    /// Output only. The table name prefix of the shards.
+    ///
+    /// The name of any given shard is `\[table_prefix\]YYYYMMDD`.
+    /// For example, for the `MyTable20180101` shard, the
+    /// `table_prefix` is `MyTable`.
+    #[prost(string, tag="2")]
+    pub table_prefix: ::prost::alloc::string::String,
+    /// Output only. Total number of shards.
+    #[prost(int64, tag="3")]
+    pub shard_count: i64,
+    /// Output only. BigQuery resource name of the latest shard.
+    #[prost(string, tag="4")]
+    pub latest_shard_resource: ::prost::alloc::string::String,
+}
+/// Table source type.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TableSourceType {
+    /// Default unknown type.
+    Unspecified = 0,
+    /// Table view.
+    BigqueryView = 2,
+    /// BigQuery native table.
+    BigqueryTable = 5,
+    /// BigQuery materialized view.
+    BigqueryMaterializedView = 7,
+}
+/// Physical location of an entry.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataSource {
+    /// Service that physically stores the data.
+    #[prost(enumeration="data_source::Service", tag="1")]
+    pub service: i32,
+    /// Full name of a resource as defined by the service. For example:
+    ///
+    /// `//bigquery.googleapis.com/projects/{PROJECT_ID}/locations/{LOCATION}/datasets/{DATASET_ID}/tables/{TABLE_ID}`
+    #[prost(string, tag="2")]
+    pub resource: ::prost::alloc::string::String,
+    /// Output only. Data Catalog entry name, if applicable.
+    #[prost(string, tag="3")]
+    pub source_entry: ::prost::alloc::string::String,
+    #[prost(oneof="data_source::Properties", tags="4")]
+    pub properties: ::core::option::Option<data_source::Properties>,
+}
+/// Nested message and enum types in `DataSource`.
+pub mod data_source {
+    /// Name of a service that stores the data.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Service {
+        /// Default unknown service.
+        Unspecified = 0,
+        /// Google Cloud Storage service.
+        CloudStorage = 1,
+        /// BigQuery service.
+        Bigquery = 2,
+    }
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Properties {
+        /// Detailed properties of the underlying storage.
+        #[prost(message, tag="4")]
+        StorageProperties(super::StorageProperties),
+    }
+}
+/// Details the properties of the underlying storage.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StorageProperties {
+    /// Patterns to identify a set of files for this fileset.
+    ///
+    /// Examples of a valid `file_pattern`:
+    ///
+    ///  * `gs://bucket_name/dir/*`: matches all files in the `bucket_name/dir`
+    ///                              directory
+    ///  * `gs://bucket_name/dir/**`: matches all files in the `bucket_name/dir`
+    ///                               and all subdirectories recursively
+    ///  * `gs://bucket_name/file*`: matches files prefixed by `file` in
+    ///                              `bucket_name`
+    ///  * `gs://bucket_name/??.txt`: matches files with two characters followed by
+    ///                               `.txt` in `bucket_name`
+    ///  * `gs://bucket_name/\[aeiou\].txt`: matches files that contain a single
+    ///                                    vowel character followed by `.txt` in
+    ///                                    `bucket_name`
+    ///  * `gs://bucket_name/\[a-m\].txt`: matches files that contain `a`, `b`, ...
+    ///                                  or `m` followed by `.txt` in `bucket_name`
+    ///  * `gs://bucket_name/a/*/b`: matches all files in `bucket_name` that match
+    ///                              the `a/*/b` pattern, such as `a/c/b`, `a/d/b`
+    ///  * `gs://another_bucket/a.txt`: matches `gs://another_bucket/a.txt`
+    #[prost(string, repeated, tag="1")]
+    pub file_pattern: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// File type in MIME format, for example, `text/plain`.
+    #[prost(string, tag="2")]
+    pub file_type: ::prost::alloc::string::String,
+}
 /// Timestamps associated with this resource in a particular system.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SystemTimestamps {
@@ -18,58 +323,6 @@ pub struct SystemTimestamps {
     /// Currently only applicable to BigQuery resources.
     #[prost(message, optional, tag="3")]
     pub expire_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Describes a Cloud Storage fileset entry.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GcsFilesetSpec {
-    /// Required. Patterns to identify a set of files in Google Cloud Storage.
-    ///
-    /// For more information, see [Wildcard Names]
-    /// (<https://cloud.google.com/storage/docs/gsutil/addlhelp/WildcardNames>).
-    ///
-    /// Note: Currently, bucket wildcards are not supported.
-    ///
-    /// Examples of valid `file_patterns`:
-    ///
-    ///  * `gs://bucket_name/dir/*`: matches all files in `bucket_name/dir`
-    ///                              directory
-    ///  * `gs://bucket_name/dir/**`: matches all files in `bucket_name/dir`
-    ///                               and all subdirectories
-    ///  * `gs://bucket_name/file*`: matches files prefixed by `file` in
-    ///                              `bucket_name`
-    ///  * `gs://bucket_name/??.txt`: matches files with two characters followed by
-    ///                               `.txt` in `bucket_name`
-    ///  * `gs://bucket_name/\[aeiou\].txt`: matches files that contain a single
-    ///                                    vowel character followed by `.txt` in
-    ///                                    `bucket_name`
-    ///  * `gs://bucket_name/\[a-m\].txt`: matches files that contain `a`, `b`, ...
-    ///                                  or `m` followed by `.txt` in `bucket_name`
-    ///  * `gs://bucket_name/a/*/b`: matches all files in `bucket_name` that match
-    ///                              the `a/*/b` pattern, such as `a/c/b`, `a/d/b`
-    ///  * `gs://another_bucket/a.txt`: matches `gs://another_bucket/a.txt`
-    ///
-    /// You can combine wildcards to match complex sets of files, for example:
-    ///
-    /// `gs://bucket_name/\[a-m\]??.j*g`
-    #[prost(string, repeated, tag="1")]
-    pub file_patterns: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Output only. Sample files contained in this fileset, not all files
-    /// contained in this fileset are represented here.
-    #[prost(message, repeated, tag="2")]
-    pub sample_gcs_file_specs: ::prost::alloc::vec::Vec<GcsFileSpec>,
-}
-/// Specification of a single file in Cloud Storage.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GcsFileSpec {
-    /// Required. Full file path. Example: `gs://bucket_name/a/b.txt`.
-    #[prost(string, tag="1")]
-    pub file_path: ::prost::alloc::string::String,
-    /// Output only. Creation, modification, and expiration timestamps of a Cloud Storage file.
-    #[prost(message, optional, tag="2")]
-    pub gcs_timestamps: ::core::option::Option<SystemTimestamps>,
-    /// Output only. File size in bytes.
-    #[prost(int64, tag="4")]
-    pub size_bytes: i64,
 }
 /// A taxonomy is a collection of hierarchical policy tags that classify data
 /// along a common axis.
@@ -690,70 +943,45 @@ pub mod policy_tag_manager_client {
         }
     }
 }
-/// Specification for the BigQuery connection.
+/// Detailed statistics on the entry's usage.
+///
+/// Usage statistics have the following limitations:
+///
+/// - Only BigQuery tables have them.
+/// - They only include BigQuery query jobs.
+/// - They might be underestimated because wildcard table references
+///   are not yet counted. For more information, see
+///   [Querying multiple tables using a wildcard table]
+///   (<https://cloud.google.com/bigquery/docs/querying-wildcard-tables>)
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BigQueryConnectionSpec {
-    /// The type of the BigQuery connection.
-    #[prost(enumeration="big_query_connection_spec::ConnectionType", tag="1")]
-    pub connection_type: i32,
-    /// True if there are credentials attached to the BigQuery connection; false
-    /// otherwise.
-    #[prost(bool, tag="3")]
-    pub has_credential: bool,
-    #[prost(oneof="big_query_connection_spec::ConnectionSpec", tags="2")]
-    pub connection_spec: ::core::option::Option<big_query_connection_spec::ConnectionSpec>,
+pub struct UsageStats {
+    /// The number of successful uses of the underlying entry.
+    #[prost(float, tag="1")]
+    pub total_completions: f32,
+    /// The number of failed attempts to use the underlying entry.
+    #[prost(float, tag="2")]
+    pub total_failures: f32,
+    /// The number of cancelled attempts to use the underlying entry.
+    #[prost(float, tag="3")]
+    pub total_cancellations: f32,
+    /// Total time spent only on successful uses, in milliseconds.
+    #[prost(float, tag="4")]
+    pub total_execution_time_for_completions_millis: f32,
 }
-/// Nested message and enum types in `BigQueryConnectionSpec`.
-pub mod big_query_connection_spec {
-    /// The type of the BigQuery connection.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ConnectionType {
-        /// Unspecified type.
-        Unspecified = 0,
-        /// Cloud SQL connection.
-        CloudSql = 1,
-    }
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum ConnectionSpec {
-        /// Specification for the BigQuery connection to a Cloud SQL instance.
-        #[prost(message, tag="2")]
-        CloudSql(super::CloudSqlBigQueryConnectionSpec),
-    }
-}
-/// Specification for the BigQuery connection to a Cloud SQL instance.
+/// The set of all usage signals that Data Catalog stores.
+///
+/// Note: Usually, these signals are updated daily. In rare cases, an update may
+/// fail but will be performed again on the next day.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CloudSqlBigQueryConnectionSpec {
-    /// Cloud SQL instance ID in the format of `project:location:instance`.
-    #[prost(string, tag="1")]
-    pub instance_id: ::prost::alloc::string::String,
-    /// Database name.
-    #[prost(string, tag="2")]
-    pub database: ::prost::alloc::string::String,
-    /// Type of the Cloud SQL database.
-    #[prost(enumeration="cloud_sql_big_query_connection_spec::DatabaseType", tag="3")]
-    pub r#type: i32,
-}
-/// Nested message and enum types in `CloudSqlBigQueryConnectionSpec`.
-pub mod cloud_sql_big_query_connection_spec {
-    /// Supported Cloud SQL database types.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum DatabaseType {
-        /// Unspecified database type.
-        Unspecified = 0,
-        /// Cloud SQL for PostgreSQL.
-        Postgres = 1,
-        /// Cloud SQL for MySQL.
-        Mysql = 2,
-    }
-}
-/// Fields specific for BigQuery routines.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BigQueryRoutineSpec {
-    /// Paths of the imported libraries.
-    #[prost(string, repeated, tag="1")]
-    pub imported_libraries: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+pub struct UsageSignal {
+    /// The end timestamp of the duration of usage statistics.
+    #[prost(message, optional, tag="1")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Usage statistics over each of the predefined time ranges.
+    ///
+    /// Supported time ranges are `{"24H", "7D", "30D"}`.
+    #[prost(btree_map="string, message", tag="2")]
+    pub usage_within_time_range: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, UsageStats>,
 }
 /// A nested protocol buffer that represents a taxonomy and the hierarchy of its
 /// policy tags. Used for taxonomy replacement, import, and
@@ -1032,90 +1260,122 @@ pub mod policy_tag_manager_serialization_client {
         }
     }
 }
-/// Describes a BigQuery table.
+/// Describes a Cloud Storage fileset entry.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BigQueryTableSpec {
-    /// Output only. The table source type.
-    #[prost(enumeration="TableSourceType", tag="1")]
-    pub table_source_type: i32,
-    /// Output only.
-    #[prost(oneof="big_query_table_spec::TypeSpec", tags="2, 3")]
-    pub type_spec: ::core::option::Option<big_query_table_spec::TypeSpec>,
+pub struct GcsFilesetSpec {
+    /// Required. Patterns to identify a set of files in Google Cloud Storage.
+    ///
+    /// For more information, see [Wildcard Names]
+    /// (<https://cloud.google.com/storage/docs/gsutil/addlhelp/WildcardNames>).
+    ///
+    /// Note: Currently, bucket wildcards are not supported.
+    ///
+    /// Examples of valid `file_patterns`:
+    ///
+    ///  * `gs://bucket_name/dir/*`: matches all files in `bucket_name/dir`
+    ///                              directory
+    ///  * `gs://bucket_name/dir/**`: matches all files in `bucket_name/dir`
+    ///                               and all subdirectories
+    ///  * `gs://bucket_name/file*`: matches files prefixed by `file` in
+    ///                              `bucket_name`
+    ///  * `gs://bucket_name/??.txt`: matches files with two characters followed by
+    ///                               `.txt` in `bucket_name`
+    ///  * `gs://bucket_name/\[aeiou\].txt`: matches files that contain a single
+    ///                                    vowel character followed by `.txt` in
+    ///                                    `bucket_name`
+    ///  * `gs://bucket_name/\[a-m\].txt`: matches files that contain `a`, `b`, ...
+    ///                                  or `m` followed by `.txt` in `bucket_name`
+    ///  * `gs://bucket_name/a/*/b`: matches all files in `bucket_name` that match
+    ///                              the `a/*/b` pattern, such as `a/c/b`, `a/d/b`
+    ///  * `gs://another_bucket/a.txt`: matches `gs://another_bucket/a.txt`
+    ///
+    /// You can combine wildcards to match complex sets of files, for example:
+    ///
+    /// `gs://bucket_name/\[a-m\]??.j*g`
+    #[prost(string, repeated, tag="1")]
+    pub file_patterns: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Output only. Sample files contained in this fileset, not all files
+    /// contained in this fileset are represented here.
+    #[prost(message, repeated, tag="2")]
+    pub sample_gcs_file_specs: ::prost::alloc::vec::Vec<GcsFileSpec>,
 }
-/// Nested message and enum types in `BigQueryTableSpec`.
-pub mod big_query_table_spec {
-    /// Output only.
+/// Specification of a single file in Cloud Storage.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GcsFileSpec {
+    /// Required. Full file path. Example: `gs://bucket_name/a/b.txt`.
+    #[prost(string, tag="1")]
+    pub file_path: ::prost::alloc::string::String,
+    /// Output only. Creation, modification, and expiration timestamps of a Cloud Storage file.
+    #[prost(message, optional, tag="2")]
+    pub gcs_timestamps: ::core::option::Option<SystemTimestamps>,
+    /// Output only. File size in bytes.
+    #[prost(int64, tag="4")]
+    pub size_bytes: i64,
+}
+/// Specification for the BigQuery connection.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BigQueryConnectionSpec {
+    /// The type of the BigQuery connection.
+    #[prost(enumeration="big_query_connection_spec::ConnectionType", tag="1")]
+    pub connection_type: i32,
+    /// True if there are credentials attached to the BigQuery connection; false
+    /// otherwise.
+    #[prost(bool, tag="3")]
+    pub has_credential: bool,
+    #[prost(oneof="big_query_connection_spec::ConnectionSpec", tags="2")]
+    pub connection_spec: ::core::option::Option<big_query_connection_spec::ConnectionSpec>,
+}
+/// Nested message and enum types in `BigQueryConnectionSpec`.
+pub mod big_query_connection_spec {
+    /// The type of the BigQuery connection.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ConnectionType {
+        /// Unspecified type.
+        Unspecified = 0,
+        /// Cloud SQL connection.
+        CloudSql = 1,
+    }
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum TypeSpec {
-        /// Table view specification. Populated only if
-        /// the `table_source_type` is `BIGQUERY_VIEW`.
+    pub enum ConnectionSpec {
+        /// Specification for the BigQuery connection to a Cloud SQL instance.
         #[prost(message, tag="2")]
-        ViewSpec(super::ViewSpec),
-        /// Specification of a BigQuery table. Populated only if
-        /// the `table_source_type` is `BIGQUERY_TABLE`.
-        #[prost(message, tag="3")]
-        TableSpec(super::TableSpec),
+        CloudSql(super::CloudSqlBigQueryConnectionSpec),
     }
 }
-/// Table view specification.
+/// Specification for the BigQuery connection to a Cloud SQL instance.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ViewSpec {
-    /// Output only. The query that defines the table view.
+pub struct CloudSqlBigQueryConnectionSpec {
+    /// Cloud SQL instance ID in the format of `project:location:instance`.
     #[prost(string, tag="1")]
-    pub view_query: ::prost::alloc::string::String,
-}
-/// Normal BigQuery table specification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TableSpec {
-    /// Output only. If the table is date-sharded, that is, it matches the `\[prefix\]YYYYMMDD`
-    /// name pattern, this field is the Data Catalog resource name of the
-    /// date-sharded grouped entry. For example:
-    ///
-    /// `projects/{PROJECT_ID}/locations/{LOCATION}/entrygroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`.
-    ///
-    /// Otherwise, `grouped_entry` is empty.
-    #[prost(string, tag="1")]
-    pub grouped_entry: ::prost::alloc::string::String,
-}
-/// Specification for a group of BigQuery tables with the `\[prefix\]YYYYMMDD` name
-/// pattern.
-///
-/// For more information, see [Introduction to partitioned tables]
-/// (<https://cloud.google.com/bigquery/docs/partitioned-tables#partitioning_versus_sharding>).
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BigQueryDateShardedSpec {
-    /// Output only. The Data Catalog resource name of the dataset entry the current table
-    /// belongs to. For example:
-    ///
-    /// `projects/{PROJECT_ID}/locations/{LOCATION}/entrygroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`.
-    #[prost(string, tag="1")]
-    pub dataset: ::prost::alloc::string::String,
-    /// Output only. The table name prefix of the shards.
-    ///
-    /// The name of any given shard is `\[table_prefix\]YYYYMMDD`.
-    /// For example, for the `MyTable20180101` shard, the
-    /// `table_prefix` is `MyTable`.
+    pub instance_id: ::prost::alloc::string::String,
+    /// Database name.
     #[prost(string, tag="2")]
-    pub table_prefix: ::prost::alloc::string::String,
-    /// Output only. Total number of shards.
-    #[prost(int64, tag="3")]
-    pub shard_count: i64,
-    /// Output only. BigQuery resource name of the latest shard.
-    #[prost(string, tag="4")]
-    pub latest_shard_resource: ::prost::alloc::string::String,
+    pub database: ::prost::alloc::string::String,
+    /// Type of the Cloud SQL database.
+    #[prost(enumeration="cloud_sql_big_query_connection_spec::DatabaseType", tag="3")]
+    pub r#type: i32,
 }
-/// Table source type.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TableSourceType {
-    /// Default unknown type.
-    Unspecified = 0,
-    /// Table view.
-    BigqueryView = 2,
-    /// BigQuery native table.
-    BigqueryTable = 5,
-    /// BigQuery materialized view.
-    BigqueryMaterializedView = 7,
+/// Nested message and enum types in `CloudSqlBigQueryConnectionSpec`.
+pub mod cloud_sql_big_query_connection_spec {
+    /// Supported Cloud SQL database types.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum DatabaseType {
+        /// Unspecified database type.
+        Unspecified = 0,
+        /// Cloud SQL for PostgreSQL.
+        Postgres = 1,
+        /// Cloud SQL for MySQL.
+        Mysql = 2,
+    }
+}
+/// Fields specific for BigQuery routines.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BigQueryRoutineSpec {
+    /// Paths of the imported libraries.
+    #[prost(string, repeated, tag="1")]
+    pub imported_libraries: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Represents a schema, for example, a BigQuery, GoogleSQL, or Avro schema.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1158,160 +1418,6 @@ pub struct ColumnSchema {
     /// Optional. Schema of sub-columns. A column can have zero or more sub-columns.
     #[prost(message, repeated, tag="7")]
     pub subcolumns: ::prost::alloc::vec::Vec<ColumnSchema>,
-}
-/// Entry metadata relevant only to the user and private to them.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PersonalDetails {
-    /// True if the entry is starred by the user; false otherwise.
-    #[prost(bool, tag="1")]
-    pub starred: bool,
-    /// Set if the entry is starred; unset otherwise.
-    #[prost(message, optional, tag="2")]
-    pub star_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// This enum lists all the systems that Data Catalog integrates with.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum IntegratedSystem {
-    /// Default unknown system.
-    Unspecified = 0,
-    /// BigQuery.
-    Bigquery = 1,
-    /// Cloud Pub/Sub.
-    CloudPubsub = 2,
-    /// Dataproc Metastore.
-    DataprocMetastore = 3,
-    /// Dataplex.
-    Dataplex = 4,
-}
-/// Native schema used by a resource represented as an entry. Used by query
-/// engines for deserializing and parsing source data.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PhysicalSchema {
-    #[prost(oneof="physical_schema::Schema", tags="1, 2, 3, 4, 5, 6")]
-    pub schema: ::core::option::Option<physical_schema::Schema>,
-}
-/// Nested message and enum types in `PhysicalSchema`.
-pub mod physical_schema {
-    /// Schema in Avro JSON format.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct AvroSchema {
-        /// JSON source of the Avro schema.
-        #[prost(string, tag="1")]
-        pub text: ::prost::alloc::string::String,
-    }
-    /// Schema in Thrift format.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ThriftSchema {
-        /// Thrift IDL source of the schema.
-        #[prost(string, tag="1")]
-        pub text: ::prost::alloc::string::String,
-    }
-    /// Schema in protocol buffer format.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ProtobufSchema {
-        /// Protocol buffer source of the schema.
-        #[prost(string, tag="1")]
-        pub text: ::prost::alloc::string::String,
-    }
-    /// Marks a Parquet-encoded data source.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ParquetSchema {
-    }
-    /// Marks an ORC-encoded data source.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct OrcSchema {
-    }
-    /// Marks a CSV-encoded data source.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CsvSchema {
-    }
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Schema {
-        /// Schema in Avro JSON format.
-        #[prost(message, tag="1")]
-        Avro(AvroSchema),
-        /// Schema in Thrift format.
-        #[prost(message, tag="2")]
-        Thrift(ThriftSchema),
-        /// Schema in protocol buffer format.
-        #[prost(message, tag="3")]
-        Protobuf(ProtobufSchema),
-        /// Marks a Parquet-encoded data source.
-        #[prost(message, tag="4")]
-        Parquet(ParquetSchema),
-        /// Marks an ORC-encoded data source.
-        #[prost(message, tag="5")]
-        Orc(OrcSchema),
-        /// Marks a CSV-encoded data source.
-        #[prost(message, tag="6")]
-        Csv(CsvSchema),
-    }
-}
-/// Common Dataplex fields.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataplexSpec {
-    /// Fully qualified resource name of an asset in Dataplex, to which the
-    /// underlying data source (Cloud Storage bucket or BigQuery dataset) of the
-    /// entity is attached.
-    #[prost(string, tag="1")]
-    pub asset: ::prost::alloc::string::String,
-    /// Format of the data.
-    #[prost(message, optional, tag="2")]
-    pub data_format: ::core::option::Option<PhysicalSchema>,
-    /// Compression format of the data, e.g., zip, gzip etc.
-    #[prost(string, tag="3")]
-    pub compression_format: ::prost::alloc::string::String,
-    /// Project ID of the underlying Cloud Storage or BigQuery data. Note that
-    /// this may not be the same project as the correspondingly Dataplex lake /
-    /// zone / asset.
-    #[prost(string, tag="4")]
-    pub project_id: ::prost::alloc::string::String,
-}
-/// Entry specyfication for a Dataplex fileset.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataplexFilesetSpec {
-    /// Common Dataplex fields.
-    #[prost(message, optional, tag="1")]
-    pub dataplex_spec: ::core::option::Option<DataplexSpec>,
-}
-/// Entry specification for a Dataplex table.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataplexTableSpec {
-    /// List of external tables registered by Dataplex in other systems based on
-    /// the same underlying data.
-    ///
-    /// External tables allow to query this data in those systems.
-    #[prost(message, repeated, tag="1")]
-    pub external_tables: ::prost::alloc::vec::Vec<DataplexExternalTable>,
-    /// Common Dataplex fields.
-    #[prost(message, optional, tag="2")]
-    pub dataplex_spec: ::core::option::Option<DataplexSpec>,
-    /// Indicates if the table schema is managed by the user or not.
-    #[prost(bool, tag="3")]
-    pub user_managed: bool,
-}
-/// External table registered by Dataplex.
-/// Dataplex publishes data discovered from an asset into multiple other systems
-/// (BigQuery, DPMS) in form of tables. We call them "external tables". External
-/// tables are also synced into the Data Catalog.
-/// This message contains pointers to
-/// those external tables (fully qualified name, resource name et cetera) within
-/// the Data Catalog.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataplexExternalTable {
-    /// Service in which the external table is registered.
-    #[prost(enumeration="IntegratedSystem", tag="1")]
-    pub system: i32,
-    /// Fully qualified name (FQN) of the external table.
-    #[prost(string, tag="28")]
-    pub fully_qualified_name: ::prost::alloc::string::String,
-    /// Google Cloud resource name of the external table.
-    #[prost(string, tag="3")]
-    pub google_cloud_resource: ::prost::alloc::string::String,
-    /// Name of the Data Catalog entry representing the external table.
-    #[prost(string, tag="4")]
-    pub data_catalog_entry: ::prost::alloc::string::String,
 }
 /// Result in the response to a search request.
 ///
@@ -1678,112 +1784,6 @@ pub mod field_type {
         #[prost(message, tag="2")]
         EnumType(EnumType),
     }
-}
-/// Detailed statistics on the entry's usage.
-///
-/// Usage statistics have the following limitations:
-///
-/// - Only BigQuery tables have them.
-/// - They only include BigQuery query jobs.
-/// - They might be underestimated because wildcard table references
-///   are not yet counted. For more information, see
-///   [Querying multiple tables using a wildcard table]
-///   (<https://cloud.google.com/bigquery/docs/querying-wildcard-tables>)
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UsageStats {
-    /// The number of successful uses of the underlying entry.
-    #[prost(float, tag="1")]
-    pub total_completions: f32,
-    /// The number of failed attempts to use the underlying entry.
-    #[prost(float, tag="2")]
-    pub total_failures: f32,
-    /// The number of cancelled attempts to use the underlying entry.
-    #[prost(float, tag="3")]
-    pub total_cancellations: f32,
-    /// Total time spent only on successful uses, in milliseconds.
-    #[prost(float, tag="4")]
-    pub total_execution_time_for_completions_millis: f32,
-}
-/// The set of all usage signals that Data Catalog stores.
-///
-/// Note: Usually, these signals are updated daily. In rare cases, an update may
-/// fail but will be performed again on the next day.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UsageSignal {
-    /// The end timestamp of the duration of usage statistics.
-    #[prost(message, optional, tag="1")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Usage statistics over each of the predefined time ranges.
-    ///
-    /// Supported time ranges are `{"24H", "7D", "30D"}`.
-    #[prost(btree_map="string, message", tag="2")]
-    pub usage_within_time_range: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, UsageStats>,
-}
-/// Physical location of an entry.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataSource {
-    /// Service that physically stores the data.
-    #[prost(enumeration="data_source::Service", tag="1")]
-    pub service: i32,
-    /// Full name of a resource as defined by the service. For example:
-    ///
-    /// `//bigquery.googleapis.com/projects/{PROJECT_ID}/locations/{LOCATION}/datasets/{DATASET_ID}/tables/{TABLE_ID}`
-    #[prost(string, tag="2")]
-    pub resource: ::prost::alloc::string::String,
-    /// Output only. Data Catalog entry name, if applicable.
-    #[prost(string, tag="3")]
-    pub source_entry: ::prost::alloc::string::String,
-    #[prost(oneof="data_source::Properties", tags="4")]
-    pub properties: ::core::option::Option<data_source::Properties>,
-}
-/// Nested message and enum types in `DataSource`.
-pub mod data_source {
-    /// Name of a service that stores the data.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Service {
-        /// Default unknown service.
-        Unspecified = 0,
-        /// Google Cloud Storage service.
-        CloudStorage = 1,
-        /// BigQuery service.
-        Bigquery = 2,
-    }
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Properties {
-        /// Detailed properties of the underlying storage.
-        #[prost(message, tag="4")]
-        StorageProperties(super::StorageProperties),
-    }
-}
-/// Details the properties of the underlying storage.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StorageProperties {
-    /// Patterns to identify a set of files for this fileset.
-    ///
-    /// Examples of a valid `file_pattern`:
-    ///
-    ///  * `gs://bucket_name/dir/*`: matches all files in the `bucket_name/dir`
-    ///                              directory
-    ///  * `gs://bucket_name/dir/**`: matches all files in the `bucket_name/dir`
-    ///                               and all subdirectories recursively
-    ///  * `gs://bucket_name/file*`: matches files prefixed by `file` in
-    ///                              `bucket_name`
-    ///  * `gs://bucket_name/??.txt`: matches files with two characters followed by
-    ///                               `.txt` in `bucket_name`
-    ///  * `gs://bucket_name/\[aeiou\].txt`: matches files that contain a single
-    ///                                    vowel character followed by `.txt` in
-    ///                                    `bucket_name`
-    ///  * `gs://bucket_name/\[a-m\].txt`: matches files that contain `a`, `b`, ...
-    ///                                  or `m` followed by `.txt` in `bucket_name`
-    ///  * `gs://bucket_name/a/*/b`: matches all files in `bucket_name` that match
-    ///                              the `a/*/b` pattern, such as `a/c/b`, `a/d/b`
-    ///  * `gs://another_bucket/a.txt`: matches `gs://another_bucket/a.txt`
-    #[prost(string, repeated, tag="1")]
-    pub file_pattern: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// File type in MIME format, for example, `text/plain`.
-    #[prost(string, tag="2")]
-    pub file_type: ::prost::alloc::string::String,
 }
 /// Request message for
 /// \[SearchCatalog][google.cloud.datacatalog.v1.DataCatalog.SearchCatalog\].

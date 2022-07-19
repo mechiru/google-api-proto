@@ -685,6 +685,968 @@ pub enum RestoreSourceType {
     /// A backup was used as the source of the restore.
     Backup = 1,
 }
+/// Request message for BigtableInstanceAdmin.CreateInstance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateInstanceRequest {
+    /// Required. The unique name of the project in which to create the new instance.
+    /// Values are of the form `projects/{project}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The ID to be used when referring to the new instance within its project,
+    /// e.g., just `myinstance` rather than
+    /// `projects/myproject/instances/myinstance`.
+    #[prost(string, tag="2")]
+    pub instance_id: ::prost::alloc::string::String,
+    /// Required. The instance to create.
+    /// Fields marked `OutputOnly` must be left blank.
+    #[prost(message, optional, tag="3")]
+    pub instance: ::core::option::Option<Instance>,
+    /// Required. The clusters to be created within the instance, mapped by desired
+    /// cluster ID, e.g., just `mycluster` rather than
+    /// `projects/myproject/instances/myinstance/clusters/mycluster`.
+    /// Fields marked `OutputOnly` must be left blank.
+    /// Currently, at most four clusters can be specified.
+    #[prost(btree_map="string, message", tag="4")]
+    pub clusters: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, Cluster>,
+}
+/// Request message for BigtableInstanceAdmin.GetInstance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetInstanceRequest {
+    /// Required. The unique name of the requested instance. Values are of the form
+    /// `projects/{project}/instances/{instance}`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for BigtableInstanceAdmin.ListInstances.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListInstancesRequest {
+    /// Required. The unique name of the project for which a list of instances is requested.
+    /// Values are of the form `projects/{project}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// DEPRECATED: This field is unused and ignored.
+    #[prost(string, tag="2")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response message for BigtableInstanceAdmin.ListInstances.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListInstancesResponse {
+    /// The list of requested instances.
+    #[prost(message, repeated, tag="1")]
+    pub instances: ::prost::alloc::vec::Vec<Instance>,
+    /// Locations from which Instance information could not be retrieved,
+    /// due to an outage or some other transient condition.
+    /// Instances whose Clusters are all in one of the failed locations
+    /// may be missing from `instances`, and Instances with at least one
+    /// Cluster in a failed location may only have partial information returned.
+    /// Values are of the form `projects/<project>/locations/<zone_id>`
+    #[prost(string, repeated, tag="2")]
+    pub failed_locations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// DEPRECATED: This field is unused and ignored.
+    #[prost(string, tag="3")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for BigtableInstanceAdmin.PartialUpdateInstance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PartialUpdateInstanceRequest {
+    /// Required. The Instance which will (partially) replace the current value.
+    #[prost(message, optional, tag="1")]
+    pub instance: ::core::option::Option<Instance>,
+    /// Required. The subset of Instance fields which should be replaced.
+    /// Must be explicitly set.
+    #[prost(message, optional, tag="2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Request message for BigtableInstanceAdmin.DeleteInstance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteInstanceRequest {
+    /// Required. The unique name of the instance to be deleted.
+    /// Values are of the form `projects/{project}/instances/{instance}`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for BigtableInstanceAdmin.CreateCluster.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateClusterRequest {
+    /// Required. The unique name of the instance in which to create the new cluster.
+    /// Values are of the form
+    /// `projects/{project}/instances/{instance}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The ID to be used when referring to the new cluster within its instance,
+    /// e.g., just `mycluster` rather than
+    /// `projects/myproject/instances/myinstance/clusters/mycluster`.
+    #[prost(string, tag="2")]
+    pub cluster_id: ::prost::alloc::string::String,
+    /// Required. The cluster to be created.
+    /// Fields marked `OutputOnly` must be left blank.
+    #[prost(message, optional, tag="3")]
+    pub cluster: ::core::option::Option<Cluster>,
+}
+/// Request message for BigtableInstanceAdmin.GetCluster.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetClusterRequest {
+    /// Required. The unique name of the requested cluster. Values are of the form
+    /// `projects/{project}/instances/{instance}/clusters/{cluster}`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for BigtableInstanceAdmin.ListClusters.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListClustersRequest {
+    /// Required. The unique name of the instance for which a list of clusters is requested.
+    /// Values are of the form `projects/{project}/instances/{instance}`.
+    /// Use `{instance} = '-'` to list Clusters for all Instances in a project,
+    /// e.g., `projects/myproject/instances/-`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// DEPRECATED: This field is unused and ignored.
+    #[prost(string, tag="2")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response message for BigtableInstanceAdmin.ListClusters.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListClustersResponse {
+    /// The list of requested clusters.
+    #[prost(message, repeated, tag="1")]
+    pub clusters: ::prost::alloc::vec::Vec<Cluster>,
+    /// Locations from which Cluster information could not be retrieved,
+    /// due to an outage or some other transient condition.
+    /// Clusters from these locations may be missing from `clusters`,
+    /// or may only have partial information returned.
+    /// Values are of the form `projects/<project>/locations/<zone_id>`
+    #[prost(string, repeated, tag="2")]
+    pub failed_locations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// DEPRECATED: This field is unused and ignored.
+    #[prost(string, tag="3")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for BigtableInstanceAdmin.DeleteCluster.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteClusterRequest {
+    /// Required. The unique name of the cluster to be deleted. Values are of the form
+    /// `projects/{project}/instances/{instance}/clusters/{cluster}`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The metadata for the Operation returned by CreateInstance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateInstanceMetadata {
+    /// The request that prompted the initiation of this CreateInstance operation.
+    #[prost(message, optional, tag="1")]
+    pub original_request: ::core::option::Option<CreateInstanceRequest>,
+    /// The time at which the original request was received.
+    #[prost(message, optional, tag="2")]
+    pub request_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time at which the operation failed or was completed successfully.
+    #[prost(message, optional, tag="3")]
+    pub finish_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// The metadata for the Operation returned by UpdateInstance.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateInstanceMetadata {
+    /// The request that prompted the initiation of this UpdateInstance operation.
+    #[prost(message, optional, tag="1")]
+    pub original_request: ::core::option::Option<PartialUpdateInstanceRequest>,
+    /// The time at which the original request was received.
+    #[prost(message, optional, tag="2")]
+    pub request_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time at which the operation failed or was completed successfully.
+    #[prost(message, optional, tag="3")]
+    pub finish_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// The metadata for the Operation returned by CreateCluster.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateClusterMetadata {
+    /// The request that prompted the initiation of this CreateCluster operation.
+    #[prost(message, optional, tag="1")]
+    pub original_request: ::core::option::Option<CreateClusterRequest>,
+    /// The time at which the original request was received.
+    #[prost(message, optional, tag="2")]
+    pub request_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time at which the operation failed or was completed successfully.
+    #[prost(message, optional, tag="3")]
+    pub finish_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Keys: the full `name` of each table that existed in the instance when
+    /// CreateCluster was first called, i.e.
+    /// `projects/<project>/instances/<instance>/tables/<table>`. Any table added
+    /// to the instance by a later API call will be created in the new cluster by
+    /// that API call, not this one.
+    ///
+    /// Values: information on how much of a table's data has been copied to the
+    /// newly-created cluster so far.
+    #[prost(btree_map="string, message", tag="4")]
+    pub tables: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, create_cluster_metadata::TableProgress>,
+}
+/// Nested message and enum types in `CreateClusterMetadata`.
+pub mod create_cluster_metadata {
+    /// Progress info for copying a table's data to the new cluster.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct TableProgress {
+        /// Estimate of the size of the table to be copied.
+        #[prost(int64, tag="2")]
+        pub estimated_size_bytes: i64,
+        /// Estimate of the number of bytes copied so far for this table.
+        /// This will eventually reach 'estimated_size_bytes' unless the table copy
+        /// is CANCELLED.
+        #[prost(int64, tag="3")]
+        pub estimated_copied_bytes: i64,
+        #[prost(enumeration="table_progress::State", tag="4")]
+        pub state: i32,
+    }
+    /// Nested message and enum types in `TableProgress`.
+    pub mod table_progress {
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+        #[repr(i32)]
+        pub enum State {
+            Unspecified = 0,
+            /// The table has not yet begun copying to the new cluster.
+            Pending = 1,
+            /// The table is actively being copied to the new cluster.
+            Copying = 2,
+            /// The table has been fully copied to the new cluster.
+            Completed = 3,
+            /// The table was deleted before it finished copying to the new cluster.
+            /// Note that tables deleted after completion will stay marked as
+            /// COMPLETED, not CANCELLED.
+            Cancelled = 4,
+        }
+    }
+}
+/// The metadata for the Operation returned by UpdateCluster.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateClusterMetadata {
+    /// The request that prompted the initiation of this UpdateCluster operation.
+    #[prost(message, optional, tag="1")]
+    pub original_request: ::core::option::Option<Cluster>,
+    /// The time at which the original request was received.
+    #[prost(message, optional, tag="2")]
+    pub request_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time at which the operation failed or was completed successfully.
+    #[prost(message, optional, tag="3")]
+    pub finish_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// The metadata for the Operation returned by PartialUpdateCluster.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PartialUpdateClusterMetadata {
+    /// The time at which the original request was received.
+    #[prost(message, optional, tag="1")]
+    pub request_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time at which the operation failed or was completed successfully.
+    #[prost(message, optional, tag="2")]
+    pub finish_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The original request for PartialUpdateCluster.
+    #[prost(message, optional, tag="3")]
+    pub original_request: ::core::option::Option<PartialUpdateClusterRequest>,
+}
+/// Request message for BigtableInstanceAdmin.PartialUpdateCluster.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PartialUpdateClusterRequest {
+    /// Required. The Cluster which contains the partial updates to be applied, subject to
+    /// the update_mask.
+    #[prost(message, optional, tag="1")]
+    pub cluster: ::core::option::Option<Cluster>,
+    /// Required. The subset of Cluster fields which should be replaced.
+    #[prost(message, optional, tag="2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Request message for BigtableInstanceAdmin.CreateAppProfile.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateAppProfileRequest {
+    /// Required. The unique name of the instance in which to create the new app profile.
+    /// Values are of the form
+    /// `projects/{project}/instances/{instance}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The ID to be used when referring to the new app profile within its
+    /// instance, e.g., just `myprofile` rather than
+    /// `projects/myproject/instances/myinstance/appProfiles/myprofile`.
+    #[prost(string, tag="2")]
+    pub app_profile_id: ::prost::alloc::string::String,
+    /// Required. The app profile to be created.
+    /// Fields marked `OutputOnly` will be ignored.
+    #[prost(message, optional, tag="3")]
+    pub app_profile: ::core::option::Option<AppProfile>,
+    /// If true, ignore safety checks when creating the app profile.
+    #[prost(bool, tag="4")]
+    pub ignore_warnings: bool,
+}
+/// Request message for BigtableInstanceAdmin.GetAppProfile.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetAppProfileRequest {
+    /// Required. The unique name of the requested app profile. Values are of the form
+    /// `projects/{project}/instances/{instance}/appProfiles/{app_profile}`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for BigtableInstanceAdmin.ListAppProfiles.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListAppProfilesRequest {
+    /// Required. The unique name of the instance for which a list of app profiles is
+    /// requested. Values are of the form
+    /// `projects/{project}/instances/{instance}`.
+    /// Use `{instance} = '-'` to list AppProfiles for all Instances in a project,
+    /// e.g., `projects/myproject/instances/-`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Maximum number of results per page.
+    ///
+    /// A page_size of zero lets the server choose the number of items to return.
+    /// A page_size which is strictly positive will return at most that many items.
+    /// A negative page_size will cause an error.
+    ///
+    /// Following the first request, subsequent paginated calls are not required
+    /// to pass a page_size. If a page_size is set in subsequent calls, it must
+    /// match the page_size given in the first request.
+    #[prost(int32, tag="3")]
+    pub page_size: i32,
+    /// The value of `next_page_token` returned by a previous call.
+    #[prost(string, tag="2")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response message for BigtableInstanceAdmin.ListAppProfiles.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListAppProfilesResponse {
+    /// The list of requested app profiles.
+    #[prost(message, repeated, tag="1")]
+    pub app_profiles: ::prost::alloc::vec::Vec<AppProfile>,
+    /// Set if not all app profiles could be returned in a single response.
+    /// Pass this value to `page_token` in another request to get the next
+    /// page of results.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+    /// Locations from which AppProfile information could not be retrieved,
+    /// due to an outage or some other transient condition.
+    /// AppProfiles from these locations may be missing from `app_profiles`.
+    /// Values are of the form `projects/<project>/locations/<zone_id>`
+    #[prost(string, repeated, tag="3")]
+    pub failed_locations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Request message for BigtableInstanceAdmin.UpdateAppProfile.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateAppProfileRequest {
+    /// Required. The app profile which will (partially) replace the current value.
+    #[prost(message, optional, tag="1")]
+    pub app_profile: ::core::option::Option<AppProfile>,
+    /// Required. The subset of app profile fields which should be replaced.
+    /// If unset, all fields will be replaced.
+    #[prost(message, optional, tag="2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// If true, ignore safety checks when updating the app profile.
+    #[prost(bool, tag="3")]
+    pub ignore_warnings: bool,
+}
+/// Request message for BigtableInstanceAdmin.DeleteAppProfile.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteAppProfileRequest {
+    /// Required. The unique name of the app profile to be deleted. Values are of the form
+    /// `projects/{project}/instances/{instance}/appProfiles/{app_profile}`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. If true, ignore safety checks when deleting the app profile.
+    #[prost(bool, tag="2")]
+    pub ignore_warnings: bool,
+}
+/// The metadata for the Operation returned by UpdateAppProfile.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateAppProfileMetadata {
+}
+/// Request message for BigtableInstanceAdmin.ListHotTablets.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListHotTabletsRequest {
+    /// Required. The cluster name to list hot tablets.
+    /// Value is in the following form:
+    /// `projects/{project}/instances/{instance}/clusters/{cluster}`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The start time to list hot tablets. The hot tablets in the response will
+    /// have start times between the requested start time and end time. Start time
+    /// defaults to Now if it is unset, and end time defaults to Now - 24 hours if
+    /// it is unset. The start time should be less than the end time, and the
+    /// maximum allowed time range between start time and end time is 48 hours.
+    /// Start time and end time should have values between Now and Now - 14 days.
+    #[prost(message, optional, tag="2")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The end time to list hot tablets.
+    #[prost(message, optional, tag="3")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Maximum number of results per page.
+    ///
+    /// A page_size that is empty or zero lets the server choose the number of
+    /// items to return. A page_size which is strictly positive will return at most
+    /// that many items. A negative page_size will cause an error.
+    ///
+    /// Following the first request, subsequent paginated calls do not need a
+    /// page_size field. If a page_size is set in subsequent calls, it must match
+    /// the page_size given in the first request.
+    #[prost(int32, tag="4")]
+    pub page_size: i32,
+    /// The value of `next_page_token` returned by a previous call.
+    #[prost(string, tag="5")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response message for BigtableInstanceAdmin.ListHotTablets.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListHotTabletsResponse {
+    /// List of hot tablets in the tables of the requested cluster that fall
+    /// within the requested time range. Hot tablets are ordered by node cpu usage
+    /// percent. If there are multiple hot tablets that correspond to the same
+    /// tablet within a 15-minute interval, only the hot tablet with the highest
+    /// node cpu usage will be included in the response.
+    #[prost(message, repeated, tag="1")]
+    pub hot_tablets: ::prost::alloc::vec::Vec<HotTablet>,
+    /// Set if not all hot tablets could be returned in a single response.
+    /// Pass this value to `page_token` in another request to get the next
+    /// page of results.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Generated client implementations.
+pub mod bigtable_instance_admin_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// Service for creating, configuring, and deleting Cloud Bigtable Instances and
+    /// Clusters. Provides access to the Instance and Cluster schemas only, not the
+    /// tables' metadata or data stored in those tables.
+    #[derive(Debug, Clone)]
+    pub struct BigtableInstanceAdminClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> BigtableInstanceAdminClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> BigtableInstanceAdminClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            BigtableInstanceAdminClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Create an instance within a project.
+        ///
+        /// Note that exactly one of Cluster.serve_nodes and
+        /// Cluster.cluster_config.cluster_autoscaling_config can be set. If
+        /// serve_nodes is set to non-zero, then the cluster is manually scaled. If
+        /// cluster_config.cluster_autoscaling_config is non-empty, then autoscaling is
+        /// enabled.
+        pub async fn create_instance(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateInstanceRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/CreateInstance",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets information about an instance.
+        pub async fn get_instance(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetInstanceRequest>,
+        ) -> Result<tonic::Response<super::Instance>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/GetInstance",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists information about instances in a project.
+        pub async fn list_instances(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListInstancesRequest>,
+        ) -> Result<tonic::Response<super::ListInstancesResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/ListInstances",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Updates an instance within a project. This method updates only the display
+        /// name and type for an Instance. To update other Instance properties, such as
+        /// labels, use PartialUpdateInstance.
+        pub async fn update_instance(
+            &mut self,
+            request: impl tonic::IntoRequest<super::Instance>,
+        ) -> Result<tonic::Response<super::Instance>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/UpdateInstance",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Partially updates an instance within a project. This method can modify all
+        /// fields of an Instance and is the preferred way to update an Instance.
+        pub async fn partial_update_instance(
+            &mut self,
+            request: impl tonic::IntoRequest<super::PartialUpdateInstanceRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/PartialUpdateInstance",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Delete an instance from a project.
+        pub async fn delete_instance(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteInstanceRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/DeleteInstance",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Creates a cluster within an instance.
+        ///
+        /// Note that exactly one of Cluster.serve_nodes and
+        /// Cluster.cluster_config.cluster_autoscaling_config can be set. If
+        /// serve_nodes is set to non-zero, then the cluster is manually scaled. If
+        /// cluster_config.cluster_autoscaling_config is non-empty, then autoscaling is
+        /// enabled.
+        pub async fn create_cluster(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateClusterRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/CreateCluster",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets information about a cluster.
+        pub async fn get_cluster(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetClusterRequest>,
+        ) -> Result<tonic::Response<super::Cluster>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/GetCluster",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists information about clusters in an instance.
+        pub async fn list_clusters(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListClustersRequest>,
+        ) -> Result<tonic::Response<super::ListClustersResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/ListClusters",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Updates a cluster within an instance.
+        ///
+        /// Note that UpdateCluster does not support updating
+        /// cluster_config.cluster_autoscaling_config. In order to update it, you
+        /// must use PartialUpdateCluster.
+        pub async fn update_cluster(
+            &mut self,
+            request: impl tonic::IntoRequest<super::Cluster>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/UpdateCluster",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Partially updates a cluster within a project. This method is the preferred
+        /// way to update a Cluster.
+        ///
+        /// To enable and update autoscaling, set
+        /// cluster_config.cluster_autoscaling_config. When autoscaling is enabled,
+        /// serve_nodes is treated as an OUTPUT_ONLY field, meaning that updates to it
+        /// are ignored. Note that an update cannot simultaneously set serve_nodes to
+        /// non-zero and cluster_config.cluster_autoscaling_config to non-empty, and
+        /// also specify both in the update_mask.
+        ///
+        /// To disable autoscaling, clear cluster_config.cluster_autoscaling_config,
+        /// and explicitly set a serve_node count via the update_mask.
+        pub async fn partial_update_cluster(
+            &mut self,
+            request: impl tonic::IntoRequest<super::PartialUpdateClusterRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/PartialUpdateCluster",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes a cluster from an instance.
+        pub async fn delete_cluster(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteClusterRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/DeleteCluster",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Creates an app profile within an instance.
+        pub async fn create_app_profile(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateAppProfileRequest>,
+        ) -> Result<tonic::Response<super::AppProfile>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/CreateAppProfile",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets information about an app profile.
+        pub async fn get_app_profile(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetAppProfileRequest>,
+        ) -> Result<tonic::Response<super::AppProfile>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/GetAppProfile",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists information about app profiles in an instance.
+        pub async fn list_app_profiles(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListAppProfilesRequest>,
+        ) -> Result<tonic::Response<super::ListAppProfilesResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/ListAppProfiles",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Updates an app profile within an instance.
+        pub async fn update_app_profile(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateAppProfileRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/UpdateAppProfile",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes an app profile from an instance.
+        pub async fn delete_app_profile(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteAppProfileRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/DeleteAppProfile",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets the access control policy for an instance resource. Returns an empty
+        /// policy if an instance exists but does not have a policy set.
+        pub async fn get_iam_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<
+                super::super::super::super::iam::v1::GetIamPolicyRequest,
+            >,
+        ) -> Result<
+            tonic::Response<super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/GetIamPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Sets the access control policy on an instance resource. Replaces any
+        /// existing policy.
+        pub async fn set_iam_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<
+                super::super::super::super::iam::v1::SetIamPolicyRequest,
+            >,
+        ) -> Result<
+            tonic::Response<super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/SetIamPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Returns permissions that the caller has on the specified instance resource.
+        pub async fn test_iam_permissions(
+            &mut self,
+            request: impl tonic::IntoRequest<
+                super::super::super::super::iam::v1::TestIamPermissionsRequest,
+            >,
+        ) -> Result<
+            tonic::Response<
+                super::super::super::super::iam::v1::TestIamPermissionsResponse,
+            >,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/TestIamPermissions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Lists hot tablets in a cluster, within the time range provided. Hot
+        /// tablets are ordered based on CPU usage.
+        pub async fn list_hot_tablets(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListHotTabletsRequest>,
+        ) -> Result<tonic::Response<super::ListHotTabletsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.bigtable.admin.v2.BigtableInstanceAdmin/ListHotTablets",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// The request for
 /// \[RestoreTable][google.bigtable.admin.v2.BigtableTableAdmin.RestoreTable\].
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1956,968 +2918,6 @@ pub mod bigtable_table_admin_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.bigtable.admin.v2.BigtableTableAdmin/TestIamPermissions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Request message for BigtableInstanceAdmin.CreateInstance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateInstanceRequest {
-    /// Required. The unique name of the project in which to create the new instance.
-    /// Values are of the form `projects/{project}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The ID to be used when referring to the new instance within its project,
-    /// e.g., just `myinstance` rather than
-    /// `projects/myproject/instances/myinstance`.
-    #[prost(string, tag="2")]
-    pub instance_id: ::prost::alloc::string::String,
-    /// Required. The instance to create.
-    /// Fields marked `OutputOnly` must be left blank.
-    #[prost(message, optional, tag="3")]
-    pub instance: ::core::option::Option<Instance>,
-    /// Required. The clusters to be created within the instance, mapped by desired
-    /// cluster ID, e.g., just `mycluster` rather than
-    /// `projects/myproject/instances/myinstance/clusters/mycluster`.
-    /// Fields marked `OutputOnly` must be left blank.
-    /// Currently, at most four clusters can be specified.
-    #[prost(btree_map="string, message", tag="4")]
-    pub clusters: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, Cluster>,
-}
-/// Request message for BigtableInstanceAdmin.GetInstance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetInstanceRequest {
-    /// Required. The unique name of the requested instance. Values are of the form
-    /// `projects/{project}/instances/{instance}`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for BigtableInstanceAdmin.ListInstances.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListInstancesRequest {
-    /// Required. The unique name of the project for which a list of instances is requested.
-    /// Values are of the form `projects/{project}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// DEPRECATED: This field is unused and ignored.
-    #[prost(string, tag="2")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response message for BigtableInstanceAdmin.ListInstances.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListInstancesResponse {
-    /// The list of requested instances.
-    #[prost(message, repeated, tag="1")]
-    pub instances: ::prost::alloc::vec::Vec<Instance>,
-    /// Locations from which Instance information could not be retrieved,
-    /// due to an outage or some other transient condition.
-    /// Instances whose Clusters are all in one of the failed locations
-    /// may be missing from `instances`, and Instances with at least one
-    /// Cluster in a failed location may only have partial information returned.
-    /// Values are of the form `projects/<project>/locations/<zone_id>`
-    #[prost(string, repeated, tag="2")]
-    pub failed_locations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// DEPRECATED: This field is unused and ignored.
-    #[prost(string, tag="3")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request message for BigtableInstanceAdmin.PartialUpdateInstance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PartialUpdateInstanceRequest {
-    /// Required. The Instance which will (partially) replace the current value.
-    #[prost(message, optional, tag="1")]
-    pub instance: ::core::option::Option<Instance>,
-    /// Required. The subset of Instance fields which should be replaced.
-    /// Must be explicitly set.
-    #[prost(message, optional, tag="2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Request message for BigtableInstanceAdmin.DeleteInstance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteInstanceRequest {
-    /// Required. The unique name of the instance to be deleted.
-    /// Values are of the form `projects/{project}/instances/{instance}`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for BigtableInstanceAdmin.CreateCluster.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateClusterRequest {
-    /// Required. The unique name of the instance in which to create the new cluster.
-    /// Values are of the form
-    /// `projects/{project}/instances/{instance}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The ID to be used when referring to the new cluster within its instance,
-    /// e.g., just `mycluster` rather than
-    /// `projects/myproject/instances/myinstance/clusters/mycluster`.
-    #[prost(string, tag="2")]
-    pub cluster_id: ::prost::alloc::string::String,
-    /// Required. The cluster to be created.
-    /// Fields marked `OutputOnly` must be left blank.
-    #[prost(message, optional, tag="3")]
-    pub cluster: ::core::option::Option<Cluster>,
-}
-/// Request message for BigtableInstanceAdmin.GetCluster.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetClusterRequest {
-    /// Required. The unique name of the requested cluster. Values are of the form
-    /// `projects/{project}/instances/{instance}/clusters/{cluster}`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for BigtableInstanceAdmin.ListClusters.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListClustersRequest {
-    /// Required. The unique name of the instance for which a list of clusters is requested.
-    /// Values are of the form `projects/{project}/instances/{instance}`.
-    /// Use `{instance} = '-'` to list Clusters for all Instances in a project,
-    /// e.g., `projects/myproject/instances/-`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// DEPRECATED: This field is unused and ignored.
-    #[prost(string, tag="2")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response message for BigtableInstanceAdmin.ListClusters.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListClustersResponse {
-    /// The list of requested clusters.
-    #[prost(message, repeated, tag="1")]
-    pub clusters: ::prost::alloc::vec::Vec<Cluster>,
-    /// Locations from which Cluster information could not be retrieved,
-    /// due to an outage or some other transient condition.
-    /// Clusters from these locations may be missing from `clusters`,
-    /// or may only have partial information returned.
-    /// Values are of the form `projects/<project>/locations/<zone_id>`
-    #[prost(string, repeated, tag="2")]
-    pub failed_locations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// DEPRECATED: This field is unused and ignored.
-    #[prost(string, tag="3")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request message for BigtableInstanceAdmin.DeleteCluster.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteClusterRequest {
-    /// Required. The unique name of the cluster to be deleted. Values are of the form
-    /// `projects/{project}/instances/{instance}/clusters/{cluster}`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The metadata for the Operation returned by CreateInstance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateInstanceMetadata {
-    /// The request that prompted the initiation of this CreateInstance operation.
-    #[prost(message, optional, tag="1")]
-    pub original_request: ::core::option::Option<CreateInstanceRequest>,
-    /// The time at which the original request was received.
-    #[prost(message, optional, tag="2")]
-    pub request_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time at which the operation failed or was completed successfully.
-    #[prost(message, optional, tag="3")]
-    pub finish_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// The metadata for the Operation returned by UpdateInstance.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateInstanceMetadata {
-    /// The request that prompted the initiation of this UpdateInstance operation.
-    #[prost(message, optional, tag="1")]
-    pub original_request: ::core::option::Option<PartialUpdateInstanceRequest>,
-    /// The time at which the original request was received.
-    #[prost(message, optional, tag="2")]
-    pub request_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time at which the operation failed or was completed successfully.
-    #[prost(message, optional, tag="3")]
-    pub finish_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// The metadata for the Operation returned by CreateCluster.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateClusterMetadata {
-    /// The request that prompted the initiation of this CreateCluster operation.
-    #[prost(message, optional, tag="1")]
-    pub original_request: ::core::option::Option<CreateClusterRequest>,
-    /// The time at which the original request was received.
-    #[prost(message, optional, tag="2")]
-    pub request_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time at which the operation failed or was completed successfully.
-    #[prost(message, optional, tag="3")]
-    pub finish_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Keys: the full `name` of each table that existed in the instance when
-    /// CreateCluster was first called, i.e.
-    /// `projects/<project>/instances/<instance>/tables/<table>`. Any table added
-    /// to the instance by a later API call will be created in the new cluster by
-    /// that API call, not this one.
-    ///
-    /// Values: information on how much of a table's data has been copied to the
-    /// newly-created cluster so far.
-    #[prost(btree_map="string, message", tag="4")]
-    pub tables: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, create_cluster_metadata::TableProgress>,
-}
-/// Nested message and enum types in `CreateClusterMetadata`.
-pub mod create_cluster_metadata {
-    /// Progress info for copying a table's data to the new cluster.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct TableProgress {
-        /// Estimate of the size of the table to be copied.
-        #[prost(int64, tag="2")]
-        pub estimated_size_bytes: i64,
-        /// Estimate of the number of bytes copied so far for this table.
-        /// This will eventually reach 'estimated_size_bytes' unless the table copy
-        /// is CANCELLED.
-        #[prost(int64, tag="3")]
-        pub estimated_copied_bytes: i64,
-        #[prost(enumeration="table_progress::State", tag="4")]
-        pub state: i32,
-    }
-    /// Nested message and enum types in `TableProgress`.
-    pub mod table_progress {
-        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-        #[repr(i32)]
-        pub enum State {
-            Unspecified = 0,
-            /// The table has not yet begun copying to the new cluster.
-            Pending = 1,
-            /// The table is actively being copied to the new cluster.
-            Copying = 2,
-            /// The table has been fully copied to the new cluster.
-            Completed = 3,
-            /// The table was deleted before it finished copying to the new cluster.
-            /// Note that tables deleted after completion will stay marked as
-            /// COMPLETED, not CANCELLED.
-            Cancelled = 4,
-        }
-    }
-}
-/// The metadata for the Operation returned by UpdateCluster.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateClusterMetadata {
-    /// The request that prompted the initiation of this UpdateCluster operation.
-    #[prost(message, optional, tag="1")]
-    pub original_request: ::core::option::Option<Cluster>,
-    /// The time at which the original request was received.
-    #[prost(message, optional, tag="2")]
-    pub request_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time at which the operation failed or was completed successfully.
-    #[prost(message, optional, tag="3")]
-    pub finish_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// The metadata for the Operation returned by PartialUpdateCluster.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PartialUpdateClusterMetadata {
-    /// The time at which the original request was received.
-    #[prost(message, optional, tag="1")]
-    pub request_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time at which the operation failed or was completed successfully.
-    #[prost(message, optional, tag="2")]
-    pub finish_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The original request for PartialUpdateCluster.
-    #[prost(message, optional, tag="3")]
-    pub original_request: ::core::option::Option<PartialUpdateClusterRequest>,
-}
-/// Request message for BigtableInstanceAdmin.PartialUpdateCluster.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PartialUpdateClusterRequest {
-    /// Required. The Cluster which contains the partial updates to be applied, subject to
-    /// the update_mask.
-    #[prost(message, optional, tag="1")]
-    pub cluster: ::core::option::Option<Cluster>,
-    /// Required. The subset of Cluster fields which should be replaced.
-    #[prost(message, optional, tag="2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Request message for BigtableInstanceAdmin.CreateAppProfile.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateAppProfileRequest {
-    /// Required. The unique name of the instance in which to create the new app profile.
-    /// Values are of the form
-    /// `projects/{project}/instances/{instance}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The ID to be used when referring to the new app profile within its
-    /// instance, e.g., just `myprofile` rather than
-    /// `projects/myproject/instances/myinstance/appProfiles/myprofile`.
-    #[prost(string, tag="2")]
-    pub app_profile_id: ::prost::alloc::string::String,
-    /// Required. The app profile to be created.
-    /// Fields marked `OutputOnly` will be ignored.
-    #[prost(message, optional, tag="3")]
-    pub app_profile: ::core::option::Option<AppProfile>,
-    /// If true, ignore safety checks when creating the app profile.
-    #[prost(bool, tag="4")]
-    pub ignore_warnings: bool,
-}
-/// Request message for BigtableInstanceAdmin.GetAppProfile.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetAppProfileRequest {
-    /// Required. The unique name of the requested app profile. Values are of the form
-    /// `projects/{project}/instances/{instance}/appProfiles/{app_profile}`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for BigtableInstanceAdmin.ListAppProfiles.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListAppProfilesRequest {
-    /// Required. The unique name of the instance for which a list of app profiles is
-    /// requested. Values are of the form
-    /// `projects/{project}/instances/{instance}`.
-    /// Use `{instance} = '-'` to list AppProfiles for all Instances in a project,
-    /// e.g., `projects/myproject/instances/-`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Maximum number of results per page.
-    ///
-    /// A page_size of zero lets the server choose the number of items to return.
-    /// A page_size which is strictly positive will return at most that many items.
-    /// A negative page_size will cause an error.
-    ///
-    /// Following the first request, subsequent paginated calls are not required
-    /// to pass a page_size. If a page_size is set in subsequent calls, it must
-    /// match the page_size given in the first request.
-    #[prost(int32, tag="3")]
-    pub page_size: i32,
-    /// The value of `next_page_token` returned by a previous call.
-    #[prost(string, tag="2")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response message for BigtableInstanceAdmin.ListAppProfiles.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListAppProfilesResponse {
-    /// The list of requested app profiles.
-    #[prost(message, repeated, tag="1")]
-    pub app_profiles: ::prost::alloc::vec::Vec<AppProfile>,
-    /// Set if not all app profiles could be returned in a single response.
-    /// Pass this value to `page_token` in another request to get the next
-    /// page of results.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-    /// Locations from which AppProfile information could not be retrieved,
-    /// due to an outage or some other transient condition.
-    /// AppProfiles from these locations may be missing from `app_profiles`.
-    /// Values are of the form `projects/<project>/locations/<zone_id>`
-    #[prost(string, repeated, tag="3")]
-    pub failed_locations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Request message for BigtableInstanceAdmin.UpdateAppProfile.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateAppProfileRequest {
-    /// Required. The app profile which will (partially) replace the current value.
-    #[prost(message, optional, tag="1")]
-    pub app_profile: ::core::option::Option<AppProfile>,
-    /// Required. The subset of app profile fields which should be replaced.
-    /// If unset, all fields will be replaced.
-    #[prost(message, optional, tag="2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-    /// If true, ignore safety checks when updating the app profile.
-    #[prost(bool, tag="3")]
-    pub ignore_warnings: bool,
-}
-/// Request message for BigtableInstanceAdmin.DeleteAppProfile.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteAppProfileRequest {
-    /// Required. The unique name of the app profile to be deleted. Values are of the form
-    /// `projects/{project}/instances/{instance}/appProfiles/{app_profile}`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. If true, ignore safety checks when deleting the app profile.
-    #[prost(bool, tag="2")]
-    pub ignore_warnings: bool,
-}
-/// The metadata for the Operation returned by UpdateAppProfile.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateAppProfileMetadata {
-}
-/// Request message for BigtableInstanceAdmin.ListHotTablets.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListHotTabletsRequest {
-    /// Required. The cluster name to list hot tablets.
-    /// Value is in the following form:
-    /// `projects/{project}/instances/{instance}/clusters/{cluster}`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The start time to list hot tablets. The hot tablets in the response will
-    /// have start times between the requested start time and end time. Start time
-    /// defaults to Now if it is unset, and end time defaults to Now - 24 hours if
-    /// it is unset. The start time should be less than the end time, and the
-    /// maximum allowed time range between start time and end time is 48 hours.
-    /// Start time and end time should have values between Now and Now - 14 days.
-    #[prost(message, optional, tag="2")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The end time to list hot tablets.
-    #[prost(message, optional, tag="3")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Maximum number of results per page.
-    ///
-    /// A page_size that is empty or zero lets the server choose the number of
-    /// items to return. A page_size which is strictly positive will return at most
-    /// that many items. A negative page_size will cause an error.
-    ///
-    /// Following the first request, subsequent paginated calls do not need a
-    /// page_size field. If a page_size is set in subsequent calls, it must match
-    /// the page_size given in the first request.
-    #[prost(int32, tag="4")]
-    pub page_size: i32,
-    /// The value of `next_page_token` returned by a previous call.
-    #[prost(string, tag="5")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response message for BigtableInstanceAdmin.ListHotTablets.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListHotTabletsResponse {
-    /// List of hot tablets in the tables of the requested cluster that fall
-    /// within the requested time range. Hot tablets are ordered by node cpu usage
-    /// percent. If there are multiple hot tablets that correspond to the same
-    /// tablet within a 15-minute interval, only the hot tablet with the highest
-    /// node cpu usage will be included in the response.
-    #[prost(message, repeated, tag="1")]
-    pub hot_tablets: ::prost::alloc::vec::Vec<HotTablet>,
-    /// Set if not all hot tablets could be returned in a single response.
-    /// Pass this value to `page_token` in another request to get the next
-    /// page of results.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Generated client implementations.
-pub mod bigtable_instance_admin_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// Service for creating, configuring, and deleting Cloud Bigtable Instances and
-    /// Clusters. Provides access to the Instance and Cluster schemas only, not the
-    /// tables' metadata or data stored in those tables.
-    #[derive(Debug, Clone)]
-    pub struct BigtableInstanceAdminClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> BigtableInstanceAdminClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> BigtableInstanceAdminClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            BigtableInstanceAdminClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Create an instance within a project.
-        ///
-        /// Note that exactly one of Cluster.serve_nodes and
-        /// Cluster.cluster_config.cluster_autoscaling_config can be set. If
-        /// serve_nodes is set to non-zero, then the cluster is manually scaled. If
-        /// cluster_config.cluster_autoscaling_config is non-empty, then autoscaling is
-        /// enabled.
-        pub async fn create_instance(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateInstanceRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/CreateInstance",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets information about an instance.
-        pub async fn get_instance(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetInstanceRequest>,
-        ) -> Result<tonic::Response<super::Instance>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/GetInstance",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Lists information about instances in a project.
-        pub async fn list_instances(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListInstancesRequest>,
-        ) -> Result<tonic::Response<super::ListInstancesResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/ListInstances",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Updates an instance within a project. This method updates only the display
-        /// name and type for an Instance. To update other Instance properties, such as
-        /// labels, use PartialUpdateInstance.
-        pub async fn update_instance(
-            &mut self,
-            request: impl tonic::IntoRequest<super::Instance>,
-        ) -> Result<tonic::Response<super::Instance>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/UpdateInstance",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Partially updates an instance within a project. This method can modify all
-        /// fields of an Instance and is the preferred way to update an Instance.
-        pub async fn partial_update_instance(
-            &mut self,
-            request: impl tonic::IntoRequest<super::PartialUpdateInstanceRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/PartialUpdateInstance",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Delete an instance from a project.
-        pub async fn delete_instance(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteInstanceRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/DeleteInstance",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Creates a cluster within an instance.
-        ///
-        /// Note that exactly one of Cluster.serve_nodes and
-        /// Cluster.cluster_config.cluster_autoscaling_config can be set. If
-        /// serve_nodes is set to non-zero, then the cluster is manually scaled. If
-        /// cluster_config.cluster_autoscaling_config is non-empty, then autoscaling is
-        /// enabled.
-        pub async fn create_cluster(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateClusterRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/CreateCluster",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets information about a cluster.
-        pub async fn get_cluster(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetClusterRequest>,
-        ) -> Result<tonic::Response<super::Cluster>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/GetCluster",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Lists information about clusters in an instance.
-        pub async fn list_clusters(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListClustersRequest>,
-        ) -> Result<tonic::Response<super::ListClustersResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/ListClusters",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Updates a cluster within an instance.
-        ///
-        /// Note that UpdateCluster does not support updating
-        /// cluster_config.cluster_autoscaling_config. In order to update it, you
-        /// must use PartialUpdateCluster.
-        pub async fn update_cluster(
-            &mut self,
-            request: impl tonic::IntoRequest<super::Cluster>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/UpdateCluster",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Partially updates a cluster within a project. This method is the preferred
-        /// way to update a Cluster.
-        ///
-        /// To enable and update autoscaling, set
-        /// cluster_config.cluster_autoscaling_config. When autoscaling is enabled,
-        /// serve_nodes is treated as an OUTPUT_ONLY field, meaning that updates to it
-        /// are ignored. Note that an update cannot simultaneously set serve_nodes to
-        /// non-zero and cluster_config.cluster_autoscaling_config to non-empty, and
-        /// also specify both in the update_mask.
-        ///
-        /// To disable autoscaling, clear cluster_config.cluster_autoscaling_config,
-        /// and explicitly set a serve_node count via the update_mask.
-        pub async fn partial_update_cluster(
-            &mut self,
-            request: impl tonic::IntoRequest<super::PartialUpdateClusterRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/PartialUpdateCluster",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes a cluster from an instance.
-        pub async fn delete_cluster(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteClusterRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/DeleteCluster",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Creates an app profile within an instance.
-        pub async fn create_app_profile(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateAppProfileRequest>,
-        ) -> Result<tonic::Response<super::AppProfile>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/CreateAppProfile",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets information about an app profile.
-        pub async fn get_app_profile(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetAppProfileRequest>,
-        ) -> Result<tonic::Response<super::AppProfile>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/GetAppProfile",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Lists information about app profiles in an instance.
-        pub async fn list_app_profiles(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListAppProfilesRequest>,
-        ) -> Result<tonic::Response<super::ListAppProfilesResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/ListAppProfiles",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Updates an app profile within an instance.
-        pub async fn update_app_profile(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateAppProfileRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/UpdateAppProfile",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes an app profile from an instance.
-        pub async fn delete_app_profile(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteAppProfileRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/DeleteAppProfile",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets the access control policy for an instance resource. Returns an empty
-        /// policy if an instance exists but does not have a policy set.
-        pub async fn get_iam_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<
-                super::super::super::super::iam::v1::GetIamPolicyRequest,
-            >,
-        ) -> Result<
-            tonic::Response<super::super::super::super::iam::v1::Policy>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/GetIamPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Sets the access control policy on an instance resource. Replaces any
-        /// existing policy.
-        pub async fn set_iam_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<
-                super::super::super::super::iam::v1::SetIamPolicyRequest,
-            >,
-        ) -> Result<
-            tonic::Response<super::super::super::super::iam::v1::Policy>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/SetIamPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Returns permissions that the caller has on the specified instance resource.
-        pub async fn test_iam_permissions(
-            &mut self,
-            request: impl tonic::IntoRequest<
-                super::super::super::super::iam::v1::TestIamPermissionsRequest,
-            >,
-        ) -> Result<
-            tonic::Response<
-                super::super::super::super::iam::v1::TestIamPermissionsResponse,
-            >,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/TestIamPermissions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Lists hot tablets in a cluster, within the time range provided. Hot
-        /// tablets are ordered based on CPU usage.
-        pub async fn list_hot_tablets(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListHotTabletsRequest>,
-        ) -> Result<tonic::Response<super::ListHotTabletsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.bigtable.admin.v2.BigtableInstanceAdmin/ListHotTablets",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

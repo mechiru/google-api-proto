@@ -8,6 +8,49 @@
 pub mod predict;
 #[cfg(any(feature = "google-cloud-aiplatform-v1beta1-schema-trainingjob-definition"))]
 pub mod trainingjob;
+/// Payload of Image DataItem.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImageDataItem {
+    /// Required. Google Cloud Storage URI points to the original image in user's bucket.
+    /// The image is up to 30MB in size.
+    #[prost(string, tag="1")]
+    pub gcs_uri: ::prost::alloc::string::String,
+    /// Output only. The mime type of the content of the image. Only the images in below listed
+    /// mime types are supported.
+    /// - image/jpeg
+    /// - image/gif
+    /// - image/png
+    /// - image/webp
+    /// - image/bmp
+    /// - image/tiff
+    /// - image/vnd.microsoft.icon
+    #[prost(string, tag="2")]
+    pub mime_type: ::prost::alloc::string::String,
+}
+/// Payload of Video DataItem.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VideoDataItem {
+    /// Required. Google Cloud Storage URI points to the original video in user's bucket.
+    /// The video is up to 50 GB in size and up to 3 hour in duration.
+    #[prost(string, tag="1")]
+    pub gcs_uri: ::prost::alloc::string::String,
+    /// Output only. The mime type of the content of the video. Only the videos in below listed
+    /// mime types are supported.
+    /// Supported mime_type:
+    /// - video/mp4
+    /// - video/avi
+    /// - video/quicktime
+    #[prost(string, tag="2")]
+    pub mime_type: ::prost::alloc::string::String,
+}
+/// Payload of Text DataItem.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextDataItem {
+    /// Output only. Google Cloud Storage URI points to the original text in user's bucket.
+    /// The text file is up to 10MB in size.
+    #[prost(string, tag="1")]
+    pub gcs_uri: ::prost::alloc::string::String,
+}
 /// An entry of mapping between color and AnnotationSpec. The mapping is used in
 /// segmentation mask.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -35,6 +78,51 @@ pub struct Vertex {
     /// Y coordinate.
     #[prost(double, tag="2")]
     pub y: f64,
+}
+/// Represents a line of JSONL in the batch prediction output file.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PredictionResult {
+    /// The prediction result.
+    /// Value is used here instead of Any so that JsonFormat does not append an
+    /// extra "@type" field when we convert the proto to JSON and so we can
+    /// represent array of objects.
+    /// Do not set error if this is set.
+    #[prost(message, optional, tag="3")]
+    pub prediction: ::core::option::Option<::prost_types::Value>,
+    /// The error result.
+    /// Do not set prediction if this is set.
+    #[prost(message, optional, tag="4")]
+    pub error: ::core::option::Option<prediction_result::Error>,
+    /// Some identifier from the input so that the prediction can be mapped back to
+    /// the input instance.
+    #[prost(oneof="prediction_result::Input", tags="1, 2")]
+    pub input: ::core::option::Option<prediction_result::Input>,
+}
+/// Nested message and enum types in `PredictionResult`.
+pub mod prediction_result {
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Error {
+        /// Error status. This will be serialized into the enum name e.g.
+        /// "NOT_FOUND".
+        #[prost(enumeration="super::super::super::super::super::rpc::Code", tag="1")]
+        pub status: i32,
+        /// Error message with additional details.
+        #[prost(string, tag="2")]
+        pub message: ::prost::alloc::string::String,
+    }
+    /// Some identifier from the input so that the prediction can be mapped back to
+    /// the input instance.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Input {
+        /// User's input instance.
+        /// Struct is used here instead of Any so that JsonFormat does not append an
+        /// extra "@type" field when we convert the proto to JSON.
+        #[prost(message, tag="1")]
+        Instance(::prost_types::Struct),
+        /// Optional user-provided key from the input instance.
+        #[prost(string, tag="2")]
+        Key(::prost::alloc::string::String),
+    }
 }
 /// Annotation details specific to image classification.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -256,94 +344,6 @@ pub struct VideoActionRecognitionAnnotation {
     /// The display name of the AnnotationSpec that this Annotation pertains to.
     #[prost(string, tag="3")]
     pub display_name: ::prost::alloc::string::String,
-}
-/// Represents a line of JSONL in the batch prediction output file.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PredictionResult {
-    /// The prediction result.
-    /// Value is used here instead of Any so that JsonFormat does not append an
-    /// extra "@type" field when we convert the proto to JSON and so we can
-    /// represent array of objects.
-    /// Do not set error if this is set.
-    #[prost(message, optional, tag="3")]
-    pub prediction: ::core::option::Option<::prost_types::Value>,
-    /// The error result.
-    /// Do not set prediction if this is set.
-    #[prost(message, optional, tag="4")]
-    pub error: ::core::option::Option<prediction_result::Error>,
-    /// Some identifier from the input so that the prediction can be mapped back to
-    /// the input instance.
-    #[prost(oneof="prediction_result::Input", tags="1, 2")]
-    pub input: ::core::option::Option<prediction_result::Input>,
-}
-/// Nested message and enum types in `PredictionResult`.
-pub mod prediction_result {
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Error {
-        /// Error status. This will be serialized into the enum name e.g.
-        /// "NOT_FOUND".
-        #[prost(enumeration="super::super::super::super::super::rpc::Code", tag="1")]
-        pub status: i32,
-        /// Error message with additional details.
-        #[prost(string, tag="2")]
-        pub message: ::prost::alloc::string::String,
-    }
-    /// Some identifier from the input so that the prediction can be mapped back to
-    /// the input instance.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Input {
-        /// User's input instance.
-        /// Struct is used here instead of Any so that JsonFormat does not append an
-        /// extra "@type" field when we convert the proto to JSON.
-        #[prost(message, tag="1")]
-        Instance(::prost_types::Struct),
-        /// Optional user-provided key from the input instance.
-        #[prost(string, tag="2")]
-        Key(::prost::alloc::string::String),
-    }
-}
-/// Payload of Image DataItem.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageDataItem {
-    /// Required. Google Cloud Storage URI points to the original image in user's bucket.
-    /// The image is up to 30MB in size.
-    #[prost(string, tag="1")]
-    pub gcs_uri: ::prost::alloc::string::String,
-    /// Output only. The mime type of the content of the image. Only the images in below listed
-    /// mime types are supported.
-    /// - image/jpeg
-    /// - image/gif
-    /// - image/png
-    /// - image/webp
-    /// - image/bmp
-    /// - image/tiff
-    /// - image/vnd.microsoft.icon
-    #[prost(string, tag="2")]
-    pub mime_type: ::prost::alloc::string::String,
-}
-/// Payload of Video DataItem.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VideoDataItem {
-    /// Required. Google Cloud Storage URI points to the original video in user's bucket.
-    /// The video is up to 50 GB in size and up to 3 hour in duration.
-    #[prost(string, tag="1")]
-    pub gcs_uri: ::prost::alloc::string::String,
-    /// Output only. The mime type of the content of the video. Only the videos in below listed
-    /// mime types are supported.
-    /// Supported mime_type:
-    /// - video/mp4
-    /// - video/avi
-    /// - video/quicktime
-    #[prost(string, tag="2")]
-    pub mime_type: ::prost::alloc::string::String,
-}
-/// Payload of Text DataItem.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextDataItem {
-    /// Output only. Google Cloud Storage URI points to the original text in user's bucket.
-    /// The text file is up to 10MB in size.
-    #[prost(string, tag="1")]
-    pub gcs_uri: ::prost::alloc::string::String,
 }
 /// The metadata of Datasets that contain Image DataItems.
 #[derive(Clone, PartialEq, ::prost::Message)]

@@ -24,44 +24,20 @@ pub struct TargetNotificationEvent {
     #[prost(enumeration="Type", tag="3")]
     pub r#type: i32,
 }
-/// Payload proto for "clouddeploy.googleapis.com/deliverypipeline_notification"
-/// Platform Log event that describes the failure to send delivery pipeline
-/// status change Pub/Sub notification.
+/// Payload proto for "clouddeploy.googleapis.com/release_notification"
+/// Platform Log event that describes the failure to send release status change
+/// Pub/Sub notification.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeliveryPipelineNotificationEvent {
+pub struct ReleaseNotificationEvent {
     /// Debug message for when a notification fails to send.
     #[prost(string, tag="1")]
     pub message: ::prost::alloc::string::String,
-    /// The name of the `Delivery Pipeline`.
+    /// The name of the `Release`.
     #[prost(string, tag="2")]
-    pub delivery_pipeline: ::prost::alloc::string::String,
+    pub release: ::prost::alloc::string::String,
     /// Type of this notification, e.g. for a Pub/Sub failure.
     #[prost(enumeration="Type", tag="3")]
     pub r#type: i32,
-}
-/// Payload proto for "clouddeploy.googleapis.com/rollout_notification"
-/// Platform Log event that describes the failure to send rollout status change
-/// Pub/Sub notification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RolloutNotificationEvent {
-    /// Debug message for when a notification fails to send.
-    #[prost(string, tag="1")]
-    pub message: ::prost::alloc::string::String,
-    /// Unique identifier of the `DeliveryPipeline`.
-    #[prost(string, tag="2")]
-    pub pipeline_uid: ::prost::alloc::string::String,
-    /// Unique identifier of the `Release`.
-    #[prost(string, tag="3")]
-    pub release_uid: ::prost::alloc::string::String,
-    /// The name of the `Rollout`.
-    #[prost(string, tag="4")]
-    pub rollout: ::prost::alloc::string::String,
-    /// Type of this notification, e.g. for a Pub/Sub failure.
-    #[prost(enumeration="Type", tag="5")]
-    pub r#type: i32,
-    /// ID of the `Target` that the rollout is deployed to.
-    #[prost(string, tag="6")]
-    pub target_id: ::prost::alloc::string::String,
 }
 /// A `DeliveryPipeline` resource in the Google Cloud Deploy API.
 ///
@@ -1702,17 +1678,41 @@ pub mod cloud_deploy_client {
         }
     }
 }
-/// Payload proto for "clouddeploy.googleapis.com/release_notification"
-/// Platform Log event that describes the failure to send release status change
+/// Payload proto for "clouddeploy.googleapis.com/rollout_notification"
+/// Platform Log event that describes the failure to send rollout status change
 /// Pub/Sub notification.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ReleaseNotificationEvent {
+pub struct RolloutNotificationEvent {
     /// Debug message for when a notification fails to send.
     #[prost(string, tag="1")]
     pub message: ::prost::alloc::string::String,
-    /// The name of the `Release`.
+    /// Unique identifier of the `DeliveryPipeline`.
     #[prost(string, tag="2")]
-    pub release: ::prost::alloc::string::String,
+    pub pipeline_uid: ::prost::alloc::string::String,
+    /// Unique identifier of the `Release`.
+    #[prost(string, tag="3")]
+    pub release_uid: ::prost::alloc::string::String,
+    /// The name of the `Rollout`.
+    #[prost(string, tag="4")]
+    pub rollout: ::prost::alloc::string::String,
+    /// Type of this notification, e.g. for a Pub/Sub failure.
+    #[prost(enumeration="Type", tag="5")]
+    pub r#type: i32,
+    /// ID of the `Target` that the rollout is deployed to.
+    #[prost(string, tag="6")]
+    pub target_id: ::prost::alloc::string::String,
+}
+/// Payload proto for "clouddeploy.googleapis.com/deliverypipeline_notification"
+/// Platform Log event that describes the failure to send delivery pipeline
+/// status change Pub/Sub notification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeliveryPipelineNotificationEvent {
+    /// Debug message for when a notification fails to send.
+    #[prost(string, tag="1")]
+    pub message: ::prost::alloc::string::String,
+    /// The name of the `Delivery Pipeline`.
+    #[prost(string, tag="2")]
+    pub delivery_pipeline: ::prost::alloc::string::String,
     /// Type of this notification, e.g. for a Pub/Sub failure.
     #[prost(enumeration="Type", tag="3")]
     pub r#type: i32,

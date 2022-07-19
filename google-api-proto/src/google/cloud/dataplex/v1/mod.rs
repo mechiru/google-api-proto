@@ -996,363 +996,6 @@ pub struct Session {
     #[prost(enumeration="State", tag="4")]
     pub state: i32,
 }
-/// Create content request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateContentRequest {
-    /// Required. The resource name of the parent lake:
-    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Content resource.
-    #[prost(message, optional, tag="2")]
-    pub content: ::core::option::Option<Content>,
-    /// Optional. Only validate the request, but do not perform mutations.
-    /// The default is false.
-    #[prost(bool, tag="3")]
-    pub validate_only: bool,
-}
-/// Update content request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateContentRequest {
-    /// Required. Mask of fields to update.
-    #[prost(message, optional, tag="1")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-    /// Required. Update description.
-    /// Only fields specified in `update_mask` are updated.
-    #[prost(message, optional, tag="2")]
-    pub content: ::core::option::Option<Content>,
-    /// Optional. Only validate the request, but do not perform mutations.
-    /// The default is false.
-    #[prost(bool, tag="3")]
-    pub validate_only: bool,
-}
-/// Delete content request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteContentRequest {
-    /// Required. The resource name of the content:
-    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// List content request. Returns the BASIC Content view.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListContentRequest {
-    /// Required. The resource name of the parent lake:
-    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. Maximum number of content to return. The service may return fewer than
-    /// this value. If unspecified, at most 10 content will be returned. The
-    /// maximum value is 1000; values above 1000 will be coerced to 1000.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// Optional. Page token received from a previous `ListContent` call. Provide this
-    /// to retrieve the subsequent page. When paginating, all other parameters
-    /// provided to `ListContent` must match the call that provided the page
-    /// token.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Optional. Filter request. Filters are case-sensitive.
-    /// The following formats are supported:
-    ///
-    /// labels.key1 = "value1"
-    /// labels:key1
-    /// type = "NOTEBOOK"
-    /// type = "SQL_SCRIPT"
-    ///
-    /// These restrictions can be coinjoined with AND, OR and NOT conjunctions.
-    #[prost(string, tag="4")]
-    pub filter: ::prost::alloc::string::String,
-}
-/// List content response.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListContentResponse {
-    /// Content under the given parent lake.
-    #[prost(message, repeated, tag="1")]
-    pub content: ::prost::alloc::vec::Vec<Content>,
-    /// Token to retrieve the next page of results, or empty if there are no more
-    /// results in the list.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Get content request.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetContentRequest {
-    /// Required. The resource name of the content:
-    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. Specify content view to make a partial request.
-    #[prost(enumeration="get_content_request::ContentView", tag="2")]
-    pub view: i32,
-}
-/// Nested message and enum types in `GetContentRequest`.
-pub mod get_content_request {
-    /// Specifies whether the request should return the full or the partial
-    /// representation.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum ContentView {
-        /// Content view not specified. Defaults to BASIC.
-        /// The API will default to the BASIC view.
-        Unspecified = 0,
-        /// Will not return the `data_text` field.
-        Basic = 1,
-        /// Returns the complete proto.
-        Full = 2,
-    }
-}
-/// Generated client implementations.
-pub mod content_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// ContentService manages Notebook and SQL Scripts for Dataplex.
-    #[derive(Debug, Clone)]
-    pub struct ContentServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ContentServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ContentServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            ContentServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Create a content.
-        pub async fn create_content(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateContentRequest>,
-        ) -> Result<tonic::Response<super::Content>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.ContentService/CreateContent",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Update a content. Only supports full resource update.
-        pub async fn update_content(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateContentRequest>,
-        ) -> Result<tonic::Response<super::Content>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.ContentService/UpdateContent",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Delete a content.
-        pub async fn delete_content(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteContentRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.ContentService/DeleteContent",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Get a content resource.
-        pub async fn get_content(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetContentRequest>,
-        ) -> Result<tonic::Response<super::Content>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.ContentService/GetContent",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets the access control policy for a contentitem resource. A `NOT_FOUND`
-        /// error is returned if the resource does not exist. An empty policy is
-        /// returned if the resource exists but does not have a policy set on it.
-        ///
-        /// Caller must have Google IAM `dataplex.content.getIamPolicy` permission
-        /// on the resource.
-        pub async fn get_iam_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<
-                super::super::super::super::iam::v1::GetIamPolicyRequest,
-            >,
-        ) -> Result<
-            tonic::Response<super::super::super::super::iam::v1::Policy>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.ContentService/GetIamPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Sets the access control policy on the specified contentitem resource.
-        /// Replaces any existing policy.
-        ///
-        /// Caller must have Google IAM `dataplex.content.setIamPolicy` permission
-        /// on the resource.
-        pub async fn set_iam_policy(
-            &mut self,
-            request: impl tonic::IntoRequest<
-                super::super::super::super::iam::v1::SetIamPolicyRequest,
-            >,
-        ) -> Result<
-            tonic::Response<super::super::super::super::iam::v1::Policy>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.ContentService/SetIamPolicy",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Returns the caller's permissions on a resource.
-        /// If the resource does not exist, an empty set of
-        /// permissions is returned (a `NOT_FOUND` error is not returned).
-        ///
-        /// A caller is not required to have Google IAM permission to make this
-        /// request.
-        ///
-        /// Note: This operation is designed to be used for building permission-aware
-        /// UIs and command-line tools, not for authorization checking. This operation
-        /// may "fail open" without warning.
-        pub async fn test_iam_permissions(
-            &mut self,
-            request: impl tonic::IntoRequest<
-                super::super::super::super::iam::v1::TestIamPermissionsRequest,
-            >,
-        ) -> Result<
-            tonic::Response<
-                super::super::super::super::iam::v1::TestIamPermissionsResponse,
-            >,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.ContentService/TestIamPermissions",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// List content.
-        pub async fn list_content(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListContentRequest>,
-        ) -> Result<tonic::Response<super::ListContentResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.dataplex.v1.ContentService/ListContent",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
 /// A task represents a user-visible job.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Task {
@@ -3112,6 +2755,636 @@ pub mod dataplex_service_client {
         }
     }
 }
+/// Create content request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateContentRequest {
+    /// Required. The resource name of the parent lake:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Content resource.
+    #[prost(message, optional, tag="2")]
+    pub content: ::core::option::Option<Content>,
+    /// Optional. Only validate the request, but do not perform mutations.
+    /// The default is false.
+    #[prost(bool, tag="3")]
+    pub validate_only: bool,
+}
+/// Update content request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateContentRequest {
+    /// Required. Mask of fields to update.
+    #[prost(message, optional, tag="1")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    /// Required. Update description.
+    /// Only fields specified in `update_mask` are updated.
+    #[prost(message, optional, tag="2")]
+    pub content: ::core::option::Option<Content>,
+    /// Optional. Only validate the request, but do not perform mutations.
+    /// The default is false.
+    #[prost(bool, tag="3")]
+    pub validate_only: bool,
+}
+/// Delete content request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteContentRequest {
+    /// Required. The resource name of the content:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// List content request. Returns the BASIC Content view.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListContentRequest {
+    /// Required. The resource name of the parent lake:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. Maximum number of content to return. The service may return fewer than
+    /// this value. If unspecified, at most 10 content will be returned. The
+    /// maximum value is 1000; values above 1000 will be coerced to 1000.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// Optional. Page token received from a previous `ListContent` call. Provide this
+    /// to retrieve the subsequent page. When paginating, all other parameters
+    /// provided to `ListContent` must match the call that provided the page
+    /// token.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. Filter request. Filters are case-sensitive.
+    /// The following formats are supported:
+    ///
+    /// labels.key1 = "value1"
+    /// labels:key1
+    /// type = "NOTEBOOK"
+    /// type = "SQL_SCRIPT"
+    ///
+    /// These restrictions can be coinjoined with AND, OR and NOT conjunctions.
+    #[prost(string, tag="4")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// List content response.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListContentResponse {
+    /// Content under the given parent lake.
+    #[prost(message, repeated, tag="1")]
+    pub content: ::prost::alloc::vec::Vec<Content>,
+    /// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Get content request.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetContentRequest {
+    /// Required. The resource name of the content:
+    /// projects/{project_id}/locations/{location_id}/lakes/{lake_id}/content/{content_id}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Specify content view to make a partial request.
+    #[prost(enumeration="get_content_request::ContentView", tag="2")]
+    pub view: i32,
+}
+/// Nested message and enum types in `GetContentRequest`.
+pub mod get_content_request {
+    /// Specifies whether the request should return the full or the partial
+    /// representation.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum ContentView {
+        /// Content view not specified. Defaults to BASIC.
+        /// The API will default to the BASIC view.
+        Unspecified = 0,
+        /// Will not return the `data_text` field.
+        Basic = 1,
+        /// Returns the complete proto.
+        Full = 2,
+    }
+}
+/// Generated client implementations.
+pub mod content_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// ContentService manages Notebook and SQL Scripts for Dataplex.
+    #[derive(Debug, Clone)]
+    pub struct ContentServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ContentServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ContentServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            ContentServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Create a content.
+        pub async fn create_content(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateContentRequest>,
+        ) -> Result<tonic::Response<super::Content>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/CreateContent",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Update a content. Only supports full resource update.
+        pub async fn update_content(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateContentRequest>,
+        ) -> Result<tonic::Response<super::Content>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/UpdateContent",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Delete a content.
+        pub async fn delete_content(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteContentRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/DeleteContent",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Get a content resource.
+        pub async fn get_content(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetContentRequest>,
+        ) -> Result<tonic::Response<super::Content>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/GetContent",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets the access control policy for a contentitem resource. A `NOT_FOUND`
+        /// error is returned if the resource does not exist. An empty policy is
+        /// returned if the resource exists but does not have a policy set on it.
+        ///
+        /// Caller must have Google IAM `dataplex.content.getIamPolicy` permission
+        /// on the resource.
+        pub async fn get_iam_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<
+                super::super::super::super::iam::v1::GetIamPolicyRequest,
+            >,
+        ) -> Result<
+            tonic::Response<super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/GetIamPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Sets the access control policy on the specified contentitem resource.
+        /// Replaces any existing policy.
+        ///
+        /// Caller must have Google IAM `dataplex.content.setIamPolicy` permission
+        /// on the resource.
+        pub async fn set_iam_policy(
+            &mut self,
+            request: impl tonic::IntoRequest<
+                super::super::super::super::iam::v1::SetIamPolicyRequest,
+            >,
+        ) -> Result<
+            tonic::Response<super::super::super::super::iam::v1::Policy>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/SetIamPolicy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Returns the caller's permissions on a resource.
+        /// If the resource does not exist, an empty set of
+        /// permissions is returned (a `NOT_FOUND` error is not returned).
+        ///
+        /// A caller is not required to have Google IAM permission to make this
+        /// request.
+        ///
+        /// Note: This operation is designed to be used for building permission-aware
+        /// UIs and command-line tools, not for authorization checking. This operation
+        /// may "fail open" without warning.
+        pub async fn test_iam_permissions(
+            &mut self,
+            request: impl tonic::IntoRequest<
+                super::super::super::super::iam::v1::TestIamPermissionsRequest,
+            >,
+        ) -> Result<
+            tonic::Response<
+                super::super::super::super::iam::v1::TestIamPermissionsResponse,
+            >,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/TestIamPermissions",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// List content.
+        pub async fn list_content(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListContentRequest>,
+        ) -> Result<tonic::Response<super::ListContentResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dataplex.v1.ContentService/ListContent",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// The payload associated with Discovery data processing.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DiscoveryEvent {
+    /// The log message.
+    #[prost(string, tag="1")]
+    pub message: ::prost::alloc::string::String,
+    /// The id of the associated lake.
+    #[prost(string, tag="2")]
+    pub lake_id: ::prost::alloc::string::String,
+    /// The id of the associated zone.
+    #[prost(string, tag="3")]
+    pub zone_id: ::prost::alloc::string::String,
+    /// The id of the associated asset.
+    #[prost(string, tag="4")]
+    pub asset_id: ::prost::alloc::string::String,
+    /// The data location associated with the event.
+    #[prost(string, tag="5")]
+    pub data_location: ::prost::alloc::string::String,
+    /// The type of the event being logged.
+    #[prost(enumeration="discovery_event::EventType", tag="10")]
+    pub r#type: i32,
+    /// Additional details about the event.
+    #[prost(oneof="discovery_event::Details", tags="20, 21, 22, 23")]
+    pub details: ::core::option::Option<discovery_event::Details>,
+}
+/// Nested message and enum types in `DiscoveryEvent`.
+pub mod discovery_event {
+    /// Details about configuration events.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConfigDetails {
+        /// A list of discovery configuration parameters in effect.
+        /// The keys are the field paths within DiscoverySpec.
+        /// Eg. includePatterns, excludePatterns, csvOptions.disableTypeInference,
+        /// etc.
+        #[prost(btree_map="string, string", tag="1")]
+        pub parameters: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    }
+    /// Details about the entity.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct EntityDetails {
+        /// The name of the entity resource.
+        /// The name is the fully-qualified resource name.
+        #[prost(string, tag="1")]
+        pub entity: ::prost::alloc::string::String,
+        /// The type of the entity resource.
+        #[prost(enumeration="EntityType", tag="2")]
+        pub r#type: i32,
+    }
+    /// Details about the partition.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct PartitionDetails {
+        /// The name to the partition resource.
+        /// The name is the fully-qualified resource name.
+        #[prost(string, tag="1")]
+        pub partition: ::prost::alloc::string::String,
+        /// The name to the containing entity resource.
+        /// The name is the fully-qualified resource name.
+        #[prost(string, tag="2")]
+        pub entity: ::prost::alloc::string::String,
+        /// The type of the containing entity resource.
+        #[prost(enumeration="EntityType", tag="3")]
+        pub r#type: i32,
+        /// The locations of the data items (e.g., a Cloud Storage objects) sampled
+        /// for metadata inference.
+        #[prost(string, repeated, tag="4")]
+        pub sampled_data_locations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    }
+    /// Details about the action.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ActionDetails {
+        /// The type of action.
+        /// Eg. IncompatibleDataSchema, InvalidDataFormat
+        #[prost(string, tag="1")]
+        pub r#type: ::prost::alloc::string::String,
+    }
+    /// The type of the event.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EventType {
+        /// An unspecified event type.
+        Unspecified = 0,
+        /// An event representing discovery configuration in effect.
+        Config = 1,
+        /// An event representing a metadata entity being created.
+        EntityCreated = 2,
+        /// An event representing a metadata entity being updated.
+        EntityUpdated = 3,
+        /// An event representing a metadata entity being deleted.
+        EntityDeleted = 4,
+        /// An event representing a partition being created.
+        PartitionCreated = 5,
+        /// An event representing a partition being updated.
+        PartitionUpdated = 6,
+        /// An event representing a partition being deleted.
+        PartitionDeleted = 7,
+    }
+    /// The type of the entity.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EntityType {
+        /// An unspecified event type.
+        Unspecified = 0,
+        /// Entities representing structured data.
+        Table = 1,
+        /// Entities representing unstructured data.
+        Fileset = 2,
+    }
+    /// Additional details about the event.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Details {
+        /// Details about discovery configuration in effect.
+        #[prost(message, tag="20")]
+        Config(ConfigDetails),
+        /// Details about the entity associated with the event.
+        #[prost(message, tag="21")]
+        Entity(EntityDetails),
+        /// Details about the partition associated with the event.
+        #[prost(message, tag="22")]
+        Partition(PartitionDetails),
+        /// Details about the action associated with the event.
+        #[prost(message, tag="23")]
+        Action(ActionDetails),
+    }
+}
+/// The payload associated with Job logs that contains events describing jobs
+/// that have run within a Lake.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct JobEvent {
+    /// The log message.
+    #[prost(string, tag="1")]
+    pub message: ::prost::alloc::string::String,
+    /// The unique id identifying the job.
+    #[prost(string, tag="2")]
+    pub job_id: ::prost::alloc::string::String,
+    /// The time when the job started running.
+    #[prost(message, optional, tag="3")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time when the job ended running.
+    #[prost(message, optional, tag="4")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The job state on completion.
+    #[prost(enumeration="job_event::State", tag="5")]
+    pub state: i32,
+    /// The number of retries.
+    #[prost(int32, tag="6")]
+    pub retries: i32,
+    /// The type of the job.
+    #[prost(enumeration="job_event::Type", tag="7")]
+    pub r#type: i32,
+    /// The service used to execute the job.
+    #[prost(enumeration="job_event::Service", tag="8")]
+    pub service: i32,
+    /// The reference to the job within the service.
+    #[prost(string, tag="9")]
+    pub service_job: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `JobEvent`.
+pub mod job_event {
+    /// The type of the job.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Type {
+        /// Unspecified job type.
+        Unspecified = 0,
+        /// Spark jobs.
+        Spark = 1,
+        /// Notebook jobs.
+        Notebook = 2,
+    }
+    /// The completion status of the job.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// Unspecified job state.
+        Unspecified = 0,
+        /// Job successfully completed.
+        Succeeded = 1,
+        /// Job was unsuccessful.
+        Failed = 2,
+        /// Job was cancelled by the user.
+        Cancelled = 3,
+        /// Job was cancelled or aborted via the service executing the job.
+        Aborted = 4,
+    }
+    /// The service used to execute the job.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Service {
+        /// Unspecified service.
+        Unspecified = 0,
+        /// Cloud Dataproc.
+        Dataproc = 1,
+    }
+}
+/// These messages contain information about sessions within an environment.
+/// The monitored resource is 'Environment'.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SessionEvent {
+    /// The log message.
+    #[prost(string, tag="1")]
+    pub message: ::prost::alloc::string::String,
+    /// The information about the user that created the session.
+    #[prost(string, tag="2")]
+    pub user_id: ::prost::alloc::string::String,
+    /// Unique identifier for the session.
+    #[prost(string, tag="3")]
+    pub session_id: ::prost::alloc::string::String,
+    /// The type of the event.
+    #[prost(enumeration="session_event::EventType", tag="4")]
+    pub r#type: i32,
+    /// Additional information about the Query metadata.
+    #[prost(oneof="session_event::Detail", tags="5")]
+    pub detail: ::core::option::Option<session_event::Detail>,
+}
+/// Nested message and enum types in `SessionEvent`.
+pub mod session_event {
+    /// Execution details of the query.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct QueryDetail {
+        /// The unique Query id identifying the query.
+        #[prost(string, tag="1")]
+        pub query_id: ::prost::alloc::string::String,
+        /// The query text executed.
+        #[prost(string, tag="2")]
+        pub query_text: ::prost::alloc::string::String,
+        /// Query Execution engine.
+        #[prost(enumeration="query_detail::Engine", tag="3")]
+        pub engine: i32,
+        /// Time taken for execution of the query.
+        #[prost(message, optional, tag="4")]
+        pub duration: ::core::option::Option<::prost_types::Duration>,
+        /// The size of results the query produced.
+        #[prost(int64, tag="5")]
+        pub result_size_bytes: i64,
+        /// The data processed by the query.
+        #[prost(int64, tag="6")]
+        pub data_processed_bytes: i64,
+    }
+    /// Nested message and enum types in `QueryDetail`.
+    pub mod query_detail {
+        /// Query Execution engine.
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+        #[repr(i32)]
+        pub enum Engine {
+            /// An unspecified Engine type.
+            Unspecified = 0,
+            /// Spark-sql engine is specified in Query.
+            SparkSql = 1,
+            /// BigQuery engine is specified in Query.
+            Bigquery = 2,
+        }
+    }
+    /// The type of the event.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum EventType {
+        /// An unspecified event type.
+        Unspecified = 0,
+        /// Event for start of a session.
+        Start = 1,
+        /// Event for stop of a session.
+        Stop = 2,
+        /// Query events in the session.
+        Query = 3,
+    }
+    /// Additional information about the Query metadata.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Detail {
+        /// The execution details of the query.
+        #[prost(message, tag="5")]
+        Query(QueryDetail),
+    }
+}
 /// Create a metadata entity request.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateEntityRequest {
@@ -3955,278 +4228,5 @@ pub mod metadata_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-    }
-}
-/// The payload associated with Discovery data processing.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DiscoveryEvent {
-    /// The log message.
-    #[prost(string, tag="1")]
-    pub message: ::prost::alloc::string::String,
-    /// The id of the associated lake.
-    #[prost(string, tag="2")]
-    pub lake_id: ::prost::alloc::string::String,
-    /// The id of the associated zone.
-    #[prost(string, tag="3")]
-    pub zone_id: ::prost::alloc::string::String,
-    /// The id of the associated asset.
-    #[prost(string, tag="4")]
-    pub asset_id: ::prost::alloc::string::String,
-    /// The data location associated with the event.
-    #[prost(string, tag="5")]
-    pub data_location: ::prost::alloc::string::String,
-    /// The type of the event being logged.
-    #[prost(enumeration="discovery_event::EventType", tag="10")]
-    pub r#type: i32,
-    /// Additional details about the event.
-    #[prost(oneof="discovery_event::Details", tags="20, 21, 22, 23")]
-    pub details: ::core::option::Option<discovery_event::Details>,
-}
-/// Nested message and enum types in `DiscoveryEvent`.
-pub mod discovery_event {
-    /// Details about configuration events.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ConfigDetails {
-        /// A list of discovery configuration parameters in effect.
-        /// The keys are the field paths within DiscoverySpec.
-        /// Eg. includePatterns, excludePatterns, csvOptions.disableTypeInference,
-        /// etc.
-        #[prost(btree_map="string, string", tag="1")]
-        pub parameters: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    }
-    /// Details about the entity.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct EntityDetails {
-        /// The name of the entity resource.
-        /// The name is the fully-qualified resource name.
-        #[prost(string, tag="1")]
-        pub entity: ::prost::alloc::string::String,
-        /// The type of the entity resource.
-        #[prost(enumeration="EntityType", tag="2")]
-        pub r#type: i32,
-    }
-    /// Details about the partition.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct PartitionDetails {
-        /// The name to the partition resource.
-        /// The name is the fully-qualified resource name.
-        #[prost(string, tag="1")]
-        pub partition: ::prost::alloc::string::String,
-        /// The name to the containing entity resource.
-        /// The name is the fully-qualified resource name.
-        #[prost(string, tag="2")]
-        pub entity: ::prost::alloc::string::String,
-        /// The type of the containing entity resource.
-        #[prost(enumeration="EntityType", tag="3")]
-        pub r#type: i32,
-        /// The locations of the data items (e.g., a Cloud Storage objects) sampled
-        /// for metadata inference.
-        #[prost(string, repeated, tag="4")]
-        pub sampled_data_locations: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    }
-    /// Details about the action.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ActionDetails {
-        /// The type of action.
-        /// Eg. IncompatibleDataSchema, InvalidDataFormat
-        #[prost(string, tag="1")]
-        pub r#type: ::prost::alloc::string::String,
-    }
-    /// The type of the event.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum EventType {
-        /// An unspecified event type.
-        Unspecified = 0,
-        /// An event representing discovery configuration in effect.
-        Config = 1,
-        /// An event representing a metadata entity being created.
-        EntityCreated = 2,
-        /// An event representing a metadata entity being updated.
-        EntityUpdated = 3,
-        /// An event representing a metadata entity being deleted.
-        EntityDeleted = 4,
-        /// An event representing a partition being created.
-        PartitionCreated = 5,
-        /// An event representing a partition being updated.
-        PartitionUpdated = 6,
-        /// An event representing a partition being deleted.
-        PartitionDeleted = 7,
-    }
-    /// The type of the entity.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum EntityType {
-        /// An unspecified event type.
-        Unspecified = 0,
-        /// Entities representing structured data.
-        Table = 1,
-        /// Entities representing unstructured data.
-        Fileset = 2,
-    }
-    /// Additional details about the event.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Details {
-        /// Details about discovery configuration in effect.
-        #[prost(message, tag="20")]
-        Config(ConfigDetails),
-        /// Details about the entity associated with the event.
-        #[prost(message, tag="21")]
-        Entity(EntityDetails),
-        /// Details about the partition associated with the event.
-        #[prost(message, tag="22")]
-        Partition(PartitionDetails),
-        /// Details about the action associated with the event.
-        #[prost(message, tag="23")]
-        Action(ActionDetails),
-    }
-}
-/// The payload associated with Job logs that contains events describing jobs
-/// that have run within a Lake.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct JobEvent {
-    /// The log message.
-    #[prost(string, tag="1")]
-    pub message: ::prost::alloc::string::String,
-    /// The unique id identifying the job.
-    #[prost(string, tag="2")]
-    pub job_id: ::prost::alloc::string::String,
-    /// The time when the job started running.
-    #[prost(message, optional, tag="3")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time when the job ended running.
-    #[prost(message, optional, tag="4")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The job state on completion.
-    #[prost(enumeration="job_event::State", tag="5")]
-    pub state: i32,
-    /// The number of retries.
-    #[prost(int32, tag="6")]
-    pub retries: i32,
-    /// The type of the job.
-    #[prost(enumeration="job_event::Type", tag="7")]
-    pub r#type: i32,
-    /// The service used to execute the job.
-    #[prost(enumeration="job_event::Service", tag="8")]
-    pub service: i32,
-    /// The reference to the job within the service.
-    #[prost(string, tag="9")]
-    pub service_job: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `JobEvent`.
-pub mod job_event {
-    /// The type of the job.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Type {
-        /// Unspecified job type.
-        Unspecified = 0,
-        /// Spark jobs.
-        Spark = 1,
-        /// Notebook jobs.
-        Notebook = 2,
-    }
-    /// The completion status of the job.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// Unspecified job state.
-        Unspecified = 0,
-        /// Job successfully completed.
-        Succeeded = 1,
-        /// Job was unsuccessful.
-        Failed = 2,
-        /// Job was cancelled by the user.
-        Cancelled = 3,
-        /// Job was cancelled or aborted via the service executing the job.
-        Aborted = 4,
-    }
-    /// The service used to execute the job.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Service {
-        /// Unspecified service.
-        Unspecified = 0,
-        /// Cloud Dataproc.
-        Dataproc = 1,
-    }
-}
-/// These messages contain information about sessions within an environment.
-/// The monitored resource is 'Environment'.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SessionEvent {
-    /// The log message.
-    #[prost(string, tag="1")]
-    pub message: ::prost::alloc::string::String,
-    /// The information about the user that created the session.
-    #[prost(string, tag="2")]
-    pub user_id: ::prost::alloc::string::String,
-    /// Unique identifier for the session.
-    #[prost(string, tag="3")]
-    pub session_id: ::prost::alloc::string::String,
-    /// The type of the event.
-    #[prost(enumeration="session_event::EventType", tag="4")]
-    pub r#type: i32,
-    /// Additional information about the Query metadata.
-    #[prost(oneof="session_event::Detail", tags="5")]
-    pub detail: ::core::option::Option<session_event::Detail>,
-}
-/// Nested message and enum types in `SessionEvent`.
-pub mod session_event {
-    /// Execution details of the query.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct QueryDetail {
-        /// The unique Query id identifying the query.
-        #[prost(string, tag="1")]
-        pub query_id: ::prost::alloc::string::String,
-        /// The query text executed.
-        #[prost(string, tag="2")]
-        pub query_text: ::prost::alloc::string::String,
-        /// Query Execution engine.
-        #[prost(enumeration="query_detail::Engine", tag="3")]
-        pub engine: i32,
-        /// Time taken for execution of the query.
-        #[prost(message, optional, tag="4")]
-        pub duration: ::core::option::Option<::prost_types::Duration>,
-        /// The size of results the query produced.
-        #[prost(int64, tag="5")]
-        pub result_size_bytes: i64,
-        /// The data processed by the query.
-        #[prost(int64, tag="6")]
-        pub data_processed_bytes: i64,
-    }
-    /// Nested message and enum types in `QueryDetail`.
-    pub mod query_detail {
-        /// Query Execution engine.
-        #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-        #[repr(i32)]
-        pub enum Engine {
-            /// An unspecified Engine type.
-            Unspecified = 0,
-            /// Spark-sql engine is specified in Query.
-            SparkSql = 1,
-            /// BigQuery engine is specified in Query.
-            Bigquery = 2,
-        }
-    }
-    /// The type of the event.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum EventType {
-        /// An unspecified event type.
-        Unspecified = 0,
-        /// Event for start of a session.
-        Start = 1,
-        /// Event for stop of a session.
-        Stop = 2,
-        /// Query events in the session.
-        Query = 3,
-    }
-    /// Additional information about the Query metadata.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Detail {
-        /// The execution details of the query.
-        #[prost(message, tag="5")]
-        Query(QueryDetail),
     }
 }

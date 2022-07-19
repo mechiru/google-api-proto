@@ -1,3 +1,35 @@
+/// `AccessPolicy` is a container for `AccessLevels` (which define the necessary
+/// attributes to use Google Cloud services) and `ServicePerimeters` (which
+/// define regions of services able to freely pass data within a perimeter). An
+/// access policy is globally visible within an organization, and the
+/// restrictions it specifies apply to all projects within an organization.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AccessPolicy {
+    /// Output only. Resource name of the `AccessPolicy`. Format:
+    /// `accessPolicies/{access_policy}`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The parent of this `AccessPolicy` in the Cloud Resource
+    /// Hierarchy. Currently immutable once created. Format:
+    /// `organizations/{organization_id}`
+    #[prost(string, tag="2")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Human readable title. Does not affect behavior.
+    #[prost(string, tag="3")]
+    pub title: ::prost::alloc::string::String,
+    /// Output only. Time the `AccessPolicy` was created in UTC.
+    #[prost(message, optional, tag="4")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Time the `AccessPolicy` was updated in UTC.
+    #[prost(message, optional, tag="5")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. An opaque identifier for the current version of the
+    /// `AccessPolicy`. This will always be a strongly validated etag, meaning that
+    /// two Access Polices will be identical if and only if their etags are
+    /// identical. Clients should not expect this to be in any specific format.
+    #[prost(string, tag="6")]
+    pub etag: ::prost::alloc::string::String,
+}
 /// An `AccessLevel` is a label that can be applied to requests to Google Cloud
 /// services, along with a list of requirements necessary for the label to be
 /// applied.
@@ -169,38 +201,6 @@ pub struct OsConstraint {
     /// the API targeted by the request.
     #[prost(bool, tag="3")]
     pub require_verified_chrome_os: bool,
-}
-/// `AccessPolicy` is a container for `AccessLevels` (which define the necessary
-/// attributes to use Google Cloud services) and `ServicePerimeters` (which
-/// define regions of services able to freely pass data within a perimeter). An
-/// access policy is globally visible within an organization, and the
-/// restrictions it specifies apply to all projects within an organization.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AccessPolicy {
-    /// Output only. Resource name of the `AccessPolicy`. Format:
-    /// `accessPolicies/{access_policy}`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The parent of this `AccessPolicy` in the Cloud Resource
-    /// Hierarchy. Currently immutable once created. Format:
-    /// `organizations/{organization_id}`
-    #[prost(string, tag="2")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Human readable title. Does not affect behavior.
-    #[prost(string, tag="3")]
-    pub title: ::prost::alloc::string::String,
-    /// Output only. Time the `AccessPolicy` was created in UTC.
-    #[prost(message, optional, tag="4")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Time the `AccessPolicy` was updated in UTC.
-    #[prost(message, optional, tag="5")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. An opaque identifier for the current version of the
-    /// `AccessPolicy`. This will always be a strongly validated etag, meaning that
-    /// two Access Polices will be identical if and only if their etags are
-    /// identical. Clients should not expect this to be in any specific format.
-    #[prost(string, tag="6")]
-    pub etag: ::prost::alloc::string::String,
 }
 /// `ServicePerimeter` describes a set of Google Cloud resources which can freely
 /// import and export data amongst themselves, but not export outside of the

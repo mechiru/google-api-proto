@@ -1,18 +1,126 @@
-/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web
-/// Security Scanner Service crawls the web applications, following all links
-/// within the scope of sites, to find the URLs to test against.
+/// Defines a custom error message used by CreateScanConfig and UpdateScanConfig
+/// APIs when scan configuration validation fails. It is also reported as part of
+/// a ScanRunErrorTrace message if scan validation fails due to a scan
+/// configuration error.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CrawledUrl {
-    /// Output only. The http method of the request that was used to visit the URL, in
-    /// uppercase.
-    #[prost(string, tag="1")]
-    pub http_method: ::prost::alloc::string::String,
-    /// Output only. The URL that was crawled.
+pub struct ScanConfigError {
+    /// Output only. Indicates the reason code for a configuration failure.
+    #[prost(enumeration="scan_config_error::Code", tag="1")]
+    pub code: i32,
+    /// Output only. Indicates the full name of the ScanConfig field that triggers this error,
+    /// for example "scan_config.max_qps". This field is provided for
+    /// troubleshooting purposes only and its actual value can change in the
+    /// future.
     #[prost(string, tag="2")]
-    pub url: ::prost::alloc::string::String,
-    /// Output only. The body of the request that was used to visit the URL.
-    #[prost(string, tag="3")]
-    pub body: ::prost::alloc::string::String,
+    pub field_name: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `ScanConfigError`.
+pub mod scan_config_error {
+    /// Output only.
+    /// Defines an error reason code.
+    /// Next id: 44
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Code {
+        /// There is no error.
+        Unspecified = 0,
+        /// Indicates an internal server error.
+        /// Please DO NOT USE THIS ERROR CODE unless the root cause is truly unknown.
+        InternalError = 1,
+        /// One of the seed URLs is an App Engine URL but we cannot validate the scan
+        /// settings due to an App Engine API backend error.
+        AppengineApiBackendError = 2,
+        /// One of the seed URLs is an App Engine URL but we cannot access the
+        /// App Engine API to validate scan settings.
+        AppengineApiNotAccessible = 3,
+        /// One of the seed URLs is an App Engine URL but the Default Host of the
+        /// App Engine is not set.
+        AppengineDefaultHostMissing = 4,
+        /// Google corporate accounts can not be used for scanning.
+        CannotUseGoogleComAccount = 6,
+        /// The account of the scan creator can not be used for scanning.
+        CannotUseOwnerAccount = 7,
+        /// This scan targets Compute Engine, but we cannot validate scan settings
+        /// due to a Compute Engine API backend error.
+        ComputeApiBackendError = 8,
+        /// This scan targets Compute Engine, but we cannot access the Compute Engine
+        /// API to validate the scan settings.
+        ComputeApiNotAccessible = 9,
+        /// The Custom Login URL does not belong to the current project.
+        CustomLoginUrlDoesNotBelongToCurrentProject = 10,
+        /// The Custom Login URL is malformed (can not be parsed).
+        CustomLoginUrlMalformed = 11,
+        /// The Custom Login URL is mapped to a non-routable IP address in DNS.
+        CustomLoginUrlMappedToNonRoutableAddress = 12,
+        /// The Custom Login URL is mapped to an IP address which is not reserved for
+        /// the current project.
+        CustomLoginUrlMappedToUnreservedAddress = 13,
+        /// The Custom Login URL has a non-routable IP address.
+        CustomLoginUrlHasNonRoutableIpAddress = 14,
+        /// The Custom Login URL has an IP address which is not reserved for the
+        /// current project.
+        CustomLoginUrlHasUnreservedIpAddress = 15,
+        /// Another scan with the same name (case-sensitive) already exists.
+        DuplicateScanName = 16,
+        /// A field is set to an invalid value.
+        InvalidFieldValue = 18,
+        /// There was an error trying to authenticate to the scan target.
+        FailedToAuthenticateToTarget = 19,
+        /// Finding type value is not specified in the list findings request.
+        FindingTypeUnspecified = 20,
+        /// Scan targets Compute Engine, yet current project was not whitelisted for
+        /// Google Compute Engine Scanning Alpha access.
+        ForbiddenToScanCompute = 21,
+        /// User tries to update managed scan
+        ForbiddenUpdateToManagedScan = 43,
+        /// The supplied filter is malformed. For example, it can not be parsed, does
+        /// not have a filter type in expression, or the same filter type appears
+        /// more than once.
+        MalformedFilter = 22,
+        /// The supplied resource name is malformed (can not be parsed).
+        MalformedResourceName = 23,
+        /// The current project is not in an active state.
+        ProjectInactive = 24,
+        /// A required field is not set.
+        RequiredField = 25,
+        /// Project id, scanconfig id, scanrun id, or finding id are not consistent
+        /// with each other in resource name.
+        ResourceNameInconsistent = 26,
+        /// The scan being requested to start is already running.
+        ScanAlreadyRunning = 27,
+        /// The scan that was requested to be stopped is not running.
+        ScanNotRunning = 28,
+        /// One of the seed URLs does not belong to the current project.
+        SeedUrlDoesNotBelongToCurrentProject = 29,
+        /// One of the seed URLs is malformed (can not be parsed).
+        SeedUrlMalformed = 30,
+        /// One of the seed URLs is mapped to a non-routable IP address in DNS.
+        SeedUrlMappedToNonRoutableAddress = 31,
+        /// One of the seed URLs is mapped to an IP address which is not reserved
+        /// for the current project.
+        SeedUrlMappedToUnreservedAddress = 32,
+        /// One of the seed URLs has on-routable IP address.
+        SeedUrlHasNonRoutableIpAddress = 33,
+        /// One of the seed URLs has an IP address that is not reserved
+        /// for the current project.
+        SeedUrlHasUnreservedIpAddress = 35,
+        /// The Web Security Scanner service account is not configured under the
+        /// project.
+        ServiceAccountNotConfigured = 36,
+        /// A project has reached the maximum number of scans.
+        TooManyScans = 37,
+        /// Resolving the details of the current project fails.
+        UnableToResolveProjectInfo = 38,
+        /// One or more blacklist patterns were in the wrong format.
+        UnsupportedBlacklistPatternFormat = 39,
+        /// The supplied filter is not supported.
+        UnsupportedFilter = 40,
+        /// The supplied finding type is not supported. For example, we do not
+        /// provide findings of the given finding type.
+        UnsupportedFindingType = 41,
+        /// The URL scheme of one or more of the supplied URLs is not supported.
+        UnsupportedUrlScheme = 42,
+    }
 }
 /// ! Information about a vulnerability with an HTML.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -221,6 +329,22 @@ pub mod finding {
         Low = 4,
     }
 }
+/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web
+/// Security Scanner Service crawls the web applications, following all links
+/// within the scope of sites, to find the URLs to test against.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CrawledUrl {
+    /// Output only. The http method of the request that was used to visit the URL, in
+    /// uppercase.
+    #[prost(string, tag="1")]
+    pub http_method: ::prost::alloc::string::String,
+    /// Output only. The URL that was crawled.
+    #[prost(string, tag="2")]
+    pub url: ::prost::alloc::string::String,
+    /// Output only. The body of the request that was used to visit the URL.
+    #[prost(string, tag="3")]
+    pub body: ::prost::alloc::string::String,
+}
 /// A FindingTypeStats resource represents stats regarding a specific FindingType
 /// of Findings under a given ScanRun.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -411,130 +535,6 @@ pub mod scan_config {
         Enabled = 1,
         /// Do not export results of this scan to Security Command Center.
         Disabled = 2,
-    }
-}
-/// Defines a custom error message used by CreateScanConfig and UpdateScanConfig
-/// APIs when scan configuration validation fails. It is also reported as part of
-/// a ScanRunErrorTrace message if scan validation fails due to a scan
-/// configuration error.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ScanConfigError {
-    /// Output only. Indicates the reason code for a configuration failure.
-    #[prost(enumeration="scan_config_error::Code", tag="1")]
-    pub code: i32,
-    /// Output only. Indicates the full name of the ScanConfig field that triggers this error,
-    /// for example "scan_config.max_qps". This field is provided for
-    /// troubleshooting purposes only and its actual value can change in the
-    /// future.
-    #[prost(string, tag="2")]
-    pub field_name: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `ScanConfigError`.
-pub mod scan_config_error {
-    /// Output only.
-    /// Defines an error reason code.
-    /// Next id: 44
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Code {
-        /// There is no error.
-        Unspecified = 0,
-        /// Indicates an internal server error.
-        /// Please DO NOT USE THIS ERROR CODE unless the root cause is truly unknown.
-        InternalError = 1,
-        /// One of the seed URLs is an App Engine URL but we cannot validate the scan
-        /// settings due to an App Engine API backend error.
-        AppengineApiBackendError = 2,
-        /// One of the seed URLs is an App Engine URL but we cannot access the
-        /// App Engine API to validate scan settings.
-        AppengineApiNotAccessible = 3,
-        /// One of the seed URLs is an App Engine URL but the Default Host of the
-        /// App Engine is not set.
-        AppengineDefaultHostMissing = 4,
-        /// Google corporate accounts can not be used for scanning.
-        CannotUseGoogleComAccount = 6,
-        /// The account of the scan creator can not be used for scanning.
-        CannotUseOwnerAccount = 7,
-        /// This scan targets Compute Engine, but we cannot validate scan settings
-        /// due to a Compute Engine API backend error.
-        ComputeApiBackendError = 8,
-        /// This scan targets Compute Engine, but we cannot access the Compute Engine
-        /// API to validate the scan settings.
-        ComputeApiNotAccessible = 9,
-        /// The Custom Login URL does not belong to the current project.
-        CustomLoginUrlDoesNotBelongToCurrentProject = 10,
-        /// The Custom Login URL is malformed (can not be parsed).
-        CustomLoginUrlMalformed = 11,
-        /// The Custom Login URL is mapped to a non-routable IP address in DNS.
-        CustomLoginUrlMappedToNonRoutableAddress = 12,
-        /// The Custom Login URL is mapped to an IP address which is not reserved for
-        /// the current project.
-        CustomLoginUrlMappedToUnreservedAddress = 13,
-        /// The Custom Login URL has a non-routable IP address.
-        CustomLoginUrlHasNonRoutableIpAddress = 14,
-        /// The Custom Login URL has an IP address which is not reserved for the
-        /// current project.
-        CustomLoginUrlHasUnreservedIpAddress = 15,
-        /// Another scan with the same name (case-sensitive) already exists.
-        DuplicateScanName = 16,
-        /// A field is set to an invalid value.
-        InvalidFieldValue = 18,
-        /// There was an error trying to authenticate to the scan target.
-        FailedToAuthenticateToTarget = 19,
-        /// Finding type value is not specified in the list findings request.
-        FindingTypeUnspecified = 20,
-        /// Scan targets Compute Engine, yet current project was not whitelisted for
-        /// Google Compute Engine Scanning Alpha access.
-        ForbiddenToScanCompute = 21,
-        /// User tries to update managed scan
-        ForbiddenUpdateToManagedScan = 43,
-        /// The supplied filter is malformed. For example, it can not be parsed, does
-        /// not have a filter type in expression, or the same filter type appears
-        /// more than once.
-        MalformedFilter = 22,
-        /// The supplied resource name is malformed (can not be parsed).
-        MalformedResourceName = 23,
-        /// The current project is not in an active state.
-        ProjectInactive = 24,
-        /// A required field is not set.
-        RequiredField = 25,
-        /// Project id, scanconfig id, scanrun id, or finding id are not consistent
-        /// with each other in resource name.
-        ResourceNameInconsistent = 26,
-        /// The scan being requested to start is already running.
-        ScanAlreadyRunning = 27,
-        /// The scan that was requested to be stopped is not running.
-        ScanNotRunning = 28,
-        /// One of the seed URLs does not belong to the current project.
-        SeedUrlDoesNotBelongToCurrentProject = 29,
-        /// One of the seed URLs is malformed (can not be parsed).
-        SeedUrlMalformed = 30,
-        /// One of the seed URLs is mapped to a non-routable IP address in DNS.
-        SeedUrlMappedToNonRoutableAddress = 31,
-        /// One of the seed URLs is mapped to an IP address which is not reserved
-        /// for the current project.
-        SeedUrlMappedToUnreservedAddress = 32,
-        /// One of the seed URLs has on-routable IP address.
-        SeedUrlHasNonRoutableIpAddress = 33,
-        /// One of the seed URLs has an IP address that is not reserved
-        /// for the current project.
-        SeedUrlHasUnreservedIpAddress = 35,
-        /// The Web Security Scanner service account is not configured under the
-        /// project.
-        ServiceAccountNotConfigured = 36,
-        /// A project has reached the maximum number of scans.
-        TooManyScans = 37,
-        /// Resolving the details of the current project fails.
-        UnableToResolveProjectInfo = 38,
-        /// One or more blacklist patterns were in the wrong format.
-        UnsupportedBlacklistPatternFormat = 39,
-        /// The supplied filter is not supported.
-        UnsupportedFilter = 40,
-        /// The supplied finding type is not supported. For example, we do not
-        /// provide findings of the given finding type.
-        UnsupportedFindingType = 41,
-        /// The URL scheme of one or more of the supplied URLs is not supported.
-        UnsupportedUrlScheme = 42,
     }
 }
 /// Output only.

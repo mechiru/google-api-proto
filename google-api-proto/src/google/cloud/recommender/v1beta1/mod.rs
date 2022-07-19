@@ -117,55 +117,6 @@ pub mod insight_state_info {
         Dismissed = 3,
     }
 }
-/// Configuration for an InsightType.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InsightTypeConfig {
-    /// Name of insight type config.
-    /// Eg,
-    /// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]/config
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// InsightTypeGenerationConfig which configures the generation of
-    /// insights for this insight type.
-    #[prost(message, optional, tag="2")]
-    pub insight_type_generation_config: ::core::option::Option<InsightTypeGenerationConfig>,
-    /// Fingerprint of the InsightTypeConfig. Provides optimistic locking when
-    /// updating.
-    #[prost(string, tag="3")]
-    pub etag: ::prost::alloc::string::String,
-    /// Last time when the config was updated.
-    #[prost(message, optional, tag="4")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Immutable. The revision ID of the config.
-    /// A new revision is committed whenever the config is changed in any way.
-    /// The format is an 8-character hexadecimal string.
-    #[prost(string, tag="5")]
-    pub revision_id: ::prost::alloc::string::String,
-    /// Allows clients to store small amounts of arbitrary data. Annotations must
-    /// follow the Kubernetes syntax.
-    /// The total size of all keys and values combined is limited to 256k.
-    /// Key can have 2 segments: prefix (optional) and name (required),
-    /// separated by a slash (/).
-    /// Prefix must be a DNS subdomain.
-    /// Name must be 63 characters or less, begin and end with alphanumerics,
-    /// with dashes (-), underscores (_), dots (.), and alphanumerics between.
-    #[prost(btree_map="string, string", tag="6")]
-    pub annotations: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// A user-settable field to provide a human-readable name to be used in user
-    /// interfaces.
-    #[prost(string, tag="7")]
-    pub display_name: ::prost::alloc::string::String,
-}
-/// A configuration to customize the generation of insights.
-/// Eg, customizing the lookback period considered when generating a
-/// insight.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct InsightTypeGenerationConfig {
-    /// Parameters for this InsightTypeGenerationConfig. These configs can be used
-    /// by or are applied to all subtypes.
-    #[prost(message, optional, tag="1")]
-    pub params: ::core::option::Option<::prost_types::Struct>,
-}
 /// A recommendation along with a suggested action. E.g., a rightsizing
 /// recommendation for an underutilized VM, IAM role recommendations, etc
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -509,6 +460,55 @@ pub mod recommendation_state_info {
         /// DISMISSED recommendations can be marked as ACTIVE.
         Dismissed = 5,
     }
+}
+/// Configuration for an InsightType.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InsightTypeConfig {
+    /// Name of insight type config.
+    /// Eg,
+    /// projects/\[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID\]/config
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// InsightTypeGenerationConfig which configures the generation of
+    /// insights for this insight type.
+    #[prost(message, optional, tag="2")]
+    pub insight_type_generation_config: ::core::option::Option<InsightTypeGenerationConfig>,
+    /// Fingerprint of the InsightTypeConfig. Provides optimistic locking when
+    /// updating.
+    #[prost(string, tag="3")]
+    pub etag: ::prost::alloc::string::String,
+    /// Last time when the config was updated.
+    #[prost(message, optional, tag="4")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Immutable. The revision ID of the config.
+    /// A new revision is committed whenever the config is changed in any way.
+    /// The format is an 8-character hexadecimal string.
+    #[prost(string, tag="5")]
+    pub revision_id: ::prost::alloc::string::String,
+    /// Allows clients to store small amounts of arbitrary data. Annotations must
+    /// follow the Kubernetes syntax.
+    /// The total size of all keys and values combined is limited to 256k.
+    /// Key can have 2 segments: prefix (optional) and name (required),
+    /// separated by a slash (/).
+    /// Prefix must be a DNS subdomain.
+    /// Name must be 63 characters or less, begin and end with alphanumerics,
+    /// with dashes (-), underscores (_), dots (.), and alphanumerics between.
+    #[prost(btree_map="string, string", tag="6")]
+    pub annotations: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// A user-settable field to provide a human-readable name to be used in user
+    /// interfaces.
+    #[prost(string, tag="7")]
+    pub display_name: ::prost::alloc::string::String,
+}
+/// A configuration to customize the generation of insights.
+/// Eg, customizing the lookback period considered when generating a
+/// insight.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InsightTypeGenerationConfig {
+    /// Parameters for this InsightTypeGenerationConfig. These configs can be used
+    /// by or are applied to all subtypes.
+    #[prost(message, optional, tag="1")]
+    pub params: ::core::option::Option<::prost_types::Struct>,
 }
 /// Configuration for a Recommender.
 #[derive(Clone, PartialEq, ::prost::Message)]

@@ -1,16 +1,3 @@
-/// Prediction output format for Tabular Classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TabularClassificationPredictionResult {
-    /// The name of the classes being classified, contains all possible values of
-    /// the target column.
-    #[prost(string, repeated, tag="1")]
-    pub classes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The model's confidence in each class being correct, higher
-    /// value means higher confidence. The N-th score corresponds to
-    /// the N-th class in classes.
-    #[prost(float, repeated, tag="2")]
-    pub scores: ::prost::alloc::vec::Vec<f32>,
-}
 /// Prediction output format for Tabular Regression.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TabularRegressionPredictionResult {
@@ -23,45 +10,6 @@ pub struct TabularRegressionPredictionResult {
     /// The upper bound of the prediction interval.
     #[prost(float, tag="3")]
     pub upper_bound: f32,
-}
-/// Prediction output format for Image Object Detection.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImageObjectDetectionPredictionResult {
-    /// The resource IDs of the AnnotationSpecs that had been identified, ordered
-    /// by the confidence score descendingly.
-    #[prost(int64, repeated, tag="1")]
-    pub ids: ::prost::alloc::vec::Vec<i64>,
-    /// The display names of the AnnotationSpecs that had been identified, order
-    /// matches the IDs.
-    #[prost(string, repeated, tag="2")]
-    pub display_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The Model's confidences in correctness of the predicted IDs, higher value
-    /// means higher confidence. Order matches the Ids.
-    #[prost(float, repeated, tag="3")]
-    pub confidences: ::prost::alloc::vec::Vec<f32>,
-    /// Bounding boxes, i.e. the rectangles over the image, that pinpoint
-    /// the found AnnotationSpecs. Given in order that matches the IDs. Each
-    /// bounding box is an array of 4 numbers `xMin`, `xMax`, `yMin`, and
-    /// `yMax`, which represent the extremal coordinates of the box. They are
-    /// relative to the image size, and the point 0,0 is in the top left
-    /// of the image.
-    #[prost(message, repeated, tag="4")]
-    pub bboxes: ::prost::alloc::vec::Vec<::prost_types::ListValue>,
-}
-/// Prediction output format for Image and Text Classification.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ClassificationPredictionResult {
-    /// The resource IDs of the AnnotationSpecs that had been identified.
-    #[prost(int64, repeated, tag="1")]
-    pub ids: ::prost::alloc::vec::Vec<i64>,
-    /// The display names of the AnnotationSpecs that had been identified, order
-    /// matches the IDs.
-    #[prost(string, repeated, tag="2")]
-    pub display_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The Model's confidences in correctness of the predicted IDs, higher value
-    /// means higher confidence. Order matches the Ids.
-    #[prost(float, repeated, tag="3")]
-    pub confidences: ::prost::alloc::vec::Vec<f32>,
 }
 /// Prediction output format for Video Action Recognition.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -88,6 +36,19 @@ pub struct VideoActionRecognitionPredictionResult {
     /// value means higher confidence.
     #[prost(message, optional, tag="6")]
     pub confidence: ::core::option::Option<f32>,
+}
+/// Prediction output format for Tabular Classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TabularClassificationPredictionResult {
+    /// The name of the classes being classified, contains all possible values of
+    /// the target column.
+    #[prost(string, repeated, tag="1")]
+    pub classes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The model's confidence in each class being correct, higher
+    /// value means higher confidence. The N-th score corresponds to
+    /// the N-th class in classes.
+    #[prost(float, repeated, tag="2")]
+    pub scores: ::prost::alloc::vec::Vec<f32>,
 }
 /// Prediction output format for Video Object Tracking.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -147,6 +108,30 @@ pub mod video_object_tracking_prediction_result {
         pub y_max: ::core::option::Option<f32>,
     }
 }
+/// Prediction output format for Image Object Detection.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImageObjectDetectionPredictionResult {
+    /// The resource IDs of the AnnotationSpecs that had been identified, ordered
+    /// by the confidence score descendingly.
+    #[prost(int64, repeated, tag="1")]
+    pub ids: ::prost::alloc::vec::Vec<i64>,
+    /// The display names of the AnnotationSpecs that had been identified, order
+    /// matches the IDs.
+    #[prost(string, repeated, tag="2")]
+    pub display_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The Model's confidences in correctness of the predicted IDs, higher value
+    /// means higher confidence. Order matches the Ids.
+    #[prost(float, repeated, tag="3")]
+    pub confidences: ::prost::alloc::vec::Vec<f32>,
+    /// Bounding boxes, i.e. the rectangles over the image, that pinpoint
+    /// the found AnnotationSpecs. Given in order that matches the IDs. Each
+    /// bounding box is an array of 4 numbers `xMin`, `xMax`, `yMin`, and
+    /// `yMax`, which represent the extremal coordinates of the box. They are
+    /// relative to the image size, and the point 0,0 is in the top left
+    /// of the image.
+    #[prost(message, repeated, tag="4")]
+    pub bboxes: ::prost::alloc::vec::Vec<::prost_types::ListValue>,
+}
 /// Prediction output format for Image Segmentation.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ImageSegmentationPredictionResult {
@@ -165,32 +150,6 @@ pub struct ImageSegmentationPredictionResult {
     /// white means complete confidence.
     #[prost(string, tag="2")]
     pub confidence_mask: ::prost::alloc::string::String,
-}
-/// Prediction output format for Text Extraction.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextExtractionPredictionResult {
-    /// The resource IDs of the AnnotationSpecs that had been identified,
-    /// ordered by the confidence score descendingly.
-    #[prost(int64, repeated, tag="1")]
-    pub ids: ::prost::alloc::vec::Vec<i64>,
-    /// The display names of the AnnotationSpecs that had been identified,
-    /// order matches the IDs.
-    #[prost(string, repeated, tag="2")]
-    pub display_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The start offsets, inclusive, of the text segment in which the
-    /// AnnotationSpec has been identified. Expressed as a zero-based number
-    /// of characters as measured from the start of the text snippet.
-    #[prost(int64, repeated, tag="3")]
-    pub text_segment_start_offsets: ::prost::alloc::vec::Vec<i64>,
-    /// The end offsets, inclusive, of the text segment in which the
-    /// AnnotationSpec has been identified. Expressed as a zero-based number
-    /// of characters as measured from the start of the text snippet.
-    #[prost(int64, repeated, tag="4")]
-    pub text_segment_end_offsets: ::prost::alloc::vec::Vec<i64>,
-    /// The Model's confidences in correctness of the predicted IDs, higher
-    /// value means higher confidence. Order matches the Ids.
-    #[prost(float, repeated, tag="5")]
-    pub confidences: ::prost::alloc::vec::Vec<f32>,
 }
 /// Prediction output format for Text Sentiment
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -241,4 +200,45 @@ pub struct VideoClassificationPredictionResult {
     /// value means higher confidence.
     #[prost(message, optional, tag="6")]
     pub confidence: ::core::option::Option<f32>,
+}
+/// Prediction output format for Text Extraction.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextExtractionPredictionResult {
+    /// The resource IDs of the AnnotationSpecs that had been identified,
+    /// ordered by the confidence score descendingly.
+    #[prost(int64, repeated, tag="1")]
+    pub ids: ::prost::alloc::vec::Vec<i64>,
+    /// The display names of the AnnotationSpecs that had been identified,
+    /// order matches the IDs.
+    #[prost(string, repeated, tag="2")]
+    pub display_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The start offsets, inclusive, of the text segment in which the
+    /// AnnotationSpec has been identified. Expressed as a zero-based number
+    /// of characters as measured from the start of the text snippet.
+    #[prost(int64, repeated, tag="3")]
+    pub text_segment_start_offsets: ::prost::alloc::vec::Vec<i64>,
+    /// The end offsets, inclusive, of the text segment in which the
+    /// AnnotationSpec has been identified. Expressed as a zero-based number
+    /// of characters as measured from the start of the text snippet.
+    #[prost(int64, repeated, tag="4")]
+    pub text_segment_end_offsets: ::prost::alloc::vec::Vec<i64>,
+    /// The Model's confidences in correctness of the predicted IDs, higher
+    /// value means higher confidence. Order matches the Ids.
+    #[prost(float, repeated, tag="5")]
+    pub confidences: ::prost::alloc::vec::Vec<f32>,
+}
+/// Prediction output format for Image and Text Classification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ClassificationPredictionResult {
+    /// The resource IDs of the AnnotationSpecs that had been identified.
+    #[prost(int64, repeated, tag="1")]
+    pub ids: ::prost::alloc::vec::Vec<i64>,
+    /// The display names of the AnnotationSpecs that had been identified, order
+    /// matches the IDs.
+    #[prost(string, repeated, tag="2")]
+    pub display_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The Model's confidences in correctness of the predicted IDs, higher value
+    /// means higher confidence. Order matches the Ids.
+    #[prost(float, repeated, tag="3")]
+    pub confidences: ::prost::alloc::vec::Vec<f32>,
 }

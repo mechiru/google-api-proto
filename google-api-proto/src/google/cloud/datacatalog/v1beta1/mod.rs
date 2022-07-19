@@ -1,3 +1,76 @@
+/// Describes a BigQuery table.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BigQueryTableSpec {
+    /// Output only. The table source type.
+    #[prost(enumeration="TableSourceType", tag="1")]
+    pub table_source_type: i32,
+    /// Output only.
+    #[prost(oneof="big_query_table_spec::TypeSpec", tags="2, 3")]
+    pub type_spec: ::core::option::Option<big_query_table_spec::TypeSpec>,
+}
+/// Nested message and enum types in `BigQueryTableSpec`.
+pub mod big_query_table_spec {
+    /// Output only.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum TypeSpec {
+        /// Table view specification. This field should only be populated if
+        /// `table_source_type` is `BIGQUERY_VIEW`.
+        #[prost(message, tag="2")]
+        ViewSpec(super::ViewSpec),
+        /// Spec of a BigQuery table. This field should only be populated if
+        /// `table_source_type` is `BIGQUERY_TABLE`.
+        #[prost(message, tag="3")]
+        TableSpec(super::TableSpec),
+    }
+}
+/// Table view specification.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ViewSpec {
+    /// Output only. The query that defines the table view.
+    #[prost(string, tag="1")]
+    pub view_query: ::prost::alloc::string::String,
+}
+/// Normal BigQuery table spec.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TableSpec {
+    /// Output only. If the table is a dated shard, i.e., with name pattern `\[prefix\]YYYYMMDD`,
+    /// `grouped_entry` is the Data Catalog resource name of the date sharded
+    /// grouped entry, for example,
+    /// `projects/{project_id}/locations/{location}/entrygroups/{entry_group_id}/entries/{entry_id}`.
+    /// Otherwise, `grouped_entry` is empty.
+    #[prost(string, tag="1")]
+    pub grouped_entry: ::prost::alloc::string::String,
+}
+/// Spec for a group of BigQuery tables with name pattern `\[prefix\]YYYYMMDD`.
+/// Context:
+/// <https://cloud.google.com/bigquery/docs/partitioned-tables#partitioning_versus_sharding>
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BigQueryDateShardedSpec {
+    /// Output only. The Data Catalog resource name of the dataset entry the current table
+    /// belongs to, for example,
+    /// `projects/{project_id}/locations/{location}/entrygroups/{entry_group_id}/entries/{entry_id}`.
+    #[prost(string, tag="1")]
+    pub dataset: ::prost::alloc::string::String,
+    /// Output only. The table name prefix of the shards. The name of any given shard is
+    /// `\[table_prefix\]YYYYMMDD`, for example, for shard `MyTable20180101`, the
+    /// `table_prefix` is `MyTable`.
+    #[prost(string, tag="2")]
+    pub table_prefix: ::prost::alloc::string::String,
+    /// Output only. Total number of shards.
+    #[prost(int64, tag="3")]
+    pub shard_count: i64,
+}
+/// Table source type.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TableSourceType {
+    /// Default unknown type.
+    Unspecified = 0,
+    /// Table view.
+    BigqueryView = 2,
+    /// BigQuery native table.
+    BigqueryTable = 5,
+}
 /// Timestamps about this resource according to a particular system.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SystemTimestamps {
@@ -11,57 +84,6 @@ pub struct SystemTimestamps {
     /// Currently only apllicable to BigQuery resources.
     #[prost(message, optional, tag="3")]
     pub expire_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Describes a Cloud Storage fileset entry.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GcsFilesetSpec {
-    /// Required. Patterns to identify a set of files in Google Cloud Storage.
-    /// See [Cloud Storage
-    /// documentation](<https://cloud.google.com/storage/docs/gsutil/addlhelp/WildcardNames>)
-    /// for more information. Note that bucket wildcards are currently not
-    /// supported.
-    ///
-    /// Examples of valid file_patterns:
-    ///
-    ///  * `gs://bucket_name/dir/*`: matches all files within `bucket_name/dir`
-    ///                              directory.
-    ///  * `gs://bucket_name/dir/**`: matches all files in `bucket_name/dir`
-    ///                               spanning all subdirectories.
-    ///  * `gs://bucket_name/file*`: matches files prefixed by `file` in
-    ///                              `bucket_name`
-    ///  * `gs://bucket_name/??.txt`: matches files with two characters followed by
-    ///                               `.txt` in `bucket_name`
-    ///  * `gs://bucket_name/\[aeiou\].txt`: matches files that contain a single
-    ///                                    vowel character followed by `.txt` in
-    ///                                    `bucket_name`
-    ///  * `gs://bucket_name/\[a-m\].txt`: matches files that contain `a`, `b`, ...
-    ///                                  or `m` followed by `.txt` in `bucket_name`
-    ///  * `gs://bucket_name/a/*/b`: matches all files in `bucket_name` that match
-    ///                              `a/*/b` pattern, such as `a/c/b`, `a/d/b`
-    ///  * `gs://another_bucket/a.txt`: matches `gs://another_bucket/a.txt`
-    ///
-    /// You can combine wildcards to provide more powerful matches, for example:
-    ///
-    ///  * `gs://bucket_name/\[a-m\]??.j*g`
-    #[prost(string, repeated, tag="1")]
-    pub file_patterns: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Output only. Sample files contained in this fileset, not all files contained in this
-    /// fileset are represented here.
-    #[prost(message, repeated, tag="2")]
-    pub sample_gcs_file_specs: ::prost::alloc::vec::Vec<GcsFileSpec>,
-}
-/// Specifications of a single file in Cloud Storage.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GcsFileSpec {
-    /// Required. The full file path. Example: `gs://bucket_name/a/b.txt`.
-    #[prost(string, tag="1")]
-    pub file_path: ::prost::alloc::string::String,
-    /// Output only. Timestamps about the Cloud Storage file.
-    #[prost(message, optional, tag="2")]
-    pub gcs_timestamps: ::core::option::Option<SystemTimestamps>,
-    /// Output only. The size of the file, in bytes.
-    #[prost(int64, tag="4")]
-    pub size_bytes: i64,
 }
 /// A taxonomy is a collection of policy tags that classify data along a common
 /// axis. For instance a data *sensitivity* taxonomy could contain policy tags
@@ -825,78 +847,68 @@ pub mod policy_tag_manager_serialization_client {
         }
     }
 }
-/// Describes a BigQuery table.
+/// Describes a Cloud Storage fileset entry.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BigQueryTableSpec {
-    /// Output only. The table source type.
-    #[prost(enumeration="TableSourceType", tag="1")]
-    pub table_source_type: i32,
-    /// Output only.
-    #[prost(oneof="big_query_table_spec::TypeSpec", tags="2, 3")]
-    pub type_spec: ::core::option::Option<big_query_table_spec::TypeSpec>,
+pub struct GcsFilesetSpec {
+    /// Required. Patterns to identify a set of files in Google Cloud Storage.
+    /// See [Cloud Storage
+    /// documentation](<https://cloud.google.com/storage/docs/gsutil/addlhelp/WildcardNames>)
+    /// for more information. Note that bucket wildcards are currently not
+    /// supported.
+    ///
+    /// Examples of valid file_patterns:
+    ///
+    ///  * `gs://bucket_name/dir/*`: matches all files within `bucket_name/dir`
+    ///                              directory.
+    ///  * `gs://bucket_name/dir/**`: matches all files in `bucket_name/dir`
+    ///                               spanning all subdirectories.
+    ///  * `gs://bucket_name/file*`: matches files prefixed by `file` in
+    ///                              `bucket_name`
+    ///  * `gs://bucket_name/??.txt`: matches files with two characters followed by
+    ///                               `.txt` in `bucket_name`
+    ///  * `gs://bucket_name/\[aeiou\].txt`: matches files that contain a single
+    ///                                    vowel character followed by `.txt` in
+    ///                                    `bucket_name`
+    ///  * `gs://bucket_name/\[a-m\].txt`: matches files that contain `a`, `b`, ...
+    ///                                  or `m` followed by `.txt` in `bucket_name`
+    ///  * `gs://bucket_name/a/*/b`: matches all files in `bucket_name` that match
+    ///                              `a/*/b` pattern, such as `a/c/b`, `a/d/b`
+    ///  * `gs://another_bucket/a.txt`: matches `gs://another_bucket/a.txt`
+    ///
+    /// You can combine wildcards to provide more powerful matches, for example:
+    ///
+    ///  * `gs://bucket_name/\[a-m\]??.j*g`
+    #[prost(string, repeated, tag="1")]
+    pub file_patterns: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Output only. Sample files contained in this fileset, not all files contained in this
+    /// fileset are represented here.
+    #[prost(message, repeated, tag="2")]
+    pub sample_gcs_file_specs: ::prost::alloc::vec::Vec<GcsFileSpec>,
 }
-/// Nested message and enum types in `BigQueryTableSpec`.
-pub mod big_query_table_spec {
-    /// Output only.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum TypeSpec {
-        /// Table view specification. This field should only be populated if
-        /// `table_source_type` is `BIGQUERY_VIEW`.
-        #[prost(message, tag="2")]
-        ViewSpec(super::ViewSpec),
-        /// Spec of a BigQuery table. This field should only be populated if
-        /// `table_source_type` is `BIGQUERY_TABLE`.
-        #[prost(message, tag="3")]
-        TableSpec(super::TableSpec),
-    }
-}
-/// Table view specification.
+/// Specifications of a single file in Cloud Storage.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ViewSpec {
-    /// Output only. The query that defines the table view.
+pub struct GcsFileSpec {
+    /// Required. The full file path. Example: `gs://bucket_name/a/b.txt`.
     #[prost(string, tag="1")]
-    pub view_query: ::prost::alloc::string::String,
+    pub file_path: ::prost::alloc::string::String,
+    /// Output only. Timestamps about the Cloud Storage file.
+    #[prost(message, optional, tag="2")]
+    pub gcs_timestamps: ::core::option::Option<SystemTimestamps>,
+    /// Output only. The size of the file, in bytes.
+    #[prost(int64, tag="4")]
+    pub size_bytes: i64,
 }
-/// Normal BigQuery table spec.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TableSpec {
-    /// Output only. If the table is a dated shard, i.e., with name pattern `\[prefix\]YYYYMMDD`,
-    /// `grouped_entry` is the Data Catalog resource name of the date sharded
-    /// grouped entry, for example,
-    /// `projects/{project_id}/locations/{location}/entrygroups/{entry_group_id}/entries/{entry_id}`.
-    /// Otherwise, `grouped_entry` is empty.
-    #[prost(string, tag="1")]
-    pub grouped_entry: ::prost::alloc::string::String,
-}
-/// Spec for a group of BigQuery tables with name pattern `\[prefix\]YYYYMMDD`.
-/// Context:
-/// <https://cloud.google.com/bigquery/docs/partitioned-tables#partitioning_versus_sharding>
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BigQueryDateShardedSpec {
-    /// Output only. The Data Catalog resource name of the dataset entry the current table
-    /// belongs to, for example,
-    /// `projects/{project_id}/locations/{location}/entrygroups/{entry_group_id}/entries/{entry_id}`.
-    #[prost(string, tag="1")]
-    pub dataset: ::prost::alloc::string::String,
-    /// Output only. The table name prefix of the shards. The name of any given shard is
-    /// `\[table_prefix\]YYYYMMDD`, for example, for shard `MyTable20180101`, the
-    /// `table_prefix` is `MyTable`.
-    #[prost(string, tag="2")]
-    pub table_prefix: ::prost::alloc::string::String,
-    /// Output only. Total number of shards.
-    #[prost(int64, tag="3")]
-    pub shard_count: i64,
-}
-/// Table source type.
+/// This enum describes all the possible systems that Data Catalog integrates
+/// with.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-pub enum TableSourceType {
-    /// Default unknown type.
+pub enum IntegratedSystem {
+    /// Default unknown system.
     Unspecified = 0,
-    /// Table view.
-    BigqueryView = 2,
-    /// BigQuery native table.
-    BigqueryTable = 5,
+    /// BigQuery.
+    Bigquery = 1,
+    /// Cloud Pub/Sub.
+    CloudPubsub = 2,
 }
 /// Represents a schema (e.g. BigQuery, GoogleSQL, Avro schema).
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -927,18 +939,6 @@ pub struct ColumnSchema {
     /// Optional. Schema of sub-columns. A column can have zero or more sub-columns.
     #[prost(message, repeated, tag="7")]
     pub subcolumns: ::prost::alloc::vec::Vec<ColumnSchema>,
-}
-/// This enum describes all the possible systems that Data Catalog integrates
-/// with.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum IntegratedSystem {
-    /// Default unknown system.
-    Unspecified = 0,
-    /// BigQuery.
-    Bigquery = 1,
-    /// Cloud Pub/Sub.
-    CloudPubsub = 2,
 }
 /// A result that appears in the response of a search request. Each result
 /// captures details of one entry that matches the search.

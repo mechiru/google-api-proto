@@ -1,3 +1,14 @@
+/// Sink Settings for Security Command Center
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SinkSettings {
+    /// The resource name of the project to send logs to. This project must be
+    /// part of the same organization where the Security Center API is
+    /// enabled. The format is `projects/{project}`. If it is empty, we do
+    /// not output logs. If a project ID is provided it will be normalized to a
+    /// project number.
+    #[prost(string, tag="1")]
+    pub logging_sink_project: ::prost::alloc::string::String,
+}
 // If this field is populated and billing_tier is STANDARD, this is
 // indication of a point in the _past_ when a PREMIUM access ended.
 
@@ -44,45 +55,6 @@ pub enum BillingType {
     TrialSubscription = 2,
     /// Alpha customer for Premium billing tier
     Alpha = 3,
-}
-/// Detector is a set of detectors or scanners act as individual checks done
-/// within a component e.g. bad IP, bad domains, IAM anomaly, cryptomining, open
-/// firewall, etc. Detector is independent of Organization, meaning each detector
-/// must be defined for a given Security Center component under a specified
-/// billing tier. Organizations can configure the list of detectors based on
-/// their subscribed billing tier.
-///
-/// Defines a detector, its billing tier and any applicable labels.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Detector {
-    /// Output only. Detector Identifier
-    #[prost(string, tag="1")]
-    pub detector: ::prost::alloc::string::String,
-    /// Output only. Component that supports detector type.  Multiple components may support the
-    /// same detector.
-    #[prost(string, tag="2")]
-    pub component: ::prost::alloc::string::String,
-    /// Output only. The billing tier may be different for a detector of the same name in
-    /// another component.
-    #[prost(enumeration="BillingTier", tag="3")]
-    pub billing_tier: i32,
-    /// Output only. Google curated detector labels. These are alphanumeric tags that are not
-    /// necessarily human readable. Labels can be used to group detectors together
-    /// in the future. An example might be tagging all detectors “PCI” that help
-    /// with PCI compliance.
-    #[prost(string, repeated, tag="4")]
-    pub detector_labels: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Sink Settings for Security Command Center
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SinkSettings {
-    /// The resource name of the project to send logs to. This project must be
-    /// part of the same organization where the Security Center API is
-    /// enabled. The format is `projects/{project}`. If it is empty, we do
-    /// not output logs. If a project ID is provided it will be normalized to a
-    /// project number.
-    #[prost(string, tag="1")]
-    pub logging_sink_project: ::prost::alloc::string::String,
 }
 /// Component Settings for Security Command Center
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -300,6 +272,34 @@ pub mod settings {
         /// SCC's core Service Account was created
         OrgServiceAccountCreated = 6,
     }
+}
+/// Detector is a set of detectors or scanners act as individual checks done
+/// within a component e.g. bad IP, bad domains, IAM anomaly, cryptomining, open
+/// firewall, etc. Detector is independent of Organization, meaning each detector
+/// must be defined for a given Security Center component under a specified
+/// billing tier. Organizations can configure the list of detectors based on
+/// their subscribed billing tier.
+///
+/// Defines a detector, its billing tier and any applicable labels.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Detector {
+    /// Output only. Detector Identifier
+    #[prost(string, tag="1")]
+    pub detector: ::prost::alloc::string::String,
+    /// Output only. Component that supports detector type.  Multiple components may support the
+    /// same detector.
+    #[prost(string, tag="2")]
+    pub component: ::prost::alloc::string::String,
+    /// Output only. The billing tier may be different for a detector of the same name in
+    /// another component.
+    #[prost(enumeration="BillingTier", tag="3")]
+    pub billing_tier: i32,
+    /// Output only. Google curated detector labels. These are alphanumeric tags that are not
+    /// necessarily human readable. Labels can be used to group detectors together
+    /// in the future. An example might be tagging all detectors “PCI” that help
+    /// with PCI compliance.
+    #[prost(string, repeated, tag="4")]
+    pub detector_labels: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Request message for GetServiceAccount.
 #[derive(Clone, PartialEq, ::prost::Message)]

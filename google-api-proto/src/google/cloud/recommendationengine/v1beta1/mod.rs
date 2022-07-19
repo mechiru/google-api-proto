@@ -712,6 +712,449 @@ pub struct UserEventImportSummary {
     #[prost(int64, tag="2")]
     pub unjoined_events_count: i64,
 }
+/// Request message for CreateCatalogItem method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateCatalogItemRequest {
+    /// Required. The parent catalog resource name, such as
+    /// `projects/*/locations/global/catalogs/default_catalog`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The catalog item to create.
+    #[prost(message, optional, tag="2")]
+    pub catalog_item: ::core::option::Option<CatalogItem>,
+}
+/// Request message for GetCatalogItem method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetCatalogItemRequest {
+    /// Required. Full resource name of catalog item, such as
+    /// `projects/*/locations/global/catalogs/default_catalog/catalogitems/some_catalog_item_id`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for ListCatalogItems method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListCatalogItemsRequest {
+    /// Required. The parent catalog resource name, such as
+    /// `projects/*/locations/global/catalogs/default_catalog`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. Maximum number of results to return per page. If zero, the
+    /// service will choose a reasonable default.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// Optional. The previous ListCatalogItemsResponse.next_page_token.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. A filter to apply on the list results.
+    #[prost(string, tag="4")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// Response message for ListCatalogItems method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListCatalogItemsResponse {
+    /// The catalog items.
+    #[prost(message, repeated, tag="1")]
+    pub catalog_items: ::prost::alloc::vec::Vec<CatalogItem>,
+    /// If empty, the list is complete. If nonempty, the token to pass to the next
+    /// request's ListCatalogItemRequest.page_token.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for UpdateCatalogItem method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateCatalogItemRequest {
+    /// Required. Full resource name of catalog item, such as
+    /// "projects/*/locations/global/catalogs/default_catalog/catalogItems/some_catalog_item_id".
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The catalog item to update/create. The 'catalog_item_id' field
+    /// has to match that in the 'name'.
+    #[prost(message, optional, tag="2")]
+    pub catalog_item: ::core::option::Option<CatalogItem>,
+    /// Optional. Indicates which fields in the provided 'item' to update. If not
+    /// set, will by default update all fields.
+    #[prost(message, optional, tag="3")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Request message for DeleteCatalogItem method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteCatalogItemRequest {
+    /// Required. Full resource name of catalog item, such as
+    /// `projects/*/locations/global/catalogs/default_catalog/catalogItems/some_catalog_item_id`.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Generated client implementations.
+pub mod catalog_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// Service for ingesting catalog information of the customer's website.
+    #[derive(Debug, Clone)]
+    pub struct CatalogServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> CatalogServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> CatalogServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            CatalogServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Creates a catalog item.
+        pub async fn create_catalog_item(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateCatalogItemRequest>,
+        ) -> Result<tonic::Response<super::CatalogItem>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.recommendationengine.v1beta1.CatalogService/CreateCatalogItem",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets a specific catalog item.
+        pub async fn get_catalog_item(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetCatalogItemRequest>,
+        ) -> Result<tonic::Response<super::CatalogItem>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.recommendationengine.v1beta1.CatalogService/GetCatalogItem",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Gets a list of catalog items.
+        pub async fn list_catalog_items(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListCatalogItemsRequest>,
+        ) -> Result<tonic::Response<super::ListCatalogItemsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.recommendationengine.v1beta1.CatalogService/ListCatalogItems",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Updates a catalog item. Partial updating is supported. Non-existing
+        /// items will be created.
+        pub async fn update_catalog_item(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateCatalogItemRequest>,
+        ) -> Result<tonic::Response<super::CatalogItem>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.recommendationengine.v1beta1.CatalogService/UpdateCatalogItem",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Deletes a catalog item.
+        pub async fn delete_catalog_item(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteCatalogItemRequest>,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.recommendationengine.v1beta1.CatalogService/DeleteCatalogItem",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Bulk import of multiple catalog items. Request processing may be
+        /// synchronous. No partial updating supported. Non-existing items will be
+        /// created.
+        ///
+        /// Operation.response is of type ImportResponse. Note that it is
+        /// possible for a subset of the items to be successfully updated.
+        pub async fn import_catalog_items(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ImportCatalogItemsRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.recommendationengine.v1beta1.CatalogService/ImportCatalogItems",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// Registered Api Key.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PredictionApiKeyRegistration {
+    /// The API key.
+    #[prost(string, tag="1")]
+    pub api_key: ::prost::alloc::string::String,
+}
+/// Request message for the `CreatePredictionApiKeyRegistration` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreatePredictionApiKeyRegistrationRequest {
+    /// Required. The parent resource path.
+    /// `projects/*/locations/global/catalogs/default_catalog/eventStores/default_event_store`.
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The prediction API key registration.
+    #[prost(message, optional, tag="2")]
+    pub prediction_api_key_registration: ::core::option::Option<PredictionApiKeyRegistration>,
+}
+/// Request message for the `ListPredictionApiKeyRegistrations`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPredictionApiKeyRegistrationsRequest {
+    /// Required. The parent placement resource name such as
+    /// `projects/1234/locations/global/catalogs/default_catalog/eventStores/default_event_store`
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. Maximum number of results to return per page. If unset, the
+    /// service will choose a reasonable default.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// Optional. The previous `ListPredictionApiKeyRegistration.nextPageToken`.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response message for the `ListPredictionApiKeyRegistrations`.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPredictionApiKeyRegistrationsResponse {
+    /// The list of registered API keys.
+    #[prost(message, repeated, tag="1")]
+    pub prediction_api_key_registrations: ::prost::alloc::vec::Vec<PredictionApiKeyRegistration>,
+    /// If empty, the list is complete. If nonempty, pass the token to the next
+    /// request's `ListPredictionApiKeysRegistrationsRequest.pageToken`.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Request message for `DeletePredictionApiKeyRegistration` method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeletePredictionApiKeyRegistrationRequest {
+    /// Required. The API key to unregister including full resource path.
+    /// `projects/*/locations/global/catalogs/default_catalog/eventStores/default_event_store/predictionApiKeyRegistrations/<YOUR_API_KEY>`
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Generated client implementations.
+pub mod prediction_api_key_registry_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// Service for registering API keys for use with the `predict` method. If you
+    /// use an API key to request predictions, you must first register the API key.
+    /// Otherwise, your prediction request is rejected. If you use OAuth to
+    /// authenticate your `predict` method call, you do not need to register an API
+    /// key. You can register up to 20 API keys per project.
+    #[derive(Debug, Clone)]
+    pub struct PredictionApiKeyRegistryClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> PredictionApiKeyRegistryClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> PredictionApiKeyRegistryClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            PredictionApiKeyRegistryClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Register an API key for use with predict method.
+        pub async fn create_prediction_api_key_registration(
+            &mut self,
+            request: impl tonic::IntoRequest<
+                super::CreatePredictionApiKeyRegistrationRequest,
+            >,
+        ) -> Result<
+            tonic::Response<super::PredictionApiKeyRegistration>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.recommendationengine.v1beta1.PredictionApiKeyRegistry/CreatePredictionApiKeyRegistration",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// List the registered apiKeys for use with predict method.
+        pub async fn list_prediction_api_key_registrations(
+            &mut self,
+            request: impl tonic::IntoRequest<
+                super::ListPredictionApiKeyRegistrationsRequest,
+            >,
+        ) -> Result<
+            tonic::Response<super::ListPredictionApiKeyRegistrationsResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.recommendationengine.v1beta1.PredictionApiKeyRegistry/ListPredictionApiKeyRegistrations",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Unregister an apiKey from using for predict method.
+        pub async fn delete_prediction_api_key_registration(
+            &mut self,
+            request: impl tonic::IntoRequest<
+                super::DeletePredictionApiKeyRegistrationRequest,
+            >,
+        ) -> Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.recommendationengine.v1beta1.PredictionApiKeyRegistry/DeletePredictionApiKeyRegistration",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
 /// Request message for Predict method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PredictRequest {
@@ -1262,449 +1705,6 @@ pub mod user_event_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/google.cloud.recommendationengine.v1beta1.UserEventService/ImportUserEvents",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Request message for CreateCatalogItem method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateCatalogItemRequest {
-    /// Required. The parent catalog resource name, such as
-    /// `projects/*/locations/global/catalogs/default_catalog`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The catalog item to create.
-    #[prost(message, optional, tag="2")]
-    pub catalog_item: ::core::option::Option<CatalogItem>,
-}
-/// Request message for GetCatalogItem method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetCatalogItemRequest {
-    /// Required. Full resource name of catalog item, such as
-    /// `projects/*/locations/global/catalogs/default_catalog/catalogitems/some_catalog_item_id`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for ListCatalogItems method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListCatalogItemsRequest {
-    /// Required. The parent catalog resource name, such as
-    /// `projects/*/locations/global/catalogs/default_catalog`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. Maximum number of results to return per page. If zero, the
-    /// service will choose a reasonable default.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// Optional. The previous ListCatalogItemsResponse.next_page_token.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Optional. A filter to apply on the list results.
-    #[prost(string, tag="4")]
-    pub filter: ::prost::alloc::string::String,
-}
-/// Response message for ListCatalogItems method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListCatalogItemsResponse {
-    /// The catalog items.
-    #[prost(message, repeated, tag="1")]
-    pub catalog_items: ::prost::alloc::vec::Vec<CatalogItem>,
-    /// If empty, the list is complete. If nonempty, the token to pass to the next
-    /// request's ListCatalogItemRequest.page_token.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request message for UpdateCatalogItem method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateCatalogItemRequest {
-    /// Required. Full resource name of catalog item, such as
-    /// "projects/*/locations/global/catalogs/default_catalog/catalogItems/some_catalog_item_id".
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The catalog item to update/create. The 'catalog_item_id' field
-    /// has to match that in the 'name'.
-    #[prost(message, optional, tag="2")]
-    pub catalog_item: ::core::option::Option<CatalogItem>,
-    /// Optional. Indicates which fields in the provided 'item' to update. If not
-    /// set, will by default update all fields.
-    #[prost(message, optional, tag="3")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Request message for DeleteCatalogItem method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteCatalogItemRequest {
-    /// Required. Full resource name of catalog item, such as
-    /// `projects/*/locations/global/catalogs/default_catalog/catalogItems/some_catalog_item_id`.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Generated client implementations.
-pub mod catalog_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// Service for ingesting catalog information of the customer's website.
-    #[derive(Debug, Clone)]
-    pub struct CatalogServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> CatalogServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> CatalogServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            CatalogServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Creates a catalog item.
-        pub async fn create_catalog_item(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateCatalogItemRequest>,
-        ) -> Result<tonic::Response<super::CatalogItem>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.recommendationengine.v1beta1.CatalogService/CreateCatalogItem",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets a specific catalog item.
-        pub async fn get_catalog_item(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetCatalogItemRequest>,
-        ) -> Result<tonic::Response<super::CatalogItem>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.recommendationengine.v1beta1.CatalogService/GetCatalogItem",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Gets a list of catalog items.
-        pub async fn list_catalog_items(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListCatalogItemsRequest>,
-        ) -> Result<tonic::Response<super::ListCatalogItemsResponse>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.recommendationengine.v1beta1.CatalogService/ListCatalogItems",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Updates a catalog item. Partial updating is supported. Non-existing
-        /// items will be created.
-        pub async fn update_catalog_item(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateCatalogItemRequest>,
-        ) -> Result<tonic::Response<super::CatalogItem>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.recommendationengine.v1beta1.CatalogService/UpdateCatalogItem",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Deletes a catalog item.
-        pub async fn delete_catalog_item(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteCatalogItemRequest>,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.recommendationengine.v1beta1.CatalogService/DeleteCatalogItem",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Bulk import of multiple catalog items. Request processing may be
-        /// synchronous. No partial updating supported. Non-existing items will be
-        /// created.
-        ///
-        /// Operation.response is of type ImportResponse. Note that it is
-        /// possible for a subset of the items to be successfully updated.
-        pub async fn import_catalog_items(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ImportCatalogItemsRequest>,
-        ) -> Result<
-            tonic::Response<super::super::super::super::longrunning::Operation>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.recommendationengine.v1beta1.CatalogService/ImportCatalogItems",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-    }
-}
-/// Registered Api Key.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PredictionApiKeyRegistration {
-    /// The API key.
-    #[prost(string, tag="1")]
-    pub api_key: ::prost::alloc::string::String,
-}
-/// Request message for the `CreatePredictionApiKeyRegistration` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreatePredictionApiKeyRegistrationRequest {
-    /// Required. The parent resource path.
-    /// `projects/*/locations/global/catalogs/default_catalog/eventStores/default_event_store`.
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The prediction API key registration.
-    #[prost(message, optional, tag="2")]
-    pub prediction_api_key_registration: ::core::option::Option<PredictionApiKeyRegistration>,
-}
-/// Request message for the `ListPredictionApiKeyRegistrations`.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPredictionApiKeyRegistrationsRequest {
-    /// Required. The parent placement resource name such as
-    /// `projects/1234/locations/global/catalogs/default_catalog/eventStores/default_event_store`
-    #[prost(string, tag="1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. Maximum number of results to return per page. If unset, the
-    /// service will choose a reasonable default.
-    #[prost(int32, tag="2")]
-    pub page_size: i32,
-    /// Optional. The previous `ListPredictionApiKeyRegistration.nextPageToken`.
-    #[prost(string, tag="3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Response message for the `ListPredictionApiKeyRegistrations`.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPredictionApiKeyRegistrationsResponse {
-    /// The list of registered API keys.
-    #[prost(message, repeated, tag="1")]
-    pub prediction_api_key_registrations: ::prost::alloc::vec::Vec<PredictionApiKeyRegistration>,
-    /// If empty, the list is complete. If nonempty, pass the token to the next
-    /// request's `ListPredictionApiKeysRegistrationsRequest.pageToken`.
-    #[prost(string, tag="2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Request message for `DeletePredictionApiKeyRegistration` method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeletePredictionApiKeyRegistrationRequest {
-    /// Required. The API key to unregister including full resource path.
-    /// `projects/*/locations/global/catalogs/default_catalog/eventStores/default_event_store/predictionApiKeyRegistrations/<YOUR_API_KEY>`
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Generated client implementations.
-pub mod prediction_api_key_registry_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    /// Service for registering API keys for use with the `predict` method. If you
-    /// use an API key to request predictions, you must first register the API key.
-    /// Otherwise, your prediction request is rejected. If you use OAuth to
-    /// authenticate your `predict` method call, you do not need to register an API
-    /// key. You can register up to 20 API keys per project.
-    #[derive(Debug, Clone)]
-    pub struct PredictionApiKeyRegistryClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> PredictionApiKeyRegistryClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> PredictionApiKeyRegistryClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            PredictionApiKeyRegistryClient::new(
-                InterceptedService::new(inner, interceptor),
-            )
-        }
-        /// Compress requests with `gzip`.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_gzip(mut self) -> Self {
-            self.inner = self.inner.send_gzip();
-            self
-        }
-        /// Enable decompressing responses with `gzip`.
-        #[must_use]
-        pub fn accept_gzip(mut self) -> Self {
-            self.inner = self.inner.accept_gzip();
-            self
-        }
-        /// Register an API key for use with predict method.
-        pub async fn create_prediction_api_key_registration(
-            &mut self,
-            request: impl tonic::IntoRequest<
-                super::CreatePredictionApiKeyRegistrationRequest,
-            >,
-        ) -> Result<
-            tonic::Response<super::PredictionApiKeyRegistration>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.recommendationengine.v1beta1.PredictionApiKeyRegistry/CreatePredictionApiKeyRegistration",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// List the registered apiKeys for use with predict method.
-        pub async fn list_prediction_api_key_registrations(
-            &mut self,
-            request: impl tonic::IntoRequest<
-                super::ListPredictionApiKeyRegistrationsRequest,
-            >,
-        ) -> Result<
-            tonic::Response<super::ListPredictionApiKeyRegistrationsResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.recommendationengine.v1beta1.PredictionApiKeyRegistry/ListPredictionApiKeyRegistrations",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
-        }
-        /// Unregister an apiKey from using for predict method.
-        pub async fn delete_prediction_api_key_registration(
-            &mut self,
-            request: impl tonic::IntoRequest<
-                super::DeletePredictionApiKeyRegistrationRequest,
-            >,
-        ) -> Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.recommendationengine.v1beta1.PredictionApiKeyRegistry/DeletePredictionApiKeyRegistration",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

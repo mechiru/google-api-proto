@@ -1,91 +1,3 @@
-/// Datastore composite index definition.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Index {
-    /// Output only. Project ID.
-    #[prost(string, tag="1")]
-    pub project_id: ::prost::alloc::string::String,
-    /// Output only. The resource ID of the index.
-    #[prost(string, tag="3")]
-    pub index_id: ::prost::alloc::string::String,
-    /// Required. The entity kind to which this index applies.
-    #[prost(string, tag="4")]
-    pub kind: ::prost::alloc::string::String,
-    /// Required. The index's ancestor mode.  Must not be ANCESTOR_MODE_UNSPECIFIED.
-    #[prost(enumeration="index::AncestorMode", tag="5")]
-    pub ancestor: i32,
-    /// Required. An ordered sequence of property names and their index attributes.
-    #[prost(message, repeated, tag="6")]
-    pub properties: ::prost::alloc::vec::Vec<index::IndexedProperty>,
-    /// Output only. The state of the index.
-    #[prost(enumeration="index::State", tag="7")]
-    pub state: i32,
-}
-/// Nested message and enum types in `Index`.
-pub mod index {
-    /// A property of an index.
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct IndexedProperty {
-        /// Required. The property name to index.
-        #[prost(string, tag="1")]
-        pub name: ::prost::alloc::string::String,
-        /// Required. The indexed property's direction.  Must not be DIRECTION_UNSPECIFIED.
-        #[prost(enumeration="Direction", tag="2")]
-        pub direction: i32,
-    }
-    /// For an ordered index, specifies whether each of the entity's ancestors
-    /// will be included.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum AncestorMode {
-        /// The ancestor mode is unspecified.
-        Unspecified = 0,
-        /// Do not include the entity's ancestors in the index.
-        None = 1,
-        /// Include all the entity's ancestors in the index.
-        AllAncestors = 2,
-    }
-    /// The direction determines how a property is indexed.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum Direction {
-        /// The direction is unspecified.
-        Unspecified = 0,
-        /// The property's values are indexed so as to support sequencing in
-        /// ascending order and also query by <, >, <=, >=, and =.
-        Ascending = 1,
-        /// The property's values are indexed so as to support sequencing in
-        /// descending order and also query by <, >, <=, >=, and =.
-        Descending = 2,
-    }
-    /// The possible set of states of an index.
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-    #[repr(i32)]
-    pub enum State {
-        /// The state is unspecified.
-        Unspecified = 0,
-        /// The index is being created, and cannot be used by queries.
-        /// There is an active long-running operation for the index.
-        /// The index is updated when writing an entity.
-        /// Some index data may exist.
-        Creating = 1,
-        /// The index is ready to be used.
-        /// The index is updated when writing an entity.
-        /// The index is fully populated from all stored entities it applies to.
-        Ready = 2,
-        /// The index is being deleted, and cannot be used by queries.
-        /// There is an active long-running operation for the index.
-        /// The index is not updated when writing an entity.
-        /// Some index data may exist.
-        Deleting = 3,
-        /// The index was being created or deleted, but something went wrong.
-        /// The index cannot by used by queries.
-        /// There is no active long-running operation for the index,
-        /// and the most recently finished long-running operation failed.
-        /// The index is not updated when writing an entity.
-        /// Some index data may exist.
-        Error = 4,
-    }
-}
 /// An event signifying a change in state of a [migration from Cloud Datastore to
 /// Cloud Firestore in Datastore
 /// mode](<https://cloud.google.com/datastore/docs/upgrade-to-firestore>).
@@ -185,6 +97,94 @@ pub enum MigrationStep {
     RedirectStronglyConsistentReads = 4,
     /// Writes are redirected to Cloud Firestore.
     RedirectWrites = 5,
+}
+/// Datastore composite index definition.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Index {
+    /// Output only. Project ID.
+    #[prost(string, tag="1")]
+    pub project_id: ::prost::alloc::string::String,
+    /// Output only. The resource ID of the index.
+    #[prost(string, tag="3")]
+    pub index_id: ::prost::alloc::string::String,
+    /// Required. The entity kind to which this index applies.
+    #[prost(string, tag="4")]
+    pub kind: ::prost::alloc::string::String,
+    /// Required. The index's ancestor mode.  Must not be ANCESTOR_MODE_UNSPECIFIED.
+    #[prost(enumeration="index::AncestorMode", tag="5")]
+    pub ancestor: i32,
+    /// Required. An ordered sequence of property names and their index attributes.
+    #[prost(message, repeated, tag="6")]
+    pub properties: ::prost::alloc::vec::Vec<index::IndexedProperty>,
+    /// Output only. The state of the index.
+    #[prost(enumeration="index::State", tag="7")]
+    pub state: i32,
+}
+/// Nested message and enum types in `Index`.
+pub mod index {
+    /// A property of an index.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct IndexedProperty {
+        /// Required. The property name to index.
+        #[prost(string, tag="1")]
+        pub name: ::prost::alloc::string::String,
+        /// Required. The indexed property's direction.  Must not be DIRECTION_UNSPECIFIED.
+        #[prost(enumeration="Direction", tag="2")]
+        pub direction: i32,
+    }
+    /// For an ordered index, specifies whether each of the entity's ancestors
+    /// will be included.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum AncestorMode {
+        /// The ancestor mode is unspecified.
+        Unspecified = 0,
+        /// Do not include the entity's ancestors in the index.
+        None = 1,
+        /// Include all the entity's ancestors in the index.
+        AllAncestors = 2,
+    }
+    /// The direction determines how a property is indexed.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum Direction {
+        /// The direction is unspecified.
+        Unspecified = 0,
+        /// The property's values are indexed so as to support sequencing in
+        /// ascending order and also query by <, >, <=, >=, and =.
+        Ascending = 1,
+        /// The property's values are indexed so as to support sequencing in
+        /// descending order and also query by <, >, <=, >=, and =.
+        Descending = 2,
+    }
+    /// The possible set of states of an index.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+    #[repr(i32)]
+    pub enum State {
+        /// The state is unspecified.
+        Unspecified = 0,
+        /// The index is being created, and cannot be used by queries.
+        /// There is an active long-running operation for the index.
+        /// The index is updated when writing an entity.
+        /// Some index data may exist.
+        Creating = 1,
+        /// The index is ready to be used.
+        /// The index is updated when writing an entity.
+        /// The index is fully populated from all stored entities it applies to.
+        Ready = 2,
+        /// The index is being deleted, and cannot be used by queries.
+        /// There is an active long-running operation for the index.
+        /// The index is not updated when writing an entity.
+        /// Some index data may exist.
+        Deleting = 3,
+        /// The index was being created or deleted, but something went wrong.
+        /// The index cannot by used by queries.
+        /// There is no active long-running operation for the index,
+        /// and the most recently finished long-running operation failed.
+        /// The index is not updated when writing an entity.
+        /// Some index data may exist.
+        Error = 4,
+    }
 }
 /// Metadata common to all Datastore Admin operations.
 #[derive(Clone, PartialEq, ::prost::Message)]
