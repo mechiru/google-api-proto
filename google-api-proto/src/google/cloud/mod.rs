@@ -249,7 +249,12 @@ pub mod gkemulticloud;
 pub mod gsuiteaddons;
 #[cfg(any(feature = "google-cloud-iap-v1", feature = "google-cloud-iap-v1beta1"))]
 pub mod iap;
-#[cfg(any(feature = "google-cloud-identitytoolkit-v2"))]
+#[cfg(
+    any(
+        feature = "google-cloud-identitytoolkit-logging",
+        feature = "google-cloud-identitytoolkit-v2",
+    )
+)]
 pub mod identitytoolkit;
 #[cfg(any(feature = "google-cloud-ids-v1"))]
 pub mod ids;

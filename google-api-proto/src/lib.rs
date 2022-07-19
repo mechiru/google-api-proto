@@ -189,6 +189,7 @@ pub mod ccc;
         feature = "google-cloud-gsuiteaddons-v1",
         feature = "google-cloud-iap-v1",
         feature = "google-cloud-iap-v1beta1",
+        feature = "google-cloud-identitytoolkit-logging",
         feature = "google-cloud-identitytoolkit-v2",
         feature = "google-cloud-ids-v1",
         feature = "google-cloud-integrations-v1alpha",
