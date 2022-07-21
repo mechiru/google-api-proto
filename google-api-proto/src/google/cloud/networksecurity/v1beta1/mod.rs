@@ -1,8 +1,8 @@
 /// Specification of the GRPC Endpoint.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GrpcEndpoint {
-    /// Required. The target URI of the gRPC endpoint. Only UDS path is supported, and
-    /// should start with “unix:”.
+    /// Required. The target URI of the gRPC endpoint. Only UDS path is supported,
+    /// and should start with "unix:".
     #[prost(string, tag="1")]
     pub target_uri: ::prost::alloc::string::String,
 }
@@ -36,9 +36,9 @@ pub mod validation_ca {
 /// message to locate and load the CertificateProvider instance configuration.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CertificateProviderInstance {
-    /// Required. Plugin instance name, used to locate and load CertificateProvider instance
-    /// configuration. Set to "google_cloud_private_spiffe" to use Certificate
-    /// Authority Service certificate provider instance.
+    /// Required. Plugin instance name, used to locate and load CertificateProvider
+    /// instance configuration. Set to "google_cloud_private_spiffe" to use
+    /// Certificate Authority Service certificate provider instance.
     #[prost(string, tag="1")]
     pub plugin_instance: ::prost::alloc::string::String,
 }
@@ -71,7 +71,6 @@ pub mod certificate_provider {
 /// ServerTlsPolicy is a resource that specifies how a server should authenticate
 /// incoming requests. This resource itself does not affect configuration unless
 /// it is attached to a target https proxy or endpoint config selector resource.
-///
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ServerTlsPolicy {
     /// Required. Name of the ServerTlsPolicy resource. It matches the pattern
@@ -97,6 +96,9 @@ pub struct ServerTlsPolicy {
     /// and `mtls_policy` are set, server allows both plain text and mTLS
     /// connections. See documentation of other encryption modes to confirm
     /// compatibility.
+    ///
+    /// Consider using it if you wish to upgrade in place your deployment to TLS
+    /// while having mixed TLS and non-TLS traffic reaching port :80.
     #[prost(bool, tag="6")]
     pub allow_open: bool,
     ///
@@ -170,9 +172,10 @@ pub struct CreateServerTlsPolicyRequest {
     /// the format `projects/*/locations/{location}`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// Required. Short name of the ServerTlsPolicy resource to be created. This value should
-    /// be 1-63 characters long, containing only letters, numbers, hyphens, and
-    /// underscores, and should not start with a number. E.g. "server_mtls_policy".
+    /// Required. Short name of the ServerTlsPolicy resource to be created. This
+    /// value should be 1-63 characters long, containing only letters, numbers,
+    /// hyphens, and underscores, and should not start with a number. E.g.
+    /// "server_mtls_policy".
     #[prost(string, tag="2")]
     pub server_tls_policy_id: ::prost::alloc::string::String,
     /// Required. ServerTlsPolicy resource to be created.
@@ -227,13 +230,14 @@ pub struct ClientTlsPolicy {
     /// handshake. E.g: "secure.example.com".
     #[prost(string, tag="6")]
     pub sni: ::prost::alloc::string::String,
-    /// Optional. Defines a mechanism to provision client identity (public and private keys)
-    /// for peer to peer authentication. The presence of this dictates mTLS.
+    /// Optional. Defines a mechanism to provision client identity (public and
+    /// private keys) for peer to peer authentication. The presence of this
+    /// dictates mTLS.
     #[prost(message, optional, tag="7")]
     pub client_certificate: ::core::option::Option<CertificateProvider>,
-    /// Optional. Defines the mechanism to obtain the Certificate Authority certificate to
-    /// validate the server certificate. If empty, client does not validate the
-    /// server certificate.
+    /// Optional. Defines the mechanism to obtain the Certificate Authority
+    /// certificate to validate the server certificate. If empty, client does not
+    /// validate the server certificate.
     #[prost(message, repeated, tag="8")]
     pub server_validation_ca: ::prost::alloc::vec::Vec<ValidationCa>,
 }
@@ -281,9 +285,10 @@ pub struct CreateClientTlsPolicyRequest {
     /// the format `projects/*/locations/{location}`.
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
-    /// Required. Short name of the ClientTlsPolicy resource to be created. This value should
-    /// be 1-63 characters long, containing only letters, numbers, hyphens, and
-    /// underscores, and should not start with a number. E.g. "client_mtls_policy".
+    /// Required. Short name of the ClientTlsPolicy resource to be created. This
+    /// value should be 1-63 characters long, containing only letters, numbers,
+    /// hyphens, and underscores, and should not start with a number. E.g.
+    /// "client_mtls_policy".
     #[prost(string, tag="2")]
     pub client_tls_policy_id: ::prost::alloc::string::String,
     /// Required. ClientTlsPolicy resource to be created.
@@ -332,17 +337,19 @@ pub struct AuthorizationPolicy {
     /// Output only. The timestamp when the resource was updated.
     #[prost(message, optional, tag="4")]
     pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. Set of label tags associated with the AuthorizationPolicy resource.
+    /// Optional. Set of label tags associated with the AuthorizationPolicy
+    /// resource.
     #[prost(btree_map="string, string", tag="5")]
     pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
     /// Required. The action to take when a rule match is found. Possible values
     /// are "ALLOW" or "DENY".
     #[prost(enumeration="authorization_policy::Action", tag="6")]
     pub action: i32,
-    /// Optional. List of rules to match. Note that at least one of the rules must match in
-    /// order for the action specified in the 'action' field to be taken. A rule is
-    /// a match if there is a matching source and destination. If left blank, the
-    /// action specified in the `action` field will be applied on every request.
+    /// Optional. List of rules to match. Note that at least one of the rules must
+    /// match in order for the action specified in the 'action' field to be taken.
+    /// A rule is a match if there is a matching source and destination. If left
+    /// blank, the action specified in the `action` field will be applied on every
+    /// request.
     #[prost(message, repeated, tag="7")]
     pub rules: ::prost::alloc::vec::Vec<authorization_policy::Rule>,
 }
@@ -351,15 +358,15 @@ pub mod authorization_policy {
     /// Specification of rules.
     #[derive(Clone, PartialEq, ::prost::Message)]
     pub struct Rule {
-        /// Optional. List of attributes for the traffic source. All of the sources must match.
-        /// A source is a match if both principals and ip_blocks match. If not set,
-        /// the action specified in the 'action' field will be applied without any
-        /// rule checks for the source.
+        /// Optional. List of attributes for the traffic source. All of the sources
+        /// must match. A source is a match if both principals and ip_blocks match.
+        /// If not set, the action specified in the 'action' field will be applied
+        /// without any rule checks for the source.
         #[prost(message, repeated, tag="1")]
         pub sources: ::prost::alloc::vec::Vec<rule::Source>,
-        /// Optional. List of attributes for the traffic destination. All of the destinations
-        /// must match. A destination is a match if a request matches all the
-        /// specified hosts, ports, methods and headers. If not set, the
+        /// Optional. List of attributes for the traffic destination. All of the
+        /// destinations must match. A destination is a match if a request matches
+        /// all the specified hosts, ports, methods and headers. If not set, the
         /// action specified in the 'action' field will be applied without any rule
         /// checks for the destination.
         #[prost(message, repeated, tag="2")]
@@ -370,49 +377,50 @@ pub mod authorization_policy {
         /// Specification of traffic source attributes.
         #[derive(Clone, PartialEq, ::prost::Message)]
         pub struct Source {
-            /// Optional. List of peer identities to match for authorization. At least one
-            /// principal should match. Each peer can be an exact match, or a prefix
-            /// match (example, "namespace/*") or a suffix match (example, //
-            /// */service-account") or a presence match "*". Authorization based on the
-            /// principal name without certificate validation (configured by
+            /// Optional. List of peer identities to match for authorization. At least
+            /// one principal should match. Each peer can be an exact match, or a
+            /// prefix match (example, "namespace/*") or a suffix match (example,
+            /// "*/service-account") or a presence match "*". Authorization based on
+            /// the principal name without certificate validation (configured by
             /// ServerTlsPolicy resource) is considered insecure.
             #[prost(string, repeated, tag="1")]
             pub principals: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// Optional. List of CIDR ranges to match based on source IP address. At least one
-            /// IP block should match. Single IP (e.g., "1.2.3.4") and CIDR (e.g.,
-            /// "1.2.3.0/24") are supported. Authorization based on source IP alone
-            /// should be avoided. The IP addresses of any load balancers or proxies
-            /// should be considered untrusted.
+            /// Optional. List of CIDR ranges to match based on source IP address. At
+            /// least one IP block should match. Single IP (e.g., "1.2.3.4") and CIDR
+            /// (e.g., "1.2.3.0/24") are supported. Authorization based on source IP
+            /// alone should be avoided. The IP addresses of any load balancers or
+            /// proxies should be considered untrusted.
             #[prost(string, repeated, tag="2")]
             pub ip_blocks: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
         }
         /// Specification of traffic destination attributes.
         #[derive(Clone, PartialEq, ::prost::Message)]
         pub struct Destination {
-            /// Required. List of host names to match. Matched against the ":authority" header in
-            /// http requests. At least one host should match. Each host can be an
-            /// exact match, or a prefix match (example "mydomain.*") or a suffix
-            /// match (example // *.myorg.com") or a presence(any) match "*".
+            /// Required. List of host names to match. Matched against the ":authority"
+            /// header in http requests. At least one host should match. Each host can
+            /// be an exact match, or a prefix match (example "mydomain.*") or a suffix
+            /// match (example "*.myorg.com") or a presence (any) match "*".
             #[prost(string, repeated, tag="1")]
             pub hosts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// Required. List of destination ports to match. At least one port should match.
+            /// Required. List of destination ports to match. At least one port should
+            /// match.
             #[prost(uint32, repeated, packed="false", tag="2")]
             pub ports: ::prost::alloc::vec::Vec<u32>,
             /// Optional. A list of HTTP methods to match. At least one method should
             /// match. Should not be set for gRPC services.
             #[prost(string, repeated, tag="4")]
             pub methods: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// Optional. Match against key:value pair in http header. Provides a flexible match
-            /// based on HTTP headers, for potentially advanced use cases. At least one
-            /// header should match. Avoid using header matches to make authorization
-            /// decisions unless there is a strong guarantee that requests arrive
-            /// through a trusted client or proxy.
+            /// Optional. Match against key:value pair in http header. Provides a
+            /// flexible match based on HTTP headers, for potentially advanced use
+            /// cases. At least one header should match. Avoid using header matches to
+            /// make authorization decisions unless there is a strong guarantee that
+            /// requests arrive through a trusted client or proxy.
             #[prost(message, optional, tag="5")]
             pub http_header_match: ::core::option::Option<destination::HttpHeaderMatch>,
         }
         /// Nested message and enum types in `Destination`.
         pub mod destination {
-            /// Specification of HTTP header match atrributes.
+            /// Specification of HTTP header match attributes.
             #[derive(Clone, PartialEq, ::prost::Message)]
             pub struct HttpHeaderMatch {
                 /// Required. The name of the HTTP header to match. For matching
@@ -527,8 +535,8 @@ pub struct UpdateAuthorizationPolicyRequest {
 /// Request used by the DeleteAuthorizationPolicy method.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DeleteAuthorizationPolicyRequest {
-    /// Required. A name of the AuthorizationPolicy to delete. Must be in the format
-    /// `projects/{project}/locations/{location}/authorizationPolicies/*`.
+    /// Required. A name of the AuthorizationPolicy to delete. Must be in the
+    /// format `projects/{project}/locations/{location}/authorizationPolicies/*`.
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
 }
@@ -552,8 +560,9 @@ pub struct OperationMetadata {
     pub status_message: ::prost::alloc::string::String,
     /// Output only. Identifies whether the user has requested cancellation
     /// of the operation. Operations that have successfully been cancelled
-    /// have \[Operation.error][\] value with a \[google.rpc.Status.code][google.rpc.Status.code\] of 1,
-    /// corresponding to `Code.CANCELLED`.
+    /// have \[Operation.error][\] value with a
+    /// \[google.rpc.Status.code][google.rpc.Status.code\] of 1, corresponding to
+    /// `Code.CANCELLED`.
     #[prost(bool, tag="6")]
     pub requested_cancellation: bool,
     /// Output only. API version used to start the operation.
