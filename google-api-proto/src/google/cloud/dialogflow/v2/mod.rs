@@ -3673,7 +3673,8 @@ pub mod query_input {
         /// Instructs the speech recognizer how to process the speech audio.
         #[prost(message, tag="1")]
         AudioConfig(super::InputAudioConfig),
-        /// The natural language text to be processed.
+        /// The natural language text to be processed. Text length must not exceed
+        /// 256 character for virtual agent interactions.
         #[prost(message, tag="2")]
         Text(super::TextInput),
         /// The event to be processed.
@@ -4035,7 +4036,7 @@ pub mod streaming_recognition_result {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TextInput {
     /// Required. The UTF-8 encoded natural language text to be processed.
-    /// Text length must not exceed 256 characters.
+    /// Text length must not exceed 256 characters for virtual agent interactions.
     #[prost(string, tag="1")]
     pub text: ::prost::alloc::string::String,
     /// Required. The language of this conversational query. See [Language
