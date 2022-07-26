@@ -65,6 +65,9 @@ pub struct Instance {
     /// is `seconds: 0, nanos: 1`.
     #[prost(message, optional, tag="7")]
     pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Reserved for future use.
+    #[prost(bool, optional, tag="8")]
+    pub satisfies_pzs: ::core::option::Option<bool>,
 }
 /// Nested message and enum types in `Instance`.
 pub mod instance {

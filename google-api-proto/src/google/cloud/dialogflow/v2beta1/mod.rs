@@ -5393,7 +5393,7 @@ pub mod streaming_recognition_result {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TextInput {
     /// Required. The UTF-8 encoded natural language text to be processed.
-    /// Text length must not exceed 256 characters.
+    /// Text length must not exceed 256 characters for virtual agent interactions.
     #[prost(string, tag="1")]
     pub text: ::prost::alloc::string::String,
     /// Required. The language of this conversational query. See [Language
@@ -5794,7 +5794,8 @@ pub struct AudioInput {
     pub config: ::core::option::Option<InputAudioConfig>,
     /// Required. The natural language speech audio to be processed.
     /// A single request can contain up to 1 minute of speech audio data.
-    /// The transcribed text cannot contain more than 256 bytes.
+    /// The transcribed text cannot contain more than 256 bytes for virtual agent
+    /// interactions.
     #[prost(bytes="bytes", tag="2")]
     pub audio: ::prost::bytes::Bytes,
 }
@@ -6201,7 +6202,8 @@ pub mod streaming_analyze_content_request {
         InputAudio(::prost::bytes::Bytes),
         /// The UTF-8 encoded natural language text to be processed. Must be sent if
         /// `text_config` is set in the first message. Text length must not exceed
-        /// 256 bytes. The `input_text` field can be only sent once.
+        /// 256 bytes for virtual agent interactions. The `input_text` field can be
+        /// only sent once.
         #[prost(string, tag="6")]
         InputText(::prost::alloc::string::String),
         /// The DTMF digits used to invoke intent and fill in parameter value.
@@ -10003,8 +10005,6 @@ pub struct ListAnswerRecordsRequest {
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
     /// Optional. Filters to restrict results to specific answer records.
-    ///
-    /// Marked deprecated as it hasn't been, and isn't currently, supported.
     ///
     /// For more information about filtering, see
     /// [API Filtering](<https://aip.dev/160>).
