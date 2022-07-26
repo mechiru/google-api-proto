@@ -122,7 +122,12 @@ pub mod contactcenterinsights;
     )
 )]
 pub mod datacatalog;
-#[cfg(any(feature = "google-cloud-dataform-v1alpha2"))]
+#[cfg(
+    any(
+        feature = "google-cloud-dataform-v1alpha2",
+        feature = "google-cloud-dataform-v1beta1",
+    )
+)]
 pub mod dataform;
 #[cfg(
     any(
