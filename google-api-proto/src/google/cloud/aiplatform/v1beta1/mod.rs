@@ -558,101 +558,31 @@ pub mod featurestore_monitoring_config {
         }
     }
 }
-/// A piece of data in a Dataset. Could be an image, a video, a document or plain
-/// text.
+/// Points to a DeployedModel.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DataItem {
-    /// Output only. The resource name of the DataItem.
+pub struct DeployedModelRef {
+    /// Immutable. A resource name of an Endpoint.
+    #[prost(string, tag="1")]
+    pub endpoint: ::prost::alloc::string::String,
+    /// Immutable. An ID of a DeployedModel in the above Endpoint.
+    #[prost(string, tag="2")]
+    pub deployed_model_id: ::prost::alloc::string::String,
+}
+/// A description of resources that can be shared by multiple DeployedModels,
+/// whose underlying specification consists of a DedicatedResources.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeploymentResourcePool {
+    /// Output only. The resource name of the DeploymentResourcePool.
+    /// Format:
+    /// projects/{project}/locations/{location}/deploymentResourcePools/{deployment_resource_pool}
     #[prost(string, tag="1")]
     pub name: ::prost::alloc::string::String,
-    /// Output only. Timestamp when this DataItem was created.
+    /// Required. The underlying DedicatedResources that the DeploymentResourcePool uses.
     #[prost(message, optional, tag="2")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Timestamp when this DataItem was last updated.
-    #[prost(message, optional, tag="6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. The labels with user-defined metadata to organize your DataItems.
-    ///
-    /// Label keys and values can be no longer than 64 characters
-    /// (Unicode codepoints), can only contain lowercase letters, numeric
-    /// characters, underscores and dashes. International characters are allowed.
-    /// No more than 64 user labels can be associated with one DataItem(System
-    /// labels are excluded).
-    ///
-    /// See <https://goo.gl/xmQnxf> for more information and examples of labels.
-    /// System reserved label keys are prefixed with "aiplatform.googleapis.com/"
-    /// and are immutable.
-    #[prost(btree_map="string, string", tag="3")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Required. The data that the DataItem represents (for example, an image or a text
-    /// snippet). The schema of the payload is stored in the parent Dataset's
-    /// [metadata schema's]\[google.cloud.aiplatform.v1beta1.Dataset.metadata_schema_uri\] dataItemSchemaUri field.
+    pub dedicated_resources: ::core::option::Option<DedicatedResources>,
+    /// Output only. Timestamp when this DeploymentResourcePool was created.
     #[prost(message, optional, tag="4")]
-    pub payload: ::core::option::Option<::prost_types::Value>,
-    /// Optional. Used to perform consistent read-modify-write updates. If not set, a blind
-    /// "overwrite" update happens.
-    #[prost(string, tag="7")]
-    pub etag: ::prost::alloc::string::String,
-}
-/// Stats and Anomaly generated at specific timestamp for specific Feature.
-/// The start_time and end_time are used to define the time range of the dataset
-/// that current stats belongs to, e.g. prediction traffic is bucketed into
-/// prediction datasets by time window. If the Dataset is not defined by time
-/// window, start_time = end_time. Timestamp of the stats and anomalies always
-/// refers to end_time. Raw stats and anomalies are stored in stats_uri or
-/// anomaly_uri in the tensorflow defined protos. Field data_stats contains
-/// almost identical information with the raw stats in Vertex AI
-/// defined proto, for UI to display.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FeatureStatsAnomaly {
-    /// Feature importance score, only populated when cross-feature monitoring is
-    /// enabled. For now only used to represent feature attribution score within
-    /// range [0, 1] for
-    /// \[ModelDeploymentMonitoringObjectiveType.FEATURE_ATTRIBUTION_SKEW][google.cloud.aiplatform.v1beta1.ModelDeploymentMonitoringObjectiveType.FEATURE_ATTRIBUTION_SKEW\] and
-    /// \[ModelDeploymentMonitoringObjectiveType.FEATURE_ATTRIBUTION_DRIFT][google.cloud.aiplatform.v1beta1.ModelDeploymentMonitoringObjectiveType.FEATURE_ATTRIBUTION_DRIFT\].
-    #[prost(double, tag="1")]
-    pub score: f64,
-    /// Path of the stats file for current feature values in Cloud Storage bucket.
-    /// Format: gs://<bucket_name>/<object_name>/stats.
-    /// Example: gs://monitoring_bucket/feature_name/stats.
-    /// Stats are stored as binary format with Protobuf message
-    /// \[tensorflow.metadata.v0.FeatureNameStatistics\](<https://github.com/tensorflow/metadata/blob/master/tensorflow_metadata/proto/v0/statistics.proto>).
-    #[prost(string, tag="3")]
-    pub stats_uri: ::prost::alloc::string::String,
-    /// Path of the anomaly file for current feature values in Cloud Storage
-    /// bucket.
-    /// Format: gs://<bucket_name>/<object_name>/anomalies.
-    /// Example: gs://monitoring_bucket/feature_name/anomalies.
-    /// Stats are stored as binary format with Protobuf message
-    /// Anoamlies are stored as binary format with Protobuf message
-    /// \[tensorflow.metadata.v0.AnomalyInfo\]
-    /// (<https://github.com/tensorflow/metadata/blob/master/tensorflow_metadata/proto/v0/anomalies.proto>).
-    #[prost(string, tag="4")]
-    pub anomaly_uri: ::prost::alloc::string::String,
-    /// Deviation from the current stats to baseline stats.
-    ///   1. For categorical feature, the distribution distance is calculated by
-    ///      L-inifinity norm.
-    ///   2. For numerical feature, the distribution distance is calculated by
-    ///      Jensen–Shannon divergence.
-    #[prost(double, tag="5")]
-    pub distribution_deviation: f64,
-    /// This is the threshold used when detecting anomalies.
-    /// The threshold can be changed by user, so this one might be different from
-    /// \[ThresholdConfig.value][google.cloud.aiplatform.v1beta1.ThresholdConfig.value\].
-    #[prost(double, tag="9")]
-    pub anomaly_detection_threshold: f64,
-    /// The start timestamp of window where stats were generated.
-    /// For objectives where time window doesn't make sense (e.g. Featurestore
-    /// Snapshot Monitoring), start_time is only used to indicate the monitoring
-    /// intervals, so it always equals to (end_time - monitoring_interval).
-    #[prost(message, optional, tag="7")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The end timestamp of window where stats were generated.
-    /// For objectives where time window doesn't make sense (e.g. Featurestore
-    /// Snapshot Monitoring), end_time indicates the timestamp of the data used to
-    /// generate stats (e.g. timestamp we take snapshots for feature values).
-    #[prost(message, optional, tag="8")]
-    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Represents a customer-managed encryption key spec that can be applied to
 /// a top-level resource.
@@ -665,122 +595,6 @@ pub struct EncryptionSpec {
     /// created.
     #[prost(string, tag="1")]
     pub kms_key_name: ::prost::alloc::string::String,
-}
-/// The storage details for Avro input content.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AvroSource {
-    /// Required. Google Cloud Storage location.
-    #[prost(message, optional, tag="1")]
-    pub gcs_source: ::core::option::Option<GcsSource>,
-}
-/// The storage details for CSV input content.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsvSource {
-    /// Required. Google Cloud Storage location.
-    #[prost(message, optional, tag="1")]
-    pub gcs_source: ::core::option::Option<GcsSource>,
-}
-/// The Google Cloud Storage location for the input content.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GcsSource {
-    /// Required. Google Cloud Storage URI(-s) to the input file(s). May contain
-    /// wildcards. For more information on wildcards, see
-    /// <https://cloud.google.com/storage/docs/gsutil/addlhelp/WildcardNames.>
-    #[prost(string, repeated, tag="1")]
-    pub uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// The Google Cloud Storage location where the output is to be written to.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GcsDestination {
-    /// Required. Google Cloud Storage URI to output directory. If the uri doesn't end with
-    /// '/', a '/' will be automatically appended. The directory is created if it
-    /// doesn't exist.
-    #[prost(string, tag="1")]
-    pub output_uri_prefix: ::prost::alloc::string::String,
-}
-/// The BigQuery location for the input content.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BigQuerySource {
-    /// Required. BigQuery URI to a table, up to 2000 characters long.
-    /// Accepted forms:
-    ///
-    /// *  BigQuery path. For example: `bq://projectId.bqDatasetId.bqTableId`.
-    #[prost(string, tag="1")]
-    pub input_uri: ::prost::alloc::string::String,
-}
-/// The BigQuery location for the output content.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BigQueryDestination {
-    /// Required. BigQuery URI to a project or table, up to 2000 characters long.
-    ///
-    /// When only the project is specified, the Dataset and Table is created.
-    /// When the full table reference is specified, the Dataset must exist and
-    /// table must not exist.
-    ///
-    /// Accepted forms:
-    ///
-    /// *  BigQuery path. For example:
-    /// `bq://projectId` or `bq://projectId.bqDatasetId` or
-    /// `bq://projectId.bqDatasetId.bqTableId`.
-    #[prost(string, tag="1")]
-    pub output_uri: ::prost::alloc::string::String,
-}
-/// The storage details for CSV output content.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsvDestination {
-    /// Required. Google Cloud Storage location.
-    #[prost(message, optional, tag="1")]
-    pub gcs_destination: ::core::option::Option<GcsDestination>,
-}
-/// The storage details for TFRecord output content.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TfRecordDestination {
-    /// Required. Google Cloud Storage location.
-    #[prost(message, optional, tag="1")]
-    pub gcs_destination: ::core::option::Option<GcsDestination>,
-}
-/// The Container Registry location for the container image.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ContainerRegistryDestination {
-    /// Required. Container Registry URI of a container image.
-    /// Only Google Container Registry and Artifact Registry are supported now.
-    /// Accepted forms:
-    ///
-    /// *  Google Container Registry path. For example:
-    ///    `gcr.io/projectId/imageName:tag`.
-    ///
-    /// *  Artifact Registry path. For example:
-    ///    `us-central1-docker.pkg.dev/projectId/repoName/imageName:tag`.
-    ///
-    /// If a tag is not specified, "latest" will be used as the default tag.
-    #[prost(string, tag="1")]
-    pub output_uri: ::prost::alloc::string::String,
-}
-/// Points to a DeployedModel.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeployedModelRef {
-    /// Immutable. A resource name of an Endpoint.
-    #[prost(string, tag="1")]
-    pub endpoint: ::prost::alloc::string::String,
-    /// Immutable. An ID of a DeployedModel in the above Endpoint.
-    #[prost(string, tag="2")]
-    pub deployed_model_id: ::prost::alloc::string::String,
-}
-/// Represents an environment variable present in a Container or Python Module.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EnvVar {
-    /// Required. Name of the environment variable. Must be a valid C identifier.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. Variables that reference a $(VAR_NAME) are expanded
-    /// using the previous defined environment variables in the container and
-    /// any service environment variables. If a variable cannot be resolved,
-    /// the reference in the input string will be unchanged. The $(VAR_NAME)
-    /// syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped
-    /// references will never be expanded, regardless of whether the variable
-    /// exists or not.
-    #[prost(string, tag="2")]
-    pub value: ::prost::alloc::string::String,
 }
 /// Metadata describing the Model's input and output for explanation.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1160,6 +974,96 @@ pub mod explanation_metadata {
             DisplayNameMappingKey(::prost::alloc::string::String),
         }
     }
+}
+/// The storage details for Avro input content.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AvroSource {
+    /// Required. Google Cloud Storage location.
+    #[prost(message, optional, tag="1")]
+    pub gcs_source: ::core::option::Option<GcsSource>,
+}
+/// The storage details for CSV input content.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsvSource {
+    /// Required. Google Cloud Storage location.
+    #[prost(message, optional, tag="1")]
+    pub gcs_source: ::core::option::Option<GcsSource>,
+}
+/// The Google Cloud Storage location for the input content.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GcsSource {
+    /// Required. Google Cloud Storage URI(-s) to the input file(s). May contain
+    /// wildcards. For more information on wildcards, see
+    /// <https://cloud.google.com/storage/docs/gsutil/addlhelp/WildcardNames.>
+    #[prost(string, repeated, tag="1")]
+    pub uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// The Google Cloud Storage location where the output is to be written to.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GcsDestination {
+    /// Required. Google Cloud Storage URI to output directory. If the uri doesn't end with
+    /// '/', a '/' will be automatically appended. The directory is created if it
+    /// doesn't exist.
+    #[prost(string, tag="1")]
+    pub output_uri_prefix: ::prost::alloc::string::String,
+}
+/// The BigQuery location for the input content.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BigQuerySource {
+    /// Required. BigQuery URI to a table, up to 2000 characters long.
+    /// Accepted forms:
+    ///
+    /// *  BigQuery path. For example: `bq://projectId.bqDatasetId.bqTableId`.
+    #[prost(string, tag="1")]
+    pub input_uri: ::prost::alloc::string::String,
+}
+/// The BigQuery location for the output content.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BigQueryDestination {
+    /// Required. BigQuery URI to a project or table, up to 2000 characters long.
+    ///
+    /// When only the project is specified, the Dataset and Table is created.
+    /// When the full table reference is specified, the Dataset must exist and
+    /// table must not exist.
+    ///
+    /// Accepted forms:
+    ///
+    /// *  BigQuery path. For example:
+    /// `bq://projectId` or `bq://projectId.bqDatasetId` or
+    /// `bq://projectId.bqDatasetId.bqTableId`.
+    #[prost(string, tag="1")]
+    pub output_uri: ::prost::alloc::string::String,
+}
+/// The storage details for CSV output content.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsvDestination {
+    /// Required. Google Cloud Storage location.
+    #[prost(message, optional, tag="1")]
+    pub gcs_destination: ::core::option::Option<GcsDestination>,
+}
+/// The storage details for TFRecord output content.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TfRecordDestination {
+    /// Required. Google Cloud Storage location.
+    #[prost(message, optional, tag="1")]
+    pub gcs_destination: ::core::option::Option<GcsDestination>,
+}
+/// The Container Registry location for the container image.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ContainerRegistryDestination {
+    /// Required. Container Registry URI of a container image.
+    /// Only Google Container Registry and Artifact Registry are supported now.
+    /// Accepted forms:
+    ///
+    /// *  Google Container Registry path. For example:
+    ///    `gcr.io/projectId/imageName:tag`.
+    ///
+    /// *  Artifact Registry path. For example:
+    ///    `us-central1-docker.pkg.dev/projectId/repoName/imageName:tag`.
+    ///
+    /// If a tag is not specified, "latest" will be used as the default tag.
+    #[prost(string, tag="1")]
+    pub output_uri: ::prost::alloc::string::String,
 }
 /// Explanation of a prediction (provided in \[PredictResponse.predictions][google.cloud.aiplatform.v1beta1.PredictResponse.predictions\])
 /// produced by the Model on a given \[instance][google.cloud.aiplatform.v1beta1.ExplainRequest.instances\].
@@ -1701,6 +1605,655 @@ pub struct ExamplesRestrictionsNamespace {
     #[prost(string, repeated, tag="3")]
     pub deny: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
+/// Models are deployed into it, and afterwards Endpoint is called to obtain
+/// predictions and explanations.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Endpoint {
+    /// Output only. The resource name of the Endpoint.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The display name of the Endpoint.
+    /// The name can be up to 128 characters long and can be consist of any UTF-8
+    /// characters.
+    #[prost(string, tag="2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The description of the Endpoint.
+    #[prost(string, tag="3")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. The models deployed in this Endpoint.
+    /// To add or remove DeployedModels use \[EndpointService.DeployModel][google.cloud.aiplatform.v1beta1.EndpointService.DeployModel\] and
+    /// \[EndpointService.UndeployModel][google.cloud.aiplatform.v1beta1.EndpointService.UndeployModel\] respectively.
+    #[prost(message, repeated, tag="4")]
+    pub deployed_models: ::prost::alloc::vec::Vec<DeployedModel>,
+    /// A map from a DeployedModel's ID to the percentage of this Endpoint's
+    /// traffic that should be forwarded to that DeployedModel.
+    ///
+    /// If a DeployedModel's ID is not listed in this map, then it receives no
+    /// traffic.
+    ///
+    /// The traffic percentage values must add up to 100, or map must be empty if
+    /// the Endpoint is to not accept any traffic at a moment.
+    #[prost(btree_map="string, int32", tag="5")]
+    pub traffic_split: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, i32>,
+    /// Used to perform consistent read-modify-write updates. If not set, a blind
+    /// "overwrite" update happens.
+    #[prost(string, tag="6")]
+    pub etag: ::prost::alloc::string::String,
+    /// The labels with user-defined metadata to organize your Endpoints.
+    ///
+    /// Label keys and values can be no longer than 64 characters
+    /// (Unicode codepoints), can only contain lowercase letters, numeric
+    /// characters, underscores and dashes. International characters are allowed.
+    ///
+    /// See <https://goo.gl/xmQnxf> for more information and examples of labels.
+    #[prost(btree_map="string, string", tag="7")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Output only. Timestamp when this Endpoint was created.
+    #[prost(message, optional, tag="8")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Timestamp when this Endpoint was last updated.
+    #[prost(message, optional, tag="9")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Customer-managed encryption key spec for an Endpoint. If set, this
+    /// Endpoint and all sub-resources of this Endpoint will be secured by
+    /// this key.
+    #[prost(message, optional, tag="10")]
+    pub encryption_spec: ::core::option::Option<EncryptionSpec>,
+    /// The full name of the Google Compute Engine
+    /// \[network\](<https://cloud.google.com//compute/docs/networks-and-firewalls#networks>)
+    /// to which the Endpoint should be peered.
+    ///
+    /// Private services access must already be configured for the network. If left
+    /// unspecified, the Endpoint is not peered with any network.
+    ///
+    /// Only one of the fields, \[network][google.cloud.aiplatform.v1beta1.Endpoint.network\] or
+    /// \[enable_private_service_connect][google.cloud.aiplatform.v1beta1.Endpoint.enable_private_service_connect\],
+    /// can be set.
+    ///
+    /// \[Format\](<https://cloud.google.com/compute/docs/reference/rest/v1/networks/insert>):
+    /// `projects/{project}/global/networks/{network}`.
+    /// Where `{project}` is a project number, as in `12345`, and `{network}` is
+    /// network name.
+    #[prost(string, tag="13")]
+    pub network: ::prost::alloc::string::String,
+    /// Deprecated: If true, expose the Endpoint via private service connect.
+    ///
+    /// Only one of the fields, \[network][google.cloud.aiplatform.v1beta1.Endpoint.network\] or
+    /// \[enable_private_service_connect][google.cloud.aiplatform.v1beta1.Endpoint.enable_private_service_connect\],
+    /// can be set.
+    #[deprecated]
+    #[prost(bool, tag="17")]
+    pub enable_private_service_connect: bool,
+    /// Output only. Resource name of the Model Monitoring job associated with this Endpoint
+    /// if monitoring is enabled by \[CreateModelDeploymentMonitoringJob][\].
+    /// Format:
+    /// `projects/{project}/locations/{location}/modelDeploymentMonitoringJobs/{model_deployment_monitoring_job}`
+    #[prost(string, tag="14")]
+    pub model_deployment_monitoring_job: ::prost::alloc::string::String,
+    /// Configures the request-response logging for online prediction.
+    #[prost(message, optional, tag="18")]
+    pub predict_request_response_logging_config: ::core::option::Option<PredictRequestResponseLoggingConfig>,
+}
+/// A deployment of a Model. Endpoints contain one or more DeployedModels.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeployedModel {
+    /// Immutable. The ID of the DeployedModel. If not provided upon deployment, Vertex AI
+    /// will generate a value for this ID.
+    ///
+    /// This value should be 1-10 characters, and valid characters are /\[0-9\]/.
+    #[prost(string, tag="1")]
+    pub id: ::prost::alloc::string::String,
+    /// Required. The resource name of the Model that this is the deployment of. Note that
+    /// the Model may be in a different location than the DeployedModel's Endpoint.
+    ///
+    /// The resource name may contain version id or version alias to specify the
+    /// version, if no version is specified, the default version will be deployed.
+    #[prost(string, tag="2")]
+    pub model: ::prost::alloc::string::String,
+    /// Output only. The version ID of the model that is deployed.
+    #[prost(string, tag="18")]
+    pub model_version_id: ::prost::alloc::string::String,
+    /// The display name of the DeployedModel. If not provided upon creation,
+    /// the Model's display_name is used.
+    #[prost(string, tag="3")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Output only. Timestamp when the DeployedModel was created.
+    #[prost(message, optional, tag="6")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Explanation configuration for this DeployedModel.
+    ///
+    /// When deploying a Model using \[EndpointService.DeployModel][google.cloud.aiplatform.v1beta1.EndpointService.DeployModel\], this value
+    /// overrides the value of \[Model.explanation_spec][google.cloud.aiplatform.v1beta1.Model.explanation_spec\]. All fields of
+    /// \[explanation_spec][google.cloud.aiplatform.v1beta1.DeployedModel.explanation_spec\] are optional in the request. If a field of
+    /// \[explanation_spec][google.cloud.aiplatform.v1beta1.DeployedModel.explanation_spec\] is not populated, the value of the same field of
+    /// \[Model.explanation_spec][google.cloud.aiplatform.v1beta1.Model.explanation_spec\] is inherited. If the corresponding
+    /// \[Model.explanation_spec][google.cloud.aiplatform.v1beta1.Model.explanation_spec\] is not populated, all fields of the
+    /// \[explanation_spec][google.cloud.aiplatform.v1beta1.DeployedModel.explanation_spec\] will be used for the explanation configuration.
+    #[prost(message, optional, tag="9")]
+    pub explanation_spec: ::core::option::Option<ExplanationSpec>,
+    /// The service account that the DeployedModel's container runs as. Specify the
+    /// email address of the service account. If this service account is not
+    /// specified, the container runs as a service account that doesn't have access
+    /// to the resource project.
+    ///
+    /// Users deploying the Model must have the `iam.serviceAccounts.actAs`
+    /// permission on this service account.
+    #[prost(string, tag="11")]
+    pub service_account: ::prost::alloc::string::String,
+    /// If true, the container of the DeployedModel instances will send `stderr`
+    /// and `stdout` streams to Stackdriver Logging.
+    ///
+    /// Only supported for custom-trained Models and AutoML Tabular Models.
+    #[prost(bool, tag="12")]
+    pub enable_container_logging: bool,
+    /// These logs are like standard server access logs, containing
+    /// information like timestamp and latency for each prediction request.
+    ///
+    /// Note that Stackdriver logs may incur a cost, especially if your project
+    /// receives prediction requests at a high queries per second rate (QPS).
+    /// Estimate your costs before enabling this option.
+    #[prost(bool, tag="13")]
+    pub enable_access_logging: bool,
+    /// Output only. Provide paths for users to send predict/explain/health requests directly to
+    /// the deployed model services running on Cloud via private services access.
+    /// This field is populated if \[network][google.cloud.aiplatform.v1beta1.Endpoint.network\] is configured.
+    #[prost(message, optional, tag="14")]
+    pub private_endpoints: ::core::option::Option<PrivateEndpoints>,
+    /// The prediction (for example, the machine) resources that the DeployedModel
+    /// uses. The user is billed for the resources (at least their minimal amount)
+    /// even if the DeployedModel receives no traffic.
+    /// Not all Models support all resources types. See
+    /// \[Model.supported_deployment_resources_types][google.cloud.aiplatform.v1beta1.Model.supported_deployment_resources_types\].
+    #[prost(oneof="deployed_model::PredictionResources", tags="7, 8, 17")]
+    pub prediction_resources: ::core::option::Option<deployed_model::PredictionResources>,
+}
+/// Nested message and enum types in `DeployedModel`.
+pub mod deployed_model {
+    /// The prediction (for example, the machine) resources that the DeployedModel
+    /// uses. The user is billed for the resources (at least their minimal amount)
+    /// even if the DeployedModel receives no traffic.
+    /// Not all Models support all resources types. See
+    /// \[Model.supported_deployment_resources_types][google.cloud.aiplatform.v1beta1.Model.supported_deployment_resources_types\].
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum PredictionResources {
+        /// A description of resources that are dedicated to the DeployedModel, and
+        /// that need a higher degree of manual configuration.
+        #[prost(message, tag="7")]
+        DedicatedResources(super::DedicatedResources),
+        /// A description of resources that to large degree are decided by Vertex
+        /// AI, and require only a modest additional configuration.
+        #[prost(message, tag="8")]
+        AutomaticResources(super::AutomaticResources),
+        /// The resource name of the shared DeploymentResourcePool to deploy on.
+        /// Format:
+        /// projects/{project}/locations/{location}/deploymentResourcePools/{deployment_resource_pool}
+        #[prost(string, tag="17")]
+        SharedResources(::prost::alloc::string::String),
+    }
+}
+/// PrivateEndpoints proto is used to provide paths for users to send
+/// requests privately.
+/// To send request via private service access, use predict_http_uri,
+/// explain_http_uri or health_http_uri. To send request via private service
+/// connect, use service_attachment.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PrivateEndpoints {
+    /// Output only. Http(s) path to send prediction requests.
+    #[prost(string, tag="1")]
+    pub predict_http_uri: ::prost::alloc::string::String,
+    /// Output only. Http(s) path to send explain requests.
+    #[prost(string, tag="2")]
+    pub explain_http_uri: ::prost::alloc::string::String,
+    /// Output only. Http(s) path to send health check requests.
+    #[prost(string, tag="3")]
+    pub health_http_uri: ::prost::alloc::string::String,
+    /// Output only. The name of the service attachment resource. Populated if private service
+    /// connect is enabled.
+    #[prost(string, tag="4")]
+    pub service_attachment: ::prost::alloc::string::String,
+}
+/// Configuration for logging request-response to a BigQuery table.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PredictRequestResponseLoggingConfig {
+    /// If logging is enabled or not.
+    #[prost(bool, tag="1")]
+    pub enabled: bool,
+    /// Percentage of requests to be logged, expressed as a fraction in
+    /// range(0,1].
+    #[prost(double, tag="2")]
+    pub sampling_rate: f64,
+    /// BigQuery table for logging.
+    /// If only given a project, a new dataset will be created with name
+    /// `logging_<endpoint-display-name>_<endpoint-id>` where
+    /// <endpoint-display-name> will be made BigQuery-dataset-name compatible (e.g.
+    /// most special characters will become underscores). If no table name is
+    /// given, a new table will be created with name `request_response_logging`
+    #[prost(message, optional, tag="3")]
+    pub bigquery_destination: ::core::option::Option<BigQueryDestination>,
+}
+/// Generic Metadata shared by all operations.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GenericOperationMetadata {
+    /// Output only. Partial failures encountered.
+    /// E.g. single files that couldn't be read.
+    /// This field should never exceed 20 entries.
+    /// Status details field will contain standard GCP error details.
+    #[prost(message, repeated, tag="1")]
+    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+    /// Output only. Time when the operation was created.
+    #[prost(message, optional, tag="2")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Time when the operation was updated for the last time.
+    /// If the operation has finished (successfully or not), this is the finish
+    /// time.
+    #[prost(message, optional, tag="3")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Details of operations that perform deletes of any entities.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteOperationMetadata {
+    /// The common part of the operation metadata.
+    #[prost(message, optional, tag="1")]
+    pub generic_metadata: ::core::option::Option<GenericOperationMetadata>,
+}
+/// Request message for CreateDeploymentResourcePool method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateDeploymentResourcePoolRequest {
+    /// Required. The parent location resource where this DeploymentResourcePool will be
+    /// created. Format: projects/{project}/locations/{location}
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The DeploymentResourcePool to create.
+    #[prost(message, optional, tag="2")]
+    pub deployment_resource_pool: ::core::option::Option<DeploymentResourcePool>,
+    /// Required. The ID to use for the DeploymentResourcePool, which
+    /// will become the final component of the DeploymentResourcePool's resource
+    /// name.
+    ///
+    /// The maximum length is 63 characters, and valid characters
+    /// are `/^\[a-z]([a-z0-9-]{0,61}[a-z0-9\])?$/`.
+    #[prost(string, tag="3")]
+    pub deployment_resource_pool_id: ::prost::alloc::string::String,
+}
+/// Runtime operation information for CreateDeploymentResourcePool method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateDeploymentResourcePoolOperationMetadata {
+    /// The operation generic information.
+    #[prost(message, optional, tag="1")]
+    pub generic_metadata: ::core::option::Option<GenericOperationMetadata>,
+}
+/// Request message for GetDeploymentResourcePool method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetDeploymentResourcePoolRequest {
+    /// Required. The name of the DeploymentResourcePool to retrieve.
+    /// Format:
+    /// projects/{project}/locations/{location}/deploymentResourcePools/{deployment_resource_pool}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for ListDeploymentResourcePools method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListDeploymentResourcePoolsRequest {
+    /// Required. The parent Location which owns this collection of DeploymentResourcePools.
+    /// Format: projects/{project}/locations/{location}
+    #[prost(string, tag="1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of DeploymentResourcePools to return. The service may
+    /// return fewer than this value.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// A page token, received from a previous `ListDeploymentResourcePools` call.
+    /// Provide this to retrieve the subsequent page.
+    ///
+    /// When paginating, all other parameters provided to
+    /// `ListDeploymentResourcePools` must match the call that provided the page
+    /// token.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response message for ListDeploymentResourcePools method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListDeploymentResourcePoolsResponse {
+    /// The DeploymentResourcePools from the specified location.
+    #[prost(message, repeated, tag="1")]
+    pub deployment_resource_pools: ::prost::alloc::vec::Vec<DeploymentResourcePool>,
+    /// A token, which can be sent as `page_token` to retrieve the next page.
+    /// If this field is omitted, there are no subsequent pages.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Runtime operation information for UpdateDeploymentResourcePool method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateDeploymentResourcePoolOperationMetadata {
+    /// The operation generic information.
+    #[prost(message, optional, tag="1")]
+    pub generic_metadata: ::core::option::Option<GenericOperationMetadata>,
+}
+/// Request message for DeleteDeploymentResourcePool method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteDeploymentResourcePoolRequest {
+    /// Required. The name of the DeploymentResourcePool to delete.
+    /// Format:
+    /// projects/{project}/locations/{location}/deploymentResourcePools/{deployment_resource_pool}
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for QueryDeployedModels method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryDeployedModelsRequest {
+    /// Required. The name of the target DeploymentResourcePool to query.
+    /// Format:
+    /// projects/{project}/locations/{location}/deploymentResourcePools/{deployment_resource_pool}
+    #[prost(string, tag="1")]
+    pub deployment_resource_pool: ::prost::alloc::string::String,
+    /// The maximum number of DeployedModels to return. The service may return
+    /// fewer than this value.
+    #[prost(int32, tag="2")]
+    pub page_size: i32,
+    /// A page token, received from a previous `QueryDeployedModels` call.
+    /// Provide this to retrieve the subsequent page.
+    ///
+    /// When paginating, all other parameters provided to
+    /// `QueryDeployedModels` must match the call that provided the page
+    /// token.
+    #[prost(string, tag="3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Response message for QueryDeployedModels method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryDeployedModelsResponse {
+    /// DEPRECATED Use deployed_model_refs instead.
+    #[deprecated]
+    #[prost(message, repeated, tag="1")]
+    pub deployed_models: ::prost::alloc::vec::Vec<DeployedModel>,
+    /// A token, which can be sent as `page_token` to retrieve the next page.
+    /// If this field is omitted, there are no subsequent pages.
+    #[prost(string, tag="2")]
+    pub next_page_token: ::prost::alloc::string::String,
+    /// References to the DeployedModels that share the specified
+    /// deploymentResourcePool.
+    #[prost(message, repeated, tag="3")]
+    pub deployed_model_refs: ::prost::alloc::vec::Vec<DeployedModelRef>,
+}
+/// Generated client implementations.
+pub mod deployment_resource_pool_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    /// A service that manages the DeploymentResourcePool resource.
+    #[derive(Debug, Clone)]
+    pub struct DeploymentResourcePoolServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> DeploymentResourcePoolServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> DeploymentResourcePoolServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            DeploymentResourcePoolServiceClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        /// Compress requests with `gzip`.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        /// Enable decompressing responses with `gzip`.
+        #[must_use]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        /// Create a DeploymentResourcePool.
+        pub async fn create_deployment_resource_pool(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateDeploymentResourcePoolRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.aiplatform.v1beta1.DeploymentResourcePoolService/CreateDeploymentResourcePool",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Get a DeploymentResourcePool.
+        pub async fn get_deployment_resource_pool(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetDeploymentResourcePoolRequest>,
+        ) -> Result<tonic::Response<super::DeploymentResourcePool>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.aiplatform.v1beta1.DeploymentResourcePoolService/GetDeploymentResourcePool",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// List DeploymentResourcePools in a location.
+        pub async fn list_deployment_resource_pools(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListDeploymentResourcePoolsRequest>,
+        ) -> Result<
+            tonic::Response<super::ListDeploymentResourcePoolsResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.aiplatform.v1beta1.DeploymentResourcePoolService/ListDeploymentResourcePools",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Delete a DeploymentResourcePool.
+        pub async fn delete_deployment_resource_pool(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteDeploymentResourcePoolRequest>,
+        ) -> Result<
+            tonic::Response<super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.aiplatform.v1beta1.DeploymentResourcePoolService/DeleteDeploymentResourcePool",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// List DeployedModels that have been deployed on this DeploymentResourcePool.
+        pub async fn query_deployed_models(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryDeployedModelsRequest>,
+        ) -> Result<tonic::Response<super::QueryDeployedModelsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.aiplatform.v1beta1.DeploymentResourcePoolService/QueryDeployedModels",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+/// A piece of data in a Dataset. Could be an image, a video, a document or plain
+/// text.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataItem {
+    /// Output only. The resource name of the DataItem.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Timestamp when this DataItem was created.
+    #[prost(message, optional, tag="2")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Timestamp when this DataItem was last updated.
+    #[prost(message, optional, tag="6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. The labels with user-defined metadata to organize your DataItems.
+    ///
+    /// Label keys and values can be no longer than 64 characters
+    /// (Unicode codepoints), can only contain lowercase letters, numeric
+    /// characters, underscores and dashes. International characters are allowed.
+    /// No more than 64 user labels can be associated with one DataItem(System
+    /// labels are excluded).
+    ///
+    /// See <https://goo.gl/xmQnxf> for more information and examples of labels.
+    /// System reserved label keys are prefixed with "aiplatform.googleapis.com/"
+    /// and are immutable.
+    #[prost(btree_map="string, string", tag="3")]
+    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
+    /// Required. The data that the DataItem represents (for example, an image or a text
+    /// snippet). The schema of the payload is stored in the parent Dataset's
+    /// [metadata schema's]\[google.cloud.aiplatform.v1beta1.Dataset.metadata_schema_uri\] dataItemSchemaUri field.
+    #[prost(message, optional, tag="4")]
+    pub payload: ::core::option::Option<::prost_types::Value>,
+    /// Optional. Used to perform consistent read-modify-write updates. If not set, a blind
+    /// "overwrite" update happens.
+    #[prost(string, tag="7")]
+    pub etag: ::prost::alloc::string::String,
+}
+/// Stats and Anomaly generated at specific timestamp for specific Feature.
+/// The start_time and end_time are used to define the time range of the dataset
+/// that current stats belongs to, e.g. prediction traffic is bucketed into
+/// prediction datasets by time window. If the Dataset is not defined by time
+/// window, start_time = end_time. Timestamp of the stats and anomalies always
+/// refers to end_time. Raw stats and anomalies are stored in stats_uri or
+/// anomaly_uri in the tensorflow defined protos. Field data_stats contains
+/// almost identical information with the raw stats in Vertex AI
+/// defined proto, for UI to display.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FeatureStatsAnomaly {
+    /// Feature importance score, only populated when cross-feature monitoring is
+    /// enabled. For now only used to represent feature attribution score within
+    /// range [0, 1] for
+    /// \[ModelDeploymentMonitoringObjectiveType.FEATURE_ATTRIBUTION_SKEW][google.cloud.aiplatform.v1beta1.ModelDeploymentMonitoringObjectiveType.FEATURE_ATTRIBUTION_SKEW\] and
+    /// \[ModelDeploymentMonitoringObjectiveType.FEATURE_ATTRIBUTION_DRIFT][google.cloud.aiplatform.v1beta1.ModelDeploymentMonitoringObjectiveType.FEATURE_ATTRIBUTION_DRIFT\].
+    #[prost(double, tag="1")]
+    pub score: f64,
+    /// Path of the stats file for current feature values in Cloud Storage bucket.
+    /// Format: gs://<bucket_name>/<object_name>/stats.
+    /// Example: gs://monitoring_bucket/feature_name/stats.
+    /// Stats are stored as binary format with Protobuf message
+    /// \[tensorflow.metadata.v0.FeatureNameStatistics\](<https://github.com/tensorflow/metadata/blob/master/tensorflow_metadata/proto/v0/statistics.proto>).
+    #[prost(string, tag="3")]
+    pub stats_uri: ::prost::alloc::string::String,
+    /// Path of the anomaly file for current feature values in Cloud Storage
+    /// bucket.
+    /// Format: gs://<bucket_name>/<object_name>/anomalies.
+    /// Example: gs://monitoring_bucket/feature_name/anomalies.
+    /// Stats are stored as binary format with Protobuf message
+    /// Anoamlies are stored as binary format with Protobuf message
+    /// \[tensorflow.metadata.v0.AnomalyInfo\]
+    /// (<https://github.com/tensorflow/metadata/blob/master/tensorflow_metadata/proto/v0/anomalies.proto>).
+    #[prost(string, tag="4")]
+    pub anomaly_uri: ::prost::alloc::string::String,
+    /// Deviation from the current stats to baseline stats.
+    ///   1. For categorical feature, the distribution distance is calculated by
+    ///      L-inifinity norm.
+    ///   2. For numerical feature, the distribution distance is calculated by
+    ///      Jensen–Shannon divergence.
+    #[prost(double, tag="5")]
+    pub distribution_deviation: f64,
+    /// This is the threshold used when detecting anomalies.
+    /// The threshold can be changed by user, so this one might be different from
+    /// \[ThresholdConfig.value][google.cloud.aiplatform.v1beta1.ThresholdConfig.value\].
+    #[prost(double, tag="9")]
+    pub anomaly_detection_threshold: f64,
+    /// The start timestamp of window where stats were generated.
+    /// For objectives where time window doesn't make sense (e.g. Featurestore
+    /// Snapshot Monitoring), start_time is only used to indicate the monitoring
+    /// intervals, so it always equals to (end_time - monitoring_interval).
+    #[prost(message, optional, tag="7")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The end timestamp of window where stats were generated.
+    /// For objectives where time window doesn't make sense (e.g. Featurestore
+    /// Snapshot Monitoring), end_time indicates the timestamp of the data used to
+    /// generate stats (e.g. timestamp we take snapshots for feature values).
+    #[prost(message, optional, tag="8")]
+    pub end_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Represents an environment variable present in a Container or Python Module.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EnvVar {
+    /// Required. Name of the environment variable. Must be a valid C identifier.
+    #[prost(string, tag="1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. Variables that reference a $(VAR_NAME) are expanded
+    /// using the previous defined environment variables in the container and
+    /// any service environment variables. If a variable cannot be resolved,
+    /// the reference in the input string will be unchanged. The $(VAR_NAME)
+    /// syntax can be escaped with a double $$, ie: $$(VAR_NAME). Escaped
+    /// references will never be expanded, regardless of whether the variable
+    /// exists or not.
+    #[prost(string, tag="2")]
+    pub value: ::prost::alloc::string::String,
+}
 /// A trained machine learning Model.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Model {
@@ -1985,6 +2538,9 @@ pub mod model {
         /// Resources that to large degree are decided by Vertex AI, and require
         /// only a modest additional configuration.
         AutomaticResources = 2,
+        /// Resources that can be shared by multiple \[DeployedModels][google.cloud.aiplatform.v1beta1.DeployedModel\].
+        /// A pre-configured \[DeploymentResourcePool][google.cloud.aiplatform.v1beta1.DeploymentResourcePool\] is required.
+        SharedResources = 3,
     }
 }
 /// Contains the schemata used in Model's predictions and explanations via
@@ -2910,31 +3466,6 @@ pub mod export_data_config {
         #[prost(message, tag="1")]
         GcsDestination(super::GcsDestination),
     }
-}
-/// Generic Metadata shared by all operations.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GenericOperationMetadata {
-    /// Output only. Partial failures encountered.
-    /// E.g. single files that couldn't be read.
-    /// This field should never exceed 20 entries.
-    /// Status details field will contain standard GCP error details.
-    #[prost(message, repeated, tag="1")]
-    pub partial_failures: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-    /// Output only. Time when the operation was created.
-    #[prost(message, optional, tag="2")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Time when the operation was updated for the last time.
-    /// If the operation has finished (successfully or not), this is the finish
-    /// time.
-    #[prost(message, optional, tag="3")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Details of operations that perform deletes of any entities.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteOperationMetadata {
-    /// The common part of the operation metadata.
-    #[prost(message, optional, tag="1")]
-    pub generic_metadata: ::core::option::Option<GenericOperationMetadata>,
 }
 /// A SavedQuery is a view of the dataset. It references a subset of annotations
 /// by problem type and filters.
@@ -5871,232 +6402,6 @@ pub struct DeployedIndexRef {
     /// Immutable. The ID of the DeployedIndex in the above IndexEndpoint.
     #[prost(string, tag="2")]
     pub deployed_index_id: ::prost::alloc::string::String,
-}
-/// Models are deployed into it, and afterwards Endpoint is called to obtain
-/// predictions and explanations.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Endpoint {
-    /// Output only. The resource name of the Endpoint.
-    #[prost(string, tag="1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The display name of the Endpoint.
-    /// The name can be up to 128 characters long and can be consist of any UTF-8
-    /// characters.
-    #[prost(string, tag="2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The description of the Endpoint.
-    #[prost(string, tag="3")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. The models deployed in this Endpoint.
-    /// To add or remove DeployedModels use \[EndpointService.DeployModel][google.cloud.aiplatform.v1beta1.EndpointService.DeployModel\] and
-    /// \[EndpointService.UndeployModel][google.cloud.aiplatform.v1beta1.EndpointService.UndeployModel\] respectively.
-    #[prost(message, repeated, tag="4")]
-    pub deployed_models: ::prost::alloc::vec::Vec<DeployedModel>,
-    /// A map from a DeployedModel's ID to the percentage of this Endpoint's
-    /// traffic that should be forwarded to that DeployedModel.
-    ///
-    /// If a DeployedModel's ID is not listed in this map, then it receives no
-    /// traffic.
-    ///
-    /// The traffic percentage values must add up to 100, or map must be empty if
-    /// the Endpoint is to not accept any traffic at a moment.
-    #[prost(btree_map="string, int32", tag="5")]
-    pub traffic_split: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, i32>,
-    /// Used to perform consistent read-modify-write updates. If not set, a blind
-    /// "overwrite" update happens.
-    #[prost(string, tag="6")]
-    pub etag: ::prost::alloc::string::String,
-    /// The labels with user-defined metadata to organize your Endpoints.
-    ///
-    /// Label keys and values can be no longer than 64 characters
-    /// (Unicode codepoints), can only contain lowercase letters, numeric
-    /// characters, underscores and dashes. International characters are allowed.
-    ///
-    /// See <https://goo.gl/xmQnxf> for more information and examples of labels.
-    #[prost(btree_map="string, string", tag="7")]
-    pub labels: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
-    /// Output only. Timestamp when this Endpoint was created.
-    #[prost(message, optional, tag="8")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Timestamp when this Endpoint was last updated.
-    #[prost(message, optional, tag="9")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Customer-managed encryption key spec for an Endpoint. If set, this
-    /// Endpoint and all sub-resources of this Endpoint will be secured by
-    /// this key.
-    #[prost(message, optional, tag="10")]
-    pub encryption_spec: ::core::option::Option<EncryptionSpec>,
-    /// The full name of the Google Compute Engine
-    /// \[network\](<https://cloud.google.com//compute/docs/networks-and-firewalls#networks>)
-    /// to which the Endpoint should be peered.
-    ///
-    /// Private services access must already be configured for the network. If left
-    /// unspecified, the Endpoint is not peered with any network.
-    ///
-    /// Only one of the fields, \[network][google.cloud.aiplatform.v1beta1.Endpoint.network\] or
-    /// \[enable_private_service_connect][google.cloud.aiplatform.v1beta1.Endpoint.enable_private_service_connect\],
-    /// can be set.
-    ///
-    /// \[Format\](<https://cloud.google.com/compute/docs/reference/rest/v1/networks/insert>):
-    /// `projects/{project}/global/networks/{network}`.
-    /// Where `{project}` is a project number, as in `12345`, and `{network}` is
-    /// network name.
-    #[prost(string, tag="13")]
-    pub network: ::prost::alloc::string::String,
-    /// Deprecated: If true, expose the Endpoint via private service connect.
-    ///
-    /// Only one of the fields, \[network][google.cloud.aiplatform.v1beta1.Endpoint.network\] or
-    /// \[enable_private_service_connect][google.cloud.aiplatform.v1beta1.Endpoint.enable_private_service_connect\],
-    /// can be set.
-    #[deprecated]
-    #[prost(bool, tag="17")]
-    pub enable_private_service_connect: bool,
-    /// Output only. Resource name of the Model Monitoring job associated with this Endpoint
-    /// if monitoring is enabled by \[CreateModelDeploymentMonitoringJob][\].
-    /// Format:
-    /// `projects/{project}/locations/{location}/modelDeploymentMonitoringJobs/{model_deployment_monitoring_job}`
-    #[prost(string, tag="14")]
-    pub model_deployment_monitoring_job: ::prost::alloc::string::String,
-    /// Configures the request-response logging for online prediction.
-    #[prost(message, optional, tag="18")]
-    pub predict_request_response_logging_config: ::core::option::Option<PredictRequestResponseLoggingConfig>,
-}
-/// A deployment of a Model. Endpoints contain one or more DeployedModels.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeployedModel {
-    /// Immutable. The ID of the DeployedModel. If not provided upon deployment, Vertex AI
-    /// will generate a value for this ID.
-    ///
-    /// This value should be 1-10 characters, and valid characters are /\[0-9\]/.
-    #[prost(string, tag="1")]
-    pub id: ::prost::alloc::string::String,
-    /// Required. The resource name of the Model that this is the deployment of. Note that
-    /// the Model may be in a different location than the DeployedModel's Endpoint.
-    ///
-    /// The resource name may contain version id or version alias to specify the
-    /// version, if no version is specified, the default version will be deployed.
-    #[prost(string, tag="2")]
-    pub model: ::prost::alloc::string::String,
-    /// Output only. The version ID of the model that is deployed.
-    #[prost(string, tag="18")]
-    pub model_version_id: ::prost::alloc::string::String,
-    /// The display name of the DeployedModel. If not provided upon creation,
-    /// the Model's display_name is used.
-    #[prost(string, tag="3")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Output only. Timestamp when the DeployedModel was created.
-    #[prost(message, optional, tag="6")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Explanation configuration for this DeployedModel.
-    ///
-    /// When deploying a Model using \[EndpointService.DeployModel][google.cloud.aiplatform.v1beta1.EndpointService.DeployModel\], this value
-    /// overrides the value of \[Model.explanation_spec][google.cloud.aiplatform.v1beta1.Model.explanation_spec\]. All fields of
-    /// \[explanation_spec][google.cloud.aiplatform.v1beta1.DeployedModel.explanation_spec\] are optional in the request. If a field of
-    /// \[explanation_spec][google.cloud.aiplatform.v1beta1.DeployedModel.explanation_spec\] is not populated, the value of the same field of
-    /// \[Model.explanation_spec][google.cloud.aiplatform.v1beta1.Model.explanation_spec\] is inherited. If the corresponding
-    /// \[Model.explanation_spec][google.cloud.aiplatform.v1beta1.Model.explanation_spec\] is not populated, all fields of the
-    /// \[explanation_spec][google.cloud.aiplatform.v1beta1.DeployedModel.explanation_spec\] will be used for the explanation configuration.
-    #[prost(message, optional, tag="9")]
-    pub explanation_spec: ::core::option::Option<ExplanationSpec>,
-    /// The service account that the DeployedModel's container runs as. Specify the
-    /// email address of the service account. If this service account is not
-    /// specified, the container runs as a service account that doesn't have access
-    /// to the resource project.
-    ///
-    /// Users deploying the Model must have the `iam.serviceAccounts.actAs`
-    /// permission on this service account.
-    #[prost(string, tag="11")]
-    pub service_account: ::prost::alloc::string::String,
-    /// If true, the container of the DeployedModel instances will send `stderr`
-    /// and `stdout` streams to Stackdriver Logging.
-    ///
-    /// Only supported for custom-trained Models and AutoML Tabular Models.
-    #[prost(bool, tag="12")]
-    pub enable_container_logging: bool,
-    /// These logs are like standard server access logs, containing
-    /// information like timestamp and latency for each prediction request.
-    ///
-    /// Note that Stackdriver logs may incur a cost, especially if your project
-    /// receives prediction requests at a high queries per second rate (QPS).
-    /// Estimate your costs before enabling this option.
-    #[prost(bool, tag="13")]
-    pub enable_access_logging: bool,
-    /// Output only. Provide paths for users to send predict/explain/health requests directly to
-    /// the deployed model services running on Cloud via private services access.
-    /// This field is populated if \[network][google.cloud.aiplatform.v1beta1.Endpoint.network\] is configured.
-    #[prost(message, optional, tag="14")]
-    pub private_endpoints: ::core::option::Option<PrivateEndpoints>,
-    /// The prediction (for example, the machine) resources that the DeployedModel
-    /// uses. The user is billed for the resources (at least their minimal amount)
-    /// even if the DeployedModel receives no traffic.
-    /// Not all Models support all resources types. See
-    /// \[Model.supported_deployment_resources_types][google.cloud.aiplatform.v1beta1.Model.supported_deployment_resources_types\].
-    #[prost(oneof="deployed_model::PredictionResources", tags="7, 8, 17")]
-    pub prediction_resources: ::core::option::Option<deployed_model::PredictionResources>,
-}
-/// Nested message and enum types in `DeployedModel`.
-pub mod deployed_model {
-    /// The prediction (for example, the machine) resources that the DeployedModel
-    /// uses. The user is billed for the resources (at least their minimal amount)
-    /// even if the DeployedModel receives no traffic.
-    /// Not all Models support all resources types. See
-    /// \[Model.supported_deployment_resources_types][google.cloud.aiplatform.v1beta1.Model.supported_deployment_resources_types\].
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum PredictionResources {
-        /// A description of resources that are dedicated to the DeployedModel, and
-        /// that need a higher degree of manual configuration.
-        #[prost(message, tag="7")]
-        DedicatedResources(super::DedicatedResources),
-        /// A description of resources that to large degree are decided by Vertex
-        /// AI, and require only a modest additional configuration.
-        #[prost(message, tag="8")]
-        AutomaticResources(super::AutomaticResources),
-        /// The resource name of the shared DeploymentResourcePool to deploy on.
-        /// Format:
-        /// projects/{project}/locations/{location}/deploymentResourcePools/{deployment_resource_pool}
-        #[prost(string, tag="17")]
-        SharedResources(::prost::alloc::string::String),
-    }
-}
-/// PrivateEndpoints proto is used to provide paths for users to send
-/// requests privately.
-/// To send request via private service access, use predict_http_uri,
-/// explain_http_uri or health_http_uri. To send request via private service
-/// connect, use service_attachment.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PrivateEndpoints {
-    /// Output only. Http(s) path to send prediction requests.
-    #[prost(string, tag="1")]
-    pub predict_http_uri: ::prost::alloc::string::String,
-    /// Output only. Http(s) path to send explain requests.
-    #[prost(string, tag="2")]
-    pub explain_http_uri: ::prost::alloc::string::String,
-    /// Output only. Http(s) path to send health check requests.
-    #[prost(string, tag="3")]
-    pub health_http_uri: ::prost::alloc::string::String,
-    /// Output only. The name of the service attachment resource. Populated if private service
-    /// connect is enabled.
-    #[prost(string, tag="4")]
-    pub service_attachment: ::prost::alloc::string::String,
-}
-/// Configuration for logging request-response to a BigQuery table.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PredictRequestResponseLoggingConfig {
-    /// If logging is enabled or not.
-    #[prost(bool, tag="1")]
-    pub enabled: bool,
-    /// Percentage of requests to be logged, expressed as a fraction in
-    /// range(0,1].
-    #[prost(double, tag="2")]
-    pub sampling_rate: f64,
-    /// BigQuery table for logging.
-    /// If only given a project, a new dataset will be created with name
-    /// `logging_<endpoint-display-name>_<endpoint-id>` where
-    /// <endpoint-display-name> will be made BigQuery-dataset-name compatible (e.g.
-    /// most special characters will become underscores). If no table name is
-    /// given, a new table will be created with name `request_response_logging`
-    #[prost(message, optional, tag="3")]
-    pub bigquery_destination: ::core::option::Option<BigQueryDestination>,
 }
 /// Matcher for Features of an EntityType by Feature ID.
 #[derive(Clone, PartialEq, ::prost::Message)]
