@@ -115,4 +115,7 @@ pub enum ReportCauseCode {
     LoadBalancerHealthCheckFirewallHealthCheckFirewallNotConfigured = 1001,
     LoadBalancerHealthCheckFirewallHealthCheckRangeBlocked = 1002,
     LoadBalancerHealthCheckFirewallFirewallConfigInconsistent = 1003,
+    LoadBalancerHealthCheckFirewallHealthCheckRangePartiallyBlocked = 1004,
+    LoadBalancerBestPracticesBackendServiceBalancingModeBreaksSessionAffinity = 1021,
+    LoadBalancerBestPracticesBackendServiceHealthCheckPortMismatch = 1024,
 }
