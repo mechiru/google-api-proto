@@ -426,6 +426,16 @@ pub struct CreateReadSessionRequest {
     /// it can gracefully handle.
     #[prost(int32, tag="3")]
     pub max_stream_count: i32,
+    /// The minimum preferred stream count. This parameter can be used to inform
+    /// the service that there is a desired lower bound on the number of streams.
+    /// This is typically a target parallelism of the client (e.g. a Spark
+    /// cluster with N-workers would set this to a low multiple of N to ensure
+    /// good cluster utilization).
+    ///
+    /// The system will make a best effort to provide at least this number of
+    /// streams, but in some cases might provide less.
+    #[prost(int32, tag="4")]
+    pub preferred_min_stream_count: i32,
 }
 /// Request message for `ReadRows`.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -575,6 +585,9 @@ pub struct CreateWriteStreamRequest {
 /// Due to the nature of AppendRows being a bidirectional streaming RPC, certain
 /// parts of the AppendRowsRequest need only be specified for the first request
 /// sent each time the gRPC network connection is opened/reopened.
+///
+/// The size of a single AppendRowsRequest must be less than 10 MB in size.
+/// Requests larger than this return an error, typically `INVALID_ARGUMENT`.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AppendRowsRequest {
     /// Required. The write_stream identifies the target of the append operation, and only
@@ -650,6 +663,10 @@ pub struct AppendRowsResponse {
     /// remove the bad rows and retry the request.
     #[prost(message, repeated, tag="4")]
     pub row_errors: ::prost::alloc::vec::Vec<RowError>,
+    /// The target of the append operation. Matches the write_stream in the
+    /// corresponding request.
+    #[prost(string, tag="5")]
+    pub write_stream: ::prost::alloc::string::String,
     #[prost(oneof="append_rows_response::Response", tags="1, 2")]
     pub response: ::core::option::Option<append_rows_response::Response>,
 }
