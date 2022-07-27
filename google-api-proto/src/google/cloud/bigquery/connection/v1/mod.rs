@@ -127,6 +127,13 @@ pub struct CloudSqlProperties {
     /// Input only. Cloud SQL credential.
     #[prost(message, optional, tag="4")]
     pub credential: ::core::option::Option<CloudSqlCredential>,
+    /// Output only. The account ID of the service used for the purpose of this connection.
+    ///
+    /// When the connection is used in the context of an operation in
+    /// BigQuery, this service account will serve as identity being used for
+    /// connecting to the CloudSQL instance specified in this connection.
+    #[prost(string, tag="5")]
+    pub service_account_id: ::prost::alloc::string::String,
 }
 /// Nested message and enum types in `CloudSqlProperties`.
 pub mod cloud_sql_properties {
