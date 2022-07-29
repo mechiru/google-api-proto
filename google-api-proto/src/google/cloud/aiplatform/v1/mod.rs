@@ -1912,6 +1912,9 @@ pub mod model {
         /// Resources that to large degree are decided by Vertex AI, and require
         /// only a modest additional configuration.
         AutomaticResources = 2,
+        /// Resources that can be shared by multiple \[DeployedModels][google.cloud.aiplatform.v1.DeployedModel\].
+        /// A pre-configured \[DeploymentResourcePool][\] is required.
+        SharedResources = 3,
     }
 }
 /// Contains the schemata used in Model's predictions and explanations via
@@ -2904,7 +2907,7 @@ pub struct SavedQuery {
     /// Output only. Number of AnnotationSpecs in the context of the SavedQuery.
     #[prost(int32, tag="10")]
     pub annotation_spec_count: i32,
-    /// Used to perform a consistent read-modify-write update. If not set, a blind
+    /// Used to perform consistent read-modify-write updates. If not set, a blind
     /// "overwrite" update happens.
     #[prost(string, tag="8")]
     pub etag: ::prost::alloc::string::String,
@@ -2975,6 +2978,7 @@ pub struct ListDatasetsRequest {
     ///     * A key including a space must be quoted. `labels."a key"`.
     ///
     /// Some examples:
+    ///
     ///   * `displayName="myDisplayName"`
     ///   * `labels.myKey="myValue"`
     #[prost(string, tag="2")]
@@ -2991,6 +2995,7 @@ pub struct ListDatasetsRequest {
     /// A comma-separated list of fields to order by, sorted in ascending order.
     /// Use "desc" after a field name for descending.
     /// Supported fields:
+    ///
     ///   * `display_name`
     ///   * `create_time`
     ///   * `update_time`
@@ -3133,7 +3138,8 @@ pub struct ListSavedQueriesRequest {
 /// Response message for \[DatasetService.ListSavedQueries][google.cloud.aiplatform.v1.DatasetService.ListSavedQueries\].
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListSavedQueriesResponse {
-    /// A list of SavedQueries that match the specified filter in the request.
+    /// A list of SavedQueries that matches the specified filter in the
+    /// request.
     #[prost(message, repeated, tag="1")]
     pub saved_queries: ::prost::alloc::vec::Vec<SavedQuery>,
     /// The standard List next-page token.
@@ -4068,7 +4074,7 @@ pub struct CustomJob {
     pub web_access_uris: ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ::prost::alloc::string::String>,
 }
 /// Represents the spec of a CustomJob.
-/// Next Id: 14
+/// Next Id: 15
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CustomJobSpec {
     /// Required. The spec of the worker pools including machine type and Docker image.
@@ -4086,7 +4092,7 @@ pub struct CustomJobSpec {
     /// for the CustomJob's project is used.
     #[prost(string, tag="4")]
     pub service_account: ::prost::alloc::string::String,
-    /// The full name of the Compute Engine
+    /// Optional. The full name of the Compute Engine
     /// \[network\](/compute/docs/networks-and-firewalls#networks) to which the Job
     /// should be peered. For example, `projects/12345/global/networks/myVPC`.
     /// \[Format\](/compute/docs/reference/rest/v1/networks/insert)
@@ -8825,7 +8831,7 @@ pub struct BoolArray {
 /// A list of double values.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DoubleArray {
-    /// A list of bool values.
+    /// A list of double values.
     #[prost(double, repeated, tag="1")]
     pub values: ::prost::alloc::vec::Vec<f64>,
 }
@@ -10754,7 +10760,7 @@ pub struct StudySpec {
     pub algorithm: i32,
     /// The observation noise level of the study.
     /// Currently only supported by the Vertex AI Vizier service. Not supported by
-    /// HyperparamterTuningJob or TrainingPipeline.
+    /// HyperparameterTuningJob or TrainingPipeline.
     #[prost(enumeration="study_spec::ObservationNoise", tag="6")]
     pub observation_noise: i32,
     /// Describe which measurement selection type will be used
@@ -10827,7 +10833,7 @@ pub mod study_spec {
             /// offered starting point.
             ///
             /// Currently only supported by the Vertex AI Vizier service. Not supported
-            /// by HyperparamterTuningJob or TrainingPipeline.
+            /// by HyperparameterTuningJob or TrainingPipeline.
             #[prost(double, optional, tag="4")]
             pub default_value: ::core::option::Option<f64>,
         }
@@ -10845,7 +10851,7 @@ pub mod study_spec {
             /// offered starting point.
             ///
             /// Currently only supported by the Vertex AI Vizier service. Not supported
-            /// by HyperparamterTuningJob or TrainingPipeline.
+            /// by HyperparameterTuningJob or TrainingPipeline.
             #[prost(int64, optional, tag="4")]
             pub default_value: ::core::option::Option<i64>,
         }
@@ -10859,8 +10865,8 @@ pub mod study_spec {
             /// relatively good starting point.  Unset value signals that there is no
             /// offered starting point.
             ///
-            /// Currently only supported by the Vizier service. Not supported by
-            /// HyperparamterTuningJob or TrainingPipeline.
+            /// Currently only supported by the Vertex AI Vizier service. Not supported
+            /// by HyperparameterTuningJob or TrainingPipeline.
             #[prost(string, optional, tag="3")]
             pub default_value: ::core::option::Option<::prost::alloc::string::String>,
         }
@@ -10878,8 +10884,8 @@ pub mod study_spec {
             /// offered starting point.  It automatically rounds to the
             /// nearest feasible discrete point.
             ///
-            /// Currently only supported by the Vizier service. Not supported by
-            /// HyperparamterTuningJob or TrainingPipeline.
+            /// Currently only supported by the Vertex AI Vizier service. Not supported
+            /// by HyperparameterTuningJob or TrainingPipeline.
             #[prost(double, optional, tag="3")]
             pub default_value: ::core::option::Option<f64>,
         }
@@ -12174,21 +12180,22 @@ pub struct ListTrainingPipelinesRequest {
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
     /// The standard list filter.
+    ///
     /// Supported fields:
     ///
-    ///   * `display_name` supports = and !=.
-    ///
-    ///   * `state` supports = and !=.
+    ///   * `display_name` supports `=`, `!=` comparisons, and `:` wildcard.
+    ///   * `state` supports `=`, `!=` comparisons.
+    ///   * `training_task_definition` `=`, `!=` comparisons, and `:` wildcard.
+    ///   * `create_time` supports `=`, `!=`,`<`, `<=`,`>`, `>=` comparisons.
+    ///     `create_time` must be in RFC 3339 format.
     ///
     /// Some examples of using the filter are:
     ///
-    ///  * `state="PIPELINE_STATE_SUCCEEDED" AND display_name="my_pipeline"`
-    ///
-    ///  * `state="PIPELINE_STATE_RUNNING" OR display_name="my_pipeline"`
-    ///
-    ///  * `NOT display_name="my_pipeline"`
-    ///
-    ///  * `state="PIPELINE_STATE_FAILED"`
+    ///   * `state="PIPELINE_STATE_SUCCEEDED" AND display_name:"my_pipeline_*"`
+    ///   * `state!="PIPELINE_STATE_FAILED" OR display_name="my_pipeline"`
+    ///   * `NOT display_name="my_pipeline"`
+    ///   * `create_time>"2021-05-18T00:00:00Z"`
+    ///   * `training_task_definition:"*automl_text_classification*"`
     #[prost(string, tag="2")]
     pub filter: ::prost::alloc::string::String,
     /// The standard list page size.
@@ -12274,8 +12281,8 @@ pub struct ListPipelineJobsRequest {
     /// * `pipeline_name`: Supports `=` and `!=` comparisons.
     /// * `display_name`: Supports `=`, `!=` comparisons, and `:` wildcard.
     /// * `pipeline_job_user_id`: Supports `=`, `!=` comparisons, and `:` wildcard.
-    ///  for example, can check if pipeline's display_name contains *step* by doing
-    ///   display_name:\"*step*\"
+    ///   for example, can check if pipeline's display_name contains *step* by
+    ///   doing display_name:\"*step*\"
     /// * `state`: Supports `=` and `!=` comparisons.
     /// * `create_time`: Supports `=`, `!=`, `<`, `>`, `<=`, and `>=` comparisons.
     ///   Values must be in RFC 3339 format.
@@ -12286,7 +12293,7 @@ pub struct ListPipelineJobsRequest {
     /// * `labels`: Supports key-value equality and key presence.
     /// * `template_uri`: Supports `=`, `!=` comparisons, and `:` wildcard.
     /// * `template_metadata.version`: Supports `=`, `!=` comparisons, and `:`
-    /// wildcard.
+    ///   wildcard.
     ///
     /// Filter expressions can be combined together using logical operators
     /// (`AND` & `OR`).
@@ -12321,6 +12328,7 @@ pub struct ListPipelineJobsRequest {
     /// there are multiple jobs having the same create time, order them by the end
     /// time in ascending order. if order_by is not specified, it will order by
     /// default order is create time in descending order. Supported fields:
+    ///
     ///   * `create_time`
     ///   * `update_time`
     ///   * `end_time`
@@ -14742,6 +14750,7 @@ pub struct ListModelsRequest {
     ///     * A key including a space must be quoted. `labels."a key"`.
     ///
     /// Some examples:
+    ///
     ///   * `model=1234`
     ///   * `displayName="myDisplayName"`
     ///   * `labels.myKey="myValue"`
@@ -14762,6 +14771,7 @@ pub struct ListModelsRequest {
     /// A comma-separated list of fields to order by, sorted in ascending order.
     /// Use "desc" after a field name for descending.
     /// Supported fields:
+    ///
     ///   * `display_name`
     ///   * `create_time`
     ///   * `update_time`
@@ -14805,6 +14815,7 @@ pub struct ListModelVersionsRequest {
     ///     * A key including a space must be quoted. `labels."a key"`.
     ///
     /// Some examples:
+    ///
     ///   * `labels.myKey="myValue"`
     #[prost(string, tag="4")]
     pub filter: ::prost::alloc::string::String,
@@ -15779,19 +15790,17 @@ pub struct ListCustomJobsRequest {
     ///
     /// Supported fields:
     ///
-    ///   * `display_name` supports = and !=.
-    ///
-    ///   * `state` supports = and !=.
+    ///   * `display_name` supports `=`, `!=` comparisons, and `:` wildcard.
+    ///   * `state` supports `=`, `!=` comparisons.
+    ///   * `create_time` supports `=`, `!=`,`<`, `<=`,`>`, `>=` comparisons.
+    ///     `create_time` must be in RFC 3339 format.
     ///
     /// Some examples of using the filter are:
     ///
-    ///  * `state="JOB_STATE_SUCCEEDED" AND display_name="my_job"`
-    ///
-    ///  * `state="JOB_STATE_RUNNING" OR display_name="my_job"`
-    ///
-    ///  * `NOT display_name="my_job"`
-    ///
-    ///  * `state="JOB_STATE_FAILED"`
+    ///   * `state="JOB_STATE_SUCCEEDED" AND display_name:"my_job_*"`
+    ///   * `state!="JOB_STATE_FAILED" OR display_name="my_job"`
+    ///   * `NOT display_name="my_job"`
+    ///   * `create_time>"2021-05-18T00:00:00Z"`
     #[prost(string, tag="2")]
     pub filter: ::prost::alloc::string::String,
     /// The standard list page size.
@@ -15867,19 +15876,17 @@ pub struct ListDataLabelingJobsRequest {
     ///
     /// Supported fields:
     ///
-    ///   * `display_name` supports = and !=.
-    ///
-    ///   * `state` supports = and !=.
+    ///   * `display_name` supports `=`, `!=` comparisons, and `:` wildcard.
+    ///   * `state` supports `=`, `!=` comparisons.
+    ///   * `create_time` supports `=`, `!=`,`<`, `<=`,`>`, `>=` comparisons.
+    ///     `create_time` must be in RFC 3339 format.
     ///
     /// Some examples of using the filter are:
     ///
-    ///  * `state="JOB_STATE_SUCCEEDED" AND display_name="my_job"`
-    ///
-    ///  * `state="JOB_STATE_RUNNING" OR display_name="my_job"`
-    ///
-    ///  * `NOT display_name="my_job"`
-    ///
-    ///  * `state="JOB_STATE_FAILED"`
+    ///   * `state="JOB_STATE_SUCCEEDED" AND display_name:"my_job_*"`
+    ///   * `state!="JOB_STATE_FAILED" OR display_name="my_job"`
+    ///   * `NOT display_name="my_job"`
+    ///   * `create_time>"2021-05-18T00:00:00Z"`
     #[prost(string, tag="2")]
     pub filter: ::prost::alloc::string::String,
     /// The standard list page size.
@@ -15960,19 +15967,17 @@ pub struct ListHyperparameterTuningJobsRequest {
     ///
     /// Supported fields:
     ///
-    ///   * `display_name` supports = and !=.
-    ///
-    ///   * `state` supports = and !=.
+    ///   * `display_name` supports `=`, `!=` comparisons, and `:` wildcard.
+    ///   * `state` supports `=`, `!=` comparisons.
+    ///   * `create_time` supports `=`, `!=`,`<`, `<=`,`>`, `>=` comparisons.
+    ///     `create_time` must be in RFC 3339 format.
     ///
     /// Some examples of using the filter are:
     ///
-    ///  * `state="JOB_STATE_SUCCEEDED" AND display_name="my_job"`
-    ///
-    ///  * `state="JOB_STATE_RUNNING" OR display_name="my_job"`
-    ///
-    ///  * `NOT display_name="my_job"`
-    ///
-    ///  * `state="JOB_STATE_FAILED"`
+    ///   * `state="JOB_STATE_SUCCEEDED" AND display_name:"my_job_*"`
+    ///   * `state!="JOB_STATE_FAILED" OR display_name="my_job"`
+    ///   * `NOT display_name="my_job"`
+    ///   * `create_time>"2021-05-18T00:00:00Z"`
     #[prost(string, tag="2")]
     pub filter: ::prost::alloc::string::String,
     /// The standard list page size.
@@ -16050,21 +16055,18 @@ pub struct ListBatchPredictionJobsRequest {
     ///
     /// Supported fields:
     ///
-    ///   * `display_name` supports = and !=.
-    ///
-    ///   * `state` supports = and !=.
-    ///
-    ///   * `model_display_name` supports = and !=
+    ///   * `display_name` supports `=`, `!=` comparisons, and `:` wildcard.
+    ///   * `model_display_name` supports `=`, `!=` comparisons.
+    ///   * `state` supports `=`, `!=` comparisons.
+    ///   * `create_time` supports `=`, `!=`,`<`, `<=`,`>`, `>=` comparisons.
+    ///     `create_time` must be in RFC 3339 format.
     ///
     /// Some examples of using the filter are:
     ///
-    ///  * `state="JOB_STATE_SUCCEEDED" AND display_name="my_job"`
-    ///
-    ///  * `state="JOB_STATE_RUNNING" OR display_name="my_job"`
-    ///
-    ///  * `NOT display_name="my_job"`
-    ///
-    ///  * `state="JOB_STATE_FAILED"`
+    ///   * `state="JOB_STATE_SUCCEEDED" AND display_name:"my_job_*"`
+    ///   * `state!="JOB_STATE_FAILED" OR display_name="my_job"`
+    ///   * `NOT display_name="my_job"`
+    ///   * `create_time>"2021-05-18T00:00:00Z"`
     #[prost(string, tag="2")]
     pub filter: ::prost::alloc::string::String,
     /// The standard list page size.
@@ -16213,6 +16215,20 @@ pub struct ListModelDeploymentMonitoringJobsRequest {
     #[prost(string, tag="1")]
     pub parent: ::prost::alloc::string::String,
     /// The standard list filter.
+    ///
+    /// Supported fields:
+    ///
+    ///   * `display_name` supports `=`, `!=` comparisons, and `:` wildcard.
+    ///   * `state` supports `=`, `!=` comparisons.
+    ///   * `create_time` supports `=`, `!=`,`<`, `<=`,`>`, `>=` comparisons.
+    ///     `create_time` must be in RFC 3339 format.
+    ///
+    /// Some examples of using the filter are:
+    ///
+    ///   * `state="JOB_STATE_SUCCEEDED" AND display_name:"my_job_*"`
+    ///   * `state!="JOB_STATE_FAILED" OR display_name="my_job"`
+    ///   * `NOT display_name="my_job"`
+    ///   * `create_time>"2021-05-18T00:00:00Z"`
     #[prost(string, tag="2")]
     pub filter: ::prost::alloc::string::String,
     /// The standard list page size.
