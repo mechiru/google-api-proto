@@ -21,7 +21,6 @@ jobs:
       with:
         submodules: recursive
     - uses: arduino/setup-protoc@v1
-    - run: echo "PROTOC=$(which protoc)" >> $GITHUB_ENV
     - uses: actions-rs/toolchain@v1
       with:
         toolchain: ${{ matrix.toolchain }}
