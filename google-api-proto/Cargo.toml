@@ -23,7 +23,7 @@ doctest = false
 all-features = true
 
 [dependencies]
-tonic = "0.8"
+tonic = "0.9"
 prost = "0.11"
 prost-types = "0.11"
 

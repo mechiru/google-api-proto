@@ -68,7 +68,7 @@ tokio = { version = "1.15", features = ["macros", "rt-multi-thread"] }
 # For google authentication
 google-authz = { version = "1.0.0-alpha.4", features = ["tonic"] }
 # For gRPC
-tonic = { version = "0.8", features = ["tls", "tls-webpki-roots"] }
+tonic = { version = "0.9", features = ["tls", "tls-webpki-roots"] }
 prost = { version = "0.11" }
 prost-types = { version = "0.11" }
 google-api-proto = { version = "1", features = ["google-spanner-admin-database-v1"] }
