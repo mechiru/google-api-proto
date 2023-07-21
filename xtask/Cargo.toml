@@ -9,4 +9,4 @@ toml_edit = "0.19.14"
 prost-build = "0.11.9"
 tonic-build = { version = "0.9.2", default-features = false, features = ["prost"] }
 syn = "2.0.26"
-prettyplease = "0.2.10"
+prettyplease = "0.2.11"
