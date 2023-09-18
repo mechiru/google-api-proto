@@ -4,6 +4,7 @@ members = [
   "xtask",
   "examples",
 ]
+resolver = "2"
 
 [workspace.metadata.release]
 pre-release-commit-message = "{{crate_name}}: bump {{crate_name}} to v{{version}}"
