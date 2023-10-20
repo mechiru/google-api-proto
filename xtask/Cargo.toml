@@ -5,8 +5,8 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.75"
-toml_edit = "0.19.14"
+toml_edit = "0.20.2"
 prost-build = "0.12.1"
-tonic-build = { version = "0.10.0", default-features = false, features = ["prost"] }
-syn = "2.0.29"
-prettyplease = "0.2.12"
+tonic-build = { version = "0.10.2", default-features = false, features = ["prost"] }
+syn = "2.0.38"
+prettyplease = "0.2.15"
