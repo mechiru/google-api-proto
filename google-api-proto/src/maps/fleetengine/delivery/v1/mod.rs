@@ -412,7 +412,7 @@ pub struct DeliveryVehicle {
         VehicleJourneySegment,
     >,
     /// A list of custom Delivery Vehicle attributes. A Delivery Vehicle can have
-    /// at most 50 attributes, and each attribute must have a unique key.
+    /// at most 100 attributes, and each attribute must have a unique key.
     #[prost(message, repeated, tag = "9")]
     pub attributes: ::prost::alloc::vec::Vec<DeliveryVehicleAttribute>,
     /// The type of this delivery vehicle. If unset, this will default to `AUTO`.

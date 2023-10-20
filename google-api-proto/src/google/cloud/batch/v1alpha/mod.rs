@@ -326,6 +326,14 @@ pub mod runnable {
         /// Volumes to mount (bind mount) from the host machine files or directories
         /// into the container, formatted to match docker run's --volume option,
         /// e.g. /foo:/bar, or /foo:/bar:ro
+        ///
+        /// If the `TaskSpec.Volumes` field is specified but this field is not, Batch
+        /// will mount each volume from the host machine to the container with the
+        /// same mount path by default. In this case, the default mount option for
+        /// containers will be read-only (ro) for existing persistent disks and
+        /// read-write (rw) for other volume types, regardless of the original mount
+        /// options specified in `TaskSpec.Volumes`. If you need different mount
+        /// settings, you can explicitly configure them in this field.
         #[prost(string, repeated, tag = "7")]
         pub volumes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
         /// Arbitrary additional options to include in the "docker run" command when
@@ -1188,6 +1196,7 @@ pub mod allocation_policy {
             /// * `batch-centos`: use Batch CentOS images.
             /// * `batch-cos`: use Batch Container-Optimized images.
             /// * `batch-hpc-centos`: use Batch HPC CentOS images.
+            /// * `batch-hpc-rocky`: use Batch HPC Rocky Linux images.
             #[prost(string, tag = "4")]
             Image(::prost::alloc::string::String),
             /// Name of a snapshot used as the data source.
@@ -1284,7 +1293,7 @@ pub mod allocation_policy {
         /// storage and accessing.
         #[prost(message, repeated, tag = "6")]
         pub disks: ::prost::alloc::vec::Vec<AttachedDisk>,
-        /// If specified, VMs will consume only the specified reservation.
+        /// Optional. If specified, VMs will consume only the specified reservation.
         /// If not specified (default), VMs will consume any applicable reservation.
         #[prost(string, tag = "7")]
         pub reservation: ::prost::alloc::string::String,

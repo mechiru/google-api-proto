@@ -132,6 +132,9 @@ pub struct SecurityKey {
     /// Hardware-backed private key text in SSH format.
     #[prost(string, tag = "2")]
     pub private_key: ::prost::alloc::string::String,
+    /// The security key nickname explicitly set by the user.
+    #[prost(string, optional, tag = "5")]
+    pub device_nickname: ::core::option::Option<::prost::alloc::string::String>,
     /// The FIDO protocol type used to register this credential.
     #[prost(oneof = "security_key::ProtocolType", tags = "3, 4")]
     pub protocol_type: ::core::option::Option<security_key::ProtocolType>,

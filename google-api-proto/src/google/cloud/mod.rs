@@ -21,6 +21,7 @@ pub mod advisorynotifications;
 pub mod aiplatform;
 #[cfg(
     any(
+        feature = "google-cloud-alloydb-connectors-v1",
         feature = "google-cloud-alloydb-connectors-v1alpha",
         feature = "google-cloud-alloydb-connectors-v1beta",
         feature = "google-cloud-alloydb-v1",
@@ -211,7 +212,9 @@ pub mod deploy;
 pub mod dialogflow;
 #[cfg(
     any(
+        feature = "google-cloud-discoveryengine-logging",
         feature = "google-cloud-discoveryengine-v1",
+        feature = "google-cloud-discoveryengine-v1alpha",
         feature = "google-cloud-discoveryengine-v1beta",
     )
 )]
@@ -488,7 +491,14 @@ pub mod recommendationengine;
     )
 )]
 pub mod recommender;
-#[cfg(any(feature = "google-cloud-redis-v1", feature = "google-cloud-redis-v1beta1"))]
+#[cfg(
+    any(
+        feature = "google-cloud-redis-cluster-v1",
+        feature = "google-cloud-redis-cluster-v1beta1",
+        feature = "google-cloud-redis-v1",
+        feature = "google-cloud-redis-v1beta1",
+    )
+)]
 pub mod redis;
 #[cfg(
     any(
@@ -530,6 +540,8 @@ pub mod scheduler;
 pub mod secretmanager;
 #[cfg(any(feature = "google-cloud-secrets-v1beta1"))]
 pub mod secrets;
+#[cfg(any(feature = "google-cloud-securesourcemanager-v1"))]
+pub mod securesourcemanager;
 #[cfg(
     any(
         feature = "google-cloud-security-privateca-v1",

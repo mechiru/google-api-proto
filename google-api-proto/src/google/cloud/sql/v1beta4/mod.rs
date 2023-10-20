@@ -4972,10 +4972,7 @@ pub struct SqlInstancesStartExternalSyncRequest {
     pub skip_verification: bool,
     /// Optional. Parallel level for initial data sync. Currently only applicable
     /// for MySQL.
-    #[prost(
-        enumeration = "sql_instances_start_external_sync_request::ExternalSyncParallelLevel",
-        tag = "7"
-    )]
+    #[prost(enumeration = "ExternalSyncParallelLevel", tag = "7")]
     pub sync_parallel_level: i32,
     #[prost(oneof = "sql_instances_start_external_sync_request::SyncConfig", tags = "6")]
     pub sync_config: ::core::option::Option<
@@ -4984,55 +4981,6 @@ pub struct SqlInstancesStartExternalSyncRequest {
 }
 /// Nested message and enum types in `SqlInstancesStartExternalSyncRequest`.
 pub mod sql_instances_start_external_sync_request {
-    /// External Sync parallel level.
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum ExternalSyncParallelLevel {
-        /// Unknown sync parallel level. Will be defaulted to OPTIMAL.
-        Unspecified = 0,
-        /// Minimal parallel level.
-        Min = 1,
-        /// Optimal parallel level.
-        Optimal = 2,
-        /// Maximum parallel level.
-        Max = 3,
-    }
-    impl ExternalSyncParallelLevel {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                ExternalSyncParallelLevel::Unspecified => {
-                    "EXTERNAL_SYNC_PARALLEL_LEVEL_UNSPECIFIED"
-                }
-                ExternalSyncParallelLevel::Min => "MIN",
-                ExternalSyncParallelLevel::Optimal => "OPTIMAL",
-                ExternalSyncParallelLevel::Max => "MAX",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "EXTERNAL_SYNC_PARALLEL_LEVEL_UNSPECIFIED" => Some(Self::Unspecified),
-                "MIN" => Some(Self::Min),
-                "OPTIMAL" => Some(Self::Optimal),
-                "MAX" => Some(Self::Max),
-                _ => None,
-            }
-        }
-    }
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum SyncConfig {
@@ -5182,6 +5130,45 @@ pub struct SqlInstancesGetLatestRecoveryTimeResponse {
     /// Timestamp, identifies the latest recovery time of the source instance.
     #[prost(message, optional, tag = "2")]
     pub latest_recovery_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// External Sync parallel level.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ExternalSyncParallelLevel {
+    /// Unknown sync parallel level. Will be defaulted to OPTIMAL.
+    Unspecified = 0,
+    /// Minimal parallel level.
+    Min = 1,
+    /// Optimal parallel level.
+    Optimal = 2,
+    /// Maximum parallel level.
+    Max = 3,
+}
+impl ExternalSyncParallelLevel {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            ExternalSyncParallelLevel::Unspecified => {
+                "EXTERNAL_SYNC_PARALLEL_LEVEL_UNSPECIFIED"
+            }
+            ExternalSyncParallelLevel::Min => "MIN",
+            ExternalSyncParallelLevel::Optimal => "OPTIMAL",
+            ExternalSyncParallelLevel::Max => "MAX",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "EXTERNAL_SYNC_PARALLEL_LEVEL_UNSPECIFIED" => Some(Self::Unspecified),
+            "MIN" => Some(Self::Min),
+            "OPTIMAL" => Some(Self::Optimal),
+            "MAX" => Some(Self::Max),
+            _ => None,
+        }
+    }
 }
 /// Generated client implementations.
 pub mod sql_backup_runs_service_client {

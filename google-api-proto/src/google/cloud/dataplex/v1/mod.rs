@@ -7358,9 +7358,23 @@ pub struct DataQualityRuleResult {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DataQualityDimensionResult {
+    /// Output only. The dimension config specified in the DataQualitySpec, as is.
+    #[prost(message, optional, tag = "1")]
+    pub dimension: ::core::option::Option<DataQualityDimension>,
     /// Whether the dimension passed or failed.
     #[prost(bool, tag = "3")]
     pub passed: bool,
+}
+/// A dimension captures data quality intent about a defined subset of the rules
+/// specified.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DataQualityDimension {
+    /// The dimension name a rule belongs to. Supported dimensions are
+    /// ["COMPLETENESS", "ACCURACY", "CONSISTENCY", "VALIDITY", "UNIQUENESS",
+    /// "INTEGRITY"]
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
 }
 /// A rule captures data quality intent about a data source.
 #[allow(clippy::derive_partial_eq_without_eq)]

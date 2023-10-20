@@ -2238,9 +2238,7 @@ pub struct ProcessOptions {
     /// A subset of pages to process. If not specified, all pages will be
     /// processed. NOTICE: If any of the page range is set, we will extract and
     /// process only the given pages from the document. In the output document,
-    /// \[Document.Page.page_number][google.cloud.documentai.v1.Document.Page.page_number\]
-    /// is referring to the page number in the original document. This
-    /// configuration only applies to sync requests.
+    /// the page_number is referring to the page number in the original document.
     #[prost(oneof = "process_options::PageRange", tags = "5, 6, 7")]
     pub page_range: ::core::option::Option<process_options::PageRange>,
 }
@@ -2257,17 +2255,15 @@ pub mod process_options {
     /// A subset of pages to process. If not specified, all pages will be
     /// processed. NOTICE: If any of the page range is set, we will extract and
     /// process only the given pages from the document. In the output document,
-    /// \[Document.Page.page_number][google.cloud.documentai.v1.Document.Page.page_number\]
-    /// is referring to the page number in the original document. This
-    /// configuration only applies to sync requests.
+    /// the page_number is referring to the page number in the original document.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum PageRange {
         /// Which pages to process (1-indexed).
         #[prost(message, tag = "5")]
         IndividualPageSelector(IndividualPageSelector),
-        /// Only process certain pages from the start. Process all if the document
-        /// has fewer pages.
+        /// Only process certain pages from the start, process all if the document
+        /// has less pages.
         #[prost(int32, tag = "6")]
         FromStart(i32),
         /// Only process certain pages from the end, same as above.

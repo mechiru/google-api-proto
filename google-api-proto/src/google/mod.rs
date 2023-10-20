@@ -124,6 +124,7 @@ pub mod chromeos;
         feature = "google-cloud-aiplatform-v1beta1-schema-predict-params",
         feature = "google-cloud-aiplatform-v1beta1-schema-predict-prediction",
         feature = "google-cloud-aiplatform-v1beta1-schema-trainingjob-definition",
+        feature = "google-cloud-alloydb-connectors-v1",
         feature = "google-cloud-alloydb-connectors-v1alpha",
         feature = "google-cloud-alloydb-connectors-v1beta",
         feature = "google-cloud-alloydb-v1",
@@ -212,7 +213,9 @@ pub mod chromeos;
         feature = "google-cloud-dialogflow-cx-v3beta1",
         feature = "google-cloud-dialogflow-v2",
         feature = "google-cloud-dialogflow-v2beta1",
+        feature = "google-cloud-discoveryengine-logging",
         feature = "google-cloud-discoveryengine-v1",
+        feature = "google-cloud-discoveryengine-v1alpha",
         feature = "google-cloud-discoveryengine-v1beta",
         feature = "google-cloud-documentai-v1",
         feature = "google-cloud-documentai-v1beta1",
@@ -330,6 +333,8 @@ pub mod chromeos;
         feature = "google-cloud-recommender-logging-v1beta1",
         feature = "google-cloud-recommender-v1",
         feature = "google-cloud-recommender-v1beta1",
+        feature = "google-cloud-redis-cluster-v1",
+        feature = "google-cloud-redis-cluster-v1beta1",
         feature = "google-cloud-redis-v1",
         feature = "google-cloud-redis-v1beta1",
         feature = "google-cloud-resourcemanager-v2",
@@ -347,6 +352,7 @@ pub mod chromeos;
         feature = "google-cloud-secretmanager-logging-v1",
         feature = "google-cloud-secretmanager-v1",
         feature = "google-cloud-secrets-v1beta1",
+        feature = "google-cloud-securesourcemanager-v1",
         feature = "google-cloud-security-privateca-v1",
         feature = "google-cloud-security-privateca-v1beta1",
         feature = "google-cloud-security-publicca-v1beta1",
@@ -521,6 +527,7 @@ pub mod longrunning;
         feature = "google-maps-aerialview-v1",
         feature = "google-maps-mapsplatformdatasets-v1",
         feature = "google-maps-mapsplatformdatasets-v1alpha",
+        feature = "google-maps-mobilitybilling-logs-v1",
         feature = "google-maps-places-v1",
         feature = "google-maps-playablelocations-v3",
         feature = "google-maps-playablelocations-v3-sample",
@@ -552,6 +559,8 @@ pub mod privacy;
 pub mod pubsub;
 #[cfg(any(feature = "google-type"))]
 pub mod r#type;
+#[cfg(any(feature = "google-robotics-developer-modelserving-v1"))]
+pub mod robotics;
 #[cfg(any(feature = "google-rpc", feature = "google-rpc-context"))]
 pub mod rpc;
 #[cfg(any(feature = "google-search-partnerdataingestion-logging-v1"))]

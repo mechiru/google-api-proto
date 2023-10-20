@@ -5442,6 +5442,27 @@ pub struct StreamingAnalyzeContentRequest {
     /// CX agent.
     #[prost(message, optional, tag = "13")]
     pub cx_parameters: ::core::option::Option<::prost_types::Struct>,
+    /// Optional. Enable full bidirectional streaming. You can keep streaming the
+    /// audio until timeout, and there's no need to half close the stream to get
+    /// the response.
+    ///
+    /// Restrictions:
+    ///
+    /// - Timeout: 3 mins.
+    /// - Audio Encoding: only supports
+    /// \[AudioEncoding.AUDIO_ENCODING_LINEAR_16][google.cloud.dialogflow.v2.AudioEncoding.AUDIO_ENCODING_LINEAR_16\]
+    /// and
+    /// \[AudioEncoding.AUDIO_ENCODING_MULAW][google.cloud.dialogflow.v2.AudioEncoding.AUDIO_ENCODING_MULAW\]
+    /// - Lifecycle: conversation should be in `Assist Stage`, go to
+    ///    \[Conversation.CreateConversation][\] for more information.
+    ///
+    /// InvalidArgument Error will be returned if the one of restriction checks
+    /// failed.
+    ///
+    /// You can find more details in
+    /// <https://cloud.google.com/agent-assist/docs/extended-streaming>
+    #[prost(bool, tag = "11")]
+    pub enable_extended_streaming: bool,
     /// Enable partial virtual agent responses. If this flag is not enabled,
     /// response stream still contains only one final response even if some
     /// `Fulfillment`s in Dialogflow virtual agent have been configured to return

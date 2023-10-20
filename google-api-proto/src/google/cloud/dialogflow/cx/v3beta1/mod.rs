@@ -1242,6 +1242,26 @@ pub mod webhooks_client {
         }
     }
 }
+/// Inline destination for a Dialogflow operation that writes or exports objects
+/// (e.g. \[intents][google.cloud.dialogflow.cx.v3beta1.Intent\]) outside of
+/// Dialogflow.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InlineDestination {
+    /// Output only. The uncompressed byte content for the objects.
+    /// Only populated in responses.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub content: ::prost::bytes::Bytes,
+}
+/// Inline source for a Dialogflow operation that reads or imports objects
+/// (e.g. \[intents][google.cloud.dialogflow.cx.v3beta1.Intent\]) into Dialogflow.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InlineSource {
+    /// The uncompressed byte content for the objects.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub content: ::prost::bytes::Bytes,
+}
 /// An intent represents a user's intent to interact with a conversational agent.
 ///
 /// You can provide information for the Dialogflow API to use to match user input
@@ -1522,6 +1542,281 @@ pub struct DeleteIntentRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
+/// The request message for
+/// \[Intents.ImportIntents][google.cloud.dialogflow.cx.v3beta1.Intents.ImportIntents\].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportIntentsRequest {
+    /// Required. The agent to import the intents into.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Merge option for importing intents. If not specified, `REJECT` is assumed.
+    #[prost(enumeration = "import_intents_request::MergeOption", tag = "4")]
+    pub merge_option: i32,
+    /// Required. The intents to import.
+    #[prost(oneof = "import_intents_request::Intents", tags = "2, 3")]
+    pub intents: ::core::option::Option<import_intents_request::Intents>,
+}
+/// Nested message and enum types in `ImportIntentsRequest`.
+pub mod import_intents_request {
+    /// Merge option when display name conflicts exist during import.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum MergeOption {
+        /// Unspecified. Should not be used.
+        Unspecified = 0,
+        /// DEPRECATED: Please use
+        /// \[REPORT_CONFLICT][ImportIntentsRequest.REPORT_CONFLICT\] instead.
+        /// Fail the request if there are intents whose display names conflict with
+        /// the display names of intents in the agent.
+        Reject = 1,
+        /// Replace the original intent in the agent with the new intent when display
+        /// name conflicts exist.
+        Replace = 2,
+        /// Merge the original intent with the new intent when display name conflicts
+        /// exist.
+        Merge = 3,
+        /// Create new intents with new display names to differentiate them from the
+        /// existing intents when display name conflicts exist.
+        Rename = 4,
+        /// Report conflict information if display names conflict is detected.
+        /// Otherwise, import intents.
+        ReportConflict = 5,
+        /// Keep the original intent and discard the conflicting new intent when
+        /// display name conflicts exist.
+        Keep = 6,
+    }
+    impl MergeOption {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                MergeOption::Unspecified => "MERGE_OPTION_UNSPECIFIED",
+                MergeOption::Reject => "REJECT",
+                MergeOption::Replace => "REPLACE",
+                MergeOption::Merge => "MERGE",
+                MergeOption::Rename => "RENAME",
+                MergeOption::ReportConflict => "REPORT_CONFLICT",
+                MergeOption::Keep => "KEEP",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "MERGE_OPTION_UNSPECIFIED" => Some(Self::Unspecified),
+                "REJECT" => Some(Self::Reject),
+                "REPLACE" => Some(Self::Replace),
+                "MERGE" => Some(Self::Merge),
+                "RENAME" => Some(Self::Rename),
+                "REPORT_CONFLICT" => Some(Self::ReportConflict),
+                "KEEP" => Some(Self::Keep),
+                _ => None,
+            }
+        }
+    }
+    /// Required. The intents to import.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Intents {
+        /// The [Google Cloud Storage](<https://cloud.google.com/storage/docs/>) URI
+        /// to import intents from. The format of this URI must be
+        /// `gs://<bucket-name>/<object-name>`.
+        ///
+        /// Dialogflow performs a read operation for the Cloud Storage object
+        /// on the caller's behalf, so your request authentication must
+        /// have read permissions for the object. For more information, see
+        /// [Dialogflow access
+        /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
+        #[prost(string, tag = "2")]
+        IntentsUri(::prost::alloc::string::String),
+        /// Uncompressed byte content of intents.
+        #[prost(message, tag = "3")]
+        IntentsContent(super::InlineSource),
+    }
+}
+/// The response message for
+/// \[Intents.ImportIntents][google.cloud.dialogflow.cx.v3beta1.Intents.ImportIntents\].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportIntentsResponse {
+    /// The unique identifier of the imported intents.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/intents/<Intent ID>`.
+    #[prost(string, repeated, tag = "1")]
+    pub intents: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Info which resources have conflicts when
+    /// \[REPORT_CONFLICT][ImportIntentsResponse.REPORT_CONFLICT\] merge_option is
+    /// set in ImportIntentsRequest.
+    #[prost(message, optional, tag = "2")]
+    pub conflicting_resources: ::core::option::Option<
+        import_intents_response::ConflictingResources,
+    >,
+}
+/// Nested message and enum types in `ImportIntentsResponse`.
+pub mod import_intents_response {
+    /// Conflicting resources detected during the import process. Only filled when
+    /// \[REPORT_CONFLICT][ImportIntentsResponse.REPORT_CONFLICT\] is set in the
+    /// request and there are conflicts in the display names.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConflictingResources {
+        /// Display names of conflicting intents.
+        #[prost(string, repeated, tag = "1")]
+        pub intent_display_names: ::prost::alloc::vec::Vec<
+            ::prost::alloc::string::String,
+        >,
+        /// Display names of conflicting entities.
+        #[prost(string, repeated, tag = "2")]
+        pub entity_display_names: ::prost::alloc::vec::Vec<
+            ::prost::alloc::string::String,
+        >,
+    }
+}
+/// Metadata returned for the
+/// \[Intents.ImportIntents][google.cloud.dialogflow.cx.v3beta1.Intents.ImportIntents\]
+/// long running operation.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportIntentsMetadata {}
+/// The request message for
+/// \[Intents.ExportIntents][google.cloud.dialogflow.cx.v3beta1.Intents.ExportIntents\].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportIntentsRequest {
+    /// Required. The name of the parent agent to export intents.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The name of the intents to export.
+    /// Format: `projects/<Project ID>/locations/<Location ID>/agents/<Agent
+    /// ID>/intents/<Intent ID>`.
+    #[prost(string, repeated, tag = "2")]
+    pub intents: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. The data format of the exported intents. If not specified, `BLOB`
+    /// is assumed.
+    #[prost(enumeration = "export_intents_request::DataFormat", tag = "5")]
+    pub data_format: i32,
+    /// The destination to export.
+    #[prost(oneof = "export_intents_request::Destination", tags = "3, 4")]
+    pub destination: ::core::option::Option<export_intents_request::Destination>,
+}
+/// Nested message and enum types in `ExportIntentsRequest`.
+pub mod export_intents_request {
+    /// Data format of the exported intents.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum DataFormat {
+        /// Unspecified format. Treated as `BLOB`.
+        Unspecified = 0,
+        /// Intents will be exported as raw bytes.
+        Blob = 1,
+        /// Intents will be exported in JSON format.
+        Json = 2,
+        /// Intents will be exported in CSV format.
+        Csv = 3,
+    }
+    impl DataFormat {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                DataFormat::Unspecified => "DATA_FORMAT_UNSPECIFIED",
+                DataFormat::Blob => "BLOB",
+                DataFormat::Json => "JSON",
+                DataFormat::Csv => "CSV",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "DATA_FORMAT_UNSPECIFIED" => Some(Self::Unspecified),
+                "BLOB" => Some(Self::Blob),
+                "JSON" => Some(Self::Json),
+                "CSV" => Some(Self::Csv),
+                _ => None,
+            }
+        }
+    }
+    /// The destination to export.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Destination {
+        /// Optional. The [Google Cloud
+        /// Storage](<https://cloud.google.com/storage/docs/>) URI to export the
+        /// intents to. The format of this URI must be
+        /// `gs://<bucket-name>/<object-name>`.
+        ///
+        /// Dialogflow performs a write operation for the Cloud Storage object
+        /// on the caller's behalf, so your request authentication must
+        /// have write permissions for the object. For more information, see
+        /// [Dialogflow access
+        /// control](<https://cloud.google.com/dialogflow/cx/docs/concept/access-control#storage>).
+        #[prost(string, tag = "3")]
+        IntentsUri(::prost::alloc::string::String),
+        /// Optional. The option to return the serialized intents inline.
+        #[prost(bool, tag = "4")]
+        IntentsContentInline(bool),
+    }
+}
+/// The response message for
+/// \[Intents.ExportIntents][google.cloud.dialogflow.cx.v3beta1.Intents.ExportIntents\].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportIntentsResponse {
+    /// The exported intents.
+    #[prost(oneof = "export_intents_response::Intents", tags = "1, 2")]
+    pub intents: ::core::option::Option<export_intents_response::Intents>,
+}
+/// Nested message and enum types in `ExportIntentsResponse`.
+pub mod export_intents_response {
+    /// The exported intents.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Intents {
+        /// The URI to a file containing the exported intents. This field is
+        /// populated only if `intents_uri` is specified in
+        /// \[ExportIntentsRequest][google.cloud.dialogflow.cx.v3beta1.ExportIntentsRequest\].
+        #[prost(string, tag = "1")]
+        IntentsUri(::prost::alloc::string::String),
+        /// Uncompressed byte content for intents. This field is populated only if
+        /// `intents_content_inline` is set to true in
+        /// \[ExportIntentsRequest][google.cloud.dialogflow.cx.v3beta1.ExportIntentsRequest\].
+        #[prost(message, tag = "2")]
+        IntentsContent(super::InlineDestination),
+    }
+}
+/// Metadata returned for the
+/// \[Intents.ExportIntents][google.cloud.dialogflow.cx.v3beta1.Intents.ExportIntents\]
+/// long running operation.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExportIntentsMetadata {}
 /// Represents the options for views of an intent.
 /// An intent can be a sizable object. Therefore, we provide a resource view that
 /// does not return training phrases in the response.
@@ -1787,6 +2082,86 @@ pub mod intents_client {
                 );
             self.inner.unary(req, path, codec).await
         }
+        /// Imports the specified intents into the agent.
+        ///
+        /// This method is a [long-running
+        /// operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation).
+        /// The returned `Operation` type has the following method-specific fields:
+        ///
+        /// - `metadata`:
+        /// [ImportIntentsMetadata][google.cloud.dialogflow.cx.v3beta1.ImportIntentsMetadata]
+        /// - `response`:
+        /// [ImportIntentsResponse][google.cloud.dialogflow.cx.v3beta1.ImportIntentsResponse]
+        pub async fn import_intents(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ImportIntentsRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3beta1.Intents/ImportIntents",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.dialogflow.cx.v3beta1.Intents",
+                        "ImportIntents",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Exports the selected intents.
+        ///
+        /// This method is a [long-running
+        /// operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-operation).
+        /// The returned `Operation` type has the following method-specific fields:
+        ///
+        /// - `metadata`:
+        /// [ExportIntentsMetadata][google.cloud.dialogflow.cx.v3beta1.ExportIntentsMetadata]
+        /// - `response`:
+        /// [ExportIntentsResponse][google.cloud.dialogflow.cx.v3beta1.ExportIntentsResponse]
+        pub async fn export_intents(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ExportIntentsRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::super::super::super::super::longrunning::Operation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.dialogflow.cx.v3beta1.Intents/ExportIntents",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.dialogflow.cx.v3beta1.Intents",
+                        "ExportIntents",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
     }
 }
 /// Google Cloud Storage location for a Dialogflow operation that writes or
@@ -1821,6 +2196,14 @@ pub struct AdvancedSettings {
     /// - Flow level
     #[prost(message, optional, tag = "2")]
     pub audio_export_gcs_destination: ::core::option::Option<GcsDestination>,
+    /// Settings for DTMF.
+    /// Exposed at the following levels:
+    /// - Agent level
+    /// - Flow level
+    /// - Page level
+    /// - Parameter level.
+    #[prost(message, optional, tag = "5")]
+    pub dtmf_settings: ::core::option::Option<advanced_settings::DtmfSettings>,
     /// Settings for logging.
     /// Settings for Dialogflow History, Contact Center messages, StackDriver logs,
     /// and speech logging.
@@ -1831,6 +2214,25 @@ pub struct AdvancedSettings {
 }
 /// Nested message and enum types in `AdvancedSettings`.
 pub mod advanced_settings {
+    /// Define behaviors for DTMF (dual tone multi frequency).
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct DtmfSettings {
+        /// If true, incoming audio is processed for DTMF (dual tone multi frequency)
+        /// events. For example, if the caller presses a button on their telephone
+        /// keypad and DTMF processing is enabled, Dialogflow will detect the
+        /// event (e.g. a "3" was pressed) in the incoming audio and pass the event
+        /// to the bot to drive business logic (e.g. when 3 is pressed, return the
+        /// account balance).
+        #[prost(bool, tag = "1")]
+        pub enabled: bool,
+        /// Max length of DTMF digits.
+        #[prost(int32, tag = "2")]
+        pub max_digits: i32,
+        /// The digit that terminates a DTMF digit sequence.
+        #[prost(string, tag = "3")]
+        pub finish_digit: ::prost::alloc::string::String,
+    }
     /// Define behaviors on logging.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3073,6 +3475,17 @@ pub struct Fulfillment {
     /// Conditional cases for this fulfillment.
     #[prost(message, repeated, tag = "5")]
     pub conditional_cases: ::prost::alloc::vec::Vec<fulfillment::ConditionalCases>,
+    /// Hierarchical advanced settings for this fulfillment. The settings exposed
+    /// at the lower level overrides the settings exposed at the higher level.
+    #[prost(message, optional, tag = "7")]
+    pub advanced_settings: ::core::option::Option<AdvancedSettings>,
+    /// If the flag is true, the agent will utilize LLM to generate a text
+    /// response. If LLM generation fails, the defined
+    /// \[responses][google.cloud.dialogflow.cx.v3beta1.Fulfillment.messages\] in the
+    /// fulfillment will be respected. This flag is only useful for fulfillments
+    /// associated with no-match event handlers.
+    #[prost(bool, tag = "12")]
+    pub enable_generative_fallback: bool,
 }
 /// Nested message and enum types in `Fulfillment`.
 pub mod fulfillment {
@@ -3235,6 +3648,10 @@ pub struct Page {
     /// no match or no input.
     #[prost(message, repeated, tag = "10")]
     pub event_handlers: ::prost::alloc::vec::Vec<EventHandler>,
+    /// Hierarchical advanced settings for this page. The settings exposed at the
+    /// lower level overrides the settings exposed at the higher level.
+    #[prost(message, optional, tag = "13")]
+    pub advanced_settings: ::core::option::Option<AdvancedSettings>,
     /// Optional. Knowledge connector configuration.
     #[prost(message, optional, tag = "18")]
     pub knowledge_connector_settings: ::core::option::Option<KnowledgeConnectorSettings>,
@@ -3294,6 +3711,10 @@ pub mod form {
         /// enabled.
         #[prost(bool, tag = "11")]
         pub redact: bool,
+        /// Hierarchical advanced settings for this parameter. The settings exposed
+        /// at the lower level overrides the settings exposed at the higher level.
+        #[prost(message, optional, tag = "12")]
+        pub advanced_settings: ::core::option::Option<super::AdvancedSettings>,
     }
     /// Nested message and enum types in `Parameter`.
     pub mod parameter {
@@ -4303,6 +4724,10 @@ pub struct Flow {
     /// NLU related settings of the flow.
     #[prost(message, optional, tag = "11")]
     pub nlu_settings: ::core::option::Option<NluSettings>,
+    /// Hierarchical advanced settings for this flow. The settings exposed at the
+    /// lower level overrides the settings exposed at the higher level.
+    #[prost(message, optional, tag = "14")]
+    pub advanced_settings: ::core::option::Option<AdvancedSettings>,
     /// Optional. Knowledge connector configuration.
     #[prost(message, optional, tag = "18")]
     pub knowledge_connector_settings: ::core::option::Option<KnowledgeConnectorSettings>,
@@ -7248,6 +7673,13 @@ pub struct QueryResult {
     /// specified in the request.
     #[prost(message, optional, tag = "17")]
     pub sentiment_analysis_result: ::core::option::Option<SentimentAnalysisResult>,
+    /// Returns the current advanced settings including IVR settings. Even though
+    /// the operations configured by these settings are performed by Dialogflow,
+    /// the client may need to perform special logic at the moment. For example, if
+    /// Dialogflow exports audio to Google Cloud Storage, then the client may need
+    /// to wait for the resulting object to appear in the bucket before proceeding.
+    #[prost(message, optional, tag = "21")]
+    pub advanced_settings: ::core::option::Option<AdvancedSettings>,
     /// The original conversational query.
     #[prost(oneof = "query_result::Query", tags = "1, 11, 12, 14, 23")]
     pub query: ::core::option::Option<query_result::Query>,

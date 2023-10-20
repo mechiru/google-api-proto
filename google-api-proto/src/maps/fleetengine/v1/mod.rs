@@ -711,7 +711,7 @@ pub struct Vehicle {
     /// considered in this value. This value must be greater than or equal to one.
     #[prost(int32, tag = "6")]
     pub maximum_capacity: i32,
-    /// List of vehicle attributes. A vehicle can have at most 50
+    /// List of vehicle attributes. A vehicle can have at most 100
     /// attributes, and each attribute must have a unique key.
     #[prost(message, repeated, tag = "8")]
     pub attributes: ::prost::alloc::vec::Vec<VehicleAttribute>,

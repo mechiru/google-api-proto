@@ -9,6 +9,8 @@ pub mod aerialview;
     )
 )]
 pub mod mapsplatformdatasets;
+#[cfg(any(feature = "google-maps-mobilitybilling-logs-v1"))]
+pub mod mobilitybilling;
 #[cfg(any(feature = "google-maps-places-v1"))]
 pub mod places;
 #[cfg(
