@@ -35,8 +35,7 @@ fn main() -> anyhow::Result<()> {
         temp_dir: PathBuf::from("xtask/temp"),
     };
 
-    let mut args = env::args().skip(1);
-    while let Some(target) = args.next() {
+    for target in env::args().skip(1) {
         match target.as_str() {
             "all" => {
                 clean(&opt)?;
@@ -68,7 +67,7 @@ fn generate(opt: &Opt) -> anyhow::Result<()> {
     Manifest::read(opt.manifest_path())?.overwrite_features(protos.feature_names()?).write()?;
 
     let mut config = prost_build::Config::new();
-    config.btree_map(&["."]).bytes(&["."]).protoc_arg("--experimental_allow_proto3_optional");
+    config.btree_map(["."]).bytes(["."]).protoc_arg("--experimental_allow_proto3_optional");
     tonic_build::configure().build_server(false).out_dir(&opt.temp_dir).compile_with_config(
         config,
         &protos.proto_paths(),

@@ -7,7 +7,7 @@ pub fn cleanup(path: impl AsRef<Path>, exclude: &'static [&'static str]) -> anyh
 
     for entry in fs::read_dir(path)? {
         let path = entry?.path();
-        match path.components().rev().next().and_then(|c| c.as_os_str().to_str()) {
+        match path.components().next_back().and_then(|c| c.as_os_str().to_str()) {
             Some(path) if exclude.contains(&path) => {}
             _ => {
                 if path.metadata()?.file_type().is_dir() {
