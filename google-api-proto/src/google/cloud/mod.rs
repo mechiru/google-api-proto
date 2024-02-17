@@ -119,6 +119,8 @@ pub mod binaryauthorization;
 pub mod certificatemanager;
 #[cfg(any(feature = "google-cloud-channel-v1"))]
 pub mod channel;
+#[cfg(any(feature = "google-cloud-cloudcontrolspartner-v1beta"))]
+pub mod cloudcontrolspartner;
 #[cfg(
     any(
         feature = "google-cloud-clouddms-logging-v1",
@@ -238,6 +240,8 @@ pub mod documentai;
 pub mod domains;
 #[cfg(any(feature = "google-cloud-edgecontainer-v1"))]
 pub mod edgecontainer;
+#[cfg(any(feature = "google-cloud-edgenetwork-v1"))]
+pub mod edgenetwork;
 #[cfg(any(feature = "google-cloud-enterpriseknowledgegraph-v1"))]
 pub mod enterpriseknowledgegraph;
 #[cfg(any(feature = "google-cloud-essentialcontacts-v1"))]
@@ -448,6 +452,8 @@ pub mod osconfig;
     )
 )]
 pub mod oslogin;
+#[cfg(any(feature = "google-cloud-parallelstore-v1beta"))]
+pub mod parallelstore;
 #[cfg(
     any(
         feature = "google-cloud-paymentgateway-issuerswitch-accountmanager-v1",
@@ -559,6 +565,10 @@ pub mod security;
     )
 )]
 pub mod securitycenter;
+#[cfg(any(feature = "google-cloud-securitycentermanagement-v1"))]
+pub mod securitycentermanagement;
+#[cfg(any(feature = "google-cloud-securityposture-v1"))]
+pub mod securityposture;
 #[cfg(any(feature = "google-cloud-sensitiveaction-logging-v1"))]
 pub mod sensitiveaction;
 #[cfg(
@@ -568,7 +578,12 @@ pub mod sensitiveaction;
     )
 )]
 pub mod servicedirectory;
-#[cfg(any(feature = "google-cloud-servicehealth-logging-v1"))]
+#[cfg(
+    any(
+        feature = "google-cloud-servicehealth-logging-v1",
+        feature = "google-cloud-servicehealth-v1",
+    )
+)]
 pub mod servicehealth;
 #[cfg(any(feature = "google-cloud-shell-v1"))]
 pub mod shell;
@@ -598,7 +613,12 @@ pub mod talent;
     )
 )]
 pub mod tasks;
-#[cfg(any(feature = "google-cloud-telcoautomation-v1alpha1"))]
+#[cfg(
+    any(
+        feature = "google-cloud-telcoautomation-v1",
+        feature = "google-cloud-telcoautomation-v1alpha1",
+    )
+)]
 pub mod telcoautomation;
 #[cfg(
     any(

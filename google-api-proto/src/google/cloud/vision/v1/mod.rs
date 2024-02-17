@@ -1,3 +1,96 @@
+/// Relevant information for the image from the Internet.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WebDetection {
+    /// Deduced entities from similar images on the Internet.
+    #[prost(message, repeated, tag = "1")]
+    pub web_entities: ::prost::alloc::vec::Vec<web_detection::WebEntity>,
+    /// Fully matching images from the Internet.
+    /// Can include resized copies of the query image.
+    #[prost(message, repeated, tag = "2")]
+    pub full_matching_images: ::prost::alloc::vec::Vec<web_detection::WebImage>,
+    /// Partial matching images from the Internet.
+    /// Those images are similar enough to share some key-point features. For
+    /// example an original image will likely have partial matching for its crops.
+    #[prost(message, repeated, tag = "3")]
+    pub partial_matching_images: ::prost::alloc::vec::Vec<web_detection::WebImage>,
+    /// Web pages containing the matching images from the Internet.
+    #[prost(message, repeated, tag = "4")]
+    pub pages_with_matching_images: ::prost::alloc::vec::Vec<web_detection::WebPage>,
+    /// The visually similar image results.
+    #[prost(message, repeated, tag = "6")]
+    pub visually_similar_images: ::prost::alloc::vec::Vec<web_detection::WebImage>,
+    /// The service's best guess as to the topic of the request image.
+    /// Inferred from similar images on the open web.
+    #[prost(message, repeated, tag = "8")]
+    pub best_guess_labels: ::prost::alloc::vec::Vec<web_detection::WebLabel>,
+}
+/// Nested message and enum types in `WebDetection`.
+pub mod web_detection {
+    /// Entity deduced from similar images on the Internet.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WebEntity {
+        /// Opaque entity ID.
+        #[prost(string, tag = "1")]
+        pub entity_id: ::prost::alloc::string::String,
+        /// Overall relevancy score for the entity.
+        /// Not normalized and not comparable across different image queries.
+        #[prost(float, tag = "2")]
+        pub score: f32,
+        /// Canonical description of the entity, in English.
+        #[prost(string, tag = "3")]
+        pub description: ::prost::alloc::string::String,
+    }
+    /// Metadata for online images.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WebImage {
+        /// The result image URL.
+        #[prost(string, tag = "1")]
+        pub url: ::prost::alloc::string::String,
+        /// (Deprecated) Overall relevancy score for the image.
+        #[prost(float, tag = "2")]
+        pub score: f32,
+    }
+    /// Metadata for web pages.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WebPage {
+        /// The result web page URL.
+        #[prost(string, tag = "1")]
+        pub url: ::prost::alloc::string::String,
+        /// (Deprecated) Overall relevancy score for the web page.
+        #[prost(float, tag = "2")]
+        pub score: f32,
+        /// Title for the web page, may contain HTML markups.
+        #[prost(string, tag = "3")]
+        pub page_title: ::prost::alloc::string::String,
+        /// Fully matching images on the page.
+        /// Can include resized copies of the query image.
+        #[prost(message, repeated, tag = "4")]
+        pub full_matching_images: ::prost::alloc::vec::Vec<WebImage>,
+        /// Partial matching images on the page.
+        /// Those images are similar enough to share some key-point features. For
+        /// example an original image will likely have partial matching for its
+        /// crops.
+        #[prost(message, repeated, tag = "5")]
+        pub partial_matching_images: ::prost::alloc::vec::Vec<WebImage>,
+    }
+    /// Label to provide extra metadata for the web detection.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WebLabel {
+        /// Label for extra metadata.
+        #[prost(string, tag = "1")]
+        pub label: ::prost::alloc::string::String,
+        /// The BCP-47 language code for `label`, such as "en-US" or "sr-Latn".
+        /// For more information, see
+        /// <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.>
+        #[prost(string, tag = "2")]
+        pub language_code: ::prost::alloc::string::String,
+    }
+}
 /// A vertex represents a 2D point in the image.
 /// NOTE: the vertex coordinates are in the same scale as the original image.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -70,10 +163,11 @@ pub struct Product {
     /// characters long.
     #[prost(string, tag = "3")]
     pub description: ::prost::alloc::string::String,
-    /// Immutable. The category for the product identified by the reference image. This should
-    /// be one of "homegoods-v2", "apparel-v2", "toys-v2", "packagedgoods-v1" or
-    /// "general-v1". The legacy categories "homegoods", "apparel", and "toys" are
-    /// still supported, but these should not be used for new products.
+    /// Immutable. The category for the product identified by the reference image.
+    /// This should be one of "homegoods-v2", "apparel-v2", "toys-v2",
+    /// "packagedgoods-v1" or "general-v1". The legacy categories "homegoods",
+    /// "apparel", and "toys" are still supported, but these should not be used for
+    /// new products.
     #[prost(string, tag = "4")]
     pub product_category: ::prost::alloc::string::String,
     /// Key-value pairs that can be attached to a product. At query time,
@@ -159,8 +253,8 @@ pub struct ReferenceImage {
     /// The URI must start with `gs://`.
     #[prost(string, tag = "2")]
     pub uri: ::prost::alloc::string::String,
-    /// Optional. Bounding polygons around the areas of interest in the reference image.
-    /// If this field is empty, the system will try to detect regions of
+    /// Optional. Bounding polygons around the areas of interest in the reference
+    /// image. If this field is empty, the system will try to detect regions of
     /// interest. At most 10 bounding polygons will be used.
     ///
     /// The provided shape is converted into a non-rotated rectangle. Once
@@ -344,7 +438,8 @@ pub struct DeleteProductSetRequest {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateReferenceImageRequest {
-    /// Required. Resource name of the product in which to create the reference image.
+    /// Required. Resource name of the product in which to create the reference
+    /// image.
     ///
     /// Format is
     /// `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`.
@@ -444,7 +539,8 @@ pub struct RemoveProductFromProductSetRequest {
     /// `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// Required. The resource name for the Product to be removed from this ProductSet.
+    /// Required. The resource name for the Product to be removed from this
+    /// ProductSet.
     ///
     /// Format is:
     /// `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`
@@ -510,15 +606,17 @@ pub struct ImportProductSetsGcsSource {
     /// `product-display-name` column refers to
     /// [display_name][google.cloud.vision.v1.Product.display_name], the
     /// `product-category` column refers to
-    /// [product_category][google.cloud.vision.v1.Product.product_category], and the
-    /// `labels` column refers to [product_labels][google.cloud.vision.v1.Product.product_labels].
+    /// [product_category][google.cloud.vision.v1.Product.product_category], and
+    /// the `labels` column refers to
+    /// [product_labels][google.cloud.vision.v1.Product.product_labels].
     ///
     /// The `image-id` column is optional but must be unique if provided. If it is
     /// empty, the system will automatically assign a unique id to the image.
     ///
     /// The `product-display-name` column is optional. If it is empty, the system
-    /// sets the [display_name][google.cloud.vision.v1.Product.display_name] field for the product to a
-    /// space (" "). You can update the `display_name` later by using the API.
+    /// sets the [display_name][google.cloud.vision.v1.Product.display_name] field
+    /// for the product to a space (" "). You can update the `display_name` later
+    /// by using the API.
     ///
     /// If a `Product` with the specified `product-id` already exists, then the
     /// system ignores the `product-display-name`, `product-category`, and `labels`
@@ -585,8 +683,10 @@ pub struct ImportProductSetsRequest {
 /// Response message for the `ImportProductSets` method.
 ///
 /// This message is returned by the
-/// [google.longrunning.Operations.GetOperation][google.longrunning.Operations.GetOperation] method in the returned
-/// [google.longrunning.Operation.response][google.longrunning.Operation.response] field.
+/// [google.longrunning.Operations.GetOperation][google.longrunning.Operations.GetOperation]
+/// method in the returned
+/// [google.longrunning.Operation.response][google.longrunning.Operation.response]
+/// field.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ImportProductSetsResponse {
@@ -616,7 +716,8 @@ pub struct BatchOperationMetadata {
     #[prost(message, optional, tag = "2")]
     pub submit_time: ::core::option::Option<::prost_types::Timestamp>,
     /// The time when the batch request is finished and
-    /// [google.longrunning.Operation.done][google.longrunning.Operation.done] is set to true.
+    /// [google.longrunning.Operation.done][google.longrunning.Operation.done] is
+    /// set to true.
     #[prost(message, optional, tag = "3")]
     pub end_time: ::core::option::Option<::prost_types::Timestamp>,
 }
@@ -727,16 +828,18 @@ pub mod product_search_client {
     /// Manages Products and ProductSets of reference images for use in product
     /// search. It uses the following resource model:
     ///
-    /// - The API has a collection of [ProductSet][google.cloud.vision.v1.ProductSet] resources, named
-    /// `projects/*/locations/*/productSets/*`, which acts as a way to put different
-    /// products into groups to limit identification.
+    /// - The API has a collection of [ProductSet][google.cloud.vision.v1.ProductSet]
+    /// resources, named `projects/*/locations/*/productSets/*`, which acts as a way
+    /// to put different products into groups to limit identification.
     ///
     /// In parallel,
     ///
-    /// - The API has a collection of [Product][google.cloud.vision.v1.Product] resources, named
+    /// - The API has a collection of [Product][google.cloud.vision.v1.Product]
+    /// resources, named
     ///   `projects/*/locations/*/products/*`
     ///
-    /// - Each [Product][google.cloud.vision.v1.Product] has a collection of [ReferenceImage][google.cloud.vision.v1.ReferenceImage] resources, named
+    /// - Each [Product][google.cloud.vision.v1.Product] has a collection of
+    /// [ReferenceImage][google.cloud.vision.v1.ReferenceImage] resources, named
     ///   `projects/*/locations/*/products/*/referenceImages/*`
     #[derive(Debug, Clone)]
     pub struct ProductSearchClient<T> {
@@ -1399,8 +1502,8 @@ pub mod product_search_client {
         /// Asynchronous API that imports a list of reference images to specified
         /// product sets based on a list of image information.
         ///
-        /// The [google.longrunning.Operation][google.longrunning.Operation] API can be used to keep track of the
-        /// progress and results of the request.
+        /// The [google.longrunning.Operation][google.longrunning.Operation] API can be
+        /// used to keep track of the progress and results of the request.
         /// `Operation.metadata` contains `BatchOperationMetadata`. (progress)
         /// `Operation.response` contains `ImportProductSetsResponse`. (results)
         ///
@@ -1458,8 +1561,8 @@ pub mod product_search_client {
         /// ProductSet, you must wait until the PurgeProducts operation has finished
         /// for that ProductSet.
         ///
-        /// The [google.longrunning.Operation][google.longrunning.Operation] API can be used to keep track of the
-        /// progress and results of the request.
+        /// The [google.longrunning.Operation][google.longrunning.Operation] API can be
+        /// used to keep track of the progress and results of the request.
         /// `Operation.metadata` contains `BatchOperationMetadata`. (progress)
         pub async fn purge_products(
             &mut self,
@@ -1493,97 +1596,113 @@ pub mod product_search_client {
         }
     }
 }
-/// Relevant information for the image from the Internet.
+/// Parameters for a product search request.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WebDetection {
-    /// Deduced entities from similar images on the Internet.
-    #[prost(message, repeated, tag = "1")]
-    pub web_entities: ::prost::alloc::vec::Vec<web_detection::WebEntity>,
-    /// Fully matching images from the Internet.
-    /// Can include resized copies of the query image.
-    #[prost(message, repeated, tag = "2")]
-    pub full_matching_images: ::prost::alloc::vec::Vec<web_detection::WebImage>,
-    /// Partial matching images from the Internet.
-    /// Those images are similar enough to share some key-point features. For
-    /// example an original image will likely have partial matching for its crops.
-    #[prost(message, repeated, tag = "3")]
-    pub partial_matching_images: ::prost::alloc::vec::Vec<web_detection::WebImage>,
-    /// Web pages containing the matching images from the Internet.
-    #[prost(message, repeated, tag = "4")]
-    pub pages_with_matching_images: ::prost::alloc::vec::Vec<web_detection::WebPage>,
-    /// The visually similar image results.
-    #[prost(message, repeated, tag = "6")]
-    pub visually_similar_images: ::prost::alloc::vec::Vec<web_detection::WebImage>,
-    /// The service's best guess as to the topic of the request image.
-    /// Inferred from similar images on the open web.
-    #[prost(message, repeated, tag = "8")]
-    pub best_guess_labels: ::prost::alloc::vec::Vec<web_detection::WebLabel>,
+pub struct ProductSearchParams {
+    /// The bounding polygon around the area of interest in the image.
+    /// If it is not specified, system discretion will be applied.
+    #[prost(message, optional, tag = "9")]
+    pub bounding_poly: ::core::option::Option<BoundingPoly>,
+    /// The resource name of a [ProductSet][google.cloud.vision.v1.ProductSet] to
+    /// be searched for similar images.
+    ///
+    /// Format is:
+    /// `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`.
+    #[prost(string, tag = "6")]
+    pub product_set: ::prost::alloc::string::String,
+    /// The list of product categories to search in. Currently, we only consider
+    /// the first category, and either "homegoods-v2", "apparel-v2", "toys-v2",
+    /// "packagedgoods-v1", or "general-v1" should be specified. The legacy
+    /// categories "homegoods", "apparel", and "toys" are still supported but will
+    /// be deprecated. For new products, please use "homegoods-v2", "apparel-v2",
+    /// or "toys-v2" for better product search accuracy. It is recommended to
+    /// migrate existing products to these categories as well.
+    #[prost(string, repeated, tag = "7")]
+    pub product_categories: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The filtering expression. This can be used to restrict search results based
+    /// on Product labels. We currently support an AND of OR of key-value
+    /// expressions, where each expression within an OR must have the same key. An
+    /// '=' should be used to connect the key and value.
+    ///
+    /// For example, "(color = red OR color = blue) AND brand = Google" is
+    /// acceptable, but "(color = red OR brand = Google)" is not acceptable.
+    /// "color: red" is not acceptable because it uses a ':' instead of an '='.
+    #[prost(string, tag = "8")]
+    pub filter: ::prost::alloc::string::String,
 }
-/// Nested message and enum types in `WebDetection`.
-pub mod web_detection {
-    /// Entity deduced from similar images on the Internet.
+/// Results for a product search request.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProductSearchResults {
+    /// Timestamp of the index which provided these results. Products added to the
+    /// product set and products removed from the product set after this time are
+    /// not reflected in the current results.
+    #[prost(message, optional, tag = "2")]
+    pub index_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// List of results, one for each product match.
+    #[prost(message, repeated, tag = "5")]
+    pub results: ::prost::alloc::vec::Vec<product_search_results::Result>,
+    /// List of results grouped by products detected in the query image. Each entry
+    /// corresponds to one bounding polygon in the query image, and contains the
+    /// matching products specific to that region. There may be duplicate product
+    /// matches in the union of all the per-product results.
+    #[prost(message, repeated, tag = "6")]
+    pub product_grouped_results: ::prost::alloc::vec::Vec<
+        product_search_results::GroupedResult,
+    >,
+}
+/// Nested message and enum types in `ProductSearchResults`.
+pub mod product_search_results {
+    /// Information about a product.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WebEntity {
-        /// Opaque entity ID.
-        #[prost(string, tag = "1")]
-        pub entity_id: ::prost::alloc::string::String,
-        /// Overall relevancy score for the entity.
-        /// Not normalized and not comparable across different image queries.
+    pub struct Result {
+        /// The Product.
+        #[prost(message, optional, tag = "1")]
+        pub product: ::core::option::Option<super::Product>,
+        /// A confidence level on the match, ranging from 0 (no confidence) to
+        /// 1 (full confidence).
         #[prost(float, tag = "2")]
         pub score: f32,
-        /// Canonical description of the entity, in English.
+        /// The resource name of the image from the product that is the closest match
+        /// to the query.
         #[prost(string, tag = "3")]
-        pub description: ::prost::alloc::string::String,
+        pub image: ::prost::alloc::string::String,
     }
-    /// Metadata for online images.
+    /// Prediction for what the object in the bounding box is.
     #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WebImage {
-        /// The result image URL.
+    pub struct ObjectAnnotation {
+        /// Object ID that should align with EntityAnnotation mid.
         #[prost(string, tag = "1")]
-        pub url: ::prost::alloc::string::String,
-        /// (Deprecated) Overall relevancy score for the image.
-        #[prost(float, tag = "2")]
-        pub score: f32,
-    }
-    /// Metadata for web pages.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WebPage {
-        /// The result web page URL.
-        #[prost(string, tag = "1")]
-        pub url: ::prost::alloc::string::String,
-        /// (Deprecated) Overall relevancy score for the web page.
-        #[prost(float, tag = "2")]
-        pub score: f32,
-        /// Title for the web page, may contain HTML markups.
-        #[prost(string, tag = "3")]
-        pub page_title: ::prost::alloc::string::String,
-        /// Fully matching images on the page.
-        /// Can include resized copies of the query image.
-        #[prost(message, repeated, tag = "4")]
-        pub full_matching_images: ::prost::alloc::vec::Vec<WebImage>,
-        /// Partial matching images on the page.
-        /// Those images are similar enough to share some key-point features. For
-        /// example an original image will likely have partial matching for its
-        /// crops.
-        #[prost(message, repeated, tag = "5")]
-        pub partial_matching_images: ::prost::alloc::vec::Vec<WebImage>,
-    }
-    /// Label to provide extra metadata for the web detection.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WebLabel {
-        /// Label for extra metadata.
-        #[prost(string, tag = "1")]
-        pub label: ::prost::alloc::string::String,
-        /// The BCP-47 language code for `label`, such as "en-US" or "sr-Latn".
-        /// For more information, see
+        pub mid: ::prost::alloc::string::String,
+        /// The BCP-47 language code, such as "en-US" or "sr-Latn". For more
+        /// information, see
         /// <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.>
         #[prost(string, tag = "2")]
         pub language_code: ::prost::alloc::string::String,
+        /// Object name, expressed in its `language_code` language.
+        #[prost(string, tag = "3")]
+        pub name: ::prost::alloc::string::String,
+        /// Score of the result. Range \[0, 1\].
+        #[prost(float, tag = "4")]
+        pub score: f32,
+    }
+    /// Information about the products similar to a single product in a query
+    /// image.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct GroupedResult {
+        /// The bounding polygon around the product detected in the query image.
+        #[prost(message, optional, tag = "1")]
+        pub bounding_poly: ::core::option::Option<super::BoundingPoly>,
+        /// List of results, one for each product match.
+        #[prost(message, repeated, tag = "2")]
+        pub results: ::prost::alloc::vec::Vec<Result>,
+        /// List of generic predictions for the object in the bounding box.
+        #[prost(message, repeated, tag = "3")]
+        pub object_annotations: ::prost::alloc::vec::Vec<ObjectAnnotation>,
     }
 }
 /// TextAnnotation contains a structured representation of OCR extracted text.
@@ -1591,8 +1710,9 @@ pub mod web_detection {
 ///      TextAnnotation -> Page -> Block -> Paragraph -> Word -> Symbol
 /// Each structural component, starting from Page, may further have their own
 /// properties. Properties describe detected languages, breaks etc.. Please refer
-/// to the [TextAnnotation.TextProperty][google.cloud.vision.v1.TextAnnotation.TextProperty] message definition below for more
-/// detail.
+/// to the
+/// [TextAnnotation.TextProperty][google.cloud.vision.v1.TextAnnotation.TextProperty]
+/// message definition below for more detail.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TextAnnotation {
@@ -1912,114 +2032,6 @@ pub struct Symbol {
     /// Confidence of the OCR results for the symbol. Range \[0, 1\].
     #[prost(float, tag = "4")]
     pub confidence: f32,
-}
-/// Parameters for a product search request.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProductSearchParams {
-    /// The bounding polygon around the area of interest in the image.
-    /// If it is not specified, system discretion will be applied.
-    #[prost(message, optional, tag = "9")]
-    pub bounding_poly: ::core::option::Option<BoundingPoly>,
-    /// The resource name of a [ProductSet][google.cloud.vision.v1.ProductSet] to be searched for similar images.
-    ///
-    /// Format is:
-    /// `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`.
-    #[prost(string, tag = "6")]
-    pub product_set: ::prost::alloc::string::String,
-    /// The list of product categories to search in. Currently, we only consider
-    /// the first category, and either "homegoods-v2", "apparel-v2", "toys-v2",
-    /// "packagedgoods-v1", or "general-v1" should be specified. The legacy
-    /// categories "homegoods", "apparel", and "toys" are still supported but will
-    /// be deprecated. For new products, please use "homegoods-v2", "apparel-v2",
-    /// or "toys-v2" for better product search accuracy. It is recommended to
-    /// migrate existing products to these categories as well.
-    #[prost(string, repeated, tag = "7")]
-    pub product_categories: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The filtering expression. This can be used to restrict search results based
-    /// on Product labels. We currently support an AND of OR of key-value
-    /// expressions, where each expression within an OR must have the same key. An
-    /// '=' should be used to connect the key and value.
-    ///
-    /// For example, "(color = red OR color = blue) AND brand = Google" is
-    /// acceptable, but "(color = red OR brand = Google)" is not acceptable.
-    /// "color: red" is not acceptable because it uses a ':' instead of an '='.
-    #[prost(string, tag = "8")]
-    pub filter: ::prost::alloc::string::String,
-}
-/// Results for a product search request.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProductSearchResults {
-    /// Timestamp of the index which provided these results. Products added to the
-    /// product set and products removed from the product set after this time are
-    /// not reflected in the current results.
-    #[prost(message, optional, tag = "2")]
-    pub index_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// List of results, one for each product match.
-    #[prost(message, repeated, tag = "5")]
-    pub results: ::prost::alloc::vec::Vec<product_search_results::Result>,
-    /// List of results grouped by products detected in the query image. Each entry
-    /// corresponds to one bounding polygon in the query image, and contains the
-    /// matching products specific to that region. There may be duplicate product
-    /// matches in the union of all the per-product results.
-    #[prost(message, repeated, tag = "6")]
-    pub product_grouped_results: ::prost::alloc::vec::Vec<
-        product_search_results::GroupedResult,
-    >,
-}
-/// Nested message and enum types in `ProductSearchResults`.
-pub mod product_search_results {
-    /// Information about a product.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Result {
-        /// The Product.
-        #[prost(message, optional, tag = "1")]
-        pub product: ::core::option::Option<super::Product>,
-        /// A confidence level on the match, ranging from 0 (no confidence) to
-        /// 1 (full confidence).
-        #[prost(float, tag = "2")]
-        pub score: f32,
-        /// The resource name of the image from the product that is the closest match
-        /// to the query.
-        #[prost(string, tag = "3")]
-        pub image: ::prost::alloc::string::String,
-    }
-    /// Prediction for what the object in the bounding box is.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ObjectAnnotation {
-        /// Object ID that should align with EntityAnnotation mid.
-        #[prost(string, tag = "1")]
-        pub mid: ::prost::alloc::string::String,
-        /// The BCP-47 language code, such as "en-US" or "sr-Latn". For more
-        /// information, see
-        /// <http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.>
-        #[prost(string, tag = "2")]
-        pub language_code: ::prost::alloc::string::String,
-        /// Object name, expressed in its `language_code` language.
-        #[prost(string, tag = "3")]
-        pub name: ::prost::alloc::string::String,
-        /// Score of the result. Range \[0, 1\].
-        #[prost(float, tag = "4")]
-        pub score: f32,
-    }
-    /// Information about the products similar to a single product in a query
-    /// image.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct GroupedResult {
-        /// The bounding polygon around the product detected in the query image.
-        #[prost(message, optional, tag = "1")]
-        pub bounding_poly: ::core::option::Option<super::BoundingPoly>,
-        /// List of results, one for each product match.
-        #[prost(message, repeated, tag = "2")]
-        pub results: ::prost::alloc::vec::Vec<Result>,
-        /// List of generic predictions for the object in the bounding box.
-        #[prost(message, repeated, tag = "3")]
-        pub object_annotations: ::prost::alloc::vec::Vec<ObjectAnnotation>,
-    }
 }
 /// The type of Google Cloud Vision API detection to perform, and the maximum
 /// number of results to return for that type. Multiple `Feature` objects can
@@ -2562,7 +2574,9 @@ pub struct SafeSearchAnnotation {
     /// Likelihood that this is a medical image.
     #[prost(enumeration = "Likelihood", tag = "3")]
     pub medical: i32,
-    /// Likelihood that this image contains violent content.
+    /// Likelihood that this image contains violent content. Violent content may
+    /// include death, serious harm, or injury to individuals or groups of
+    /// individuals.
     #[prost(enumeration = "Likelihood", tag = "4")]
     pub violence: i32,
     /// Likelihood that the request image contains racy content. Racy content may
@@ -2656,7 +2670,8 @@ pub struct CropHintsParams {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct WebDetectionParams {
-    /// Whether to include results derived from the geo information in the image.
+    /// This field has no effect on results.
+    #[deprecated]
     #[prost(bool, tag = "2")]
     pub include_geo_results: bool,
 }
@@ -2670,7 +2685,13 @@ pub struct TextDetectionParams {
     /// score for TEXT_DETECTION as well.
     #[prost(bool, tag = "9")]
     pub enable_text_detection_confidence_score: bool,
-    /// A list of advanced OCR options to fine-tune OCR behavior.
+    /// A list of advanced OCR options to further fine-tune OCR behavior.
+    /// Current valid values are:
+    ///
+    /// - `legacy_layout`: a heuristics layout detection algorithm, which serves as
+    /// an alternative to the current ML-based layout detection algorithm.
+    /// Customers can choose the best suitable layout algorithm based on their
+    /// situation.
     #[prost(string, repeated, tag = "11")]
     pub advanced_ocr_options: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
@@ -2809,6 +2830,17 @@ pub struct BatchAnnotateImagesRequest {
     /// Example: `projects/project-A/locations/eu`.
     #[prost(string, tag = "4")]
     pub parent: ::prost::alloc::string::String,
+    /// Optional. The labels with user-defined metadata for the request.
+    ///
+    /// Label keys and values can be no longer than 63 characters
+    /// (Unicode codepoints), can only contain lowercase letters, numeric
+    /// characters, underscores and dashes. International characters are allowed.
+    /// Label values are optional. Label keys must start with a letter.
+    #[prost(btree_map = "string, string", tag = "5")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
 }
 /// Response to a batch image annotation request.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -2872,8 +2904,8 @@ pub struct AnnotateFileResponse {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BatchAnnotateFilesRequest {
-    /// Required. The list of file annotation requests. Right now we support only one
-    /// AnnotateFileRequest in BatchAnnotateFilesRequest.
+    /// Required. The list of file annotation requests. Right now we support only
+    /// one AnnotateFileRequest in BatchAnnotateFilesRequest.
     #[prost(message, repeated, tag = "1")]
     pub requests: ::prost::alloc::vec::Vec<AnnotateFileRequest>,
     /// Optional. Target project and location to make a call.
@@ -2890,6 +2922,17 @@ pub struct BatchAnnotateFilesRequest {
     /// Example: `projects/project-A/locations/eu`.
     #[prost(string, tag = "3")]
     pub parent: ::prost::alloc::string::String,
+    /// Optional. The labels with user-defined metadata for the request.
+    ///
+    /// Label keys and values can be no longer than 63 characters
+    /// (Unicode codepoints), can only contain lowercase letters, numeric
+    /// characters, underscores and dashes. International characters are allowed.
+    /// Label values are optional. Label keys must start with a letter.
+    #[prost(btree_map = "string, string", tag = "5")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
 }
 /// A list of file annotation responses.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -2949,6 +2992,17 @@ pub struct AsyncBatchAnnotateImagesRequest {
     /// Example: `projects/project-A/locations/eu`.
     #[prost(string, tag = "4")]
     pub parent: ::prost::alloc::string::String,
+    /// Optional. The labels with user-defined metadata for the request.
+    ///
+    /// Label keys and values can be no longer than 63 characters
+    /// (Unicode codepoints), can only contain lowercase letters, numeric
+    /// characters, underscores and dashes. International characters are allowed.
+    /// Label values are optional. Label keys must start with a letter.
+    #[prost(btree_map = "string, string", tag = "5")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
 }
 /// Response to an async batch image annotation request.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -2980,6 +3034,17 @@ pub struct AsyncBatchAnnotateFilesRequest {
     /// Example: `projects/project-A/locations/eu`.
     #[prost(string, tag = "4")]
     pub parent: ::prost::alloc::string::String,
+    /// Optional. The labels with user-defined metadata for the request.
+    ///
+    /// Label keys and values can be no longer than 63 characters
+    /// (Unicode codepoints), can only contain lowercase letters, numeric
+    /// characters, underscores and dashes. International characters are allowed.
+    /// Label values are optional. Label keys must start with a letter.
+    #[prost(btree_map = "string, string", tag = "5")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
 }
 /// Response to an async batch file annotation request.
 #[allow(clippy::derive_partial_eq_without_eq)]

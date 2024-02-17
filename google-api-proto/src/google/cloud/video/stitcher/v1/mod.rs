@@ -1,39 +1,369 @@
-/// Detailed information related to the interstitial of a VOD session. This
-/// resource is only available for VOD sessions that do not implement Google Ad
-/// Manager ad insertion.
+/// Container for a live session's ad tag detail.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VodStitchDetail {
-    /// The name of the stitch detail in the specified VOD session, in the form of
-    /// `projects/{project}/locations/{location}/vodSessions/{vod_session_id}/vodStitchDetails/{id}`.
+pub struct LiveAdTagDetail {
+    /// The resource name in the form of
+    /// `projects/{project}/locations/{location}/liveSessions/{live_session}/liveAdTagDetails/{id}`.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// A list of ad processing details for the fetched ad playlist.
-    #[prost(message, repeated, tag = "3")]
-    pub ad_stitch_details: ::prost::alloc::vec::Vec<AdStitchDetail>,
+    /// A list of ad requests.
+    #[prost(message, repeated, tag = "2")]
+    pub ad_requests: ::prost::alloc::vec::Vec<AdRequest>,
 }
-/// Metadata for a stitched ad.
+/// Information related to the details for one ad tag. This resource is only
+/// available for VOD sessions that do not implement Google Ad Manager ad
+/// insertion.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AdStitchDetail {
-    /// Required. The ad break ID of the processed ad.
+pub struct VodAdTagDetail {
+    /// The name of the ad tag detail for the specified VOD session, in the form of
+    /// `projects/{project}/locations/{location}/vodSessions/{vod_session_id}/vodAdTagDetails/{id}`.
     #[prost(string, tag = "1")]
-    pub ad_break_id: ::prost::alloc::string::String,
-    /// Required. The ad ID of the processed ad.
-    #[prost(string, tag = "2")]
-    pub ad_id: ::prost::alloc::string::String,
-    /// Required. The time offset of the processed ad.
+    pub name: ::prost::alloc::string::String,
+    /// A list of ad requests for one ad tag.
+    #[prost(message, repeated, tag = "2")]
+    pub ad_requests: ::prost::alloc::vec::Vec<AdRequest>,
+}
+/// Details of an ad request to an ad server.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AdRequest {
+    /// The ad tag URI processed with integrated macros.
+    #[prost(string, tag = "1")]
+    pub uri: ::prost::alloc::string::String,
+    /// The request metadata used to make the ad request.
+    #[prost(message, optional, tag = "2")]
+    pub request_metadata: ::core::option::Option<RequestMetadata>,
+    /// The response metadata received from the ad request.
     #[prost(message, optional, tag = "3")]
-    pub ad_time_offset: ::core::option::Option<::prost_types::Duration>,
-    /// Optional. Indicates the reason why the ad has been skipped.
+    pub response_metadata: ::core::option::Option<ResponseMetadata>,
+}
+/// Metadata for an ad request.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RequestMetadata {
+    /// The HTTP headers of the ad request.
+    #[prost(message, optional, tag = "1")]
+    pub headers: ::core::option::Option<::prost_types::Struct>,
+}
+/// Metadata for the response of an ad request.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResponseMetadata {
+    /// Error message received when making the ad request.
+    #[prost(string, tag = "1")]
+    pub error: ::prost::alloc::string::String,
+    /// Headers from the response.
+    #[prost(message, optional, tag = "2")]
+    pub headers: ::core::option::Option<::prost_types::Struct>,
+    /// Status code for the response.
+    #[prost(string, tag = "3")]
+    pub status_code: ::prost::alloc::string::String,
+    /// Size in bytes of the response.
+    #[prost(int32, tag = "4")]
+    pub size_bytes: i32,
+    /// Total time elapsed for the response.
+    #[prost(message, optional, tag = "5")]
+    pub duration: ::core::option::Option<::prost_types::Duration>,
+    /// The body of the response.
+    #[prost(string, tag = "6")]
+    pub body: ::prost::alloc::string::String,
+}
+/// Metadata for used to register live configs.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LiveConfig {
+    /// Output only. The resource name of the live config, in the form of
+    /// `projects/{project}/locations/{location}/liveConfigs/{id}`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. Source URI for the live stream manifest.
+    #[prost(string, tag = "2")]
+    pub source_uri: ::prost::alloc::string::String,
+    /// The default ad tag associated with this live stream config.
+    #[prost(string, tag = "3")]
+    pub ad_tag_uri: ::prost::alloc::string::String,
+    /// Additional metadata used to register a live stream with Google Ad Manager
+    /// (GAM)
+    #[prost(message, optional, tag = "4")]
+    pub gam_live_config: ::core::option::Option<GamLiveConfig>,
+    /// Output only. State of the live config.
+    #[prost(enumeration = "live_config::State", tag = "5")]
+    pub state: i32,
+    /// Required. Determines how the ads are tracked. If
+    /// [gam_live_config][google.cloud.video.stitcher.v1.LiveConfig.gam_live_config]
+    /// is set, the value must be `CLIENT` because the IMA SDK handles ad tracking.
+    #[prost(enumeration = "AdTracking", tag = "6")]
+    pub ad_tracking: i32,
+    /// This must refer to a slate in the same
+    /// project. If Google Ad Manager (GAM) is used for ads, this string sets the
+    /// value of `slateCreativeId` in
+    /// <https://developers.google.com/ad-manager/api/reference/v202211/LiveStreamEventService.LiveStreamEvent#slateCreativeId>
+    #[prost(string, tag = "7")]
+    pub default_slate: ::prost::alloc::string::String,
+    /// Defines the stitcher behavior in case an ad does not align exactly with
+    /// the ad break boundaries. If not specified, the default is `CUT_CURRENT`.
+    #[prost(enumeration = "live_config::StitchingPolicy", tag = "8")]
+    pub stitching_policy: i32,
+    /// The configuration for prefetching ads.
+    #[prost(message, optional, tag = "10")]
+    pub prefetch_config: ::core::option::Option<PrefetchConfig>,
+}
+/// Nested message and enum types in `LiveConfig`.
+pub mod live_config {
+    /// State of the live config.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum State {
+        /// State is not specified.
+        Unspecified = 0,
+        /// Live config is being created.
+        Creating = 1,
+        /// Live config is ready for use.
+        Ready = 2,
+        /// Live config is queued up for deletion.
+        Deleting = 3,
+    }
+    impl State {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                State::Unspecified => "STATE_UNSPECIFIED",
+                State::Creating => "CREATING",
+                State::Ready => "READY",
+                State::Deleting => "DELETING",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "STATE_UNSPECIFIED" => Some(Self::Unspecified),
+                "CREATING" => Some(Self::Creating),
+                "READY" => Some(Self::Ready),
+                "DELETING" => Some(Self::Deleting),
+                _ => None,
+            }
+        }
+    }
+    /// Defines the ad stitching behavior in case the ad duration does not align
+    /// exactly with the ad break boundaries. If not specified, the default is
+    /// `CUT_CURRENT`.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum StitchingPolicy {
+        /// Stitching policy is not specified.
+        Unspecified = 0,
+        /// Cuts an ad short and returns to content in the middle of the ad.
+        CutCurrent = 1,
+        /// Finishes stitching the current ad before returning to content.
+        CompleteAd = 2,
+    }
+    impl StitchingPolicy {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                StitchingPolicy::Unspecified => "STITCHING_POLICY_UNSPECIFIED",
+                StitchingPolicy::CutCurrent => "CUT_CURRENT",
+                StitchingPolicy::CompleteAd => "COMPLETE_AD",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "STITCHING_POLICY_UNSPECIFIED" => Some(Self::Unspecified),
+                "CUT_CURRENT" => Some(Self::CutCurrent),
+                "COMPLETE_AD" => Some(Self::CompleteAd),
+                _ => None,
+            }
+        }
+    }
+}
+/// The configuration for prefetch ads.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PrefetchConfig {
+    /// Required. Indicates whether the option to prefetch ad requests is enabled.
+    #[prost(bool, tag = "1")]
+    pub enabled: bool,
+    /// The duration in seconds of the part of the break to be prefetched.
+    /// This field is only relevant if prefetch is enabled.
+    /// You should set this duration to as long as possible to increase the
+    /// benefits of prefetching, but not longer than the shortest ad break
+    /// expected. For example, for a live event with 30s and 60s ad breaks, the
+    /// initial duration should be set to 30s.
+    #[prost(message, optional, tag = "2")]
+    pub initial_ad_request_duration: ::core::option::Option<::prost_types::Duration>,
+}
+/// Metadata used to register a live stream with Google Ad Manager (GAM)
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GamLiveConfig {
+    /// Required. Ad Manager network code to associate with the live config.
+    #[prost(string, tag = "1")]
+    pub network_code: ::prost::alloc::string::String,
+    /// Output only. The asset key identifier generated for the live config.
+    #[prost(string, tag = "2")]
+    pub asset_key: ::prost::alloc::string::String,
+    /// Output only. The custom asset key identifier generated for the live config.
+    #[prost(string, tag = "3")]
+    pub custom_asset_key: ::prost::alloc::string::String,
+}
+/// Determines the ad tracking policy.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum AdTracking {
+    /// The ad tracking policy is not specified.
+    Unspecified = 0,
+    /// Client-side ad tracking is specified. The client player is expected to
+    /// trigger playback and activity events itself.
+    Client = 1,
+    /// The Video Stitcher API will trigger playback events on behalf of
+    /// the client player.
+    Server = 2,
+}
+impl AdTracking {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            AdTracking::Unspecified => "AD_TRACKING_UNSPECIFIED",
+            AdTracking::Client => "CLIENT",
+            AdTracking::Server => "SERVER",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "AD_TRACKING_UNSPECIFIED" => Some(Self::Unspecified),
+            "CLIENT" => Some(Self::Client),
+            "SERVER" => Some(Self::Server),
+            _ => None,
+        }
+    }
+}
+/// Slate object
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Slate {
+    /// Output only. The name of the slate, in the form of
+    /// `projects/{project_number}/locations/{location}/slates/{id}`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The URI to fetch the source content for the slate. This URI must return an
+    /// MP4 video with at least one audio track.
+    #[prost(string, tag = "2")]
+    pub uri: ::prost::alloc::string::String,
+    /// gam_slate has all the GAM-related attributes of slates.
+    #[prost(message, optional, tag = "3")]
+    pub gam_slate: ::core::option::Option<slate::GamSlate>,
+}
+/// Nested message and enum types in `Slate`.
+pub mod slate {
+    /// GamSlate object has Google Ad Manager (GAM) related properties for the
+    /// slate.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct GamSlate {
+        /// Required. Ad Manager network code to associate with the live config.
+        #[prost(string, tag = "1")]
+        pub network_code: ::prost::alloc::string::String,
+        /// Output only. The identifier generated for the slate by GAM.
+        #[prost(int64, tag = "2")]
+        pub gam_slate_id: i64,
+    }
+}
+/// Configuration for a CDN key. Used by the Video Stitcher
+/// to sign URIs for fetching video manifests and signing
+/// media segments for playback.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CdnKey {
+    /// The resource name of the CDN key, in the form of
+    /// `projects/{project}/locations/{location}/cdnKeys/{id}`.
+    /// The name is ignored when creating a CDN key.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The hostname this key applies to.
     #[prost(string, tag = "4")]
-    pub skip_reason: ::prost::alloc::string::String,
-    /// Optional. The metadata of the chosen media file for the ad.
-    #[prost(btree_map = "string, message", tag = "5")]
-    pub media: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost_types::Value,
-    >,
+    pub hostname: ::prost::alloc::string::String,
+    /// Configuration associated with the CDN key.
+    #[prost(oneof = "cdn_key::CdnKeyConfig", tags = "5, 6, 8")]
+    pub cdn_key_config: ::core::option::Option<cdn_key::CdnKeyConfig>,
+}
+/// Nested message and enum types in `CdnKey`.
+pub mod cdn_key {
+    /// Configuration associated with the CDN key.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum CdnKeyConfig {
+        /// The configuration for a Google Cloud CDN key.
+        #[prost(message, tag = "5")]
+        GoogleCdnKey(super::GoogleCdnKey),
+        /// The configuration for an Akamai CDN key.
+        #[prost(message, tag = "6")]
+        AkamaiCdnKey(super::AkamaiCdnKey),
+        /// The configuration for a Media CDN key.
+        #[prost(message, tag = "8")]
+        MediaCdnKey(super::MediaCdnKey),
+    }
+}
+/// Configuration for a Google Cloud CDN key.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GoogleCdnKey {
+    /// Input only. Secret for this Google Cloud CDN key.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub private_key: ::prost::bytes::Bytes,
+    /// The public name of the Google Cloud CDN key.
+    #[prost(string, tag = "2")]
+    pub key_name: ::prost::alloc::string::String,
+}
+/// Configuration for an Akamai CDN key.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AkamaiCdnKey {
+    /// Input only. Token key for the Akamai CDN edge configuration.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub token_key: ::prost::bytes::Bytes,
+}
+/// Configuration for a Media CDN key.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MediaCdnKey {
+    /// Input only. 64-byte ed25519 private key for this Media CDN key.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub private_key: ::prost::bytes::Bytes,
+    /// The keyset name of the Media CDN key.
+    #[prost(string, tag = "2")]
+    pub key_name: ::prost::alloc::string::String,
 }
 /// Describes an event and a trigger URI.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -344,372 +674,42 @@ pub struct StaticAdResource {
     #[prost(string, tag = "2")]
     pub creative_type: ::prost::alloc::string::String,
 }
-/// Metadata for used to register live configs.
+/// Detailed information related to the interstitial of a VOD session. This
+/// resource is only available for VOD sessions that do not implement Google Ad
+/// Manager ad insertion.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LiveConfig {
-    /// Output only. The resource name of the live config, in the form of
-    /// `projects/{project}/locations/{location}/liveConfigs/{id}`.
+pub struct VodStitchDetail {
+    /// The name of the stitch detail in the specified VOD session, in the form of
+    /// `projects/{project}/locations/{location}/vodSessions/{vod_session_id}/vodStitchDetails/{id}`.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// Required. Source URI for the live stream manifest.
-    #[prost(string, tag = "2")]
-    pub source_uri: ::prost::alloc::string::String,
-    /// The default ad tag associated with this live stream config.
-    #[prost(string, tag = "3")]
-    pub ad_tag_uri: ::prost::alloc::string::String,
-    /// Additional metadata used to register a live stream with Google Ad Manager
-    /// (GAM)
-    #[prost(message, optional, tag = "4")]
-    pub gam_live_config: ::core::option::Option<GamLiveConfig>,
-    /// Output only. State of the live config.
-    #[prost(enumeration = "live_config::State", tag = "5")]
-    pub state: i32,
-    /// Required. Determines how the ads are tracked. If
-    /// [gam_live_config][google.cloud.video.stitcher.v1.LiveConfig.gam_live_config]
-    /// is set, the value must be `CLIENT` because the IMA SDK handles ad tracking.
-    #[prost(enumeration = "AdTracking", tag = "6")]
-    pub ad_tracking: i32,
-    /// This must refer to a slate in the same
-    /// project. If Google Ad Manager (GAM) is used for ads, this string sets the
-    /// value of `slateCreativeId` in
-    /// <https://developers.google.com/ad-manager/api/reference/v202211/LiveStreamEventService.LiveStreamEvent#slateCreativeId>
-    #[prost(string, tag = "7")]
-    pub default_slate: ::prost::alloc::string::String,
-    /// Defines the stitcher behavior in case an ad does not align exactly with
-    /// the ad break boundaries. If not specified, the default is `CUT_CURRENT`.
-    #[prost(enumeration = "live_config::StitchingPolicy", tag = "8")]
-    pub stitching_policy: i32,
-    /// The configuration for prefetching ads.
-    #[prost(message, optional, tag = "10")]
-    pub prefetch_config: ::core::option::Option<PrefetchConfig>,
+    /// A list of ad processing details for the fetched ad playlist.
+    #[prost(message, repeated, tag = "3")]
+    pub ad_stitch_details: ::prost::alloc::vec::Vec<AdStitchDetail>,
 }
-/// Nested message and enum types in `LiveConfig`.
-pub mod live_config {
-    /// State of the live config.
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum State {
-        /// State is not specified.
-        Unspecified = 0,
-        /// Live config is being created.
-        Creating = 1,
-        /// Live config is ready for use.
-        Ready = 2,
-        /// Live config is queued up for deletion.
-        Deleting = 3,
-    }
-    impl State {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                State::Unspecified => "STATE_UNSPECIFIED",
-                State::Creating => "CREATING",
-                State::Ready => "READY",
-                State::Deleting => "DELETING",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "STATE_UNSPECIFIED" => Some(Self::Unspecified),
-                "CREATING" => Some(Self::Creating),
-                "READY" => Some(Self::Ready),
-                "DELETING" => Some(Self::Deleting),
-                _ => None,
-            }
-        }
-    }
-    /// Defines the ad stitching behavior in case the ad duration does not align
-    /// exactly with the ad break boundaries. If not specified, the default is
-    /// `CUT_CURRENT`.
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum StitchingPolicy {
-        /// Stitching policy is not specified.
-        Unspecified = 0,
-        /// Cuts an ad short and returns to content in the middle of the ad.
-        CutCurrent = 1,
-        /// Finishes stitching the current ad before returning to content.
-        CompleteAd = 2,
-    }
-    impl StitchingPolicy {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                StitchingPolicy::Unspecified => "STITCHING_POLICY_UNSPECIFIED",
-                StitchingPolicy::CutCurrent => "CUT_CURRENT",
-                StitchingPolicy::CompleteAd => "COMPLETE_AD",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "STITCHING_POLICY_UNSPECIFIED" => Some(Self::Unspecified),
-                "CUT_CURRENT" => Some(Self::CutCurrent),
-                "COMPLETE_AD" => Some(Self::CompleteAd),
-                _ => None,
-            }
-        }
-    }
-}
-/// The configuration for prefetch ads.
+/// Metadata for a stitched ad.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PrefetchConfig {
-    /// Required. Indicates whether the option to prefetch ad requests is enabled.
-    #[prost(bool, tag = "1")]
-    pub enabled: bool,
-    /// The duration in seconds of the part of the break to be prefetched.
-    /// This field is only relevant if prefetch is enabled.
-    /// You should set this duration to as long as possible to increase the
-    /// benefits of prefetching, but not longer than the shortest ad break
-    /// expected. For example, for a live event with 30s and 60s ad breaks, the
-    /// initial duration should be set to 30s.
-    #[prost(message, optional, tag = "2")]
-    pub initial_ad_request_duration: ::core::option::Option<::prost_types::Duration>,
-}
-/// Metadata used to register a live stream with Google Ad Manager (GAM)
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GamLiveConfig {
-    /// Required. Ad Manager network code to associate with the live config.
+pub struct AdStitchDetail {
+    /// Required. The ad break ID of the processed ad.
     #[prost(string, tag = "1")]
-    pub network_code: ::prost::alloc::string::String,
-    /// Output only. The asset key identifier generated for the live config.
+    pub ad_break_id: ::prost::alloc::string::String,
+    /// Required. The ad ID of the processed ad.
     #[prost(string, tag = "2")]
-    pub asset_key: ::prost::alloc::string::String,
-    /// Output only. The custom asset key identifier generated for the live config.
-    #[prost(string, tag = "3")]
-    pub custom_asset_key: ::prost::alloc::string::String,
-}
-/// Determines the ad tracking policy.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum AdTracking {
-    /// The ad tracking policy is not specified.
-    Unspecified = 0,
-    /// Client-side ad tracking is specified. The client player is expected to
-    /// trigger playback and activity events itself.
-    Client = 1,
-    /// The Video Stitcher API will trigger playback events on behalf of
-    /// the client player.
-    Server = 2,
-}
-impl AdTracking {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            AdTracking::Unspecified => "AD_TRACKING_UNSPECIFIED",
-            AdTracking::Client => "CLIENT",
-            AdTracking::Server => "SERVER",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "AD_TRACKING_UNSPECIFIED" => Some(Self::Unspecified),
-            "CLIENT" => Some(Self::Client),
-            "SERVER" => Some(Self::Server),
-            _ => None,
-        }
-    }
-}
-/// Configuration for a CDN key. Used by the Video Stitcher
-/// to sign URIs for fetching video manifests and signing
-/// media segments for playback.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CdnKey {
-    /// The resource name of the CDN key, in the form of
-    /// `projects/{project}/locations/{location}/cdnKeys/{id}`.
-    /// The name is ignored when creating a CDN key.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The hostname this key applies to.
+    pub ad_id: ::prost::alloc::string::String,
+    /// Required. The time offset of the processed ad.
+    #[prost(message, optional, tag = "3")]
+    pub ad_time_offset: ::core::option::Option<::prost_types::Duration>,
+    /// Optional. Indicates the reason why the ad has been skipped.
     #[prost(string, tag = "4")]
-    pub hostname: ::prost::alloc::string::String,
-    /// Configuration associated with the CDN key.
-    #[prost(oneof = "cdn_key::CdnKeyConfig", tags = "5, 6, 8")]
-    pub cdn_key_config: ::core::option::Option<cdn_key::CdnKeyConfig>,
-}
-/// Nested message and enum types in `CdnKey`.
-pub mod cdn_key {
-    /// Configuration associated with the CDN key.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum CdnKeyConfig {
-        /// The configuration for a Google Cloud CDN key.
-        #[prost(message, tag = "5")]
-        GoogleCdnKey(super::GoogleCdnKey),
-        /// The configuration for an Akamai CDN key.
-        #[prost(message, tag = "6")]
-        AkamaiCdnKey(super::AkamaiCdnKey),
-        /// The configuration for a Media CDN key.
-        #[prost(message, tag = "8")]
-        MediaCdnKey(super::MediaCdnKey),
-    }
-}
-/// Configuration for a Google Cloud CDN key.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GoogleCdnKey {
-    /// Input only. Secret for this Google Cloud CDN key.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub private_key: ::prost::bytes::Bytes,
-    /// The public name of the Google Cloud CDN key.
-    #[prost(string, tag = "2")]
-    pub key_name: ::prost::alloc::string::String,
-}
-/// Configuration for an Akamai CDN key.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AkamaiCdnKey {
-    /// Input only. Token key for the Akamai CDN edge configuration.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub token_key: ::prost::bytes::Bytes,
-}
-/// Configuration for a Media CDN key.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MediaCdnKey {
-    /// Input only. 64-byte ed25519 private key for this Media CDN key.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub private_key: ::prost::bytes::Bytes,
-    /// The keyset name of the Media CDN key.
-    #[prost(string, tag = "2")]
-    pub key_name: ::prost::alloc::string::String,
-}
-/// Container for a live session's ad tag detail.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LiveAdTagDetail {
-    /// The resource name in the form of
-    /// `projects/{project}/locations/{location}/liveSessions/{live_session}/liveAdTagDetails/{id}`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// A list of ad requests.
-    #[prost(message, repeated, tag = "2")]
-    pub ad_requests: ::prost::alloc::vec::Vec<AdRequest>,
-}
-/// Information related to the details for one ad tag. This resource is only
-/// available for VOD sessions that do not implement Google Ad Manager ad
-/// insertion.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VodAdTagDetail {
-    /// The name of the ad tag detail for the specified VOD session, in the form of
-    /// `projects/{project}/locations/{location}/vodSessions/{vod_session_id}/vodAdTagDetails/{id}`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// A list of ad requests for one ad tag.
-    #[prost(message, repeated, tag = "2")]
-    pub ad_requests: ::prost::alloc::vec::Vec<AdRequest>,
-}
-/// Details of an ad request to an ad server.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AdRequest {
-    /// The ad tag URI processed with integrated macros.
-    #[prost(string, tag = "1")]
-    pub uri: ::prost::alloc::string::String,
-    /// The request metadata used to make the ad request.
-    #[prost(message, optional, tag = "2")]
-    pub request_metadata: ::core::option::Option<RequestMetadata>,
-    /// The response metadata received from the ad request.
-    #[prost(message, optional, tag = "3")]
-    pub response_metadata: ::core::option::Option<ResponseMetadata>,
-}
-/// Metadata for an ad request.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RequestMetadata {
-    /// The HTTP headers of the ad request.
-    #[prost(message, optional, tag = "1")]
-    pub headers: ::core::option::Option<::prost_types::Struct>,
-}
-/// Metadata for the response of an ad request.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResponseMetadata {
-    /// Error message received when making the ad request.
-    #[prost(string, tag = "1")]
-    pub error: ::prost::alloc::string::String,
-    /// Headers from the response.
-    #[prost(message, optional, tag = "2")]
-    pub headers: ::core::option::Option<::prost_types::Struct>,
-    /// Status code for the response.
-    #[prost(string, tag = "3")]
-    pub status_code: ::prost::alloc::string::String,
-    /// Size in bytes of the response.
-    #[prost(int32, tag = "4")]
-    pub size_bytes: i32,
-    /// Total time elapsed for the response.
-    #[prost(message, optional, tag = "5")]
-    pub duration: ::core::option::Option<::prost_types::Duration>,
-    /// The body of the response.
-    #[prost(string, tag = "6")]
-    pub body: ::prost::alloc::string::String,
-}
-/// Slate object
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Slate {
-    /// Output only. The name of the slate, in the form of
-    /// `projects/{project_number}/locations/{location}/slates/{id}`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The URI to fetch the source content for the slate. This URI must return an
-    /// MP4 video with at least one audio track.
-    #[prost(string, tag = "2")]
-    pub uri: ::prost::alloc::string::String,
-    /// gam_slate has all the GAM-related attributes of slates.
-    #[prost(message, optional, tag = "3")]
-    pub gam_slate: ::core::option::Option<slate::GamSlate>,
-}
-/// Nested message and enum types in `Slate`.
-pub mod slate {
-    /// GamSlate object has Google Ad Manager (GAM) related properties for the
-    /// slate.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct GamSlate {
-        /// Required. Ad Manager network code to associate with the live config.
-        #[prost(string, tag = "1")]
-        pub network_code: ::prost::alloc::string::String,
-        /// Output only. The identifier generated for the slate by GAM.
-        #[prost(int64, tag = "2")]
-        pub gam_slate_id: i64,
-    }
+    pub skip_reason: ::prost::alloc::string::String,
+    /// Optional. The metadata of the chosen media file for the ad.
+    #[prost(btree_map = "string, message", tag = "5")]
+    pub media: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost_types::Value,
+    >,
 }
 /// Metadata for a VOD session. The session expires 4 hours after its creation.
 #[allow(clippy::derive_partial_eq_without_eq)]

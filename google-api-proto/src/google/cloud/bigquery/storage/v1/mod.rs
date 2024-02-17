@@ -118,6 +118,32 @@ pub struct AvroSerializationOptions {
     #[prost(bool, tag = "1")]
     pub enable_display_name_attribute: bool,
 }
+/// ProtoSchema describes the schema of the serialized protocol buffer data rows.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProtoSchema {
+    /// Descriptor for input message.  The provided descriptor must be self
+    /// contained, such that data rows sent can be fully decoded using only the
+    /// single descriptor.  For data rows that are compositions of multiple
+    /// independent messages, this means the descriptor may need to be transformed
+    /// to only use nested types:
+    /// <https://developers.google.com/protocol-buffers/docs/proto#nested>
+    ///
+    /// For additional information for how proto types and values map onto BigQuery
+    /// see: <https://cloud.google.com/bigquery/docs/write-api#data_type_conversions>
+    #[prost(message, optional, tag = "1")]
+    pub proto_descriptor: ::core::option::Option<::prost_types::DescriptorProto>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProtoRows {
+    /// A sequence of rows serialized as a Protocol Buffer.
+    ///
+    /// See <https://developers.google.com/protocol-buffers/docs/overview> for more
+    /// information on deserializing this field.
+    #[prost(bytes = "bytes", repeated, tag = "1")]
+    pub serialized_rows: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
+}
 /// Schema of a table. This schema is a subset of
 /// google.cloud.bigquery.v2.TableSchema containing information necessary to
 /// generate valid message to write to BigQuery.
@@ -497,6 +523,14 @@ pub mod read_session {
         /// <https://cloud.google.com/bigquery/docs/table-sampling>)
         #[prost(double, optional, tag = "5")]
         pub sample_percentage: ::core::option::Option<f64>,
+        /// Optional. Set response_compression_codec when creating a read session to
+        /// enable application-level compression of ReadRows responses.
+        #[prost(
+            enumeration = "table_read_options::ResponseCompressionCodec",
+            optional,
+            tag = "6"
+        )]
+        pub response_compression_codec: ::core::option::Option<i32>,
         #[prost(
             oneof = "table_read_options::OutputFormatSerializationOptions",
             tags = "3, 4"
@@ -507,6 +541,53 @@ pub mod read_session {
     }
     /// Nested message and enum types in `TableReadOptions`.
     pub mod table_read_options {
+        /// Specifies which compression codec to attempt on the entire serialized
+        /// response payload (either Arrow record batch or Avro rows). This is
+        /// not to be confused with the Apache Arrow native compression codecs
+        /// specified in ArrowSerializationOptions. For performance reasons, when
+        /// creating a read session requesting Arrow responses, setting both native
+        /// Arrow compression and application-level response compression will not be
+        /// allowed - choose, at most, one kind of compression.
+        #[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        pub enum ResponseCompressionCodec {
+            /// Default is no compression.
+            Unspecified = 0,
+            /// Use raw LZ4 compression.
+            Lz4 = 2,
+        }
+        impl ResponseCompressionCodec {
+            /// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            pub fn as_str_name(&self) -> &'static str {
+                match self {
+                    ResponseCompressionCodec::Unspecified => {
+                        "RESPONSE_COMPRESSION_CODEC_UNSPECIFIED"
+                    }
+                    ResponseCompressionCodec::Lz4 => "RESPONSE_COMPRESSION_CODEC_LZ4",
+                }
+            }
+            /// Creates an enum from field names used in the ProtoBuf definition.
+            pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+                match value {
+                    "RESPONSE_COMPRESSION_CODEC_UNSPECIFIED" => Some(Self::Unspecified),
+                    "RESPONSE_COMPRESSION_CODEC_LZ4" => Some(Self::Lz4),
+                    _ => None,
+                }
+            }
+        }
         #[allow(clippy::derive_partial_eq_without_eq)]
         #[derive(Clone, PartialEq, ::prost::Oneof)]
         pub enum OutputFormatSerializationOptions {
@@ -743,32 +824,6 @@ impl WriteStreamView {
         }
     }
 }
-/// ProtoSchema describes the schema of the serialized protocol buffer data rows.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProtoSchema {
-    /// Descriptor for input message.  The provided descriptor must be self
-    /// contained, such that data rows sent can be fully decoded using only the
-    /// single descriptor.  For data rows that are compositions of multiple
-    /// independent messages, this means the descriptor may need to be transformed
-    /// to only use nested types:
-    /// <https://developers.google.com/protocol-buffers/docs/proto#nested>
-    ///
-    /// For additional information for how proto types and values map onto BigQuery
-    /// see: <https://cloud.google.com/bigquery/docs/write-api#data_type_conversions>
-    #[prost(message, optional, tag = "1")]
-    pub proto_descriptor: ::core::option::Option<::prost_types::DescriptorProto>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProtoRows {
-    /// A sequence of rows serialized as a Protocol Buffer.
-    ///
-    /// See <https://developers.google.com/protocol-buffers/docs/overview> for more
-    /// information on deserializing this field.
-    #[prost(bytes = "bytes", repeated, tag = "1")]
-    pub serialized_rows: ::prost::alloc::vec::Vec<::prost::bytes::Bytes>,
-}
 /// Request message for `CreateReadSession`.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -873,6 +928,22 @@ pub struct ReadRowsResponse {
     /// the current throttling status.
     #[prost(message, optional, tag = "5")]
     pub throttle_state: ::core::option::Option<ThrottleState>,
+    /// Optional. If the row data in this ReadRowsResponse is compressed, then
+    /// uncompressed byte size is the original size of the uncompressed row data.
+    /// If it is set to a value greater than 0, then decompress into a buffer of
+    /// size uncompressed_byte_size using the compression codec that was requested
+    /// during session creation time and which is specified in
+    /// TableReadOptions.response_compression_codec in ReadSession.
+    /// This value is not set if no response_compression_codec was not requested
+    /// and it is -1 if the requested compression would not have reduced the size
+    /// of this ReadRowsResponse's row data. This attempts to match Apache Arrow's
+    /// behavior described here <https://github.com/apache/arrow/issues/15102> where
+    /// the uncompressed length may be set to -1 to indicate that the data that
+    /// follows is not compressed, which can be useful for cases where compression
+    /// does not yield appreciable savings. When uncompressed_byte_size is not
+    /// greater than 0, the client should skip decompression.
+    #[prost(int64, optional, tag = "9")]
+    pub uncompressed_byte_size: ::core::option::Option<i64>,
     /// Row data is returned in format specified during session creation.
     #[prost(oneof = "read_rows_response::Rows", tags = "3, 4")]
     pub rows: ::core::option::Option<read_rows_response::Rows>,

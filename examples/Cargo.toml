@@ -9,9 +9,9 @@ tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
 tokio = { version = "1.33.0", features = ["macros", "rt-multi-thread"] }
 google-authz = { version = "1.0.0-alpha.5", features = ["tonic"] }
 # grpc + gcp
-tonic = { version = "0.10.0", features = ["tls", "tls-webpki-roots"] }
-prost = "0.12.1"
-prost-types = "0.12.1"
+tonic = { version = "0.11.0", features = ["tls", "tls-webpki-roots"] }
+prost = "0.12.3"
+prost-types = "0.12.3"
 
 [dependencies.'google-api-proto']
 path = "../google-api-proto"

@@ -1174,6 +1174,19 @@ pub struct EnrollDataSourcesRequest {
     #[prost(string, repeated, tag = "2")]
     pub data_source_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
+/// A request to unenroll a set of data sources so they are no longer visible in
+/// the BigQuery UI's `Transfer` tab.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UnenrollDataSourcesRequest {
+    /// The name of the project resource in the form: `projects/{project_id}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Data sources that are unenrolled. It is required to provide at least one
+    /// data source id.
+    #[prost(string, repeated, tag = "2")]
+    pub data_source_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
 /// Generated client implementations.
 pub mod data_transfer_service_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
@@ -1704,6 +1717,37 @@ pub mod data_transfer_service_client {
                     GrpcMethod::new(
                         "google.cloud.bigquery.datatransfer.v1.DataTransferService",
                         "EnrollDataSources",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Unenroll data sources in a user project. This allows users to remove
+        /// transfer configurations for these data sources. They will no longer appear
+        /// in the ListDataSources RPC and will also no longer appear in the [BigQuery
+        /// UI](https://console.cloud.google.com/bigquery).
+        pub async fn unenroll_data_sources(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UnenrollDataSourcesRequest>,
+        ) -> std::result::Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.bigquery.datatransfer.v1.DataTransferService/UnenrollDataSources",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.bigquery.datatransfer.v1.DataTransferService",
+                        "UnenrollDataSources",
                     ),
                 );
             self.inner.unary(req, path, codec).await

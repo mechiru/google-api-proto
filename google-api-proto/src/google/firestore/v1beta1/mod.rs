@@ -1,3 +1,92 @@
+/// A set of field paths on a document.
+/// Used to restrict a get or update operation on a document to a subset of its
+/// fields.
+/// This is different from standard field masks, as this is always scoped to a
+/// [Document][google.firestore.v1beta1.Document], and takes in account the dynamic nature of [Value][google.firestore.v1beta1.Value].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DocumentMask {
+    /// The list of field paths in the mask. See [Document.fields][google.firestore.v1beta1.Document.fields] for a field
+    /// path syntax reference.
+    #[prost(string, repeated, tag = "1")]
+    pub field_paths: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// A precondition on a document, used for conditional operations.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Precondition {
+    /// The type of precondition.
+    #[prost(oneof = "precondition::ConditionType", tags = "1, 2")]
+    pub condition_type: ::core::option::Option<precondition::ConditionType>,
+}
+/// Nested message and enum types in `Precondition`.
+pub mod precondition {
+    /// The type of precondition.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum ConditionType {
+        /// When set to `true`, the target document must exist.
+        /// When set to `false`, the target document must not exist.
+        #[prost(bool, tag = "1")]
+        Exists(bool),
+        /// When set, the target document must exist and have been last updated at
+        /// that time.
+        #[prost(message, tag = "2")]
+        UpdateTime(::prost_types::Timestamp),
+    }
+}
+/// Options for creating a new transaction.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TransactionOptions {
+    /// The mode of the transaction.
+    #[prost(oneof = "transaction_options::Mode", tags = "2, 3")]
+    pub mode: ::core::option::Option<transaction_options::Mode>,
+}
+/// Nested message and enum types in `TransactionOptions`.
+pub mod transaction_options {
+    /// Options for a transaction that can be used to read and write documents.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ReadWrite {
+        /// An optional transaction to retry.
+        #[prost(bytes = "bytes", tag = "1")]
+        pub retry_transaction: ::prost::bytes::Bytes,
+    }
+    /// Options for a transaction that can only be used to read documents.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ReadOnly {
+        /// The consistency mode for this transaction. If not set, defaults to strong
+        /// consistency.
+        #[prost(oneof = "read_only::ConsistencySelector", tags = "2")]
+        pub consistency_selector: ::core::option::Option<read_only::ConsistencySelector>,
+    }
+    /// Nested message and enum types in `ReadOnly`.
+    pub mod read_only {
+        /// The consistency mode for this transaction. If not set, defaults to strong
+        /// consistency.
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum ConsistencySelector {
+            /// Reads documents at the given time.
+            /// This may not be older than 60 seconds.
+            #[prost(message, tag = "2")]
+            ReadTime(::prost_types::Timestamp),
+        }
+    }
+    /// The mode of the transaction.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Mode {
+        /// The transaction can only be used for read operations.
+        #[prost(message, tag = "2")]
+        ReadOnly(ReadOnly),
+        /// The transaction can be used for both read and write operations.
+        #[prost(message, tag = "3")]
+        ReadWrite(ReadWrite),
+    }
+}
 /// A Firestore document.
 ///
 /// Must not exceed 1 MiB - 4 bytes.
@@ -138,95 +227,6 @@ pub struct MapValue {
         ::prost::alloc::string::String,
         Value,
     >,
-}
-/// A set of field paths on a document.
-/// Used to restrict a get or update operation on a document to a subset of its
-/// fields.
-/// This is different from standard field masks, as this is always scoped to a
-/// [Document][google.firestore.v1beta1.Document], and takes in account the dynamic nature of [Value][google.firestore.v1beta1.Value].
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DocumentMask {
-    /// The list of field paths in the mask. See [Document.fields][google.firestore.v1beta1.Document.fields] for a field
-    /// path syntax reference.
-    #[prost(string, repeated, tag = "1")]
-    pub field_paths: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// A precondition on a document, used for conditional operations.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Precondition {
-    /// The type of precondition.
-    #[prost(oneof = "precondition::ConditionType", tags = "1, 2")]
-    pub condition_type: ::core::option::Option<precondition::ConditionType>,
-}
-/// Nested message and enum types in `Precondition`.
-pub mod precondition {
-    /// The type of precondition.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum ConditionType {
-        /// When set to `true`, the target document must exist.
-        /// When set to `false`, the target document must not exist.
-        #[prost(bool, tag = "1")]
-        Exists(bool),
-        /// When set, the target document must exist and have been last updated at
-        /// that time.
-        #[prost(message, tag = "2")]
-        UpdateTime(::prost_types::Timestamp),
-    }
-}
-/// Options for creating a new transaction.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TransactionOptions {
-    /// The mode of the transaction.
-    #[prost(oneof = "transaction_options::Mode", tags = "2, 3")]
-    pub mode: ::core::option::Option<transaction_options::Mode>,
-}
-/// Nested message and enum types in `TransactionOptions`.
-pub mod transaction_options {
-    /// Options for a transaction that can be used to read and write documents.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ReadWrite {
-        /// An optional transaction to retry.
-        #[prost(bytes = "bytes", tag = "1")]
-        pub retry_transaction: ::prost::bytes::Bytes,
-    }
-    /// Options for a transaction that can only be used to read documents.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ReadOnly {
-        /// The consistency mode for this transaction. If not set, defaults to strong
-        /// consistency.
-        #[prost(oneof = "read_only::ConsistencySelector", tags = "2")]
-        pub consistency_selector: ::core::option::Option<read_only::ConsistencySelector>,
-    }
-    /// Nested message and enum types in `ReadOnly`.
-    pub mod read_only {
-        /// The consistency mode for this transaction. If not set, defaults to strong
-        /// consistency.
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum ConsistencySelector {
-            /// Reads documents at the given time.
-            /// This may not be older than 60 seconds.
-            #[prost(message, tag = "2")]
-            ReadTime(::prost_types::Timestamp),
-        }
-    }
-    /// The mode of the transaction.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Mode {
-        /// The transaction can only be used for read operations.
-        #[prost(message, tag = "2")]
-        ReadOnly(ReadOnly),
-        /// The transaction can be used for both read and write operations.
-        #[prost(message, tag = "3")]
-        ReadWrite(ReadWrite),
-    }
 }
 /// A Firestore query.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -2394,6 +2394,124 @@ pub mod firestore_client {
                     ),
                 );
             self.inner.unary(req, path, codec).await
+        }
+    }
+}
+/// A message signifying an event that cannot be delivered to Cloud Functions
+/// from Firestore using [Cloud Firestore triggers 1st
+/// gen](<https://cloud.google.com/functions/docs/calling/cloud-firestore>)
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UndeliverableFirstGenEvent {
+    /// Error message for events being undeliverable.
+    #[prost(string, tag = "1")]
+    pub message: ::prost::alloc::string::String,
+    /// Reason for events being undeliverable.
+    #[prost(enumeration = "undeliverable_first_gen_event::Reason", tag = "2")]
+    pub reason: i32,
+    /// The resource name of the changed document, in the format of
+    /// `projects/{projectId}/databases/{databaseId}/documents/{document_path}`.
+    #[prost(string, tag = "3")]
+    pub document_name: ::prost::alloc::string::String,
+    /// The type of the document change.
+    #[prost(
+        enumeration = "undeliverable_first_gen_event::DocumentChangeType",
+        tag = "4"
+    )]
+    pub document_change_type: i32,
+    /// The names of the functions that were supposed to be triggered.
+    #[prost(string, repeated, tag = "5")]
+    pub function_name: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The commit time of triggered write operation.
+    #[prost(message, optional, tag = "6")]
+    pub triggered_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Nested message and enum types in `UndeliverableFirstGenEvent`.
+pub mod undeliverable_first_gen_event {
+    /// Reason for events being undeliverable.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum Reason {
+        /// Unspecified.
+        Unspecified = 0,
+        /// Exceeding maximum event size limit
+        ExceedingSizeLimit = 1,
+    }
+    impl Reason {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                Reason::Unspecified => "REASON_UNSPECIFIED",
+                Reason::ExceedingSizeLimit => "EXCEEDING_SIZE_LIMIT",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "REASON_UNSPECIFIED" => Some(Self::Unspecified),
+                "EXCEEDING_SIZE_LIMIT" => Some(Self::ExceedingSizeLimit),
+                _ => None,
+            }
+        }
+    }
+    /// Document change type.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum DocumentChangeType {
+        /// Unspecified.
+        Unspecified = 0,
+        /// Represent creation operation.
+        Create = 1,
+        /// Represent delete operation.
+        Delete = 2,
+        /// Represent update operation.
+        Update = 3,
+    }
+    impl DocumentChangeType {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                DocumentChangeType::Unspecified => "DOCUMENT_CHANGE_TYPE_UNSPECIFIED",
+                DocumentChangeType::Create => "CREATE",
+                DocumentChangeType::Delete => "DELETE",
+                DocumentChangeType::Update => "UPDATE",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "DOCUMENT_CHANGE_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+                "CREATE" => Some(Self::Create),
+                "DELETE" => Some(Self::Delete),
+                "UPDATE" => Some(Self::Update),
+                _ => None,
+            }
         }
     }
 }

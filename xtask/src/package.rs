@@ -69,13 +69,13 @@ impl Module {
 
     fn feature(&self) -> Option<String> {
         self.file.as_ref().map(|_| {
-            self.module_path.iter().map(|name| name.unescaped()).collect::<Vec<_>>().join("-")
+            self.module_path.iter().map(Name::unescaped).collect::<Vec<_>>().join("-")
         })
     }
 
     fn features(&self) -> BTreeSet<String> {
         let mut set = BTreeSet::from_iter(self.feature());
-        for (_, module) in &self.modules {
+        for module in self.modules.values() {
             set.append(&mut module.features());
         }
         set

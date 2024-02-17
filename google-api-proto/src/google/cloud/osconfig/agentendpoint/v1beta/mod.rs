@@ -1,794 +1,3 @@
-/// Package is a reference to the software package to be installed or removed.
-/// The agent on the VM instance uses the system package manager to apply the
-/// config.
-///
-///
-/// These are the commands that the agent uses to install or remove
-/// packages.
-///
-/// Apt
-/// install: `apt-get update && apt-get -y install package1 package2 package3`
-/// remove: `apt-get -y remove package1 package2 package3`
-///
-/// Yum
-/// install: `yum -y install package1 package2 package3`
-/// remove: `yum -y remove package1 package2 package3`
-///
-/// Zypper
-/// install: `zypper install package1 package2 package3`
-/// remove: `zypper rm package1 package2`
-///
-/// Googet
-/// install: `googet -noconfirm install package1 package2 package3`
-/// remove: `googet -noconfirm remove package1 package2 package3`
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Package {
-    /// The name of the package. A package is uniquely identified for conflict
-    /// validation by checking the package name and the manager(s) that the
-    /// package targets.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The desired_state the agent should maintain for this package. The
-    /// default is to ensure the package is installed.
-    #[prost(enumeration = "DesiredState", tag = "2")]
-    pub desired_state: i32,
-    /// Type of package manager that can be used to install this package.
-    /// If a system does not have the package manager, the package is not
-    /// installed or removed no error message is returned. By default,
-    /// or if you specify `ANY`,
-    /// the agent attempts to install and remove this package using the default
-    /// package manager. This is useful when creating a policy that applies to
-    /// different types of systems.
-    ///
-    /// The default behavior is ANY.
-    #[prost(enumeration = "package::Manager", tag = "3")]
-    pub manager: i32,
-}
-/// Nested message and enum types in `Package`.
-pub mod package {
-    /// Types of package managers that may be used to manage this package.
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum Manager {
-        /// The default behavior is ANY.
-        Unspecified = 0,
-        /// Apply this package config using the default system package manager.
-        Any = 1,
-        /// Apply this package config only if Apt is available on the system.
-        Apt = 2,
-        /// Apply this package config only if Yum is available on the system.
-        Yum = 3,
-        /// Apply this package config only if Zypper is available on the system.
-        Zypper = 4,
-        /// Apply this package config only if GooGet is available on the system.
-        Goo = 5,
-    }
-    impl Manager {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                Manager::Unspecified => "MANAGER_UNSPECIFIED",
-                Manager::Any => "ANY",
-                Manager::Apt => "APT",
-                Manager::Yum => "YUM",
-                Manager::Zypper => "ZYPPER",
-                Manager::Goo => "GOO",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "MANAGER_UNSPECIFIED" => Some(Self::Unspecified),
-                "ANY" => Some(Self::Any),
-                "APT" => Some(Self::Apt),
-                "YUM" => Some(Self::Yum),
-                "ZYPPER" => Some(Self::Zypper),
-                "GOO" => Some(Self::Goo),
-                _ => None,
-            }
-        }
-    }
-}
-/// Represents a single Apt package repository. This repository is added to
-/// a repo file that is stored at
-/// `/etc/apt/sources.list.d/google_osconfig.list`.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AptRepository {
-    /// Type of archive files in this repository. The default behavior is DEB.
-    #[prost(enumeration = "apt_repository::ArchiveType", tag = "1")]
-    pub archive_type: i32,
-    /// URI for this repository.
-    #[prost(string, tag = "2")]
-    pub uri: ::prost::alloc::string::String,
-    /// Distribution of this repository.
-    #[prost(string, tag = "3")]
-    pub distribution: ::prost::alloc::string::String,
-    /// List of components for this repository. Must contain at least one item.
-    #[prost(string, repeated, tag = "4")]
-    pub components: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// URI of the key file for this repository. The agent maintains
-    /// a keyring at `/etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg` containing
-    /// all the keys in any applied guest policy.
-    #[prost(string, tag = "5")]
-    pub gpg_key: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `AptRepository`.
-pub mod apt_repository {
-    /// Type of archive.
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum ArchiveType {
-        /// Unspecified.
-        Unspecified = 0,
-        /// DEB indicates that the archive contains binary files.
-        Deb = 1,
-        /// DEB_SRC indicates that the archive contains source files.
-        DebSrc = 2,
-    }
-    impl ArchiveType {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                ArchiveType::Unspecified => "ARCHIVE_TYPE_UNSPECIFIED",
-                ArchiveType::Deb => "DEB",
-                ArchiveType::DebSrc => "DEB_SRC",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "ARCHIVE_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
-                "DEB" => Some(Self::Deb),
-                "DEB_SRC" => Some(Self::DebSrc),
-                _ => None,
-            }
-        }
-    }
-}
-/// Represents a single Yum package repository. This repository is added to a
-/// repo file that is stored at `/etc/yum.repos.d/google_osconfig.repo`.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct YumRepository {
-    /// A one word, unique name for this repository. This is
-    /// the `repo id` in the Yum config file and also the `display_name` if
-    /// `display_name` is omitted. This id is also used as the unique identifier
-    /// when checking for guest policy conflicts.
-    #[prost(string, tag = "1")]
-    pub id: ::prost::alloc::string::String,
-    /// The display name of the repository.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The location of the repository directory.
-    #[prost(string, tag = "3")]
-    pub base_url: ::prost::alloc::string::String,
-    /// URIs of GPG keys.
-    #[prost(string, repeated, tag = "4")]
-    pub gpg_keys: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Represents a single Zypper package repository. This repository is added to a
-/// repo file that is stored at `/etc/zypp/repos.d/google_osconfig.repo`.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ZypperRepository {
-    /// A one word, unique name for this repository. This is
-    /// the `repo id` in the zypper config file and also the `display_name` if
-    /// `display_name` is omitted. This id is also used as the unique identifier
-    /// when checking for guest policy conflicts.
-    #[prost(string, tag = "1")]
-    pub id: ::prost::alloc::string::String,
-    /// The display name of the repository.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The location of the repository directory.
-    #[prost(string, tag = "3")]
-    pub base_url: ::prost::alloc::string::String,
-    /// URIs of GPG keys.
-    #[prost(string, repeated, tag = "4")]
-    pub gpg_keys: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Represents a Goo package repository. These is added to a repo file
-/// that is stored at C:/ProgramData/GooGet/repos/google_osconfig.repo.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GooRepository {
-    /// The name of the repository.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The url of the repository.
-    #[prost(string, tag = "2")]
-    pub url: ::prost::alloc::string::String,
-}
-/// A package repository.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PackageRepository {
-    /// A specific type of repository.
-    #[prost(oneof = "package_repository::Repository", tags = "1, 2, 3, 4")]
-    pub repository: ::core::option::Option<package_repository::Repository>,
-}
-/// Nested message and enum types in `PackageRepository`.
-pub mod package_repository {
-    /// A specific type of repository.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Repository {
-        /// An Apt Repository.
-        #[prost(message, tag = "1")]
-        Apt(super::AptRepository),
-        /// A Yum Repository.
-        #[prost(message, tag = "2")]
-        Yum(super::YumRepository),
-        /// A Zypper Repository.
-        #[prost(message, tag = "3")]
-        Zypper(super::ZypperRepository),
-        /// A Goo Repository.
-        #[prost(message, tag = "4")]
-        Goo(super::GooRepository),
-    }
-}
-/// A software recipe is a set of instructions for installing and configuring a
-/// piece of software. It consists of a set of artifacts that are
-/// downloaded, and a set of steps that install, configure, and/or update the
-/// software.
-///
-/// Recipes support installing and updating software from artifacts in the
-/// following formats:
-/// Zip archive, Tar archive, Windows MSI, Debian package, and RPM package.
-///
-/// Additionally, recipes support executing a script (either defined in a file or
-/// directly in this api) in bash, sh, cmd, and powershell.
-///
-/// Updating a software recipe
-///
-/// If a recipe is assigned to an instance and there is a recipe with the same
-/// name but a lower version already installed and the assigned state
-/// of the recipe is `INSTALLED_KEEP_UPDATED`, then the recipe is updated to
-/// the new version.
-///
-/// Script Working Directories
-///
-/// Each script or execution step is run in its own temporary directory which
-/// is deleted after completing the step.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SoftwareRecipe {
-    /// Unique identifier for the recipe. Only one recipe with a given name is
-    /// installed on an instance.
-    ///
-    /// Names are also used to identify resources which helps to determine whether
-    /// guest policies have conflicts. This means that requests to create multiple
-    /// recipes with the same name and version are rejected since they
-    /// could potentially have conflicting assignments.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The version of this software recipe. Version can be up to 4 period
-    /// separated numbers (e.g. 12.34.56.78).
-    #[prost(string, tag = "2")]
-    pub version: ::prost::alloc::string::String,
-    /// Resources available to be used in the steps in the recipe.
-    #[prost(message, repeated, tag = "3")]
-    pub artifacts: ::prost::alloc::vec::Vec<software_recipe::Artifact>,
-    /// Actions to be taken for installing this recipe. On failure it stops
-    /// executing steps and does not attempt another installation. Any steps taken
-    /// (including partially completed steps) are not rolled back.  Install steps
-    /// must be specified and are used on first installation.
-    #[prost(message, repeated, tag = "4")]
-    pub install_steps: ::prost::alloc::vec::Vec<software_recipe::Step>,
-    /// Actions to be taken for updating this recipe. On failure it stops
-    /// executing steps and  does not attempt another update for this recipe. Any
-    /// steps taken (including partially completed steps) are not rolled back.
-    /// Upgrade steps are not mandatory and are only used when upgrading.
-    #[prost(message, repeated, tag = "5")]
-    pub update_steps: ::prost::alloc::vec::Vec<software_recipe::Step>,
-    /// Default is INSTALLED. The desired state the agent should maintain for this
-    /// recipe.
-    ///
-    /// INSTALLED: The software recipe is installed on the instance but won't be
-    ///                          updated to new versions.
-    /// UPDATED: The software recipe is installed on the instance. The recipe is
-    ///                          updated to a higher version, if a higher version of
-    ///                          the recipe is assigned to this instance.
-    /// REMOVE: Remove is unsupported for software recipes and attempts to
-    ///          create or update a recipe to the REMOVE state is rejected.
-    #[prost(enumeration = "DesiredState", tag = "6")]
-    pub desired_state: i32,
-}
-/// Nested message and enum types in `SoftwareRecipe`.
-pub mod software_recipe {
-    /// Specifies a resource to be used in the recipe.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Artifact {
-        /// Id of the artifact, which the installation and update steps of this
-        /// recipe can reference. Artifacts in a recipe cannot have the same id.
-        #[prost(string, tag = "1")]
-        pub id: ::prost::alloc::string::String,
-        /// Defaults to false. When false, recipes are subject to validations
-        /// based on the artifact type:
-        ///
-        /// Remote: A checksum must be specified, and only protocols with
-        ///          transport-layer security are permitted.
-        /// GCS:    An object generation number must be specified.
-        #[prost(bool, tag = "4")]
-        pub allow_insecure: bool,
-        /// A specific type of artifact.
-        #[prost(oneof = "artifact::Artifact", tags = "2, 3")]
-        pub artifact: ::core::option::Option<artifact::Artifact>,
-    }
-    /// Nested message and enum types in `Artifact`.
-    pub mod artifact {
-        /// Specifies an artifact available via some URI.
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Remote {
-            /// URI from which to fetch the object. It should contain both the protocol
-            /// and path following the format {protocol}://{location}.
-            #[prost(string, tag = "1")]
-            pub uri: ::prost::alloc::string::String,
-            /// Must be provided if `allow_insecure` is `false`.
-            /// SHA256 checksum in hex format, to compare to the checksum of the
-            /// artifact. If the checksum is not empty and it doesn't match the
-            /// artifact then the recipe installation fails before running any of the
-            /// steps.
-            #[prost(string, tag = "2")]
-            pub checksum: ::prost::alloc::string::String,
-        }
-        /// Specifies an artifact available as a Cloud Storage object.
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Gcs {
-            /// Bucket of the Cloud Storage object.
-            /// Given an example URL:
-            /// `<https://storage.googleapis.com/my-bucket/foo/bar#1234567`>
-            /// this value would be `my-bucket`.
-            #[prost(string, tag = "1")]
-            pub bucket: ::prost::alloc::string::String,
-            /// Name of the Cloud Storage object.
-            /// As specified \[here\]
-            /// (<https://cloud.google.com/storage/docs/naming#objectnames>)
-            /// Given an example URL:
-            /// `<https://storage.googleapis.com/my-bucket/foo/bar#1234567`>
-            /// this value would be `foo/bar`.
-            #[prost(string, tag = "2")]
-            pub object: ::prost::alloc::string::String,
-            /// Must be provided if allow_insecure is false.
-            /// Generation number of the Cloud Storage object.
-            /// `<https://storage.googleapis.com/my-bucket/foo/bar#1234567`>
-            /// this value would be `1234567`.
-            #[prost(int64, tag = "3")]
-            pub generation: i64,
-        }
-        /// A specific type of artifact.
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum Artifact {
-            /// A generic remote artifact.
-            #[prost(message, tag = "2")]
-            Remote(Remote),
-            /// A Cloud Storage artifact.
-            #[prost(message, tag = "3")]
-            Gcs(Gcs),
-        }
-    }
-    /// An action that can be taken as part of installing or updating a recipe.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Step {
-        /// A specific type of step.
-        #[prost(oneof = "step::Step", tags = "1, 2, 3, 4, 5, 6, 7")]
-        pub step: ::core::option::Option<step::Step>,
-    }
-    /// Nested message and enum types in `Step`.
-    pub mod step {
-        /// Copies the artifact to the specified path on the instance.
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct CopyFile {
-            /// The id of the relevant artifact in the recipe.
-            #[prost(string, tag = "1")]
-            pub artifact_id: ::prost::alloc::string::String,
-            /// The absolute path on the instance to put the file.
-            #[prost(string, tag = "2")]
-            pub destination: ::prost::alloc::string::String,
-            /// Whether to allow this step to overwrite existing files. If this is
-            /// false and the file already exists the file is not overwritten
-            /// and the step is considered a success. Defaults to false.
-            #[prost(bool, tag = "3")]
-            pub overwrite: bool,
-            /// Consists of three octal digits which represent, in
-            /// order, the permissions of the owner, group, and other users for the
-            /// file (similarly to the numeric mode used in the linux chmod utility).
-            /// Each digit represents a three bit number with the 4 bit
-            /// corresponding to the read permissions, the 2 bit corresponds to the
-            /// write bit, and the one bit corresponds to the execute permission.
-            /// Default behavior is 755.
-            ///
-            /// Below are some examples of permissions and their associated values:
-            /// read, write, and execute: 7
-            /// read and execute: 5
-            /// read and write: 6
-            /// read only: 4
-            #[prost(string, tag = "4")]
-            pub permissions: ::prost::alloc::string::String,
-        }
-        /// Extracts an archive of the type specified in the specified directory.
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct ExtractArchive {
-            /// The id of the relevant artifact in the recipe.
-            #[prost(string, tag = "1")]
-            pub artifact_id: ::prost::alloc::string::String,
-            /// Directory to extract archive to.
-            /// Defaults to `/` on Linux or `C:\` on Windows.
-            #[prost(string, tag = "2")]
-            pub destination: ::prost::alloc::string::String,
-            /// The type of the archive to extract.
-            #[prost(enumeration = "extract_archive::ArchiveType", tag = "3")]
-            pub r#type: i32,
-        }
-        /// Nested message and enum types in `ExtractArchive`.
-        pub mod extract_archive {
-            /// Specifying the type of archive.
-            #[derive(
-                Clone,
-                Copy,
-                Debug,
-                PartialEq,
-                Eq,
-                Hash,
-                PartialOrd,
-                Ord,
-                ::prost::Enumeration
-            )]
-            #[repr(i32)]
-            pub enum ArchiveType {
-                /// Indicates that the archive type isn't specified.
-                Unspecified = 0,
-                /// Indicates that the archive is a tar archive with no encryption.
-                Tar = 1,
-                /// Indicates that the archive is a tar archive with gzip encryption.
-                TarGzip = 2,
-                /// Indicates that the archive is a tar archive with bzip encryption.
-                TarBzip = 3,
-                /// Indicates that the archive is a tar archive with lzma encryption.
-                TarLzma = 4,
-                /// Indicates that the archive is a tar archive with xz encryption.
-                TarXz = 5,
-                /// Indicates that the archive is a zip archive.
-                Zip = 11,
-            }
-            impl ArchiveType {
-                /// String value of the enum field names used in the ProtoBuf definition.
-                ///
-                /// The values are not transformed in any way and thus are considered stable
-                /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-                pub fn as_str_name(&self) -> &'static str {
-                    match self {
-                        ArchiveType::Unspecified => "ARCHIVE_TYPE_UNSPECIFIED",
-                        ArchiveType::Tar => "TAR",
-                        ArchiveType::TarGzip => "TAR_GZIP",
-                        ArchiveType::TarBzip => "TAR_BZIP",
-                        ArchiveType::TarLzma => "TAR_LZMA",
-                        ArchiveType::TarXz => "TAR_XZ",
-                        ArchiveType::Zip => "ZIP",
-                    }
-                }
-                /// Creates an enum from field names used in the ProtoBuf definition.
-                pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-                    match value {
-                        "ARCHIVE_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
-                        "TAR" => Some(Self::Tar),
-                        "TAR_GZIP" => Some(Self::TarGzip),
-                        "TAR_BZIP" => Some(Self::TarBzip),
-                        "TAR_LZMA" => Some(Self::TarLzma),
-                        "TAR_XZ" => Some(Self::TarXz),
-                        "ZIP" => Some(Self::Zip),
-                        _ => None,
-                    }
-                }
-            }
-        }
-        /// Installs an MSI file.
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct InstallMsi {
-            /// The id of the relevant artifact in the recipe.
-            #[prost(string, tag = "1")]
-            pub artifact_id: ::prost::alloc::string::String,
-            /// The flags to use when installing the MSI
-            /// defaults to \["/i"\] (i.e. the install flag).
-            #[prost(string, repeated, tag = "2")]
-            pub flags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// Return codes that indicate that the software installed or updated
-            /// successfully. Behaviour defaults to \[0\]
-            #[prost(int32, repeated, tag = "3")]
-            pub allowed_exit_codes: ::prost::alloc::vec::Vec<i32>,
-        }
-        /// Installs a deb via dpkg.
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct InstallDpkg {
-            /// The id of the relevant artifact in the recipe.
-            #[prost(string, tag = "1")]
-            pub artifact_id: ::prost::alloc::string::String,
-        }
-        /// Installs an rpm file via the rpm utility.
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct InstallRpm {
-            /// The id of the relevant artifact in the recipe.
-            #[prost(string, tag = "1")]
-            pub artifact_id: ::prost::alloc::string::String,
-        }
-        /// Executes an artifact or local file.
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct ExecFile {
-            /// Arguments to be passed to the provided executable.
-            #[prost(string, repeated, tag = "3")]
-            pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-            /// Defaults to \[0\]. A list of possible return values that the program
-            /// can return to indicate a success.
-            #[prost(int32, repeated, tag = "4")]
-            pub allowed_exit_codes: ::prost::alloc::vec::Vec<i32>,
-            /// Location of the file to execute.
-            #[prost(oneof = "exec_file::LocationType", tags = "1, 2")]
-            pub location_type: ::core::option::Option<exec_file::LocationType>,
-        }
-        /// Nested message and enum types in `ExecFile`.
-        pub mod exec_file {
-            /// Location of the file to execute.
-            #[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Oneof)]
-            pub enum LocationType {
-                /// The id of the relevant artifact in the recipe.
-                #[prost(string, tag = "1")]
-                ArtifactId(::prost::alloc::string::String),
-                /// The absolute path of the file on the local filesystem.
-                #[prost(string, tag = "2")]
-                LocalPath(::prost::alloc::string::String),
-            }
-        }
-        /// Runs a script through an interpreter.
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct RunScript {
-            /// The shell script to be executed.
-            #[prost(string, tag = "1")]
-            pub script: ::prost::alloc::string::String,
-            /// Return codes that indicate that the software installed or updated
-            /// successfully. Behaviour defaults to \[0\]
-            #[prost(int32, repeated, tag = "2")]
-            pub allowed_exit_codes: ::prost::alloc::vec::Vec<i32>,
-            /// The script interpreter to use to run the script. If no interpreter is
-            /// specified the script is executed directly, which likely
-            /// only succeed for scripts with
-            /// [shebang lines](<https://en.wikipedia.org/wiki/Shebang_(Unix>)).
-            #[prost(enumeration = "run_script::Interpreter", tag = "3")]
-            pub interpreter: i32,
-        }
-        /// Nested message and enum types in `RunScript`.
-        pub mod run_script {
-            /// The interpreter used to execute a script.
-            #[derive(
-                Clone,
-                Copy,
-                Debug,
-                PartialEq,
-                Eq,
-                Hash,
-                PartialOrd,
-                Ord,
-                ::prost::Enumeration
-            )]
-            #[repr(i32)]
-            pub enum Interpreter {
-                /// Default value for ScriptType.
-                Unspecified = 0,
-                /// Indicates that the script is run with `/bin/sh` on Linux and `cmd`
-                /// on windows.
-                Shell = 1,
-                /// Indicates that the script is run with powershell.
-                Powershell = 3,
-            }
-            impl Interpreter {
-                /// String value of the enum field names used in the ProtoBuf definition.
-                ///
-                /// The values are not transformed in any way and thus are considered stable
-                /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-                pub fn as_str_name(&self) -> &'static str {
-                    match self {
-                        Interpreter::Unspecified => "INTERPRETER_UNSPECIFIED",
-                        Interpreter::Shell => "SHELL",
-                        Interpreter::Powershell => "POWERSHELL",
-                    }
-                }
-                /// Creates an enum from field names used in the ProtoBuf definition.
-                pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-                    match value {
-                        "INTERPRETER_UNSPECIFIED" => Some(Self::Unspecified),
-                        "SHELL" => Some(Self::Shell),
-                        "POWERSHELL" => Some(Self::Powershell),
-                        _ => None,
-                    }
-                }
-            }
-        }
-        /// A specific type of step.
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        pub enum Step {
-            /// Copies a file onto the instance.
-            #[prost(message, tag = "1")]
-            FileCopy(CopyFile),
-            /// Extracts an archive into the specified directory.
-            #[prost(message, tag = "2")]
-            ArchiveExtraction(ExtractArchive),
-            /// Installs an MSI file.
-            #[prost(message, tag = "3")]
-            MsiInstallation(InstallMsi),
-            /// Installs a deb file via dpkg.
-            #[prost(message, tag = "4")]
-            DpkgInstallation(InstallDpkg),
-            /// Installs an rpm file via the rpm utility.
-            #[prost(message, tag = "5")]
-            RpmInstallation(InstallRpm),
-            /// Executes an artifact or local file.
-            #[prost(message, tag = "6")]
-            FileExec(ExecFile),
-            /// Runs commands in a shell.
-            #[prost(message, tag = "7")]
-            ScriptRun(RunScript),
-        }
-    }
-}
-/// A request message for getting effective policy assigned to the instance.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LookupEffectiveGuestPolicyRequest {
-    /// Required. This is the GCE instance identity token described in
-    /// <https://cloud.google.com/compute/docs/instances/verifying-instance-identity>
-    /// where the audience is 'osconfig.googleapis.com' and the format is 'full'.
-    #[prost(string, tag = "1")]
-    pub instance_id_token: ::prost::alloc::string::String,
-    /// Short name of the OS running on the instance. The OS Config agent only
-    /// provideS this field for targeting if OS Inventory is enabled for that
-    /// instance.
-    #[prost(string, tag = "2")]
-    pub os_short_name: ::prost::alloc::string::String,
-    /// Version of the OS running on the instance. The OS Config agent only
-    /// provide this field for targeting if OS Inventory is enabled for that
-    /// VM instance.
-    #[prost(string, tag = "3")]
-    pub os_version: ::prost::alloc::string::String,
-    /// Architecture of OS running on the instance. The OS Config agent only
-    /// provide this field for targeting if OS Inventory is enabled for that
-    /// instance.
-    #[prost(string, tag = "4")]
-    pub os_architecture: ::prost::alloc::string::String,
-}
-/// The effective guest policy assigned to the instance.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EffectiveGuestPolicy {
-    /// List of package configurations assigned to the VM instance.
-    #[prost(message, repeated, tag = "1")]
-    pub packages: ::prost::alloc::vec::Vec<effective_guest_policy::SourcedPackage>,
-    /// List of package repository configurations assigned to the VM instance.
-    #[prost(message, repeated, tag = "2")]
-    pub package_repositories: ::prost::alloc::vec::Vec<
-        effective_guest_policy::SourcedPackageRepository,
-    >,
-    /// List of recipes assigned to the VM instance.
-    #[prost(message, repeated, tag = "3")]
-    pub software_recipes: ::prost::alloc::vec::Vec<
-        effective_guest_policy::SourcedSoftwareRecipe,
-    >,
-}
-/// Nested message and enum types in `EffectiveGuestPolicy`.
-pub mod effective_guest_policy {
-    /// A guest policy package including its source.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SourcedPackage {
-        /// Name of the guest policy providing this config.
-        #[prost(string, tag = "1")]
-        pub source: ::prost::alloc::string::String,
-        /// A software package to configure on the VM instance.
-        #[prost(message, optional, tag = "2")]
-        pub package: ::core::option::Option<super::Package>,
-    }
-    /// A guest policy package repository including its source.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SourcedPackageRepository {
-        /// Name of the guest policy providing this config.
-        #[prost(string, tag = "1")]
-        pub source: ::prost::alloc::string::String,
-        /// A software package repository to configure on the VM instance.
-        #[prost(message, optional, tag = "2")]
-        pub package_repository: ::core::option::Option<super::PackageRepository>,
-    }
-    /// A guest policy recipe including its source.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SourcedSoftwareRecipe {
-        /// Name of the guest policy providing this config.
-        #[prost(string, tag = "1")]
-        pub source: ::prost::alloc::string::String,
-        /// A software recipe to configure on the VM instance.
-        #[prost(message, optional, tag = "2")]
-        pub software_recipe: ::core::option::Option<super::SoftwareRecipe>,
-    }
-}
-/// The desired state that the OS Config agent will maintain on the VM.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum DesiredState {
-    /// The default is to ensure the package is installed.
-    Unspecified = 0,
-    /// The agent ensures that the package is installed.
-    Installed = 1,
-    /// The agent ensures that the package is installed and
-    /// periodically checks for and install any updates.
-    Updated = 2,
-    /// The agent ensures that the package is not installed and uninstall it
-    /// if detected.
-    Removed = 3,
-}
-impl DesiredState {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            DesiredState::Unspecified => "DESIRED_STATE_UNSPECIFIED",
-            DesiredState::Installed => "INSTALLED",
-            DesiredState::Updated => "UPDATED",
-            DesiredState::Removed => "REMOVED",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "DESIRED_STATE_UNSPECIFIED" => Some(Self::Unspecified),
-            "INSTALLED" => Some(Self::Installed),
-            "UPDATED" => Some(Self::Updated),
-            "REMOVED" => Some(Self::Removed),
-            _ => None,
-        }
-    }
-}
 /// Patch configuration specifications. Contains details on how to
 /// apply patches to a VM instance.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1590,6 +799,797 @@ impl TaskType {
             "TASK_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
             "APPLY_PATCHES" => Some(Self::ApplyPatches),
             "EXEC_STEP_TASK" => Some(Self::ExecStepTask),
+            _ => None,
+        }
+    }
+}
+/// Package is a reference to the software package to be installed or removed.
+/// The agent on the VM instance uses the system package manager to apply the
+/// config.
+///
+///
+/// These are the commands that the agent uses to install or remove
+/// packages.
+///
+/// Apt
+/// install: `apt-get update && apt-get -y install package1 package2 package3`
+/// remove: `apt-get -y remove package1 package2 package3`
+///
+/// Yum
+/// install: `yum -y install package1 package2 package3`
+/// remove: `yum -y remove package1 package2 package3`
+///
+/// Zypper
+/// install: `zypper install package1 package2 package3`
+/// remove: `zypper rm package1 package2`
+///
+/// Googet
+/// install: `googet -noconfirm install package1 package2 package3`
+/// remove: `googet -noconfirm remove package1 package2 package3`
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Package {
+    /// The name of the package. A package is uniquely identified for conflict
+    /// validation by checking the package name and the manager(s) that the
+    /// package targets.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The desired_state the agent should maintain for this package. The
+    /// default is to ensure the package is installed.
+    #[prost(enumeration = "DesiredState", tag = "2")]
+    pub desired_state: i32,
+    /// Type of package manager that can be used to install this package.
+    /// If a system does not have the package manager, the package is not
+    /// installed or removed no error message is returned. By default,
+    /// or if you specify `ANY`,
+    /// the agent attempts to install and remove this package using the default
+    /// package manager. This is useful when creating a policy that applies to
+    /// different types of systems.
+    ///
+    /// The default behavior is ANY.
+    #[prost(enumeration = "package::Manager", tag = "3")]
+    pub manager: i32,
+}
+/// Nested message and enum types in `Package`.
+pub mod package {
+    /// Types of package managers that may be used to manage this package.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum Manager {
+        /// The default behavior is ANY.
+        Unspecified = 0,
+        /// Apply this package config using the default system package manager.
+        Any = 1,
+        /// Apply this package config only if Apt is available on the system.
+        Apt = 2,
+        /// Apply this package config only if Yum is available on the system.
+        Yum = 3,
+        /// Apply this package config only if Zypper is available on the system.
+        Zypper = 4,
+        /// Apply this package config only if GooGet is available on the system.
+        Goo = 5,
+    }
+    impl Manager {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                Manager::Unspecified => "MANAGER_UNSPECIFIED",
+                Manager::Any => "ANY",
+                Manager::Apt => "APT",
+                Manager::Yum => "YUM",
+                Manager::Zypper => "ZYPPER",
+                Manager::Goo => "GOO",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "MANAGER_UNSPECIFIED" => Some(Self::Unspecified),
+                "ANY" => Some(Self::Any),
+                "APT" => Some(Self::Apt),
+                "YUM" => Some(Self::Yum),
+                "ZYPPER" => Some(Self::Zypper),
+                "GOO" => Some(Self::Goo),
+                _ => None,
+            }
+        }
+    }
+}
+/// Represents a single Apt package repository. This repository is added to
+/// a repo file that is stored at
+/// `/etc/apt/sources.list.d/google_osconfig.list`.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AptRepository {
+    /// Type of archive files in this repository. The default behavior is DEB.
+    #[prost(enumeration = "apt_repository::ArchiveType", tag = "1")]
+    pub archive_type: i32,
+    /// URI for this repository.
+    #[prost(string, tag = "2")]
+    pub uri: ::prost::alloc::string::String,
+    /// Distribution of this repository.
+    #[prost(string, tag = "3")]
+    pub distribution: ::prost::alloc::string::String,
+    /// List of components for this repository. Must contain at least one item.
+    #[prost(string, repeated, tag = "4")]
+    pub components: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// URI of the key file for this repository. The agent maintains
+    /// a keyring at `/etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg` containing
+    /// all the keys in any applied guest policy.
+    #[prost(string, tag = "5")]
+    pub gpg_key: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `AptRepository`.
+pub mod apt_repository {
+    /// Type of archive.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum ArchiveType {
+        /// Unspecified.
+        Unspecified = 0,
+        /// DEB indicates that the archive contains binary files.
+        Deb = 1,
+        /// DEB_SRC indicates that the archive contains source files.
+        DebSrc = 2,
+    }
+    impl ArchiveType {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                ArchiveType::Unspecified => "ARCHIVE_TYPE_UNSPECIFIED",
+                ArchiveType::Deb => "DEB",
+                ArchiveType::DebSrc => "DEB_SRC",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "ARCHIVE_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+                "DEB" => Some(Self::Deb),
+                "DEB_SRC" => Some(Self::DebSrc),
+                _ => None,
+            }
+        }
+    }
+}
+/// Represents a single Yum package repository. This repository is added to a
+/// repo file that is stored at `/etc/yum.repos.d/google_osconfig.repo`.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct YumRepository {
+    /// A one word, unique name for this repository. This is
+    /// the `repo id` in the Yum config file and also the `display_name` if
+    /// `display_name` is omitted. This id is also used as the unique identifier
+    /// when checking for guest policy conflicts.
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    /// The display name of the repository.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The location of the repository directory.
+    #[prost(string, tag = "3")]
+    pub base_url: ::prost::alloc::string::String,
+    /// URIs of GPG keys.
+    #[prost(string, repeated, tag = "4")]
+    pub gpg_keys: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Represents a single Zypper package repository. This repository is added to a
+/// repo file that is stored at `/etc/zypp/repos.d/google_osconfig.repo`.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ZypperRepository {
+    /// A one word, unique name for this repository. This is
+    /// the `repo id` in the zypper config file and also the `display_name` if
+    /// `display_name` is omitted. This id is also used as the unique identifier
+    /// when checking for guest policy conflicts.
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    /// The display name of the repository.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The location of the repository directory.
+    #[prost(string, tag = "3")]
+    pub base_url: ::prost::alloc::string::String,
+    /// URIs of GPG keys.
+    #[prost(string, repeated, tag = "4")]
+    pub gpg_keys: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Represents a Goo package repository. These is added to a repo file
+/// that is stored at C:/ProgramData/GooGet/repos/google_osconfig.repo.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GooRepository {
+    /// The name of the repository.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The url of the repository.
+    #[prost(string, tag = "2")]
+    pub url: ::prost::alloc::string::String,
+}
+/// A package repository.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PackageRepository {
+    /// A specific type of repository.
+    #[prost(oneof = "package_repository::Repository", tags = "1, 2, 3, 4")]
+    pub repository: ::core::option::Option<package_repository::Repository>,
+}
+/// Nested message and enum types in `PackageRepository`.
+pub mod package_repository {
+    /// A specific type of repository.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Repository {
+        /// An Apt Repository.
+        #[prost(message, tag = "1")]
+        Apt(super::AptRepository),
+        /// A Yum Repository.
+        #[prost(message, tag = "2")]
+        Yum(super::YumRepository),
+        /// A Zypper Repository.
+        #[prost(message, tag = "3")]
+        Zypper(super::ZypperRepository),
+        /// A Goo Repository.
+        #[prost(message, tag = "4")]
+        Goo(super::GooRepository),
+    }
+}
+/// A software recipe is a set of instructions for installing and configuring a
+/// piece of software. It consists of a set of artifacts that are
+/// downloaded, and a set of steps that install, configure, and/or update the
+/// software.
+///
+/// Recipes support installing and updating software from artifacts in the
+/// following formats:
+/// Zip archive, Tar archive, Windows MSI, Debian package, and RPM package.
+///
+/// Additionally, recipes support executing a script (either defined in a file or
+/// directly in this api) in bash, sh, cmd, and powershell.
+///
+/// Updating a software recipe
+///
+/// If a recipe is assigned to an instance and there is a recipe with the same
+/// name but a lower version already installed and the assigned state
+/// of the recipe is `INSTALLED_KEEP_UPDATED`, then the recipe is updated to
+/// the new version.
+///
+/// Script Working Directories
+///
+/// Each script or execution step is run in its own temporary directory which
+/// is deleted after completing the step.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SoftwareRecipe {
+    /// Unique identifier for the recipe. Only one recipe with a given name is
+    /// installed on an instance.
+    ///
+    /// Names are also used to identify resources which helps to determine whether
+    /// guest policies have conflicts. This means that requests to create multiple
+    /// recipes with the same name and version are rejected since they
+    /// could potentially have conflicting assignments.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The version of this software recipe. Version can be up to 4 period
+    /// separated numbers (e.g. 12.34.56.78).
+    #[prost(string, tag = "2")]
+    pub version: ::prost::alloc::string::String,
+    /// Resources available to be used in the steps in the recipe.
+    #[prost(message, repeated, tag = "3")]
+    pub artifacts: ::prost::alloc::vec::Vec<software_recipe::Artifact>,
+    /// Actions to be taken for installing this recipe. On failure it stops
+    /// executing steps and does not attempt another installation. Any steps taken
+    /// (including partially completed steps) are not rolled back.  Install steps
+    /// must be specified and are used on first installation.
+    #[prost(message, repeated, tag = "4")]
+    pub install_steps: ::prost::alloc::vec::Vec<software_recipe::Step>,
+    /// Actions to be taken for updating this recipe. On failure it stops
+    /// executing steps and  does not attempt another update for this recipe. Any
+    /// steps taken (including partially completed steps) are not rolled back.
+    /// Upgrade steps are not mandatory and are only used when upgrading.
+    #[prost(message, repeated, tag = "5")]
+    pub update_steps: ::prost::alloc::vec::Vec<software_recipe::Step>,
+    /// Default is INSTALLED. The desired state the agent should maintain for this
+    /// recipe.
+    ///
+    /// INSTALLED: The software recipe is installed on the instance but won't be
+    ///                          updated to new versions.
+    /// UPDATED: The software recipe is installed on the instance. The recipe is
+    ///                          updated to a higher version, if a higher version of
+    ///                          the recipe is assigned to this instance.
+    /// REMOVE: Remove is unsupported for software recipes and attempts to
+    ///          create or update a recipe to the REMOVE state is rejected.
+    #[prost(enumeration = "DesiredState", tag = "6")]
+    pub desired_state: i32,
+}
+/// Nested message and enum types in `SoftwareRecipe`.
+pub mod software_recipe {
+    /// Specifies a resource to be used in the recipe.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Artifact {
+        /// Id of the artifact, which the installation and update steps of this
+        /// recipe can reference. Artifacts in a recipe cannot have the same id.
+        #[prost(string, tag = "1")]
+        pub id: ::prost::alloc::string::String,
+        /// Defaults to false. When false, recipes are subject to validations
+        /// based on the artifact type:
+        ///
+        /// Remote: A checksum must be specified, and only protocols with
+        ///          transport-layer security are permitted.
+        /// GCS:    An object generation number must be specified.
+        #[prost(bool, tag = "4")]
+        pub allow_insecure: bool,
+        /// A specific type of artifact.
+        #[prost(oneof = "artifact::Artifact", tags = "2, 3")]
+        pub artifact: ::core::option::Option<artifact::Artifact>,
+    }
+    /// Nested message and enum types in `Artifact`.
+    pub mod artifact {
+        /// Specifies an artifact available via some URI.
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Remote {
+            /// URI from which to fetch the object. It should contain both the protocol
+            /// and path following the format {protocol}://{location}.
+            #[prost(string, tag = "1")]
+            pub uri: ::prost::alloc::string::String,
+            /// Must be provided if `allow_insecure` is `false`.
+            /// SHA256 checksum in hex format, to compare to the checksum of the
+            /// artifact. If the checksum is not empty and it doesn't match the
+            /// artifact then the recipe installation fails before running any of the
+            /// steps.
+            #[prost(string, tag = "2")]
+            pub checksum: ::prost::alloc::string::String,
+        }
+        /// Specifies an artifact available as a Cloud Storage object.
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Gcs {
+            /// Bucket of the Cloud Storage object.
+            /// Given an example URL:
+            /// `<https://storage.googleapis.com/my-bucket/foo/bar#1234567`>
+            /// this value would be `my-bucket`.
+            #[prost(string, tag = "1")]
+            pub bucket: ::prost::alloc::string::String,
+            /// Name of the Cloud Storage object.
+            /// As specified \[here\]
+            /// (<https://cloud.google.com/storage/docs/naming#objectnames>)
+            /// Given an example URL:
+            /// `<https://storage.googleapis.com/my-bucket/foo/bar#1234567`>
+            /// this value would be `foo/bar`.
+            #[prost(string, tag = "2")]
+            pub object: ::prost::alloc::string::String,
+            /// Must be provided if allow_insecure is false.
+            /// Generation number of the Cloud Storage object.
+            /// `<https://storage.googleapis.com/my-bucket/foo/bar#1234567`>
+            /// this value would be `1234567`.
+            #[prost(int64, tag = "3")]
+            pub generation: i64,
+        }
+        /// A specific type of artifact.
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Artifact {
+            /// A generic remote artifact.
+            #[prost(message, tag = "2")]
+            Remote(Remote),
+            /// A Cloud Storage artifact.
+            #[prost(message, tag = "3")]
+            Gcs(Gcs),
+        }
+    }
+    /// An action that can be taken as part of installing or updating a recipe.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Step {
+        /// A specific type of step.
+        #[prost(oneof = "step::Step", tags = "1, 2, 3, 4, 5, 6, 7")]
+        pub step: ::core::option::Option<step::Step>,
+    }
+    /// Nested message and enum types in `Step`.
+    pub mod step {
+        /// Copies the artifact to the specified path on the instance.
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct CopyFile {
+            /// The id of the relevant artifact in the recipe.
+            #[prost(string, tag = "1")]
+            pub artifact_id: ::prost::alloc::string::String,
+            /// The absolute path on the instance to put the file.
+            #[prost(string, tag = "2")]
+            pub destination: ::prost::alloc::string::String,
+            /// Whether to allow this step to overwrite existing files. If this is
+            /// false and the file already exists the file is not overwritten
+            /// and the step is considered a success. Defaults to false.
+            #[prost(bool, tag = "3")]
+            pub overwrite: bool,
+            /// Consists of three octal digits which represent, in
+            /// order, the permissions of the owner, group, and other users for the
+            /// file (similarly to the numeric mode used in the linux chmod utility).
+            /// Each digit represents a three bit number with the 4 bit
+            /// corresponding to the read permissions, the 2 bit corresponds to the
+            /// write bit, and the one bit corresponds to the execute permission.
+            /// Default behavior is 755.
+            ///
+            /// Below are some examples of permissions and their associated values:
+            /// read, write, and execute: 7
+            /// read and execute: 5
+            /// read and write: 6
+            /// read only: 4
+            #[prost(string, tag = "4")]
+            pub permissions: ::prost::alloc::string::String,
+        }
+        /// Extracts an archive of the type specified in the specified directory.
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct ExtractArchive {
+            /// The id of the relevant artifact in the recipe.
+            #[prost(string, tag = "1")]
+            pub artifact_id: ::prost::alloc::string::String,
+            /// Directory to extract archive to.
+            /// Defaults to `/` on Linux or `C:\` on Windows.
+            #[prost(string, tag = "2")]
+            pub destination: ::prost::alloc::string::String,
+            /// The type of the archive to extract.
+            #[prost(enumeration = "extract_archive::ArchiveType", tag = "3")]
+            pub r#type: i32,
+        }
+        /// Nested message and enum types in `ExtractArchive`.
+        pub mod extract_archive {
+            /// Specifying the type of archive.
+            #[derive(
+                Clone,
+                Copy,
+                Debug,
+                PartialEq,
+                Eq,
+                Hash,
+                PartialOrd,
+                Ord,
+                ::prost::Enumeration
+            )]
+            #[repr(i32)]
+            pub enum ArchiveType {
+                /// Indicates that the archive type isn't specified.
+                Unspecified = 0,
+                /// Indicates that the archive is a tar archive with no encryption.
+                Tar = 1,
+                /// Indicates that the archive is a tar archive with gzip encryption.
+                TarGzip = 2,
+                /// Indicates that the archive is a tar archive with bzip encryption.
+                TarBzip = 3,
+                /// Indicates that the archive is a tar archive with lzma encryption.
+                TarLzma = 4,
+                /// Indicates that the archive is a tar archive with xz encryption.
+                TarXz = 5,
+                /// Indicates that the archive is a zip archive.
+                Zip = 11,
+            }
+            impl ArchiveType {
+                /// String value of the enum field names used in the ProtoBuf definition.
+                ///
+                /// The values are not transformed in any way and thus are considered stable
+                /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+                pub fn as_str_name(&self) -> &'static str {
+                    match self {
+                        ArchiveType::Unspecified => "ARCHIVE_TYPE_UNSPECIFIED",
+                        ArchiveType::Tar => "TAR",
+                        ArchiveType::TarGzip => "TAR_GZIP",
+                        ArchiveType::TarBzip => "TAR_BZIP",
+                        ArchiveType::TarLzma => "TAR_LZMA",
+                        ArchiveType::TarXz => "TAR_XZ",
+                        ArchiveType::Zip => "ZIP",
+                    }
+                }
+                /// Creates an enum from field names used in the ProtoBuf definition.
+                pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+                    match value {
+                        "ARCHIVE_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+                        "TAR" => Some(Self::Tar),
+                        "TAR_GZIP" => Some(Self::TarGzip),
+                        "TAR_BZIP" => Some(Self::TarBzip),
+                        "TAR_LZMA" => Some(Self::TarLzma),
+                        "TAR_XZ" => Some(Self::TarXz),
+                        "ZIP" => Some(Self::Zip),
+                        _ => None,
+                    }
+                }
+            }
+        }
+        /// Installs an MSI file.
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct InstallMsi {
+            /// The id of the relevant artifact in the recipe.
+            #[prost(string, tag = "1")]
+            pub artifact_id: ::prost::alloc::string::String,
+            /// The flags to use when installing the MSI
+            /// defaults to \["/i"\] (i.e. the install flag).
+            #[prost(string, repeated, tag = "2")]
+            pub flags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// Return codes that indicate that the software installed or updated
+            /// successfully. Behaviour defaults to \[0\]
+            #[prost(int32, repeated, tag = "3")]
+            pub allowed_exit_codes: ::prost::alloc::vec::Vec<i32>,
+        }
+        /// Installs a deb via dpkg.
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct InstallDpkg {
+            /// The id of the relevant artifact in the recipe.
+            #[prost(string, tag = "1")]
+            pub artifact_id: ::prost::alloc::string::String,
+        }
+        /// Installs an rpm file via the rpm utility.
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct InstallRpm {
+            /// The id of the relevant artifact in the recipe.
+            #[prost(string, tag = "1")]
+            pub artifact_id: ::prost::alloc::string::String,
+        }
+        /// Executes an artifact or local file.
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct ExecFile {
+            /// Arguments to be passed to the provided executable.
+            #[prost(string, repeated, tag = "3")]
+            pub args: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+            /// Defaults to \[0\]. A list of possible return values that the program
+            /// can return to indicate a success.
+            #[prost(int32, repeated, tag = "4")]
+            pub allowed_exit_codes: ::prost::alloc::vec::Vec<i32>,
+            /// Location of the file to execute.
+            #[prost(oneof = "exec_file::LocationType", tags = "1, 2")]
+            pub location_type: ::core::option::Option<exec_file::LocationType>,
+        }
+        /// Nested message and enum types in `ExecFile`.
+        pub mod exec_file {
+            /// Location of the file to execute.
+            #[allow(clippy::derive_partial_eq_without_eq)]
+            #[derive(Clone, PartialEq, ::prost::Oneof)]
+            pub enum LocationType {
+                /// The id of the relevant artifact in the recipe.
+                #[prost(string, tag = "1")]
+                ArtifactId(::prost::alloc::string::String),
+                /// The absolute path of the file on the local filesystem.
+                #[prost(string, tag = "2")]
+                LocalPath(::prost::alloc::string::String),
+            }
+        }
+        /// Runs a script through an interpreter.
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct RunScript {
+            /// The shell script to be executed.
+            #[prost(string, tag = "1")]
+            pub script: ::prost::alloc::string::String,
+            /// Return codes that indicate that the software installed or updated
+            /// successfully. Behaviour defaults to \[0\]
+            #[prost(int32, repeated, tag = "2")]
+            pub allowed_exit_codes: ::prost::alloc::vec::Vec<i32>,
+            /// The script interpreter to use to run the script. If no interpreter is
+            /// specified the script is executed directly, which likely
+            /// only succeed for scripts with
+            /// [shebang lines](<https://en.wikipedia.org/wiki/Shebang_(Unix>)).
+            #[prost(enumeration = "run_script::Interpreter", tag = "3")]
+            pub interpreter: i32,
+        }
+        /// Nested message and enum types in `RunScript`.
+        pub mod run_script {
+            /// The interpreter used to execute a script.
+            #[derive(
+                Clone,
+                Copy,
+                Debug,
+                PartialEq,
+                Eq,
+                Hash,
+                PartialOrd,
+                Ord,
+                ::prost::Enumeration
+            )]
+            #[repr(i32)]
+            pub enum Interpreter {
+                /// Default value for ScriptType.
+                Unspecified = 0,
+                /// Indicates that the script is run with `/bin/sh` on Linux and `cmd`
+                /// on windows.
+                Shell = 1,
+                /// Indicates that the script is run with powershell.
+                Powershell = 3,
+            }
+            impl Interpreter {
+                /// String value of the enum field names used in the ProtoBuf definition.
+                ///
+                /// The values are not transformed in any way and thus are considered stable
+                /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+                pub fn as_str_name(&self) -> &'static str {
+                    match self {
+                        Interpreter::Unspecified => "INTERPRETER_UNSPECIFIED",
+                        Interpreter::Shell => "SHELL",
+                        Interpreter::Powershell => "POWERSHELL",
+                    }
+                }
+                /// Creates an enum from field names used in the ProtoBuf definition.
+                pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+                    match value {
+                        "INTERPRETER_UNSPECIFIED" => Some(Self::Unspecified),
+                        "SHELL" => Some(Self::Shell),
+                        "POWERSHELL" => Some(Self::Powershell),
+                        _ => None,
+                    }
+                }
+            }
+        }
+        /// A specific type of step.
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        pub enum Step {
+            /// Copies a file onto the instance.
+            #[prost(message, tag = "1")]
+            FileCopy(CopyFile),
+            /// Extracts an archive into the specified directory.
+            #[prost(message, tag = "2")]
+            ArchiveExtraction(ExtractArchive),
+            /// Installs an MSI file.
+            #[prost(message, tag = "3")]
+            MsiInstallation(InstallMsi),
+            /// Installs a deb file via dpkg.
+            #[prost(message, tag = "4")]
+            DpkgInstallation(InstallDpkg),
+            /// Installs an rpm file via the rpm utility.
+            #[prost(message, tag = "5")]
+            RpmInstallation(InstallRpm),
+            /// Executes an artifact or local file.
+            #[prost(message, tag = "6")]
+            FileExec(ExecFile),
+            /// Runs commands in a shell.
+            #[prost(message, tag = "7")]
+            ScriptRun(RunScript),
+        }
+    }
+}
+/// A request message for getting effective policy assigned to the instance.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LookupEffectiveGuestPolicyRequest {
+    /// Required. This is the GCE instance identity token described in
+    /// <https://cloud.google.com/compute/docs/instances/verifying-instance-identity>
+    /// where the audience is 'osconfig.googleapis.com' and the format is 'full'.
+    #[prost(string, tag = "1")]
+    pub instance_id_token: ::prost::alloc::string::String,
+    /// Short name of the OS running on the instance. The OS Config agent only
+    /// provideS this field for targeting if OS Inventory is enabled for that
+    /// instance.
+    #[prost(string, tag = "2")]
+    pub os_short_name: ::prost::alloc::string::String,
+    /// Version of the OS running on the instance. The OS Config agent only
+    /// provide this field for targeting if OS Inventory is enabled for that
+    /// VM instance.
+    #[prost(string, tag = "3")]
+    pub os_version: ::prost::alloc::string::String,
+    /// Architecture of OS running on the instance. The OS Config agent only
+    /// provide this field for targeting if OS Inventory is enabled for that
+    /// instance.
+    #[prost(string, tag = "4")]
+    pub os_architecture: ::prost::alloc::string::String,
+}
+/// The effective guest policy assigned to the instance.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EffectiveGuestPolicy {
+    /// List of package configurations assigned to the VM instance.
+    #[prost(message, repeated, tag = "1")]
+    pub packages: ::prost::alloc::vec::Vec<effective_guest_policy::SourcedPackage>,
+    /// List of package repository configurations assigned to the VM instance.
+    #[prost(message, repeated, tag = "2")]
+    pub package_repositories: ::prost::alloc::vec::Vec<
+        effective_guest_policy::SourcedPackageRepository,
+    >,
+    /// List of recipes assigned to the VM instance.
+    #[prost(message, repeated, tag = "3")]
+    pub software_recipes: ::prost::alloc::vec::Vec<
+        effective_guest_policy::SourcedSoftwareRecipe,
+    >,
+}
+/// Nested message and enum types in `EffectiveGuestPolicy`.
+pub mod effective_guest_policy {
+    /// A guest policy package including its source.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SourcedPackage {
+        /// Name of the guest policy providing this config.
+        #[prost(string, tag = "1")]
+        pub source: ::prost::alloc::string::String,
+        /// A software package to configure on the VM instance.
+        #[prost(message, optional, tag = "2")]
+        pub package: ::core::option::Option<super::Package>,
+    }
+    /// A guest policy package repository including its source.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SourcedPackageRepository {
+        /// Name of the guest policy providing this config.
+        #[prost(string, tag = "1")]
+        pub source: ::prost::alloc::string::String,
+        /// A software package repository to configure on the VM instance.
+        #[prost(message, optional, tag = "2")]
+        pub package_repository: ::core::option::Option<super::PackageRepository>,
+    }
+    /// A guest policy recipe including its source.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SourcedSoftwareRecipe {
+        /// Name of the guest policy providing this config.
+        #[prost(string, tag = "1")]
+        pub source: ::prost::alloc::string::String,
+        /// A software recipe to configure on the VM instance.
+        #[prost(message, optional, tag = "2")]
+        pub software_recipe: ::core::option::Option<super::SoftwareRecipe>,
+    }
+}
+/// The desired state that the OS Config agent will maintain on the VM.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum DesiredState {
+    /// The default is to ensure the package is installed.
+    Unspecified = 0,
+    /// The agent ensures that the package is installed.
+    Installed = 1,
+    /// The agent ensures that the package is installed and
+    /// periodically checks for and install any updates.
+    Updated = 2,
+    /// The agent ensures that the package is not installed and uninstall it
+    /// if detected.
+    Removed = 3,
+}
+impl DesiredState {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            DesiredState::Unspecified => "DESIRED_STATE_UNSPECIFIED",
+            DesiredState::Installed => "INSTALLED",
+            DesiredState::Updated => "UPDATED",
+            DesiredState::Removed => "REMOVED",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "DESIRED_STATE_UNSPECIFIED" => Some(Self::Unspecified),
+            "INSTALLED" => Some(Self::Installed),
+            "UPDATED" => Some(Self::Updated),
+            "REMOVED" => Some(Self::Removed),
             _ => None,
         }
     }

@@ -1,3 +1,257 @@
+/// Represents a CEL value.
+///
+/// This is similar to `google.protobuf.Value`, but can represent CEL's full
+/// range of values.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Value {
+    /// Required. The valid kinds of values.
+    #[prost(oneof = "value::Kind", tags = "1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 15")]
+    pub kind: ::core::option::Option<value::Kind>,
+}
+/// Nested message and enum types in `Value`.
+pub mod value {
+    /// Required. The valid kinds of values.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Kind {
+        /// Null value.
+        #[prost(enumeration = "::prost_types::NullValue", tag = "1")]
+        NullValue(i32),
+        /// Boolean value.
+        #[prost(bool, tag = "2")]
+        BoolValue(bool),
+        /// Signed integer value.
+        #[prost(int64, tag = "3")]
+        Int64Value(i64),
+        /// Unsigned integer value.
+        #[prost(uint64, tag = "4")]
+        Uint64Value(u64),
+        /// Floating point value.
+        #[prost(double, tag = "5")]
+        DoubleValue(f64),
+        /// UTF-8 string value.
+        #[prost(string, tag = "6")]
+        StringValue(::prost::alloc::string::String),
+        /// Byte string value.
+        #[prost(bytes, tag = "7")]
+        BytesValue(::prost::bytes::Bytes),
+        /// An enum value.
+        #[prost(message, tag = "9")]
+        EnumValue(super::EnumValue),
+        /// The proto message backing an object value.
+        #[prost(message, tag = "10")]
+        ObjectValue(::prost_types::Any),
+        /// Map value.
+        #[prost(message, tag = "11")]
+        MapValue(super::MapValue),
+        /// List value.
+        #[prost(message, tag = "12")]
+        ListValue(super::ListValue),
+        /// Type value.
+        #[prost(string, tag = "15")]
+        TypeValue(::prost::alloc::string::String),
+    }
+}
+/// An enum value.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EnumValue {
+    /// The fully qualified name of the enum type.
+    #[prost(string, tag = "1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// The value of the enum.
+    #[prost(int32, tag = "2")]
+    pub value: i32,
+}
+/// A list.
+///
+/// Wrapped in a message so 'not set' and empty can be differentiated, which is
+/// required for use in a 'oneof'.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListValue {
+    /// The ordered values in the list.
+    #[prost(message, repeated, tag = "1")]
+    pub values: ::prost::alloc::vec::Vec<Value>,
+}
+/// A map.
+///
+/// Wrapped in a message so 'not set' and empty can be differentiated, which is
+/// required for use in a 'oneof'.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MapValue {
+    /// The set of map entries.
+    ///
+    /// CEL has fewer restrictions on keys, so a protobuf map represenation
+    /// cannot be used.
+    #[prost(message, repeated, tag = "1")]
+    pub entries: ::prost::alloc::vec::Vec<map_value::Entry>,
+}
+/// Nested message and enum types in `MapValue`.
+pub mod map_value {
+    /// An entry in the map.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Entry {
+        /// The key.
+        ///
+        /// Must be unique with in the map.
+        /// Currently only boolean, int, uint, and string values can be keys.
+        #[prost(message, optional, tag = "1")]
+        pub key: ::core::option::Option<super::Value>,
+        /// The value.
+        #[prost(message, optional, tag = "2")]
+        pub value: ::core::option::Option<super::Value>,
+    }
+}
+/// The state of an evaluation.
+///
+/// Can represent an inital, partial, or completed state of evaluation.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EvalState {
+    /// The unique values referenced in this message.
+    #[prost(message, repeated, tag = "1")]
+    pub values: ::prost::alloc::vec::Vec<ExprValue>,
+    /// An ordered list of results.
+    ///
+    /// Tracks the flow of evaluation through the expression.
+    /// May be sparse.
+    #[prost(message, repeated, tag = "3")]
+    pub results: ::prost::alloc::vec::Vec<eval_state::Result>,
+}
+/// Nested message and enum types in `EvalState`.
+pub mod eval_state {
+    /// A single evalution result.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Result {
+        /// The id of the expression this result if for.
+        #[prost(int64, tag = "1")]
+        pub expr: i64,
+        /// The index in `values` of the resulting value.
+        #[prost(int64, tag = "2")]
+        pub value: i64,
+    }
+}
+/// The value of an evaluated expression.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ExprValue {
+    /// An expression can resolve to a value, error or unknown.
+    #[prost(oneof = "expr_value::Kind", tags = "1, 2, 3")]
+    pub kind: ::core::option::Option<expr_value::Kind>,
+}
+/// Nested message and enum types in `ExprValue`.
+pub mod expr_value {
+    /// An expression can resolve to a value, error or unknown.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Kind {
+        /// A concrete value.
+        #[prost(message, tag = "1")]
+        Value(super::Value),
+        /// The set of errors in the critical path of evalution.
+        ///
+        /// Only errors in the critical path are included. For example,
+        /// `(<error1> || true) && <error2>` will only result in `<error2>`,
+        /// while `<error1> || <error2>` will result in both `<error1>` and
+        /// `<error2>`.
+        ///
+        /// Errors cause by the presence of other errors are not included in the
+        /// set. For example `<error1>.foo`, `foo(<error1>)`, and `<error1> + 1` will
+        /// only result in `<error1>`.
+        ///
+        /// Multiple errors *might* be included when evaluation could result
+        /// in different errors. For example `<error1> + <error2>` and
+        /// `foo(<error1>, <error2>)` may result in `<error1>`, `<error2>` or both.
+        /// The exact subset of errors included for this case is unspecified and
+        /// depends on the implementation details of the evaluator.
+        #[prost(message, tag = "2")]
+        Error(super::ErrorSet),
+        /// The set of unknowns in the critical path of evaluation.
+        ///
+        /// Unknown behaves identically to Error with regards to propagation.
+        /// Specifically, only unknowns in the critical path are included, unknowns
+        /// caused by the presence of other unknowns are not included, and multiple
+        /// unknowns *might* be included included when evaluation could result in
+        /// different unknowns. For example:
+        ///
+        ///      (<unknown\[1\]> || true) && <unknown\[2\]> -> <unknown\[2\]>
+        ///      <unknown\[1\]> || <unknown\[2\]> -> <unknown\[1,2\]>
+        ///      <unknown\[1\]>.foo -> <unknown\[1\]>
+        ///      foo(<unknown\[1\]>) -> <unknown\[1\]>
+        ///      <unknown\[1\]> + <unknown\[2\]> -> <unknown\[1\]> or <unknown[2[>
+        ///
+        /// Unknown takes precidence over Error in cases where a `Value` can short
+        /// circuit the result:
+        ///
+        ///      <error> || <unknown> -> <unknown>
+        ///      <error> && <unknown> -> <unknown>
+        ///
+        /// Errors take precidence in all other cases:
+        ///
+        ///      <unknown> + <error> -> <error>
+        ///      foo(<unknown>, <error>) -> <error>
+        #[prost(message, tag = "3")]
+        Unknown(super::UnknownSet),
+    }
+}
+/// A set of errors.
+///
+/// The errors included depend on the context. See `ExprValue.error`.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ErrorSet {
+    /// The errors in the set.
+    #[prost(message, repeated, tag = "1")]
+    pub errors: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
+}
+/// A set of expressions for which the value is unknown.
+///
+/// The unknowns included depend on the context. See `ExprValue.unknown`.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UnknownSet {
+    /// The ids of the expressions with unknown values.
+    #[prost(int64, repeated, tag = "1")]
+    pub exprs: ::prost::alloc::vec::Vec<i64>,
+}
+/// Values of intermediate expressions produced when evaluating expression.
+/// Deprecated, use `EvalState` instead.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Explain {
+    /// All of the observed values.
+    ///
+    /// The field value_index is an index in the values list.
+    /// Separating values from steps is needed to remove redundant values.
+    #[prost(message, repeated, tag = "1")]
+    pub values: ::prost::alloc::vec::Vec<Value>,
+    /// List of steps.
+    ///
+    /// Repeated evaluations of the same expression generate new ExprStep
+    /// instances. The order of such ExprStep instances matches the order of
+    /// elements returned by Comprehension.iter_range.
+    #[prost(message, repeated, tag = "2")]
+    pub expr_steps: ::prost::alloc::vec::Vec<explain::ExprStep>,
+}
+/// Nested message and enum types in `Explain`.
+pub mod explain {
+    /// ID and value index of one step.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ExprStep {
+        /// ID of corresponding Expr node.
+        #[prost(int64, tag = "1")]
+        pub id: i64,
+        /// Index of the value in the values list.
+        #[prost(int32, tag = "2")]
+        pub value_index: i32,
+    }
+}
 /// An expression together with source information as returned by the parser.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -16,14 +270,16 @@ pub struct ParsedExpr {
 /// operators with the exception of the '.' operator are modelled as function
 /// calls. This makes it easy to represent new operators into the existing AST.
 ///
-/// All references within expressions must resolve to a [Decl][google.api.expr.v1alpha1.Decl] provided at
-/// type-check for an expression to be valid. A reference may either be a bare
-/// identifier `name` or a qualified identifier `google.api.name`. References
-/// may either refer to a value or a function declaration.
+/// All references within expressions must resolve to a
+/// [Decl][google.api.expr.v1alpha1.Decl] provided at type-check for an
+/// expression to be valid. A reference may either be a bare identifier `name` or
+/// a qualified identifier `google.api.name`. References may either refer to a
+/// value or a function declaration.
 ///
 /// For example, the expression `google.api.name.startsWith('expr')` references
-/// the declaration `google.api.name` within a [Expr.Select][google.api.expr.v1alpha1.Expr.Select] expression, and
-/// the function declaration `startsWith`.
+/// the declaration `google.api.name` within a
+/// [Expr.Select][google.api.expr.v1alpha1.Expr.Select] expression, and the
+/// function declaration `startsWith`.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Expr {
@@ -45,7 +301,8 @@ pub mod expr {
         /// Required. Holds a single, unqualified identifier, possibly preceded by a
         /// '.'.
         ///
-        /// Qualified names are represented by the [Expr.Select][google.api.expr.v1alpha1.Expr.Select] expression.
+        /// Qualified names are represented by the
+        /// [Expr.Select][google.api.expr.v1alpha1.Expr.Select] expression.
         #[prost(string, tag = "1")]
         pub name: ::prost::alloc::string::String,
     }
@@ -259,7 +516,8 @@ pub mod expr {
 /// primitives.
 ///
 /// Lists and structs are not included as constants as these aggregate types may
-/// contain [Expr][google.api.expr.v1alpha1.Expr] elements which require evaluation and are thus not constant.
+/// contain [Expr][google.api.expr.v1alpha1.Expr] elements which require
+/// evaluation and are thus not constant.
 ///
 /// Examples of literals include: `"hello"`, `b'bytes'`, `1u`, `4.2`, `-2`,
 /// `true`, `null`.
@@ -345,6 +603,101 @@ pub struct SourceInfo {
     /// value is the call `Expr` that was replaced.
     #[prost(btree_map = "int64, message", tag = "5")]
     pub macro_calls: ::prost::alloc::collections::BTreeMap<i64, Expr>,
+    /// A list of tags for extensions that were used while parsing or type checking
+    /// the source expression. For example, optimizations that require special
+    /// runtime support may be specified.
+    ///
+    /// These are used to check feature support between components in separate
+    /// implementations. This can be used to either skip redundant work or
+    /// report an error if the extension is unsupported.
+    #[prost(message, repeated, tag = "6")]
+    pub extensions: ::prost::alloc::vec::Vec<source_info::Extension>,
+}
+/// Nested message and enum types in `SourceInfo`.
+pub mod source_info {
+    /// An extension that was requested for the source expression.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Extension {
+        /// Identifier for the extension. Example: constant_folding
+        #[prost(string, tag = "1")]
+        pub id: ::prost::alloc::string::String,
+        /// If set, the listed components must understand the extension for the
+        /// expression to evaluate correctly.
+        ///
+        /// This field has set semantics, repeated values should be deduplicated.
+        #[prost(enumeration = "extension::Component", repeated, tag = "2")]
+        pub affected_components: ::prost::alloc::vec::Vec<i32>,
+        /// Version info. May be skipped if it isn't meaningful for the extension.
+        /// (for example constant_folding might always be v0.0).
+        #[prost(message, optional, tag = "3")]
+        pub version: ::core::option::Option<extension::Version>,
+    }
+    /// Nested message and enum types in `Extension`.
+    pub mod extension {
+        /// Version
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Version {
+            /// Major version changes indicate different required support level from
+            /// the required components.
+            #[prost(int64, tag = "1")]
+            pub major: i64,
+            /// Minor version changes must not change the observed behavior from
+            /// existing implementations, but may be provided informationally.
+            #[prost(int64, tag = "2")]
+            pub minor: i64,
+        }
+        /// CEL component specifier.
+        #[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        pub enum Component {
+            /// Unspecified, default.
+            Unspecified = 0,
+            /// Parser. Converts a CEL string to an AST.
+            Parser = 1,
+            /// Type checker. Checks that references in an AST are defined and types
+            /// agree.
+            TypeChecker = 2,
+            /// Runtime. Evaluates a parsed and optionally checked CEL AST against a
+            /// context.
+            Runtime = 3,
+        }
+        impl Component {
+            /// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            pub fn as_str_name(&self) -> &'static str {
+                match self {
+                    Component::Unspecified => "COMPONENT_UNSPECIFIED",
+                    Component::Parser => "COMPONENT_PARSER",
+                    Component::TypeChecker => "COMPONENT_TYPE_CHECKER",
+                    Component::Runtime => "COMPONENT_RUNTIME",
+                }
+            }
+            /// Creates an enum from field names used in the ProtoBuf definition.
+            pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+                match value {
+                    "COMPONENT_UNSPECIFIED" => Some(Self::Unspecified),
+                    "COMPONENT_PARSER" => Some(Self::Parser),
+                    "COMPONENT_TYPE_CHECKER" => Some(Self::TypeChecker),
+                    "COMPONENT_RUNTIME" => Some(Self::Runtime),
+                    _ => None,
+                }
+            }
+        }
+    }
 }
 /// A specific position in source.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -789,258 +1142,4 @@ pub struct Reference {
     /// constant if known at compile time.
     #[prost(message, optional, tag = "4")]
     pub value: ::core::option::Option<Constant>,
-}
-/// Represents a CEL value.
-///
-/// This is similar to `google.protobuf.Value`, but can represent CEL's full
-/// range of values.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Value {
-    /// Required. The valid kinds of values.
-    #[prost(oneof = "value::Kind", tags = "1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 15")]
-    pub kind: ::core::option::Option<value::Kind>,
-}
-/// Nested message and enum types in `Value`.
-pub mod value {
-    /// Required. The valid kinds of values.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Kind {
-        /// Null value.
-        #[prost(enumeration = "::prost_types::NullValue", tag = "1")]
-        NullValue(i32),
-        /// Boolean value.
-        #[prost(bool, tag = "2")]
-        BoolValue(bool),
-        /// Signed integer value.
-        #[prost(int64, tag = "3")]
-        Int64Value(i64),
-        /// Unsigned integer value.
-        #[prost(uint64, tag = "4")]
-        Uint64Value(u64),
-        /// Floating point value.
-        #[prost(double, tag = "5")]
-        DoubleValue(f64),
-        /// UTF-8 string value.
-        #[prost(string, tag = "6")]
-        StringValue(::prost::alloc::string::String),
-        /// Byte string value.
-        #[prost(bytes, tag = "7")]
-        BytesValue(::prost::bytes::Bytes),
-        /// An enum value.
-        #[prost(message, tag = "9")]
-        EnumValue(super::EnumValue),
-        /// The proto message backing an object value.
-        #[prost(message, tag = "10")]
-        ObjectValue(::prost_types::Any),
-        /// Map value.
-        #[prost(message, tag = "11")]
-        MapValue(super::MapValue),
-        /// List value.
-        #[prost(message, tag = "12")]
-        ListValue(super::ListValue),
-        /// Type value.
-        #[prost(string, tag = "15")]
-        TypeValue(::prost::alloc::string::String),
-    }
-}
-/// An enum value.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EnumValue {
-    /// The fully qualified name of the enum type.
-    #[prost(string, tag = "1")]
-    pub r#type: ::prost::alloc::string::String,
-    /// The value of the enum.
-    #[prost(int32, tag = "2")]
-    pub value: i32,
-}
-/// A list.
-///
-/// Wrapped in a message so 'not set' and empty can be differentiated, which is
-/// required for use in a 'oneof'.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListValue {
-    /// The ordered values in the list.
-    #[prost(message, repeated, tag = "1")]
-    pub values: ::prost::alloc::vec::Vec<Value>,
-}
-/// A map.
-///
-/// Wrapped in a message so 'not set' and empty can be differentiated, which is
-/// required for use in a 'oneof'.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MapValue {
-    /// The set of map entries.
-    ///
-    /// CEL has fewer restrictions on keys, so a protobuf map represenation
-    /// cannot be used.
-    #[prost(message, repeated, tag = "1")]
-    pub entries: ::prost::alloc::vec::Vec<map_value::Entry>,
-}
-/// Nested message and enum types in `MapValue`.
-pub mod map_value {
-    /// An entry in the map.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Entry {
-        /// The key.
-        ///
-        /// Must be unique with in the map.
-        /// Currently only boolean, int, uint, and string values can be keys.
-        #[prost(message, optional, tag = "1")]
-        pub key: ::core::option::Option<super::Value>,
-        /// The value.
-        #[prost(message, optional, tag = "2")]
-        pub value: ::core::option::Option<super::Value>,
-    }
-}
-/// The state of an evaluation.
-///
-/// Can represent an inital, partial, or completed state of evaluation.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EvalState {
-    /// The unique values referenced in this message.
-    #[prost(message, repeated, tag = "1")]
-    pub values: ::prost::alloc::vec::Vec<ExprValue>,
-    /// An ordered list of results.
-    ///
-    /// Tracks the flow of evaluation through the expression.
-    /// May be sparse.
-    #[prost(message, repeated, tag = "3")]
-    pub results: ::prost::alloc::vec::Vec<eval_state::Result>,
-}
-/// Nested message and enum types in `EvalState`.
-pub mod eval_state {
-    /// A single evalution result.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Result {
-        /// The id of the expression this result if for.
-        #[prost(int64, tag = "1")]
-        pub expr: i64,
-        /// The index in `values` of the resulting value.
-        #[prost(int64, tag = "2")]
-        pub value: i64,
-    }
-}
-/// The value of an evaluated expression.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ExprValue {
-    /// An expression can resolve to a value, error or unknown.
-    #[prost(oneof = "expr_value::Kind", tags = "1, 2, 3")]
-    pub kind: ::core::option::Option<expr_value::Kind>,
-}
-/// Nested message and enum types in `ExprValue`.
-pub mod expr_value {
-    /// An expression can resolve to a value, error or unknown.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Kind {
-        /// A concrete value.
-        #[prost(message, tag = "1")]
-        Value(super::Value),
-        /// The set of errors in the critical path of evalution.
-        ///
-        /// Only errors in the critical path are included. For example,
-        /// `(<error1> || true) && <error2>` will only result in `<error2>`,
-        /// while `<error1> || <error2>` will result in both `<error1>` and
-        /// `<error2>`.
-        ///
-        /// Errors cause by the presence of other errors are not included in the
-        /// set. For example `<error1>.foo`, `foo(<error1>)`, and `<error1> + 1` will
-        /// only result in `<error1>`.
-        ///
-        /// Multiple errors *might* be included when evaluation could result
-        /// in different errors. For example `<error1> + <error2>` and
-        /// `foo(<error1>, <error2>)` may result in `<error1>`, `<error2>` or both.
-        /// The exact subset of errors included for this case is unspecified and
-        /// depends on the implementation details of the evaluator.
-        #[prost(message, tag = "2")]
-        Error(super::ErrorSet),
-        /// The set of unknowns in the critical path of evaluation.
-        ///
-        /// Unknown behaves identically to Error with regards to propagation.
-        /// Specifically, only unknowns in the critical path are included, unknowns
-        /// caused by the presence of other unknowns are not included, and multiple
-        /// unknowns *might* be included included when evaluation could result in
-        /// different unknowns. For example:
-        ///
-        ///      (<unknown\[1\]> || true) && <unknown\[2\]> -> <unknown\[2\]>
-        ///      <unknown\[1\]> || <unknown\[2\]> -> <unknown\[1,2\]>
-        ///      <unknown\[1\]>.foo -> <unknown\[1\]>
-        ///      foo(<unknown\[1\]>) -> <unknown\[1\]>
-        ///      <unknown\[1\]> + <unknown\[2\]> -> <unknown\[1\]> or <unknown[2[>
-        ///
-        /// Unknown takes precidence over Error in cases where a `Value` can short
-        /// circuit the result:
-        ///
-        ///      <error> || <unknown> -> <unknown>
-        ///      <error> && <unknown> -> <unknown>
-        ///
-        /// Errors take precidence in all other cases:
-        ///
-        ///      <unknown> + <error> -> <error>
-        ///      foo(<unknown>, <error>) -> <error>
-        #[prost(message, tag = "3")]
-        Unknown(super::UnknownSet),
-    }
-}
-/// A set of errors.
-///
-/// The errors included depend on the context. See `ExprValue.error`.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ErrorSet {
-    /// The errors in the set.
-    #[prost(message, repeated, tag = "1")]
-    pub errors: ::prost::alloc::vec::Vec<super::super::super::rpc::Status>,
-}
-/// A set of expressions for which the value is unknown.
-///
-/// The unknowns included depend on the context. See `ExprValue.unknown`.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UnknownSet {
-    /// The ids of the expressions with unknown values.
-    #[prost(int64, repeated, tag = "1")]
-    pub exprs: ::prost::alloc::vec::Vec<i64>,
-}
-/// Values of intermediate expressions produced when evaluating expression.
-/// Deprecated, use `EvalState` instead.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Explain {
-    /// All of the observed values.
-    ///
-    /// The field value_index is an index in the values list.
-    /// Separating values from steps is needed to remove redundant values.
-    #[prost(message, repeated, tag = "1")]
-    pub values: ::prost::alloc::vec::Vec<Value>,
-    /// List of steps.
-    ///
-    /// Repeated evaluations of the same expression generate new ExprStep
-    /// instances. The order of such ExprStep instances matches the order of
-    /// elements returned by Comprehension.iter_range.
-    #[prost(message, repeated, tag = "2")]
-    pub expr_steps: ::prost::alloc::vec::Vec<explain::ExprStep>,
-}
-/// Nested message and enum types in `Explain`.
-pub mod explain {
-    /// ID and value index of one step.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ExprStep {
-        /// ID of corresponding Expr node.
-        #[prost(int64, tag = "1")]
-        pub id: i64,
-        /// Index of the value in the values list.
-        #[prost(int32, tag = "2")]
-        pub value_index: i32,
-    }
 }

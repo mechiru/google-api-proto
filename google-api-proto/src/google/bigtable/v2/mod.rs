@@ -1858,21 +1858,6 @@ pub mod bigtable_client {
         }
     }
 }
-/// Response metadata proto
-/// This is an experimental feature that will be used to get zone_id and
-/// cluster_id from response trailers to tag the metrics. This should not be
-/// used by customers directly
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResponseParams {
-    /// The cloud bigtable zone associated with the cluster.
-    #[prost(string, optional, tag = "1")]
-    pub zone_id: ::core::option::Option<::prost::alloc::string::String>,
-    /// Identifier for a cluster that represents set of
-    /// bigtable resources.
-    #[prost(string, optional, tag = "2")]
-    pub cluster_id: ::core::option::Option<::prost::alloc::string::String>,
-}
 /// Feature flags supported or enabled by a client.
 /// This is intended to be sent as part of request metadata to assure the server
 /// that certain behaviors are safe to enable. This proto is meant to be
@@ -1902,4 +1887,27 @@ pub struct FeatureFlags {
     /// in ReadRowsResponse for long-running scans.
     #[prost(bool, tag = "4")]
     pub last_scanned_row_responses: bool,
+    /// Notify the server that the client supports using encoded routing cookie
+    /// strings to retry requests with.
+    #[prost(bool, tag = "6")]
+    pub routing_cookie: bool,
+    /// Notify the server that the client supports using retry info back off
+    /// durations to retry requests with.
+    #[prost(bool, tag = "7")]
+    pub retry_info: bool,
+}
+/// Response metadata proto
+/// This is an experimental feature that will be used to get zone_id and
+/// cluster_id from response trailers to tag the metrics. This should not be
+/// used by customers directly
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResponseParams {
+    /// The cloud bigtable zone associated with the cluster.
+    #[prost(string, optional, tag = "1")]
+    pub zone_id: ::core::option::Option<::prost::alloc::string::String>,
+    /// Identifier for a cluster that represents set of
+    /// bigtable resources.
+    #[prost(string, optional, tag = "2")]
+    pub cluster_id: ::core::option::Option<::prost::alloc::string::String>,
 }

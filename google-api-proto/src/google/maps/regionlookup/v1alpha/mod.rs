@@ -1,171 +1,3 @@
-/// Region Match.
-///
-/// Next available tag: 5
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RegionMatch {
-    /// Place ID of the region that is matched. If region is found, this field is
-    /// not set.
-    #[prost(string, tag = "1")]
-    pub matched_place_id: ::prost::alloc::string::String,
-    /// Region candidate IDs. Up to three candidates may be returned.
-    #[prost(string, repeated, tag = "2")]
-    pub candidate_place_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Matching debug information for when no match is found.
-    #[prost(string, tag = "3")]
-    pub debug_info: ::prost::alloc::string::String,
-}
-/// Region Search Values.
-///
-/// Desired search values of a single region.
-///
-/// Location must be specified by one of the following: address, latlng or
-/// place_id. If none is specified, an INVALID_ARGUMENT error is returned.
-/// region_code must also be provided when address is specified.
-///
-/// The fields address, latlng and place_id specify a location contained inside
-/// the region to match. For example if address is "1600 Amphitheatre Pkwy,
-/// Mountain View, CA 94043" the API returns the following matched_place_id
-/// results when the following place_types are specified:
-///
-/// place_type:                   matched_place_id results:
-/// postal_code                   Place ID for "94043"
-/// administrative_area_level_1   Place ID for The State of California
-/// administrative_area_level_2   Place ID for Santa Clara County
-/// etc.
-///
-/// More Examples:
-///
-/// If latlng is "latitude: 37.4220656 longitude: -122.0862784" and place_type
-/// is "locality", the result contains the Place ID (of type "locality") for
-/// that location (the Place ID of Mountain View, CA, in this case).
-///
-/// If place_id is "ChIJj61dQgK6j4AR4GeTYWZsKWw" (Place ID for Google office in
-/// Mountain view, CA) and place_type is "locality", the result contains the
-/// Place ID (of type "locality") for that location (the Place ID of Mountain
-/// View, CA, in this case).
-///
-/// If no match is found, matched_place_id is not set.
-///
-/// Candidates Place IDs are returned when a search finds multiple Place
-/// IDs for the location specified. For example if the API is searching for
-/// region Place IDs of type neighboorhood for a location that is contained
-/// within multiple neighboords. The Place Ids will be returned as candidates in
-/// the candidate_place_ids field.
-///
-/// Next available tag: 10
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RegionSearchValue {
-    /// Required. The type of the place to match.
-    #[prost(enumeration = "region_search_value::PlaceType", tag = "6")]
-    pub place_type: i32,
-    /// The BCP-47 language code, such as "en-US" or "sr-Latn", corresponding to
-    /// the language in which the place name and address is requested. If none is
-    /// requested, then it defaults to English.
-    #[prost(string, tag = "7")]
-    pub language_code: ::prost::alloc::string::String,
-    /// Two-letter ISO-3166 country/region code for the location you're trying to
-    /// match. region_code is required when address is specified.
-    #[prost(string, tag = "8")]
-    pub region_code: ::prost::alloc::string::String,
-    /// The location must be specified by one of the following:
-    #[prost(oneof = "region_search_value::Location", tags = "1, 2, 3")]
-    pub location: ::core::option::Option<region_search_value::Location>,
-}
-/// Nested message and enum types in `RegionSearchValue`.
-pub mod region_search_value {
-    /// Possible place types to match to.
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum PlaceType {
-        /// Default value. This value is unused.
-        Unspecified = 0,
-        /// Postal code.
-        PostalCode = 1,
-        /// Administrative area level 1 (State in the US).
-        AdministrativeAreaLevel1 = 2,
-        /// Administrative area level 2 (County in the US).
-        AdministrativeAreaLevel2 = 3,
-        /// Locality (City).
-        Locality = 4,
-        /// Neighborhood.
-        Neighborhood = 5,
-        /// Country.
-        Country = 6,
-        /// Sublocality.
-        Sublocality = 7,
-        /// Administrative area level 3.
-        AdministrativeAreaLevel3 = 8,
-        /// Administrative area level 4.
-        AdministrativeAreaLevel4 = 9,
-        /// School district.
-        SchoolDistrict = 10,
-    }
-    impl PlaceType {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                PlaceType::Unspecified => "PLACE_TYPE_UNSPECIFIED",
-                PlaceType::PostalCode => "POSTAL_CODE",
-                PlaceType::AdministrativeAreaLevel1 => "ADMINISTRATIVE_AREA_LEVEL_1",
-                PlaceType::AdministrativeAreaLevel2 => "ADMINISTRATIVE_AREA_LEVEL_2",
-                PlaceType::Locality => "LOCALITY",
-                PlaceType::Neighborhood => "NEIGHBORHOOD",
-                PlaceType::Country => "COUNTRY",
-                PlaceType::Sublocality => "SUBLOCALITY",
-                PlaceType::AdministrativeAreaLevel3 => "ADMINISTRATIVE_AREA_LEVEL_3",
-                PlaceType::AdministrativeAreaLevel4 => "ADMINISTRATIVE_AREA_LEVEL_4",
-                PlaceType::SchoolDistrict => "SCHOOL_DISTRICT",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "PLACE_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
-                "POSTAL_CODE" => Some(Self::PostalCode),
-                "ADMINISTRATIVE_AREA_LEVEL_1" => Some(Self::AdministrativeAreaLevel1),
-                "ADMINISTRATIVE_AREA_LEVEL_2" => Some(Self::AdministrativeAreaLevel2),
-                "LOCALITY" => Some(Self::Locality),
-                "NEIGHBORHOOD" => Some(Self::Neighborhood),
-                "COUNTRY" => Some(Self::Country),
-                "SUBLOCALITY" => Some(Self::Sublocality),
-                "ADMINISTRATIVE_AREA_LEVEL_3" => Some(Self::AdministrativeAreaLevel3),
-                "ADMINISTRATIVE_AREA_LEVEL_4" => Some(Self::AdministrativeAreaLevel4),
-                "SCHOOL_DISTRICT" => Some(Self::SchoolDistrict),
-                _ => None,
-            }
-        }
-    }
-    /// The location must be specified by one of the following:
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Location {
-        /// The unstructured street address that is contained inside a region to
-        /// match. region_code is required when address is specified.
-        #[prost(string, tag = "1")]
-        Address(::prost::alloc::string::String),
-        /// The latitude and longitude that is contained inside a region to match.
-        #[prost(message, tag = "2")]
-        Latlng(super::super::super::super::r#type::LatLng),
-        /// The Place ID that is contained inside a region to match.
-        #[prost(string, tag = "3")]
-        PlaceId(::prost::alloc::string::String),
-    }
-}
 /// Region Identifier.
 ///
 /// Identifies a region to look up.
@@ -346,6 +178,174 @@ pub mod region_identifier {
         /// ignored for ISO-3166-1 country codes.
         #[prost(string, tag = "5")]
         UnitCode(::prost::alloc::string::String),
+    }
+}
+/// Region Match.
+///
+/// Next available tag: 5
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RegionMatch {
+    /// Place ID of the region that is matched. If region is found, this field is
+    /// not set.
+    #[prost(string, tag = "1")]
+    pub matched_place_id: ::prost::alloc::string::String,
+    /// Region candidate IDs. Up to three candidates may be returned.
+    #[prost(string, repeated, tag = "2")]
+    pub candidate_place_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Matching debug information for when no match is found.
+    #[prost(string, tag = "3")]
+    pub debug_info: ::prost::alloc::string::String,
+}
+/// Region Search Values.
+///
+/// Desired search values of a single region.
+///
+/// Location must be specified by one of the following: address, latlng or
+/// place_id. If none is specified, an INVALID_ARGUMENT error is returned.
+/// region_code must also be provided when address is specified.
+///
+/// The fields address, latlng and place_id specify a location contained inside
+/// the region to match. For example if address is "1600 Amphitheatre Pkwy,
+/// Mountain View, CA 94043" the API returns the following matched_place_id
+/// results when the following place_types are specified:
+///
+/// place_type:                   matched_place_id results:
+/// postal_code                   Place ID for "94043"
+/// administrative_area_level_1   Place ID for The State of California
+/// administrative_area_level_2   Place ID for Santa Clara County
+/// etc.
+///
+/// More Examples:
+///
+/// If latlng is "latitude: 37.4220656 longitude: -122.0862784" and place_type
+/// is "locality", the result contains the Place ID (of type "locality") for
+/// that location (the Place ID of Mountain View, CA, in this case).
+///
+/// If place_id is "ChIJj61dQgK6j4AR4GeTYWZsKWw" (Place ID for Google office in
+/// Mountain view, CA) and place_type is "locality", the result contains the
+/// Place ID (of type "locality") for that location (the Place ID of Mountain
+/// View, CA, in this case).
+///
+/// If no match is found, matched_place_id is not set.
+///
+/// Candidates Place IDs are returned when a search finds multiple Place
+/// IDs for the location specified. For example if the API is searching for
+/// region Place IDs of type neighboorhood for a location that is contained
+/// within multiple neighboords. The Place Ids will be returned as candidates in
+/// the candidate_place_ids field.
+///
+/// Next available tag: 10
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RegionSearchValue {
+    /// Required. The type of the place to match.
+    #[prost(enumeration = "region_search_value::PlaceType", tag = "6")]
+    pub place_type: i32,
+    /// The BCP-47 language code, such as "en-US" or "sr-Latn", corresponding to
+    /// the language in which the place name and address is requested. If none is
+    /// requested, then it defaults to English.
+    #[prost(string, tag = "7")]
+    pub language_code: ::prost::alloc::string::String,
+    /// Two-letter ISO-3166 country/region code for the location you're trying to
+    /// match. region_code is required when address is specified.
+    #[prost(string, tag = "8")]
+    pub region_code: ::prost::alloc::string::String,
+    /// The location must be specified by one of the following:
+    #[prost(oneof = "region_search_value::Location", tags = "1, 2, 3")]
+    pub location: ::core::option::Option<region_search_value::Location>,
+}
+/// Nested message and enum types in `RegionSearchValue`.
+pub mod region_search_value {
+    /// Possible place types to match to.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum PlaceType {
+        /// Default value. This value is unused.
+        Unspecified = 0,
+        /// Postal code.
+        PostalCode = 1,
+        /// Administrative area level 1 (State in the US).
+        AdministrativeAreaLevel1 = 2,
+        /// Administrative area level 2 (County in the US).
+        AdministrativeAreaLevel2 = 3,
+        /// Locality (City).
+        Locality = 4,
+        /// Neighborhood.
+        Neighborhood = 5,
+        /// Country.
+        Country = 6,
+        /// Sublocality.
+        Sublocality = 7,
+        /// Administrative area level 3.
+        AdministrativeAreaLevel3 = 8,
+        /// Administrative area level 4.
+        AdministrativeAreaLevel4 = 9,
+        /// School district.
+        SchoolDistrict = 10,
+    }
+    impl PlaceType {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                PlaceType::Unspecified => "PLACE_TYPE_UNSPECIFIED",
+                PlaceType::PostalCode => "POSTAL_CODE",
+                PlaceType::AdministrativeAreaLevel1 => "ADMINISTRATIVE_AREA_LEVEL_1",
+                PlaceType::AdministrativeAreaLevel2 => "ADMINISTRATIVE_AREA_LEVEL_2",
+                PlaceType::Locality => "LOCALITY",
+                PlaceType::Neighborhood => "NEIGHBORHOOD",
+                PlaceType::Country => "COUNTRY",
+                PlaceType::Sublocality => "SUBLOCALITY",
+                PlaceType::AdministrativeAreaLevel3 => "ADMINISTRATIVE_AREA_LEVEL_3",
+                PlaceType::AdministrativeAreaLevel4 => "ADMINISTRATIVE_AREA_LEVEL_4",
+                PlaceType::SchoolDistrict => "SCHOOL_DISTRICT",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "PLACE_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+                "POSTAL_CODE" => Some(Self::PostalCode),
+                "ADMINISTRATIVE_AREA_LEVEL_1" => Some(Self::AdministrativeAreaLevel1),
+                "ADMINISTRATIVE_AREA_LEVEL_2" => Some(Self::AdministrativeAreaLevel2),
+                "LOCALITY" => Some(Self::Locality),
+                "NEIGHBORHOOD" => Some(Self::Neighborhood),
+                "COUNTRY" => Some(Self::Country),
+                "SUBLOCALITY" => Some(Self::Sublocality),
+                "ADMINISTRATIVE_AREA_LEVEL_3" => Some(Self::AdministrativeAreaLevel3),
+                "ADMINISTRATIVE_AREA_LEVEL_4" => Some(Self::AdministrativeAreaLevel4),
+                "SCHOOL_DISTRICT" => Some(Self::SchoolDistrict),
+                _ => None,
+            }
+        }
+    }
+    /// The location must be specified by one of the following:
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Location {
+        /// The unstructured street address that is contained inside a region to
+        /// match. region_code is required when address is specified.
+        #[prost(string, tag = "1")]
+        Address(::prost::alloc::string::String),
+        /// The latitude and longitude that is contained inside a region to match.
+        #[prost(message, tag = "2")]
+        Latlng(super::super::super::super::r#type::LatLng),
+        /// The Place ID that is contained inside a region to match.
+        #[prost(string, tag = "3")]
+        PlaceId(::prost::alloc::string::String),
     }
 }
 /// Lookup Region Request.

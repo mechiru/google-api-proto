@@ -1,29 +1,3 @@
-/// Structure resource represents an instance of enterprise managed home or hotel
-/// room.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Structure {
-    /// Output only. The resource name of the structure. For example:
-    /// "enterprises/XYZ/structures/ABC".
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Structure traits.
-    #[prost(message, optional, tag = "2")]
-    pub traits: ::core::option::Option<::prost_types::Struct>,
-}
-/// Room resource represents an instance of sub-space within a structure such as
-/// rooms in a hotel suite or rental apartment.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Room {
-    /// Output only. The resource name of the room. For example:
-    /// "enterprises/XYZ/structures/ABC/rooms/123".
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Room traits.
-    #[prost(message, optional, tag = "2")]
-    pub traits: ::core::option::Option<::prost_types::Struct>,
-}
 /// Device resource represents an instance of enterprise managed device in the
 /// property.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -60,6 +34,32 @@ pub struct ParentRelation {
     /// the device is assigned to.
     #[prost(string, tag = "2")]
     pub display_name: ::prost::alloc::string::String,
+}
+/// Structure resource represents an instance of enterprise managed home or hotel
+/// room.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Structure {
+    /// Output only. The resource name of the structure. For example:
+    /// "enterprises/XYZ/structures/ABC".
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Structure traits.
+    #[prost(message, optional, tag = "2")]
+    pub traits: ::core::option::Option<::prost_types::Struct>,
+}
+/// Room resource represents an instance of sub-space within a structure such as
+/// rooms in a hotel suite or rental apartment.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Room {
+    /// Output only. The resource name of the room. For example:
+    /// "enterprises/XYZ/structures/ABC/rooms/123".
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Room traits.
+    #[prost(message, optional, tag = "2")]
+    pub traits: ::core::option::Option<::prost_types::Struct>,
 }
 /// Request message for SmartDeviceManagementService.GetDevice
 #[allow(clippy::derive_partial_eq_without_eq)]

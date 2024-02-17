@@ -1,3 +1,106 @@
+/// Billing settings
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BillingSettings {
+    /// Output only. Billing tier selected by customer
+    #[prost(enumeration = "BillingTier", tag = "1")]
+    pub billing_tier: i32,
+    /// Output only. Type of billing method
+    #[prost(enumeration = "BillingType", tag = "2")]
+    pub billing_type: i32,
+    /// Output only. The absolute point in time when the subscription became effective.
+    /// Can be compared to expire_time value to determine full contract duration
+    #[prost(message, optional, tag = "3")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The absolute point in time when the subscription expires.
+    ///
+    /// If this field is populated and billing_tier is STANDARD, this is
+    /// indication of a point in the _past_ when a PREMIUM access ended.
+    #[prost(message, optional, tag = "4")]
+    pub expire_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Billing tier options
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum BillingTier {
+    /// Default value. This value is unused.
+    Unspecified = 0,
+    /// The standard billing tier.
+    Standard = 1,
+    /// The premium billing tier.
+    Premium = 2,
+}
+impl BillingTier {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            BillingTier::Unspecified => "BILLING_TIER_UNSPECIFIED",
+            BillingTier::Standard => "STANDARD",
+            BillingTier::Premium => "PREMIUM",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "BILLING_TIER_UNSPECIFIED" => Some(Self::Unspecified),
+            "STANDARD" => Some(Self::Standard),
+            "PREMIUM" => Some(Self::Premium),
+            _ => None,
+        }
+    }
+}
+/// Billing type
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum BillingType {
+    /// Default billing type
+    Unspecified = 0,
+    /// Subscription for Premium billing tier
+    Subscription = 1,
+    /// Trial subscription for Premium billing tier
+    TrialSubscription = 2,
+    /// Alpha customer for Premium billing tier
+    Alpha = 3,
+}
+impl BillingType {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            BillingType::Unspecified => "BILLING_TYPE_UNSPECIFIED",
+            BillingType::Subscription => "SUBSCRIPTION",
+            BillingType::TrialSubscription => "TRIAL_SUBSCRIPTION",
+            BillingType::Alpha => "ALPHA",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "BILLING_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "SUBSCRIPTION" => Some(Self::Subscription),
+            "TRIAL_SUBSCRIPTION" => Some(Self::TrialSubscription),
+            "ALPHA" => Some(Self::Alpha),
+            _ => None,
+        }
+    }
+}
+/// Sink Settings for Security Command Center
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SinkSettings {
+    /// The resource name of the project to send logs to. This project must be
+    /// part of the same organization where the Security Center API is
+    /// enabled. The format is `projects/{project}`. If it is empty, we do
+    /// not output logs. If a project ID is provided it will be normalized to a
+    /// project number.
+    #[prost(string, tag = "1")]
+    pub logging_sink_project: ::prost::alloc::string::String,
+}
 /// Component Settings for Security Command Center
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -181,138 +284,6 @@ impl ComponentEnablementState {
         }
     }
 }
-/// Billing settings
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BillingSettings {
-    /// Output only. Billing tier selected by customer
-    #[prost(enumeration = "BillingTier", tag = "1")]
-    pub billing_tier: i32,
-    /// Output only. Type of billing method
-    #[prost(enumeration = "BillingType", tag = "2")]
-    pub billing_type: i32,
-    /// Output only. The absolute point in time when the subscription became effective.
-    /// Can be compared to expire_time value to determine full contract duration
-    #[prost(message, optional, tag = "3")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The absolute point in time when the subscription expires.
-    ///
-    /// If this field is populated and billing_tier is STANDARD, this is
-    /// indication of a point in the _past_ when a PREMIUM access ended.
-    #[prost(message, optional, tag = "4")]
-    pub expire_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Billing tier options
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum BillingTier {
-    /// Default value. This value is unused.
-    Unspecified = 0,
-    /// The standard billing tier.
-    Standard = 1,
-    /// The premium billing tier.
-    Premium = 2,
-}
-impl BillingTier {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            BillingTier::Unspecified => "BILLING_TIER_UNSPECIFIED",
-            BillingTier::Standard => "STANDARD",
-            BillingTier::Premium => "PREMIUM",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "BILLING_TIER_UNSPECIFIED" => Some(Self::Unspecified),
-            "STANDARD" => Some(Self::Standard),
-            "PREMIUM" => Some(Self::Premium),
-            _ => None,
-        }
-    }
-}
-/// Billing type
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum BillingType {
-    /// Default billing type
-    Unspecified = 0,
-    /// Subscription for Premium billing tier
-    Subscription = 1,
-    /// Trial subscription for Premium billing tier
-    TrialSubscription = 2,
-    /// Alpha customer for Premium billing tier
-    Alpha = 3,
-}
-impl BillingType {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            BillingType::Unspecified => "BILLING_TYPE_UNSPECIFIED",
-            BillingType::Subscription => "SUBSCRIPTION",
-            BillingType::TrialSubscription => "TRIAL_SUBSCRIPTION",
-            BillingType::Alpha => "ALPHA",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "BILLING_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
-            "SUBSCRIPTION" => Some(Self::Subscription),
-            "TRIAL_SUBSCRIPTION" => Some(Self::TrialSubscription),
-            "ALPHA" => Some(Self::Alpha),
-            _ => None,
-        }
-    }
-}
-/// Detector is a set of detectors or scanners act as individual checks done
-/// within a component e.g. bad IP, bad domains, IAM anomaly, cryptomining, open
-/// firewall, etc. Detector is independent of Organization, meaning each detector
-/// must be defined for a given Security Center component under a specified
-/// billing tier. Organizations can configure the list of detectors based on
-/// their subscribed billing tier.
-///
-/// Defines a detector, its billing tier and any applicable labels.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Detector {
-    /// Output only. Detector Identifier
-    #[prost(string, tag = "1")]
-    pub detector: ::prost::alloc::string::String,
-    /// Output only. Component that supports detector type.  Multiple components may support the
-    /// same detector.
-    #[prost(string, tag = "2")]
-    pub component: ::prost::alloc::string::String,
-    /// Output only. The billing tier may be different for a detector of the same name in
-    /// another component.
-    #[prost(enumeration = "BillingTier", tag = "3")]
-    pub billing_tier: i32,
-    /// Output only. Google curated detector labels. These are alphanumeric tags that are not
-    /// necessarily human readable. Labels can be used to group detectors together
-    /// in the future. An example might be tagging all detectors “PCI” that help
-    /// with PCI compliance.
-    #[prost(string, repeated, tag = "4")]
-    pub detector_labels: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Sink Settings for Security Command Center
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SinkSettings {
-    /// The resource name of the project to send logs to. This project must be
-    /// part of the same organization where the Security Center API is
-    /// enabled. The format is `projects/{project}`. If it is empty, we do
-    /// not output logs. If a project ID is provided it will be normalized to a
-    /// project number.
-    #[prost(string, tag = "1")]
-    pub logging_sink_project: ::prost::alloc::string::String,
-}
 /// Common configuration settings for all of Security Center.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -439,6 +410,35 @@ pub mod settings {
             }
         }
     }
+}
+/// Detector is a set of detectors or scanners act as individual checks done
+/// within a component e.g. bad IP, bad domains, IAM anomaly, cryptomining, open
+/// firewall, etc. Detector is independent of Organization, meaning each detector
+/// must be defined for a given Security Center component under a specified
+/// billing tier. Organizations can configure the list of detectors based on
+/// their subscribed billing tier.
+///
+/// Defines a detector, its billing tier and any applicable labels.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Detector {
+    /// Output only. Detector Identifier
+    #[prost(string, tag = "1")]
+    pub detector: ::prost::alloc::string::String,
+    /// Output only. Component that supports detector type.  Multiple components may support the
+    /// same detector.
+    #[prost(string, tag = "2")]
+    pub component: ::prost::alloc::string::String,
+    /// Output only. The billing tier may be different for a detector of the same name in
+    /// another component.
+    #[prost(enumeration = "BillingTier", tag = "3")]
+    pub billing_tier: i32,
+    /// Output only. Google curated detector labels. These are alphanumeric tags that are not
+    /// necessarily human readable. Labels can be used to group detectors together
+    /// in the future. An example might be tagging all detectors “PCI” that help
+    /// with PCI compliance.
+    #[prost(string, repeated, tag = "4")]
+    pub detector_labels: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Request message for GetServiceAccount.
 #[allow(clippy::derive_partial_eq_without_eq)]

@@ -298,7 +298,7 @@ pub struct VehicleLocation {
     /// Timestamp associated with the raw location.
     #[prost(message, optional, tag = "17")]
     pub raw_location_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Source of the raw location.
+    /// Source of the raw location. Defaults to `GPS`.
     #[prost(enumeration = "LocationSensor", tag = "28")]
     pub raw_location_sensor: i32,
     /// Accuracy of `raw_location` as a radius, in meters.
@@ -312,7 +312,8 @@ pub struct VehicleLocation {
     /// Timestamp associated with the supplemental location.
     #[prost(message, optional, tag = "19")]
     pub supplemental_location_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Source of the supplemental location.
+    /// Source of the supplemental location. Defaults to
+    /// `CUSTOMER_SUPPLIED_LOCATION`.
     #[prost(enumeration = "LocationSensor", tag = "20")]
     pub supplemental_location_sensor: i32,
     /// Accuracy of `supplemental_location` as a radius, in meters.
@@ -588,6 +589,10 @@ pub struct RequestHeader {
     /// Field value example: `23`.
     #[prost(int32, tag = "11")]
     pub android_api_level: i32,
+    /// Optional ID that can be provided for logging purposes in order to identify
+    /// the request.
+    #[prost(string, tag = "12")]
+    pub trace_id: ::prost::alloc::string::String,
 }
 /// Nested message and enum types in `RequestHeader`.
 pub mod request_header {
@@ -683,6 +688,1644 @@ pub mod request_header {
                 "WEB" => Some(Self::Web),
                 _ => None,
             }
+        }
+    }
+}
+/// Vehicle metadata.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Vehicle {
+    /// Output only. The unique name for this vehicle.
+    /// The format is `providers/{provider}/vehicles/{vehicle}`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The vehicle state.
+    #[prost(enumeration = "VehicleState", tag = "2")]
+    pub vehicle_state: i32,
+    /// Trip types supported by this vehicle.
+    #[prost(enumeration = "TripType", repeated, tag = "3")]
+    pub supported_trip_types: ::prost::alloc::vec::Vec<i32>,
+    /// Output only. List of `trip_id`'s for trips currently assigned to this
+    /// vehicle.
+    #[prost(string, repeated, tag = "4")]
+    pub current_trips: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Last reported location of the vehicle.
+    #[prost(message, optional, tag = "5")]
+    pub last_location: ::core::option::Option<VehicleLocation>,
+    /// The total numbers of riders this vehicle can carry.  The driver is not
+    /// considered in this value. This value must be greater than or equal to one.
+    #[prost(int32, tag = "6")]
+    pub maximum_capacity: i32,
+    /// List of vehicle attributes. A vehicle can have at most 100
+    /// attributes, and each attribute must have a unique key.
+    #[prost(message, repeated, tag = "8")]
+    pub attributes: ::prost::alloc::vec::Vec<VehicleAttribute>,
+    /// Required. The type of this vehicle.  Can be used to filter vehicles in
+    /// `SearchVehicles` results.  Also influences ETA and route calculations.
+    #[prost(message, optional, tag = "9")]
+    pub vehicle_type: ::core::option::Option<vehicle::VehicleType>,
+    /// License plate information for the vehicle.
+    #[prost(message, optional, tag = "10")]
+    pub license_plate: ::core::option::Option<LicensePlate>,
+    /// Deprecated: Use `Vehicle.waypoints` instead.
+    #[deprecated]
+    #[prost(message, repeated, tag = "12")]
+    pub route: ::prost::alloc::vec::Vec<TerminalLocation>,
+    /// The polyline specifying the route the driver app intends to take to
+    /// the next waypoint. This list is also returned in
+    /// `Trip.current_route_segment` for all active trips assigned to the vehicle.
+    ///
+    /// Note: This field is intended only for use by the Driver SDK. Decoding is
+    /// not yet supported.
+    #[prost(string, tag = "20")]
+    pub current_route_segment: ::prost::alloc::string::String,
+    /// Input only. Fleet Engine uses this information to improve journey sharing.
+    /// Note: This field is intended only for use by the Driver SDK.
+    #[prost(message, optional, tag = "28")]
+    pub current_route_segment_traffic: ::core::option::Option<TrafficPolylineData>,
+    /// Output only. Time when `current_route_segment` was set. It can be stored by
+    /// the client and passed in future `GetVehicle` requests to prevent returning
+    /// routes that haven't changed.
+    #[prost(message, optional, tag = "15")]
+    pub current_route_segment_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// The waypoint where `current_route_segment` ends. This can be supplied by
+    /// drivers on `UpdateVehicle` calls either as a full trip waypoint, a waypoint
+    /// `LatLng`, or as the last `LatLng` of the `current_route_segment`. Fleet
+    /// Engine will then do its best to interpolate to an actual waypoint if it is
+    /// not fully specified. This field is ignored in `UpdateVehicle` calls unless
+    /// `current_route_segment` is also specified.
+    #[prost(message, optional, tag = "24")]
+    pub current_route_segment_end_point: ::core::option::Option<TripWaypoint>,
+    /// The remaining driving distance for the `current_route_segment`.
+    /// This value is also returned in `Trip.remaining_distance_meters` for all
+    /// active trips assigned to the vehicle. The value is unspecified if the
+    /// `current_route_segment` field is empty.
+    #[prost(message, optional, tag = "18")]
+    pub remaining_distance_meters: ::core::option::Option<i32>,
+    /// The ETA to the first entry in the `waypoints` field.  The value is
+    /// unspecified if the `waypoints` field is empty or the
+    /// `Vehicle.current_route_segment` field is empty.
+    ///
+    /// When updating a vehicle, `remaining_time_seconds` takes precedence over
+    /// `eta_to_first_waypoint` in the same request.
+    #[prost(message, optional, tag = "19")]
+    pub eta_to_first_waypoint: ::core::option::Option<::prost_types::Timestamp>,
+    /// Input only. The remaining driving time for the `current_route_segment`. The
+    /// value is unspecified if the `waypoints` field is empty or the
+    /// `Vehicle.current_route_segment` field is empty. This value should match
+    /// `eta_to_first_waypoint` - `current_time` if all parties are using the same
+    /// clock.
+    ///
+    /// When updating a vehicle, `remaining_time_seconds` takes precedence over
+    /// `eta_to_first_waypoint` in the same request.
+    #[prost(message, optional, tag = "25")]
+    pub remaining_time_seconds: ::core::option::Option<i32>,
+    /// The remaining waypoints assigned to this Vehicle.
+    #[prost(message, repeated, tag = "22")]
+    pub waypoints: ::prost::alloc::vec::Vec<TripWaypoint>,
+    /// Output only. Last time the `waypoints` field was updated. Clients should
+    /// cache this value and pass it in `GetVehicleRequest` to ensure the
+    /// `waypoints` field is only returned if it is updated.
+    #[prost(message, optional, tag = "16")]
+    pub waypoints_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// Indicates if the driver accepts back-to-back trips. If `true`,
+    /// `SearchVehicles` may include the vehicle even if it is currently assigned
+    /// to a trip. The default value is `false`.
+    #[prost(bool, tag = "23")]
+    pub back_to_back_enabled: bool,
+    /// The vehicle's navigation status.
+    #[prost(enumeration = "NavigationStatus", tag = "26")]
+    pub navigation_status: i32,
+    /// Input only. Information about settings in the mobile device being used by
+    /// the driver.
+    #[prost(message, optional, tag = "27")]
+    pub device_settings: ::core::option::Option<DeviceSettings>,
+}
+/// Nested message and enum types in `Vehicle`.
+pub mod vehicle {
+    /// The type of vehicle.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct VehicleType {
+        /// Vehicle type category
+        #[prost(enumeration = "vehicle_type::Category", tag = "1")]
+        pub category: i32,
+    }
+    /// Nested message and enum types in `VehicleType`.
+    pub mod vehicle_type {
+        /// Vehicle type categories
+        #[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        pub enum Category {
+            /// Default, used for unspecified or unrecognized vehicle categories.
+            Unknown = 0,
+            /// An automobile.
+            Auto = 1,
+            /// Any vehicle that acts as a taxi (typically licensed or regulated).
+            Taxi = 2,
+            /// Generally, a vehicle with a large storage capacity.
+            Truck = 3,
+            /// A motorcycle, moped, or other two-wheeled vehicle
+            TwoWheeler = 4,
+            /// Human-powered transport.
+            Bicycle = 5,
+            /// A human transporter, typically walking or running, traveling along
+            /// pedestrian pathways.
+            Pedestrian = 6,
+        }
+        impl Category {
+            /// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            pub fn as_str_name(&self) -> &'static str {
+                match self {
+                    Category::Unknown => "UNKNOWN",
+                    Category::Auto => "AUTO",
+                    Category::Taxi => "TAXI",
+                    Category::Truck => "TRUCK",
+                    Category::TwoWheeler => "TWO_WHEELER",
+                    Category::Bicycle => "BICYCLE",
+                    Category::Pedestrian => "PEDESTRIAN",
+                }
+            }
+            /// Creates an enum from field names used in the ProtoBuf definition.
+            pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+                match value {
+                    "UNKNOWN" => Some(Self::Unknown),
+                    "AUTO" => Some(Self::Auto),
+                    "TAXI" => Some(Self::Taxi),
+                    "TRUCK" => Some(Self::Truck),
+                    "TWO_WHEELER" => Some(Self::TwoWheeler),
+                    "BICYCLE" => Some(Self::Bicycle),
+                    "PEDESTRIAN" => Some(Self::Pedestrian),
+                    _ => None,
+                }
+            }
+        }
+    }
+}
+/// Information about the device's battery.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatteryInfo {
+    /// Status of the battery, whether full or charging etc.
+    #[prost(enumeration = "BatteryStatus", tag = "1")]
+    pub battery_status: i32,
+    /// Status of battery power source.
+    #[prost(enumeration = "PowerSource", tag = "2")]
+    pub power_source: i32,
+    /// Current battery percentage \[0-100\].
+    #[prost(float, tag = "3")]
+    pub battery_percentage: f32,
+}
+/// Information about various settings on the mobile device.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeviceSettings {
+    /// How location features are set to behave on the device when battery saver is
+    /// on.
+    #[prost(enumeration = "LocationPowerSaveMode", tag = "1")]
+    pub location_power_save_mode: i32,
+    /// Whether the device is currently in power save mode.
+    #[prost(bool, tag = "2")]
+    pub is_power_save_mode: bool,
+    /// Whether the device is in an interactive state.
+    #[prost(bool, tag = "3")]
+    pub is_interactive: bool,
+    /// Information about the battery state.
+    #[prost(message, optional, tag = "4")]
+    pub battery_info: ::core::option::Option<BatteryInfo>,
+}
+/// The license plate information of the Vehicle.  To avoid storing
+/// personally-identifiable information, only the minimum information
+/// about the license plate is stored as part of the entity.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LicensePlate {
+    /// Required. CLDR Country/Region Code.  For example, `US` for United States,
+    /// or `IN` for India.
+    #[prost(string, tag = "1")]
+    pub country_code: ::prost::alloc::string::String,
+    /// The last digit of the license plate or "-1" to denote no numeric value
+    /// is present in the license plate.
+    ///
+    /// * "ABC 1234" -> "4"
+    /// * "AB 123 CD" -> "3"
+    /// * "ABCDEF" -> "-1"
+    #[prost(string, tag = "2")]
+    pub last_character: ::prost::alloc::string::String,
+}
+/// Describes how clients should color one portion of the polyline along the
+/// route.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VisualTrafficReportPolylineRendering {
+    /// Optional. Road stretches that should be rendered along the polyline.
+    /// Stretches are guaranteed to not overlap, and do not necessarily span the
+    /// full route.
+    ///
+    /// In the absence of a road stretch to style, the client should apply the
+    /// default for the route.
+    #[prost(message, repeated, tag = "1")]
+    pub road_stretch: ::prost::alloc::vec::Vec<
+        visual_traffic_report_polyline_rendering::RoadStretch,
+    >,
+}
+/// Nested message and enum types in `VisualTrafficReportPolylineRendering`.
+pub mod visual_traffic_report_polyline_rendering {
+    /// One road stretch that should be rendered.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct RoadStretch {
+        /// Required. The style to apply.
+        #[prost(enumeration = "road_stretch::Style", tag = "1")]
+        pub style: i32,
+        /// Required. The style should be applied between `[offset_meters,
+        /// offset_meters + length_meters)`.
+        #[prost(int32, tag = "2")]
+        pub offset_meters: i32,
+        /// Required. The length of the path where to apply the style.
+        #[prost(int32, tag = "3")]
+        pub length_meters: i32,
+    }
+    /// Nested message and enum types in `RoadStretch`.
+    pub mod road_stretch {
+        /// The traffic style, indicating traffic speed.
+        #[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        pub enum Style {
+            /// No style selected.
+            Unspecified = 0,
+            /// Traffic is slowing down.
+            SlowerTraffic = 1,
+            /// There is a traffic jam.
+            TrafficJam = 2,
+        }
+        impl Style {
+            /// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            pub fn as_str_name(&self) -> &'static str {
+                match self {
+                    Style::Unspecified => "STYLE_UNSPECIFIED",
+                    Style::SlowerTraffic => "SLOWER_TRAFFIC",
+                    Style::TrafficJam => "TRAFFIC_JAM",
+                }
+            }
+            /// Creates an enum from field names used in the ProtoBuf definition.
+            pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+                match value {
+                    "STYLE_UNSPECIFIED" => Some(Self::Unspecified),
+                    "SLOWER_TRAFFIC" => Some(Self::SlowerTraffic),
+                    "TRAFFIC_JAM" => Some(Self::TrafficJam),
+                    _ => None,
+                }
+            }
+        }
+    }
+}
+/// Traffic conditions along the expected vehicle route.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TrafficPolylineData {
+    /// A polyline rendering of how fast traffic is for all regions along
+    /// one stretch of a customer ride.
+    #[prost(message, optional, tag = "1")]
+    pub traffic_rendering: ::core::option::Option<VisualTrafficReportPolylineRendering>,
+}
+/// The state of a `Vehicle`.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum VehicleState {
+    /// Default, used for unspecified or unrecognized vehicle states.
+    UnknownVehicleState = 0,
+    /// The vehicle is not accepting new trips. Note: the vehicle may continue to
+    /// operate in this state while completing a trip assigned to it.
+    Offline = 1,
+    /// The vehicle is accepting new trips.
+    Online = 2,
+}
+impl VehicleState {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            VehicleState::UnknownVehicleState => "UNKNOWN_VEHICLE_STATE",
+            VehicleState::Offline => "OFFLINE",
+            VehicleState::Online => "ONLINE",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "UNKNOWN_VEHICLE_STATE" => Some(Self::UnknownVehicleState),
+            "OFFLINE" => Some(Self::Offline),
+            "ONLINE" => Some(Self::Online),
+            _ => None,
+        }
+    }
+}
+/// How location features are configured to behave on the mobile device when the
+/// devices "battery saver" feature is on.
+/// (<https://developer.android.com/reference/android/os/PowerManager#getLocationPowerSaveMode(>))
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum LocationPowerSaveMode {
+    /// Undefined LocationPowerSaveMode
+    UnknownLocationPowerSaveMode = 0,
+    /// Either the location providers shouldn't be affected by battery saver, or
+    /// battery saver is off.
+    LocationModeNoChange = 1,
+    /// The GPS based location provider should be disabled when battery saver is on
+    /// and the device is non-interactive.
+    LocationModeGpsDisabledWhenScreenOff = 2,
+    /// All location providers should be disabled when battery saver is on and the
+    /// device is non-interactive.
+    LocationModeAllDisabledWhenScreenOff = 3,
+    /// All the location providers will be kept available, but location fixes
+    /// should only be provided to foreground apps.
+    LocationModeForegroundOnly = 4,
+    /// Location will not be turned off, but LocationManager will throttle all
+    /// requests to providers when the device is non-interactive.
+    LocationModeThrottleRequestsWhenScreenOff = 5,
+}
+impl LocationPowerSaveMode {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            LocationPowerSaveMode::UnknownLocationPowerSaveMode => {
+                "UNKNOWN_LOCATION_POWER_SAVE_MODE"
+            }
+            LocationPowerSaveMode::LocationModeNoChange => "LOCATION_MODE_NO_CHANGE",
+            LocationPowerSaveMode::LocationModeGpsDisabledWhenScreenOff => {
+                "LOCATION_MODE_GPS_DISABLED_WHEN_SCREEN_OFF"
+            }
+            LocationPowerSaveMode::LocationModeAllDisabledWhenScreenOff => {
+                "LOCATION_MODE_ALL_DISABLED_WHEN_SCREEN_OFF"
+            }
+            LocationPowerSaveMode::LocationModeForegroundOnly => {
+                "LOCATION_MODE_FOREGROUND_ONLY"
+            }
+            LocationPowerSaveMode::LocationModeThrottleRequestsWhenScreenOff => {
+                "LOCATION_MODE_THROTTLE_REQUESTS_WHEN_SCREEN_OFF"
+            }
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "UNKNOWN_LOCATION_POWER_SAVE_MODE" => {
+                Some(Self::UnknownLocationPowerSaveMode)
+            }
+            "LOCATION_MODE_NO_CHANGE" => Some(Self::LocationModeNoChange),
+            "LOCATION_MODE_GPS_DISABLED_WHEN_SCREEN_OFF" => {
+                Some(Self::LocationModeGpsDisabledWhenScreenOff)
+            }
+            "LOCATION_MODE_ALL_DISABLED_WHEN_SCREEN_OFF" => {
+                Some(Self::LocationModeAllDisabledWhenScreenOff)
+            }
+            "LOCATION_MODE_FOREGROUND_ONLY" => Some(Self::LocationModeForegroundOnly),
+            "LOCATION_MODE_THROTTLE_REQUESTS_WHEN_SCREEN_OFF" => {
+                Some(Self::LocationModeThrottleRequestsWhenScreenOff)
+            }
+            _ => None,
+        }
+    }
+}
+/// Status of the battery, whether full or charging etc.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum BatteryStatus {
+    /// Battery status unknown.
+    UnknownBatteryStatus = 0,
+    /// Battery is being charged.
+    Charging = 1,
+    /// Battery is discharging.
+    Discharging = 2,
+    /// Battery is full.
+    Full = 3,
+    /// Battery is not charging.
+    NotCharging = 4,
+    /// Battery is low on power.
+    PowerLow = 5,
+}
+impl BatteryStatus {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            BatteryStatus::UnknownBatteryStatus => "UNKNOWN_BATTERY_STATUS",
+            BatteryStatus::Charging => "BATTERY_STATUS_CHARGING",
+            BatteryStatus::Discharging => "BATTERY_STATUS_DISCHARGING",
+            BatteryStatus::Full => "BATTERY_STATUS_FULL",
+            BatteryStatus::NotCharging => "BATTERY_STATUS_NOT_CHARGING",
+            BatteryStatus::PowerLow => "BATTERY_STATUS_POWER_LOW",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "UNKNOWN_BATTERY_STATUS" => Some(Self::UnknownBatteryStatus),
+            "BATTERY_STATUS_CHARGING" => Some(Self::Charging),
+            "BATTERY_STATUS_DISCHARGING" => Some(Self::Discharging),
+            "BATTERY_STATUS_FULL" => Some(Self::Full),
+            "BATTERY_STATUS_NOT_CHARGING" => Some(Self::NotCharging),
+            "BATTERY_STATUS_POWER_LOW" => Some(Self::PowerLow),
+            _ => None,
+        }
+    }
+}
+/// Type of the charger being used to charge the battery.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum PowerSource {
+    /// Power source unknown.
+    UnknownPowerSource = 0,
+    /// Power source is an AC charger.
+    Ac = 1,
+    /// Power source is a USB port.
+    Usb = 2,
+    /// Power source is wireless.
+    Wireless = 3,
+    /// Battery is unplugged.
+    Unplugged = 4,
+}
+impl PowerSource {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            PowerSource::UnknownPowerSource => "UNKNOWN_POWER_SOURCE",
+            PowerSource::Ac => "POWER_SOURCE_AC",
+            PowerSource::Usb => "POWER_SOURCE_USB",
+            PowerSource::Wireless => "POWER_SOURCE_WIRELESS",
+            PowerSource::Unplugged => "POWER_SOURCE_UNPLUGGED",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "UNKNOWN_POWER_SOURCE" => Some(Self::UnknownPowerSource),
+            "POWER_SOURCE_AC" => Some(Self::Ac),
+            "POWER_SOURCE_USB" => Some(Self::Usb),
+            "POWER_SOURCE_WIRELESS" => Some(Self::Wireless),
+            "POWER_SOURCE_UNPLUGGED" => Some(Self::Unplugged),
+            _ => None,
+        }
+    }
+}
+/// `CreateVehicle` request message.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateVehicleRequest {
+    /// The standard Fleet Engine request header.
+    #[prost(message, optional, tag = "1")]
+    pub header: ::core::option::Option<RequestHeader>,
+    /// Required. Must be in the format `providers/{provider}`.
+    /// The provider must be the Project ID (for example, `sample-cloud-project`)
+    /// of the Google Cloud Project of which the service account making
+    /// this call is a member.
+    #[prost(string, tag = "3")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. Unique Vehicle ID.
+    /// Subject to the following restrictions:
+    ///
+    /// * Must be a valid Unicode string.
+    /// * Limited to a maximum length of 64 characters.
+    /// * Normalized according to \[Unicode Normalization Form C\]
+    /// (<http://www.unicode.org/reports/tr15/>).
+    /// * May not contain any of the following ASCII characters: '/', ':', '?',
+    /// ',', or '#'.
+    #[prost(string, tag = "4")]
+    pub vehicle_id: ::prost::alloc::string::String,
+    /// Required. The Vehicle entity to create. When creating a Vehicle, the
+    /// following fields are required:
+    ///
+    /// * `vehicleState`
+    /// * `supportedTripTypes`
+    /// * `maximumCapacity`
+    /// * `vehicleType`
+    ///
+    /// When creating a Vehicle, the following fields are ignored:
+    ///
+    /// * `name`
+    /// * `currentTrips`
+    /// * `availableCapacity`
+    /// * `current_route_segment`
+    /// * `current_route_segment_end_point`
+    /// * `current_route_segment_version`
+    /// * `current_route_segment_traffic`
+    /// * `route`
+    /// * `waypoints`
+    /// * `waypoints_version`
+    /// * `remaining_distance_meters`
+    /// * `remaining_time_seconds`
+    /// * `eta_to_next_waypoint`
+    /// * `navigation_status`
+    ///
+    /// All other fields are optional and used if provided.
+    #[prost(message, optional, tag = "5")]
+    pub vehicle: ::core::option::Option<Vehicle>,
+}
+/// `GetVehicle` request message.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetVehicleRequest {
+    /// The standard Fleet Engine request header.
+    #[prost(message, optional, tag = "1")]
+    pub header: ::core::option::Option<RequestHeader>,
+    /// Required. Must be in the format
+    /// `providers/{provider}/vehicles/{vehicle}`.
+    /// The provider must be the Project ID (for example, `sample-cloud-project`)
+    /// of the Google Cloud Project of which the service account making
+    /// this call is a member.
+    #[prost(string, tag = "3")]
+    pub name: ::prost::alloc::string::String,
+    /// Indicates the minimum timestamp (exclusive) for which
+    /// `Vehicle.current_route_segment` is retrieved.
+    /// If the route is unchanged since this timestamp, the `current_route_segment`
+    /// field is not set in the response. If a minimum is unspecified, the
+    /// `current_route_segment` is always retrieved.
+    #[prost(message, optional, tag = "4")]
+    pub current_route_segment_version: ::core::option::Option<::prost_types::Timestamp>,
+    /// Indicates the minimum timestamp (exclusive) for which `Vehicle.waypoints`
+    /// data is retrieved. If the waypoints are unchanged since this timestamp, the
+    /// `vehicle.waypoints` data is not set in the response. If this field is
+    /// unspecified, `vehicle.waypoints` is always retrieved.
+    #[prost(message, optional, tag = "5")]
+    pub waypoints_version: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// `UpdateVehicle request message.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateVehicleRequest {
+    /// The standard Fleet Engine request header.
+    #[prost(message, optional, tag = "1")]
+    pub header: ::core::option::Option<RequestHeader>,
+    /// Required. Must be in the format
+    /// `providers/{provider}/vehicles/{vehicle}`.
+    /// The {provider} must be the Project ID (for example, `sample-cloud-project`)
+    /// of the Google Cloud Project of which the service account making
+    /// this call is a member.
+    #[prost(string, tag = "3")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The `Vehicle` entity values to apply.  When updating a `Vehicle`,
+    /// the following fields may not be updated as they are managed by the
+    /// server.
+    ///
+    /// * `available_capacity`
+    /// * `current_route_segment_version`
+    /// * `current_trips`
+    /// * `name`
+    /// * `waypoints_version`
+    ///
+    /// If the `attributes` field is updated, **all** the vehicle's attributes are
+    /// replaced with the attributes provided in the request. If you want to update
+    /// only some attributes, see the `UpdateVehicleAttributes` method.
+    ///
+    /// Likewise, the `waypoints` field can be updated, but must contain all the
+    /// waypoints currently on the vehicle, and no other waypoints.
+    #[prost(message, optional, tag = "4")]
+    pub vehicle: ::core::option::Option<Vehicle>,
+    /// Required. A field mask indicating which fields of the `Vehicle` to update.
+    /// At least one field name must be provided.
+    #[prost(message, optional, tag = "5")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// `UpdateVehicleLocation` request message.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateVehicleLocationRequest {
+    /// The standard Fleet Engine request header.
+    #[prost(message, optional, tag = "1")]
+    pub header: ::core::option::Option<RequestHeader>,
+    /// Required. Must be in the format
+    /// `providers/{provider}/vehicles/{vehicle}`.
+    /// The {provider} must be the Project ID (for example, `sample-cloud-project`)
+    /// of the Google Cloud Project of which the service account making
+    /// this call is a member.
+    #[prost(string, tag = "3")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The vehicle's most recent location.  The `location` and
+    /// `update_time` subfields are required.
+    #[prost(message, optional, tag = "4")]
+    pub current_location: ::core::option::Option<VehicleLocation>,
+    /// Set the vehicle's state to either `ONLINE` or `OFFLINE`.
+    /// If set to `UNKNOWN_VEHICLE_STATE`, the vehicle's state will not be altered.
+    #[prost(enumeration = "VehicleState", tag = "5")]
+    pub current_state: i32,
+}
+/// `UpdateVehicleAttributes` request message.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateVehicleAttributesRequest {
+    /// The standard Fleet Engine request header.
+    #[prost(message, optional, tag = "1")]
+    pub header: ::core::option::Option<RequestHeader>,
+    /// Required. Must be in the format `providers/{provider}/vehicles/{vehicle}`.
+    /// The provider must be the Project ID (for example, `sample-cloud-project`)
+    /// of the Google Cloud Project of which the service account making
+    /// this call is a member.
+    #[prost(string, tag = "3")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The vehicle attributes to update. Unmentioned attributes are not
+    /// altered or removed.
+    #[prost(message, repeated, tag = "4")]
+    pub attributes: ::prost::alloc::vec::Vec<VehicleAttribute>,
+}
+/// `UpdateVehicleAttributes` response message.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateVehicleAttributesResponse {
+    /// Required. The updated full list of vehicle attributes, including new,
+    /// altered, and untouched attributes.
+    #[prost(message, repeated, tag = "1")]
+    pub attributes: ::prost::alloc::vec::Vec<VehicleAttribute>,
+}
+/// `SearchVehicles` request message.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchVehiclesRequest {
+    /// The standard Fleet Engine request header.
+    #[prost(message, optional, tag = "1")]
+    pub header: ::core::option::Option<RequestHeader>,
+    /// Required. Must be in the format `providers/{provider}`.
+    /// The provider must be the Project ID (for example, `sample-cloud-project`)
+    /// of the Google Cloud Project of which the service account making
+    /// this call is a member.
+    #[prost(string, tag = "3")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The pickup point to search near.
+    #[prost(message, optional, tag = "4")]
+    pub pickup_point: ::core::option::Option<TerminalLocation>,
+    /// The customer's intended dropoff location. The field is required if
+    /// `trip_types` contains `TripType.SHARED`.
+    #[prost(message, optional, tag = "5")]
+    pub dropoff_point: ::core::option::Option<TerminalLocation>,
+    /// Required. Defines the vehicle search radius around the pickup point. Only
+    /// vehicles within the search radius will be returned. Value must be between
+    /// 400 and 10000 meters (inclusive).
+    #[prost(int32, tag = "6")]
+    pub pickup_radius_meters: i32,
+    /// Required. Specifies the maximum number of vehicles to return. The value
+    /// must be between 1 and 50 (inclusive).
+    #[prost(int32, tag = "7")]
+    pub count: i32,
+    /// Required. Specifies the number of passengers being considered for a trip.
+    /// The value must be greater than or equal to one. The driver is not
+    /// considered in the capacity value.
+    #[prost(int32, tag = "8")]
+    pub minimum_capacity: i32,
+    /// Required. Represents the type of proposed trip. Must include exactly one
+    /// type. `UNKNOWN_TRIP_TYPE` is not allowed. Restricts the search to only
+    /// those vehicles that can support that trip type.
+    #[prost(enumeration = "TripType", repeated, packed = "false", tag = "9")]
+    pub trip_types: ::prost::alloc::vec::Vec<i32>,
+    /// Restricts the search to only those vehicles that have sent location updates
+    /// to Fleet Engine within the specified duration. Stationary vehicles still
+    /// transmitting their locations are not considered stale. If this field is not
+    /// set, the server uses five minutes as the default value.
+    #[prost(message, optional, tag = "10")]
+    pub maximum_staleness: ::core::option::Option<::prost_types::Duration>,
+    /// Required. Restricts the search to vehicles with one of the specified types.
+    /// At least one vehicle type must be specified. VehicleTypes with a category
+    /// of `UNKNOWN` are not allowed.
+    #[prost(message, repeated, tag = "14")]
+    pub vehicle_types: ::prost::alloc::vec::Vec<vehicle::VehicleType>,
+    /// Callers can form complex logical operations using any combination of the
+    /// `required_attributes`, `required_one_of_attributes`, and
+    /// `required_one_of_attribute_sets` fields.
+    ///
+    /// `required_attributes` is a list; `required_one_of_attributes` uses a
+    /// message which allows a list of lists. In combination, the two fields allow
+    /// the composition of this expression:
+    ///
+    /// ```
+    /// (required_attributes\[0\] AND required_attributes\[1\] AND ...)
+    /// AND
+    /// (required_one_of_attributes[0][0] OR required_one_of_attributes[0][1] OR
+    /// ...)
+    /// AND
+    /// (required_one_of_attributes[1][0] OR required_one_of_attributes[1][1] OR
+    /// ...)
+    /// ```
+    ///
+    /// Restricts the search to only those vehicles with the specified attributes.
+    /// This field is a conjunction/AND operation. A max of 50 required_attributes
+    /// is allowed. This matches the maximum number of attributes allowed on a
+    /// vehicle.
+    #[prost(message, repeated, tag = "12")]
+    pub required_attributes: ::prost::alloc::vec::Vec<VehicleAttribute>,
+    /// Restricts the search to only those vehicles with at least one of
+    /// the specified attributes in each `VehicleAttributeList`. Within each
+    /// list, a vehicle must match at least one of the attributes. This field is an
+    /// inclusive disjunction/OR operation in each `VehicleAttributeList` and a
+    /// conjunction/AND operation across the collection of `VehicleAttributeList`.
+    #[prost(message, repeated, tag = "15")]
+    pub required_one_of_attributes: ::prost::alloc::vec::Vec<VehicleAttributeList>,
+    /// `required_one_of_attribute_sets` provides additional functionality.
+    ///
+    /// Similar to `required_one_of_attributes`, `required_one_of_attribute_sets`
+    /// uses a message which allows a list of lists, allowing expressions such as
+    /// this one:
+    ///
+    /// ```
+    /// (required_attributes\[0\] AND required_attributes\[1\] AND ...)
+    /// AND
+    /// (
+    ///    (required_one_of_attribute_sets[0][0] AND
+    ///    required_one_of_attribute_sets[0][1] AND
+    ///    ...)
+    ///    OR
+    ///    (required_one_of_attribute_sets[1][0] AND
+    ///    required_one_of_attribute_sets[1][1] AND
+    ///    ...)
+    /// )
+    /// ```
+    ///
+    /// Restricts the search to only those vehicles with all the attributes in a
+    /// `VehicleAttributeList`. Within each list, a
+    /// vehicle must match all of the attributes. This field is a conjunction/AND
+    /// operation in each `VehicleAttributeList` and inclusive disjunction/OR
+    /// operation across the collection of `VehicleAttributeList`.
+    #[prost(message, repeated, tag = "20")]
+    pub required_one_of_attribute_sets: ::prost::alloc::vec::Vec<VehicleAttributeList>,
+    /// Required. Specifies the desired ordering criterion for results.
+    #[prost(enumeration = "search_vehicles_request::VehicleMatchOrder", tag = "13")]
+    pub order_by: i32,
+    /// This indicates if vehicles with a single active trip are eligible for this
+    /// search. This field is only used when `current_trips_present` is
+    /// unspecified. When `current_trips_present` is unspecified  and  this field
+    /// is `false`, vehicles with assigned trips are excluded from the search
+    /// results. When `current_trips_present` is unspecified and this field is
+    /// `true`, search results can include vehicles with one active trip that has a
+    /// status of `ENROUTE_TO_DROPOFF`. When `current_trips_present` is specified,
+    /// this field cannot be set to true.
+    ///
+    /// The default value is `false`.
+    #[prost(bool, tag = "18")]
+    pub include_back_to_back: bool,
+    /// Indicates the trip associated with this `SearchVehicleRequest`.
+    #[prost(string, tag = "19")]
+    pub trip_id: ::prost::alloc::string::String,
+    /// This indicates if vehicles with active trips are eligible for this search.
+    /// This must be set to something other than
+    /// `CURRENT_TRIPS_PRESENT_UNSPECIFIED` if `trip_type` includes `SHARED`.
+    #[prost(enumeration = "search_vehicles_request::CurrentTripsPresent", tag = "21")]
+    pub current_trips_present: i32,
+    /// Optional. A filter query to apply when searching vehicles. See
+    /// <http://aip.dev/160> for examples of the filter syntax.
+    ///
+    /// This field is designed to replace the `required_attributes`,
+    /// `required_one_of_attributes`, and `required_one_of_attributes_sets` fields.
+    /// If a non-empty value is specified here, the following fields must be empty:
+    /// `required_attributes`, `required_one_of_attributes`, and
+    /// `required_one_of_attributes_sets`.
+    ///
+    /// This filter functions as an AND clause with other constraints,
+    /// such as `minimum_capacity` or `vehicle_types`.
+    ///
+    /// Note that the only queries supported are on vehicle attributes (for
+    /// example, `attributes.<key> = <value>` or `attributes.<key1> = <value1> AND
+    /// attributes.<key2> = <value2>`). The maximum number of restrictions allowed
+    /// in a filter query is 50.
+    ///
+    /// Also, all attributes are stored as strings, so the only supported
+    /// comparisons against attributes are string comparisons. In order to compare
+    /// against number or boolean values, the values must be explicitly quoted to
+    /// be treated as strings (for example, `attributes.<key> = "10"` or
+    /// `attributes.<key> = "true"`).
+    #[prost(string, tag = "22")]
+    pub filter: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `SearchVehiclesRequest`.
+pub mod search_vehicles_request {
+    /// Specifies the order of the vehicle matches in the response.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum VehicleMatchOrder {
+        /// Default, used for unspecified or unrecognized vehicle matches order.
+        UnknownVehicleMatchOrder = 0,
+        /// Ascending order by vehicle driving time to the pickup point.
+        PickupPointEta = 1,
+        /// Ascending order by vehicle driving distance to the pickup point.
+        PickupPointDistance = 2,
+        /// Ascending order by vehicle driving time to the dropoff point. This order
+        /// can only be used if the dropoff point is specified in the request.
+        DropoffPointEta = 3,
+        /// Ascending order by straight-line distance from the vehicle's last
+        /// reported location to the pickup point.
+        PickupPointStraightDistance = 4,
+        /// Ascending order by the configured match cost. Match cost is defined as a
+        /// weighted calculation between straight-line distance and ETA. Weights are
+        /// set with default values and can be modified per customer. Please contact
+        /// Google support if these weights need to be modified for your project.
+        Cost = 5,
+    }
+    impl VehicleMatchOrder {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                VehicleMatchOrder::UnknownVehicleMatchOrder => {
+                    "UNKNOWN_VEHICLE_MATCH_ORDER"
+                }
+                VehicleMatchOrder::PickupPointEta => "PICKUP_POINT_ETA",
+                VehicleMatchOrder::PickupPointDistance => "PICKUP_POINT_DISTANCE",
+                VehicleMatchOrder::DropoffPointEta => "DROPOFF_POINT_ETA",
+                VehicleMatchOrder::PickupPointStraightDistance => {
+                    "PICKUP_POINT_STRAIGHT_DISTANCE"
+                }
+                VehicleMatchOrder::Cost => "COST",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "UNKNOWN_VEHICLE_MATCH_ORDER" => Some(Self::UnknownVehicleMatchOrder),
+                "PICKUP_POINT_ETA" => Some(Self::PickupPointEta),
+                "PICKUP_POINT_DISTANCE" => Some(Self::PickupPointDistance),
+                "DROPOFF_POINT_ETA" => Some(Self::DropoffPointEta),
+                "PICKUP_POINT_STRAIGHT_DISTANCE" => {
+                    Some(Self::PickupPointStraightDistance)
+                }
+                "COST" => Some(Self::Cost),
+                _ => None,
+            }
+        }
+    }
+    /// Specifies the types of restrictions on a vehicle's current trips.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum CurrentTripsPresent {
+        /// The availability of vehicles with trips present is governed by the
+        /// `include_back_to_back` field.
+        Unspecified = 0,
+        /// Vehicles without trips can appear in search results. When this value is
+        /// used, `include_back_to_back` cannot be `true`.
+        None = 1,
+        /// Vehicles with at most 5 current trips and 10 waypoints are included
+        /// in the search results. When this value is used, `include_back_to_back`
+        /// cannot be `true`.
+        Any = 2,
+    }
+    impl CurrentTripsPresent {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                CurrentTripsPresent::Unspecified => "CURRENT_TRIPS_PRESENT_UNSPECIFIED",
+                CurrentTripsPresent::None => "NONE",
+                CurrentTripsPresent::Any => "ANY",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "CURRENT_TRIPS_PRESENT_UNSPECIFIED" => Some(Self::Unspecified),
+                "NONE" => Some(Self::None),
+                "ANY" => Some(Self::Any),
+                _ => None,
+            }
+        }
+    }
+}
+/// `SearchVehicles` response message.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SearchVehiclesResponse {
+    /// List of vehicles that match the `SearchVehiclesRequest` criteria, ordered
+    /// according to `SearchVehiclesRequest.order_by` field.
+    #[prost(message, repeated, tag = "1")]
+    pub matches: ::prost::alloc::vec::Vec<VehicleMatch>,
+}
+/// `ListVehicles` request message.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListVehiclesRequest {
+    /// The standard Fleet Engine request header.
+    #[prost(message, optional, tag = "12")]
+    pub header: ::core::option::Option<RequestHeader>,
+    /// Required. Must be in the format `providers/{provider}`.
+    /// The provider must be the Project ID (for example, `sample-cloud-project`)
+    /// of the Google Cloud Project of which the service account making
+    /// this call is a member.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of vehicles to return.
+    /// Default value: 100.
+    #[prost(int32, tag = "3")]
+    pub page_size: i32,
+    /// The value of the `next_page_token` provided by a previous call to
+    /// `ListVehicles` so that you can paginate through groups of vehicles. The
+    /// value is undefined if the filter criteria of the request is not the same as
+    /// the filter criteria for the previous call to `ListVehicles`.
+    #[prost(string, tag = "4")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Specifies the required minimum capacity of the vehicle. All vehicles
+    /// returned will have a `maximum_capacity` greater than or equal to this
+    /// value. If set, must be greater or equal to 0.
+    #[prost(message, optional, tag = "6")]
+    pub minimum_capacity: ::core::option::Option<i32>,
+    /// Restricts the response to vehicles that support at least one of the
+    /// specified trip types.
+    #[prost(enumeration = "TripType", repeated, tag = "7")]
+    pub trip_types: ::prost::alloc::vec::Vec<i32>,
+    /// Restricts the response to vehicles that have sent location updates to Fleet
+    /// Engine within the specified duration. Stationary vehicles still
+    /// transmitting their locations are not considered stale. If present, must be
+    /// a valid positive duration.
+    #[prost(message, optional, tag = "8")]
+    pub maximum_staleness: ::core::option::Option<::prost_types::Duration>,
+    /// Required. Restricts the response to vehicles with one of the specified type
+    /// categories. `UNKNOWN` is not allowed.
+    #[prost(
+        enumeration = "vehicle::vehicle_type::Category",
+        repeated,
+        packed = "false",
+        tag = "9"
+    )]
+    pub vehicle_type_categories: ::prost::alloc::vec::Vec<i32>,
+    /// Callers can form complex logical operations using any combination of the
+    /// `required_attributes`, `required_one_of_attributes`, and
+    /// `required_one_of_attribute_sets` fields.
+    ///
+    /// `required_attributes` is a list; `required_one_of_attributes` uses a
+    /// message which allows a list of lists. In combination, the two fields allow
+    /// the composition of this expression:
+    ///
+    /// ```
+    /// (required_attributes\[0\] AND required_attributes\[1\] AND ...)
+    /// AND
+    /// (required_one_of_attributes[0][0] OR required_one_of_attributes[0][1] OR
+    /// ...)
+    /// AND
+    /// (required_one_of_attributes[1][0] OR required_one_of_attributes[1][1] OR
+    /// ...)
+    /// ```
+    ///
+    /// Restricts the response to vehicles with the specified attributes. This
+    /// field is a conjunction/AND operation. A max of 50 required_attributes is
+    /// allowed. This matches the maximum number of attributes allowed on a
+    /// vehicle. Each repeated string should be of the format "key:value".
+    #[prost(string, repeated, tag = "10")]
+    pub required_attributes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Restricts the response to vehicles with at least one of the specified
+    /// attributes in each `VehicleAttributeList`. Within each list, a vehicle must
+    /// match at least one of the attributes. This field is an inclusive
+    /// disjunction/OR operation in each `VehicleAttributeList` and a
+    /// conjunction/AND operation across the collection of `VehicleAttributeList`.
+    /// Each repeated string should be of the format
+    /// "key1:value1|key2:value2|key3:value3".
+    #[prost(string, repeated, tag = "13")]
+    pub required_one_of_attributes: ::prost::alloc::vec::Vec<
+        ::prost::alloc::string::String,
+    >,
+    /// `required_one_of_attribute_sets` provides additional functionality.
+    ///
+    /// Similar to `required_one_of_attributes`, `required_one_of_attribute_sets`
+    /// uses a message which allows a list of lists, allowing expressions such as
+    /// this one:
+    ///
+    /// ```
+    /// (required_attributes\[0\] AND required_attributes\[1\] AND ...)
+    /// AND
+    /// (
+    ///    (required_one_of_attribute_sets[0][0] AND
+    ///    required_one_of_attribute_sets[0][1] AND
+    ///    ...)
+    ///    OR
+    ///    (required_one_of_attribute_sets[1][0] AND
+    ///    required_one_of_attribute_sets[1][1] AND
+    ///    ...)
+    /// )
+    /// ```
+    ///
+    /// Restricts the response to vehicles that match all the attributes in a
+    /// `VehicleAttributeList`. Within each list, a vehicle must match all of the
+    /// attributes. This field is a conjunction/AND operation in each
+    /// `VehicleAttributeList` and inclusive disjunction/OR operation across the
+    /// collection of `VehicleAttributeList`. Each repeated string should be of the
+    /// format "key1:value1|key2:value2|key3:value3".
+    #[prost(string, repeated, tag = "15")]
+    pub required_one_of_attribute_sets: ::prost::alloc::vec::Vec<
+        ::prost::alloc::string::String,
+    >,
+    /// Restricts the response to vehicles that have this vehicle state.
+    #[prost(enumeration = "VehicleState", tag = "11")]
+    pub vehicle_state: i32,
+    /// Only return the vehicles with current trip(s).
+    #[prost(bool, tag = "14")]
+    pub on_trip_only: bool,
+    /// Optional. A filter query to apply when listing vehicles. See
+    /// <http://aip.dev/160> for examples of the filter syntax.
+    ///
+    /// This field is designed to replace the `required_attributes`,
+    /// `required_one_of_attributes`, and `required_one_of_attributes_sets` fields.
+    /// If a non-empty value is specified here, the following fields must be empty:
+    /// `required_attributes`, `required_one_of_attributes`, and
+    /// `required_one_of_attributes_sets`.
+    ///
+    /// This filter functions as an AND clause with other constraints,
+    /// such as `vehicle_state` or `on_trip_only`.
+    ///
+    /// Note that the only queries supported are on vehicle attributes (for
+    /// example, `attributes.<key> = <value>` or `attributes.<key1> = <value1> AND
+    /// attributes.<key2> = <value2>`). The maximum number of restrictions allowed
+    /// in a filter query is 50.
+    ///
+    /// Also, all attributes are stored as strings, so the only supported
+    /// comparisons against attributes are string comparisons. In order to compare
+    /// against number or boolean values, the values must be explicitly quoted to
+    /// be treated as strings (for example, `attributes.<key> = "10"` or
+    /// `attributes.<key> = "true"`).
+    #[prost(string, tag = "16")]
+    pub filter: ::prost::alloc::string::String,
+    /// Optional. A filter that limits the vehicles returned to those whose last
+    /// known location was in the rectangular area defined by the viewport.
+    #[prost(message, optional, tag = "17")]
+    pub viewport: ::core::option::Option<
+        super::super::super::google::geo::r#type::Viewport,
+    >,
+}
+/// `ListVehicles` response message.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListVehiclesResponse {
+    /// Vehicles matching the criteria in the request.
+    /// The maximum number of vehicles returned is determined by the `page_size`
+    /// field in the request.
+    #[prost(message, repeated, tag = "1")]
+    pub vehicles: ::prost::alloc::vec::Vec<Vehicle>,
+    /// Token to retrieve the next page of vehicles, or empty if there are no
+    /// more vehicles that meet the request criteria.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+    /// Required. Total number of vehicles matching the request criteria across all
+    /// pages.
+    #[prost(int64, tag = "3")]
+    pub total_size: i64,
+}
+/// Describes intermediate points along a route for a `VehicleMatch` in a
+/// `SearchVehiclesResponse`. This concept is represented as a `TripWaypoint` in
+/// all other endpoints.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Waypoint {
+    /// The location of this waypoint.
+    #[prost(message, optional, tag = "1")]
+    pub lat_lng: ::core::option::Option<super::super::super::google::r#type::LatLng>,
+    /// The estimated time that the vehicle will arrive at this waypoint.
+    #[prost(message, optional, tag = "2")]
+    pub eta: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Contains the vehicle and related estimates for a vehicle that match the
+/// points of active trips for the vehicle `SearchVehiclesRequest`.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VehicleMatch {
+    /// Required. A vehicle that matches the request.
+    #[prost(message, optional, tag = "1")]
+    pub vehicle: ::core::option::Option<Vehicle>,
+    /// The vehicle's driving ETA to the pickup point specified in the
+    /// request. An empty value indicates a failure in calculating ETA for the
+    /// vehicle.  If `SearchVehiclesRequest.include_back_to_back` was `true` and
+    /// this vehicle has an active trip, `vehicle_pickup_eta` includes the time
+    /// required to complete the current active trip.
+    #[prost(message, optional, tag = "2")]
+    pub vehicle_pickup_eta: ::core::option::Option<::prost_types::Timestamp>,
+    /// The distance from the Vehicle's current location to the pickup point
+    /// specified in the request, including any intermediate pickup or dropoff
+    /// points for existing trips. This distance comprises the calculated driving
+    /// (route) distance, plus the straight line distance between the navigation
+    /// end point and the requested pickup point. (The distance between the
+    /// navigation end point and the requested pickup point is typically small.) An
+    /// empty value indicates an error in calculating the distance.
+    #[prost(message, optional, tag = "3")]
+    pub vehicle_pickup_distance_meters: ::core::option::Option<i32>,
+    /// Required. The straight-line distance between the vehicle and the pickup
+    /// point specified in the request.
+    #[prost(message, optional, tag = "11")]
+    pub vehicle_pickup_straight_line_distance_meters: ::core::option::Option<i32>,
+    /// The complete vehicle's driving ETA to the drop off point specified in the
+    /// request. The ETA includes stopping at any waypoints before the
+    /// `dropoff_point` specified in the request. The value will only be populated
+    /// when a drop off point is specified in the request. An empty value indicates
+    /// an error calculating the ETA.
+    #[prost(message, optional, tag = "4")]
+    pub vehicle_dropoff_eta: ::core::option::Option<::prost_types::Timestamp>,
+    /// The vehicle's driving distance (in meters) from the pickup point
+    /// to the drop off point specified in the request. The distance is only
+    /// between the two points and does not include the vehicle location or any
+    /// other points that must be visited before the vehicle visits either the
+    /// pickup point or dropoff point. The value will only be populated when a
+    /// `dropoff_point` is specified in the request. An empty value indicates
+    /// a failure in calculating the distance from the pickup to
+    /// drop off point specified in the request.
+    #[prost(message, optional, tag = "5")]
+    pub vehicle_pickup_to_dropoff_distance_meters: ::core::option::Option<i32>,
+    /// Required. The trip type of the request that was used to calculate the ETA
+    /// to the pickup point.
+    #[prost(enumeration = "TripType", tag = "6")]
+    pub trip_type: i32,
+    /// The ordered list of waypoints used to calculate the ETA. The list
+    /// includes vehicle location, the pickup points of active
+    /// trips for the vehicle, and the pickup points provided in the
+    /// request. An empty list indicates a failure in calculating ETA for the
+    /// vehicle.
+    #[prost(message, repeated, tag = "7")]
+    pub vehicle_trips_waypoints: ::prost::alloc::vec::Vec<Waypoint>,
+    /// Type of the vehicle match.
+    #[prost(enumeration = "vehicle_match::VehicleMatchType", tag = "8")]
+    pub vehicle_match_type: i32,
+    /// The order requested for sorting vehicle matches.
+    #[prost(enumeration = "search_vehicles_request::VehicleMatchOrder", tag = "9")]
+    pub requested_ordered_by: i32,
+    /// The actual order that was used for this vehicle. Normally this
+    /// will match the 'order_by' field from the request; however, in certain
+    /// circumstances such as an internal server error, a different method
+    /// may be used (such as `PICKUP_POINT_STRAIGHT_DISTANCE`).
+    #[prost(enumeration = "search_vehicles_request::VehicleMatchOrder", tag = "10")]
+    pub ordered_by: i32,
+}
+/// Nested message and enum types in `VehicleMatch`.
+pub mod vehicle_match {
+    /// Type of vehicle match.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum VehicleMatchType {
+        /// Unknown vehicle match type
+        Unknown = 0,
+        /// The vehicle currently has no trip assigned to it and can proceed to the
+        /// pickup point.
+        Exclusive = 1,
+        /// The vehicle is currently assigned to a trip, but can proceed to the
+        /// pickup point after completing the in-progress trip.  ETA and distance
+        /// calculations take the existing trip into account.
+        BackToBack = 2,
+        /// The vehicle has sufficient capacity for a shared ride.
+        Carpool = 3,
+        /// The vehicle will finish its current, active trip before proceeding to the
+        /// pickup point.  ETA and distance calculations take the existing trip into
+        /// account.
+        CarpoolBackToBack = 4,
+    }
+    impl VehicleMatchType {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                VehicleMatchType::Unknown => "UNKNOWN",
+                VehicleMatchType::Exclusive => "EXCLUSIVE",
+                VehicleMatchType::BackToBack => "BACK_TO_BACK",
+                VehicleMatchType::Carpool => "CARPOOL",
+                VehicleMatchType::CarpoolBackToBack => "CARPOOL_BACK_TO_BACK",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "UNKNOWN" => Some(Self::Unknown),
+                "EXCLUSIVE" => Some(Self::Exclusive),
+                "BACK_TO_BACK" => Some(Self::BackToBack),
+                "CARPOOL" => Some(Self::Carpool),
+                "CARPOOL_BACK_TO_BACK" => Some(Self::CarpoolBackToBack),
+                _ => None,
+            }
+        }
+    }
+}
+/// A list-of-lists datatype for vehicle attributes.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VehicleAttributeList {
+    /// A list of attributes in this collection.
+    #[prost(message, repeated, tag = "1")]
+    pub attributes: ::prost::alloc::vec::Vec<VehicleAttribute>,
+}
+/// Generated client implementations.
+pub mod vehicle_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    use tonic::codegen::http::Uri;
+    /// Vehicle management service.
+    #[derive(Debug, Clone)]
+    pub struct VehicleServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> VehicleServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_origin(inner: T, origin: Uri) -> Self {
+            let inner = tonic::client::Grpc::with_origin(inner, origin);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> VehicleServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            VehicleServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.send_compressed(encoding);
+            self
+        }
+        /// Enable decompressing responses.
+        #[must_use]
+        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.accept_compressed(encoding);
+            self
+        }
+        /// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        #[must_use]
+        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_decoding_message_size(limit);
+            self
+        }
+        /// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        #[must_use]
+        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_encoding_message_size(limit);
+            self
+        }
+        /// Instantiates a new vehicle associated with an on-demand rideshare or
+        /// deliveries provider. Each `Vehicle` must have a unique vehicle ID.
+        ///
+        /// The following `Vehicle` fields are required when creating a `Vehicle`:
+        ///
+        /// * `vehicleState`
+        /// * `supportedTripTypes`
+        /// * `maximumCapacity`
+        /// * `vehicleType`
+        ///
+        /// The following `Vehicle` fields are ignored when creating a `Vehicle`:
+        ///
+        /// * `name`
+        /// * `currentTrips`
+        /// * `availableCapacity`
+        /// * `current_route_segment`
+        /// * `current_route_segment_end_point`
+        /// * `current_route_segment_version`
+        /// * `current_route_segment_traffic`
+        /// * `route`
+        /// * `waypoints`
+        /// * `waypoints_version`
+        /// * `remaining_distance_meters`
+        /// * `remaining_time_seconds`
+        /// * `eta_to_next_waypoint`
+        /// * `navigation_status`
+        ///
+        /// All other fields are optional and used if provided.
+        pub async fn create_vehicle(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateVehicleRequest>,
+        ) -> std::result::Result<tonic::Response<super::Vehicle>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/maps.fleetengine.v1.VehicleService/CreateVehicle",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "maps.fleetengine.v1.VehicleService",
+                        "CreateVehicle",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Returns a vehicle from the Fleet Engine.
+        pub async fn get_vehicle(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetVehicleRequest>,
+        ) -> std::result::Result<tonic::Response<super::Vehicle>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/maps.fleetengine.v1.VehicleService/GetVehicle",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new("maps.fleetengine.v1.VehicleService", "GetVehicle"),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Writes updated vehicle data to the Fleet Engine.
+        ///
+        /// When updating a `Vehicle`, the following fields cannot be updated since
+        /// they are managed by the server:
+        ///
+        /// * `currentTrips`
+        /// * `availableCapacity`
+        /// * `current_route_segment_version`
+        /// * `waypoints_version`
+        ///
+        /// The vehicle `name` also cannot be updated.
+        ///
+        /// If the `attributes` field is updated, **all** the vehicle's attributes are
+        /// replaced with the attributes provided in the request. If you want to update
+        /// only some attributes, see the `UpdateVehicleAttributes` method. Likewise,
+        /// the `waypoints` field can be updated, but must contain all the waypoints
+        /// currently on the vehicle, and no other waypoints.
+        pub async fn update_vehicle(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateVehicleRequest>,
+        ) -> std::result::Result<tonic::Response<super::Vehicle>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/maps.fleetengine.v1.VehicleService/UpdateVehicle",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "maps.fleetengine.v1.VehicleService",
+                        "UpdateVehicle",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Deprecated: Use the `UpdateVehicle` method instead.
+        /// UpdateVehicleLocation updates the location of the vehicle.
+        pub async fn update_vehicle_location(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateVehicleLocationRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::VehicleLocation>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/maps.fleetengine.v1.VehicleService/UpdateVehicleLocation",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "maps.fleetengine.v1.VehicleService",
+                        "UpdateVehicleLocation",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Partially updates a vehicle's attributes.
+        /// Only the attributes mentioned in the request will be updated, other
+        /// attributes will NOT be altered. Note: this is different in `UpdateVehicle`,
+        /// where the whole `attributes` field will be replaced by the one in
+        /// `UpdateVehicleRequest`, attributes not in the request would be removed.
+        pub async fn update_vehicle_attributes(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateVehicleAttributesRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::UpdateVehicleAttributesResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/maps.fleetengine.v1.VehicleService/UpdateVehicleAttributes",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "maps.fleetengine.v1.VehicleService",
+                        "UpdateVehicleAttributes",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Returns a paginated list of vehicles associated with
+        /// a provider that match the request options.
+        pub async fn list_vehicles(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListVehiclesRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::ListVehiclesResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/maps.fleetengine.v1.VehicleService/ListVehicles",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new("maps.fleetengine.v1.VehicleService", "ListVehicles"),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Returns a list of vehicles that match the request options.
+        pub async fn search_vehicles(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SearchVehiclesRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::SearchVehiclesResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/maps.fleetengine.v1.VehicleService/SearchVehicles",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "maps.fleetengine.v1.VehicleService",
+                        "SearchVehicles",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Deprecated: Use `SearchVehicles` instead.
+        pub async fn search_fuzzed_vehicles(
+            &mut self,
+            request: impl tonic::IntoRequest<super::SearchVehiclesRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::SearchVehiclesResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/maps.fleetengine.v1.VehicleService/SearchFuzzedVehicles",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "maps.fleetengine.v1.VehicleService",
+                        "SearchFuzzedVehicles",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
         }
     }
 }
@@ -1542,1647 +3185,6 @@ pub mod trip_service_client {
             req.extensions_mut()
                 .insert(
                     GrpcMethod::new("maps.fleetengine.v1.TripService", "UpdateTrip"),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-    }
-}
-/// Vehicle metadata.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Vehicle {
-    /// Output only. The unique name for this vehicle.
-    /// The format is `providers/{provider}/vehicles/{vehicle}`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The vehicle state.
-    #[prost(enumeration = "VehicleState", tag = "2")]
-    pub vehicle_state: i32,
-    /// Trip types supported by this vehicle.
-    #[prost(enumeration = "TripType", repeated, tag = "3")]
-    pub supported_trip_types: ::prost::alloc::vec::Vec<i32>,
-    /// Output only. List of `trip_id`'s for trips currently assigned to this
-    /// vehicle.
-    #[prost(string, repeated, tag = "4")]
-    pub current_trips: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Last reported location of the vehicle.
-    #[prost(message, optional, tag = "5")]
-    pub last_location: ::core::option::Option<VehicleLocation>,
-    /// The total numbers of riders this vehicle can carry.  The driver is not
-    /// considered in this value. This value must be greater than or equal to one.
-    #[prost(int32, tag = "6")]
-    pub maximum_capacity: i32,
-    /// List of vehicle attributes. A vehicle can have at most 100
-    /// attributes, and each attribute must have a unique key.
-    #[prost(message, repeated, tag = "8")]
-    pub attributes: ::prost::alloc::vec::Vec<VehicleAttribute>,
-    /// Required. The type of this vehicle.  Can be used to filter vehicles in
-    /// `SearchVehicles` results.  Also influences ETA and route calculations.
-    #[prost(message, optional, tag = "9")]
-    pub vehicle_type: ::core::option::Option<vehicle::VehicleType>,
-    /// License plate information for the vehicle.
-    #[prost(message, optional, tag = "10")]
-    pub license_plate: ::core::option::Option<LicensePlate>,
-    /// Deprecated: Use `Vehicle.waypoints` instead.
-    #[deprecated]
-    #[prost(message, repeated, tag = "12")]
-    pub route: ::prost::alloc::vec::Vec<TerminalLocation>,
-    /// The polyline specifying the route the driver app intends to take to
-    /// the next waypoint. This list is also returned in
-    /// `Trip.current_route_segment` for all active trips assigned to the vehicle.
-    ///
-    /// Note: This field is intended only for use by the Driver SDK. Decoding is
-    /// not yet supported.
-    #[prost(string, tag = "20")]
-    pub current_route_segment: ::prost::alloc::string::String,
-    /// Input only. Fleet Engine uses this information to improve journey sharing.
-    /// Note: This field is intended only for use by the Driver SDK.
-    #[prost(message, optional, tag = "28")]
-    pub current_route_segment_traffic: ::core::option::Option<TrafficPolylineData>,
-    /// Output only. Time when `current_route_segment` was set. It can be stored by
-    /// the client and passed in future `GetVehicle` requests to prevent returning
-    /// routes that haven't changed.
-    #[prost(message, optional, tag = "15")]
-    pub current_route_segment_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// The waypoint where `current_route_segment` ends. This can be supplied by
-    /// drivers on `UpdateVehicle` calls either as a full trip waypoint, a waypoint
-    /// `LatLng`, or as the last `LatLng` of the `current_route_segment`. Fleet
-    /// Engine will then do its best to interpolate to an actual waypoint if it is
-    /// not fully specified. This field is ignored in `UpdateVehicle` calls unless
-    /// `current_route_segment` is also specified.
-    #[prost(message, optional, tag = "24")]
-    pub current_route_segment_end_point: ::core::option::Option<TripWaypoint>,
-    /// The remaining driving distance for the `current_route_segment`.
-    /// This value is also returned in `Trip.remaining_distance_meters` for all
-    /// active trips assigned to the vehicle. The value is unspecified if the
-    /// `current_route_segment` field is empty.
-    #[prost(message, optional, tag = "18")]
-    pub remaining_distance_meters: ::core::option::Option<i32>,
-    /// The ETA to the first entry in the `waypoints` field.  The value is
-    /// unspecified if the `waypoints` field is empty or the
-    /// `Vehicle.current_route_segment` field is empty.
-    ///
-    /// When updating a vehicle, `remaining_time_seconds` takes precedence over
-    /// `eta_to_first_waypoint` in the same request.
-    #[prost(message, optional, tag = "19")]
-    pub eta_to_first_waypoint: ::core::option::Option<::prost_types::Timestamp>,
-    /// Input only. The remaining driving time for the `current_route_segment`. The
-    /// value is unspecified if the `waypoints` field is empty or the
-    /// `Vehicle.current_route_segment` field is empty. This value should match
-    /// `eta_to_first_waypoint` - `current_time` if all parties are using the same
-    /// clock.
-    ///
-    /// When updating a vehicle, `remaining_time_seconds` takes precedence over
-    /// `eta_to_first_waypoint` in the same request.
-    #[prost(message, optional, tag = "25")]
-    pub remaining_time_seconds: ::core::option::Option<i32>,
-    /// The remaining waypoints assigned to this Vehicle.
-    #[prost(message, repeated, tag = "22")]
-    pub waypoints: ::prost::alloc::vec::Vec<TripWaypoint>,
-    /// Output only. Last time the `waypoints` field was updated. Clients should
-    /// cache this value and pass it in `GetVehicleRequest` to ensure the
-    /// `waypoints` field is only returned if it is updated.
-    #[prost(message, optional, tag = "16")]
-    pub waypoints_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// Indicates if the driver accepts back-to-back trips. If `true`,
-    /// `SearchVehicles` may include the vehicle even if it is currently assigned
-    /// to a trip. The default value is `false`.
-    #[prost(bool, tag = "23")]
-    pub back_to_back_enabled: bool,
-    /// The vehicle's navigation status.
-    #[prost(enumeration = "NavigationStatus", tag = "26")]
-    pub navigation_status: i32,
-    /// Input only. Information about settings in the mobile device being used by
-    /// the driver.
-    #[prost(message, optional, tag = "27")]
-    pub device_settings: ::core::option::Option<DeviceSettings>,
-}
-/// Nested message and enum types in `Vehicle`.
-pub mod vehicle {
-    /// The type of vehicle.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct VehicleType {
-        /// Vehicle type category
-        #[prost(enumeration = "vehicle_type::Category", tag = "1")]
-        pub category: i32,
-    }
-    /// Nested message and enum types in `VehicleType`.
-    pub mod vehicle_type {
-        /// Vehicle type categories
-        #[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        pub enum Category {
-            /// Default, used for unspecified or unrecognized vehicle categories.
-            Unknown = 0,
-            /// An automobile.
-            Auto = 1,
-            /// Any vehicle that acts as a taxi (typically licensed or regulated).
-            Taxi = 2,
-            /// Generally, a vehicle with a large storage capacity.
-            Truck = 3,
-            /// A motorcycle, moped, or other two-wheeled vehicle
-            TwoWheeler = 4,
-            /// Human-powered transport.
-            Bicycle = 5,
-            /// A human transporter, typically walking or running, traveling along
-            /// pedestrian pathways.
-            Pedestrian = 6,
-        }
-        impl Category {
-            /// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            pub fn as_str_name(&self) -> &'static str {
-                match self {
-                    Category::Unknown => "UNKNOWN",
-                    Category::Auto => "AUTO",
-                    Category::Taxi => "TAXI",
-                    Category::Truck => "TRUCK",
-                    Category::TwoWheeler => "TWO_WHEELER",
-                    Category::Bicycle => "BICYCLE",
-                    Category::Pedestrian => "PEDESTRIAN",
-                }
-            }
-            /// Creates an enum from field names used in the ProtoBuf definition.
-            pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-                match value {
-                    "UNKNOWN" => Some(Self::Unknown),
-                    "AUTO" => Some(Self::Auto),
-                    "TAXI" => Some(Self::Taxi),
-                    "TRUCK" => Some(Self::Truck),
-                    "TWO_WHEELER" => Some(Self::TwoWheeler),
-                    "BICYCLE" => Some(Self::Bicycle),
-                    "PEDESTRIAN" => Some(Self::Pedestrian),
-                    _ => None,
-                }
-            }
-        }
-    }
-}
-/// Information about the device's battery.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatteryInfo {
-    /// Status of the battery, whether full or charging etc.
-    #[prost(enumeration = "BatteryStatus", tag = "1")]
-    pub battery_status: i32,
-    /// Status of battery power source.
-    #[prost(enumeration = "PowerSource", tag = "2")]
-    pub power_source: i32,
-    /// Current battery percentage \[0-100\].
-    #[prost(float, tag = "3")]
-    pub battery_percentage: f32,
-}
-/// Information about various settings on the mobile device.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeviceSettings {
-    /// How location features are set to behave on the device when battery saver is
-    /// on.
-    #[prost(enumeration = "LocationPowerSaveMode", tag = "1")]
-    pub location_power_save_mode: i32,
-    /// Whether the device is currently in power save mode.
-    #[prost(bool, tag = "2")]
-    pub is_power_save_mode: bool,
-    /// Whether the device is in an interactive state.
-    #[prost(bool, tag = "3")]
-    pub is_interactive: bool,
-    /// Information about the battery state.
-    #[prost(message, optional, tag = "4")]
-    pub battery_info: ::core::option::Option<BatteryInfo>,
-}
-/// The license plate information of the Vehicle.  To avoid storing
-/// personally-identifiable information, only the minimum information
-/// about the license plate is stored as part of the entity.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct LicensePlate {
-    /// Required. CLDR Country/Region Code.  For example, `US` for United States,
-    /// or `IN` for India.
-    #[prost(string, tag = "1")]
-    pub country_code: ::prost::alloc::string::String,
-    /// The last digit of the license plate or "-1" to denote no numeric value
-    /// is present in the license plate.
-    ///
-    /// * "ABC 1234" -> "4"
-    /// * "AB 123 CD" -> "3"
-    /// * "ABCDEF" -> "-1"
-    #[prost(string, tag = "2")]
-    pub last_character: ::prost::alloc::string::String,
-}
-/// Describes how clients should color one portion of the polyline along the
-/// route.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VisualTrafficReportPolylineRendering {
-    /// Optional. Road stretches that should be rendered along the polyline.
-    /// Stretches are guaranteed to not overlap, and do not necessarily span the
-    /// full route.
-    ///
-    /// In the absence of a road stretch to style, the client should apply the
-    /// default for the route.
-    #[prost(message, repeated, tag = "1")]
-    pub road_stretch: ::prost::alloc::vec::Vec<
-        visual_traffic_report_polyline_rendering::RoadStretch,
-    >,
-}
-/// Nested message and enum types in `VisualTrafficReportPolylineRendering`.
-pub mod visual_traffic_report_polyline_rendering {
-    /// One road stretch that should be rendered.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct RoadStretch {
-        /// Required. The style to apply.
-        #[prost(enumeration = "road_stretch::Style", tag = "1")]
-        pub style: i32,
-        /// Required. The style should be applied between `[offset_meters,
-        /// offset_meters + length_meters)`.
-        #[prost(int32, tag = "2")]
-        pub offset_meters: i32,
-        /// Required. The length of the path where to apply the style.
-        #[prost(int32, tag = "3")]
-        pub length_meters: i32,
-    }
-    /// Nested message and enum types in `RoadStretch`.
-    pub mod road_stretch {
-        /// The traffic style, indicating traffic speed.
-        #[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        pub enum Style {
-            /// No style selected.
-            Unspecified = 0,
-            /// Traffic is slowing down.
-            SlowerTraffic = 1,
-            /// There is a traffic jam.
-            TrafficJam = 2,
-        }
-        impl Style {
-            /// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            pub fn as_str_name(&self) -> &'static str {
-                match self {
-                    Style::Unspecified => "STYLE_UNSPECIFIED",
-                    Style::SlowerTraffic => "SLOWER_TRAFFIC",
-                    Style::TrafficJam => "TRAFFIC_JAM",
-                }
-            }
-            /// Creates an enum from field names used in the ProtoBuf definition.
-            pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-                match value {
-                    "STYLE_UNSPECIFIED" => Some(Self::Unspecified),
-                    "SLOWER_TRAFFIC" => Some(Self::SlowerTraffic),
-                    "TRAFFIC_JAM" => Some(Self::TrafficJam),
-                    _ => None,
-                }
-            }
-        }
-    }
-}
-/// Traffic conditions along the expected vehicle route.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TrafficPolylineData {
-    /// A polyline rendering of how fast traffic is for all regions along
-    /// one stretch of a customer ride.
-    #[prost(message, optional, tag = "1")]
-    pub traffic_rendering: ::core::option::Option<VisualTrafficReportPolylineRendering>,
-}
-/// The state of a `Vehicle`.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum VehicleState {
-    /// Default, used for unspecified or unrecognized vehicle states.
-    UnknownVehicleState = 0,
-    /// The vehicle is not accepting new trips. Note: the vehicle may continue to
-    /// operate in this state while completing a trip assigned to it.
-    Offline = 1,
-    /// The vehicle is accepting new trips.
-    Online = 2,
-}
-impl VehicleState {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            VehicleState::UnknownVehicleState => "UNKNOWN_VEHICLE_STATE",
-            VehicleState::Offline => "OFFLINE",
-            VehicleState::Online => "ONLINE",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "UNKNOWN_VEHICLE_STATE" => Some(Self::UnknownVehicleState),
-            "OFFLINE" => Some(Self::Offline),
-            "ONLINE" => Some(Self::Online),
-            _ => None,
-        }
-    }
-}
-/// How location features are configured to behave on the mobile device when the
-/// devices "battery saver" feature is on.
-/// (<https://developer.android.com/reference/android/os/PowerManager#getLocationPowerSaveMode(>))
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum LocationPowerSaveMode {
-    /// Undefined LocationPowerSaveMode
-    UnknownLocationPowerSaveMode = 0,
-    /// Either the location providers shouldn't be affected by battery saver, or
-    /// battery saver is off.
-    LocationModeNoChange = 1,
-    /// The GPS based location provider should be disabled when battery saver is on
-    /// and the device is non-interactive.
-    LocationModeGpsDisabledWhenScreenOff = 2,
-    /// All location providers should be disabled when battery saver is on and the
-    /// device is non-interactive.
-    LocationModeAllDisabledWhenScreenOff = 3,
-    /// All the location providers will be kept available, but location fixes
-    /// should only be provided to foreground apps.
-    LocationModeForegroundOnly = 4,
-    /// Location will not be turned off, but LocationManager will throttle all
-    /// requests to providers when the device is non-interactive.
-    LocationModeThrottleRequestsWhenScreenOff = 5,
-}
-impl LocationPowerSaveMode {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            LocationPowerSaveMode::UnknownLocationPowerSaveMode => {
-                "UNKNOWN_LOCATION_POWER_SAVE_MODE"
-            }
-            LocationPowerSaveMode::LocationModeNoChange => "LOCATION_MODE_NO_CHANGE",
-            LocationPowerSaveMode::LocationModeGpsDisabledWhenScreenOff => {
-                "LOCATION_MODE_GPS_DISABLED_WHEN_SCREEN_OFF"
-            }
-            LocationPowerSaveMode::LocationModeAllDisabledWhenScreenOff => {
-                "LOCATION_MODE_ALL_DISABLED_WHEN_SCREEN_OFF"
-            }
-            LocationPowerSaveMode::LocationModeForegroundOnly => {
-                "LOCATION_MODE_FOREGROUND_ONLY"
-            }
-            LocationPowerSaveMode::LocationModeThrottleRequestsWhenScreenOff => {
-                "LOCATION_MODE_THROTTLE_REQUESTS_WHEN_SCREEN_OFF"
-            }
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "UNKNOWN_LOCATION_POWER_SAVE_MODE" => {
-                Some(Self::UnknownLocationPowerSaveMode)
-            }
-            "LOCATION_MODE_NO_CHANGE" => Some(Self::LocationModeNoChange),
-            "LOCATION_MODE_GPS_DISABLED_WHEN_SCREEN_OFF" => {
-                Some(Self::LocationModeGpsDisabledWhenScreenOff)
-            }
-            "LOCATION_MODE_ALL_DISABLED_WHEN_SCREEN_OFF" => {
-                Some(Self::LocationModeAllDisabledWhenScreenOff)
-            }
-            "LOCATION_MODE_FOREGROUND_ONLY" => Some(Self::LocationModeForegroundOnly),
-            "LOCATION_MODE_THROTTLE_REQUESTS_WHEN_SCREEN_OFF" => {
-                Some(Self::LocationModeThrottleRequestsWhenScreenOff)
-            }
-            _ => None,
-        }
-    }
-}
-/// Status of the battery, whether full or charging etc.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum BatteryStatus {
-    /// Battery status unknown.
-    UnknownBatteryStatus = 0,
-    /// Battery is being charged.
-    Charging = 1,
-    /// Battery is discharging.
-    Discharging = 2,
-    /// Battery is full.
-    Full = 3,
-    /// Battery is not charging.
-    NotCharging = 4,
-    /// Battery is low on power.
-    PowerLow = 5,
-}
-impl BatteryStatus {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            BatteryStatus::UnknownBatteryStatus => "UNKNOWN_BATTERY_STATUS",
-            BatteryStatus::Charging => "BATTERY_STATUS_CHARGING",
-            BatteryStatus::Discharging => "BATTERY_STATUS_DISCHARGING",
-            BatteryStatus::Full => "BATTERY_STATUS_FULL",
-            BatteryStatus::NotCharging => "BATTERY_STATUS_NOT_CHARGING",
-            BatteryStatus::PowerLow => "BATTERY_STATUS_POWER_LOW",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "UNKNOWN_BATTERY_STATUS" => Some(Self::UnknownBatteryStatus),
-            "BATTERY_STATUS_CHARGING" => Some(Self::Charging),
-            "BATTERY_STATUS_DISCHARGING" => Some(Self::Discharging),
-            "BATTERY_STATUS_FULL" => Some(Self::Full),
-            "BATTERY_STATUS_NOT_CHARGING" => Some(Self::NotCharging),
-            "BATTERY_STATUS_POWER_LOW" => Some(Self::PowerLow),
-            _ => None,
-        }
-    }
-}
-/// Type of the charger being used to charge the battery.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum PowerSource {
-    /// Power source unknown.
-    UnknownPowerSource = 0,
-    /// Power source is an AC charger.
-    Ac = 1,
-    /// Power source is a USB port.
-    Usb = 2,
-    /// Power source is wireless.
-    Wireless = 3,
-    /// Battery is unplugged.
-    Unplugged = 4,
-}
-impl PowerSource {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            PowerSource::UnknownPowerSource => "UNKNOWN_POWER_SOURCE",
-            PowerSource::Ac => "POWER_SOURCE_AC",
-            PowerSource::Usb => "POWER_SOURCE_USB",
-            PowerSource::Wireless => "POWER_SOURCE_WIRELESS",
-            PowerSource::Unplugged => "POWER_SOURCE_UNPLUGGED",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "UNKNOWN_POWER_SOURCE" => Some(Self::UnknownPowerSource),
-            "POWER_SOURCE_AC" => Some(Self::Ac),
-            "POWER_SOURCE_USB" => Some(Self::Usb),
-            "POWER_SOURCE_WIRELESS" => Some(Self::Wireless),
-            "POWER_SOURCE_UNPLUGGED" => Some(Self::Unplugged),
-            _ => None,
-        }
-    }
-}
-/// `CreateVehicle` request message.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateVehicleRequest {
-    /// The standard Fleet Engine request header.
-    #[prost(message, optional, tag = "1")]
-    pub header: ::core::option::Option<RequestHeader>,
-    /// Required. Must be in the format `providers/{provider}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
-    #[prost(string, tag = "3")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. Unique Vehicle ID.
-    /// Subject to the following restrictions:
-    ///
-    /// * Must be a valid Unicode string.
-    /// * Limited to a maximum length of 64 characters.
-    /// * Normalized according to \[Unicode Normalization Form C\]
-    /// (<http://www.unicode.org/reports/tr15/>).
-    /// * May not contain any of the following ASCII characters: '/', ':', '?',
-    /// ',', or '#'.
-    #[prost(string, tag = "4")]
-    pub vehicle_id: ::prost::alloc::string::String,
-    /// Required. The Vehicle entity to create. When creating a Vehicle, the
-    /// following fields are required:
-    ///
-    /// * `vehicleState`
-    /// * `supportedTripTypes`
-    /// * `maximumCapacity`
-    /// * `vehicleType`
-    ///
-    /// When creating a Vehicle, the following fields are ignored:
-    ///
-    /// * `name`
-    /// * `currentTrips`
-    /// * `availableCapacity`
-    /// * `current_route_segment`
-    /// * `current_route_segment_end_point`
-    /// * `current_route_segment_version`
-    /// * `current_route_segment_traffic`
-    /// * `route`
-    /// * `waypoints`
-    /// * `waypoints_version`
-    /// * `remaining_distance_meters`
-    /// * `remaining_time_seconds`
-    /// * `eta_to_next_waypoint`
-    /// * `navigation_status`
-    ///
-    /// All other fields are optional and used if provided.
-    #[prost(message, optional, tag = "5")]
-    pub vehicle: ::core::option::Option<Vehicle>,
-}
-/// `GetVehicle` request message.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetVehicleRequest {
-    /// The standard Fleet Engine request header.
-    #[prost(message, optional, tag = "1")]
-    pub header: ::core::option::Option<RequestHeader>,
-    /// Required. Must be in the format
-    /// `providers/{provider}/vehicles/{vehicle}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
-    #[prost(string, tag = "3")]
-    pub name: ::prost::alloc::string::String,
-    /// Indicates the minimum timestamp (exclusive) for which
-    /// `Vehicle.current_route_segment` is retrieved.
-    /// If the route is unchanged since this timestamp, the `current_route_segment`
-    /// field is not set in the response. If a minimum is unspecified, the
-    /// `current_route_segment` is always retrieved.
-    #[prost(message, optional, tag = "4")]
-    pub current_route_segment_version: ::core::option::Option<::prost_types::Timestamp>,
-    /// Indicates the minimum timestamp (exclusive) for which `Vehicle.waypoints`
-    /// data is retrieved. If the waypoints are unchanged since this timestamp, the
-    /// `vehicle.waypoints` data is not set in the response. If this field is
-    /// unspecified, `vehicle.waypoints` is always retrieved.
-    #[prost(message, optional, tag = "5")]
-    pub waypoints_version: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// `UpdateVehicle request message.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateVehicleRequest {
-    /// The standard Fleet Engine request header.
-    #[prost(message, optional, tag = "1")]
-    pub header: ::core::option::Option<RequestHeader>,
-    /// Required. Must be in the format
-    /// `providers/{provider}/vehicles/{vehicle}`.
-    /// The {provider} must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
-    #[prost(string, tag = "3")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The `Vehicle` entity values to apply.  When updating a `Vehicle`,
-    /// the following fields may not be updated as they are managed by the
-    /// server.
-    ///
-    /// * `available_capacity`
-    /// * `current_route_segment_version`
-    /// * `current_trips`
-    /// * `name`
-    /// * `waypoints_version`
-    ///
-    /// If the `attributes` field is updated, **all** the vehicle's attributes are
-    /// replaced with the attributes provided in the request. If you want to update
-    /// only some attributes, see the `UpdateVehicleAttributes` method.
-    ///
-    /// Likewise, the `waypoints` field can be updated, but must contain all the
-    /// waypoints currently on the vehicle, and no other waypoints.
-    #[prost(message, optional, tag = "4")]
-    pub vehicle: ::core::option::Option<Vehicle>,
-    /// Required. A field mask indicating which fields of the `Vehicle` to update.
-    /// At least one field name must be provided.
-    #[prost(message, optional, tag = "5")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// `UpdateVehicleLocation` request message.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateVehicleLocationRequest {
-    /// The standard Fleet Engine request header.
-    #[prost(message, optional, tag = "1")]
-    pub header: ::core::option::Option<RequestHeader>,
-    /// Required. Must be in the format
-    /// `providers/{provider}/vehicles/{vehicle}`.
-    /// The {provider} must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
-    #[prost(string, tag = "3")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The vehicle's most recent location.  The `location` and
-    /// `update_time` subfields are required.
-    #[prost(message, optional, tag = "4")]
-    pub current_location: ::core::option::Option<VehicleLocation>,
-    /// Set the vehicle's state to either `ONLINE` or `OFFLINE`.
-    /// If set to `UNKNOWN_VEHICLE_STATE`, the vehicle's state will not be altered.
-    #[prost(enumeration = "VehicleState", tag = "5")]
-    pub current_state: i32,
-}
-/// `UpdateVehicleAttributes` request message.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateVehicleAttributesRequest {
-    /// The standard Fleet Engine request header.
-    #[prost(message, optional, tag = "1")]
-    pub header: ::core::option::Option<RequestHeader>,
-    /// Required. Must be in the format `providers/{provider}/vehicles/{vehicle}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
-    #[prost(string, tag = "3")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The vehicle attributes to update. Unmentioned attributes are not
-    /// altered or removed.
-    #[prost(message, repeated, tag = "4")]
-    pub attributes: ::prost::alloc::vec::Vec<VehicleAttribute>,
-}
-/// `UpdateVehicleAttributes` response message.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateVehicleAttributesResponse {
-    /// Required. The updated full list of vehicle attributes, including new,
-    /// altered, and untouched attributes.
-    #[prost(message, repeated, tag = "1")]
-    pub attributes: ::prost::alloc::vec::Vec<VehicleAttribute>,
-}
-/// `SearchVehicles` request message.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchVehiclesRequest {
-    /// The standard Fleet Engine request header.
-    #[prost(message, optional, tag = "1")]
-    pub header: ::core::option::Option<RequestHeader>,
-    /// Required. Must be in the format `providers/{provider}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
-    #[prost(string, tag = "3")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The pickup point to search near.
-    #[prost(message, optional, tag = "4")]
-    pub pickup_point: ::core::option::Option<TerminalLocation>,
-    /// The customer's intended dropoff location. The field is required if
-    /// `trip_types` contains `TripType.SHARED`.
-    #[prost(message, optional, tag = "5")]
-    pub dropoff_point: ::core::option::Option<TerminalLocation>,
-    /// Required. Defines the vehicle search radius around the pickup point. Only
-    /// vehicles within the search radius will be returned. Value must be between
-    /// 400 and 10000 meters (inclusive).
-    #[prost(int32, tag = "6")]
-    pub pickup_radius_meters: i32,
-    /// Required. Specifies the maximum number of vehicles to return. The value
-    /// must be between 1 and 50 (inclusive).
-    #[prost(int32, tag = "7")]
-    pub count: i32,
-    /// Required. Specifies the number of passengers being considered for a trip.
-    /// The value must be greater than or equal to one. The driver is not
-    /// considered in the capacity value.
-    #[prost(int32, tag = "8")]
-    pub minimum_capacity: i32,
-    /// Required. Represents the type of proposed trip. Eligible vehicles are those
-    /// that can support at least one of the specified trip type.
-    ///
-    /// `EXCLUSIVE` and `SHARED` may not be included together.
-    /// `SHARED` is not supported when `current_trips_present` is
-    /// `CURRENT_TRIPS_PRESENT_UNSPECIFIED`. `UNKNOWN_TRIP_TYPE` is not allowed.
-    #[prost(enumeration = "TripType", repeated, packed = "false", tag = "9")]
-    pub trip_types: ::prost::alloc::vec::Vec<i32>,
-    /// Restricts the search to only those vehicles that have sent location updates
-    /// to Fleet Engine within the specified duration. Stationary vehicles still
-    /// transmitting their locations are not considered stale. If this field is not
-    /// set, the server uses five minutes as the default value.
-    #[prost(message, optional, tag = "10")]
-    pub maximum_staleness: ::core::option::Option<::prost_types::Duration>,
-    /// Required. Restricts the search to vehicles with one of the specified types.
-    /// At least one vehicle type must be specified. VehicleTypes with a category
-    /// of `UNKNOWN` are not allowed.
-    #[prost(message, repeated, tag = "14")]
-    pub vehicle_types: ::prost::alloc::vec::Vec<vehicle::VehicleType>,
-    /// Callers can form complex logical operations using any combination of the
-    /// `required_attributes`, `required_one_of_attributes`, and
-    /// `required_one_of_attribute_sets` fields.
-    ///
-    /// `required_attributes` is a list; `required_one_of_attributes` uses a
-    /// message which allows a list of lists. In combination, the two fields allow
-    /// the composition of this expression:
-    ///
-    /// ```
-    /// (required_attributes\[0\] AND required_attributes\[1\] AND ...)
-    /// AND
-    /// (required_one_of_attributes[0][0] OR required_one_of_attributes[0][1] OR
-    /// ...)
-    /// AND
-    /// (required_one_of_attributes[1][0] OR required_one_of_attributes[1][1] OR
-    /// ...)
-    /// ```
-    ///
-    /// Restricts the search to only those vehicles with the specified attributes.
-    /// This field is a conjunction/AND operation. A max of 50 required_attributes
-    /// is allowed. This matches the maximum number of attributes allowed on a
-    /// vehicle.
-    #[prost(message, repeated, tag = "12")]
-    pub required_attributes: ::prost::alloc::vec::Vec<VehicleAttribute>,
-    /// Restricts the search to only those vehicles with at least one of
-    /// the specified attributes in each `VehicleAttributeList`. Within each
-    /// list, a vehicle must match at least one of the attributes. This field is an
-    /// inclusive disjunction/OR operation in each `VehicleAttributeList` and a
-    /// conjunction/AND operation across the collection of `VehicleAttributeList`.
-    #[prost(message, repeated, tag = "15")]
-    pub required_one_of_attributes: ::prost::alloc::vec::Vec<VehicleAttributeList>,
-    /// `required_one_of_attribute_sets` provides additional functionality.
-    ///
-    /// Similar to `required_one_of_attributes`, `required_one_of_attribute_sets`
-    /// uses a message which allows a list of lists, allowing expressions such as
-    /// this one:
-    ///
-    /// ```
-    /// (required_attributes\[0\] AND required_attributes\[1\] AND ...)
-    /// AND
-    /// (
-    ///    (required_one_of_attribute_sets[0][0] AND
-    ///    required_one_of_attribute_sets[0][1] AND
-    ///    ...)
-    ///    OR
-    ///    (required_one_of_attribute_sets[1][0] AND
-    ///    required_one_of_attribute_sets[1][1] AND
-    ///    ...)
-    /// )
-    /// ```
-    ///
-    /// Restricts the search to only those vehicles with all the attributes in a
-    /// `VehicleAttributeList`. Within each list, a
-    /// vehicle must match all of the attributes. This field is a conjunction/AND
-    /// operation in each `VehicleAttributeList` and inclusive disjunction/OR
-    /// operation across the collection of `VehicleAttributeList`.
-    #[prost(message, repeated, tag = "20")]
-    pub required_one_of_attribute_sets: ::prost::alloc::vec::Vec<VehicleAttributeList>,
-    /// Required. Specifies the desired ordering criterion for results.
-    #[prost(enumeration = "search_vehicles_request::VehicleMatchOrder", tag = "13")]
-    pub order_by: i32,
-    /// Indicates if a vehicle with a single active trip is eligible for another
-    /// match. If `false`, vehicles with assigned trips are excluded from the
-    /// search results. If `true`, search results include vehicles with
-    /// `TripStatus` of `ENROUTE_TO_DROPOFF`.
-    ///
-    /// This field is only considered if a single `trip_type` of `EXCLUSIVE` is
-    /// specified.
-    ///
-    /// The default value is `false`.
-    #[prost(bool, tag = "18")]
-    pub include_back_to_back: bool,
-    /// Indicates the trip associated with this `SearchVehicleRequest`.
-    #[prost(string, tag = "19")]
-    pub trip_id: ::prost::alloc::string::String,
-    /// Restricts vehicles from appearing in the search results based on
-    /// their current trips.
-    ///
-    /// When current_trips_present is `NONE` or `ANY`, `trip_types` can be either
-    /// `EXCLUSIVE` or `SHARED`, but not both.
-    #[prost(enumeration = "search_vehicles_request::CurrentTripsPresent", tag = "21")]
-    pub current_trips_present: i32,
-    /// Optional. A filter query to apply when searching vehicles. See
-    /// <http://aip.dev/160> for examples of the filter syntax.
-    ///
-    /// This field is designed to replace the `required_attributes`,
-    /// `required_one_of_attributes`, and `required_one_of_attributes_sets` fields.
-    /// If a non-empty value is specified here, the following fields must be empty:
-    /// `required_attributes`, `required_one_of_attributes`, and
-    /// `required_one_of_attributes_sets`.
-    ///
-    /// This filter functions as an AND clause with other constraints,
-    /// such as `minimum_capacity` or `vehicle_types`.
-    ///
-    /// Note that the only queries supported are on vehicle attributes (for
-    /// example, `attributes.<key> = <value>` or `attributes.<key1> = <value1> AND
-    /// attributes.<key2> = <value2>`). The maximum number of restrictions allowed
-    /// in a filter query is 50.
-    ///
-    /// Also, all attributes are stored as strings, so the only supported
-    /// comparisons against attributes are string comparisons. In order to compare
-    /// against number or boolean values, the values must be explicitly quoted to
-    /// be treated as strings (for example, `attributes.<key> = "10"` or
-    /// `attributes.<key> = "true"`).
-    #[prost(string, tag = "22")]
-    pub filter: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `SearchVehiclesRequest`.
-pub mod search_vehicles_request {
-    /// Specifies the order of the vehicle matches in the response.
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum VehicleMatchOrder {
-        /// Default, used for unspecified or unrecognized vehicle matches order.
-        UnknownVehicleMatchOrder = 0,
-        /// Ascending order by vehicle driving time to the pickup point.
-        PickupPointEta = 1,
-        /// Ascending order by vehicle driving distance to the pickup point.
-        PickupPointDistance = 2,
-        /// Ascending order by vehicle driving time to the dropoff point. This order
-        /// can only be used if the dropoff point is specified in the request.
-        DropoffPointEta = 3,
-        /// Ascending order by straight-line distance from the vehicle's last
-        /// reported location to the pickup point.
-        PickupPointStraightDistance = 4,
-        /// Ascending order by the configured match cost. Match cost is defined as a
-        /// weighted calculation between straight-line distance and ETA. Weights are
-        /// set with default values and can be modified per customer. Please contact
-        /// Google support if these weights need to be modified for your project.
-        Cost = 5,
-    }
-    impl VehicleMatchOrder {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                VehicleMatchOrder::UnknownVehicleMatchOrder => {
-                    "UNKNOWN_VEHICLE_MATCH_ORDER"
-                }
-                VehicleMatchOrder::PickupPointEta => "PICKUP_POINT_ETA",
-                VehicleMatchOrder::PickupPointDistance => "PICKUP_POINT_DISTANCE",
-                VehicleMatchOrder::DropoffPointEta => "DROPOFF_POINT_ETA",
-                VehicleMatchOrder::PickupPointStraightDistance => {
-                    "PICKUP_POINT_STRAIGHT_DISTANCE"
-                }
-                VehicleMatchOrder::Cost => "COST",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "UNKNOWN_VEHICLE_MATCH_ORDER" => Some(Self::UnknownVehicleMatchOrder),
-                "PICKUP_POINT_ETA" => Some(Self::PickupPointEta),
-                "PICKUP_POINT_DISTANCE" => Some(Self::PickupPointDistance),
-                "DROPOFF_POINT_ETA" => Some(Self::DropoffPointEta),
-                "PICKUP_POINT_STRAIGHT_DISTANCE" => {
-                    Some(Self::PickupPointStraightDistance)
-                }
-                "COST" => Some(Self::Cost),
-                _ => None,
-            }
-        }
-    }
-    /// Specifies the types of restrictions on a vehicle's current trips.
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum CurrentTripsPresent {
-        /// Only vehicles without trips can appear in search results.
-        /// A validation exception is thrown if `include_back_to_back` is true. See
-        /// the `include_back_to_back` flag for more details.
-        Unspecified = 0,
-        /// Vehicles without trips can appear in search results.
-        /// A validation exception is thrown if `include_back_to_back` is true.
-        None = 1,
-        /// Vehicles with at most 5 current trips and 10 waypoints are included
-        /// in the search results.
-        /// A validation exception is thrown if `include_back_to_back` is true.
-        Any = 2,
-    }
-    impl CurrentTripsPresent {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                CurrentTripsPresent::Unspecified => "CURRENT_TRIPS_PRESENT_UNSPECIFIED",
-                CurrentTripsPresent::None => "NONE",
-                CurrentTripsPresent::Any => "ANY",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "CURRENT_TRIPS_PRESENT_UNSPECIFIED" => Some(Self::Unspecified),
-                "NONE" => Some(Self::None),
-                "ANY" => Some(Self::Any),
-                _ => None,
-            }
-        }
-    }
-}
-/// `SearchVehicles` response message.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SearchVehiclesResponse {
-    /// List of vehicles that match the `SearchVehiclesRequest` criteria, ordered
-    /// according to `SearchVehiclesRequest.order_by` field.
-    #[prost(message, repeated, tag = "1")]
-    pub matches: ::prost::alloc::vec::Vec<VehicleMatch>,
-}
-/// `ListVehicles` request message.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListVehiclesRequest {
-    /// The standard Fleet Engine request header.
-    #[prost(message, optional, tag = "12")]
-    pub header: ::core::option::Option<RequestHeader>,
-    /// Required. Must be in the format `providers/{provider}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of vehicles to return.
-    /// Default value: 100.
-    #[prost(int32, tag = "3")]
-    pub page_size: i32,
-    /// The value of the `next_page_token` provided by a previous call to
-    /// `ListVehicles` so that you can paginate through groups of vehicles. The
-    /// value is undefined if the filter criteria of the request is not the same as
-    /// the filter criteria for the previous call to `ListVehicles`.
-    #[prost(string, tag = "4")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Specifies the required minimum capacity of the vehicle. All vehicles
-    /// returned will have a `maximum_capacity` greater than or equal to this
-    /// value. If set, must be greater or equal to 0.
-    #[prost(message, optional, tag = "6")]
-    pub minimum_capacity: ::core::option::Option<i32>,
-    /// Restricts the response to vehicles that support at least one of the
-    /// specified trip types.
-    #[prost(enumeration = "TripType", repeated, tag = "7")]
-    pub trip_types: ::prost::alloc::vec::Vec<i32>,
-    /// Restricts the response to vehicles that have sent location updates to Fleet
-    /// Engine within the specified duration. Stationary vehicles still
-    /// transmitting their locations are not considered stale. If present, must be
-    /// a valid positive duration.
-    #[prost(message, optional, tag = "8")]
-    pub maximum_staleness: ::core::option::Option<::prost_types::Duration>,
-    /// Required. Restricts the response to vehicles with one of the specified type
-    /// categories. `UNKNOWN` is not allowed.
-    #[prost(
-        enumeration = "vehicle::vehicle_type::Category",
-        repeated,
-        packed = "false",
-        tag = "9"
-    )]
-    pub vehicle_type_categories: ::prost::alloc::vec::Vec<i32>,
-    /// Callers can form complex logical operations using any combination of the
-    /// `required_attributes`, `required_one_of_attributes`, and
-    /// `required_one_of_attribute_sets` fields.
-    ///
-    /// `required_attributes` is a list; `required_one_of_attributes` uses a
-    /// message which allows a list of lists. In combination, the two fields allow
-    /// the composition of this expression:
-    ///
-    /// ```
-    /// (required_attributes\[0\] AND required_attributes\[1\] AND ...)
-    /// AND
-    /// (required_one_of_attributes[0][0] OR required_one_of_attributes[0][1] OR
-    /// ...)
-    /// AND
-    /// (required_one_of_attributes[1][0] OR required_one_of_attributes[1][1] OR
-    /// ...)
-    /// ```
-    ///
-    /// Restricts the response to vehicles with the specified attributes. This
-    /// field is a conjunction/AND operation. A max of 50 required_attributes is
-    /// allowed. This matches the maximum number of attributes allowed on a
-    /// vehicle. Each repeated string should be of the format "key:value".
-    #[prost(string, repeated, tag = "10")]
-    pub required_attributes: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Restricts the response to vehicles with at least one of the specified
-    /// attributes in each `VehicleAttributeList`. Within each list, a vehicle must
-    /// match at least one of the attributes. This field is an inclusive
-    /// disjunction/OR operation in each `VehicleAttributeList` and a
-    /// conjunction/AND operation across the collection of `VehicleAttributeList`.
-    /// Each repeated string should be of the format
-    /// "key1:value1|key2:value2|key3:value3".
-    #[prost(string, repeated, tag = "13")]
-    pub required_one_of_attributes: ::prost::alloc::vec::Vec<
-        ::prost::alloc::string::String,
-    >,
-    /// `required_one_of_attribute_sets` provides additional functionality.
-    ///
-    /// Similar to `required_one_of_attributes`, `required_one_of_attribute_sets`
-    /// uses a message which allows a list of lists, allowing expressions such as
-    /// this one:
-    ///
-    /// ```
-    /// (required_attributes\[0\] AND required_attributes\[1\] AND ...)
-    /// AND
-    /// (
-    ///    (required_one_of_attribute_sets[0][0] AND
-    ///    required_one_of_attribute_sets[0][1] AND
-    ///    ...)
-    ///    OR
-    ///    (required_one_of_attribute_sets[1][0] AND
-    ///    required_one_of_attribute_sets[1][1] AND
-    ///    ...)
-    /// )
-    /// ```
-    ///
-    /// Restricts the response to vehicles that match all the attributes in a
-    /// `VehicleAttributeList`. Within each list, a vehicle must match all of the
-    /// attributes. This field is a conjunction/AND operation in each
-    /// `VehicleAttributeList` and inclusive disjunction/OR operation across the
-    /// collection of `VehicleAttributeList`. Each repeated string should be of the
-    /// format "key1:value1|key2:value2|key3:value3".
-    #[prost(string, repeated, tag = "15")]
-    pub required_one_of_attribute_sets: ::prost::alloc::vec::Vec<
-        ::prost::alloc::string::String,
-    >,
-    /// Restricts the response to vehicles that have this vehicle state.
-    #[prost(enumeration = "VehicleState", tag = "11")]
-    pub vehicle_state: i32,
-    /// Only return the vehicles with current trip(s).
-    #[prost(bool, tag = "14")]
-    pub on_trip_only: bool,
-    /// Optional. A filter query to apply when listing vehicles. See
-    /// <http://aip.dev/160> for examples of the filter syntax.
-    ///
-    /// This field is designed to replace the `required_attributes`,
-    /// `required_one_of_attributes`, and `required_one_of_attributes_sets` fields.
-    /// If a non-empty value is specified here, the following fields must be empty:
-    /// `required_attributes`, `required_one_of_attributes`, and
-    /// `required_one_of_attributes_sets`.
-    ///
-    /// This filter functions as an AND clause with other constraints,
-    /// such as `vehicle_state` or `on_trip_only`.
-    ///
-    /// Note that the only queries supported are on vehicle attributes (for
-    /// example, `attributes.<key> = <value>` or `attributes.<key1> = <value1> AND
-    /// attributes.<key2> = <value2>`). The maximum number of restrictions allowed
-    /// in a filter query is 50.
-    ///
-    /// Also, all attributes are stored as strings, so the only supported
-    /// comparisons against attributes are string comparisons. In order to compare
-    /// against number or boolean values, the values must be explicitly quoted to
-    /// be treated as strings (for example, `attributes.<key> = "10"` or
-    /// `attributes.<key> = "true"`).
-    #[prost(string, tag = "16")]
-    pub filter: ::prost::alloc::string::String,
-    /// Optional. A filter that limits the vehicles returned to those whose last
-    /// known location was in the rectangular area defined by the viewport.
-    #[prost(message, optional, tag = "17")]
-    pub viewport: ::core::option::Option<
-        super::super::super::google::geo::r#type::Viewport,
-    >,
-}
-/// `ListVehicles` response message.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListVehiclesResponse {
-    /// Vehicles matching the criteria in the request.
-    /// The maximum number of vehicles returned is determined by the `page_size`
-    /// field in the request.
-    #[prost(message, repeated, tag = "1")]
-    pub vehicles: ::prost::alloc::vec::Vec<Vehicle>,
-    /// Token to retrieve the next page of vehicles, or empty if there are no
-    /// more vehicles that meet the request criteria.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-    /// Required. Total number of vehicles matching the request criteria across all
-    /// pages.
-    #[prost(int64, tag = "3")]
-    pub total_size: i64,
-}
-/// Describes intermediate points along a route.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Waypoint {
-    /// The location of this waypoint.
-    #[prost(message, optional, tag = "1")]
-    pub lat_lng: ::core::option::Option<super::super::super::google::r#type::LatLng>,
-    /// The estimated time that the vehicle will arrive at this waypoint.
-    #[prost(message, optional, tag = "2")]
-    pub eta: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// Contains the vehicle and related estimates for a vehicle that match the
-/// points of active trips for the vehicle `SearchVehiclesRequest`.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VehicleMatch {
-    /// Required. A vehicle that matches the request.
-    #[prost(message, optional, tag = "1")]
-    pub vehicle: ::core::option::Option<Vehicle>,
-    /// The vehicle's driving ETA to the pickup point specified in the
-    /// request. An empty value indicates a failure in calculating ETA for the
-    /// vehicle.  If `SearchVehiclesRequest.include_back_to_back` was `true` and
-    /// this vehicle has an active trip, `vehicle_pickup_eta` includes the time
-    /// required to complete the current active trip.
-    #[prost(message, optional, tag = "2")]
-    pub vehicle_pickup_eta: ::core::option::Option<::prost_types::Timestamp>,
-    /// The distance from the Vehicle's current location to the pickup point
-    /// specified in the request, including any intermediate pickup or dropoff
-    /// points for existing trips. This distance comprises the calculated driving
-    /// (route) distance, plus the straight line distance between the navigation
-    /// end point and the requested pickup point. (The distance between the
-    /// navigation end point and the requested pickup point is typically small.) An
-    /// empty value indicates an error in calculating the distance.
-    #[prost(message, optional, tag = "3")]
-    pub vehicle_pickup_distance_meters: ::core::option::Option<i32>,
-    /// Required. The straight-line distance between the vehicle and the pickup
-    /// point specified in the request.
-    #[prost(message, optional, tag = "11")]
-    pub vehicle_pickup_straight_line_distance_meters: ::core::option::Option<i32>,
-    /// The complete vehicle's driving ETA to the drop off point specified in the
-    /// request. The ETA includes stopping at any waypoints before the
-    /// `dropoff_point` specified in the request. The value will only be populated
-    /// when a drop off point is specified in the request. An empty value indicates
-    /// an error calculating the ETA.
-    #[prost(message, optional, tag = "4")]
-    pub vehicle_dropoff_eta: ::core::option::Option<::prost_types::Timestamp>,
-    /// The vehicle's driving distance (in meters) from the pickup point
-    /// to the drop off point specified in the request. The distance is only
-    /// between the two points and does not include the vehicle location or any
-    /// other points that must be visited before the vehicle visits either the
-    /// pickup point or dropoff point. The value will only be populated when a
-    /// `dropoff_point` is specified in the request. An empty value indicates
-    /// a failure in calculating the distance from the pickup to
-    /// drop off point specified in the request.
-    #[prost(message, optional, tag = "5")]
-    pub vehicle_pickup_to_dropoff_distance_meters: ::core::option::Option<i32>,
-    /// Required. The trip type of the request that was used to calculate the ETA
-    /// to the pickup point.
-    #[prost(enumeration = "TripType", tag = "6")]
-    pub trip_type: i32,
-    /// The ordered list of waypoints used to calculate the ETA. The list
-    /// includes vehicle location, the pickup points of active
-    /// trips for the vehicle, and the pickup points provided in the
-    /// request. An empty list indicates a failure in calculating ETA for the
-    /// vehicle.
-    #[prost(message, repeated, tag = "7")]
-    pub vehicle_trips_waypoints: ::prost::alloc::vec::Vec<Waypoint>,
-    /// Type of the vehicle match.
-    #[prost(enumeration = "vehicle_match::VehicleMatchType", tag = "8")]
-    pub vehicle_match_type: i32,
-    /// The order requested for sorting vehicle matches.
-    #[prost(enumeration = "search_vehicles_request::VehicleMatchOrder", tag = "9")]
-    pub requested_ordered_by: i32,
-    /// The actual order that was used for this vehicle. Normally this
-    /// will match the 'order_by' field from the request; however, in certain
-    /// circumstances such as an internal server error, a different method
-    /// may be used (such as `PICKUP_POINT_STRAIGHT_DISTANCE`).
-    #[prost(enumeration = "search_vehicles_request::VehicleMatchOrder", tag = "10")]
-    pub ordered_by: i32,
-}
-/// Nested message and enum types in `VehicleMatch`.
-pub mod vehicle_match {
-    /// Type of vehicle match.
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum VehicleMatchType {
-        /// Unknown vehicle match type
-        Unknown = 0,
-        /// The vehicle currently has no trip assigned to it and can proceed to the
-        /// pickup point.
-        Exclusive = 1,
-        /// The vehicle is currently assigned to a trip, but can proceed to the
-        /// pickup point after completing the in-progress trip.  ETA and distance
-        /// calculations take the existing trip into account.
-        BackToBack = 2,
-        /// The vehicle has sufficient capacity for a shared ride.
-        Carpool = 3,
-        /// The vehicle will finish its current, active trip before proceeding to the
-        /// pickup point.  ETA and distance calculations take the existing trip into
-        /// account.
-        CarpoolBackToBack = 4,
-    }
-    impl VehicleMatchType {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                VehicleMatchType::Unknown => "UNKNOWN",
-                VehicleMatchType::Exclusive => "EXCLUSIVE",
-                VehicleMatchType::BackToBack => "BACK_TO_BACK",
-                VehicleMatchType::Carpool => "CARPOOL",
-                VehicleMatchType::CarpoolBackToBack => "CARPOOL_BACK_TO_BACK",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "UNKNOWN" => Some(Self::Unknown),
-                "EXCLUSIVE" => Some(Self::Exclusive),
-                "BACK_TO_BACK" => Some(Self::BackToBack),
-                "CARPOOL" => Some(Self::Carpool),
-                "CARPOOL_BACK_TO_BACK" => Some(Self::CarpoolBackToBack),
-                _ => None,
-            }
-        }
-    }
-}
-/// A list-of-lists datatype for vehicle attributes.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VehicleAttributeList {
-    /// A list of attributes in this collection.
-    #[prost(message, repeated, tag = "1")]
-    pub attributes: ::prost::alloc::vec::Vec<VehicleAttribute>,
-}
-/// Generated client implementations.
-pub mod vehicle_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    use tonic::codegen::http::Uri;
-    /// Vehicle management service.
-    #[derive(Debug, Clone)]
-    pub struct VehicleServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> VehicleServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_origin(inner: T, origin: Uri) -> Self {
-            let inner = tonic::client::Grpc::with_origin(inner, origin);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> VehicleServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            VehicleServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.send_compressed(encoding);
-            self
-        }
-        /// Enable decompressing responses.
-        #[must_use]
-        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.accept_compressed(encoding);
-            self
-        }
-        /// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        #[must_use]
-        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_decoding_message_size(limit);
-            self
-        }
-        /// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        #[must_use]
-        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_encoding_message_size(limit);
-            self
-        }
-        /// Instantiates a new vehicle associated with an on-demand rideshare or
-        /// deliveries provider. Each `Vehicle` must have a unique vehicle ID.
-        ///
-        /// The following `Vehicle` fields are required when creating a `Vehicle`:
-        ///
-        /// * `vehicleState`
-        /// * `supportedTripTypes`
-        /// * `maximumCapacity`
-        /// * `vehicleType`
-        ///
-        /// The following `Vehicle` fields are ignored when creating a `Vehicle`:
-        ///
-        /// * `name`
-        /// * `currentTrips`
-        /// * `availableCapacity`
-        /// * `current_route_segment`
-        /// * `current_route_segment_end_point`
-        /// * `current_route_segment_version`
-        /// * `current_route_segment_traffic`
-        /// * `route`
-        /// * `waypoints`
-        /// * `waypoints_version`
-        /// * `remaining_distance_meters`
-        /// * `remaining_time_seconds`
-        /// * `eta_to_next_waypoint`
-        /// * `navigation_status`
-        ///
-        /// All other fields are optional and used if provided.
-        pub async fn create_vehicle(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateVehicleRequest>,
-        ) -> std::result::Result<tonic::Response<super::Vehicle>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/maps.fleetengine.v1.VehicleService/CreateVehicle",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "maps.fleetengine.v1.VehicleService",
-                        "CreateVehicle",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Returns a vehicle from the Fleet Engine.
-        pub async fn get_vehicle(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetVehicleRequest>,
-        ) -> std::result::Result<tonic::Response<super::Vehicle>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/maps.fleetengine.v1.VehicleService/GetVehicle",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new("maps.fleetengine.v1.VehicleService", "GetVehicle"),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Writes updated vehicle data to the Fleet Engine.
-        ///
-        /// When updating a `Vehicle`, the following fields cannot be updated since
-        /// they are managed by the server:
-        ///
-        /// * `currentTrips`
-        /// * `availableCapacity`
-        /// * `current_route_segment_version`
-        /// * `waypoints_version`
-        ///
-        /// The vehicle `name` also cannot be updated.
-        ///
-        /// If the `attributes` field is updated, **all** the vehicle's attributes are
-        /// replaced with the attributes provided in the request. If you want to update
-        /// only some attributes, see the `UpdateVehicleAttributes` method. Likewise,
-        /// the `waypoints` field can be updated, but must contain all the waypoints
-        /// currently on the vehicle, and no other waypoints.
-        pub async fn update_vehicle(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateVehicleRequest>,
-        ) -> std::result::Result<tonic::Response<super::Vehicle>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/maps.fleetengine.v1.VehicleService/UpdateVehicle",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "maps.fleetengine.v1.VehicleService",
-                        "UpdateVehicle",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Deprecated: Use the `UpdateVehicle` method instead.
-        /// UpdateVehicleLocation updates the location of the vehicle.
-        pub async fn update_vehicle_location(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateVehicleLocationRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::VehicleLocation>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/maps.fleetengine.v1.VehicleService/UpdateVehicleLocation",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "maps.fleetengine.v1.VehicleService",
-                        "UpdateVehicleLocation",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Partially updates a vehicle's attributes.
-        /// Only the attributes mentioned in the request will be updated, other
-        /// attributes will NOT be altered. Note: this is different in `UpdateVehicle`,
-        /// where the whole `attributes` field will be replaced by the one in
-        /// `UpdateVehicleRequest`, attributes not in the request would be removed.
-        pub async fn update_vehicle_attributes(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateVehicleAttributesRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::UpdateVehicleAttributesResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/maps.fleetengine.v1.VehicleService/UpdateVehicleAttributes",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "maps.fleetengine.v1.VehicleService",
-                        "UpdateVehicleAttributes",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Returns a paginated list of vehicles associated with
-        /// a provider that match the request options.
-        pub async fn list_vehicles(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListVehiclesRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::ListVehiclesResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/maps.fleetengine.v1.VehicleService/ListVehicles",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new("maps.fleetengine.v1.VehicleService", "ListVehicles"),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Returns a list of vehicles that match the request options.
-        pub async fn search_vehicles(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SearchVehiclesRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::SearchVehiclesResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/maps.fleetengine.v1.VehicleService/SearchVehicles",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "maps.fleetengine.v1.VehicleService",
-                        "SearchVehicles",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Deprecated: Use `SearchVehicles` instead.
-        pub async fn search_fuzzed_vehicles(
-            &mut self,
-            request: impl tonic::IntoRequest<super::SearchVehiclesRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::SearchVehiclesResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/maps.fleetengine.v1.VehicleService/SearchFuzzedVehicles",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "maps.fleetengine.v1.VehicleService",
-                        "SearchFuzzedVehicles",
-                    ),
                 );
             self.inner.unary(req, path, codec).await
         }

@@ -1,46 +1,588 @@
-/// Specifies the assumptions to use when calculating time in traffic. This
-/// setting affects the value returned in the `duration` field in the
-/// response, which contains the predicted time in traffic based on historical
-/// averages.
+/// Encapsulates a location (a geographic point, and an optional heading).
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Location {
+    /// The waypoint's geographic coordinates.
+    #[prost(message, optional, tag = "1")]
+    pub lat_lng: ::core::option::Option<super::super::super::r#type::LatLng>,
+    /// The compass heading associated with the direction of the flow of traffic.
+    /// This value specifies the side of the road for pickup and drop-off. Heading
+    /// values can be from 0 to 360, where 0 specifies a heading of due North, 90
+    /// specifies a heading of due East, and so on. You can use this field only for
+    /// `DRIVE` and `TWO_WHEELER`
+    /// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
+    #[prost(message, optional, tag = "2")]
+    pub heading: ::core::option::Option<i32>,
+}
+/// A set of values describing the vehicle's emission type.
+/// Applies only to the `DRIVE`
+/// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-pub enum TrafficModel {
-    /// Unused. If specified, will default to `BEST_GUESS`.
+pub enum VehicleEmissionType {
+    /// No emission type specified. Default to `GASOLINE`.
     Unspecified = 0,
-    /// Indicates that the returned `duration` should be the best
-    /// estimate of travel time given what is known about both historical traffic
-    /// conditions and live traffic. Live traffic becomes more important the closer
-    /// the `departure_time` is to now.
-    BestGuess = 1,
-    /// Indicates that the returned duration should be longer than the
-    /// actual travel time on most days, though occasional days with particularly
-    /// bad traffic conditions may exceed this value.
-    Pessimistic = 2,
-    /// Indicates that the returned duration should be shorter than the actual
-    /// travel time on most days, though occasional days with particularly good
-    /// traffic conditions may be faster than this value.
-    Optimistic = 3,
+    /// Gasoline/petrol fueled vehicle.
+    Gasoline = 1,
+    /// Electricity powered vehicle.
+    Electric = 2,
+    /// Hybrid fuel (such as gasoline + electric) vehicle.
+    Hybrid = 3,
+    /// Diesel fueled vehicle.
+    Diesel = 4,
 }
-impl TrafficModel {
+impl VehicleEmissionType {
     /// String value of the enum field names used in the ProtoBuf definition.
     ///
     /// The values are not transformed in any way and thus are considered stable
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            TrafficModel::Unspecified => "TRAFFIC_MODEL_UNSPECIFIED",
-            TrafficModel::BestGuess => "BEST_GUESS",
-            TrafficModel::Pessimistic => "PESSIMISTIC",
-            TrafficModel::Optimistic => "OPTIMISTIC",
+            VehicleEmissionType::Unspecified => "VEHICLE_EMISSION_TYPE_UNSPECIFIED",
+            VehicleEmissionType::Gasoline => "GASOLINE",
+            VehicleEmissionType::Electric => "ELECTRIC",
+            VehicleEmissionType::Hybrid => "HYBRID",
+            VehicleEmissionType::Diesel => "DIESEL",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            "TRAFFIC_MODEL_UNSPECIFIED" => Some(Self::Unspecified),
-            "BEST_GUESS" => Some(Self::BestGuess),
-            "PESSIMISTIC" => Some(Self::Pessimistic),
-            "OPTIMISTIC" => Some(Self::Optimistic),
+            "VEHICLE_EMISSION_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "GASOLINE" => Some(Self::Gasoline),
+            "ELECTRIC" => Some(Self::Electric),
+            "HYBRID" => Some(Self::Hybrid),
+            "DIESEL" => Some(Self::Diesel),
+            _ => None,
+        }
+    }
+}
+/// List of toll passes around the world that we support.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TollPass {
+    /// Not used. If this value is used, then the request fails.
+    Unspecified = 0,
+    /// Sydney toll pass. See additional details at <https://www.myetoll.com.au.>
+    AuEtollTag = 82,
+    /// Sydney toll pass. See additional details at <https://www.tollpay.com.au.>
+    AuEwayTag = 83,
+    /// Australia-wide toll pass.
+    /// See additional details at <https://www.linkt.com.au/.>
+    AuLinkt = 2,
+    /// Argentina toll pass. See additional details at <https://telepase.com.ar>
+    ArTelepase = 3,
+    /// Brazil toll pass. See additional details at <https://www.autoexpreso.com>
+    BrAutoExpreso = 81,
+    /// Brazil toll pass. See additional details at <https://conectcar.com.>
+    BrConectcar = 7,
+    /// Brazil toll pass. See additional details at <https://movemais.com.>
+    BrMoveMais = 8,
+    /// Brazil toll pass. See additional details at <https://pasorapido.gob.do/>
+    BrPassaRapido = 88,
+    /// Brazil toll pass. See additional details at <https://www.semparar.com.br.>
+    BrSemParar = 9,
+    /// Brazil toll pass. See additional details at <https://taggy.com.br.>
+    BrTaggy = 10,
+    /// Brazil toll pass. See additional details at
+    /// <https://veloe.com.br/site/onde-usar.>
+    BrVeloe = 11,
+    /// Canada to United States border crossing.
+    CaUsAkwasasneSeawayCorporateCard = 84,
+    /// Canada to United States border crossing.
+    CaUsAkwasasneSeawayTransitCard = 85,
+    /// Ontario, Canada to Michigan, United States border crossing.
+    CaUsBlueWaterEdgePass = 18,
+    /// Ontario, Canada to Michigan, United States border crossing.
+    CaUsConnexion = 19,
+    /// Canada to United States border crossing.
+    CaUsNexusCard = 20,
+    /// Indonesia.
+    /// E-card provided by multiple banks used to pay for tolls. All e-cards
+    /// via banks are charged the same so only one enum value is needed. E.g.
+    /// - Bank Mandiri <https://www.bankmandiri.co.id/e-money>
+    /// - BCA <https://www.bca.co.id/flazz>
+    /// - BNI <https://www.bni.co.id/id-id/ebanking/tapcash>
+    IdEToll = 16,
+    /// India.
+    InFastag = 78,
+    /// India, HP state plate exemption.
+    InLocalHpPlateExempt = 79,
+    /// Mexico toll pass.
+    /// <https://iave.capufe.gob.mx/#/>
+    MxIave = 90,
+    /// Mexico
+    /// <https://www.pase.com.mx>
+    MxPase = 91,
+    /// Mexico
+    ///   <https://operadoravial.com/quick-pass/>
+    MxQuickpass = 93,
+    /// <http://appsh.chihuahua.gob.mx/transparencia/?doc=/ingresos/TelepeajeFormato4.pdf>
+    MxSistemaTelepeajeChihuahua = 89,
+    /// Mexico
+    MxTagIave = 12,
+    /// Mexico toll pass company. One of many operating in Mexico City. See
+    /// additional details at <https://www.televia.com.mx.>
+    MxTagTelevia = 13,
+    /// Mexico toll pass company. One of many operating in Mexico City.
+    /// <https://www.televia.com.mx>
+    MxTelevia = 92,
+    /// Mexico toll pass. See additional details at
+    /// <https://www.viapass.com.mx/viapass/web_home.aspx.>
+    MxViapass = 14,
+    /// AL, USA.
+    UsAlFreedomPass = 21,
+    /// AK, USA.
+    UsAkAntonAndersonTunnelBookOf10Tickets = 22,
+    /// CA, USA.
+    UsCaFastrak = 4,
+    /// Indicates driver has any FasTrak pass in addition to the DMV issued Clean
+    /// Air Vehicle (CAV) sticker.
+    /// <https://www.bayareafastrak.org/en/guide/doINeedFlex.shtml>
+    UsCaFastrakCavSticker = 86,
+    /// CO, USA.
+    UsCoExpresstoll = 23,
+    /// CO, USA.
+    UsCoGoPass = 24,
+    /// DE, USA.
+    UsDeEzpassde = 25,
+    /// FL, USA.
+    UsFlBobSikesTollBridgePass = 65,
+    /// FL, USA.
+    UsFlDunesCommunityDevelopmentDistrictExpresscard = 66,
+    /// FL, USA.
+    UsFlEpass = 67,
+    /// FL, USA.
+    UsFlGibaTollPass = 68,
+    /// FL, USA.
+    UsFlLeeway = 69,
+    /// FL, USA.
+    UsFlSunpass = 70,
+    /// FL, USA.
+    UsFlSunpassPro = 71,
+    /// IL, USA.
+    UsIlEzpassil = 73,
+    /// IL, USA.
+    UsIlIpass = 72,
+    /// IN, USA.
+    UsInEzpassin = 26,
+    /// KS, USA.
+    UsKsBestpassHorizon = 27,
+    /// KS, USA.
+    UsKsKtag = 28,
+    /// KS, USA.
+    UsKsNationalpass = 29,
+    /// KS, USA.
+    UsKsPrepassElitepass = 30,
+    /// KY, USA.
+    UsKyRiverlink = 31,
+    /// LA, USA.
+    UsLaGeauxpass = 32,
+    /// LA, USA.
+    UsLaTollTag = 33,
+    /// MA, USA.
+    UsMaEzpassma = 6,
+    /// MD, USA.
+    UsMdEzpassmd = 34,
+    /// ME, USA.
+    UsMeEzpassme = 35,
+    /// MI, USA.
+    UsMiAmbassadorBridgePremierCommuterCard = 36,
+    /// MI, USA.
+    UsMiBcpass = 94,
+    /// MI, USA.
+    UsMiGrosseIleTollBridgePassTag = 37,
+    /// MI, USA.
+    /// Deprecated as this pass type no longer exists.
+    UsMiIqProxCard = 38,
+    /// MI, USA.
+    UsMiIqTag = 95,
+    /// MI, USA.
+    UsMiMackinacBridgeMacPass = 39,
+    /// MI, USA.
+    UsMiNexpressToll = 40,
+    /// MN, USA.
+    UsMnEzpassmn = 41,
+    /// NC, USA.
+    UsNcEzpassnc = 42,
+    /// NC, USA.
+    UsNcPeachPass = 87,
+    /// NC, USA.
+    UsNcQuickPass = 43,
+    /// NH, USA.
+    UsNhEzpassnh = 80,
+    /// NJ, USA.
+    UsNjDownbeachExpressPass = 75,
+    /// NJ, USA.
+    UsNjEzpassnj = 74,
+    /// NY, USA.
+    UsNyExpresspass = 76,
+    /// NY, USA.
+    UsNyEzpassny = 77,
+    /// OH, USA.
+    UsOhEzpassoh = 44,
+    /// PA, USA.
+    UsPaEzpasspa = 45,
+    /// RI, USA.
+    UsRiEzpassri = 46,
+    /// SC, USA.
+    UsScPalpass = 47,
+    /// TX, USA.
+    UsTxAviTag = 97,
+    /// TX, USA.
+    UsTxBancpass = 48,
+    /// TX, USA.
+    UsTxDelRioPass = 49,
+    /// TX, USA.
+    UsTxEfastPass = 50,
+    /// TX, USA.
+    UsTxEaglePassExpressCard = 51,
+    /// TX, USA.
+    UsTxEptoll = 52,
+    /// TX, USA.
+    UsTxEzCross = 53,
+    /// TX, USA.
+    UsTxEztag = 54,
+    /// TX, USA.
+    UsTxFuegoTag = 96,
+    /// TX, USA.
+    UsTxLaredoTradeTag = 55,
+    /// TX, USA.
+    UsTxPluspass = 56,
+    /// TX, USA.
+    UsTxTolltag = 57,
+    /// TX, USA.
+    UsTxTxtag = 58,
+    /// TX, USA.
+    UsTxXpressCard = 59,
+    /// UT, USA.
+    UsUtAdamsAveParkwayExpresscard = 60,
+    /// VA, USA.
+    UsVaEzpassva = 61,
+    /// WA, USA.
+    UsWaBreezeby = 17,
+    /// WA, USA.
+    UsWaGoodToGo = 1,
+    /// WV, USA.
+    UsWvEzpasswv = 62,
+    /// WV, USA.
+    UsWvMemorialBridgeTickets = 63,
+    /// WV, USA.
+    UsWvNewellTollBridgeTicket = 64,
+}
+impl TollPass {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            TollPass::Unspecified => "TOLL_PASS_UNSPECIFIED",
+            TollPass::AuEtollTag => "AU_ETOLL_TAG",
+            TollPass::AuEwayTag => "AU_EWAY_TAG",
+            TollPass::AuLinkt => "AU_LINKT",
+            TollPass::ArTelepase => "AR_TELEPASE",
+            TollPass::BrAutoExpreso => "BR_AUTO_EXPRESO",
+            TollPass::BrConectcar => "BR_CONECTCAR",
+            TollPass::BrMoveMais => "BR_MOVE_MAIS",
+            TollPass::BrPassaRapido => "BR_PASSA_RAPIDO",
+            TollPass::BrSemParar => "BR_SEM_PARAR",
+            TollPass::BrTaggy => "BR_TAGGY",
+            TollPass::BrVeloe => "BR_VELOE",
+            TollPass::CaUsAkwasasneSeawayCorporateCard => {
+                "CA_US_AKWASASNE_SEAWAY_CORPORATE_CARD"
+            }
+            TollPass::CaUsAkwasasneSeawayTransitCard => {
+                "CA_US_AKWASASNE_SEAWAY_TRANSIT_CARD"
+            }
+            TollPass::CaUsBlueWaterEdgePass => "CA_US_BLUE_WATER_EDGE_PASS",
+            TollPass::CaUsConnexion => "CA_US_CONNEXION",
+            TollPass::CaUsNexusCard => "CA_US_NEXUS_CARD",
+            TollPass::IdEToll => "ID_E_TOLL",
+            TollPass::InFastag => "IN_FASTAG",
+            TollPass::InLocalHpPlateExempt => "IN_LOCAL_HP_PLATE_EXEMPT",
+            TollPass::MxIave => "MX_IAVE",
+            TollPass::MxPase => "MX_PASE",
+            TollPass::MxQuickpass => "MX_QUICKPASS",
+            TollPass::MxSistemaTelepeajeChihuahua => "MX_SISTEMA_TELEPEAJE_CHIHUAHUA",
+            TollPass::MxTagIave => "MX_TAG_IAVE",
+            TollPass::MxTagTelevia => "MX_TAG_TELEVIA",
+            TollPass::MxTelevia => "MX_TELEVIA",
+            TollPass::MxViapass => "MX_VIAPASS",
+            TollPass::UsAlFreedomPass => "US_AL_FREEDOM_PASS",
+            TollPass::UsAkAntonAndersonTunnelBookOf10Tickets => {
+                "US_AK_ANTON_ANDERSON_TUNNEL_BOOK_OF_10_TICKETS"
+            }
+            TollPass::UsCaFastrak => "US_CA_FASTRAK",
+            TollPass::UsCaFastrakCavSticker => "US_CA_FASTRAK_CAV_STICKER",
+            TollPass::UsCoExpresstoll => "US_CO_EXPRESSTOLL",
+            TollPass::UsCoGoPass => "US_CO_GO_PASS",
+            TollPass::UsDeEzpassde => "US_DE_EZPASSDE",
+            TollPass::UsFlBobSikesTollBridgePass => "US_FL_BOB_SIKES_TOLL_BRIDGE_PASS",
+            TollPass::UsFlDunesCommunityDevelopmentDistrictExpresscard => {
+                "US_FL_DUNES_COMMUNITY_DEVELOPMENT_DISTRICT_EXPRESSCARD"
+            }
+            TollPass::UsFlEpass => "US_FL_EPASS",
+            TollPass::UsFlGibaTollPass => "US_FL_GIBA_TOLL_PASS",
+            TollPass::UsFlLeeway => "US_FL_LEEWAY",
+            TollPass::UsFlSunpass => "US_FL_SUNPASS",
+            TollPass::UsFlSunpassPro => "US_FL_SUNPASS_PRO",
+            TollPass::UsIlEzpassil => "US_IL_EZPASSIL",
+            TollPass::UsIlIpass => "US_IL_IPASS",
+            TollPass::UsInEzpassin => "US_IN_EZPASSIN",
+            TollPass::UsKsBestpassHorizon => "US_KS_BESTPASS_HORIZON",
+            TollPass::UsKsKtag => "US_KS_KTAG",
+            TollPass::UsKsNationalpass => "US_KS_NATIONALPASS",
+            TollPass::UsKsPrepassElitepass => "US_KS_PREPASS_ELITEPASS",
+            TollPass::UsKyRiverlink => "US_KY_RIVERLINK",
+            TollPass::UsLaGeauxpass => "US_LA_GEAUXPASS",
+            TollPass::UsLaTollTag => "US_LA_TOLL_TAG",
+            TollPass::UsMaEzpassma => "US_MA_EZPASSMA",
+            TollPass::UsMdEzpassmd => "US_MD_EZPASSMD",
+            TollPass::UsMeEzpassme => "US_ME_EZPASSME",
+            TollPass::UsMiAmbassadorBridgePremierCommuterCard => {
+                "US_MI_AMBASSADOR_BRIDGE_PREMIER_COMMUTER_CARD"
+            }
+            TollPass::UsMiBcpass => "US_MI_BCPASS",
+            TollPass::UsMiGrosseIleTollBridgePassTag => {
+                "US_MI_GROSSE_ILE_TOLL_BRIDGE_PASS_TAG"
+            }
+            TollPass::UsMiIqProxCard => "US_MI_IQ_PROX_CARD",
+            TollPass::UsMiIqTag => "US_MI_IQ_TAG",
+            TollPass::UsMiMackinacBridgeMacPass => "US_MI_MACKINAC_BRIDGE_MAC_PASS",
+            TollPass::UsMiNexpressToll => "US_MI_NEXPRESS_TOLL",
+            TollPass::UsMnEzpassmn => "US_MN_EZPASSMN",
+            TollPass::UsNcEzpassnc => "US_NC_EZPASSNC",
+            TollPass::UsNcPeachPass => "US_NC_PEACH_PASS",
+            TollPass::UsNcQuickPass => "US_NC_QUICK_PASS",
+            TollPass::UsNhEzpassnh => "US_NH_EZPASSNH",
+            TollPass::UsNjDownbeachExpressPass => "US_NJ_DOWNBEACH_EXPRESS_PASS",
+            TollPass::UsNjEzpassnj => "US_NJ_EZPASSNJ",
+            TollPass::UsNyExpresspass => "US_NY_EXPRESSPASS",
+            TollPass::UsNyEzpassny => "US_NY_EZPASSNY",
+            TollPass::UsOhEzpassoh => "US_OH_EZPASSOH",
+            TollPass::UsPaEzpasspa => "US_PA_EZPASSPA",
+            TollPass::UsRiEzpassri => "US_RI_EZPASSRI",
+            TollPass::UsScPalpass => "US_SC_PALPASS",
+            TollPass::UsTxAviTag => "US_TX_AVI_TAG",
+            TollPass::UsTxBancpass => "US_TX_BANCPASS",
+            TollPass::UsTxDelRioPass => "US_TX_DEL_RIO_PASS",
+            TollPass::UsTxEfastPass => "US_TX_EFAST_PASS",
+            TollPass::UsTxEaglePassExpressCard => "US_TX_EAGLE_PASS_EXPRESS_CARD",
+            TollPass::UsTxEptoll => "US_TX_EPTOLL",
+            TollPass::UsTxEzCross => "US_TX_EZ_CROSS",
+            TollPass::UsTxEztag => "US_TX_EZTAG",
+            TollPass::UsTxFuegoTag => "US_TX_FUEGO_TAG",
+            TollPass::UsTxLaredoTradeTag => "US_TX_LAREDO_TRADE_TAG",
+            TollPass::UsTxPluspass => "US_TX_PLUSPASS",
+            TollPass::UsTxTolltag => "US_TX_TOLLTAG",
+            TollPass::UsTxTxtag => "US_TX_TXTAG",
+            TollPass::UsTxXpressCard => "US_TX_XPRESS_CARD",
+            TollPass::UsUtAdamsAveParkwayExpresscard => {
+                "US_UT_ADAMS_AVE_PARKWAY_EXPRESSCARD"
+            }
+            TollPass::UsVaEzpassva => "US_VA_EZPASSVA",
+            TollPass::UsWaBreezeby => "US_WA_BREEZEBY",
+            TollPass::UsWaGoodToGo => "US_WA_GOOD_TO_GO",
+            TollPass::UsWvEzpasswv => "US_WV_EZPASSWV",
+            TollPass::UsWvMemorialBridgeTickets => "US_WV_MEMORIAL_BRIDGE_TICKETS",
+            TollPass::UsWvNewellTollBridgeTicket => "US_WV_NEWELL_TOLL_BRIDGE_TICKET",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "TOLL_PASS_UNSPECIFIED" => Some(Self::Unspecified),
+            "AU_ETOLL_TAG" => Some(Self::AuEtollTag),
+            "AU_EWAY_TAG" => Some(Self::AuEwayTag),
+            "AU_LINKT" => Some(Self::AuLinkt),
+            "AR_TELEPASE" => Some(Self::ArTelepase),
+            "BR_AUTO_EXPRESO" => Some(Self::BrAutoExpreso),
+            "BR_CONECTCAR" => Some(Self::BrConectcar),
+            "BR_MOVE_MAIS" => Some(Self::BrMoveMais),
+            "BR_PASSA_RAPIDO" => Some(Self::BrPassaRapido),
+            "BR_SEM_PARAR" => Some(Self::BrSemParar),
+            "BR_TAGGY" => Some(Self::BrTaggy),
+            "BR_VELOE" => Some(Self::BrVeloe),
+            "CA_US_AKWASASNE_SEAWAY_CORPORATE_CARD" => {
+                Some(Self::CaUsAkwasasneSeawayCorporateCard)
+            }
+            "CA_US_AKWASASNE_SEAWAY_TRANSIT_CARD" => {
+                Some(Self::CaUsAkwasasneSeawayTransitCard)
+            }
+            "CA_US_BLUE_WATER_EDGE_PASS" => Some(Self::CaUsBlueWaterEdgePass),
+            "CA_US_CONNEXION" => Some(Self::CaUsConnexion),
+            "CA_US_NEXUS_CARD" => Some(Self::CaUsNexusCard),
+            "ID_E_TOLL" => Some(Self::IdEToll),
+            "IN_FASTAG" => Some(Self::InFastag),
+            "IN_LOCAL_HP_PLATE_EXEMPT" => Some(Self::InLocalHpPlateExempt),
+            "MX_IAVE" => Some(Self::MxIave),
+            "MX_PASE" => Some(Self::MxPase),
+            "MX_QUICKPASS" => Some(Self::MxQuickpass),
+            "MX_SISTEMA_TELEPEAJE_CHIHUAHUA" => Some(Self::MxSistemaTelepeajeChihuahua),
+            "MX_TAG_IAVE" => Some(Self::MxTagIave),
+            "MX_TAG_TELEVIA" => Some(Self::MxTagTelevia),
+            "MX_TELEVIA" => Some(Self::MxTelevia),
+            "MX_VIAPASS" => Some(Self::MxViapass),
+            "US_AL_FREEDOM_PASS" => Some(Self::UsAlFreedomPass),
+            "US_AK_ANTON_ANDERSON_TUNNEL_BOOK_OF_10_TICKETS" => {
+                Some(Self::UsAkAntonAndersonTunnelBookOf10Tickets)
+            }
+            "US_CA_FASTRAK" => Some(Self::UsCaFastrak),
+            "US_CA_FASTRAK_CAV_STICKER" => Some(Self::UsCaFastrakCavSticker),
+            "US_CO_EXPRESSTOLL" => Some(Self::UsCoExpresstoll),
+            "US_CO_GO_PASS" => Some(Self::UsCoGoPass),
+            "US_DE_EZPASSDE" => Some(Self::UsDeEzpassde),
+            "US_FL_BOB_SIKES_TOLL_BRIDGE_PASS" => Some(Self::UsFlBobSikesTollBridgePass),
+            "US_FL_DUNES_COMMUNITY_DEVELOPMENT_DISTRICT_EXPRESSCARD" => {
+                Some(Self::UsFlDunesCommunityDevelopmentDistrictExpresscard)
+            }
+            "US_FL_EPASS" => Some(Self::UsFlEpass),
+            "US_FL_GIBA_TOLL_PASS" => Some(Self::UsFlGibaTollPass),
+            "US_FL_LEEWAY" => Some(Self::UsFlLeeway),
+            "US_FL_SUNPASS" => Some(Self::UsFlSunpass),
+            "US_FL_SUNPASS_PRO" => Some(Self::UsFlSunpassPro),
+            "US_IL_EZPASSIL" => Some(Self::UsIlEzpassil),
+            "US_IL_IPASS" => Some(Self::UsIlIpass),
+            "US_IN_EZPASSIN" => Some(Self::UsInEzpassin),
+            "US_KS_BESTPASS_HORIZON" => Some(Self::UsKsBestpassHorizon),
+            "US_KS_KTAG" => Some(Self::UsKsKtag),
+            "US_KS_NATIONALPASS" => Some(Self::UsKsNationalpass),
+            "US_KS_PREPASS_ELITEPASS" => Some(Self::UsKsPrepassElitepass),
+            "US_KY_RIVERLINK" => Some(Self::UsKyRiverlink),
+            "US_LA_GEAUXPASS" => Some(Self::UsLaGeauxpass),
+            "US_LA_TOLL_TAG" => Some(Self::UsLaTollTag),
+            "US_MA_EZPASSMA" => Some(Self::UsMaEzpassma),
+            "US_MD_EZPASSMD" => Some(Self::UsMdEzpassmd),
+            "US_ME_EZPASSME" => Some(Self::UsMeEzpassme),
+            "US_MI_AMBASSADOR_BRIDGE_PREMIER_COMMUTER_CARD" => {
+                Some(Self::UsMiAmbassadorBridgePremierCommuterCard)
+            }
+            "US_MI_BCPASS" => Some(Self::UsMiBcpass),
+            "US_MI_GROSSE_ILE_TOLL_BRIDGE_PASS_TAG" => {
+                Some(Self::UsMiGrosseIleTollBridgePassTag)
+            }
+            "US_MI_IQ_PROX_CARD" => Some(Self::UsMiIqProxCard),
+            "US_MI_IQ_TAG" => Some(Self::UsMiIqTag),
+            "US_MI_MACKINAC_BRIDGE_MAC_PASS" => Some(Self::UsMiMackinacBridgeMacPass),
+            "US_MI_NEXPRESS_TOLL" => Some(Self::UsMiNexpressToll),
+            "US_MN_EZPASSMN" => Some(Self::UsMnEzpassmn),
+            "US_NC_EZPASSNC" => Some(Self::UsNcEzpassnc),
+            "US_NC_PEACH_PASS" => Some(Self::UsNcPeachPass),
+            "US_NC_QUICK_PASS" => Some(Self::UsNcQuickPass),
+            "US_NH_EZPASSNH" => Some(Self::UsNhEzpassnh),
+            "US_NJ_DOWNBEACH_EXPRESS_PASS" => Some(Self::UsNjDownbeachExpressPass),
+            "US_NJ_EZPASSNJ" => Some(Self::UsNjEzpassnj),
+            "US_NY_EXPRESSPASS" => Some(Self::UsNyExpresspass),
+            "US_NY_EZPASSNY" => Some(Self::UsNyEzpassny),
+            "US_OH_EZPASSOH" => Some(Self::UsOhEzpassoh),
+            "US_PA_EZPASSPA" => Some(Self::UsPaEzpasspa),
+            "US_RI_EZPASSRI" => Some(Self::UsRiEzpassri),
+            "US_SC_PALPASS" => Some(Self::UsScPalpass),
+            "US_TX_AVI_TAG" => Some(Self::UsTxAviTag),
+            "US_TX_BANCPASS" => Some(Self::UsTxBancpass),
+            "US_TX_DEL_RIO_PASS" => Some(Self::UsTxDelRioPass),
+            "US_TX_EFAST_PASS" => Some(Self::UsTxEfastPass),
+            "US_TX_EAGLE_PASS_EXPRESS_CARD" => Some(Self::UsTxEaglePassExpressCard),
+            "US_TX_EPTOLL" => Some(Self::UsTxEptoll),
+            "US_TX_EZ_CROSS" => Some(Self::UsTxEzCross),
+            "US_TX_EZTAG" => Some(Self::UsTxEztag),
+            "US_TX_FUEGO_TAG" => Some(Self::UsTxFuegoTag),
+            "US_TX_LAREDO_TRADE_TAG" => Some(Self::UsTxLaredoTradeTag),
+            "US_TX_PLUSPASS" => Some(Self::UsTxPluspass),
+            "US_TX_TOLLTAG" => Some(Self::UsTxTolltag),
+            "US_TX_TXTAG" => Some(Self::UsTxTxtag),
+            "US_TX_XPRESS_CARD" => Some(Self::UsTxXpressCard),
+            "US_UT_ADAMS_AVE_PARKWAY_EXPRESSCARD" => {
+                Some(Self::UsUtAdamsAveParkwayExpresscard)
+            }
+            "US_VA_EZPASSVA" => Some(Self::UsVaEzpassva),
+            "US_WA_BREEZEBY" => Some(Self::UsWaBreezeby),
+            "US_WA_GOOD_TO_GO" => Some(Self::UsWaGoodToGo),
+            "US_WV_EZPASSWV" => Some(Self::UsWvEzpasswv),
+            "US_WV_MEMORIAL_BRIDGE_TICKETS" => Some(Self::UsWvMemorialBridgeTickets),
+            "US_WV_NEWELL_TOLL_BRIDGE_TICKET" => Some(Self::UsWvNewellTollBridgeTicket),
+            _ => None,
+        }
+    }
+}
+/// Contains the vehicle information, such as the vehicle emission type.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VehicleInfo {
+    /// Describes the vehicle's emission type.
+    /// Applies only to the `DRIVE`
+    /// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
+    #[prost(enumeration = "VehicleEmissionType", tag = "2")]
+    pub emission_type: i32,
+}
+/// Encapsulates a set of optional conditions to satisfy when calculating the
+/// routes.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RouteModifiers {
+    /// When set to true, avoids toll roads where reasonable, giving preference to
+    /// routes not containing toll roads. Applies only to the `DRIVE` and
+    /// `TWO_WHEELER` [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
+    #[prost(bool, tag = "1")]
+    pub avoid_tolls: bool,
+    /// When set to true, avoids highways where reasonable, giving preference to
+    /// routes not containing highways. Applies only to the `DRIVE` and
+    /// `TWO_WHEELER` [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
+    #[prost(bool, tag = "2")]
+    pub avoid_highways: bool,
+    /// When set to true, avoids ferries where reasonable, giving preference to
+    /// routes not containing ferries. Applies only to the `DRIVE` and`TWO_WHEELER`
+    /// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
+    #[prost(bool, tag = "3")]
+    pub avoid_ferries: bool,
+    /// When set to true, avoids navigating indoors where reasonable, giving
+    /// preference to routes not containing indoor navigation. Applies only to the
+    /// `WALK` [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
+    #[prost(bool, tag = "4")]
+    pub avoid_indoor: bool,
+    /// Specifies the vehicle information.
+    #[prost(message, optional, tag = "5")]
+    pub vehicle_info: ::core::option::Option<VehicleInfo>,
+    /// Encapsulates information about toll passes.
+    /// If toll passes are provided, the API tries to return the pass price. If
+    /// toll passes are not provided, the API treats the toll pass as unknown and
+    /// tries to return the cash price.
+    /// Applies only to the `DRIVE` and `TWO_WHEELER`
+    /// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
+    #[prost(enumeration = "TollPass", repeated, tag = "6")]
+    pub toll_passes: ::prost::alloc::vec::Vec<i32>,
+}
+/// A set of values that specify the unit of measure used in the display.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum Units {
+    /// Units of measure not specified. Defaults to the unit of measure inferred
+    /// from the request.
+    Unspecified = 0,
+    /// Metric units of measure.
+    Metric = 1,
+    /// Imperial (English) units of measure.
+    Imperial = 2,
+}
+impl Units {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Units::Unspecified => "UNITS_UNSPECIFIED",
+            Units::Metric => "METRIC",
+            Units::Imperial => "IMPERIAL",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "UNITS_UNSPECIFIED" => Some(Self::Unspecified),
+            "METRIC" => Some(Self::Metric),
+            "IMPERIAL" => Some(Self::Imperial),
             _ => None,
         }
     }
@@ -58,21 +600,239 @@ pub struct LocalizedTime {
     #[prost(string, tag = "2")]
     pub time_zone: ::prost::alloc::string::String,
 }
-/// Encapsulates a location (a geographic point, and an optional heading).
+/// Information related to how and why a fallback result was used. If this field
+/// is set, then it means the server used a different routing mode from your
+/// preferred mode as fallback.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Location {
-    /// The waypoint's geographic coordinates.
+pub struct FallbackInfo {
+    /// Routing mode used for the response. If fallback was triggered, the mode
+    /// may be different from routing preference set in the original client
+    /// request.
+    #[prost(enumeration = "FallbackRoutingMode", tag = "1")]
+    pub routing_mode: i32,
+    /// The reason why fallback response was used instead of the original response.
+    /// This field is only populated when the fallback mode is triggered and the
+    /// fallback response is returned.
+    #[prost(enumeration = "FallbackReason", tag = "2")]
+    pub reason: i32,
+}
+/// Reasons for using fallback response.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum FallbackReason {
+    /// No fallback reason specified.
+    Unspecified = 0,
+    /// A server error happened while calculating routes with your preferred
+    /// routing mode, but we were able to return a result calculated by an
+    /// alternative mode.
+    ServerError = 1,
+    /// We were not able to finish the calculation with your preferred routing mode
+    /// on time, but we were able to return a result calculated by an alternative
+    /// mode.
+    LatencyExceeded = 2,
+}
+impl FallbackReason {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            FallbackReason::Unspecified => "FALLBACK_REASON_UNSPECIFIED",
+            FallbackReason::ServerError => "SERVER_ERROR",
+            FallbackReason::LatencyExceeded => "LATENCY_EXCEEDED",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "FALLBACK_REASON_UNSPECIFIED" => Some(Self::Unspecified),
+            "SERVER_ERROR" => Some(Self::ServerError),
+            "LATENCY_EXCEEDED" => Some(Self::LatencyExceeded),
+            _ => None,
+        }
+    }
+}
+/// Actual routing mode used for returned fallback response.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum FallbackRoutingMode {
+    /// Not used.
+    Unspecified = 0,
+    /// Indicates the `TRAFFIC_UNAWARE` \[google.maps.routing.v2.RoutingPreference\]
+    /// was used to compute the response.
+    FallbackTrafficUnaware = 1,
+    /// Indicates the `TRAFFIC_AWARE`
+    /// [RoutingPreference][google.maps.routing.v2.RoutingPreference] was used to
+    /// compute the response.
+    FallbackTrafficAware = 2,
+}
+impl FallbackRoutingMode {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            FallbackRoutingMode::Unspecified => "FALLBACK_ROUTING_MODE_UNSPECIFIED",
+            FallbackRoutingMode::FallbackTrafficUnaware => "FALLBACK_TRAFFIC_UNAWARE",
+            FallbackRoutingMode::FallbackTrafficAware => "FALLBACK_TRAFFIC_AWARE",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "FALLBACK_ROUTING_MODE_UNSPECIFIED" => Some(Self::Unspecified),
+            "FALLBACK_TRAFFIC_UNAWARE" => Some(Self::FallbackTrafficUnaware),
+            "FALLBACK_TRAFFIC_AWARE" => Some(Self::FallbackTrafficAware),
+            _ => None,
+        }
+    }
+}
+/// Contains [GeocodedWaypoints][google.maps.routing.v2.GeocodedWaypoint] for
+/// origin, destination and intermediate waypoints. Only populated for address
+/// waypoints.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GeocodingResults {
+    /// Origin geocoded waypoint.
     #[prost(message, optional, tag = "1")]
-    pub lat_lng: ::core::option::Option<super::super::super::r#type::LatLng>,
-    /// The compass heading associated with the direction of the flow of traffic.
-    /// This value specifies the side of the road for pickup and drop-off. Heading
-    /// values can be from 0 to 360, where 0 specifies a heading of due North, 90
-    /// specifies a heading of due East, and so on. You can use this field only for
-    /// `DRIVE` and `TWO_WHEELER`
-    /// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
+    pub origin: ::core::option::Option<GeocodedWaypoint>,
+    /// Destination geocoded waypoint.
     #[prost(message, optional, tag = "2")]
-    pub heading: ::core::option::Option<i32>,
+    pub destination: ::core::option::Option<GeocodedWaypoint>,
+    /// A list of intermediate geocoded waypoints each containing an index field
+    /// that corresponds to the zero-based position of the waypoint in the order
+    /// they were specified in the request.
+    #[prost(message, repeated, tag = "3")]
+    pub intermediates: ::prost::alloc::vec::Vec<GeocodedWaypoint>,
+}
+/// Details about the locations used as waypoints. Only populated for address
+/// waypoints. Includes details about the geocoding results for the purposes of
+/// determining what the address was geocoded to.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GeocodedWaypoint {
+    /// Indicates the status code resulting from the geocoding operation.
+    #[prost(message, optional, tag = "1")]
+    pub geocoder_status: ::core::option::Option<super::super::super::rpc::Status>,
+    /// The index of the corresponding intermediate waypoint in the request.
+    /// Only populated if the corresponding waypoint is an intermediate
+    /// waypoint.
+    #[prost(int32, optional, tag = "2")]
+    pub intermediate_waypoint_request_index: ::core::option::Option<i32>,
+    /// The type(s) of the result, in the form of zero or more type tags.
+    /// Supported types:
+    /// <https://developers.google.com/maps/documentation/geocoding/requests-geocoding#Types>
+    #[prost(string, repeated, tag = "3")]
+    pub r#type: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Indicates that the geocoder did not return an exact match for the original
+    /// request, though it was able to match part of the requested address. You may
+    /// wish to examine the original request for misspellings and/or an incomplete
+    /// address.
+    #[prost(bool, tag = "4")]
+    pub partial_match: bool,
+    /// The place ID for this result.
+    #[prost(string, tag = "5")]
+    pub place_id: ::prost::alloc::string::String,
+}
+/// Encapsulates an encoded polyline.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Polyline {
+    /// Encapsulates the type of polyline. Defaults to encoded_polyline.
+    #[prost(oneof = "polyline::PolylineType", tags = "1, 2")]
+    pub polyline_type: ::core::option::Option<polyline::PolylineType>,
+}
+/// Nested message and enum types in `Polyline`.
+pub mod polyline {
+    /// Encapsulates the type of polyline. Defaults to encoded_polyline.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum PolylineType {
+        /// The string encoding of the polyline using the [polyline encoding
+        /// algorithm](<https://developers.google.com/maps/documentation/utilities/polylinealgorithm>)
+        #[prost(string, tag = "1")]
+        EncodedPolyline(::prost::alloc::string::String),
+        /// Specifies a polyline using the [GeoJSON LineString
+        /// format](<https://tools.ietf.org/html/rfc7946#section-3.1.4>)
+        #[prost(message, tag = "2")]
+        GeoJsonLinestring(::prost_types::Struct),
+    }
+}
+/// A set of values that specify the quality of the polyline.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum PolylineQuality {
+    /// No polyline quality preference specified. Defaults to `OVERVIEW`.
+    Unspecified = 0,
+    /// Specifies a high-quality polyline - which is composed using more points
+    /// than `OVERVIEW`, at the cost of increased response size. Use this value
+    /// when you need more precision.
+    HighQuality = 1,
+    /// Specifies an overview polyline - which is composed using a small number of
+    /// points. Use this value when displaying an overview of the route. Using this
+    /// option has a lower request latency compared to using the
+    /// `HIGH_QUALITY` option.
+    Overview = 2,
+}
+impl PolylineQuality {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            PolylineQuality::Unspecified => "POLYLINE_QUALITY_UNSPECIFIED",
+            PolylineQuality::HighQuality => "HIGH_QUALITY",
+            PolylineQuality::Overview => "OVERVIEW",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "POLYLINE_QUALITY_UNSPECIFIED" => Some(Self::Unspecified),
+            "HIGH_QUALITY" => Some(Self::HighQuality),
+            "OVERVIEW" => Some(Self::Overview),
+            _ => None,
+        }
+    }
+}
+/// Specifies the preferred type of polyline to be returned.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum PolylineEncoding {
+    /// No polyline type preference specified. Defaults to `ENCODED_POLYLINE`.
+    Unspecified = 0,
+    /// Specifies a polyline encoded using the [polyline encoding
+    /// algorithm](<https://developers.google.com/maps/documentation/utilities/polylinealgorithm>).
+    EncodedPolyline = 1,
+    /// Specifies a polyline using the [GeoJSON LineString
+    /// format](<https://tools.ietf.org/html/rfc7946#section-3.1.4>)
+    GeoJsonLinestring = 2,
+}
+impl PolylineEncoding {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            PolylineEncoding::Unspecified => "POLYLINE_ENCODING_UNSPECIFIED",
+            PolylineEncoding::EncodedPolyline => "ENCODED_POLYLINE",
+            PolylineEncoding::GeoJsonLinestring => "GEO_JSON_LINESTRING",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "POLYLINE_ENCODING_UNSPECIFIED" => Some(Self::Unspecified),
+            "ENCODED_POLYLINE" => Some(Self::EncodedPolyline),
+            "GEO_JSON_LINESTRING" => Some(Self::GeoJsonLinestring),
+            _ => None,
+        }
+    }
 }
 /// A set of values that specify the navigation action to take for the current
 /// step (e.g., turn left, merge, straight, etc.).
@@ -192,103 +952,6 @@ pub struct NavigationInstruction {
     /// Instructions for navigating this step.
     #[prost(string, tag = "2")]
     pub instructions: ::prost::alloc::string::String,
-}
-/// Encapsulates an encoded polyline.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Polyline {
-    /// Encapsulates the type of polyline. Defaults to encoded_polyline.
-    #[prost(oneof = "polyline::PolylineType", tags = "1, 2")]
-    pub polyline_type: ::core::option::Option<polyline::PolylineType>,
-}
-/// Nested message and enum types in `Polyline`.
-pub mod polyline {
-    /// Encapsulates the type of polyline. Defaults to encoded_polyline.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum PolylineType {
-        /// The string encoding of the polyline using the [polyline encoding
-        /// algorithm](<https://developers.google.com/maps/documentation/utilities/polylinealgorithm>)
-        #[prost(string, tag = "1")]
-        EncodedPolyline(::prost::alloc::string::String),
-        /// Specifies a polyline using the [GeoJSON LineString
-        /// format](<https://tools.ietf.org/html/rfc7946#section-3.1.4>)
-        #[prost(message, tag = "2")]
-        GeoJsonLinestring(::prost_types::Struct),
-    }
-}
-/// A set of values that specify the quality of the polyline.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum PolylineQuality {
-    /// No polyline quality preference specified. Defaults to `OVERVIEW`.
-    Unspecified = 0,
-    /// Specifies a high-quality polyline - which is composed using more points
-    /// than `OVERVIEW`, at the cost of increased response size. Use this value
-    /// when you need more precision.
-    HighQuality = 1,
-    /// Specifies an overview polyline - which is composed using a small number of
-    /// points. Use this value when displaying an overview of the route. Using this
-    /// option has a lower request latency compared to using the
-    /// `HIGH_QUALITY` option.
-    Overview = 2,
-}
-impl PolylineQuality {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            PolylineQuality::Unspecified => "POLYLINE_QUALITY_UNSPECIFIED",
-            PolylineQuality::HighQuality => "HIGH_QUALITY",
-            PolylineQuality::Overview => "OVERVIEW",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "POLYLINE_QUALITY_UNSPECIFIED" => Some(Self::Unspecified),
-            "HIGH_QUALITY" => Some(Self::HighQuality),
-            "OVERVIEW" => Some(Self::Overview),
-            _ => None,
-        }
-    }
-}
-/// Specifies the preferred type of polyline to be returned.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum PolylineEncoding {
-    /// No polyline type preference specified. Defaults to `ENCODED_POLYLINE`.
-    Unspecified = 0,
-    /// Specifies a polyline encoded using the [polyline encoding
-    /// algorithm](<https://developers.google.com/maps/documentation/utilities/polylinealgorithm>).
-    EncodedPolyline = 1,
-    /// Specifies a polyline using the [GeoJSON LineString
-    /// format](<https://tools.ietf.org/html/rfc7946#section-3.1.4>)
-    GeoJsonLinestring = 2,
-}
-impl PolylineEncoding {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            PolylineEncoding::Unspecified => "POLYLINE_ENCODING_UNSPECIFIED",
-            PolylineEncoding::EncodedPolyline => "ENCODED_POLYLINE",
-            PolylineEncoding::GeoJsonLinestring => "GEO_JSON_LINESTRING",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "POLYLINE_ENCODING_UNSPECIFIED" => Some(Self::Unspecified),
-            "ENCODED_POLYLINE" => Some(Self::EncodedPolyline),
-            "GEO_JSON_LINESTRING" => Some(Self::GeoJsonLinestring),
-            _ => None,
-        }
-    }
 }
 /// Labels for the [Route][google.maps.routing.v2.Route] that are useful to
 /// identify specific properties of the route to compare against others.
@@ -1083,49 +1746,6 @@ pub mod route_leg_step_transit_details {
         pub departure_time: ::core::option::Option<super::LocalizedTime>,
     }
 }
-/// A set of values describing the vehicle's emission type.
-/// Applies only to the `DRIVE`
-/// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum VehicleEmissionType {
-    /// No emission type specified. Default to `GASOLINE`.
-    Unspecified = 0,
-    /// Gasoline/petrol fueled vehicle.
-    Gasoline = 1,
-    /// Electricity powered vehicle.
-    Electric = 2,
-    /// Hybrid fuel (such as gasoline + electric) vehicle.
-    Hybrid = 3,
-    /// Diesel fueled vehicle.
-    Diesel = 4,
-}
-impl VehicleEmissionType {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            VehicleEmissionType::Unspecified => "VEHICLE_EMISSION_TYPE_UNSPECIFIED",
-            VehicleEmissionType::Gasoline => "GASOLINE",
-            VehicleEmissionType::Electric => "ELECTRIC",
-            VehicleEmissionType::Hybrid => "HYBRID",
-            VehicleEmissionType::Diesel => "DIESEL",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "VEHICLE_EMISSION_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
-            "GASOLINE" => Some(Self::Gasoline),
-            "ELECTRIC" => Some(Self::Electric),
-            "HYBRID" => Some(Self::Hybrid),
-            "DIESEL" => Some(Self::Diesel),
-            _ => None,
-        }
-    }
-}
 /// A set of values that specify factors to take into consideration when
 /// calculating the route.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -1177,729 +1797,52 @@ impl RoutingPreference {
         }
     }
 }
-/// Information related to how and why a fallback result was used. If this field
-/// is set, then it means the server used a different routing mode from your
-/// preferred mode as fallback.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FallbackInfo {
-    /// Routing mode used for the response. If fallback was triggered, the mode
-    /// may be different from routing preference set in the original client
-    /// request.
-    #[prost(enumeration = "FallbackRoutingMode", tag = "1")]
-    pub routing_mode: i32,
-    /// The reason why fallback response was used instead of the original response.
-    /// This field is only populated when the fallback mode is triggered and the
-    /// fallback response is returned.
-    #[prost(enumeration = "FallbackReason", tag = "2")]
-    pub reason: i32,
-}
-/// Reasons for using fallback response.
+/// Specifies the assumptions to use when calculating time in traffic. This
+/// setting affects the value returned in the `duration` field in the
+/// response, which contains the predicted time in traffic based on historical
+/// averages.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-pub enum FallbackReason {
-    /// No fallback reason specified.
+pub enum TrafficModel {
+    /// Unused. If specified, will default to `BEST_GUESS`.
     Unspecified = 0,
-    /// A server error happened while calculating routes with your preferred
-    /// routing mode, but we were able to return a result calculated by an
-    /// alternative mode.
-    ServerError = 1,
-    /// We were not able to finish the calculation with your preferred routing mode
-    /// on time, but we were able to return a result calculated by an alternative
-    /// mode.
-    LatencyExceeded = 2,
+    /// Indicates that the returned `duration` should be the best
+    /// estimate of travel time given what is known about both historical traffic
+    /// conditions and live traffic. Live traffic becomes more important the closer
+    /// the `departure_time` is to now.
+    BestGuess = 1,
+    /// Indicates that the returned duration should be longer than the
+    /// actual travel time on most days, though occasional days with particularly
+    /// bad traffic conditions may exceed this value.
+    Pessimistic = 2,
+    /// Indicates that the returned duration should be shorter than the actual
+    /// travel time on most days, though occasional days with particularly good
+    /// traffic conditions may be faster than this value.
+    Optimistic = 3,
 }
-impl FallbackReason {
+impl TrafficModel {
     /// String value of the enum field names used in the ProtoBuf definition.
     ///
     /// The values are not transformed in any way and thus are considered stable
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            FallbackReason::Unspecified => "FALLBACK_REASON_UNSPECIFIED",
-            FallbackReason::ServerError => "SERVER_ERROR",
-            FallbackReason::LatencyExceeded => "LATENCY_EXCEEDED",
+            TrafficModel::Unspecified => "TRAFFIC_MODEL_UNSPECIFIED",
+            TrafficModel::BestGuess => "BEST_GUESS",
+            TrafficModel::Pessimistic => "PESSIMISTIC",
+            TrafficModel::Optimistic => "OPTIMISTIC",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            "FALLBACK_REASON_UNSPECIFIED" => Some(Self::Unspecified),
-            "SERVER_ERROR" => Some(Self::ServerError),
-            "LATENCY_EXCEEDED" => Some(Self::LatencyExceeded),
+            "TRAFFIC_MODEL_UNSPECIFIED" => Some(Self::Unspecified),
+            "BEST_GUESS" => Some(Self::BestGuess),
+            "PESSIMISTIC" => Some(Self::Pessimistic),
+            "OPTIMISTIC" => Some(Self::Optimistic),
             _ => None,
         }
     }
-}
-/// Actual routing mode used for returned fallback response.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum FallbackRoutingMode {
-    /// Not used.
-    Unspecified = 0,
-    /// Indicates the `TRAFFIC_UNAWARE` \[google.maps.routing.v2.RoutingPreference\]
-    /// was used to compute the response.
-    FallbackTrafficUnaware = 1,
-    /// Indicates the `TRAFFIC_AWARE`
-    /// [RoutingPreference][google.maps.routing.v2.RoutingPreference] was used to
-    /// compute the response.
-    FallbackTrafficAware = 2,
-}
-impl FallbackRoutingMode {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            FallbackRoutingMode::Unspecified => "FALLBACK_ROUTING_MODE_UNSPECIFIED",
-            FallbackRoutingMode::FallbackTrafficUnaware => "FALLBACK_TRAFFIC_UNAWARE",
-            FallbackRoutingMode::FallbackTrafficAware => "FALLBACK_TRAFFIC_AWARE",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "FALLBACK_ROUTING_MODE_UNSPECIFIED" => Some(Self::Unspecified),
-            "FALLBACK_TRAFFIC_UNAWARE" => Some(Self::FallbackTrafficUnaware),
-            "FALLBACK_TRAFFIC_AWARE" => Some(Self::FallbackTrafficAware),
-            _ => None,
-        }
-    }
-}
-/// Encapsulates a waypoint. Waypoints mark both the beginning and end of a
-/// route, and include intermediate stops along the route.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Waypoint {
-    /// Marks this waypoint as a milestone rather a stopping point. For
-    /// each non-via waypoint in the request, the response appends an entry to the
-    /// [legs][google.maps.routing.v2.Route.legs]
-    /// array to provide the details for stopovers on that leg of the trip. Set
-    /// this value to true when you want the route to pass through this waypoint
-    /// without stopping over. Via waypoints don't cause an entry to be added to
-    /// the `legs` array, but they do route the journey through the waypoint. You
-    /// can only set this value on waypoints that are intermediates. The request
-    /// fails if you set this field on terminal waypoints. If
-    /// `ComputeRoutesRequest.optimize_waypoint_order` is set to true then this
-    /// field cannot be set to true; otherwise, the request fails.
-    #[prost(bool, tag = "3")]
-    pub via: bool,
-    /// Indicates that the waypoint is meant for vehicles to stop at, where the
-    /// intention is to either pickup or drop-off. When you set this value, the
-    /// calculated route won't include non-`via` waypoints on roads that are
-    /// unsuitable for pickup and drop-off. This option works only for `DRIVE` and
-    /// `TWO_WHEELER` travel modes, and when the `location_type` is
-    /// [Location][google.maps.routing.v2.Location].
-    #[prost(bool, tag = "4")]
-    pub vehicle_stopover: bool,
-    /// Indicates that the location of this waypoint is meant to have a preference
-    /// for the vehicle to stop at a particular side of road. When you set this
-    /// value, the route will pass through the location so that the vehicle can
-    /// stop at the side of road that the location is biased towards from the
-    /// center of the road. This option works only for 'DRIVE' and 'TWO_WHEELER'
-    /// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
-    #[prost(bool, tag = "5")]
-    pub side_of_road: bool,
-    /// Different ways to represent a location.
-    #[prost(oneof = "waypoint::LocationType", tags = "1, 2, 7")]
-    pub location_type: ::core::option::Option<waypoint::LocationType>,
-}
-/// Nested message and enum types in `Waypoint`.
-pub mod waypoint {
-    /// Different ways to represent a location.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum LocationType {
-        /// A point specified using geographic coordinates, including an optional
-        /// heading.
-        #[prost(message, tag = "1")]
-        Location(super::Location),
-        /// The POI Place ID associated with the waypoint.
-        #[prost(string, tag = "2")]
-        PlaceId(::prost::alloc::string::String),
-        /// Human readable address or a plus code.
-        /// See <https://plus.codes> for details.
-        #[prost(string, tag = "7")]
-        Address(::prost::alloc::string::String),
-    }
-}
-/// Contains the vehicle information, such as the vehicle emission type.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VehicleInfo {
-    /// Describes the vehicle's emission type.
-    /// Applies only to the `DRIVE`
-    /// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
-    #[prost(enumeration = "VehicleEmissionType", tag = "2")]
-    pub emission_type: i32,
-}
-/// Contains [GeocodedWaypoints][google.maps.routing.v2.GeocodedWaypoint] for
-/// origin, destination and intermediate waypoints. Only populated for address
-/// waypoints.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GeocodingResults {
-    /// Origin geocoded waypoint.
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<GeocodedWaypoint>,
-    /// Destination geocoded waypoint.
-    #[prost(message, optional, tag = "2")]
-    pub destination: ::core::option::Option<GeocodedWaypoint>,
-    /// A list of intermediate geocoded waypoints each containing an index field
-    /// that corresponds to the zero-based position of the waypoint in the order
-    /// they were specified in the request.
-    #[prost(message, repeated, tag = "3")]
-    pub intermediates: ::prost::alloc::vec::Vec<GeocodedWaypoint>,
-}
-/// Details about the locations used as waypoints. Only populated for address
-/// waypoints. Includes details about the geocoding results for the purposes of
-/// determining what the address was geocoded to.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GeocodedWaypoint {
-    /// Indicates the status code resulting from the geocoding operation.
-    #[prost(message, optional, tag = "1")]
-    pub geocoder_status: ::core::option::Option<super::super::super::rpc::Status>,
-    /// The index of the corresponding intermediate waypoint in the request.
-    /// Only populated if the corresponding waypoint is an intermediate
-    /// waypoint.
-    #[prost(int32, optional, tag = "2")]
-    pub intermediate_waypoint_request_index: ::core::option::Option<i32>,
-    /// The type(s) of the result, in the form of zero or more type tags.
-    /// Supported types:
-    /// <https://developers.google.com/maps/documentation/geocoding/requests-geocoding#Types>
-    #[prost(string, repeated, tag = "3")]
-    pub r#type: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Indicates that the geocoder did not return an exact match for the original
-    /// request, though it was able to match part of the requested address. You may
-    /// wish to examine the original request for misspellings and/or an incomplete
-    /// address.
-    #[prost(bool, tag = "4")]
-    pub partial_match: bool,
-    /// The place ID for this result.
-    #[prost(string, tag = "5")]
-    pub place_id: ::prost::alloc::string::String,
-}
-/// A set of values that specify the unit of measure used in the display.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum Units {
-    /// Units of measure not specified. Defaults to the unit of measure inferred
-    /// from the request.
-    Unspecified = 0,
-    /// Metric units of measure.
-    Metric = 1,
-    /// Imperial (English) units of measure.
-    Imperial = 2,
-}
-impl Units {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            Units::Unspecified => "UNITS_UNSPECIFIED",
-            Units::Metric => "METRIC",
-            Units::Imperial => "IMPERIAL",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "UNITS_UNSPECIFIED" => Some(Self::Unspecified),
-            "METRIC" => Some(Self::Metric),
-            "IMPERIAL" => Some(Self::Imperial),
-            _ => None,
-        }
-    }
-}
-/// List of toll passes around the world that we support.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum TollPass {
-    /// Not used. If this value is used, then the request fails.
-    Unspecified = 0,
-    /// Sydney toll pass. See additional details at <https://www.myetoll.com.au.>
-    AuEtollTag = 82,
-    /// Sydney toll pass. See additional details at <https://www.tollpay.com.au.>
-    AuEwayTag = 83,
-    /// Australia-wide toll pass.
-    /// See additional details at <https://www.linkt.com.au/.>
-    AuLinkt = 2,
-    /// Argentina toll pass. See additional details at <https://telepase.com.ar>
-    ArTelepase = 3,
-    /// Brazil toll pass. See additional details at <https://www.autoexpreso.com>
-    BrAutoExpreso = 81,
-    /// Brazil toll pass. See additional details at <https://conectcar.com.>
-    BrConectcar = 7,
-    /// Brazil toll pass. See additional details at <https://movemais.com.>
-    BrMoveMais = 8,
-    /// Brazil toll pass. See additional details at <https://pasorapido.gob.do/>
-    BrPassaRapido = 88,
-    /// Brazil toll pass. See additional details at <https://www.semparar.com.br.>
-    BrSemParar = 9,
-    /// Brazil toll pass. See additional details at <https://taggy.com.br.>
-    BrTaggy = 10,
-    /// Brazil toll pass. See additional details at
-    /// <https://veloe.com.br/site/onde-usar.>
-    BrVeloe = 11,
-    /// Canada to United States border crossing.
-    CaUsAkwasasneSeawayCorporateCard = 84,
-    /// Canada to United States border crossing.
-    CaUsAkwasasneSeawayTransitCard = 85,
-    /// Ontario, Canada to Michigan, United States border crossing.
-    CaUsBlueWaterEdgePass = 18,
-    /// Ontario, Canada to Michigan, United States border crossing.
-    CaUsConnexion = 19,
-    /// Canada to United States border crossing.
-    CaUsNexusCard = 20,
-    /// Indonesia.
-    /// E-card provided by multiple banks used to pay for tolls. All e-cards
-    /// via banks are charged the same so only one enum value is needed. E.g.
-    /// - Bank Mandiri <https://www.bankmandiri.co.id/e-money>
-    /// - BCA <https://www.bca.co.id/flazz>
-    /// - BNI <https://www.bni.co.id/id-id/ebanking/tapcash>
-    IdEToll = 16,
-    /// India.
-    InFastag = 78,
-    /// India, HP state plate exemption.
-    InLocalHpPlateExempt = 79,
-    /// Mexico toll pass.
-    /// <https://iave.capufe.gob.mx/#/>
-    MxIave = 90,
-    /// Mexico
-    /// <https://www.pase.com.mx>
-    MxPase = 91,
-    /// Mexico
-    ///   <https://operadoravial.com/quick-pass/>
-    MxQuickpass = 93,
-    /// <http://appsh.chihuahua.gob.mx/transparencia/?doc=/ingresos/TelepeajeFormato4.pdf>
-    MxSistemaTelepeajeChihuahua = 89,
-    /// Mexico
-    MxTagIave = 12,
-    /// Mexico toll pass company. One of many operating in Mexico City. See
-    /// additional details at <https://www.televia.com.mx.>
-    MxTagTelevia = 13,
-    /// Mexico toll pass company. One of many operating in Mexico City.
-    /// <https://www.televia.com.mx>
-    MxTelevia = 92,
-    /// Mexico toll pass. See additional details at
-    /// <https://www.viapass.com.mx/viapass/web_home.aspx.>
-    MxViapass = 14,
-    /// AL, USA.
-    UsAlFreedomPass = 21,
-    /// AK, USA.
-    UsAkAntonAndersonTunnelBookOf10Tickets = 22,
-    /// CA, USA.
-    UsCaFastrak = 4,
-    /// Indicates driver has any FasTrak pass in addition to the DMV issued Clean
-    /// Air Vehicle (CAV) sticker.
-    /// <https://www.bayareafastrak.org/en/guide/doINeedFlex.shtml>
-    UsCaFastrakCavSticker = 86,
-    /// CO, USA.
-    UsCoExpresstoll = 23,
-    /// CO, USA.
-    UsCoGoPass = 24,
-    /// DE, USA.
-    UsDeEzpassde = 25,
-    /// FL, USA.
-    UsFlBobSikesTollBridgePass = 65,
-    /// FL, USA.
-    UsFlDunesCommunityDevelopmentDistrictExpresscard = 66,
-    /// FL, USA.
-    UsFlEpass = 67,
-    /// FL, USA.
-    UsFlGibaTollPass = 68,
-    /// FL, USA.
-    UsFlLeeway = 69,
-    /// FL, USA.
-    UsFlSunpass = 70,
-    /// FL, USA.
-    UsFlSunpassPro = 71,
-    /// IL, USA.
-    UsIlEzpassil = 73,
-    /// IL, USA.
-    UsIlIpass = 72,
-    /// IN, USA.
-    UsInEzpassin = 26,
-    /// KS, USA.
-    UsKsBestpassHorizon = 27,
-    /// KS, USA.
-    UsKsKtag = 28,
-    /// KS, USA.
-    UsKsNationalpass = 29,
-    /// KS, USA.
-    UsKsPrepassElitepass = 30,
-    /// KY, USA.
-    UsKyRiverlink = 31,
-    /// LA, USA.
-    UsLaGeauxpass = 32,
-    /// LA, USA.
-    UsLaTollTag = 33,
-    /// MA, USA.
-    UsMaEzpassma = 6,
-    /// MD, USA.
-    UsMdEzpassmd = 34,
-    /// ME, USA.
-    UsMeEzpassme = 35,
-    /// MI, USA.
-    UsMiAmbassadorBridgePremierCommuterCard = 36,
-    /// MI, USA.
-    UsMiBcpass = 94,
-    /// MI, USA.
-    UsMiGrosseIleTollBridgePassTag = 37,
-    /// MI, USA.
-    /// Deprecated as this pass type no longer exists.
-    UsMiIqProxCard = 38,
-    /// MI, USA.
-    UsMiIqTag = 95,
-    /// MI, USA.
-    UsMiMackinacBridgeMacPass = 39,
-    /// MI, USA.
-    UsMiNexpressToll = 40,
-    /// MN, USA.
-    UsMnEzpassmn = 41,
-    /// NC, USA.
-    UsNcEzpassnc = 42,
-    /// NC, USA.
-    UsNcPeachPass = 87,
-    /// NC, USA.
-    UsNcQuickPass = 43,
-    /// NH, USA.
-    UsNhEzpassnh = 80,
-    /// NJ, USA.
-    UsNjDownbeachExpressPass = 75,
-    /// NJ, USA.
-    UsNjEzpassnj = 74,
-    /// NY, USA.
-    UsNyExpresspass = 76,
-    /// NY, USA.
-    UsNyEzpassny = 77,
-    /// OH, USA.
-    UsOhEzpassoh = 44,
-    /// PA, USA.
-    UsPaEzpasspa = 45,
-    /// RI, USA.
-    UsRiEzpassri = 46,
-    /// SC, USA.
-    UsScPalpass = 47,
-    /// TX, USA.
-    UsTxAviTag = 97,
-    /// TX, USA.
-    UsTxBancpass = 48,
-    /// TX, USA.
-    UsTxDelRioPass = 49,
-    /// TX, USA.
-    UsTxEfastPass = 50,
-    /// TX, USA.
-    UsTxEaglePassExpressCard = 51,
-    /// TX, USA.
-    UsTxEptoll = 52,
-    /// TX, USA.
-    UsTxEzCross = 53,
-    /// TX, USA.
-    UsTxEztag = 54,
-    /// TX, USA.
-    UsTxFuegoTag = 96,
-    /// TX, USA.
-    UsTxLaredoTradeTag = 55,
-    /// TX, USA.
-    UsTxPluspass = 56,
-    /// TX, USA.
-    UsTxTolltag = 57,
-    /// TX, USA.
-    UsTxTxtag = 58,
-    /// TX, USA.
-    UsTxXpressCard = 59,
-    /// UT, USA.
-    UsUtAdamsAveParkwayExpresscard = 60,
-    /// VA, USA.
-    UsVaEzpassva = 61,
-    /// WA, USA.
-    UsWaBreezeby = 17,
-    /// WA, USA.
-    UsWaGoodToGo = 1,
-    /// WV, USA.
-    UsWvEzpasswv = 62,
-    /// WV, USA.
-    UsWvMemorialBridgeTickets = 63,
-    /// WV, USA.
-    UsWvNewellTollBridgeTicket = 64,
-}
-impl TollPass {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            TollPass::Unspecified => "TOLL_PASS_UNSPECIFIED",
-            TollPass::AuEtollTag => "AU_ETOLL_TAG",
-            TollPass::AuEwayTag => "AU_EWAY_TAG",
-            TollPass::AuLinkt => "AU_LINKT",
-            TollPass::ArTelepase => "AR_TELEPASE",
-            TollPass::BrAutoExpreso => "BR_AUTO_EXPRESO",
-            TollPass::BrConectcar => "BR_CONECTCAR",
-            TollPass::BrMoveMais => "BR_MOVE_MAIS",
-            TollPass::BrPassaRapido => "BR_PASSA_RAPIDO",
-            TollPass::BrSemParar => "BR_SEM_PARAR",
-            TollPass::BrTaggy => "BR_TAGGY",
-            TollPass::BrVeloe => "BR_VELOE",
-            TollPass::CaUsAkwasasneSeawayCorporateCard => {
-                "CA_US_AKWASASNE_SEAWAY_CORPORATE_CARD"
-            }
-            TollPass::CaUsAkwasasneSeawayTransitCard => {
-                "CA_US_AKWASASNE_SEAWAY_TRANSIT_CARD"
-            }
-            TollPass::CaUsBlueWaterEdgePass => "CA_US_BLUE_WATER_EDGE_PASS",
-            TollPass::CaUsConnexion => "CA_US_CONNEXION",
-            TollPass::CaUsNexusCard => "CA_US_NEXUS_CARD",
-            TollPass::IdEToll => "ID_E_TOLL",
-            TollPass::InFastag => "IN_FASTAG",
-            TollPass::InLocalHpPlateExempt => "IN_LOCAL_HP_PLATE_EXEMPT",
-            TollPass::MxIave => "MX_IAVE",
-            TollPass::MxPase => "MX_PASE",
-            TollPass::MxQuickpass => "MX_QUICKPASS",
-            TollPass::MxSistemaTelepeajeChihuahua => "MX_SISTEMA_TELEPEAJE_CHIHUAHUA",
-            TollPass::MxTagIave => "MX_TAG_IAVE",
-            TollPass::MxTagTelevia => "MX_TAG_TELEVIA",
-            TollPass::MxTelevia => "MX_TELEVIA",
-            TollPass::MxViapass => "MX_VIAPASS",
-            TollPass::UsAlFreedomPass => "US_AL_FREEDOM_PASS",
-            TollPass::UsAkAntonAndersonTunnelBookOf10Tickets => {
-                "US_AK_ANTON_ANDERSON_TUNNEL_BOOK_OF_10_TICKETS"
-            }
-            TollPass::UsCaFastrak => "US_CA_FASTRAK",
-            TollPass::UsCaFastrakCavSticker => "US_CA_FASTRAK_CAV_STICKER",
-            TollPass::UsCoExpresstoll => "US_CO_EXPRESSTOLL",
-            TollPass::UsCoGoPass => "US_CO_GO_PASS",
-            TollPass::UsDeEzpassde => "US_DE_EZPASSDE",
-            TollPass::UsFlBobSikesTollBridgePass => "US_FL_BOB_SIKES_TOLL_BRIDGE_PASS",
-            TollPass::UsFlDunesCommunityDevelopmentDistrictExpresscard => {
-                "US_FL_DUNES_COMMUNITY_DEVELOPMENT_DISTRICT_EXPRESSCARD"
-            }
-            TollPass::UsFlEpass => "US_FL_EPASS",
-            TollPass::UsFlGibaTollPass => "US_FL_GIBA_TOLL_PASS",
-            TollPass::UsFlLeeway => "US_FL_LEEWAY",
-            TollPass::UsFlSunpass => "US_FL_SUNPASS",
-            TollPass::UsFlSunpassPro => "US_FL_SUNPASS_PRO",
-            TollPass::UsIlEzpassil => "US_IL_EZPASSIL",
-            TollPass::UsIlIpass => "US_IL_IPASS",
-            TollPass::UsInEzpassin => "US_IN_EZPASSIN",
-            TollPass::UsKsBestpassHorizon => "US_KS_BESTPASS_HORIZON",
-            TollPass::UsKsKtag => "US_KS_KTAG",
-            TollPass::UsKsNationalpass => "US_KS_NATIONALPASS",
-            TollPass::UsKsPrepassElitepass => "US_KS_PREPASS_ELITEPASS",
-            TollPass::UsKyRiverlink => "US_KY_RIVERLINK",
-            TollPass::UsLaGeauxpass => "US_LA_GEAUXPASS",
-            TollPass::UsLaTollTag => "US_LA_TOLL_TAG",
-            TollPass::UsMaEzpassma => "US_MA_EZPASSMA",
-            TollPass::UsMdEzpassmd => "US_MD_EZPASSMD",
-            TollPass::UsMeEzpassme => "US_ME_EZPASSME",
-            TollPass::UsMiAmbassadorBridgePremierCommuterCard => {
-                "US_MI_AMBASSADOR_BRIDGE_PREMIER_COMMUTER_CARD"
-            }
-            TollPass::UsMiBcpass => "US_MI_BCPASS",
-            TollPass::UsMiGrosseIleTollBridgePassTag => {
-                "US_MI_GROSSE_ILE_TOLL_BRIDGE_PASS_TAG"
-            }
-            TollPass::UsMiIqProxCard => "US_MI_IQ_PROX_CARD",
-            TollPass::UsMiIqTag => "US_MI_IQ_TAG",
-            TollPass::UsMiMackinacBridgeMacPass => "US_MI_MACKINAC_BRIDGE_MAC_PASS",
-            TollPass::UsMiNexpressToll => "US_MI_NEXPRESS_TOLL",
-            TollPass::UsMnEzpassmn => "US_MN_EZPASSMN",
-            TollPass::UsNcEzpassnc => "US_NC_EZPASSNC",
-            TollPass::UsNcPeachPass => "US_NC_PEACH_PASS",
-            TollPass::UsNcQuickPass => "US_NC_QUICK_PASS",
-            TollPass::UsNhEzpassnh => "US_NH_EZPASSNH",
-            TollPass::UsNjDownbeachExpressPass => "US_NJ_DOWNBEACH_EXPRESS_PASS",
-            TollPass::UsNjEzpassnj => "US_NJ_EZPASSNJ",
-            TollPass::UsNyExpresspass => "US_NY_EXPRESSPASS",
-            TollPass::UsNyEzpassny => "US_NY_EZPASSNY",
-            TollPass::UsOhEzpassoh => "US_OH_EZPASSOH",
-            TollPass::UsPaEzpasspa => "US_PA_EZPASSPA",
-            TollPass::UsRiEzpassri => "US_RI_EZPASSRI",
-            TollPass::UsScPalpass => "US_SC_PALPASS",
-            TollPass::UsTxAviTag => "US_TX_AVI_TAG",
-            TollPass::UsTxBancpass => "US_TX_BANCPASS",
-            TollPass::UsTxDelRioPass => "US_TX_DEL_RIO_PASS",
-            TollPass::UsTxEfastPass => "US_TX_EFAST_PASS",
-            TollPass::UsTxEaglePassExpressCard => "US_TX_EAGLE_PASS_EXPRESS_CARD",
-            TollPass::UsTxEptoll => "US_TX_EPTOLL",
-            TollPass::UsTxEzCross => "US_TX_EZ_CROSS",
-            TollPass::UsTxEztag => "US_TX_EZTAG",
-            TollPass::UsTxFuegoTag => "US_TX_FUEGO_TAG",
-            TollPass::UsTxLaredoTradeTag => "US_TX_LAREDO_TRADE_TAG",
-            TollPass::UsTxPluspass => "US_TX_PLUSPASS",
-            TollPass::UsTxTolltag => "US_TX_TOLLTAG",
-            TollPass::UsTxTxtag => "US_TX_TXTAG",
-            TollPass::UsTxXpressCard => "US_TX_XPRESS_CARD",
-            TollPass::UsUtAdamsAveParkwayExpresscard => {
-                "US_UT_ADAMS_AVE_PARKWAY_EXPRESSCARD"
-            }
-            TollPass::UsVaEzpassva => "US_VA_EZPASSVA",
-            TollPass::UsWaBreezeby => "US_WA_BREEZEBY",
-            TollPass::UsWaGoodToGo => "US_WA_GOOD_TO_GO",
-            TollPass::UsWvEzpasswv => "US_WV_EZPASSWV",
-            TollPass::UsWvMemorialBridgeTickets => "US_WV_MEMORIAL_BRIDGE_TICKETS",
-            TollPass::UsWvNewellTollBridgeTicket => "US_WV_NEWELL_TOLL_BRIDGE_TICKET",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "TOLL_PASS_UNSPECIFIED" => Some(Self::Unspecified),
-            "AU_ETOLL_TAG" => Some(Self::AuEtollTag),
-            "AU_EWAY_TAG" => Some(Self::AuEwayTag),
-            "AU_LINKT" => Some(Self::AuLinkt),
-            "AR_TELEPASE" => Some(Self::ArTelepase),
-            "BR_AUTO_EXPRESO" => Some(Self::BrAutoExpreso),
-            "BR_CONECTCAR" => Some(Self::BrConectcar),
-            "BR_MOVE_MAIS" => Some(Self::BrMoveMais),
-            "BR_PASSA_RAPIDO" => Some(Self::BrPassaRapido),
-            "BR_SEM_PARAR" => Some(Self::BrSemParar),
-            "BR_TAGGY" => Some(Self::BrTaggy),
-            "BR_VELOE" => Some(Self::BrVeloe),
-            "CA_US_AKWASASNE_SEAWAY_CORPORATE_CARD" => {
-                Some(Self::CaUsAkwasasneSeawayCorporateCard)
-            }
-            "CA_US_AKWASASNE_SEAWAY_TRANSIT_CARD" => {
-                Some(Self::CaUsAkwasasneSeawayTransitCard)
-            }
-            "CA_US_BLUE_WATER_EDGE_PASS" => Some(Self::CaUsBlueWaterEdgePass),
-            "CA_US_CONNEXION" => Some(Self::CaUsConnexion),
-            "CA_US_NEXUS_CARD" => Some(Self::CaUsNexusCard),
-            "ID_E_TOLL" => Some(Self::IdEToll),
-            "IN_FASTAG" => Some(Self::InFastag),
-            "IN_LOCAL_HP_PLATE_EXEMPT" => Some(Self::InLocalHpPlateExempt),
-            "MX_IAVE" => Some(Self::MxIave),
-            "MX_PASE" => Some(Self::MxPase),
-            "MX_QUICKPASS" => Some(Self::MxQuickpass),
-            "MX_SISTEMA_TELEPEAJE_CHIHUAHUA" => Some(Self::MxSistemaTelepeajeChihuahua),
-            "MX_TAG_IAVE" => Some(Self::MxTagIave),
-            "MX_TAG_TELEVIA" => Some(Self::MxTagTelevia),
-            "MX_TELEVIA" => Some(Self::MxTelevia),
-            "MX_VIAPASS" => Some(Self::MxViapass),
-            "US_AL_FREEDOM_PASS" => Some(Self::UsAlFreedomPass),
-            "US_AK_ANTON_ANDERSON_TUNNEL_BOOK_OF_10_TICKETS" => {
-                Some(Self::UsAkAntonAndersonTunnelBookOf10Tickets)
-            }
-            "US_CA_FASTRAK" => Some(Self::UsCaFastrak),
-            "US_CA_FASTRAK_CAV_STICKER" => Some(Self::UsCaFastrakCavSticker),
-            "US_CO_EXPRESSTOLL" => Some(Self::UsCoExpresstoll),
-            "US_CO_GO_PASS" => Some(Self::UsCoGoPass),
-            "US_DE_EZPASSDE" => Some(Self::UsDeEzpassde),
-            "US_FL_BOB_SIKES_TOLL_BRIDGE_PASS" => Some(Self::UsFlBobSikesTollBridgePass),
-            "US_FL_DUNES_COMMUNITY_DEVELOPMENT_DISTRICT_EXPRESSCARD" => {
-                Some(Self::UsFlDunesCommunityDevelopmentDistrictExpresscard)
-            }
-            "US_FL_EPASS" => Some(Self::UsFlEpass),
-            "US_FL_GIBA_TOLL_PASS" => Some(Self::UsFlGibaTollPass),
-            "US_FL_LEEWAY" => Some(Self::UsFlLeeway),
-            "US_FL_SUNPASS" => Some(Self::UsFlSunpass),
-            "US_FL_SUNPASS_PRO" => Some(Self::UsFlSunpassPro),
-            "US_IL_EZPASSIL" => Some(Self::UsIlEzpassil),
-            "US_IL_IPASS" => Some(Self::UsIlIpass),
-            "US_IN_EZPASSIN" => Some(Self::UsInEzpassin),
-            "US_KS_BESTPASS_HORIZON" => Some(Self::UsKsBestpassHorizon),
-            "US_KS_KTAG" => Some(Self::UsKsKtag),
-            "US_KS_NATIONALPASS" => Some(Self::UsKsNationalpass),
-            "US_KS_PREPASS_ELITEPASS" => Some(Self::UsKsPrepassElitepass),
-            "US_KY_RIVERLINK" => Some(Self::UsKyRiverlink),
-            "US_LA_GEAUXPASS" => Some(Self::UsLaGeauxpass),
-            "US_LA_TOLL_TAG" => Some(Self::UsLaTollTag),
-            "US_MA_EZPASSMA" => Some(Self::UsMaEzpassma),
-            "US_MD_EZPASSMD" => Some(Self::UsMdEzpassmd),
-            "US_ME_EZPASSME" => Some(Self::UsMeEzpassme),
-            "US_MI_AMBASSADOR_BRIDGE_PREMIER_COMMUTER_CARD" => {
-                Some(Self::UsMiAmbassadorBridgePremierCommuterCard)
-            }
-            "US_MI_BCPASS" => Some(Self::UsMiBcpass),
-            "US_MI_GROSSE_ILE_TOLL_BRIDGE_PASS_TAG" => {
-                Some(Self::UsMiGrosseIleTollBridgePassTag)
-            }
-            "US_MI_IQ_PROX_CARD" => Some(Self::UsMiIqProxCard),
-            "US_MI_IQ_TAG" => Some(Self::UsMiIqTag),
-            "US_MI_MACKINAC_BRIDGE_MAC_PASS" => Some(Self::UsMiMackinacBridgeMacPass),
-            "US_MI_NEXPRESS_TOLL" => Some(Self::UsMiNexpressToll),
-            "US_MN_EZPASSMN" => Some(Self::UsMnEzpassmn),
-            "US_NC_EZPASSNC" => Some(Self::UsNcEzpassnc),
-            "US_NC_PEACH_PASS" => Some(Self::UsNcPeachPass),
-            "US_NC_QUICK_PASS" => Some(Self::UsNcQuickPass),
-            "US_NH_EZPASSNH" => Some(Self::UsNhEzpassnh),
-            "US_NJ_DOWNBEACH_EXPRESS_PASS" => Some(Self::UsNjDownbeachExpressPass),
-            "US_NJ_EZPASSNJ" => Some(Self::UsNjEzpassnj),
-            "US_NY_EXPRESSPASS" => Some(Self::UsNyExpresspass),
-            "US_NY_EZPASSNY" => Some(Self::UsNyEzpassny),
-            "US_OH_EZPASSOH" => Some(Self::UsOhEzpassoh),
-            "US_PA_EZPASSPA" => Some(Self::UsPaEzpasspa),
-            "US_RI_EZPASSRI" => Some(Self::UsRiEzpassri),
-            "US_SC_PALPASS" => Some(Self::UsScPalpass),
-            "US_TX_AVI_TAG" => Some(Self::UsTxAviTag),
-            "US_TX_BANCPASS" => Some(Self::UsTxBancpass),
-            "US_TX_DEL_RIO_PASS" => Some(Self::UsTxDelRioPass),
-            "US_TX_EFAST_PASS" => Some(Self::UsTxEfastPass),
-            "US_TX_EAGLE_PASS_EXPRESS_CARD" => Some(Self::UsTxEaglePassExpressCard),
-            "US_TX_EPTOLL" => Some(Self::UsTxEptoll),
-            "US_TX_EZ_CROSS" => Some(Self::UsTxEzCross),
-            "US_TX_EZTAG" => Some(Self::UsTxEztag),
-            "US_TX_FUEGO_TAG" => Some(Self::UsTxFuegoTag),
-            "US_TX_LAREDO_TRADE_TAG" => Some(Self::UsTxLaredoTradeTag),
-            "US_TX_PLUSPASS" => Some(Self::UsTxPluspass),
-            "US_TX_TOLLTAG" => Some(Self::UsTxTolltag),
-            "US_TX_TXTAG" => Some(Self::UsTxTxtag),
-            "US_TX_XPRESS_CARD" => Some(Self::UsTxXpressCard),
-            "US_UT_ADAMS_AVE_PARKWAY_EXPRESSCARD" => {
-                Some(Self::UsUtAdamsAveParkwayExpresscard)
-            }
-            "US_VA_EZPASSVA" => Some(Self::UsVaEzpassva),
-            "US_WA_BREEZEBY" => Some(Self::UsWaBreezeby),
-            "US_WA_GOOD_TO_GO" => Some(Self::UsWaGoodToGo),
-            "US_WV_EZPASSWV" => Some(Self::UsWvEzpasswv),
-            "US_WV_MEMORIAL_BRIDGE_TICKETS" => Some(Self::UsWvMemorialBridgeTickets),
-            "US_WV_NEWELL_TOLL_BRIDGE_TICKET" => Some(Self::UsWvNewellTollBridgeTicket),
-            _ => None,
-        }
-    }
-}
-/// Encapsulates a set of optional conditions to satisfy when calculating the
-/// routes.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RouteModifiers {
-    /// When set to true, avoids toll roads where reasonable, giving preference to
-    /// routes not containing toll roads. Applies only to the `DRIVE` and
-    /// `TWO_WHEELER` [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
-    #[prost(bool, tag = "1")]
-    pub avoid_tolls: bool,
-    /// When set to true, avoids highways where reasonable, giving preference to
-    /// routes not containing highways. Applies only to the `DRIVE` and
-    /// `TWO_WHEELER` [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
-    #[prost(bool, tag = "2")]
-    pub avoid_highways: bool,
-    /// When set to true, avoids ferries where reasonable, giving preference to
-    /// routes not containing ferries. Applies only to the `DRIVE` and`TWO_WHEELER`
-    /// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
-    #[prost(bool, tag = "3")]
-    pub avoid_ferries: bool,
-    /// When set to true, avoids navigating indoors where reasonable, giving
-    /// preference to routes not containing indoor navigation. Applies only to the
-    /// `WALK` [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
-    #[prost(bool, tag = "4")]
-    pub avoid_indoor: bool,
-    /// Specifies the vehicle information.
-    #[prost(message, optional, tag = "5")]
-    pub vehicle_info: ::core::option::Option<VehicleInfo>,
-    /// Encapsulates information about toll passes.
-    /// If toll passes are provided, the API tries to return the pass price. If
-    /// toll passes are not provided, the API treats the toll pass as unknown and
-    /// tries to return the cash price.
-    /// Applies only to the `DRIVE` and `TWO_WHEELER`
-    /// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
-    #[prost(enumeration = "TollPass", repeated, tag = "6")]
-    pub toll_passes: ::prost::alloc::vec::Vec<i32>,
 }
 /// Preferences for `TRANSIT` based routes that influence the route that is
 /// returned.
@@ -2019,6 +1962,63 @@ pub mod transit_preferences {
                 _ => None,
             }
         }
+    }
+}
+/// Encapsulates a waypoint. Waypoints mark both the beginning and end of a
+/// route, and include intermediate stops along the route.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Waypoint {
+    /// Marks this waypoint as a milestone rather a stopping point. For
+    /// each non-via waypoint in the request, the response appends an entry to the
+    /// [legs][google.maps.routing.v2.Route.legs]
+    /// array to provide the details for stopovers on that leg of the trip. Set
+    /// this value to true when you want the route to pass through this waypoint
+    /// without stopping over. Via waypoints don't cause an entry to be added to
+    /// the `legs` array, but they do route the journey through the waypoint. You
+    /// can only set this value on waypoints that are intermediates. The request
+    /// fails if you set this field on terminal waypoints. If
+    /// `ComputeRoutesRequest.optimize_waypoint_order` is set to true then this
+    /// field cannot be set to true; otherwise, the request fails.
+    #[prost(bool, tag = "3")]
+    pub via: bool,
+    /// Indicates that the waypoint is meant for vehicles to stop at, where the
+    /// intention is to either pickup or drop-off. When you set this value, the
+    /// calculated route won't include non-`via` waypoints on roads that are
+    /// unsuitable for pickup and drop-off. This option works only for `DRIVE` and
+    /// `TWO_WHEELER` travel modes, and when the `location_type` is
+    /// [Location][google.maps.routing.v2.Location].
+    #[prost(bool, tag = "4")]
+    pub vehicle_stopover: bool,
+    /// Indicates that the location of this waypoint is meant to have a preference
+    /// for the vehicle to stop at a particular side of road. When you set this
+    /// value, the route will pass through the location so that the vehicle can
+    /// stop at the side of road that the location is biased towards from the
+    /// center of the road. This option works only for 'DRIVE' and 'TWO_WHEELER'
+    /// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
+    #[prost(bool, tag = "5")]
+    pub side_of_road: bool,
+    /// Different ways to represent a location.
+    #[prost(oneof = "waypoint::LocationType", tags = "1, 2, 7")]
+    pub location_type: ::core::option::Option<waypoint::LocationType>,
+}
+/// Nested message and enum types in `Waypoint`.
+pub mod waypoint {
+    /// Different ways to represent a location.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum LocationType {
+        /// A point specified using geographic coordinates, including an optional
+        /// heading.
+        #[prost(message, tag = "1")]
+        Location(super::Location),
+        /// The POI Place ID associated with the waypoint.
+        #[prost(string, tag = "2")]
+        PlaceId(::prost::alloc::string::String),
+        /// Human readable address or a plus code.
+        /// See <https://plus.codes> for details.
+        #[prost(string, tag = "7")]
+        Address(::prost::alloc::string::String),
     }
 }
 /// ComputeRoutes request message.

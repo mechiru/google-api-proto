@@ -1,223 +1,3 @@
-/// Details of the post-processed address. Post-processing includes
-/// correcting misspelled parts of the address, replacing incorrect parts, and
-/// inferring missing parts.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Address {
-    /// The post-processed address, formatted as a single-line address following
-    /// the address formatting rules of the region where the address is located.
-    #[prost(string, tag = "2")]
-    pub formatted_address: ::prost::alloc::string::String,
-    /// The post-processed address represented as a postal address.
-    #[prost(message, optional, tag = "3")]
-    pub postal_address: ::core::option::Option<
-        super::super::super::r#type::PostalAddress,
-    >,
-    /// Unordered list. The individual address components of the formatted and
-    /// corrected address, along with validation information. This provides
-    /// information on the validation status of the individual components.
-    ///
-    /// Address components are not ordered in a particular way. Do not make any
-    /// assumptions on the ordering of the address components in the list.
-    #[prost(message, repeated, tag = "4")]
-    pub address_components: ::prost::alloc::vec::Vec<AddressComponent>,
-    /// The types of components that were expected to be present in a correctly
-    /// formatted mailing address but were not found in the input AND could
-    /// not be inferred. Components of this type are not present in
-    /// `formatted_address`, `postal_address`, or `address_components`. An
-    /// example might be `\['street_number', 'route'\]` for an input like
-    /// "Boulder, Colorado, 80301, USA". The list of possible types can be found
-    /// [here](<https://developers.google.com/maps/documentation/geocoding/requests-geocoding#Types>).
-    #[prost(string, repeated, tag = "5")]
-    pub missing_component_types: ::prost::alloc::vec::Vec<
-        ::prost::alloc::string::String,
-    >,
-    /// The types of the components that are present in the `address_components`
-    /// but could not be confirmed to be correct. This field is provided for the
-    /// sake of convenience: its contents are equivalent to iterating through the
-    /// `address_components` to find the types of all the components where the
-    /// [confirmation_level][google.maps.addressvalidation.v1.AddressComponent.confirmation_level]
-    /// is not
-    /// [CONFIRMED][google.maps.addressvalidation.v1.AddressComponent.ConfirmationLevel.CONFIRMED]
-    /// or the
-    /// [inferred][google.maps.addressvalidation.v1.AddressComponent.inferred]
-    /// flag is not set to `true`. The list of possible types can be found
-    /// [here](<https://developers.google.com/maps/documentation/geocoding/requests-geocoding#Types>).
-    #[prost(string, repeated, tag = "6")]
-    pub unconfirmed_component_types: ::prost::alloc::vec::Vec<
-        ::prost::alloc::string::String,
-    >,
-    /// Any tokens in the input that could not be resolved. This might be an
-    /// input that was not recognized as a valid part of an address (for example
-    /// in an input like "123235253253 Main St, San Francisco, CA, 94105", the
-    /// unresolved tokens may look like `\["123235253253"\]` since that does not
-    /// look like a valid street number.
-    #[prost(string, repeated, tag = "7")]
-    pub unresolved_tokens: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Represents an address component, such as a street, city, or state.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AddressComponent {
-    /// The name for this component.
-    #[prost(message, optional, tag = "1")]
-    pub component_name: ::core::option::Option<ComponentName>,
-    /// The type of the address component. See
-    /// [Table 2: Additional types returned by the Places
-    /// service](<https://developers.google.com/places/web-service/supported_types#table2>)
-    /// for a list of possible types.
-    #[prost(string, tag = "2")]
-    pub component_type: ::prost::alloc::string::String,
-    /// Indicates the level of certainty that we have that the component
-    /// is correct.
-    #[prost(enumeration = "address_component::ConfirmationLevel", tag = "3")]
-    pub confirmation_level: i32,
-    /// Indicates that the component was not part of the input, but we
-    /// inferred it for the address location and believe it should be provided
-    /// for a complete address.
-    #[prost(bool, tag = "4")]
-    pub inferred: bool,
-    /// Indicates the spelling of the component name was corrected in a minor way,
-    /// for example by switching two characters that appeared in the wrong order.
-    /// This indicates a cosmetic change.
-    #[prost(bool, tag = "5")]
-    pub spell_corrected: bool,
-    /// Indicates the name of the component was replaced with a completely
-    /// different one, for example a wrong postal code being replaced with one that
-    /// is correct for the address. This is not a cosmetic change, the input
-    /// component has been changed to a different one.
-    #[prost(bool, tag = "6")]
-    pub replaced: bool,
-    /// Indicates an address component that is not expected to be present in a
-    /// postal address for the given region. We have retained it only because it
-    /// was part of the input.
-    #[prost(bool, tag = "7")]
-    pub unexpected: bool,
-}
-/// Nested message and enum types in `AddressComponent`.
-pub mod address_component {
-    /// The different possible values for confirmation levels.
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum ConfirmationLevel {
-        /// Default value. This value is unused.
-        Unspecified = 0,
-        /// We were able to verify that this component exists and makes sense in the
-        /// context of the rest of the address.
-        Confirmed = 1,
-        /// This component could not be confirmed, but it is plausible that it
-        /// exists. For example, a street number within a known valid range of
-        /// numbers on a street where specific house numbers are not known.
-        UnconfirmedButPlausible = 2,
-        /// This component was not confirmed and is likely to be wrong. For
-        /// example, a neighborhood that does not fit the rest of the address.
-        UnconfirmedAndSuspicious = 3,
-    }
-    impl ConfirmationLevel {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                ConfirmationLevel::Unspecified => "CONFIRMATION_LEVEL_UNSPECIFIED",
-                ConfirmationLevel::Confirmed => "CONFIRMED",
-                ConfirmationLevel::UnconfirmedButPlausible => "UNCONFIRMED_BUT_PLAUSIBLE",
-                ConfirmationLevel::UnconfirmedAndSuspicious => {
-                    "UNCONFIRMED_AND_SUSPICIOUS"
-                }
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "CONFIRMATION_LEVEL_UNSPECIFIED" => Some(Self::Unspecified),
-                "CONFIRMED" => Some(Self::Confirmed),
-                "UNCONFIRMED_BUT_PLAUSIBLE" => Some(Self::UnconfirmedButPlausible),
-                "UNCONFIRMED_AND_SUSPICIOUS" => Some(Self::UnconfirmedAndSuspicious),
-                _ => None,
-            }
-        }
-    }
-}
-/// A wrapper for the name of the component.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ComponentName {
-    /// The name text. For example, "5th Avenue" for a street name or "1253" for a
-    /// street number.
-    #[prost(string, tag = "1")]
-    pub text: ::prost::alloc::string::String,
-    /// The BCP-47 language code. This will not be present if the component name is
-    /// not associated with a language, such as a street number.
-    #[prost(string, tag = "2")]
-    pub language_code: ::prost::alloc::string::String,
-}
-/// Contains information about the place the input was geocoded to.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Geocode {
-    /// The geocoded location of the input.
-    ///
-    /// Using place IDs is preferred over using addresses,
-    /// latitude/longitude coordinates, or plus codes. Using coordinates when
-    /// routing or calculating driving directions will always result in the point
-    /// being snapped to the road nearest to those coordinates. This may not be a
-    /// road that will quickly or safely lead to the destination and may not be
-    /// near an access point to the property. Additionally, when a location is
-    /// reverse geocoded, there is no guarantee that the returned address will
-    /// match the original.
-    #[prost(message, optional, tag = "1")]
-    pub location: ::core::option::Option<super::super::super::r#type::LatLng>,
-    /// The plus code corresponding to the `location`.
-    #[prost(message, optional, tag = "2")]
-    pub plus_code: ::core::option::Option<PlusCode>,
-    /// The bounds of the geocoded place.
-    #[prost(message, optional, tag = "4")]
-    pub bounds: ::core::option::Option<super::super::super::geo::r#type::Viewport>,
-    /// The size of the geocoded place, in meters. This is another measure of the
-    /// coarseness of the geocoded location, but in physical size rather than in
-    /// semantic meaning.
-    #[prost(float, tag = "5")]
-    pub feature_size_meters: f32,
-    /// The PlaceID of the place this input geocodes to.
-    ///
-    /// For more information about Place IDs see
-    /// [here](<https://developers.google.com/maps/documentation/places/web-service/place-id>).
-    #[prost(string, tag = "6")]
-    pub place_id: ::prost::alloc::string::String,
-    /// The type(s) of place that the input geocoded to. For example,
-    /// `\['locality', 'political'\]`. The full list of types can be found
-    /// [here](<https://developers.google.com/maps/documentation/geocoding/requests-geocoding#Types>).
-    #[prost(string, repeated, tag = "7")]
-    pub place_types: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Plus code (<http://plus.codes>) is a location reference with two formats:
-/// global code defining a 14mx14m (1/8000th of a degree) or smaller rectangle,
-/// and compound code, replacing the prefix with a reference location.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PlusCode {
-    /// Place's global (full) code, such as "9FWM33GV+HQ", representing an
-    /// 1/8000 by 1/8000 degree area (~14 by 14 meters).
-    #[prost(string, tag = "1")]
-    pub global_code: ::prost::alloc::string::String,
-    /// Place's compound code, such as "33GV+HQ, Ramberg, Norway", containing
-    /// the suffix of the global code and replacing the prefix with a formatted
-    /// name of a reference entity.
-    #[prost(string, tag = "2")]
-    pub compound_code: ::prost::alloc::string::String,
-}
 /// USPS representation of a US address.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -415,6 +195,226 @@ pub struct UspsData {
     /// Indicator that the request has been CASS processed.
     #[prost(bool, tag = "28")]
     pub cass_processed: bool,
+}
+/// Contains information about the place the input was geocoded to.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Geocode {
+    /// The geocoded location of the input.
+    ///
+    /// Using place IDs is preferred over using addresses,
+    /// latitude/longitude coordinates, or plus codes. Using coordinates when
+    /// routing or calculating driving directions will always result in the point
+    /// being snapped to the road nearest to those coordinates. This may not be a
+    /// road that will quickly or safely lead to the destination and may not be
+    /// near an access point to the property. Additionally, when a location is
+    /// reverse geocoded, there is no guarantee that the returned address will
+    /// match the original.
+    #[prost(message, optional, tag = "1")]
+    pub location: ::core::option::Option<super::super::super::r#type::LatLng>,
+    /// The plus code corresponding to the `location`.
+    #[prost(message, optional, tag = "2")]
+    pub plus_code: ::core::option::Option<PlusCode>,
+    /// The bounds of the geocoded place.
+    #[prost(message, optional, tag = "4")]
+    pub bounds: ::core::option::Option<super::super::super::geo::r#type::Viewport>,
+    /// The size of the geocoded place, in meters. This is another measure of the
+    /// coarseness of the geocoded location, but in physical size rather than in
+    /// semantic meaning.
+    #[prost(float, tag = "5")]
+    pub feature_size_meters: f32,
+    /// The PlaceID of the place this input geocodes to.
+    ///
+    /// For more information about Place IDs see
+    /// [here](<https://developers.google.com/maps/documentation/places/web-service/place-id>).
+    #[prost(string, tag = "6")]
+    pub place_id: ::prost::alloc::string::String,
+    /// The type(s) of place that the input geocoded to. For example,
+    /// `\['locality', 'political'\]`. The full list of types can be found
+    /// [here](<https://developers.google.com/maps/documentation/geocoding/requests-geocoding#Types>).
+    #[prost(string, repeated, tag = "7")]
+    pub place_types: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Plus code (<http://plus.codes>) is a location reference with two formats:
+/// global code defining a 14mx14m (1/8000th of a degree) or smaller rectangle,
+/// and compound code, replacing the prefix with a reference location.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PlusCode {
+    /// Place's global (full) code, such as "9FWM33GV+HQ", representing an
+    /// 1/8000 by 1/8000 degree area (~14 by 14 meters).
+    #[prost(string, tag = "1")]
+    pub global_code: ::prost::alloc::string::String,
+    /// Place's compound code, such as "33GV+HQ, Ramberg, Norway", containing
+    /// the suffix of the global code and replacing the prefix with a formatted
+    /// name of a reference entity.
+    #[prost(string, tag = "2")]
+    pub compound_code: ::prost::alloc::string::String,
+}
+/// Details of the post-processed address. Post-processing includes
+/// correcting misspelled parts of the address, replacing incorrect parts, and
+/// inferring missing parts.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Address {
+    /// The post-processed address, formatted as a single-line address following
+    /// the address formatting rules of the region where the address is located.
+    #[prost(string, tag = "2")]
+    pub formatted_address: ::prost::alloc::string::String,
+    /// The post-processed address represented as a postal address.
+    #[prost(message, optional, tag = "3")]
+    pub postal_address: ::core::option::Option<
+        super::super::super::r#type::PostalAddress,
+    >,
+    /// Unordered list. The individual address components of the formatted and
+    /// corrected address, along with validation information. This provides
+    /// information on the validation status of the individual components.
+    ///
+    /// Address components are not ordered in a particular way. Do not make any
+    /// assumptions on the ordering of the address components in the list.
+    #[prost(message, repeated, tag = "4")]
+    pub address_components: ::prost::alloc::vec::Vec<AddressComponent>,
+    /// The types of components that were expected to be present in a correctly
+    /// formatted mailing address but were not found in the input AND could
+    /// not be inferred. Components of this type are not present in
+    /// `formatted_address`, `postal_address`, or `address_components`. An
+    /// example might be `\['street_number', 'route'\]` for an input like
+    /// "Boulder, Colorado, 80301, USA". The list of possible types can be found
+    /// [here](<https://developers.google.com/maps/documentation/geocoding/requests-geocoding#Types>).
+    #[prost(string, repeated, tag = "5")]
+    pub missing_component_types: ::prost::alloc::vec::Vec<
+        ::prost::alloc::string::String,
+    >,
+    /// The types of the components that are present in the `address_components`
+    /// but could not be confirmed to be correct. This field is provided for the
+    /// sake of convenience: its contents are equivalent to iterating through the
+    /// `address_components` to find the types of all the components where the
+    /// [confirmation_level][google.maps.addressvalidation.v1.AddressComponent.confirmation_level]
+    /// is not
+    /// [CONFIRMED][google.maps.addressvalidation.v1.AddressComponent.ConfirmationLevel.CONFIRMED]
+    /// or the
+    /// [inferred][google.maps.addressvalidation.v1.AddressComponent.inferred]
+    /// flag is not set to `true`. The list of possible types can be found
+    /// [here](<https://developers.google.com/maps/documentation/geocoding/requests-geocoding#Types>).
+    #[prost(string, repeated, tag = "6")]
+    pub unconfirmed_component_types: ::prost::alloc::vec::Vec<
+        ::prost::alloc::string::String,
+    >,
+    /// Any tokens in the input that could not be resolved. This might be an
+    /// input that was not recognized as a valid part of an address (for example
+    /// in an input like "123235253253 Main St, San Francisco, CA, 94105", the
+    /// unresolved tokens may look like `\["123235253253"\]` since that does not
+    /// look like a valid street number.
+    #[prost(string, repeated, tag = "7")]
+    pub unresolved_tokens: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Represents an address component, such as a street, city, or state.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AddressComponent {
+    /// The name for this component.
+    #[prost(message, optional, tag = "1")]
+    pub component_name: ::core::option::Option<ComponentName>,
+    /// The type of the address component. See
+    /// [Table 2: Additional types returned by the Places
+    /// service](<https://developers.google.com/places/web-service/supported_types#table2>)
+    /// for a list of possible types.
+    #[prost(string, tag = "2")]
+    pub component_type: ::prost::alloc::string::String,
+    /// Indicates the level of certainty that we have that the component
+    /// is correct.
+    #[prost(enumeration = "address_component::ConfirmationLevel", tag = "3")]
+    pub confirmation_level: i32,
+    /// Indicates that the component was not part of the input, but we
+    /// inferred it for the address location and believe it should be provided
+    /// for a complete address.
+    #[prost(bool, tag = "4")]
+    pub inferred: bool,
+    /// Indicates the spelling of the component name was corrected in a minor way,
+    /// for example by switching two characters that appeared in the wrong order.
+    /// This indicates a cosmetic change.
+    #[prost(bool, tag = "5")]
+    pub spell_corrected: bool,
+    /// Indicates the name of the component was replaced with a completely
+    /// different one, for example a wrong postal code being replaced with one that
+    /// is correct for the address. This is not a cosmetic change, the input
+    /// component has been changed to a different one.
+    #[prost(bool, tag = "6")]
+    pub replaced: bool,
+    /// Indicates an address component that is not expected to be present in a
+    /// postal address for the given region. We have retained it only because it
+    /// was part of the input.
+    #[prost(bool, tag = "7")]
+    pub unexpected: bool,
+}
+/// Nested message and enum types in `AddressComponent`.
+pub mod address_component {
+    /// The different possible values for confirmation levels.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum ConfirmationLevel {
+        /// Default value. This value is unused.
+        Unspecified = 0,
+        /// We were able to verify that this component exists and makes sense in the
+        /// context of the rest of the address.
+        Confirmed = 1,
+        /// This component could not be confirmed, but it is plausible that it
+        /// exists. For example, a street number within a known valid range of
+        /// numbers on a street where specific house numbers are not known.
+        UnconfirmedButPlausible = 2,
+        /// This component was not confirmed and is likely to be wrong. For
+        /// example, a neighborhood that does not fit the rest of the address.
+        UnconfirmedAndSuspicious = 3,
+    }
+    impl ConfirmationLevel {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                ConfirmationLevel::Unspecified => "CONFIRMATION_LEVEL_UNSPECIFIED",
+                ConfirmationLevel::Confirmed => "CONFIRMED",
+                ConfirmationLevel::UnconfirmedButPlausible => "UNCONFIRMED_BUT_PLAUSIBLE",
+                ConfirmationLevel::UnconfirmedAndSuspicious => {
+                    "UNCONFIRMED_AND_SUSPICIOUS"
+                }
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "CONFIRMATION_LEVEL_UNSPECIFIED" => Some(Self::Unspecified),
+                "CONFIRMED" => Some(Self::Confirmed),
+                "UNCONFIRMED_BUT_PLAUSIBLE" => Some(Self::UnconfirmedButPlausible),
+                "UNCONFIRMED_AND_SUSPICIOUS" => Some(Self::UnconfirmedAndSuspicious),
+                _ => None,
+            }
+        }
+    }
+}
+/// A wrapper for the name of the component.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ComponentName {
+    /// The name text. For example, "5th Avenue" for a street name or "1253" for a
+    /// street number.
+    #[prost(string, tag = "1")]
+    pub text: ::prost::alloc::string::String,
+    /// The BCP-47 language code. This will not be present if the component name is
+    /// not associated with a language, such as a street number.
+    #[prost(string, tag = "2")]
+    pub language_code: ::prost::alloc::string::String,
 }
 /// The metadata for the address. `metadata` is not guaranteed to be fully
 /// populated for every address sent to the Address Validation API.

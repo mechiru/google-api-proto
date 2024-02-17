@@ -1,3 +1,5 @@
+#[cfg(any(feature = "google-shopping-css-v1"))]
+pub mod css;
 #[cfg(
     any(
         feature = "google-shopping-merchant-inventories-v1beta",

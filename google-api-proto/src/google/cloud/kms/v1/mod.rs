@@ -864,16 +864,18 @@ pub mod crypto_key_version {
         }
     }
 }
-/// The public key for a given
+/// The public keys for a given
 /// [CryptoKeyVersion][google.cloud.kms.v1.CryptoKeyVersion]. Obtained via
 /// [GetPublicKey][google.cloud.kms.v1.KeyManagementService.GetPublicKey].
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PublicKey {
-    /// The public key, encoded in PEM format. For more information, see the
-    /// [RFC 7468](<https://tools.ietf.org/html/rfc7468>) sections for
-    /// [General Considerations](<https://tools.ietf.org/html/rfc7468#section-2>) and
-    /// \[Textual Encoding of Subject Public Key Info\]
+    /// A public key encoded in PEM format, populated only when
+    /// [GetPublicKey][google.cloud.kms.v1.KeyManagementService.GetPublicKey]
+    /// returns one key. For more information, see the [RFC
+    /// 7468](<https://tools.ietf.org/html/rfc7468>) sections for [General
+    /// Considerations](<https://tools.ietf.org/html/rfc7468#section-2>) and [Textual
+    /// Encoding of Subject Public Key Info]
     /// (<https://tools.ietf.org/html/rfc7468#section-13>).
     #[prost(string, tag = "1")]
     pub pem: ::prost::alloc::string::String,
@@ -882,8 +884,10 @@ pub struct PublicKey {
     /// associated with this key.
     #[prost(enumeration = "crypto_key_version::CryptoKeyVersionAlgorithm", tag = "2")]
     pub algorithm: i32,
-    /// Integrity verification field. A CRC32C checksum of the returned
-    /// [PublicKey.pem][google.cloud.kms.v1.PublicKey.pem]. An integrity check of
+    /// Integrity verification field: A CRC32C checksum of the returned
+    /// [PublicKey.pem][google.cloud.kms.v1.PublicKey.pem]. It is only populated
+    /// when [GetPublicKey][google.cloud.kms.v1.KeyManagementService.GetPublicKey]
+    /// returns one key. An integrity check of
     /// [PublicKey.pem][google.cloud.kms.v1.PublicKey.pem] can be performed by
     /// computing the CRC32C checksum of
     /// [PublicKey.pem][google.cloud.kms.v1.PublicKey.pem] and comparing your
@@ -1218,6 +1222,629 @@ impl ProtectionLevel {
             "EXTERNAL" => Some(Self::External),
             "EXTERNAL_VPC" => Some(Self::ExternalVpc),
             _ => None,
+        }
+    }
+}
+/// Request message for
+/// [EkmService.ListEkmConnections][google.cloud.kms.v1.EkmService.ListEkmConnections].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListEkmConnectionsRequest {
+    /// Required. The resource name of the location associated with the
+    /// [EkmConnections][google.cloud.kms.v1.EkmConnection] to list, in the format
+    /// `projects/*/locations/*`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Optional. Optional limit on the number of
+    /// [EkmConnections][google.cloud.kms.v1.EkmConnection] to include in the
+    /// response. Further [EkmConnections][google.cloud.kms.v1.EkmConnection] can
+    /// subsequently be obtained by including the
+    /// [ListEkmConnectionsResponse.next_page_token][google.cloud.kms.v1.ListEkmConnectionsResponse.next_page_token]
+    /// in a subsequent request. If unspecified, the server will pick an
+    /// appropriate default.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// Optional. Optional pagination token, returned earlier via
+    /// [ListEkmConnectionsResponse.next_page_token][google.cloud.kms.v1.ListEkmConnectionsResponse.next_page_token].
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// Optional. Only include resources that match the filter in the response. For
+    /// more information, see
+    /// [Sorting and filtering list
+    /// results](<https://cloud.google.com/kms/docs/sorting-and-filtering>).
+    #[prost(string, tag = "4")]
+    pub filter: ::prost::alloc::string::String,
+    /// Optional. Specify how the results should be sorted. If not specified, the
+    /// results will be sorted in the default order.  For more information, see
+    /// [Sorting and filtering list
+    /// results](<https://cloud.google.com/kms/docs/sorting-and-filtering>).
+    #[prost(string, tag = "5")]
+    pub order_by: ::prost::alloc::string::String,
+}
+/// Response message for
+/// [EkmService.ListEkmConnections][google.cloud.kms.v1.EkmService.ListEkmConnections].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListEkmConnectionsResponse {
+    /// The list of [EkmConnections][google.cloud.kms.v1.EkmConnection].
+    #[prost(message, repeated, tag = "1")]
+    pub ekm_connections: ::prost::alloc::vec::Vec<EkmConnection>,
+    /// A token to retrieve next page of results. Pass this value in
+    /// [ListEkmConnectionsRequest.page_token][google.cloud.kms.v1.ListEkmConnectionsRequest.page_token]
+    /// to retrieve the next page of results.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+    /// The total number of [EkmConnections][google.cloud.kms.v1.EkmConnection]
+    /// that matched the query.
+    #[prost(int32, tag = "3")]
+    pub total_size: i32,
+}
+/// Request message for
+/// [EkmService.GetEkmConnection][google.cloud.kms.v1.EkmService.GetEkmConnection].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetEkmConnectionRequest {
+    /// Required. The [name][google.cloud.kms.v1.EkmConnection.name] of the
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] to get.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for
+/// [EkmService.CreateEkmConnection][google.cloud.kms.v1.EkmService.CreateEkmConnection].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateEkmConnectionRequest {
+    /// Required. The resource name of the location associated with the
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection], in the format
+    /// `projects/*/locations/*`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. It must be unique within a location and match the regular
+    /// expression `\[a-zA-Z0-9_-\]{1,63}`.
+    #[prost(string, tag = "2")]
+    pub ekm_connection_id: ::prost::alloc::string::String,
+    /// Required. An [EkmConnection][google.cloud.kms.v1.EkmConnection] with
+    /// initial field values.
+    #[prost(message, optional, tag = "3")]
+    pub ekm_connection: ::core::option::Option<EkmConnection>,
+}
+/// Request message for
+/// [EkmService.UpdateEkmConnection][google.cloud.kms.v1.EkmService.UpdateEkmConnection].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateEkmConnectionRequest {
+    /// Required. [EkmConnection][google.cloud.kms.v1.EkmConnection] with updated
+    /// values.
+    #[prost(message, optional, tag = "1")]
+    pub ekm_connection: ::core::option::Option<EkmConnection>,
+    /// Required. List of fields to be updated in this request.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Request message for
+/// [EkmService.GetEkmConfig][google.cloud.kms.v1.EkmService.GetEkmConfig].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetEkmConfigRequest {
+    /// Required. The [name][google.cloud.kms.v1.EkmConfig.name] of the
+    /// [EkmConfig][google.cloud.kms.v1.EkmConfig] to get.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Request message for
+/// [EkmService.UpdateEkmConfig][google.cloud.kms.v1.EkmService.UpdateEkmConfig].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateEkmConfigRequest {
+    /// Required. [EkmConfig][google.cloud.kms.v1.EkmConfig] with updated values.
+    #[prost(message, optional, tag = "1")]
+    pub ekm_config: ::core::option::Option<EkmConfig>,
+    /// Required. List of fields to be updated in this request.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// A [Certificate][google.cloud.kms.v1.Certificate] represents an X.509
+/// certificate used to authenticate HTTPS connections to EKM replicas.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Certificate {
+    /// Required. The raw certificate bytes in DER format.
+    #[prost(bytes = "bytes", tag = "1")]
+    pub raw_der: ::prost::bytes::Bytes,
+    /// Output only. True if the certificate was parsed successfully.
+    #[prost(bool, tag = "2")]
+    pub parsed: bool,
+    /// Output only. The issuer distinguished name in RFC 2253 format. Only present
+    /// if [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
+    #[prost(string, tag = "3")]
+    pub issuer: ::prost::alloc::string::String,
+    /// Output only. The subject distinguished name in RFC 2253 format. Only
+    /// present if [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
+    #[prost(string, tag = "4")]
+    pub subject: ::prost::alloc::string::String,
+    /// Output only. The subject Alternative DNS names. Only present if
+    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
+    #[prost(string, repeated, tag = "5")]
+    pub subject_alternative_dns_names: ::prost::alloc::vec::Vec<
+        ::prost::alloc::string::String,
+    >,
+    /// Output only. The certificate is not valid before this time. Only present if
+    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
+    #[prost(message, optional, tag = "6")]
+    pub not_before_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The certificate is not valid after this time. Only present if
+    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
+    #[prost(message, optional, tag = "7")]
+    pub not_after_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The certificate serial number as a hex string. Only present if
+    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
+    #[prost(string, tag = "8")]
+    pub serial_number: ::prost::alloc::string::String,
+    /// Output only. The SHA-256 certificate fingerprint as a hex string. Only
+    /// present if [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
+    #[prost(string, tag = "9")]
+    pub sha256_fingerprint: ::prost::alloc::string::String,
+}
+/// An [EkmConnection][google.cloud.kms.v1.EkmConnection] represents an
+/// individual EKM connection. It can be used for creating
+/// [CryptoKeys][google.cloud.kms.v1.CryptoKey] and
+/// [CryptoKeyVersions][google.cloud.kms.v1.CryptoKeyVersion] with a
+/// [ProtectionLevel][google.cloud.kms.v1.ProtectionLevel] of
+/// [EXTERNAL_VPC][CryptoKeyVersion.ProtectionLevel.EXTERNAL_VPC], as well as
+/// performing cryptographic operations using keys created within the
+/// [EkmConnection][google.cloud.kms.v1.EkmConnection].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EkmConnection {
+    /// Output only. The resource name for the
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] in the format
+    /// `projects/*/locations/*/ekmConnections/*`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. The time at which the
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] was created.
+    #[prost(message, optional, tag = "2")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// A list of
+    /// [ServiceResolvers][google.cloud.kms.v1.EkmConnection.ServiceResolver] where
+    /// the EKM can be reached. There should be one ServiceResolver per EKM
+    /// replica. Currently, only a single
+    /// [ServiceResolver][google.cloud.kms.v1.EkmConnection.ServiceResolver] is
+    /// supported.
+    #[prost(message, repeated, tag = "3")]
+    pub service_resolvers: ::prost::alloc::vec::Vec<ekm_connection::ServiceResolver>,
+    /// Optional. Etag of the currently stored
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
+    #[prost(string, tag = "5")]
+    pub etag: ::prost::alloc::string::String,
+    /// Optional. Describes who can perform control plane operations on the EKM. If
+    /// unset, this defaults to
+    /// [MANUAL][google.cloud.kms.v1.EkmConnection.KeyManagementMode.MANUAL].
+    #[prost(enumeration = "ekm_connection::KeyManagementMode", tag = "6")]
+    pub key_management_mode: i32,
+    /// Optional. Identifies the EKM Crypto Space that this
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] maps to. Note: This
+    /// field is required if
+    /// [KeyManagementMode][google.cloud.kms.v1.EkmConnection.KeyManagementMode] is
+    /// [CLOUD_KMS][google.cloud.kms.v1.EkmConnection.KeyManagementMode.CLOUD_KMS].
+    #[prost(string, tag = "7")]
+    pub crypto_space_path: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `EkmConnection`.
+pub mod ekm_connection {
+    /// A [ServiceResolver][google.cloud.kms.v1.EkmConnection.ServiceResolver]
+    /// represents an EKM replica that can be reached within an
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ServiceResolver {
+        /// Required. The resource name of the Service Directory service pointing to
+        /// an EKM replica, in the format
+        /// `projects/*/locations/*/namespaces/*/services/*`.
+        #[prost(string, tag = "1")]
+        pub service_directory_service: ::prost::alloc::string::String,
+        /// Optional. The filter applied to the endpoints of the resolved service. If
+        /// no filter is specified, all endpoints will be considered. An endpoint
+        /// will be chosen arbitrarily from the filtered list for each request.
+        ///
+        /// For endpoint filter syntax and examples, see
+        /// <https://cloud.google.com/service-directory/docs/reference/rpc/google.cloud.servicedirectory.v1#resolveservicerequest.>
+        #[prost(string, tag = "2")]
+        pub endpoint_filter: ::prost::alloc::string::String,
+        /// Required. The hostname of the EKM replica used at TLS and HTTP layers.
+        #[prost(string, tag = "3")]
+        pub hostname: ::prost::alloc::string::String,
+        /// Required. A list of leaf server certificates used to authenticate HTTPS
+        /// connections to the EKM replica. Currently, a maximum of 10
+        /// [Certificate][google.cloud.kms.v1.Certificate] is supported.
+        #[prost(message, repeated, tag = "4")]
+        pub server_certificates: ::prost::alloc::vec::Vec<super::Certificate>,
+    }
+    /// [KeyManagementMode][google.cloud.kms.v1.EkmConnection.KeyManagementMode]
+    /// describes who can perform control plane cryptographic operations using this
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum KeyManagementMode {
+        /// Not specified.
+        Unspecified = 0,
+        /// EKM-side key management operations on
+        /// [CryptoKeys][google.cloud.kms.v1.CryptoKey] created with this
+        /// [EkmConnection][google.cloud.kms.v1.EkmConnection] must be initiated from
+        /// the EKM directly and cannot be performed from Cloud KMS. This means that:
+        /// * When creating a
+        /// [CryptoKeyVersion][google.cloud.kms.v1.CryptoKeyVersion] associated with
+        /// this
+        ///    [EkmConnection][google.cloud.kms.v1.EkmConnection], the caller must
+        ///    supply the key path of pre-existing external key material that will be
+        ///    linked to the [CryptoKeyVersion][google.cloud.kms.v1.CryptoKeyVersion].
+        /// * Destruction of external key material cannot be requested via the
+        ///    Cloud KMS API and must be performed directly in the EKM.
+        /// * Automatic rotation of key material is not supported.
+        Manual = 1,
+        /// All [CryptoKeys][google.cloud.kms.v1.CryptoKey] created with this
+        /// [EkmConnection][google.cloud.kms.v1.EkmConnection] use EKM-side key
+        /// management operations initiated from Cloud KMS. This means that:
+        /// * When a [CryptoKeyVersion][google.cloud.kms.v1.CryptoKeyVersion]
+        /// associated with this [EkmConnection][google.cloud.kms.v1.EkmConnection]
+        /// is
+        ///    created, the EKM automatically generates new key material and a new
+        ///    key path. The caller cannot supply the key path of pre-existing
+        ///    external key material.
+        /// * Destruction of external key material associated with this
+        ///    [EkmConnection][google.cloud.kms.v1.EkmConnection] can be requested by
+        ///    calling [DestroyCryptoKeyVersion][EkmService.DestroyCryptoKeyVersion].
+        /// * Automatic rotation of key material is supported.
+        CloudKms = 2,
+    }
+    impl KeyManagementMode {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                KeyManagementMode::Unspecified => "KEY_MANAGEMENT_MODE_UNSPECIFIED",
+                KeyManagementMode::Manual => "MANUAL",
+                KeyManagementMode::CloudKms => "CLOUD_KMS",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "KEY_MANAGEMENT_MODE_UNSPECIFIED" => Some(Self::Unspecified),
+                "MANUAL" => Some(Self::Manual),
+                "CLOUD_KMS" => Some(Self::CloudKms),
+                _ => None,
+            }
+        }
+    }
+}
+/// An [EkmConfig][google.cloud.kms.v1.EkmConfig] is a singleton resource that
+/// represents configuration parameters that apply to all
+/// [CryptoKeys][google.cloud.kms.v1.CryptoKey] and
+/// [CryptoKeyVersions][google.cloud.kms.v1.CryptoKeyVersion] with a
+/// [ProtectionLevel][google.cloud.kms.v1.ProtectionLevel] of
+/// [EXTERNAL_VPC][CryptoKeyVersion.ProtectionLevel.EXTERNAL_VPC] in a given
+/// project and location.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EkmConfig {
+    /// Output only. The resource name for the
+    /// [EkmConfig][google.cloud.kms.v1.EkmConfig] in the format
+    /// `projects/*/locations/*/ekmConfig`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Resource name of the default
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection]. Setting this field to
+    /// the empty string removes the default.
+    #[prost(string, tag = "2")]
+    pub default_ekm_connection: ::prost::alloc::string::String,
+}
+/// Request message for
+/// [EkmService.VerifyConnectivity][google.cloud.kms.v1.EkmService.VerifyConnectivity].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VerifyConnectivityRequest {
+    /// Required. The [name][google.cloud.kms.v1.EkmConnection.name] of the
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] to verify.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Response message for
+/// [EkmService.VerifyConnectivity][google.cloud.kms.v1.EkmService.VerifyConnectivity].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VerifyConnectivityResponse {}
+/// Generated client implementations.
+pub mod ekm_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    use tonic::codegen::http::Uri;
+    /// Google Cloud Key Management EKM Service
+    ///
+    /// Manages external cryptographic keys and operations using those keys.
+    /// Implements a REST model with the following objects:
+    /// * [EkmConnection][google.cloud.kms.v1.EkmConnection]
+    #[derive(Debug, Clone)]
+    pub struct EkmServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> EkmServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_origin(inner: T, origin: Uri) -> Self {
+            let inner = tonic::client::Grpc::with_origin(inner, origin);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> EkmServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            EkmServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.send_compressed(encoding);
+            self
+        }
+        /// Enable decompressing responses.
+        #[must_use]
+        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.accept_compressed(encoding);
+            self
+        }
+        /// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        #[must_use]
+        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_decoding_message_size(limit);
+            self
+        }
+        /// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        #[must_use]
+        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_encoding_message_size(limit);
+            self
+        }
+        /// Lists [EkmConnections][google.cloud.kms.v1.EkmConnection].
+        pub async fn list_ekm_connections(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListEkmConnectionsRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::ListEkmConnectionsResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.kms.v1.EkmService/ListEkmConnections",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.kms.v1.EkmService",
+                        "ListEkmConnections",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Returns metadata for a given
+        /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
+        pub async fn get_ekm_connection(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetEkmConnectionRequest>,
+        ) -> std::result::Result<tonic::Response<super::EkmConnection>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.kms.v1.EkmService/GetEkmConnection",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new("google.cloud.kms.v1.EkmService", "GetEkmConnection"),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Creates a new [EkmConnection][google.cloud.kms.v1.EkmConnection] in a given
+        /// Project and Location.
+        pub async fn create_ekm_connection(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateEkmConnectionRequest>,
+        ) -> std::result::Result<tonic::Response<super::EkmConnection>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.kms.v1.EkmService/CreateEkmConnection",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.kms.v1.EkmService",
+                        "CreateEkmConnection",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Updates an [EkmConnection][google.cloud.kms.v1.EkmConnection]'s metadata.
+        pub async fn update_ekm_connection(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateEkmConnectionRequest>,
+        ) -> std::result::Result<tonic::Response<super::EkmConnection>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.kms.v1.EkmService/UpdateEkmConnection",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.kms.v1.EkmService",
+                        "UpdateEkmConnection",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Returns the [EkmConfig][google.cloud.kms.v1.EkmConfig] singleton resource
+        /// for a given project and location.
+        pub async fn get_ekm_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetEkmConfigRequest>,
+        ) -> std::result::Result<tonic::Response<super::EkmConfig>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.kms.v1.EkmService/GetEkmConfig",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new("google.cloud.kms.v1.EkmService", "GetEkmConfig"),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Updates the [EkmConfig][google.cloud.kms.v1.EkmConfig] singleton resource
+        /// for a given project and location.
+        pub async fn update_ekm_config(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateEkmConfigRequest>,
+        ) -> std::result::Result<tonic::Response<super::EkmConfig>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.kms.v1.EkmService/UpdateEkmConfig",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new("google.cloud.kms.v1.EkmService", "UpdateEkmConfig"),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Verifies that Cloud KMS can successfully connect to the external key
+        /// manager specified by an [EkmConnection][google.cloud.kms.v1.EkmConnection].
+        /// If there is an error connecting to the EKM, this method returns a
+        /// FAILED_PRECONDITION status containing structured information as described
+        /// at https://cloud.google.com/kms/docs/reference/ekm_errors.
+        pub async fn verify_connectivity(
+            &mut self,
+            request: impl tonic::IntoRequest<super::VerifyConnectivityRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::VerifyConnectivityResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.kms.v1.EkmService/VerifyConnectivity",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.kms.v1.EkmService",
+                        "VerifyConnectivity",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
         }
     }
 }
@@ -3877,629 +4504,6 @@ pub mod key_management_service_client {
                     GrpcMethod::new(
                         "google.cloud.kms.v1.KeyManagementService",
                         "GenerateRandomBytes",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-    }
-}
-/// Request message for
-/// [EkmService.ListEkmConnections][google.cloud.kms.v1.EkmService.ListEkmConnections].
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListEkmConnectionsRequest {
-    /// Required. The resource name of the location associated with the
-    /// [EkmConnections][google.cloud.kms.v1.EkmConnection] to list, in the format
-    /// `projects/*/locations/*`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Optional. Optional limit on the number of
-    /// [EkmConnections][google.cloud.kms.v1.EkmConnection] to include in the
-    /// response. Further [EkmConnections][google.cloud.kms.v1.EkmConnection] can
-    /// subsequently be obtained by including the
-    /// [ListEkmConnectionsResponse.next_page_token][google.cloud.kms.v1.ListEkmConnectionsResponse.next_page_token]
-    /// in a subsequent request. If unspecified, the server will pick an
-    /// appropriate default.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// Optional. Optional pagination token, returned earlier via
-    /// [ListEkmConnectionsResponse.next_page_token][google.cloud.kms.v1.ListEkmConnectionsResponse.next_page_token].
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-    /// Optional. Only include resources that match the filter in the response. For
-    /// more information, see
-    /// [Sorting and filtering list
-    /// results](<https://cloud.google.com/kms/docs/sorting-and-filtering>).
-    #[prost(string, tag = "4")]
-    pub filter: ::prost::alloc::string::String,
-    /// Optional. Specify how the results should be sorted. If not specified, the
-    /// results will be sorted in the default order.  For more information, see
-    /// [Sorting and filtering list
-    /// results](<https://cloud.google.com/kms/docs/sorting-and-filtering>).
-    #[prost(string, tag = "5")]
-    pub order_by: ::prost::alloc::string::String,
-}
-/// Response message for
-/// [EkmService.ListEkmConnections][google.cloud.kms.v1.EkmService.ListEkmConnections].
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListEkmConnectionsResponse {
-    /// The list of [EkmConnections][google.cloud.kms.v1.EkmConnection].
-    #[prost(message, repeated, tag = "1")]
-    pub ekm_connections: ::prost::alloc::vec::Vec<EkmConnection>,
-    /// A token to retrieve next page of results. Pass this value in
-    /// [ListEkmConnectionsRequest.page_token][google.cloud.kms.v1.ListEkmConnectionsRequest.page_token]
-    /// to retrieve the next page of results.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-    /// The total number of [EkmConnections][google.cloud.kms.v1.EkmConnection]
-    /// that matched the query.
-    #[prost(int32, tag = "3")]
-    pub total_size: i32,
-}
-/// Request message for
-/// [EkmService.GetEkmConnection][google.cloud.kms.v1.EkmService.GetEkmConnection].
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetEkmConnectionRequest {
-    /// Required. The [name][google.cloud.kms.v1.EkmConnection.name] of the
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] to get.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for
-/// [EkmService.CreateEkmConnection][google.cloud.kms.v1.EkmService.CreateEkmConnection].
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateEkmConnectionRequest {
-    /// Required. The resource name of the location associated with the
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection], in the format
-    /// `projects/*/locations/*`.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. It must be unique within a location and match the regular
-    /// expression `\[a-zA-Z0-9_-\]{1,63}`.
-    #[prost(string, tag = "2")]
-    pub ekm_connection_id: ::prost::alloc::string::String,
-    /// Required. An [EkmConnection][google.cloud.kms.v1.EkmConnection] with
-    /// initial field values.
-    #[prost(message, optional, tag = "3")]
-    pub ekm_connection: ::core::option::Option<EkmConnection>,
-}
-/// Request message for
-/// [EkmService.UpdateEkmConnection][google.cloud.kms.v1.EkmService.UpdateEkmConnection].
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateEkmConnectionRequest {
-    /// Required. [EkmConnection][google.cloud.kms.v1.EkmConnection] with updated
-    /// values.
-    #[prost(message, optional, tag = "1")]
-    pub ekm_connection: ::core::option::Option<EkmConnection>,
-    /// Required. List of fields to be updated in this request.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Request message for
-/// [EkmService.GetEkmConfig][google.cloud.kms.v1.EkmService.GetEkmConfig].
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetEkmConfigRequest {
-    /// Required. The [name][google.cloud.kms.v1.EkmConfig.name] of the
-    /// [EkmConfig][google.cloud.kms.v1.EkmConfig] to get.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Request message for
-/// [EkmService.UpdateEkmConfig][google.cloud.kms.v1.EkmService.UpdateEkmConfig].
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateEkmConfigRequest {
-    /// Required. [EkmConfig][google.cloud.kms.v1.EkmConfig] with updated values.
-    #[prost(message, optional, tag = "1")]
-    pub ekm_config: ::core::option::Option<EkmConfig>,
-    /// Required. List of fields to be updated in this request.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// A [Certificate][google.cloud.kms.v1.Certificate] represents an X.509
-/// certificate used to authenticate HTTPS connections to EKM replicas.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Certificate {
-    /// Required. The raw certificate bytes in DER format.
-    #[prost(bytes = "bytes", tag = "1")]
-    pub raw_der: ::prost::bytes::Bytes,
-    /// Output only. True if the certificate was parsed successfully.
-    #[prost(bool, tag = "2")]
-    pub parsed: bool,
-    /// Output only. The issuer distinguished name in RFC 2253 format. Only present
-    /// if [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
-    #[prost(string, tag = "3")]
-    pub issuer: ::prost::alloc::string::String,
-    /// Output only. The subject distinguished name in RFC 2253 format. Only
-    /// present if [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
-    #[prost(string, tag = "4")]
-    pub subject: ::prost::alloc::string::String,
-    /// Output only. The subject Alternative DNS names. Only present if
-    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
-    #[prost(string, repeated, tag = "5")]
-    pub subject_alternative_dns_names: ::prost::alloc::vec::Vec<
-        ::prost::alloc::string::String,
-    >,
-    /// Output only. The certificate is not valid before this time. Only present if
-    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
-    #[prost(message, optional, tag = "6")]
-    pub not_before_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The certificate is not valid after this time. Only present if
-    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
-    #[prost(message, optional, tag = "7")]
-    pub not_after_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The certificate serial number as a hex string. Only present if
-    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
-    #[prost(string, tag = "8")]
-    pub serial_number: ::prost::alloc::string::String,
-    /// Output only. The SHA-256 certificate fingerprint as a hex string. Only
-    /// present if [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
-    #[prost(string, tag = "9")]
-    pub sha256_fingerprint: ::prost::alloc::string::String,
-}
-/// An [EkmConnection][google.cloud.kms.v1.EkmConnection] represents an
-/// individual EKM connection. It can be used for creating
-/// [CryptoKeys][google.cloud.kms.v1.CryptoKey] and
-/// [CryptoKeyVersions][google.cloud.kms.v1.CryptoKeyVersion] with a
-/// [ProtectionLevel][google.cloud.kms.v1.ProtectionLevel] of
-/// [EXTERNAL_VPC][CryptoKeyVersion.ProtectionLevel.EXTERNAL_VPC], as well as
-/// performing cryptographic operations using keys created within the
-/// [EkmConnection][google.cloud.kms.v1.EkmConnection].
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EkmConnection {
-    /// Output only. The resource name for the
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] in the format
-    /// `projects/*/locations/*/ekmConnections/*`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. The time at which the
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] was created.
-    #[prost(message, optional, tag = "2")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// A list of
-    /// [ServiceResolvers][google.cloud.kms.v1.EkmConnection.ServiceResolver] where
-    /// the EKM can be reached. There should be one ServiceResolver per EKM
-    /// replica. Currently, only a single
-    /// [ServiceResolver][google.cloud.kms.v1.EkmConnection.ServiceResolver] is
-    /// supported.
-    #[prost(message, repeated, tag = "3")]
-    pub service_resolvers: ::prost::alloc::vec::Vec<ekm_connection::ServiceResolver>,
-    /// Optional. Etag of the currently stored
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
-    #[prost(string, tag = "5")]
-    pub etag: ::prost::alloc::string::String,
-    /// Optional. Describes who can perform control plane operations on the EKM. If
-    /// unset, this defaults to
-    /// [MANUAL][google.cloud.kms.v1.EkmConnection.KeyManagementMode.MANUAL].
-    #[prost(enumeration = "ekm_connection::KeyManagementMode", tag = "6")]
-    pub key_management_mode: i32,
-    /// Optional. Identifies the EKM Crypto Space that this
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] maps to. Note: This
-    /// field is required if
-    /// [KeyManagementMode][google.cloud.kms.v1.EkmConnection.KeyManagementMode] is
-    /// [CLOUD_KMS][google.cloud.kms.v1.EkmConnection.KeyManagementMode.CLOUD_KMS].
-    #[prost(string, tag = "7")]
-    pub crypto_space_path: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `EkmConnection`.
-pub mod ekm_connection {
-    /// A [ServiceResolver][google.cloud.kms.v1.EkmConnection.ServiceResolver]
-    /// represents an EKM replica that can be reached within an
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ServiceResolver {
-        /// Required. The resource name of the Service Directory service pointing to
-        /// an EKM replica, in the format
-        /// `projects/*/locations/*/namespaces/*/services/*`.
-        #[prost(string, tag = "1")]
-        pub service_directory_service: ::prost::alloc::string::String,
-        /// Optional. The filter applied to the endpoints of the resolved service. If
-        /// no filter is specified, all endpoints will be considered. An endpoint
-        /// will be chosen arbitrarily from the filtered list for each request.
-        ///
-        /// For endpoint filter syntax and examples, see
-        /// <https://cloud.google.com/service-directory/docs/reference/rpc/google.cloud.servicedirectory.v1#resolveservicerequest.>
-        #[prost(string, tag = "2")]
-        pub endpoint_filter: ::prost::alloc::string::String,
-        /// Required. The hostname of the EKM replica used at TLS and HTTP layers.
-        #[prost(string, tag = "3")]
-        pub hostname: ::prost::alloc::string::String,
-        /// Required. A list of leaf server certificates used to authenticate HTTPS
-        /// connections to the EKM replica. Currently, a maximum of 10
-        /// [Certificate][google.cloud.kms.v1.Certificate] is supported.
-        #[prost(message, repeated, tag = "4")]
-        pub server_certificates: ::prost::alloc::vec::Vec<super::Certificate>,
-    }
-    /// [KeyManagementMode][google.cloud.kms.v1.EkmConnection.KeyManagementMode]
-    /// describes who can perform control plane cryptographic operations using this
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum KeyManagementMode {
-        /// Not specified.
-        Unspecified = 0,
-        /// EKM-side key management operations on
-        /// [CryptoKeys][google.cloud.kms.v1.CryptoKey] created with this
-        /// [EkmConnection][google.cloud.kms.v1.EkmConnection] must be initiated from
-        /// the EKM directly and cannot be performed from Cloud KMS. This means that:
-        /// * When creating a
-        /// [CryptoKeyVersion][google.cloud.kms.v1.CryptoKeyVersion] associated with
-        /// this
-        ///    [EkmConnection][google.cloud.kms.v1.EkmConnection], the caller must
-        ///    supply the key path of pre-existing external key material that will be
-        ///    linked to the [CryptoKeyVersion][google.cloud.kms.v1.CryptoKeyVersion].
-        /// * Destruction of external key material cannot be requested via the
-        ///    Cloud KMS API and must be performed directly in the EKM.
-        /// * Automatic rotation of key material is not supported.
-        Manual = 1,
-        /// All [CryptoKeys][google.cloud.kms.v1.CryptoKey] created with this
-        /// [EkmConnection][google.cloud.kms.v1.EkmConnection] use EKM-side key
-        /// management operations initiated from Cloud KMS. This means that:
-        /// * When a [CryptoKeyVersion][google.cloud.kms.v1.CryptoKeyVersion]
-        /// associated with this [EkmConnection][google.cloud.kms.v1.EkmConnection]
-        /// is
-        ///    created, the EKM automatically generates new key material and a new
-        ///    key path. The caller cannot supply the key path of pre-existing
-        ///    external key material.
-        /// * Destruction of external key material associated with this
-        ///    [EkmConnection][google.cloud.kms.v1.EkmConnection] can be requested by
-        ///    calling [DestroyCryptoKeyVersion][EkmService.DestroyCryptoKeyVersion].
-        /// * Automatic rotation of key material is supported.
-        CloudKms = 2,
-    }
-    impl KeyManagementMode {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                KeyManagementMode::Unspecified => "KEY_MANAGEMENT_MODE_UNSPECIFIED",
-                KeyManagementMode::Manual => "MANUAL",
-                KeyManagementMode::CloudKms => "CLOUD_KMS",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "KEY_MANAGEMENT_MODE_UNSPECIFIED" => Some(Self::Unspecified),
-                "MANUAL" => Some(Self::Manual),
-                "CLOUD_KMS" => Some(Self::CloudKms),
-                _ => None,
-            }
-        }
-    }
-}
-/// An [EkmConfig][google.cloud.kms.v1.EkmConfig] is a singleton resource that
-/// represents configuration parameters that apply to all
-/// [CryptoKeys][google.cloud.kms.v1.CryptoKey] and
-/// [CryptoKeyVersions][google.cloud.kms.v1.CryptoKeyVersion] with a
-/// [ProtectionLevel][google.cloud.kms.v1.ProtectionLevel] of
-/// [EXTERNAL_VPC][CryptoKeyVersion.ProtectionLevel.EXTERNAL_VPC] in a given
-/// project and location.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EkmConfig {
-    /// Output only. The resource name for the
-    /// [EkmConfig][google.cloud.kms.v1.EkmConfig] in the format
-    /// `projects/*/locations/*/ekmConfig`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. Resource name of the default
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection]. Setting this field to
-    /// the empty string removes the default.
-    #[prost(string, tag = "2")]
-    pub default_ekm_connection: ::prost::alloc::string::String,
-}
-/// Request message for
-/// [EkmService.VerifyConnectivity][google.cloud.kms.v1.EkmService.VerifyConnectivity].
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VerifyConnectivityRequest {
-    /// Required. The [name][google.cloud.kms.v1.EkmConnection.name] of the
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] to verify.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Response message for
-/// [EkmService.VerifyConnectivity][google.cloud.kms.v1.EkmService.VerifyConnectivity].
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VerifyConnectivityResponse {}
-/// Generated client implementations.
-pub mod ekm_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    use tonic::codegen::http::Uri;
-    /// Google Cloud Key Management EKM Service
-    ///
-    /// Manages external cryptographic keys and operations using those keys.
-    /// Implements a REST model with the following objects:
-    /// * [EkmConnection][google.cloud.kms.v1.EkmConnection]
-    #[derive(Debug, Clone)]
-    pub struct EkmServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> EkmServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_origin(inner: T, origin: Uri) -> Self {
-            let inner = tonic::client::Grpc::with_origin(inner, origin);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> EkmServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            EkmServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.send_compressed(encoding);
-            self
-        }
-        /// Enable decompressing responses.
-        #[must_use]
-        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.accept_compressed(encoding);
-            self
-        }
-        /// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        #[must_use]
-        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_decoding_message_size(limit);
-            self
-        }
-        /// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        #[must_use]
-        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_encoding_message_size(limit);
-            self
-        }
-        /// Lists [EkmConnections][google.cloud.kms.v1.EkmConnection].
-        pub async fn list_ekm_connections(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListEkmConnectionsRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::ListEkmConnectionsResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.kms.v1.EkmService/ListEkmConnections",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.cloud.kms.v1.EkmService",
-                        "ListEkmConnections",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Returns metadata for a given
-        /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
-        pub async fn get_ekm_connection(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetEkmConnectionRequest>,
-        ) -> std::result::Result<tonic::Response<super::EkmConnection>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.kms.v1.EkmService/GetEkmConnection",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new("google.cloud.kms.v1.EkmService", "GetEkmConnection"),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Creates a new [EkmConnection][google.cloud.kms.v1.EkmConnection] in a given
-        /// Project and Location.
-        pub async fn create_ekm_connection(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateEkmConnectionRequest>,
-        ) -> std::result::Result<tonic::Response<super::EkmConnection>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.kms.v1.EkmService/CreateEkmConnection",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.cloud.kms.v1.EkmService",
-                        "CreateEkmConnection",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Updates an [EkmConnection][google.cloud.kms.v1.EkmConnection]'s metadata.
-        pub async fn update_ekm_connection(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateEkmConnectionRequest>,
-        ) -> std::result::Result<tonic::Response<super::EkmConnection>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.kms.v1.EkmService/UpdateEkmConnection",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.cloud.kms.v1.EkmService",
-                        "UpdateEkmConnection",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Returns the [EkmConfig][google.cloud.kms.v1.EkmConfig] singleton resource
-        /// for a given project and location.
-        pub async fn get_ekm_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetEkmConfigRequest>,
-        ) -> std::result::Result<tonic::Response<super::EkmConfig>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.kms.v1.EkmService/GetEkmConfig",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new("google.cloud.kms.v1.EkmService", "GetEkmConfig"),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Updates the [EkmConfig][google.cloud.kms.v1.EkmConfig] singleton resource
-        /// for a given project and location.
-        pub async fn update_ekm_config(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateEkmConfigRequest>,
-        ) -> std::result::Result<tonic::Response<super::EkmConfig>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.kms.v1.EkmService/UpdateEkmConfig",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new("google.cloud.kms.v1.EkmService", "UpdateEkmConfig"),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Verifies that Cloud KMS can successfully connect to the external key
-        /// manager specified by an [EkmConnection][google.cloud.kms.v1.EkmConnection].
-        /// If there is an error connecting to the EKM, this method returns a
-        /// FAILED_PRECONDITION status containing structured information as described
-        /// at https://cloud.google.com/kms/docs/reference/ekm_errors.
-        pub async fn verify_connectivity(
-            &mut self,
-            request: impl tonic::IntoRequest<super::VerifyConnectivityRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::VerifyConnectivityResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.kms.v1.EkmService/VerifyConnectivity",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.cloud.kms.v1.EkmService",
-                        "VerifyConnectivity",
                     ),
                 );
             self.inner.unary(req, path, codec).await

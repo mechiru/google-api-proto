@@ -1,592 +1,3 @@
-/// Packages are named collections of versions.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Package {
-    /// The name of the package, for example:
-    /// `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`.
-    /// If the package ID part contains slashes, the slashes are escaped.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The display name of the package.
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// The time when the package was created.
-    #[prost(message, optional, tag = "5")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// The time when the package was last updated. This includes publishing a new
-    /// version of the package.
-    #[prost(message, optional, tag = "6")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// The request to list packages.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPackagesRequest {
-    /// Required. The name of the parent resource whose packages will be listed.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of packages to return. Maximum page size is 1,000.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request, if any.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response from listing packages.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPackagesResponse {
-    /// The packages returned.
-    #[prost(message, repeated, tag = "1")]
-    pub packages: ::prost::alloc::vec::Vec<Package>,
-    /// The token to retrieve the next page of packages, or empty if there are no
-    /// more packages to return.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request to retrieve a package.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetPackageRequest {
-    /// Required. The name of the package to retrieve.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The request to delete a package.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeletePackageRequest {
-    /// Required. The name of the package to delete.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// The Artifact Registry settings that apply to a Project.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ProjectSettings {
-    /// The name of the project's settings.
-    ///
-    /// Always of the form:
-    /// projects/{project-id}/projectSettings
-    ///
-    /// In update request: never set
-    /// In response: always set
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The redirection state of the legacy repositories in this project.
-    #[prost(enumeration = "project_settings::RedirectionState", tag = "2")]
-    pub legacy_redirection_state: i32,
-}
-/// Nested message and enum types in `ProjectSettings`.
-pub mod project_settings {
-    /// The possible redirection states for legacy repositories.
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum RedirectionState {
-        /// No redirection status has been set.
-        Unspecified = 0,
-        /// Redirection is disabled.
-        RedirectionFromGcrIoDisabled = 1,
-        /// Redirection is enabled.
-        RedirectionFromGcrIoEnabled = 2,
-        /// Redirection is enabled, and has been finalized so cannot be reverted.
-        RedirectionFromGcrIoFinalized = 3,
-    }
-    impl RedirectionState {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                RedirectionState::Unspecified => "REDIRECTION_STATE_UNSPECIFIED",
-                RedirectionState::RedirectionFromGcrIoDisabled => {
-                    "REDIRECTION_FROM_GCR_IO_DISABLED"
-                }
-                RedirectionState::RedirectionFromGcrIoEnabled => {
-                    "REDIRECTION_FROM_GCR_IO_ENABLED"
-                }
-                RedirectionState::RedirectionFromGcrIoFinalized => {
-                    "REDIRECTION_FROM_GCR_IO_FINALIZED"
-                }
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "REDIRECTION_STATE_UNSPECIFIED" => Some(Self::Unspecified),
-                "REDIRECTION_FROM_GCR_IO_DISABLED" => {
-                    Some(Self::RedirectionFromGcrIoDisabled)
-                }
-                "REDIRECTION_FROM_GCR_IO_ENABLED" => {
-                    Some(Self::RedirectionFromGcrIoEnabled)
-                }
-                "REDIRECTION_FROM_GCR_IO_FINALIZED" => {
-                    Some(Self::RedirectionFromGcrIoFinalized)
-                }
-                _ => None,
-            }
-        }
-    }
-}
-/// Gets the redirection status for a project.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetProjectSettingsRequest {
-    /// Required. The name of the projectSettings resource.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Sets the settings of the project.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateProjectSettingsRequest {
-    /// The project settings.
-    #[prost(message, optional, tag = "2")]
-    pub project_settings: ::core::option::Option<ProjectSettings>,
-    /// Field mask to support partial updates.
-    #[prost(message, optional, tag = "3")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// A detailed representation of a Yum artifact.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct YumArtifact {
-    /// Output only. The Artifact Registry resource name of the artifact.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. The yum package name of the artifact.
-    #[prost(string, tag = "2")]
-    pub package_name: ::prost::alloc::string::String,
-    /// Output only. An artifact is a binary or source package.
-    #[prost(enumeration = "yum_artifact::PackageType", tag = "3")]
-    pub package_type: i32,
-    /// Output only. Operating system architecture of the artifact.
-    #[prost(string, tag = "4")]
-    pub architecture: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `YumArtifact`.
-pub mod yum_artifact {
-    /// Package type is either binary or source.
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum PackageType {
-        /// Package type is not specified.
-        Unspecified = 0,
-        /// Binary package (.rpm).
-        Binary = 1,
-        /// Source package (.srpm).
-        Source = 2,
-    }
-    impl PackageType {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                PackageType::Unspecified => "PACKAGE_TYPE_UNSPECIFIED",
-                PackageType::Binary => "BINARY",
-                PackageType::Source => "SOURCE",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "PACKAGE_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
-                "BINARY" => Some(Self::Binary),
-                "SOURCE" => Some(Self::Source),
-                _ => None,
-            }
-        }
-    }
-}
-/// Google Cloud Storage location where the artifacts currently reside.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportYumArtifactsGcsSource {
-    /// Cloud Storage paths URI (e.g., gs://my_bucket//my_object).
-    #[prost(string, repeated, tag = "1")]
-    pub uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Supports URI wildcards for matching multiple objects from a single URI.
-    #[prost(bool, tag = "2")]
-    pub use_wildcards: bool,
-}
-/// The request to import new yum artifacts.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportYumArtifactsRequest {
-    /// The name of the parent resource where the artifacts will be imported.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The source location of the package binaries.
-    #[prost(oneof = "import_yum_artifacts_request::Source", tags = "2")]
-    pub source: ::core::option::Option<import_yum_artifacts_request::Source>,
-}
-/// Nested message and enum types in `ImportYumArtifactsRequest`.
-pub mod import_yum_artifacts_request {
-    /// The source location of the package binaries.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Source {
-        /// Google Cloud Storage location where input content is located.
-        #[prost(message, tag = "2")]
-        GcsSource(super::ImportYumArtifactsGcsSource),
-    }
-}
-/// Error information explaining why a package was not imported.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportYumArtifactsErrorInfo {
-    /// The detailed error status.
-    #[prost(message, optional, tag = "2")]
-    pub error: ::core::option::Option<super::super::super::rpc::Status>,
-    /// The source that was not imported.
-    #[prost(oneof = "import_yum_artifacts_error_info::Source", tags = "1")]
-    pub source: ::core::option::Option<import_yum_artifacts_error_info::Source>,
-}
-/// Nested message and enum types in `ImportYumArtifactsErrorInfo`.
-pub mod import_yum_artifacts_error_info {
-    /// The source that was not imported.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Source {
-        /// Google Cloud Storage location requested.
-        #[prost(message, tag = "1")]
-        GcsSource(super::ImportYumArtifactsGcsSource),
-    }
-}
-/// The response message from importing YUM artifacts.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportYumArtifactsResponse {
-    /// The yum artifacts imported.
-    #[prost(message, repeated, tag = "1")]
-    pub yum_artifacts: ::prost::alloc::vec::Vec<YumArtifact>,
-    /// Detailed error info for packages that were not imported.
-    #[prost(message, repeated, tag = "2")]
-    pub errors: ::prost::alloc::vec::Vec<ImportYumArtifactsErrorInfo>,
-}
-/// The operation metadata for importing artifacts.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ImportYumArtifactsMetadata {}
-/// DockerImage represents a docker artifact.
-/// The following fields are returned as untyped metadata in the Version
-/// resource, using camelcase keys (i.e. metadata.imageSizeBytes):
-/// * imageSizeBytes
-/// * mediaType
-/// * buildTime
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DockerImage {
-    /// Required. registry_location, project_id, repository_name and image id forms
-    /// a unique image
-    /// name:`projects/<project_id>/locations/<location>/repository/<repository_name>/dockerImages/<docker_image>`.
-    /// For example,
-    /// "projects/test-project/locations/us-west4/repositories/test-repo/dockerImages/
-    /// nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf",
-    /// where "us-west4" is the registry_location, "test-project" is the
-    /// project_id, "test-repo" is the repository_name and
-    /// "nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf"
-    /// is the image's digest.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. URL to access the image.
-    /// Example:
-    /// us-west4-docker.pkg.dev/test-project/test-repo/nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf
-    #[prost(string, tag = "2")]
-    pub uri: ::prost::alloc::string::String,
-    /// Tags attached to this image.
-    #[prost(string, repeated, tag = "3")]
-    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Calculated size of the image.
-    /// This field is returned as the 'metadata.imageSizeBytes' field in the
-    /// Version resource.
-    #[prost(int64, tag = "4")]
-    pub image_size_bytes: i64,
-    /// Time the image was uploaded.
-    #[prost(message, optional, tag = "5")]
-    pub upload_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Media type of this image, e.g.
-    /// "application/vnd.docker.distribution.manifest.v2+json".
-    /// This field is returned as the 'metadata.mediaType' field in the
-    /// Version resource.
-    #[prost(string, tag = "6")]
-    pub media_type: ::prost::alloc::string::String,
-    /// The time this image was built.
-    /// This field is returned as the 'metadata.buildTime' field in the
-    /// Version resource.
-    /// The build time is returned to the client as an RFC 3339 string, which can
-    /// be easily used with the JavaScript Date constructor.
-    #[prost(message, optional, tag = "7")]
-    pub build_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The time when the docker image was last updated.
-    #[prost(message, optional, tag = "8")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// The request to list docker images.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListDockerImagesRequest {
-    /// Required. The name of the parent resource whose docker images will be
-    /// listed.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of artifacts to return.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request, if any.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-    /// The field to order the results by.
-    #[prost(string, tag = "4")]
-    pub order_by: ::prost::alloc::string::String,
-}
-/// The response from listing docker images.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListDockerImagesResponse {
-    /// The docker images returned.
-    #[prost(message, repeated, tag = "1")]
-    pub docker_images: ::prost::alloc::vec::Vec<DockerImage>,
-    /// The token to retrieve the next page of artifacts, or empty if there are no
-    /// more artifacts to return.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request to get docker images.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetDockerImageRequest {
-    /// Required. The name of the docker images.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// MavenArtifact represents a maven artifact.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MavenArtifact {
-    /// Required. registry_location, project_id, repository_name and maven_artifact
-    /// forms a unique artifact For example,
-    /// "projects/test-project/locations/us-west4/repositories/test-repo/mavenArtifacts/
-    /// com.google.guava:guava:31.0-jre",
-    /// where "us-west4" is the registry_location, "test-project" is the
-    /// project_id, "test-repo" is the repository_name and
-    /// "com.google.guava:guava:31.0-jre"
-    /// is the maven artifact.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. URL to access the pom file of the artifact.
-    /// Example:
-    /// us-west4-maven.pkg.dev/test-project/test-repo/com/google/guava/guava/31.0/guava-31.0.pom
-    #[prost(string, tag = "2")]
-    pub pom_uri: ::prost::alloc::string::String,
-    /// Group ID for the artifact.
-    /// Example:
-    /// com.google.guava
-    #[prost(string, tag = "3")]
-    pub group_id: ::prost::alloc::string::String,
-    /// Artifact ID for the artifact.
-    #[prost(string, tag = "4")]
-    pub artifact_id: ::prost::alloc::string::String,
-    /// Version of this artifact.
-    #[prost(string, tag = "5")]
-    pub version: ::prost::alloc::string::String,
-    /// Output only. Time the artifact was created.
-    #[prost(message, optional, tag = "6")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Time the artifact was updated.
-    #[prost(message, optional, tag = "7")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// The request to list maven artifacts.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListMavenArtifactsRequest {
-    /// Required. The name of the parent resource whose maven artifacts will be
-    /// listed.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of artifacts to return.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request, if any.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response from listing maven artifacts.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListMavenArtifactsResponse {
-    /// The maven artifacts returned.
-    #[prost(message, repeated, tag = "1")]
-    pub maven_artifacts: ::prost::alloc::vec::Vec<MavenArtifact>,
-    /// The token to retrieve the next page of artifacts, or empty if there are no
-    /// more artifacts to return.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request to get maven artifacts.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetMavenArtifactRequest {
-    /// Required. The name of the maven artifact.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// NpmPackage represents an npm artifact.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NpmPackage {
-    /// Required. registry_location, project_id, repository_name and npm_package
-    /// forms a unique package For example,
-    /// "projects/test-project/locations/us-west4/repositories/test-repo/npmPackages/
-    /// npm_test:1.0.0",
-    /// where "us-west4" is the registry_location, "test-project" is the
-    /// project_id, "test-repo" is the repository_name and
-    /// npm_test:1.0.0" is the npm package.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Package for the artifact.
-    #[prost(string, tag = "3")]
-    pub package_name: ::prost::alloc::string::String,
-    /// Version of this package.
-    #[prost(string, tag = "4")]
-    pub version: ::prost::alloc::string::String,
-    /// Tags attached to this package.
-    #[prost(string, repeated, tag = "5")]
-    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Output only. Time the package was created.
-    #[prost(message, optional, tag = "6")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Time the package was updated.
-    #[prost(message, optional, tag = "7")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// The request to list npm packages.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListNpmPackagesRequest {
-    /// Required. The name of the parent resource whose npm packages will be
-    /// listed.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of artifacts to return.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request, if any.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response from listing npm packages.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListNpmPackagesResponse {
-    /// The npm packages returned.
-    #[prost(message, repeated, tag = "1")]
-    pub npm_packages: ::prost::alloc::vec::Vec<NpmPackage>,
-    /// The token to retrieve the next page of artifacts, or empty if there are no
-    /// more artifacts to return.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request to get npm packages.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetNpmPackageRequest {
-    /// Required. The name of the npm package.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// PythonPackage represents a python artifact.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct PythonPackage {
-    /// Required. registry_location, project_id, repository_name and python_package
-    /// forms a unique package
-    /// name:`projects/<project_id>/locations/<location>/repository/<repository_name>/pythonPackages/<python_package>`.
-    /// For example,
-    /// "projects/test-project/locations/us-west4/repositories/test-repo/pythonPackages/
-    /// python_package:1.0.0",
-    /// where "us-west4" is the registry_location, "test-project" is the
-    /// project_id, "test-repo" is the repository_name and
-    /// python_package:1.0.0" is the python package.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. URL to access the package.
-    /// Example:
-    /// us-west4-python.pkg.dev/test-project/test-repo/python_package/file-name-1.0.0.tar.gz
-    #[prost(string, tag = "2")]
-    pub uri: ::prost::alloc::string::String,
-    /// Package for the artifact.
-    #[prost(string, tag = "3")]
-    pub package_name: ::prost::alloc::string::String,
-    /// Version of this package.
-    #[prost(string, tag = "4")]
-    pub version: ::prost::alloc::string::String,
-    /// Output only. Time the package was created.
-    #[prost(message, optional, tag = "6")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Time the package was updated.
-    #[prost(message, optional, tag = "7")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-}
-/// The request to list python packages.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPythonPackagesRequest {
-    /// Required. The name of the parent resource whose python packages will be
-    /// listed.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of artifacts to return.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous list request, if any.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// The response from listing python packages.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPythonPackagesResponse {
-    /// The python packages returned.
-    #[prost(message, repeated, tag = "1")]
-    pub python_packages: ::prost::alloc::vec::Vec<PythonPackage>,
-    /// The token to retrieve the next page of artifacts, or empty if there are no
-    /// more artifacts to return.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// The request to get python packages.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetPythonPackageRequest {
-    /// Required. The name of the python package.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
 /// Artifact policy configuration for the repository contents.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1606,104 +1017,299 @@ pub struct DeleteRepositoryRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
-/// Tags point to a version and represent an alternative name that can be used
-/// to access the version.
+/// DockerImage represents a docker artifact.
+/// The following fields are returned as untyped metadata in the Version
+/// resource, using camelcase keys (i.e. metadata.imageSizeBytes):
+/// * imageSizeBytes
+/// * mediaType
+/// * buildTime
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Tag {
-    /// The name of the tag, for example:
-    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1".
-    /// If the package part contains slashes, the slashes are escaped.
-    /// The tag part can only have characters in \[a-zA-Z0-9\-._~:@\], anything else
-    /// must be URL encoded.
+pub struct DockerImage {
+    /// Required. registry_location, project_id, repository_name and image id forms
+    /// a unique image
+    /// name:`projects/<project_id>/locations/<location>/repository/<repository_name>/dockerImages/<docker_image>`.
+    /// For example,
+    /// "projects/test-project/locations/us-west4/repositories/test-repo/dockerImages/
+    /// nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf",
+    /// where "us-west4" is the registry_location, "test-project" is the
+    /// project_id, "test-repo" is the repository_name and
+    /// "nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf"
+    /// is the image's digest.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// The name of the version the tag refers to, for example:
-    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/sha256:5243811"
-    /// If the package or version ID parts contain slashes, the slashes are
-    /// escaped.
+    /// Required. URL to access the image.
+    /// Example:
+    /// us-west4-docker.pkg.dev/test-project/test-repo/nginx@sha256:e9954c1fc875017be1c3e36eca16be2d9e9bccc4bf072163515467d6a823c7cf
     #[prost(string, tag = "2")]
-    pub version: ::prost::alloc::string::String,
+    pub uri: ::prost::alloc::string::String,
+    /// Tags attached to this image.
+    #[prost(string, repeated, tag = "3")]
+    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Calculated size of the image.
+    /// This field is returned as the 'metadata.imageSizeBytes' field in the
+    /// Version resource.
+    #[prost(int64, tag = "4")]
+    pub image_size_bytes: i64,
+    /// Time the image was uploaded.
+    #[prost(message, optional, tag = "5")]
+    pub upload_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Media type of this image, e.g.
+    /// "application/vnd.docker.distribution.manifest.v2+json".
+    /// This field is returned as the 'metadata.mediaType' field in the
+    /// Version resource.
+    #[prost(string, tag = "6")]
+    pub media_type: ::prost::alloc::string::String,
+    /// The time this image was built.
+    /// This field is returned as the 'metadata.buildTime' field in the
+    /// Version resource.
+    /// The build time is returned to the client as an RFC 3339 string, which can
+    /// be easily used with the JavaScript Date constructor.
+    #[prost(message, optional, tag = "7")]
+    pub build_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The time when the docker image was last updated.
+    #[prost(message, optional, tag = "8")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
 }
-/// The request to list tags.
+/// The request to list docker images.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTagsRequest {
-    /// The name of the parent package whose tags will be listed.
-    /// For example:
-    /// `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`.
+pub struct ListDockerImagesRequest {
+    /// Required. The name of the parent resource whose docker images will be
+    /// listed.
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
-    /// An expression for filtering the results of the request. Filter rules are
-    /// case insensitive. The fields eligible for filtering are:
-    ///
-    ///    * `version`
-    ///
-    ///   An example of using a filter:
-    ///
-    ///    * `version="projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/1.0"`
-    ///    --> Tags that are applied to the version `1.0` in package `pkg1`.
+    /// The maximum number of artifacts to return.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request, if any.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+    /// The field to order the results by.
     #[prost(string, tag = "4")]
-    pub filter: ::prost::alloc::string::String,
-    /// The maximum number of tags to return. Maximum page size is 10,000.
+    pub order_by: ::prost::alloc::string::String,
+}
+/// The response from listing docker images.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListDockerImagesResponse {
+    /// The docker images returned.
+    #[prost(message, repeated, tag = "1")]
+    pub docker_images: ::prost::alloc::vec::Vec<DockerImage>,
+    /// The token to retrieve the next page of artifacts, or empty if there are no
+    /// more artifacts to return.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request to get docker images.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetDockerImageRequest {
+    /// Required. The name of the docker images.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// MavenArtifact represents a maven artifact.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MavenArtifact {
+    /// Required. registry_location, project_id, repository_name and maven_artifact
+    /// forms a unique artifact For example,
+    /// "projects/test-project/locations/us-west4/repositories/test-repo/mavenArtifacts/
+    /// com.google.guava:guava:31.0-jre",
+    /// where "us-west4" is the registry_location, "test-project" is the
+    /// project_id, "test-repo" is the repository_name and
+    /// "com.google.guava:guava:31.0-jre"
+    /// is the maven artifact.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. URL to access the pom file of the artifact.
+    /// Example:
+    /// us-west4-maven.pkg.dev/test-project/test-repo/com/google/guava/guava/31.0/guava-31.0.pom
+    #[prost(string, tag = "2")]
+    pub pom_uri: ::prost::alloc::string::String,
+    /// Group ID for the artifact.
+    /// Example:
+    /// com.google.guava
+    #[prost(string, tag = "3")]
+    pub group_id: ::prost::alloc::string::String,
+    /// Artifact ID for the artifact.
+    #[prost(string, tag = "4")]
+    pub artifact_id: ::prost::alloc::string::String,
+    /// Version of this artifact.
+    #[prost(string, tag = "5")]
+    pub version: ::prost::alloc::string::String,
+    /// Output only. Time the artifact was created.
+    #[prost(message, optional, tag = "6")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Time the artifact was updated.
+    #[prost(message, optional, tag = "7")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// The request to list maven artifacts.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListMavenArtifactsRequest {
+    /// Required. The name of the parent resource whose maven artifacts will be
+    /// listed.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of artifacts to return.
     #[prost(int32, tag = "2")]
     pub page_size: i32,
     /// The next_page_token value returned from a previous list request, if any.
     #[prost(string, tag = "3")]
     pub page_token: ::prost::alloc::string::String,
 }
-/// The response from listing tags.
+/// The response from listing maven artifacts.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListTagsResponse {
-    /// The tags returned.
+pub struct ListMavenArtifactsResponse {
+    /// The maven artifacts returned.
     #[prost(message, repeated, tag = "1")]
-    pub tags: ::prost::alloc::vec::Vec<Tag>,
-    /// The token to retrieve the next page of tags, or empty if there are no
-    /// more tags to return.
+    pub maven_artifacts: ::prost::alloc::vec::Vec<MavenArtifact>,
+    /// The token to retrieve the next page of artifacts, or empty if there are no
+    /// more artifacts to return.
     #[prost(string, tag = "2")]
     pub next_page_token: ::prost::alloc::string::String,
 }
-/// The request to retrieve a tag.
+/// The request to get maven artifacts.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetTagRequest {
-    /// The name of the tag to retrieve.
+pub struct GetMavenArtifactRequest {
+    /// Required. The name of the maven artifact.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
-/// The request to create a new tag.
+/// NpmPackage represents an npm artifact.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateTagRequest {
-    /// The name of the parent resource where the tag will be created.
+pub struct NpmPackage {
+    /// Required. registry_location, project_id, repository_name and npm_package
+    /// forms a unique package For example,
+    /// "projects/test-project/locations/us-west4/repositories/test-repo/npmPackages/
+    /// npm_test:1.0.0",
+    /// where "us-west4" is the registry_location, "test-project" is the
+    /// project_id, "test-repo" is the repository_name and
+    /// npm_test:1.0.0" is the npm package.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Package for the artifact.
+    #[prost(string, tag = "3")]
+    pub package_name: ::prost::alloc::string::String,
+    /// Version of this package.
+    #[prost(string, tag = "4")]
+    pub version: ::prost::alloc::string::String,
+    /// Tags attached to this package.
+    #[prost(string, repeated, tag = "5")]
+    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Output only. Time the package was created.
+    #[prost(message, optional, tag = "6")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Time the package was updated.
+    #[prost(message, optional, tag = "7")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// The request to list npm packages.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListNpmPackagesRequest {
+    /// Required. The name of the parent resource whose npm packages will be
+    /// listed.
     #[prost(string, tag = "1")]
     pub parent: ::prost::alloc::string::String,
-    /// The tag id to use for this repository.
+    /// The maximum number of artifacts to return.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request, if any.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response from listing npm packages.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListNpmPackagesResponse {
+    /// The npm packages returned.
+    #[prost(message, repeated, tag = "1")]
+    pub npm_packages: ::prost::alloc::vec::Vec<NpmPackage>,
+    /// The token to retrieve the next page of artifacts, or empty if there are no
+    /// more artifacts to return.
     #[prost(string, tag = "2")]
-    pub tag_id: ::prost::alloc::string::String,
-    /// The tag to be created.
-    #[prost(message, optional, tag = "3")]
-    pub tag: ::core::option::Option<Tag>,
+    pub next_page_token: ::prost::alloc::string::String,
 }
-/// The request to create or update a tag.
+/// The request to get npm packages.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateTagRequest {
-    /// The tag that replaces the resource on the server.
-    #[prost(message, optional, tag = "1")]
-    pub tag: ::core::option::Option<Tag>,
-    /// The update mask applies to the resource. For the `FieldMask` definition,
-    /// see
-    /// <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask>
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+pub struct GetNpmPackageRequest {
+    /// Required. The name of the npm package.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
 }
-/// The request to delete a tag.
+/// PythonPackage represents a python artifact.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteTagRequest {
-    /// The name of the tag to delete.
+pub struct PythonPackage {
+    /// Required. registry_location, project_id, repository_name and python_package
+    /// forms a unique package
+    /// name:`projects/<project_id>/locations/<location>/repository/<repository_name>/pythonPackages/<python_package>`.
+    /// For example,
+    /// "projects/test-project/locations/us-west4/repositories/test-repo/pythonPackages/
+    /// python_package:1.0.0",
+    /// where "us-west4" is the registry_location, "test-project" is the
+    /// project_id, "test-repo" is the repository_name and
+    /// python_package:1.0.0" is the python package.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. URL to access the package.
+    /// Example:
+    /// us-west4-python.pkg.dev/test-project/test-repo/python_package/file-name-1.0.0.tar.gz
+    #[prost(string, tag = "2")]
+    pub uri: ::prost::alloc::string::String,
+    /// Package for the artifact.
+    #[prost(string, tag = "3")]
+    pub package_name: ::prost::alloc::string::String,
+    /// Version of this package.
+    #[prost(string, tag = "4")]
+    pub version: ::prost::alloc::string::String,
+    /// Output only. Time the package was created.
+    #[prost(message, optional, tag = "6")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Time the package was updated.
+    #[prost(message, optional, tag = "7")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// The request to list python packages.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPythonPackagesRequest {
+    /// Required. The name of the parent resource whose python packages will be
+    /// listed.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of artifacts to return.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request, if any.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response from listing python packages.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPythonPackagesResponse {
+    /// The python packages returned.
+    #[prost(message, repeated, tag = "1")]
+    pub python_packages: ::prost::alloc::vec::Vec<PythonPackage>,
+    /// The token to retrieve the next page of artifacts, or empty if there are no
+    /// more artifacts to return.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request to get python packages.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetPythonPackageRequest {
+    /// Required. The name of the python package.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
@@ -1844,6 +1450,191 @@ pub struct GetFileRequest {
     /// Required. The name of the file to retrieve.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
+}
+/// The Artifact Registry settings that apply to a Project.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ProjectSettings {
+    /// The name of the project's settings.
+    ///
+    /// Always of the form:
+    /// projects/{project-id}/projectSettings
+    ///
+    /// In update request: never set
+    /// In response: always set
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The redirection state of the legacy repositories in this project.
+    #[prost(enumeration = "project_settings::RedirectionState", tag = "2")]
+    pub legacy_redirection_state: i32,
+}
+/// Nested message and enum types in `ProjectSettings`.
+pub mod project_settings {
+    /// The possible redirection states for legacy repositories.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum RedirectionState {
+        /// No redirection status has been set.
+        Unspecified = 0,
+        /// Redirection is disabled.
+        RedirectionFromGcrIoDisabled = 1,
+        /// Redirection is enabled.
+        RedirectionFromGcrIoEnabled = 2,
+        /// Redirection is enabled, and has been finalized so cannot be reverted.
+        RedirectionFromGcrIoFinalized = 3,
+    }
+    impl RedirectionState {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                RedirectionState::Unspecified => "REDIRECTION_STATE_UNSPECIFIED",
+                RedirectionState::RedirectionFromGcrIoDisabled => {
+                    "REDIRECTION_FROM_GCR_IO_DISABLED"
+                }
+                RedirectionState::RedirectionFromGcrIoEnabled => {
+                    "REDIRECTION_FROM_GCR_IO_ENABLED"
+                }
+                RedirectionState::RedirectionFromGcrIoFinalized => {
+                    "REDIRECTION_FROM_GCR_IO_FINALIZED"
+                }
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "REDIRECTION_STATE_UNSPECIFIED" => Some(Self::Unspecified),
+                "REDIRECTION_FROM_GCR_IO_DISABLED" => {
+                    Some(Self::RedirectionFromGcrIoDisabled)
+                }
+                "REDIRECTION_FROM_GCR_IO_ENABLED" => {
+                    Some(Self::RedirectionFromGcrIoEnabled)
+                }
+                "REDIRECTION_FROM_GCR_IO_FINALIZED" => {
+                    Some(Self::RedirectionFromGcrIoFinalized)
+                }
+                _ => None,
+            }
+        }
+    }
+}
+/// Gets the redirection status for a project.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetProjectSettingsRequest {
+    /// Required. The name of the projectSettings resource.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Sets the settings of the project.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateProjectSettingsRequest {
+    /// The project settings.
+    #[prost(message, optional, tag = "2")]
+    pub project_settings: ::core::option::Option<ProjectSettings>,
+    /// Field mask to support partial updates.
+    #[prost(message, optional, tag = "3")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// The Artifact Registry VPC SC config that apply to a Project.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VpcscConfig {
+    /// The name of the project's VPC SC Config.
+    ///
+    /// Always of the form:
+    /// projects/{projectID}/locations/{location}/vpcscConfig
+    ///
+    /// In update request: never set
+    /// In response: always set
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The project per location VPC SC policy that defines the VPC SC behavior for
+    /// the Remote Repository (Allow/Deny).
+    #[prost(enumeration = "vpcsc_config::VpcscPolicy", tag = "2")]
+    pub vpcsc_policy: i32,
+}
+/// Nested message and enum types in `VPCSCConfig`.
+pub mod vpcsc_config {
+    /// VPCSCPolicy is the VPC SC policy for project and location.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum VpcscPolicy {
+        /// VPCSC_POLICY_UNSPECIFIED - the VPS SC policy is not defined.
+        /// When VPS SC policy is not defined - the Service will use the default
+        /// behavior (VPCSC_DENY).
+        Unspecified = 0,
+        /// VPCSC_DENY - repository will block the requests to the Upstreams for the
+        /// Remote Repositories if the resource is in the perimeter.
+        Deny = 1,
+        /// VPCSC_ALLOW - repository will allow the requests to the Upstreams for the
+        /// Remote Repositories if the resource is in the perimeter.
+        Allow = 2,
+    }
+    impl VpcscPolicy {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                VpcscPolicy::Unspecified => "VPCSC_POLICY_UNSPECIFIED",
+                VpcscPolicy::Deny => "DENY",
+                VpcscPolicy::Allow => "ALLOW",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "VPCSC_POLICY_UNSPECIFIED" => Some(Self::Unspecified),
+                "DENY" => Some(Self::Deny),
+                "ALLOW" => Some(Self::Allow),
+                _ => None,
+            }
+        }
+    }
+}
+/// Gets the VPC SC config for a project.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetVpcscConfigRequest {
+    /// Required. The name of the VPCSCConfig resource.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Sets the VPCSC config of the project.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateVpcscConfigRequest {
+    /// The project config.
+    #[prost(message, optional, tag = "1")]
+    pub vpcsc_config: ::core::option::Option<VpcscConfig>,
+    /// Field mask to support partial updates.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
 }
 /// A detailed representation of an Apt artifact. Information in the record
 /// is derived from the archive's control file.
@@ -1986,6 +1777,169 @@ pub struct ImportAptArtifactsResponse {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ImportAptArtifactsMetadata {}
+/// Packages are named collections of versions.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Package {
+    /// The name of the package, for example:
+    /// `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`.
+    /// If the package ID part contains slashes, the slashes are escaped.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The display name of the package.
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// The time when the package was created.
+    #[prost(message, optional, tag = "5")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// The time when the package was last updated. This includes publishing a new
+    /// version of the package.
+    #[prost(message, optional, tag = "6")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// The request to list packages.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPackagesRequest {
+    /// Required. The name of the parent resource whose packages will be listed.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of packages to return. Maximum page size is 1,000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request, if any.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response from listing packages.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPackagesResponse {
+    /// The packages returned.
+    #[prost(message, repeated, tag = "1")]
+    pub packages: ::prost::alloc::vec::Vec<Package>,
+    /// The token to retrieve the next page of packages, or empty if there are no
+    /// more packages to return.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request to retrieve a package.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetPackageRequest {
+    /// Required. The name of the package to retrieve.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request to delete a package.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeletePackageRequest {
+    /// Required. The name of the package to delete.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Tags point to a version and represent an alternative name that can be used
+/// to access the version.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Tag {
+    /// The name of the tag, for example:
+    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/tags/tag1".
+    /// If the package part contains slashes, the slashes are escaped.
+    /// The tag part can only have characters in \[a-zA-Z0-9\-._~:@\], anything else
+    /// must be URL encoded.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The name of the version the tag refers to, for example:
+    /// "projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/sha256:5243811"
+    /// If the package or version ID parts contain slashes, the slashes are
+    /// escaped.
+    #[prost(string, tag = "2")]
+    pub version: ::prost::alloc::string::String,
+}
+/// The request to list tags.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTagsRequest {
+    /// The name of the parent package whose tags will be listed.
+    /// For example:
+    /// `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// An expression for filtering the results of the request. Filter rules are
+    /// case insensitive. The fields eligible for filtering are:
+    ///
+    ///    * `version`
+    ///
+    ///   An example of using a filter:
+    ///
+    ///    * `version="projects/p1/locations/us-central1/repositories/repo1/packages/pkg1/versions/1.0"`
+    ///    --> Tags that are applied to the version `1.0` in package `pkg1`.
+    #[prost(string, tag = "4")]
+    pub filter: ::prost::alloc::string::String,
+    /// The maximum number of tags to return. Maximum page size is 10,000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// The next_page_token value returned from a previous list request, if any.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// The response from listing tags.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListTagsResponse {
+    /// The tags returned.
+    #[prost(message, repeated, tag = "1")]
+    pub tags: ::prost::alloc::vec::Vec<Tag>,
+    /// The token to retrieve the next page of tags, or empty if there are no
+    /// more tags to return.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// The request to retrieve a tag.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetTagRequest {
+    /// The name of the tag to retrieve.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// The request to create a new tag.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateTagRequest {
+    /// The name of the parent resource where the tag will be created.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The tag id to use for this repository.
+    #[prost(string, tag = "2")]
+    pub tag_id: ::prost::alloc::string::String,
+    /// The tag to be created.
+    #[prost(message, optional, tag = "3")]
+    pub tag: ::core::option::Option<Tag>,
+}
+/// The request to create or update a tag.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateTagRequest {
+    /// The tag that replaces the resource on the server.
+    #[prost(message, optional, tag = "1")]
+    pub tag: ::core::option::Option<Tag>,
+    /// The update mask applies to the resource. For the `FieldMask` definition,
+    /// see
+    /// <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask>
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// The request to delete a tag.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteTagRequest {
+    /// The name of the tag to delete.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
 /// The body of a version resource. A version resource represents a
 /// collection of components, such as files and other data. This may correspond
 /// to a version in many package management schemes.
@@ -2132,27 +2086,26 @@ impl VersionView {
         }
     }
 }
-/// The Artifact Registry VPC SC config that apply to a Project.
+/// A detailed representation of a Yum artifact.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VpcscConfig {
-    /// The name of the project's VPC SC Config.
-    ///
-    /// Always of the form:
-    /// projects/{projectID}/locations/{location}/vpcscConfig
-    ///
-    /// In update request: never set
-    /// In response: always set
+pub struct YumArtifact {
+    /// Output only. The Artifact Registry resource name of the artifact.
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// The project per location VPC SC policy that defines the VPC SC behavior for
-    /// the Remote Repository (Allow/Deny).
-    #[prost(enumeration = "vpcsc_config::VpcscPolicy", tag = "2")]
-    pub vpcsc_policy: i32,
+    /// Output only. The yum package name of the artifact.
+    #[prost(string, tag = "2")]
+    pub package_name: ::prost::alloc::string::String,
+    /// Output only. An artifact is a binary or source package.
+    #[prost(enumeration = "yum_artifact::PackageType", tag = "3")]
+    pub package_type: i32,
+    /// Output only. Operating system architecture of the artifact.
+    #[prost(string, tag = "4")]
+    pub architecture: ::prost::alloc::string::String,
 }
-/// Nested message and enum types in `VPCSCConfig`.
-pub mod vpcsc_config {
-    /// VPCSCPolicy is the VPC SC policy for project and location.
+/// Nested message and enum types in `YumArtifact`.
+pub mod yum_artifact {
+    /// Package type is either binary or source.
     #[derive(
         Clone,
         Copy,
@@ -2165,60 +2118,107 @@ pub mod vpcsc_config {
         ::prost::Enumeration
     )]
     #[repr(i32)]
-    pub enum VpcscPolicy {
-        /// VPCSC_POLICY_UNSPECIFIED - the VPS SC policy is not defined.
-        /// When VPS SC policy is not defined - the Service will use the default
-        /// behavior (VPCSC_DENY).
+    pub enum PackageType {
+        /// Package type is not specified.
         Unspecified = 0,
-        /// VPCSC_DENY - repository will block the requests to the Upstreams for the
-        /// Remote Repositories if the resource is in the perimeter.
-        Deny = 1,
-        /// VPCSC_ALLOW - repository will allow the requests to the Upstreams for the
-        /// Remote Repositories if the resource is in the perimeter.
-        Allow = 2,
+        /// Binary package (.rpm).
+        Binary = 1,
+        /// Source package (.srpm).
+        Source = 2,
     }
-    impl VpcscPolicy {
+    impl PackageType {
         /// String value of the enum field names used in the ProtoBuf definition.
         ///
         /// The values are not transformed in any way and thus are considered stable
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         pub fn as_str_name(&self) -> &'static str {
             match self {
-                VpcscPolicy::Unspecified => "VPCSC_POLICY_UNSPECIFIED",
-                VpcscPolicy::Deny => "DENY",
-                VpcscPolicy::Allow => "ALLOW",
+                PackageType::Unspecified => "PACKAGE_TYPE_UNSPECIFIED",
+                PackageType::Binary => "BINARY",
+                PackageType::Source => "SOURCE",
             }
         }
         /// Creates an enum from field names used in the ProtoBuf definition.
         pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
             match value {
-                "VPCSC_POLICY_UNSPECIFIED" => Some(Self::Unspecified),
-                "DENY" => Some(Self::Deny),
-                "ALLOW" => Some(Self::Allow),
+                "PACKAGE_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+                "BINARY" => Some(Self::Binary),
+                "SOURCE" => Some(Self::Source),
                 _ => None,
             }
         }
     }
 }
-/// Gets the VPC SC config for a project.
+/// Google Cloud Storage location where the artifacts currently reside.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetVpcscConfigRequest {
-    /// Required. The name of the VPCSCConfig resource.
+pub struct ImportYumArtifactsGcsSource {
+    /// Cloud Storage paths URI (e.g., gs://my_bucket//my_object).
+    #[prost(string, repeated, tag = "1")]
+    pub uris: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Supports URI wildcards for matching multiple objects from a single URI.
+    #[prost(bool, tag = "2")]
+    pub use_wildcards: bool,
+}
+/// The request to import new yum artifacts.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportYumArtifactsRequest {
+    /// The name of the parent resource where the artifacts will be imported.
     #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
+    pub parent: ::prost::alloc::string::String,
+    /// The source location of the package binaries.
+    #[prost(oneof = "import_yum_artifacts_request::Source", tags = "2")]
+    pub source: ::core::option::Option<import_yum_artifacts_request::Source>,
 }
-/// Sets the VPCSC config of the project.
+/// Nested message and enum types in `ImportYumArtifactsRequest`.
+pub mod import_yum_artifacts_request {
+    /// The source location of the package binaries.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Source {
+        /// Google Cloud Storage location where input content is located.
+        #[prost(message, tag = "2")]
+        GcsSource(super::ImportYumArtifactsGcsSource),
+    }
+}
+/// Error information explaining why a package was not imported.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateVpcscConfigRequest {
-    /// The project config.
-    #[prost(message, optional, tag = "1")]
-    pub vpcsc_config: ::core::option::Option<VpcscConfig>,
-    /// Field mask to support partial updates.
+pub struct ImportYumArtifactsErrorInfo {
+    /// The detailed error status.
     #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+    pub error: ::core::option::Option<super::super::super::rpc::Status>,
+    /// The source that was not imported.
+    #[prost(oneof = "import_yum_artifacts_error_info::Source", tags = "1")]
+    pub source: ::core::option::Option<import_yum_artifacts_error_info::Source>,
 }
+/// Nested message and enum types in `ImportYumArtifactsErrorInfo`.
+pub mod import_yum_artifacts_error_info {
+    /// The source that was not imported.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Source {
+        /// Google Cloud Storage location requested.
+        #[prost(message, tag = "1")]
+        GcsSource(super::ImportYumArtifactsGcsSource),
+    }
+}
+/// The response message from importing YUM artifacts.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportYumArtifactsResponse {
+    /// The yum artifacts imported.
+    #[prost(message, repeated, tag = "1")]
+    pub yum_artifacts: ::prost::alloc::vec::Vec<YumArtifact>,
+    /// Detailed error info for packages that were not imported.
+    #[prost(message, repeated, tag = "2")]
+    pub errors: ::prost::alloc::vec::Vec<ImportYumArtifactsErrorInfo>,
+}
+/// The operation metadata for importing artifacts.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ImportYumArtifactsMetadata {}
 /// Metadata type for longrunning-operations, currently empty.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]

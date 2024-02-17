@@ -1,252 +1,3 @@
-/// A fine-tuned model created using ModelService.CreateTunedModel.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TunedModel {
-    /// Output only. The tuned model name. A unique name will be generated on
-    /// create. Example: `tunedModels/az2mb0bpw6i` If display_name is set on
-    /// create, the id portion of the name will be set by concatenating the words
-    /// of the display_name with hyphens and adding a random portion for
-    /// uniqueness. Example:
-    ///      display_name = "Sentence Translator"
-    ///      name = "tunedModels/sentence-translator-u3b7m"
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. The name to display for this model in user interfaces.
-    /// The display name must be up to 40 characters including spaces.
-    #[prost(string, tag = "5")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Optional. A short description of this model.
-    #[prost(string, tag = "6")]
-    pub description: ::prost::alloc::string::String,
-    /// Optional. Controls the randomness of the output.
-    ///
-    /// Values can range over `\[0.0,1.0\]`, inclusive. A value closer to `1.0` will
-    /// produce responses that are more varied, while a value closer to `0.0` will
-    /// typically result in less surprising responses from the model.
-    ///
-    /// This value specifies default to be the one used by the base model while
-    /// creating the model.
-    #[prost(float, optional, tag = "11")]
-    pub temperature: ::core::option::Option<f32>,
-    /// Optional. For Nucleus sampling.
-    ///
-    /// Nucleus sampling considers the smallest set of tokens whose probability
-    /// sum is at least `top_p`.
-    ///
-    /// This value specifies default to be the one used by the base model while
-    /// creating the model.
-    #[prost(float, optional, tag = "12")]
-    pub top_p: ::core::option::Option<f32>,
-    /// Optional. For Top-k sampling.
-    ///
-    /// Top-k sampling considers the set of `top_k` most probable tokens.
-    /// This value specifies default to be used by the backend while making the
-    /// call to the model.
-    ///
-    /// This value specifies default to be the one used by the base model while
-    /// creating the model.
-    #[prost(int32, optional, tag = "13")]
-    pub top_k: ::core::option::Option<i32>,
-    /// Output only. The state of the tuned model.
-    #[prost(enumeration = "tuned_model::State", tag = "7")]
-    pub state: i32,
-    /// Output only. The timestamp when this model was created.
-    #[prost(message, optional, tag = "8")]
-    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The timestamp when this model was updated.
-    #[prost(message, optional, tag = "9")]
-    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Required. The tuning task that creates the tuned model.
-    #[prost(message, optional, tag = "10")]
-    pub tuning_task: ::core::option::Option<TuningTask>,
-    /// The model used as the starting point for tuning.
-    #[prost(oneof = "tuned_model::SourceModel", tags = "3, 4")]
-    pub source_model: ::core::option::Option<tuned_model::SourceModel>,
-}
-/// Nested message and enum types in `TunedModel`.
-pub mod tuned_model {
-    /// The state of the tuned model.
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum State {
-        /// The default value. This value is unused.
-        Unspecified = 0,
-        /// The model is being created.
-        Creating = 1,
-        /// The model is ready to be used.
-        Active = 2,
-        /// The model failed to be created.
-        Failed = 3,
-    }
-    impl State {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                State::Unspecified => "STATE_UNSPECIFIED",
-                State::Creating => "CREATING",
-                State::Active => "ACTIVE",
-                State::Failed => "FAILED",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "STATE_UNSPECIFIED" => Some(Self::Unspecified),
-                "CREATING" => Some(Self::Creating),
-                "ACTIVE" => Some(Self::Active),
-                "FAILED" => Some(Self::Failed),
-                _ => None,
-            }
-        }
-    }
-    /// The model used as the starting point for tuning.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum SourceModel {
-        /// Optional. TunedModel to use as the starting point for training the new
-        /// model.
-        #[prost(message, tag = "3")]
-        TunedModelSource(super::TunedModelSource),
-        /// Immutable. The name of the `Model` to tune.
-        /// Example: `models/text-bison-001`
-        #[prost(string, tag = "4")]
-        BaseModel(::prost::alloc::string::String),
-    }
-}
-/// Tuned model as a source for training a new model.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TunedModelSource {
-    /// Immutable. The name of the `TunedModel` to use as the starting point for
-    /// training the new model.
-    /// Example: `tunedModels/my-tuned-model`
-    #[prost(string, tag = "1")]
-    pub tuned_model: ::prost::alloc::string::String,
-    /// Output only. The name of the base `Model` this `TunedModel` was tuned from.
-    /// Example: `models/text-bison-001`
-    #[prost(string, tag = "2")]
-    pub base_model: ::prost::alloc::string::String,
-}
-/// Tuning tasks that create tuned models.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TuningTask {
-    /// Output only. The timestamp when tuning this model started.
-    #[prost(message, optional, tag = "1")]
-    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. The timestamp when tuning this model completed.
-    #[prost(message, optional, tag = "2")]
-    pub complete_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Output only. Metrics collected during tuning.
-    #[prost(message, repeated, tag = "3")]
-    pub snapshots: ::prost::alloc::vec::Vec<TuningSnapshot>,
-    /// Required. Input only. Immutable. The model training data.
-    #[prost(message, optional, tag = "4")]
-    pub training_data: ::core::option::Option<Dataset>,
-    /// Immutable. Hyperparameters controlling the tuning process. If not provided,
-    /// default values will be used.
-    #[prost(message, optional, tag = "5")]
-    pub hyperparameters: ::core::option::Option<Hyperparameters>,
-}
-/// Hyperparameters controlling the tuning process.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Hyperparameters {
-    /// Immutable. The number of training epochs. An epoch is one pass through the
-    /// training data. If not set, a default of 10 will be used.
-    #[prost(int32, optional, tag = "14")]
-    pub epoch_count: ::core::option::Option<i32>,
-    /// Immutable. The batch size hyperparameter for tuning.
-    /// If not set, a default of 16 or 64 will be used based on the number of
-    /// training examples.
-    #[prost(int32, optional, tag = "15")]
-    pub batch_size: ::core::option::Option<i32>,
-    /// Immutable. The learning rate hyperparameter for tuning.
-    /// If not set, a default of 0.0002 or 0.002 will be calculated based on the
-    /// number of training examples.
-    #[prost(float, optional, tag = "16")]
-    pub learning_rate: ::core::option::Option<f32>,
-}
-/// Dataset for training or validation.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Dataset {
-    /// Inline data or a reference to the data.
-    #[prost(oneof = "dataset::Dataset", tags = "1")]
-    pub dataset: ::core::option::Option<dataset::Dataset>,
-}
-/// Nested message and enum types in `Dataset`.
-pub mod dataset {
-    /// Inline data or a reference to the data.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Dataset {
-        /// Optional. Inline examples.
-        #[prost(message, tag = "1")]
-        Examples(super::TuningExamples),
-    }
-}
-/// A set of tuning examples. Can be training or validatation data.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TuningExamples {
-    /// Required. The examples. Example input can be for text or discuss, but all
-    /// examples in a set must be of the same type.
-    #[prost(message, repeated, tag = "1")]
-    pub examples: ::prost::alloc::vec::Vec<TuningExample>,
-}
-/// A single example for tuning.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TuningExample {
-    /// Required. The expected model output.
-    #[prost(string, tag = "3")]
-    pub output: ::prost::alloc::string::String,
-    /// The input to the model for this example.
-    #[prost(oneof = "tuning_example::ModelInput", tags = "1")]
-    pub model_input: ::core::option::Option<tuning_example::ModelInput>,
-}
-/// Nested message and enum types in `TuningExample`.
-pub mod tuning_example {
-    /// The input to the model for this example.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum ModelInput {
-        /// Optional. Text model input.
-        #[prost(string, tag = "1")]
-        TextInput(::prost::alloc::string::String),
-    }
-}
-/// Record for a single tuning step.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TuningSnapshot {
-    /// Output only. The tuning step.
-    #[prost(int32, tag = "1")]
-    pub step: i32,
-    /// Output only. The epoch this step was part of.
-    #[prost(int32, tag = "2")]
-    pub epoch: i32,
-    /// Output only. The mean loss of the training examples for this step.
-    #[prost(float, tag = "3")]
-    pub mean_loss: f32,
-    /// Output only. The timestamp when this metric was computed.
-    #[prost(message, optional, tag = "4")]
-    pub compute_time: ::core::option::Option<::prost_types::Timestamp>,
-}
 /// A collection of source attributions for a piece of content.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -549,504 +300,6 @@ impl HarmCategory {
             _ => None,
         }
     }
-}
-/// Request to generate a text completion response from the model.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GenerateTextRequest {
-    /// Required. The name of the `Model` or `TunedModel` to use for generating the
-    /// completion.
-    /// Examples:
-    ///   models/text-bison-001
-    ///   tunedModels/sentence-translator-u3b7m
-    #[prost(string, tag = "1")]
-    pub model: ::prost::alloc::string::String,
-    /// Required. The free-form input text given to the model as a prompt.
-    ///
-    /// Given a prompt, the model will generate a TextCompletion response it
-    /// predicts as the completion of the input text.
-    #[prost(message, optional, tag = "2")]
-    pub prompt: ::core::option::Option<TextPrompt>,
-    /// Optional. Controls the randomness of the output.
-    /// Note: The default value varies by model, see the `Model.temperature`
-    /// attribute of the `Model` returned the `getModel` function.
-    ///
-    /// Values can range from \[0.0,1.0\],
-    /// inclusive. A value closer to 1.0 will produce responses that are more
-    /// varied and creative, while a value closer to 0.0 will typically result in
-    /// more straightforward responses from the model.
-    #[prost(float, optional, tag = "3")]
-    pub temperature: ::core::option::Option<f32>,
-    /// Optional. Number of generated responses to return.
-    ///
-    /// This value must be between \[1, 8\], inclusive. If unset, this will default
-    /// to 1.
-    #[prost(int32, optional, tag = "4")]
-    pub candidate_count: ::core::option::Option<i32>,
-    /// Optional. The maximum number of tokens to include in a candidate.
-    ///
-    /// If unset, this will default to output_token_limit specified in the `Model`
-    /// specification.
-    #[prost(int32, optional, tag = "5")]
-    pub max_output_tokens: ::core::option::Option<i32>,
-    /// Optional. The maximum cumulative probability of tokens to consider when
-    /// sampling.
-    ///
-    /// The model uses combined Top-k and nucleus sampling.
-    ///
-    /// Tokens are sorted based on their assigned probabilities so that only the
-    /// most likely tokens are considered. Top-k sampling directly limits the
-    /// maximum number of tokens to consider, while Nucleus sampling limits number
-    /// of tokens based on the cumulative probability.
-    ///
-    /// Note: The default value varies by model, see the `Model.top_p`
-    /// attribute of the `Model` returned the `getModel` function.
-    #[prost(float, optional, tag = "6")]
-    pub top_p: ::core::option::Option<f32>,
-    /// Optional. The maximum number of tokens to consider when sampling.
-    ///
-    /// The model uses combined Top-k and nucleus sampling.
-    ///
-    /// Top-k sampling considers the set of `top_k` most probable tokens.
-    /// Defaults to 40.
-    ///
-    /// Note: The default value varies by model, see the `Model.top_k`
-    /// attribute of the `Model` returned the `getModel` function.
-    #[prost(int32, optional, tag = "7")]
-    pub top_k: ::core::option::Option<i32>,
-    /// A list of unique `SafetySetting` instances for blocking unsafe content.
-    ///
-    /// that will be enforced on the `GenerateTextRequest.prompt` and
-    /// `GenerateTextResponse.candidates`. There should not be more than one
-    /// setting for each `SafetyCategory` type. The API will block any prompts and
-    /// responses that fail to meet the thresholds set by these settings. This list
-    /// overrides the default settings for each `SafetyCategory` specified in the
-    /// safety_settings. If there is no `SafetySetting` for a given
-    /// `SafetyCategory` provided in the list, the API will use the default safety
-    /// setting for that category.
-    #[prost(message, repeated, tag = "8")]
-    pub safety_settings: ::prost::alloc::vec::Vec<SafetySetting>,
-    /// The set of character sequences (up to 5) that will stop output generation.
-    /// If specified, the API will stop at the first appearance of a stop
-    /// sequence. The stop sequence will not be included as part of the response.
-    #[prost(string, repeated, tag = "9")]
-    pub stop_sequences: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// The response from the model, including candidate completions.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GenerateTextResponse {
-    /// Candidate responses from the model.
-    #[prost(message, repeated, tag = "1")]
-    pub candidates: ::prost::alloc::vec::Vec<TextCompletion>,
-    /// A set of content filtering metadata for the prompt and response
-    /// text.
-    ///
-    /// This indicates which `SafetyCategory`(s) blocked a
-    /// candidate from this response, the lowest `HarmProbability`
-    /// that triggered a block, and the HarmThreshold setting for that category.
-    /// This indicates the smallest change to the `SafetySettings` that would be
-    /// necessary to unblock at least 1 response.
-    ///
-    /// The blocking is configured by the `SafetySettings` in the request (or the
-    /// default `SafetySettings` of the API).
-    #[prost(message, repeated, tag = "3")]
-    pub filters: ::prost::alloc::vec::Vec<ContentFilter>,
-    /// Returns any safety feedback related to content filtering.
-    #[prost(message, repeated, tag = "4")]
-    pub safety_feedback: ::prost::alloc::vec::Vec<SafetyFeedback>,
-}
-/// Text given to the model as a prompt.
-///
-/// The Model will use this TextPrompt to Generate a text completion.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextPrompt {
-    /// Required. The prompt text.
-    #[prost(string, tag = "1")]
-    pub text: ::prost::alloc::string::String,
-}
-/// Output text returned from a model.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TextCompletion {
-    /// Output only. The generated text returned from the model.
-    #[prost(string, tag = "1")]
-    pub output: ::prost::alloc::string::String,
-    /// Ratings for the safety of a response.
-    ///
-    /// There is at most one rating per category.
-    #[prost(message, repeated, tag = "2")]
-    pub safety_ratings: ::prost::alloc::vec::Vec<SafetyRating>,
-    /// Output only. Citation information for model-generated `output` in this
-    /// `TextCompletion`.
-    ///
-    /// This field may be populated with attribution information for any text
-    /// included in the `output`.
-    #[prost(message, optional, tag = "3")]
-    pub citation_metadata: ::core::option::Option<CitationMetadata>,
-}
-/// Request to get a text embedding from the model.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EmbedTextRequest {
-    /// Required. The model name to use with the format model=models/{model}.
-    #[prost(string, tag = "1")]
-    pub model: ::prost::alloc::string::String,
-    /// Required. The free-form input text that the model will turn into an
-    /// embedding.
-    #[prost(string, tag = "2")]
-    pub text: ::prost::alloc::string::String,
-}
-/// The response to a EmbedTextRequest.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EmbedTextResponse {
-    /// Output only. The embedding generated from the input text.
-    #[prost(message, optional, tag = "1")]
-    pub embedding: ::core::option::Option<Embedding>,
-}
-/// Batch request to get a text embedding from the model.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchEmbedTextRequest {
-    /// Required. The name of the `Model` to use for generating the embedding.
-    /// Examples:
-    ///   models/embedding-gecko-001
-    #[prost(string, tag = "1")]
-    pub model: ::prost::alloc::string::String,
-    /// Required. The free-form input texts that the model will turn into an
-    /// embedding.  The current limit is 100 texts, over which an error will be
-    /// thrown.
-    #[prost(string, repeated, tag = "2")]
-    pub texts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// The response to a EmbedTextRequest.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct BatchEmbedTextResponse {
-    /// Output only. The embeddings generated from the input text.
-    #[prost(message, repeated, tag = "1")]
-    pub embeddings: ::prost::alloc::vec::Vec<Embedding>,
-}
-/// A list of floats representing the embedding.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Embedding {
-    /// The embedding values.
-    #[prost(float, repeated, tag = "1")]
-    pub value: ::prost::alloc::vec::Vec<f32>,
-}
-/// Counts the number of tokens in the `prompt` sent to a model.
-///
-/// Models may tokenize text differently, so each model may return a different
-/// `token_count`.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CountTextTokensRequest {
-    /// Required. The model's resource name. This serves as an ID for the Model to
-    /// use.
-    ///
-    /// This name should match a model name returned by the `ListModels` method.
-    ///
-    /// Format: `models/{model}`
-    #[prost(string, tag = "1")]
-    pub model: ::prost::alloc::string::String,
-    /// Required. The free-form input text given to the model as a prompt.
-    #[prost(message, optional, tag = "2")]
-    pub prompt: ::core::option::Option<TextPrompt>,
-}
-/// A response from `CountTextTokens`.
-///
-/// It returns the model's `token_count` for the `prompt`.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CountTextTokensResponse {
-    /// The number of tokens that the `model` tokenizes the `prompt` into.
-    ///
-    /// Always non-negative.
-    #[prost(int32, tag = "1")]
-    pub token_count: i32,
-}
-/// Generated client implementations.
-pub mod text_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    use tonic::codegen::http::Uri;
-    /// API for using Generative Language Models (GLMs) trained to generate text.
-    ///
-    /// Also known as Large Language Models (LLM)s, these generate text given an
-    /// input prompt from the user.
-    #[derive(Debug, Clone)]
-    pub struct TextServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> TextServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_origin(inner: T, origin: Uri) -> Self {
-            let inner = tonic::client::Grpc::with_origin(inner, origin);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> TextServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            TextServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.send_compressed(encoding);
-            self
-        }
-        /// Enable decompressing responses.
-        #[must_use]
-        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.accept_compressed(encoding);
-            self
-        }
-        /// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        #[must_use]
-        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_decoding_message_size(limit);
-            self
-        }
-        /// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        #[must_use]
-        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_encoding_message_size(limit);
-            self
-        }
-        /// Generates a response from the model given an input message.
-        pub async fn generate_text(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GenerateTextRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::GenerateTextResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.ai.generativelanguage.v1beta3.TextService/GenerateText",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.ai.generativelanguage.v1beta3.TextService",
-                        "GenerateText",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Generates an embedding from the model given an input message.
-        pub async fn embed_text(
-            &mut self,
-            request: impl tonic::IntoRequest<super::EmbedTextRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::EmbedTextResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.ai.generativelanguage.v1beta3.TextService/EmbedText",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.ai.generativelanguage.v1beta3.TextService",
-                        "EmbedText",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Generates multiple embeddings from the model given input text in a
-        /// synchronous call.
-        pub async fn batch_embed_text(
-            &mut self,
-            request: impl tonic::IntoRequest<super::BatchEmbedTextRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::BatchEmbedTextResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.ai.generativelanguage.v1beta3.TextService/BatchEmbedText",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.ai.generativelanguage.v1beta3.TextService",
-                        "BatchEmbedText",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Runs a model's tokenizer on a text and returns the token count.
-        pub async fn count_text_tokens(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CountTextTokensRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::CountTextTokensResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.ai.generativelanguage.v1beta3.TextService/CountTextTokens",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.ai.generativelanguage.v1beta3.TextService",
-                        "CountTextTokens",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-    }
-}
-/// Information about a Generative Language Model.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Model {
-    /// Required. The resource name of the `Model`.
-    ///
-    /// Format: `models/{model}` with a `{model}` naming convention of:
-    ///
-    /// * "{base_model_id}-{version}"
-    ///
-    /// Examples:
-    ///
-    /// * `models/chat-bison-001`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Required. The name of the base model, pass this to the generation request.
-    ///
-    /// Examples:
-    ///
-    /// * `chat-bison`
-    #[prost(string, tag = "2")]
-    pub base_model_id: ::prost::alloc::string::String,
-    /// Required. The version number of the model.
-    ///
-    /// This represents the major version
-    #[prost(string, tag = "3")]
-    pub version: ::prost::alloc::string::String,
-    /// The human-readable name of the model. E.g. "Chat Bison".
-    ///
-    /// The name can be up to 128 characters long and can consist of any UTF-8
-    /// characters.
-    #[prost(string, tag = "4")]
-    pub display_name: ::prost::alloc::string::String,
-    /// A short description of the model.
-    #[prost(string, tag = "5")]
-    pub description: ::prost::alloc::string::String,
-    /// Maximum number of input tokens allowed for this model.
-    #[prost(int32, tag = "6")]
-    pub input_token_limit: i32,
-    /// Maximum number of output tokens available for this model.
-    #[prost(int32, tag = "7")]
-    pub output_token_limit: i32,
-    /// The model's supported generation methods.
-    ///
-    /// The method names are defined as Pascal case
-    /// strings, such as `generateMessage` which correspond to API methods.
-    #[prost(string, repeated, tag = "8")]
-    pub supported_generation_methods: ::prost::alloc::vec::Vec<
-        ::prost::alloc::string::String,
-    >,
-    /// Controls the randomness of the output.
-    ///
-    /// Values can range over `\[0.0,1.0\]`, inclusive. A value closer to `1.0` will
-    /// produce responses that are more varied, while a value closer to `0.0` will
-    /// typically result in less surprising responses from the model.
-    /// This value specifies default to be used by the backend while making the
-    /// call to the model.
-    #[prost(float, optional, tag = "9")]
-    pub temperature: ::core::option::Option<f32>,
-    /// For Nucleus sampling.
-    ///
-    /// Nucleus sampling considers the smallest set of tokens whose probability
-    /// sum is at least `top_p`.
-    /// This value specifies default to be used by the backend while making the
-    /// call to the model.
-    #[prost(float, optional, tag = "10")]
-    pub top_p: ::core::option::Option<f32>,
-    /// For Top-k sampling.
-    ///
-    /// Top-k sampling considers the set of `top_k` most probable tokens.
-    /// This value specifies default to be used by the backend while making the
-    /// call to the model.
-    #[prost(int32, optional, tag = "11")]
-    pub top_k: ::core::option::Option<i32>,
 }
 /// Permission resource grants user, group or the rest of the world access to the
 /// PaLM API resource (e.g. a tuned model, file).
@@ -1534,6 +787,330 @@ pub mod permission_service_client {
             self.inner.unary(req, path, codec).await
         }
     }
+}
+/// Information about a Generative Language Model.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Model {
+    /// Required. The resource name of the `Model`.
+    ///
+    /// Format: `models/{model}` with a `{model}` naming convention of:
+    ///
+    /// * "{base_model_id}-{version}"
+    ///
+    /// Examples:
+    ///
+    /// * `models/chat-bison-001`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Required. The name of the base model, pass this to the generation request.
+    ///
+    /// Examples:
+    ///
+    /// * `chat-bison`
+    #[prost(string, tag = "2")]
+    pub base_model_id: ::prost::alloc::string::String,
+    /// Required. The version number of the model.
+    ///
+    /// This represents the major version
+    #[prost(string, tag = "3")]
+    pub version: ::prost::alloc::string::String,
+    /// The human-readable name of the model. E.g. "Chat Bison".
+    ///
+    /// The name can be up to 128 characters long and can consist of any UTF-8
+    /// characters.
+    #[prost(string, tag = "4")]
+    pub display_name: ::prost::alloc::string::String,
+    /// A short description of the model.
+    #[prost(string, tag = "5")]
+    pub description: ::prost::alloc::string::String,
+    /// Maximum number of input tokens allowed for this model.
+    #[prost(int32, tag = "6")]
+    pub input_token_limit: i32,
+    /// Maximum number of output tokens available for this model.
+    #[prost(int32, tag = "7")]
+    pub output_token_limit: i32,
+    /// The model's supported generation methods.
+    ///
+    /// The method names are defined as Pascal case
+    /// strings, such as `generateMessage` which correspond to API methods.
+    #[prost(string, repeated, tag = "8")]
+    pub supported_generation_methods: ::prost::alloc::vec::Vec<
+        ::prost::alloc::string::String,
+    >,
+    /// Controls the randomness of the output.
+    ///
+    /// Values can range over `\[0.0,1.0\]`, inclusive. A value closer to `1.0` will
+    /// produce responses that are more varied, while a value closer to `0.0` will
+    /// typically result in less surprising responses from the model.
+    /// This value specifies default to be used by the backend while making the
+    /// call to the model.
+    #[prost(float, optional, tag = "9")]
+    pub temperature: ::core::option::Option<f32>,
+    /// For Nucleus sampling.
+    ///
+    /// Nucleus sampling considers the smallest set of tokens whose probability
+    /// sum is at least `top_p`.
+    /// This value specifies default to be used by the backend while making the
+    /// call to the model.
+    #[prost(float, optional, tag = "10")]
+    pub top_p: ::core::option::Option<f32>,
+    /// For Top-k sampling.
+    ///
+    /// Top-k sampling considers the set of `top_k` most probable tokens.
+    /// This value specifies default to be used by the backend while making the
+    /// call to the model.
+    #[prost(int32, optional, tag = "11")]
+    pub top_k: ::core::option::Option<i32>,
+}
+/// A fine-tuned model created using ModelService.CreateTunedModel.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TunedModel {
+    /// Output only. The tuned model name. A unique name will be generated on
+    /// create. Example: `tunedModels/az2mb0bpw6i` If display_name is set on
+    /// create, the id portion of the name will be set by concatenating the words
+    /// of the display_name with hyphens and adding a random portion for
+    /// uniqueness. Example:
+    ///      display_name = "Sentence Translator"
+    ///      name = "tunedModels/sentence-translator-u3b7m"
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. The name to display for this model in user interfaces.
+    /// The display name must be up to 40 characters including spaces.
+    #[prost(string, tag = "5")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Optional. A short description of this model.
+    #[prost(string, tag = "6")]
+    pub description: ::prost::alloc::string::String,
+    /// Optional. Controls the randomness of the output.
+    ///
+    /// Values can range over `\[0.0,1.0\]`, inclusive. A value closer to `1.0` will
+    /// produce responses that are more varied, while a value closer to `0.0` will
+    /// typically result in less surprising responses from the model.
+    ///
+    /// This value specifies default to be the one used by the base model while
+    /// creating the model.
+    #[prost(float, optional, tag = "11")]
+    pub temperature: ::core::option::Option<f32>,
+    /// Optional. For Nucleus sampling.
+    ///
+    /// Nucleus sampling considers the smallest set of tokens whose probability
+    /// sum is at least `top_p`.
+    ///
+    /// This value specifies default to be the one used by the base model while
+    /// creating the model.
+    #[prost(float, optional, tag = "12")]
+    pub top_p: ::core::option::Option<f32>,
+    /// Optional. For Top-k sampling.
+    ///
+    /// Top-k sampling considers the set of `top_k` most probable tokens.
+    /// This value specifies default to be used by the backend while making the
+    /// call to the model.
+    ///
+    /// This value specifies default to be the one used by the base model while
+    /// creating the model.
+    #[prost(int32, optional, tag = "13")]
+    pub top_k: ::core::option::Option<i32>,
+    /// Output only. The state of the tuned model.
+    #[prost(enumeration = "tuned_model::State", tag = "7")]
+    pub state: i32,
+    /// Output only. The timestamp when this model was created.
+    #[prost(message, optional, tag = "8")]
+    pub create_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The timestamp when this model was updated.
+    #[prost(message, optional, tag = "9")]
+    pub update_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Required. The tuning task that creates the tuned model.
+    #[prost(message, optional, tag = "10")]
+    pub tuning_task: ::core::option::Option<TuningTask>,
+    /// The model used as the starting point for tuning.
+    #[prost(oneof = "tuned_model::SourceModel", tags = "3, 4")]
+    pub source_model: ::core::option::Option<tuned_model::SourceModel>,
+}
+/// Nested message and enum types in `TunedModel`.
+pub mod tuned_model {
+    /// The state of the tuned model.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum State {
+        /// The default value. This value is unused.
+        Unspecified = 0,
+        /// The model is being created.
+        Creating = 1,
+        /// The model is ready to be used.
+        Active = 2,
+        /// The model failed to be created.
+        Failed = 3,
+    }
+    impl State {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                State::Unspecified => "STATE_UNSPECIFIED",
+                State::Creating => "CREATING",
+                State::Active => "ACTIVE",
+                State::Failed => "FAILED",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "STATE_UNSPECIFIED" => Some(Self::Unspecified),
+                "CREATING" => Some(Self::Creating),
+                "ACTIVE" => Some(Self::Active),
+                "FAILED" => Some(Self::Failed),
+                _ => None,
+            }
+        }
+    }
+    /// The model used as the starting point for tuning.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum SourceModel {
+        /// Optional. TunedModel to use as the starting point for training the new
+        /// model.
+        #[prost(message, tag = "3")]
+        TunedModelSource(super::TunedModelSource),
+        /// Immutable. The name of the `Model` to tune.
+        /// Example: `models/text-bison-001`
+        #[prost(string, tag = "4")]
+        BaseModel(::prost::alloc::string::String),
+    }
+}
+/// Tuned model as a source for training a new model.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TunedModelSource {
+    /// Immutable. The name of the `TunedModel` to use as the starting point for
+    /// training the new model.
+    /// Example: `tunedModels/my-tuned-model`
+    #[prost(string, tag = "1")]
+    pub tuned_model: ::prost::alloc::string::String,
+    /// Output only. The name of the base `Model` this `TunedModel` was tuned from.
+    /// Example: `models/text-bison-001`
+    #[prost(string, tag = "2")]
+    pub base_model: ::prost::alloc::string::String,
+}
+/// Tuning tasks that create tuned models.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TuningTask {
+    /// Output only. The timestamp when tuning this model started.
+    #[prost(message, optional, tag = "1")]
+    pub start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. The timestamp when tuning this model completed.
+    #[prost(message, optional, tag = "2")]
+    pub complete_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Output only. Metrics collected during tuning.
+    #[prost(message, repeated, tag = "3")]
+    pub snapshots: ::prost::alloc::vec::Vec<TuningSnapshot>,
+    /// Required. Input only. Immutable. The model training data.
+    #[prost(message, optional, tag = "4")]
+    pub training_data: ::core::option::Option<Dataset>,
+    /// Immutable. Hyperparameters controlling the tuning process. If not provided,
+    /// default values will be used.
+    #[prost(message, optional, tag = "5")]
+    pub hyperparameters: ::core::option::Option<Hyperparameters>,
+}
+/// Hyperparameters controlling the tuning process.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Hyperparameters {
+    /// Immutable. The number of training epochs. An epoch is one pass through the
+    /// training data. If not set, a default of 10 will be used.
+    #[prost(int32, optional, tag = "14")]
+    pub epoch_count: ::core::option::Option<i32>,
+    /// Immutable. The batch size hyperparameter for tuning.
+    /// If not set, a default of 16 or 64 will be used based on the number of
+    /// training examples.
+    #[prost(int32, optional, tag = "15")]
+    pub batch_size: ::core::option::Option<i32>,
+    /// Immutable. The learning rate hyperparameter for tuning.
+    /// If not set, a default of 0.0002 or 0.002 will be calculated based on the
+    /// number of training examples.
+    #[prost(float, optional, tag = "16")]
+    pub learning_rate: ::core::option::Option<f32>,
+}
+/// Dataset for training or validation.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Dataset {
+    /// Inline data or a reference to the data.
+    #[prost(oneof = "dataset::Dataset", tags = "1")]
+    pub dataset: ::core::option::Option<dataset::Dataset>,
+}
+/// Nested message and enum types in `Dataset`.
+pub mod dataset {
+    /// Inline data or a reference to the data.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Dataset {
+        /// Optional. Inline examples.
+        #[prost(message, tag = "1")]
+        Examples(super::TuningExamples),
+    }
+}
+/// A set of tuning examples. Can be training or validatation data.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TuningExamples {
+    /// Required. The examples. Example input can be for text or discuss, but all
+    /// examples in a set must be of the same type.
+    #[prost(message, repeated, tag = "1")]
+    pub examples: ::prost::alloc::vec::Vec<TuningExample>,
+}
+/// A single example for tuning.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TuningExample {
+    /// Required. The expected model output.
+    #[prost(string, tag = "3")]
+    pub output: ::prost::alloc::string::String,
+    /// The input to the model for this example.
+    #[prost(oneof = "tuning_example::ModelInput", tags = "1")]
+    pub model_input: ::core::option::Option<tuning_example::ModelInput>,
+}
+/// Nested message and enum types in `TuningExample`.
+pub mod tuning_example {
+    /// The input to the model for this example.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum ModelInput {
+        /// Optional. Text model input.
+        #[prost(string, tag = "1")]
+        TextInput(::prost::alloc::string::String),
+    }
+}
+/// Record for a single tuning step.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TuningSnapshot {
+    /// Output only. The tuning step.
+    #[prost(int32, tag = "1")]
+    pub step: i32,
+    /// Output only. The epoch this step was part of.
+    #[prost(int32, tag = "2")]
+    pub epoch: i32,
+    /// Output only. The mean loss of the training examples for this step.
+    #[prost(float, tag = "3")]
+    pub mean_loss: f32,
+    /// Output only. The timestamp when this metric was computed.
+    #[prost(message, optional, tag = "4")]
+    pub compute_time: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Request for getting information about a specific Model.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -2297,6 +1874,429 @@ pub mod discuss_service_client {
                     GrpcMethod::new(
                         "google.ai.generativelanguage.v1beta3.DiscussService",
                         "CountMessageTokens",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+    }
+}
+/// Request to generate a text completion response from the model.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GenerateTextRequest {
+    /// Required. The name of the `Model` or `TunedModel` to use for generating the
+    /// completion.
+    /// Examples:
+    ///   models/text-bison-001
+    ///   tunedModels/sentence-translator-u3b7m
+    #[prost(string, tag = "1")]
+    pub model: ::prost::alloc::string::String,
+    /// Required. The free-form input text given to the model as a prompt.
+    ///
+    /// Given a prompt, the model will generate a TextCompletion response it
+    /// predicts as the completion of the input text.
+    #[prost(message, optional, tag = "2")]
+    pub prompt: ::core::option::Option<TextPrompt>,
+    /// Optional. Controls the randomness of the output.
+    /// Note: The default value varies by model, see the `Model.temperature`
+    /// attribute of the `Model` returned the `getModel` function.
+    ///
+    /// Values can range from \[0.0,1.0\],
+    /// inclusive. A value closer to 1.0 will produce responses that are more
+    /// varied and creative, while a value closer to 0.0 will typically result in
+    /// more straightforward responses from the model.
+    #[prost(float, optional, tag = "3")]
+    pub temperature: ::core::option::Option<f32>,
+    /// Optional. Number of generated responses to return.
+    ///
+    /// This value must be between \[1, 8\], inclusive. If unset, this will default
+    /// to 1.
+    #[prost(int32, optional, tag = "4")]
+    pub candidate_count: ::core::option::Option<i32>,
+    /// Optional. The maximum number of tokens to include in a candidate.
+    ///
+    /// If unset, this will default to output_token_limit specified in the `Model`
+    /// specification.
+    #[prost(int32, optional, tag = "5")]
+    pub max_output_tokens: ::core::option::Option<i32>,
+    /// Optional. The maximum cumulative probability of tokens to consider when
+    /// sampling.
+    ///
+    /// The model uses combined Top-k and nucleus sampling.
+    ///
+    /// Tokens are sorted based on their assigned probabilities so that only the
+    /// most likely tokens are considered. Top-k sampling directly limits the
+    /// maximum number of tokens to consider, while Nucleus sampling limits number
+    /// of tokens based on the cumulative probability.
+    ///
+    /// Note: The default value varies by model, see the `Model.top_p`
+    /// attribute of the `Model` returned the `getModel` function.
+    #[prost(float, optional, tag = "6")]
+    pub top_p: ::core::option::Option<f32>,
+    /// Optional. The maximum number of tokens to consider when sampling.
+    ///
+    /// The model uses combined Top-k and nucleus sampling.
+    ///
+    /// Top-k sampling considers the set of `top_k` most probable tokens.
+    /// Defaults to 40.
+    ///
+    /// Note: The default value varies by model, see the `Model.top_k`
+    /// attribute of the `Model` returned the `getModel` function.
+    #[prost(int32, optional, tag = "7")]
+    pub top_k: ::core::option::Option<i32>,
+    /// A list of unique `SafetySetting` instances for blocking unsafe content.
+    ///
+    /// that will be enforced on the `GenerateTextRequest.prompt` and
+    /// `GenerateTextResponse.candidates`. There should not be more than one
+    /// setting for each `SafetyCategory` type. The API will block any prompts and
+    /// responses that fail to meet the thresholds set by these settings. This list
+    /// overrides the default settings for each `SafetyCategory` specified in the
+    /// safety_settings. If there is no `SafetySetting` for a given
+    /// `SafetyCategory` provided in the list, the API will use the default safety
+    /// setting for that category.
+    #[prost(message, repeated, tag = "8")]
+    pub safety_settings: ::prost::alloc::vec::Vec<SafetySetting>,
+    /// The set of character sequences (up to 5) that will stop output generation.
+    /// If specified, the API will stop at the first appearance of a stop
+    /// sequence. The stop sequence will not be included as part of the response.
+    #[prost(string, repeated, tag = "9")]
+    pub stop_sequences: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// The response from the model, including candidate completions.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GenerateTextResponse {
+    /// Candidate responses from the model.
+    #[prost(message, repeated, tag = "1")]
+    pub candidates: ::prost::alloc::vec::Vec<TextCompletion>,
+    /// A set of content filtering metadata for the prompt and response
+    /// text.
+    ///
+    /// This indicates which `SafetyCategory`(s) blocked a
+    /// candidate from this response, the lowest `HarmProbability`
+    /// that triggered a block, and the HarmThreshold setting for that category.
+    /// This indicates the smallest change to the `SafetySettings` that would be
+    /// necessary to unblock at least 1 response.
+    ///
+    /// The blocking is configured by the `SafetySettings` in the request (or the
+    /// default `SafetySettings` of the API).
+    #[prost(message, repeated, tag = "3")]
+    pub filters: ::prost::alloc::vec::Vec<ContentFilter>,
+    /// Returns any safety feedback related to content filtering.
+    #[prost(message, repeated, tag = "4")]
+    pub safety_feedback: ::prost::alloc::vec::Vec<SafetyFeedback>,
+}
+/// Text given to the model as a prompt.
+///
+/// The Model will use this TextPrompt to Generate a text completion.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextPrompt {
+    /// Required. The prompt text.
+    #[prost(string, tag = "1")]
+    pub text: ::prost::alloc::string::String,
+}
+/// Output text returned from a model.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TextCompletion {
+    /// Output only. The generated text returned from the model.
+    #[prost(string, tag = "1")]
+    pub output: ::prost::alloc::string::String,
+    /// Ratings for the safety of a response.
+    ///
+    /// There is at most one rating per category.
+    #[prost(message, repeated, tag = "2")]
+    pub safety_ratings: ::prost::alloc::vec::Vec<SafetyRating>,
+    /// Output only. Citation information for model-generated `output` in this
+    /// `TextCompletion`.
+    ///
+    /// This field may be populated with attribution information for any text
+    /// included in the `output`.
+    #[prost(message, optional, tag = "3")]
+    pub citation_metadata: ::core::option::Option<CitationMetadata>,
+}
+/// Request to get a text embedding from the model.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EmbedTextRequest {
+    /// Required. The model name to use with the format model=models/{model}.
+    #[prost(string, tag = "1")]
+    pub model: ::prost::alloc::string::String,
+    /// Required. The free-form input text that the model will turn into an
+    /// embedding.
+    #[prost(string, tag = "2")]
+    pub text: ::prost::alloc::string::String,
+}
+/// The response to a EmbedTextRequest.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EmbedTextResponse {
+    /// Output only. The embedding generated from the input text.
+    #[prost(message, optional, tag = "1")]
+    pub embedding: ::core::option::Option<Embedding>,
+}
+/// Batch request to get a text embedding from the model.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchEmbedTextRequest {
+    /// Required. The name of the `Model` to use for generating the embedding.
+    /// Examples:
+    ///   models/embedding-gecko-001
+    #[prost(string, tag = "1")]
+    pub model: ::prost::alloc::string::String,
+    /// Required. The free-form input texts that the model will turn into an
+    /// embedding.  The current limit is 100 texts, over which an error will be
+    /// thrown.
+    #[prost(string, repeated, tag = "2")]
+    pub texts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// The response to a EmbedTextRequest.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BatchEmbedTextResponse {
+    /// Output only. The embeddings generated from the input text.
+    #[prost(message, repeated, tag = "1")]
+    pub embeddings: ::prost::alloc::vec::Vec<Embedding>,
+}
+/// A list of floats representing the embedding.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Embedding {
+    /// The embedding values.
+    #[prost(float, repeated, tag = "1")]
+    pub value: ::prost::alloc::vec::Vec<f32>,
+}
+/// Counts the number of tokens in the `prompt` sent to a model.
+///
+/// Models may tokenize text differently, so each model may return a different
+/// `token_count`.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CountTextTokensRequest {
+    /// Required. The model's resource name. This serves as an ID for the Model to
+    /// use.
+    ///
+    /// This name should match a model name returned by the `ListModels` method.
+    ///
+    /// Format: `models/{model}`
+    #[prost(string, tag = "1")]
+    pub model: ::prost::alloc::string::String,
+    /// Required. The free-form input text given to the model as a prompt.
+    #[prost(message, optional, tag = "2")]
+    pub prompt: ::core::option::Option<TextPrompt>,
+}
+/// A response from `CountTextTokens`.
+///
+/// It returns the model's `token_count` for the `prompt`.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CountTextTokensResponse {
+    /// The number of tokens that the `model` tokenizes the `prompt` into.
+    ///
+    /// Always non-negative.
+    #[prost(int32, tag = "1")]
+    pub token_count: i32,
+}
+/// Generated client implementations.
+pub mod text_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    use tonic::codegen::http::Uri;
+    /// API for using Generative Language Models (GLMs) trained to generate text.
+    ///
+    /// Also known as Large Language Models (LLM)s, these generate text given an
+    /// input prompt from the user.
+    #[derive(Debug, Clone)]
+    pub struct TextServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> TextServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_origin(inner: T, origin: Uri) -> Self {
+            let inner = tonic::client::Grpc::with_origin(inner, origin);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> TextServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            TextServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.send_compressed(encoding);
+            self
+        }
+        /// Enable decompressing responses.
+        #[must_use]
+        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.accept_compressed(encoding);
+            self
+        }
+        /// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        #[must_use]
+        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_decoding_message_size(limit);
+            self
+        }
+        /// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        #[must_use]
+        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_encoding_message_size(limit);
+            self
+        }
+        /// Generates a response from the model given an input message.
+        pub async fn generate_text(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GenerateTextRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::GenerateTextResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.ai.generativelanguage.v1beta3.TextService/GenerateText",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.ai.generativelanguage.v1beta3.TextService",
+                        "GenerateText",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Generates an embedding from the model given an input message.
+        pub async fn embed_text(
+            &mut self,
+            request: impl tonic::IntoRequest<super::EmbedTextRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::EmbedTextResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.ai.generativelanguage.v1beta3.TextService/EmbedText",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.ai.generativelanguage.v1beta3.TextService",
+                        "EmbedText",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Generates multiple embeddings from the model given input text in a
+        /// synchronous call.
+        pub async fn batch_embed_text(
+            &mut self,
+            request: impl tonic::IntoRequest<super::BatchEmbedTextRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::BatchEmbedTextResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.ai.generativelanguage.v1beta3.TextService/BatchEmbedText",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.ai.generativelanguage.v1beta3.TextService",
+                        "BatchEmbedText",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Runs a model's tokenizer on a text and returns the token count.
+        pub async fn count_text_tokens(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CountTextTokensRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::CountTextTokensResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.ai.generativelanguage.v1beta3.TextService/CountTextTokens",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.ai.generativelanguage.v1beta3.TextService",
+                        "CountTextTokens",
                     ),
                 );
             self.inner.unary(req, path, codec).await

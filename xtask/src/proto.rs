@@ -36,7 +36,7 @@ impl Protos {
         if path.is_file() && path.extension().filter(|&x| x == "proto").is_some() {
             protos.push(Proto::parse(path)?);
         }
-        return Ok(protos);
+        Ok(protos)
     }
 
     pub fn proto_paths(&self) -> Vec<&Path> {
@@ -61,9 +61,9 @@ impl Protos {
         // To avoid using `include!` to bundle proto files, the build will fail
         // if you do not also include the dependencies of the parent module.
         let mut parent_dependencies = Vec::new();
-        for (feature, _) in &map {
+        for feature in map.keys() {
             let mut feature_segments = feature.split('-').collect::<Vec<_>>();
-            while let Some(_) = feature_segments.pop() {
+            while feature_segments.pop().is_some() {
                 let parent_feature = feature_segments.join("-");
                 if map.contains_key(&parent_feature) {
                     parent_dependencies.push((feature.to_string(), parent_feature));
@@ -92,11 +92,8 @@ impl Proto {
 
         let package = Package::parse(&mut lines)?;
         let mut imports = Vec::new();
-        loop {
-            match Import::parse(&mut lines) {
-                Ok(import) => imports.push(import),
-                Err(_) => break,
-            }
+        while let Ok(import) = Import::parse(&mut lines) {
+            imports.push(import);
         }
 
         Ok(Self { path: path.to_owned(), package, imports })

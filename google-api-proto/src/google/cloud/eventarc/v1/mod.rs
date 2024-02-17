@@ -30,66 +30,6 @@ pub struct ChannelConnection {
     #[prost(string, tag = "8")]
     pub activation_token: ::prost::alloc::string::String,
 }
-/// A representation of the Provider resource.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Provider {
-    /// Output only. In `projects/{project}/locations/{location}/providers/{provider_id}`
-    /// format.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Output only. Human friendly name for the Provider. For example "Cloud Storage".
-    #[prost(string, tag = "2")]
-    pub display_name: ::prost::alloc::string::String,
-    /// Output only. Event types for this provider.
-    #[prost(message, repeated, tag = "3")]
-    pub event_types: ::prost::alloc::vec::Vec<EventType>,
-}
-/// A representation of the event type resource.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventType {
-    /// Output only. The full name of the event type (for example,
-    /// "google.cloud.storage.object.v1.finalized"). In the form of
-    /// {provider-specific-prefix}.{resource}.{version}.{verb}. Types MUST be
-    /// versioned and event schemas are guaranteed to remain backward compatible
-    /// within one version. Note that event type versions and API versions do not
-    /// need to match.
-    #[prost(string, tag = "1")]
-    pub r#type: ::prost::alloc::string::String,
-    /// Output only. Human friendly description of what the event type is about.
-    /// For example "Bucket created in Cloud Storage".
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. Filtering attributes for the event type.
-    #[prost(message, repeated, tag = "3")]
-    pub filtering_attributes: ::prost::alloc::vec::Vec<FilteringAttribute>,
-    /// Output only. URI for the event schema.
-    /// For example
-    /// "<https://github.com/googleapis/google-cloudevents/blob/master/proto/google/events/cloud/storage/v1/events.proto">
-    #[prost(string, tag = "4")]
-    pub event_schema_uri: ::prost::alloc::string::String,
-}
-/// A representation of the FilteringAttribute resource.
-/// Filtering attributes are per event type.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct FilteringAttribute {
-    /// Output only. Attribute used for filtering the event type.
-    #[prost(string, tag = "1")]
-    pub attribute: ::prost::alloc::string::String,
-    /// Output only. Description of the purpose of the attribute.
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    /// Output only. If true, the triggers for this provider should always specify a filter
-    /// on these attributes. Trigger creation will fail otherwise.
-    #[prost(bool, tag = "3")]
-    pub required: bool,
-    /// Output only. If true, the attribute accepts matching expressions in the Eventarc
-    /// PathPattern format.
-    #[prost(bool, tag = "4")]
-    pub path_pattern_supported: bool,
-}
 /// A representation of the Channel resource.
 /// A Channel is a resource on which event providers publish their events.
 /// The published events are delivered through the transport associated with the
@@ -207,6 +147,66 @@ pub mod channel {
         #[prost(string, tag = "8")]
         PubsubTopic(::prost::alloc::string::String),
     }
+}
+/// A representation of the Provider resource.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Provider {
+    /// Output only. In `projects/{project}/locations/{location}/providers/{provider_id}`
+    /// format.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Output only. Human friendly name for the Provider. For example "Cloud Storage".
+    #[prost(string, tag = "2")]
+    pub display_name: ::prost::alloc::string::String,
+    /// Output only. Event types for this provider.
+    #[prost(message, repeated, tag = "3")]
+    pub event_types: ::prost::alloc::vec::Vec<EventType>,
+}
+/// A representation of the event type resource.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventType {
+    /// Output only. The full name of the event type (for example,
+    /// "google.cloud.storage.object.v1.finalized"). In the form of
+    /// {provider-specific-prefix}.{resource}.{version}.{verb}. Types MUST be
+    /// versioned and event schemas are guaranteed to remain backward compatible
+    /// within one version. Note that event type versions and API versions do not
+    /// need to match.
+    #[prost(string, tag = "1")]
+    pub r#type: ::prost::alloc::string::String,
+    /// Output only. Human friendly description of what the event type is about.
+    /// For example "Bucket created in Cloud Storage".
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. Filtering attributes for the event type.
+    #[prost(message, repeated, tag = "3")]
+    pub filtering_attributes: ::prost::alloc::vec::Vec<FilteringAttribute>,
+    /// Output only. URI for the event schema.
+    /// For example
+    /// "<https://github.com/googleapis/google-cloudevents/blob/master/proto/google/events/cloud/storage/v1/events.proto">
+    #[prost(string, tag = "4")]
+    pub event_schema_uri: ::prost::alloc::string::String,
+}
+/// A representation of the FilteringAttribute resource.
+/// Filtering attributes are per event type.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FilteringAttribute {
+    /// Output only. Attribute used for filtering the event type.
+    #[prost(string, tag = "1")]
+    pub attribute: ::prost::alloc::string::String,
+    /// Output only. Description of the purpose of the attribute.
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    /// Output only. If true, the triggers for this provider should always specify a filter
+    /// on these attributes. Trigger creation will fail otherwise.
+    #[prost(bool, tag = "3")]
+    pub required: bool,
+    /// Output only. If true, the attribute accepts matching expressions in the Eventarc
+    /// PathPattern format.
+    #[prost(bool, tag = "4")]
+    pub path_pattern_supported: bool,
 }
 /// A GoogleChannelConfig is a resource that stores the custom settings
 /// respected by Eventarc first-party triggers in the matching region.

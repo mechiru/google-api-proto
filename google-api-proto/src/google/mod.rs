@@ -12,11 +12,6 @@ pub mod actions;
 #[cfg(
     any(
         feature = "google-ads-admob-v1",
-        feature = "google-ads-googleads-v13-common",
-        feature = "google-ads-googleads-v13-enums",
-        feature = "google-ads-googleads-v13-errors",
-        feature = "google-ads-googleads-v13-resources",
-        feature = "google-ads-googleads-v13-services",
         feature = "google-ads-googleads-v14-common",
         feature = "google-ads-googleads-v14-enums",
         feature = "google-ads-googleads-v14-errors",
@@ -36,6 +31,8 @@ pub mod actions;
 pub mod ads;
 #[cfg(
     any(
+        feature = "google-ai-generativelanguage-v1",
+        feature = "google-ai-generativelanguage-v1beta",
         feature = "google-ai-generativelanguage-v1beta2",
         feature = "google-ai-generativelanguage-v1beta3",
     )
@@ -78,9 +75,13 @@ pub mod appengine;
 #[cfg(
     any(
         feature = "google-apps-alertcenter-v1beta1",
+        feature = "google-apps-card-v1",
         feature = "google-apps-drive-activity-v2",
         feature = "google-apps-drive-labels-v2",
         feature = "google-apps-drive-labels-v2beta",
+        feature = "google-apps-events-subscriptions-v1",
+        feature = "google-apps-meet-v2",
+        feature = "google-apps-meet-v2beta",
         feature = "google-apps-script-type",
         feature = "google-apps-script-type-calendar",
         feature = "google-apps-script-type-docs",
@@ -104,7 +105,7 @@ pub mod assistant;
 pub mod bigtable;
 #[cfg(any(feature = "google-bytestream"))]
 pub mod bytestream;
-#[cfg(any(feature = "google-chat-logging-v1"))]
+#[cfg(any(feature = "google-chat-logging-v1", feature = "google-chat-v1"))]
 pub mod chat;
 #[cfg(
     any(
@@ -183,6 +184,7 @@ pub mod chromeos;
         feature = "google-cloud-certificatemanager-logging-v1",
         feature = "google-cloud-certificatemanager-v1",
         feature = "google-cloud-channel-v1",
+        feature = "google-cloud-cloudcontrolspartner-v1beta",
         feature = "google-cloud-clouddms-logging-v1",
         feature = "google-cloud-clouddms-v1",
         feature = "google-cloud-cloudsetup-logging-v1",
@@ -231,6 +233,7 @@ pub mod chromeos;
         feature = "google-cloud-domains-v1alpha2",
         feature = "google-cloud-domains-v1beta1",
         feature = "google-cloud-edgecontainer-v1",
+        feature = "google-cloud-edgenetwork-v1",
         feature = "google-cloud-enterpriseknowledgegraph-v1",
         feature = "google-cloud-essentialcontacts-v1",
         feature = "google-cloud-eventarc-publishing-v1",
@@ -322,6 +325,7 @@ pub mod chromeos;
         feature = "google-cloud-oslogin-v1",
         feature = "google-cloud-oslogin-v1alpha",
         feature = "google-cloud-oslogin-v1beta",
+        feature = "google-cloud-parallelstore-v1beta",
         feature = "google-cloud-paymentgateway-issuerswitch-accountmanager-v1",
         feature = "google-cloud-paymentgateway-issuerswitch-v1",
         feature = "google-cloud-phishingprotection-v1beta1",
@@ -366,10 +370,13 @@ pub mod chromeos;
         feature = "google-cloud-securitycenter-v1",
         feature = "google-cloud-securitycenter-v1beta1",
         feature = "google-cloud-securitycenter-v1p1beta1",
+        feature = "google-cloud-securitycentermanagement-v1",
+        feature = "google-cloud-securityposture-v1",
         feature = "google-cloud-sensitiveaction-logging-v1",
         feature = "google-cloud-servicedirectory-v1",
         feature = "google-cloud-servicedirectory-v1beta1",
         feature = "google-cloud-servicehealth-logging-v1",
+        feature = "google-cloud-servicehealth-v1",
         feature = "google-cloud-shell-v1",
         feature = "google-cloud-speech-v1",
         feature = "google-cloud-speech-v1p1beta1",
@@ -384,6 +391,7 @@ pub mod chromeos;
         feature = "google-cloud-tasks-v2",
         feature = "google-cloud-tasks-v2beta2",
         feature = "google-cloud-tasks-v2beta3",
+        feature = "google-cloud-telcoautomation-v1",
         feature = "google-cloud-telcoautomation-v1alpha1",
         feature = "google-cloud-texttospeech-v1",
         feature = "google-cloud-texttospeech-v1beta1",
@@ -571,6 +579,7 @@ pub mod rpc;
 pub mod search;
 #[cfg(
     any(
+        feature = "google-shopping-css-v1",
         feature = "google-shopping-merchant-inventories-v1beta",
         feature = "google-shopping-merchant-reports-v1beta",
         feature = "google-shopping-type",
@@ -581,11 +590,18 @@ pub mod shopping;
     any(
         feature = "google-spanner-admin-database-v1",
         feature = "google-spanner-admin-instance-v1",
+        feature = "google-spanner-executor-v1",
         feature = "google-spanner-v1",
     )
 )]
 pub mod spanner;
-#[cfg(any(feature = "google-storage-v1", feature = "google-storage-v2"))]
+#[cfg(
+    any(
+        feature = "google-storage-control-v2",
+        feature = "google-storage-v1",
+        feature = "google-storage-v2",
+    )
+)]
 pub mod storage;
 #[cfg(
     any(

@@ -62,29 +62,6 @@ pub struct Endpoint {
     #[prost(string, tag = "9")]
     pub uid: ::prost::alloc::string::String,
 }
-/// A container for [services][google.cloud.servicedirectory.v1.Service].
-/// Namespaces allow administrators to group services together and define
-/// permissions for a collection of services.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Namespace {
-    /// Immutable. The resource name for the namespace in the format
-    /// `projects/*/locations/*/namespaces/*`.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. Resource labels associated with this namespace.
-    /// No more than 64 user labels can be associated with a given resource. Label
-    /// keys and values can be no longer than 63 characters.
-    #[prost(btree_map = "string, string", tag = "2")]
-    pub labels: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-    /// Output only. The globally unique identifier of the namespace in the UUID4
-    /// format.
-    #[prost(string, tag = "5")]
-    pub uid: ::prost::alloc::string::String,
-}
 /// An individual service. A service contains a name and optional metadata.
 /// A service must exist before
 /// [endpoints][google.cloud.servicedirectory.v1.Endpoint] can be
@@ -130,6 +107,200 @@ pub struct Service {
     /// Output only. The globally unique identifier of the service in the UUID4
     /// format.
     #[prost(string, tag = "7")]
+    pub uid: ::prost::alloc::string::String,
+}
+/// The request message for
+/// [LookupService.ResolveService][google.cloud.servicedirectory.v1.LookupService.ResolveService].
+/// Looks up a service by its name, returns the service and its endpoints.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResolveServiceRequest {
+    /// Required. The name of the service to resolve.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. The maximum number of endpoints to return. Defaults to 25.
+    /// Maximum is 100. If a value less than one is specified, the Default is used.
+    /// If a value greater than the Maximum is specified, the Maximum is used.
+    #[prost(int32, tag = "2")]
+    pub max_endpoints: i32,
+    /// Optional. The filter applied to the endpoints of the resolved service.
+    ///
+    /// General `filter` string syntax:
+    /// `<field> <operator> <value> (<logical connector>)`
+    ///
+    /// *   `<field>` can be `name`, `address`, `port`, or `annotations.<key>` for
+    ///      map field
+    /// *   `<operator>` can be `<`, `>`, `<=`, `>=`, `!=`, `=`, `:`. Of which `:`
+    ///      means `HAS`, and is roughly the same as `=`
+    /// *   `<value>` must be the same data type as field
+    /// *   `<logical connector>` can be `AND`, `OR`, `NOT`
+    ///
+    /// Examples of valid filters:
+    ///
+    /// *   `annotations.owner` returns endpoints that have a annotation with the
+    ///      key `owner`, this is the same as `annotations:owner`
+    /// *   `annotations.protocol=gRPC` returns endpoints that have key/value
+    ///      `protocol=gRPC`
+    /// *   `address=192.108.1.105` returns endpoints that have this address
+    /// *   `port>8080` returns endpoints that have port number larger than 8080
+    /// *
+    /// `name>projects/my-project/locations/us-east1/namespaces/my-namespace/services/my-service/endpoints/endpoint-c`
+    ///      returns endpoints that have name that is alphabetically later than the
+    ///      string, so "endpoint-e" is returned but "endpoint-a" is not
+    /// *
+    /// `name=projects/my-project/locations/us-central1/namespaces/my-namespace/services/my-service/endpoints/ep-1`
+    ///       returns the endpoint that has an endpoint_id equal to `ep-1`
+    /// *   `annotations.owner!=sd AND annotations.foo=bar` returns endpoints that
+    ///      have `owner` in annotation key but value is not `sd` AND have
+    ///      key/value `foo=bar`
+    /// *   `doesnotexist.foo=bar` returns an empty list. Note that endpoint
+    ///      doesn't have a field called "doesnotexist". Since the filter does not
+    ///      match any endpoint, it returns no results
+    ///
+    /// For more information about filtering, see
+    /// [API Filtering](<https://aip.dev/160>).
+    #[prost(string, tag = "3")]
+    pub endpoint_filter: ::prost::alloc::string::String,
+}
+/// The response message for
+/// [LookupService.ResolveService][google.cloud.servicedirectory.v1.LookupService.ResolveService].
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResolveServiceResponse {
+    #[prost(message, optional, tag = "1")]
+    pub service: ::core::option::Option<Service>,
+}
+/// Generated client implementations.
+pub mod lookup_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    use tonic::codegen::http::Uri;
+    /// Service Directory API for looking up service data at runtime.
+    #[derive(Debug, Clone)]
+    pub struct LookupServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> LookupServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_origin(inner: T, origin: Uri) -> Self {
+            let inner = tonic::client::Grpc::with_origin(inner, origin);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> LookupServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            LookupServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.send_compressed(encoding);
+            self
+        }
+        /// Enable decompressing responses.
+        #[must_use]
+        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.accept_compressed(encoding);
+            self
+        }
+        /// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        #[must_use]
+        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_decoding_message_size(limit);
+            self
+        }
+        /// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        #[must_use]
+        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_encoding_message_size(limit);
+            self
+        }
+        /// Returns a [service][google.cloud.servicedirectory.v1.Service] and its
+        /// associated endpoints.
+        /// Resolving a service is not considered an active developer method.
+        pub async fn resolve_service(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ResolveServiceRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::ResolveServiceResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.servicedirectory.v1.LookupService/ResolveService",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.servicedirectory.v1.LookupService",
+                        "ResolveService",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+    }
+}
+/// A container for [services][google.cloud.servicedirectory.v1.Service].
+/// Namespaces allow administrators to group services together and define
+/// permissions for a collection of services.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Namespace {
+    /// Immutable. The resource name for the namespace in the format
+    /// `projects/*/locations/*/namespaces/*`.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Optional. Resource labels associated with this namespace.
+    /// No more than 64 user labels can be associated with a given resource. Label
+    /// keys and values can be no longer than 63 characters.
+    #[prost(btree_map = "string, string", tag = "2")]
+    pub labels: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// Output only. The globally unique identifier of the namespace in the UUID4
+    /// format.
+    #[prost(string, tag = "5")]
     pub uid: ::prost::alloc::string::String,
 }
 /// The request message for
@@ -1130,177 +1301,6 @@ pub mod registration_service_client {
                     GrpcMethod::new(
                         "google.cloud.servicedirectory.v1.RegistrationService",
                         "TestIamPermissions",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-    }
-}
-/// The request message for
-/// [LookupService.ResolveService][google.cloud.servicedirectory.v1.LookupService.ResolveService].
-/// Looks up a service by its name, returns the service and its endpoints.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResolveServiceRequest {
-    /// Required. The name of the service to resolve.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Optional. The maximum number of endpoints to return. Defaults to 25.
-    /// Maximum is 100. If a value less than one is specified, the Default is used.
-    /// If a value greater than the Maximum is specified, the Maximum is used.
-    #[prost(int32, tag = "2")]
-    pub max_endpoints: i32,
-    /// Optional. The filter applied to the endpoints of the resolved service.
-    ///
-    /// General `filter` string syntax:
-    /// `<field> <operator> <value> (<logical connector>)`
-    ///
-    /// *   `<field>` can be `name`, `address`, `port`, or `annotations.<key>` for
-    ///      map field
-    /// *   `<operator>` can be `<`, `>`, `<=`, `>=`, `!=`, `=`, `:`. Of which `:`
-    ///      means `HAS`, and is roughly the same as `=`
-    /// *   `<value>` must be the same data type as field
-    /// *   `<logical connector>` can be `AND`, `OR`, `NOT`
-    ///
-    /// Examples of valid filters:
-    ///
-    /// *   `annotations.owner` returns endpoints that have a annotation with the
-    ///      key `owner`, this is the same as `annotations:owner`
-    /// *   `annotations.protocol=gRPC` returns endpoints that have key/value
-    ///      `protocol=gRPC`
-    /// *   `address=192.108.1.105` returns endpoints that have this address
-    /// *   `port>8080` returns endpoints that have port number larger than 8080
-    /// *
-    /// `name>projects/my-project/locations/us-east1/namespaces/my-namespace/services/my-service/endpoints/endpoint-c`
-    ///      returns endpoints that have name that is alphabetically later than the
-    ///      string, so "endpoint-e" is returned but "endpoint-a" is not
-    /// *
-    /// `name=projects/my-project/locations/us-central1/namespaces/my-namespace/services/my-service/endpoints/ep-1`
-    ///       returns the endpoint that has an endpoint_id equal to `ep-1`
-    /// *   `annotations.owner!=sd AND annotations.foo=bar` returns endpoints that
-    ///      have `owner` in annotation key but value is not `sd` AND have
-    ///      key/value `foo=bar`
-    /// *   `doesnotexist.foo=bar` returns an empty list. Note that endpoint
-    ///      doesn't have a field called "doesnotexist". Since the filter does not
-    ///      match any endpoint, it returns no results
-    ///
-    /// For more information about filtering, see
-    /// [API Filtering](<https://aip.dev/160>).
-    #[prost(string, tag = "3")]
-    pub endpoint_filter: ::prost::alloc::string::String,
-}
-/// The response message for
-/// [LookupService.ResolveService][google.cloud.servicedirectory.v1.LookupService.ResolveService].
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResolveServiceResponse {
-    #[prost(message, optional, tag = "1")]
-    pub service: ::core::option::Option<Service>,
-}
-/// Generated client implementations.
-pub mod lookup_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    use tonic::codegen::http::Uri;
-    /// Service Directory API for looking up service data at runtime.
-    #[derive(Debug, Clone)]
-    pub struct LookupServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> LookupServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_origin(inner: T, origin: Uri) -> Self {
-            let inner = tonic::client::Grpc::with_origin(inner, origin);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> LookupServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            LookupServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.send_compressed(encoding);
-            self
-        }
-        /// Enable decompressing responses.
-        #[must_use]
-        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.accept_compressed(encoding);
-            self
-        }
-        /// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        #[must_use]
-        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_decoding_message_size(limit);
-            self
-        }
-        /// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        #[must_use]
-        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_encoding_message_size(limit);
-            self
-        }
-        /// Returns a [service][google.cloud.servicedirectory.v1.Service] and its
-        /// associated endpoints.
-        /// Resolving a service is not considered an active developer method.
-        pub async fn resolve_service(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ResolveServiceRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::ResolveServiceResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.servicedirectory.v1.LookupService/ResolveService",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.cloud.servicedirectory.v1.LookupService",
-                        "ResolveService",
                     ),
                 );
             self.inner.unary(req, path, codec).await

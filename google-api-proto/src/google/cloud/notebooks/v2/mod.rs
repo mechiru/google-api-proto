@@ -1,3 +1,86 @@
+/// The definition of an Event for a managed / semi-managed notebook instance.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Event {
+    /// Optional. Event report time.
+    #[prost(message, optional, tag = "1")]
+    pub report_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Optional. Event type.
+    #[prost(enumeration = "event::EventType", tag = "2")]
+    pub r#type: i32,
+    /// Optional. Event details. This field is used to pass event information.
+    #[prost(btree_map = "string, string", tag = "3")]
+    pub details: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+}
+/// Nested message and enum types in `Event`.
+pub mod event {
+    /// The definition of the event types.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum EventType {
+        /// Event is not specified.
+        Unspecified = 0,
+        /// The instance / runtime is idle
+        Idle = 1,
+        /// The instance / runtime is available.
+        /// This event indicates that instance / runtime underlying compute is
+        /// operational.
+        Heartbeat = 2,
+        /// The instance / runtime health is available.
+        /// This event indicates that instance / runtime health information.
+        Health = 3,
+        /// The instance / runtime is available.
+        /// This event allows instance / runtime to send Host maintenance
+        /// information to Control Plane.
+        /// <https://cloud.google.com/compute/docs/gpus/gpu-host-maintenance>
+        Maintenance = 4,
+        /// The instance / runtime is available.
+        /// This event indicates that the instance had metadata that needs to be
+        /// modified.
+        MetadataChange = 5,
+    }
+    impl EventType {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                EventType::Unspecified => "EVENT_TYPE_UNSPECIFIED",
+                EventType::Idle => "IDLE",
+                EventType::Heartbeat => "HEARTBEAT",
+                EventType::Health => "HEALTH",
+                EventType::Maintenance => "MAINTENANCE",
+                EventType::MetadataChange => "METADATA_CHANGE",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "EVENT_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+                "IDLE" => Some(Self::Idle),
+                "HEARTBEAT" => Some(Self::Heartbeat),
+                "HEALTH" => Some(Self::Health),
+                "MAINTENANCE" => Some(Self::Maintenance),
+                "METADATA_CHANGE" => Some(Self::MetadataChange),
+                _ => None,
+            }
+        }
+    }
+}
 /// Defines flags that are used to run the diagnostic tool
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1473,89 +1556,6 @@ pub mod notebook_service_client {
                     ),
                 );
             self.inner.unary(req, path, codec).await
-        }
-    }
-}
-/// The definition of an Event for a managed / semi-managed notebook instance.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Event {
-    /// Optional. Event report time.
-    #[prost(message, optional, tag = "1")]
-    pub report_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. Event type.
-    #[prost(enumeration = "event::EventType", tag = "2")]
-    pub r#type: i32,
-    /// Optional. Event details. This field is used to pass event information.
-    #[prost(btree_map = "string, string", tag = "3")]
-    pub details: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-}
-/// Nested message and enum types in `Event`.
-pub mod event {
-    /// The definition of the event types.
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum EventType {
-        /// Event is not specified.
-        Unspecified = 0,
-        /// The instance / runtime is idle
-        Idle = 1,
-        /// The instance / runtime is available.
-        /// This event indicates that instance / runtime underlying compute is
-        /// operational.
-        Heartbeat = 2,
-        /// The instance / runtime health is available.
-        /// This event indicates that instance / runtime health information.
-        Health = 3,
-        /// The instance / runtime is available.
-        /// This event allows instance / runtime to send Host maintenance
-        /// information to Control Plane.
-        /// <https://cloud.google.com/compute/docs/gpus/gpu-host-maintenance>
-        Maintenance = 4,
-        /// The instance / runtime is available.
-        /// This event indicates that the instance had metadata that needs to be
-        /// modified.
-        MetadataChange = 5,
-    }
-    impl EventType {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                EventType::Unspecified => "EVENT_TYPE_UNSPECIFIED",
-                EventType::Idle => "IDLE",
-                EventType::Heartbeat => "HEARTBEAT",
-                EventType::Health => "HEALTH",
-                EventType::Maintenance => "MAINTENANCE",
-                EventType::MetadataChange => "METADATA_CHANGE",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "EVENT_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
-                "IDLE" => Some(Self::Idle),
-                "HEARTBEAT" => Some(Self::Heartbeat),
-                "HEALTH" => Some(Self::Health),
-                "MAINTENANCE" => Some(Self::Maintenance),
-                "METADATA_CHANGE" => Some(Self::MetadataChange),
-                _ => None,
-            }
         }
     }
 }

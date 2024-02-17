@@ -130,6 +130,628 @@ pub mod speech_adaptation {
         pub abnf_strings: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     }
 }
+/// Transcription normalization configuration. Use transcription normalization
+/// to automatically replace parts of the transcript with phrases of your
+/// choosing. For StreamingRecognize, this normalization only applies to stable
+/// partial transcripts (stability > 0.8) and final transcripts.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TranscriptNormalization {
+    /// A list of replacement entries. We will perform replacement with one entry
+    /// at a time. For example, the second entry in ["cat" => "dog", "mountain cat"
+    /// => "mountain dog"] will never be applied because we will always process the
+    /// first entry before it. At most 100 entries.
+    #[prost(message, repeated, tag = "1")]
+    pub entries: ::prost::alloc::vec::Vec<transcript_normalization::Entry>,
+}
+/// Nested message and enum types in `TranscriptNormalization`.
+pub mod transcript_normalization {
+    /// A single replacement configuration.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Entry {
+        /// What to replace. Max length is 100 characters.
+        #[prost(string, tag = "1")]
+        pub search: ::prost::alloc::string::String,
+        /// What to replace with. Max length is 100 characters.
+        #[prost(string, tag = "2")]
+        pub replace: ::prost::alloc::string::String,
+        /// Whether the search is case sensitive.
+        #[prost(bool, tag = "3")]
+        pub case_sensitive: bool,
+    }
+}
+/// Message sent by the client for the `CreatePhraseSet` method.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreatePhraseSetRequest {
+    /// Required. The parent resource where this phrase set will be created.
+    /// Format:
+    ///
+    /// `projects/{project}/locations/{location}`
+    ///
+    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
+    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
+    /// endpoint, use the `global` location. To specify a region, use a
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The ID to use for the phrase set, which will become the final
+    /// component of the phrase set's resource name.
+    ///
+    /// This value should restrict to letters, numbers, and hyphens, with the first
+    /// character a letter, the last a letter or a number, and be 4-63 characters.
+    #[prost(string, tag = "2")]
+    pub phrase_set_id: ::prost::alloc::string::String,
+    /// Required. The phrase set to create.
+    #[prost(message, optional, tag = "3")]
+    pub phrase_set: ::core::option::Option<PhraseSet>,
+}
+/// Message sent by the client for the `UpdatePhraseSet` method.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdatePhraseSetRequest {
+    /// Required. The phrase set to update.
+    ///
+    /// The phrase set's `name` field is used to identify the set to be
+    /// updated. Format:
+    ///
+    /// `projects/{project}/locations/{location}/phraseSets/{phrase_set}`
+    ///
+    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
+    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
+    /// endpoint, use the `global` location. To specify a region, use a
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
+    #[prost(message, optional, tag = "1")]
+    pub phrase_set: ::core::option::Option<PhraseSet>,
+    /// The list of fields to be updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Message sent by the client for the `GetPhraseSet` method.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetPhraseSetRequest {
+    /// Required. The name of the phrase set to retrieve. Format:
+    ///
+    /// `projects/{project}/locations/{location}/phraseSets/{phrase_set}`
+    ///
+    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
+    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
+    /// endpoint, use the `global` location. To specify a region, use a
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Message sent by the client for the `ListPhraseSet` method.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPhraseSetRequest {
+    /// Required. The parent, which owns this collection of phrase set. Format:
+    ///
+    /// `projects/{project}/locations/{location}`
+    ///
+    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
+    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
+    /// endpoint, use the `global` location. To specify a region, use a
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of phrase sets to return. The service may return
+    /// fewer than this value. If unspecified, at most 50 phrase sets will be
+    /// returned. The maximum value is 1000; values above 1000 will be coerced to
+    /// 1000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// A page token, received from a previous `ListPhraseSet` call.
+    /// Provide this to retrieve the subsequent page.
+    ///
+    /// When paginating, all other parameters provided to `ListPhraseSet` must
+    /// match the call that provided the page token.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Message returned to the client by the `ListPhraseSet` method.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListPhraseSetResponse {
+    /// The phrase set.
+    #[prost(message, repeated, tag = "1")]
+    pub phrase_sets: ::prost::alloc::vec::Vec<PhraseSet>,
+    /// A token, which can be sent as `page_token` to retrieve the next page.
+    /// If this field is omitted, there are no subsequent pages.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Message sent by the client for the `DeletePhraseSet` method.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeletePhraseSetRequest {
+    /// Required. The name of the phrase set to delete. Format:
+    ///
+    /// `projects/{project}/locations/{location}/phraseSets/{phrase_set}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Message sent by the client for the `CreateCustomClass` method.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CreateCustomClassRequest {
+    /// Required. The parent resource where this custom class will be created.
+    /// Format:
+    ///
+    /// `projects/{project}/locations/{location}/customClasses`
+    ///
+    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
+    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
+    /// endpoint, use the `global` location. To specify a region, use a
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// Required. The ID to use for the custom class, which will become the final
+    /// component of the custom class' resource name.
+    ///
+    /// This value should restrict to letters, numbers, and hyphens, with the first
+    /// character a letter, the last a letter or a number, and be 4-63 characters.
+    #[prost(string, tag = "2")]
+    pub custom_class_id: ::prost::alloc::string::String,
+    /// Required. The custom class to create.
+    #[prost(message, optional, tag = "3")]
+    pub custom_class: ::core::option::Option<CustomClass>,
+}
+/// Message sent by the client for the `UpdateCustomClass` method.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateCustomClassRequest {
+    /// Required. The custom class to update.
+    ///
+    /// The custom class's `name` field is used to identify the custom class to be
+    /// updated. Format:
+    ///
+    /// `projects/{project}/locations/{location}/customClasses/{custom_class}`
+    ///
+    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
+    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
+    /// endpoint, use the `global` location. To specify a region, use a
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
+    #[prost(message, optional, tag = "1")]
+    pub custom_class: ::core::option::Option<CustomClass>,
+    /// The list of fields to be updated.
+    #[prost(message, optional, tag = "2")]
+    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
+}
+/// Message sent by the client for the `GetCustomClass` method.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetCustomClassRequest {
+    /// Required. The name of the custom class to retrieve. Format:
+    ///
+    /// `projects/{project}/locations/{location}/customClasses/{custom_class}`
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Message sent by the client for the `ListCustomClasses` method.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListCustomClassesRequest {
+    /// Required. The parent, which owns this collection of custom classes. Format:
+    ///
+    /// `projects/{project}/locations/{location}/customClasses`
+    ///
+    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
+    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
+    /// endpoint, use the `global` location. To specify a region, use a
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
+    #[prost(string, tag = "1")]
+    pub parent: ::prost::alloc::string::String,
+    /// The maximum number of custom classes to return. The service may return
+    /// fewer than this value. If unspecified, at most 50 custom classes will be
+    /// returned. The maximum value is 1000; values above 1000 will be coerced to
+    /// 1000.
+    #[prost(int32, tag = "2")]
+    pub page_size: i32,
+    /// A page token, received from a previous `ListCustomClass` call.
+    /// Provide this to retrieve the subsequent page.
+    ///
+    /// When paginating, all other parameters provided to `ListCustomClass` must
+    /// match the call that provided the page token.
+    #[prost(string, tag = "3")]
+    pub page_token: ::prost::alloc::string::String,
+}
+/// Message returned to the client by the `ListCustomClasses` method.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ListCustomClassesResponse {
+    /// The custom classes.
+    #[prost(message, repeated, tag = "1")]
+    pub custom_classes: ::prost::alloc::vec::Vec<CustomClass>,
+    /// A token, which can be sent as `page_token` to retrieve the next page.
+    /// If this field is omitted, there are no subsequent pages.
+    #[prost(string, tag = "2")]
+    pub next_page_token: ::prost::alloc::string::String,
+}
+/// Message sent by the client for the `DeleteCustomClass` method.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeleteCustomClassRequest {
+    /// Required. The name of the custom class to delete. Format:
+    ///
+    /// `projects/{project}/locations/{location}/customClasses/{custom_class}`
+    ///
+    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
+    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
+    /// endpoint, use the `global` location. To specify a region, use a
+    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
+    /// with matching `us` or `eu` location value.
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+}
+/// Generated client implementations.
+pub mod adaptation_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    use tonic::codegen::http::Uri;
+    /// Service that implements Google Cloud Speech Adaptation API.
+    #[derive(Debug, Clone)]
+    pub struct AdaptationClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> AdaptationClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_origin(inner: T, origin: Uri) -> Self {
+            let inner = tonic::client::Grpc::with_origin(inner, origin);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> AdaptationClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            AdaptationClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.send_compressed(encoding);
+            self
+        }
+        /// Enable decompressing responses.
+        #[must_use]
+        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.accept_compressed(encoding);
+            self
+        }
+        /// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        #[must_use]
+        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_decoding_message_size(limit);
+            self
+        }
+        /// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        #[must_use]
+        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_encoding_message_size(limit);
+            self
+        }
+        /// Create a set of phrase hints. Each item in the set can be a single word or
+        /// a multi-word phrase. The items in the PhraseSet are favored by the
+        /// recognition model when you send a call that includes the PhraseSet.
+        pub async fn create_phrase_set(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreatePhraseSetRequest>,
+        ) -> std::result::Result<tonic::Response<super::PhraseSet>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.speech.v1.Adaptation/CreatePhraseSet",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.speech.v1.Adaptation",
+                        "CreatePhraseSet",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Get a phrase set.
+        pub async fn get_phrase_set(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetPhraseSetRequest>,
+        ) -> std::result::Result<tonic::Response<super::PhraseSet>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.speech.v1.Adaptation/GetPhraseSet",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new("google.cloud.speech.v1.Adaptation", "GetPhraseSet"),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// List phrase sets.
+        pub async fn list_phrase_set(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListPhraseSetRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::ListPhraseSetResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.speech.v1.Adaptation/ListPhraseSet",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new("google.cloud.speech.v1.Adaptation", "ListPhraseSet"),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Update a phrase set.
+        pub async fn update_phrase_set(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdatePhraseSetRequest>,
+        ) -> std::result::Result<tonic::Response<super::PhraseSet>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.speech.v1.Adaptation/UpdatePhraseSet",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.speech.v1.Adaptation",
+                        "UpdatePhraseSet",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Delete a phrase set.
+        pub async fn delete_phrase_set(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeletePhraseSetRequest>,
+        ) -> std::result::Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.speech.v1.Adaptation/DeletePhraseSet",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.speech.v1.Adaptation",
+                        "DeletePhraseSet",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Create a custom class.
+        pub async fn create_custom_class(
+            &mut self,
+            request: impl tonic::IntoRequest<super::CreateCustomClassRequest>,
+        ) -> std::result::Result<tonic::Response<super::CustomClass>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.speech.v1.Adaptation/CreateCustomClass",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.speech.v1.Adaptation",
+                        "CreateCustomClass",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Get a custom class.
+        pub async fn get_custom_class(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetCustomClassRequest>,
+        ) -> std::result::Result<tonic::Response<super::CustomClass>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.speech.v1.Adaptation/GetCustomClass",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.speech.v1.Adaptation",
+                        "GetCustomClass",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// List custom classes.
+        pub async fn list_custom_classes(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ListCustomClassesRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::ListCustomClassesResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.speech.v1.Adaptation/ListCustomClasses",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.speech.v1.Adaptation",
+                        "ListCustomClasses",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Update a custom class.
+        pub async fn update_custom_class(
+            &mut self,
+            request: impl tonic::IntoRequest<super::UpdateCustomClassRequest>,
+        ) -> std::result::Result<tonic::Response<super::CustomClass>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.speech.v1.Adaptation/UpdateCustomClass",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.speech.v1.Adaptation",
+                        "UpdateCustomClass",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        /// Delete a custom class.
+        pub async fn delete_custom_class(
+            &mut self,
+            request: impl tonic::IntoRequest<super::DeleteCustomClassRequest>,
+        ) -> std::result::Result<tonic::Response<()>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.cloud.speech.v1.Adaptation/DeleteCustomClass",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.cloud.speech.v1.Adaptation",
+                        "DeleteCustomClass",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+    }
+}
 /// The top-level message sent by the client for the `Recognize` method.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -362,6 +984,12 @@ pub struct RecognitionConfig {
     /// When speech adaptation is set it supersedes the `speech_contexts` field.
     #[prost(message, optional, tag = "20")]
     pub adaptation: ::core::option::Option<SpeechAdaptation>,
+    /// Optional. Use transcription normalization to automatically replace parts of
+    /// the transcript with phrases of your choosing. For StreamingRecognize, this
+    /// normalization only applies to stable partial transcripts (stability > 0.8)
+    /// and final transcripts.
+    #[prost(message, optional, tag = "24")]
+    pub transcript_normalization: ::core::option::Option<TranscriptNormalization>,
     /// Array of [SpeechContext][google.cloud.speech.v1.SpeechContext].
     /// A means to provide context to assist the speech recognition. For more
     /// information, see
@@ -553,6 +1181,11 @@ pub mod recognition_config {
         /// is replaced with a single byte containing the block length. Only Speex
         /// wideband is supported. `sample_rate_hertz` must be 16000.
         SpeexWithHeaderByte = 7,
+        /// MP3 audio. MP3 encoding is a Beta feature and only available in
+        /// v1p1beta1. Support all standard MP3 bitrates (which range from 32-320
+        /// kbps). When using this encoding, `sample_rate_hertz` has to match the
+        /// sample rate of the file being used.
+        Mp3 = 8,
         /// Opus encoded audio frames in WebM container
         /// ([OggOpus](<https://wiki.xiph.org/OggOpus>)). `sample_rate_hertz` must be
         /// one of 8000, 12000, 16000, 24000, or 48000.
@@ -573,6 +1206,7 @@ pub mod recognition_config {
                 AudioEncoding::AmrWb => "AMR_WB",
                 AudioEncoding::OggOpus => "OGG_OPUS",
                 AudioEncoding::SpeexWithHeaderByte => "SPEEX_WITH_HEADER_BYTE",
+                AudioEncoding::Mp3 => "MP3",
                 AudioEncoding::WebmOpus => "WEBM_OPUS",
             }
         }
@@ -587,6 +1221,7 @@ pub mod recognition_config {
                 "AMR_WB" => Some(Self::AmrWb),
                 "OGG_OPUS" => Some(Self::OggOpus),
                 "SPEEX_WITH_HEADER_BYTE" => Some(Self::SpeexWithHeaderByte),
+                "MP3" => Some(Self::Mp3),
                 "WEBM_OPUS" => Some(Self::WebmOpus),
                 _ => None,
             }
@@ -598,8 +1233,8 @@ pub mod recognition_config {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SpeakerDiarizationConfig {
     /// If 'true', enables speaker detection for each recognized word in
-    /// the top alternative of the recognition result using a speaker_tag provided
-    /// in the WordInfo.
+    /// the top alternative of the recognition result using a speaker_label
+    /// provided in the WordInfo.
     #[prost(bool, tag = "1")]
     pub enable_speaker_diarization: bool,
     /// Minimum number of speakers in the conversation. This range gives you more
@@ -1294,10 +1929,20 @@ pub struct WordInfo {
     /// Output only. A distinct integer value is assigned for every speaker within
     /// the audio. This field specifies which one of those speakers was detected to
     /// have spoken this word. Value ranges from '1' to diarization_speaker_count.
-    /// speaker_tag is set if enable_speaker_diarization = 'true' and only in the
+    /// speaker_tag is set if enable_speaker_diarization = 'true' and only for the
     /// top alternative.
+    /// Note: Use speaker_label instead.
+    #[deprecated]
     #[prost(int32, tag = "5")]
     pub speaker_tag: i32,
+    /// Output only. A label value assigned for every unique speaker within the
+    /// audio. This field specifies which speaker was detected to have spoken this
+    /// word. For some models, like medical_conversation this can be actual speaker
+    /// role, for example "patient" or "provider", but generally this would be a
+    /// number identifying a speaker. This field is only set if
+    /// enable_speaker_diarization = 'true' and only for the top alternative.
+    #[prost(string, tag = "6")]
+    pub speaker_label: ::prost::alloc::string::String,
 }
 /// Information on speech adaptation use in results
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1483,597 +2128,6 @@ pub mod speech_client {
                     ),
                 );
             self.inner.streaming(req, path, codec).await
-        }
-    }
-}
-/// Message sent by the client for the `CreatePhraseSet` method.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreatePhraseSetRequest {
-    /// Required. The parent resource where this phrase set will be created.
-    /// Format:
-    ///
-    /// `projects/{project}/locations/{location}`
-    ///
-    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
-    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
-    /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
-    /// with matching `us` or `eu` location value.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The ID to use for the phrase set, which will become the final
-    /// component of the phrase set's resource name.
-    ///
-    /// This value should restrict to letters, numbers, and hyphens, with the first
-    /// character a letter, the last a letter or a number, and be 4-63 characters.
-    #[prost(string, tag = "2")]
-    pub phrase_set_id: ::prost::alloc::string::String,
-    /// Required. The phrase set to create.
-    #[prost(message, optional, tag = "3")]
-    pub phrase_set: ::core::option::Option<PhraseSet>,
-}
-/// Message sent by the client for the `UpdatePhraseSet` method.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdatePhraseSetRequest {
-    /// Required. The phrase set to update.
-    ///
-    /// The phrase set's `name` field is used to identify the set to be
-    /// updated. Format:
-    ///
-    /// `projects/{project}/locations/{location}/phraseSets/{phrase_set}`
-    ///
-    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
-    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
-    /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
-    /// with matching `us` or `eu` location value.
-    #[prost(message, optional, tag = "1")]
-    pub phrase_set: ::core::option::Option<PhraseSet>,
-    /// The list of fields to be updated.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Message sent by the client for the `GetPhraseSet` method.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetPhraseSetRequest {
-    /// Required. The name of the phrase set to retrieve. Format:
-    ///
-    /// `projects/{project}/locations/{location}/phraseSets/{phrase_set}`
-    ///
-    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
-    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
-    /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
-    /// with matching `us` or `eu` location value.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Message sent by the client for the `ListPhraseSet` method.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPhraseSetRequest {
-    /// Required. The parent, which owns this collection of phrase set. Format:
-    ///
-    /// `projects/{project}/locations/{location}`
-    ///
-    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
-    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
-    /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
-    /// with matching `us` or `eu` location value.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of phrase sets to return. The service may return
-    /// fewer than this value. If unspecified, at most 50 phrase sets will be
-    /// returned. The maximum value is 1000; values above 1000 will be coerced to
-    /// 1000.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// A page token, received from a previous `ListPhraseSet` call.
-    /// Provide this to retrieve the subsequent page.
-    ///
-    /// When paginating, all other parameters provided to `ListPhraseSet` must
-    /// match the call that provided the page token.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Message returned to the client by the `ListPhraseSet` method.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPhraseSetResponse {
-    /// The phrase set.
-    #[prost(message, repeated, tag = "1")]
-    pub phrase_sets: ::prost::alloc::vec::Vec<PhraseSet>,
-    /// A token, which can be sent as `page_token` to retrieve the next page.
-    /// If this field is omitted, there are no subsequent pages.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Message sent by the client for the `DeletePhraseSet` method.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeletePhraseSetRequest {
-    /// Required. The name of the phrase set to delete. Format:
-    ///
-    /// `projects/{project}/locations/{location}/phraseSets/{phrase_set}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Message sent by the client for the `CreateCustomClass` method.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CreateCustomClassRequest {
-    /// Required. The parent resource where this custom class will be created.
-    /// Format:
-    ///
-    /// `projects/{project}/locations/{location}/customClasses`
-    ///
-    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
-    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
-    /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
-    /// with matching `us` or `eu` location value.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// Required. The ID to use for the custom class, which will become the final
-    /// component of the custom class' resource name.
-    ///
-    /// This value should restrict to letters, numbers, and hyphens, with the first
-    /// character a letter, the last a letter or a number, and be 4-63 characters.
-    #[prost(string, tag = "2")]
-    pub custom_class_id: ::prost::alloc::string::String,
-    /// Required. The custom class to create.
-    #[prost(message, optional, tag = "3")]
-    pub custom_class: ::core::option::Option<CustomClass>,
-}
-/// Message sent by the client for the `UpdateCustomClass` method.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateCustomClassRequest {
-    /// Required. The custom class to update.
-    ///
-    /// The custom class's `name` field is used to identify the custom class to be
-    /// updated. Format:
-    ///
-    /// `projects/{project}/locations/{location}/customClasses/{custom_class}`
-    ///
-    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
-    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
-    /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
-    /// with matching `us` or `eu` location value.
-    #[prost(message, optional, tag = "1")]
-    pub custom_class: ::core::option::Option<CustomClass>,
-    /// The list of fields to be updated.
-    #[prost(message, optional, tag = "2")]
-    pub update_mask: ::core::option::Option<::prost_types::FieldMask>,
-}
-/// Message sent by the client for the `GetCustomClass` method.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetCustomClassRequest {
-    /// Required. The name of the custom class to retrieve. Format:
-    ///
-    /// `projects/{project}/locations/{location}/customClasses/{custom_class}`
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Message sent by the client for the `ListCustomClasses` method.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListCustomClassesRequest {
-    /// Required. The parent, which owns this collection of custom classes. Format:
-    ///
-    /// `projects/{project}/locations/{location}/customClasses`
-    ///
-    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
-    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
-    /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
-    /// with matching `us` or `eu` location value.
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of custom classes to return. The service may return
-    /// fewer than this value. If unspecified, at most 50 custom classes will be
-    /// returned. The maximum value is 1000; values above 1000 will be coerced to
-    /// 1000.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// A page token, received from a previous `ListCustomClass` call.
-    /// Provide this to retrieve the subsequent page.
-    ///
-    /// When paginating, all other parameters provided to `ListCustomClass` must
-    /// match the call that provided the page token.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
-}
-/// Message returned to the client by the `ListCustomClasses` method.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListCustomClassesResponse {
-    /// The custom classes.
-    #[prost(message, repeated, tag = "1")]
-    pub custom_classes: ::prost::alloc::vec::Vec<CustomClass>,
-    /// A token, which can be sent as `page_token` to retrieve the next page.
-    /// If this field is omitted, there are no subsequent pages.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
-}
-/// Message sent by the client for the `DeleteCustomClass` method.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeleteCustomClassRequest {
-    /// Required. The name of the custom class to delete. Format:
-    ///
-    /// `projects/{project}/locations/{location}/customClasses/{custom_class}`
-    ///
-    /// Speech-to-Text supports three locations: `global`, `us` (US North America),
-    /// and `eu` (Europe). If you are calling the `speech.googleapis.com`
-    /// endpoint, use the `global` location. To specify a region, use a
-    /// [regional endpoint](<https://cloud.google.com/speech-to-text/docs/endpoints>)
-    /// with matching `us` or `eu` location value.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
-/// Generated client implementations.
-pub mod adaptation_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    use tonic::codegen::http::Uri;
-    /// Service that implements Google Cloud Speech Adaptation API.
-    #[derive(Debug, Clone)]
-    pub struct AdaptationClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> AdaptationClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_origin(inner: T, origin: Uri) -> Self {
-            let inner = tonic::client::Grpc::with_origin(inner, origin);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> AdaptationClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            AdaptationClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.send_compressed(encoding);
-            self
-        }
-        /// Enable decompressing responses.
-        #[must_use]
-        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.accept_compressed(encoding);
-            self
-        }
-        /// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        #[must_use]
-        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_decoding_message_size(limit);
-            self
-        }
-        /// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        #[must_use]
-        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_encoding_message_size(limit);
-            self
-        }
-        /// Create a set of phrase hints. Each item in the set can be a single word or
-        /// a multi-word phrase. The items in the PhraseSet are favored by the
-        /// recognition model when you send a call that includes the PhraseSet.
-        pub async fn create_phrase_set(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreatePhraseSetRequest>,
-        ) -> std::result::Result<tonic::Response<super::PhraseSet>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.speech.v1.Adaptation/CreatePhraseSet",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.cloud.speech.v1.Adaptation",
-                        "CreatePhraseSet",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Get a phrase set.
-        pub async fn get_phrase_set(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetPhraseSetRequest>,
-        ) -> std::result::Result<tonic::Response<super::PhraseSet>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.speech.v1.Adaptation/GetPhraseSet",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new("google.cloud.speech.v1.Adaptation", "GetPhraseSet"),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// List phrase sets.
-        pub async fn list_phrase_set(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListPhraseSetRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::ListPhraseSetResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.speech.v1.Adaptation/ListPhraseSet",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new("google.cloud.speech.v1.Adaptation", "ListPhraseSet"),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Update a phrase set.
-        pub async fn update_phrase_set(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdatePhraseSetRequest>,
-        ) -> std::result::Result<tonic::Response<super::PhraseSet>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.speech.v1.Adaptation/UpdatePhraseSet",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.cloud.speech.v1.Adaptation",
-                        "UpdatePhraseSet",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Delete a phrase set.
-        pub async fn delete_phrase_set(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeletePhraseSetRequest>,
-        ) -> std::result::Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.speech.v1.Adaptation/DeletePhraseSet",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.cloud.speech.v1.Adaptation",
-                        "DeletePhraseSet",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Create a custom class.
-        pub async fn create_custom_class(
-            &mut self,
-            request: impl tonic::IntoRequest<super::CreateCustomClassRequest>,
-        ) -> std::result::Result<tonic::Response<super::CustomClass>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.speech.v1.Adaptation/CreateCustomClass",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.cloud.speech.v1.Adaptation",
-                        "CreateCustomClass",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Get a custom class.
-        pub async fn get_custom_class(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetCustomClassRequest>,
-        ) -> std::result::Result<tonic::Response<super::CustomClass>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.speech.v1.Adaptation/GetCustomClass",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.cloud.speech.v1.Adaptation",
-                        "GetCustomClass",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// List custom classes.
-        pub async fn list_custom_classes(
-            &mut self,
-            request: impl tonic::IntoRequest<super::ListCustomClassesRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::ListCustomClassesResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.speech.v1.Adaptation/ListCustomClasses",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.cloud.speech.v1.Adaptation",
-                        "ListCustomClasses",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Update a custom class.
-        pub async fn update_custom_class(
-            &mut self,
-            request: impl tonic::IntoRequest<super::UpdateCustomClassRequest>,
-        ) -> std::result::Result<tonic::Response<super::CustomClass>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.speech.v1.Adaptation/UpdateCustomClass",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.cloud.speech.v1.Adaptation",
-                        "UpdateCustomClass",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-        /// Delete a custom class.
-        pub async fn delete_custom_class(
-            &mut self,
-            request: impl tonic::IntoRequest<super::DeleteCustomClassRequest>,
-        ) -> std::result::Result<tonic::Response<()>, tonic::Status> {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.cloud.speech.v1.Adaptation/DeleteCustomClass",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.cloud.speech.v1.Adaptation",
-                        "DeleteCustomClass",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
         }
     }
 }

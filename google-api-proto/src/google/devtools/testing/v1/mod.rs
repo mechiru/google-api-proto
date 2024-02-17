@@ -1,3 +1,217 @@
+/// A message returned from a device.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DeviceMessage {
+    #[prost(oneof = "device_message::Contents", tags = "1, 2, 3")]
+    pub contents: ::core::option::Option<device_message::Contents>,
+}
+/// Nested message and enum types in `DeviceMessage`.
+pub mod device_message {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Contents {
+        /// Information about the device's state.
+        #[prost(message, tag = "1")]
+        StatusUpdate(super::StatusUpdate),
+        /// The result of a device stream from ADB.
+        #[prost(message, tag = "2")]
+        StreamStatus(super::StreamStatus),
+        /// Data from an open stream.
+        #[prost(message, tag = "3")]
+        StreamData(super::StreamData),
+    }
+}
+/// A message to an ADB server.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AdbMessage {
+    #[prost(oneof = "adb_message::Contents", tags = "1, 2")]
+    pub contents: ::core::option::Option<adb_message::Contents>,
+}
+/// Nested message and enum types in `AdbMessage`.
+pub mod adb_message {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Contents {
+        /// Open a new stream.
+        #[prost(message, tag = "1")]
+        Open(super::Open),
+        /// Send data to a stream.
+        #[prost(message, tag = "2")]
+        StreamData(super::StreamData),
+    }
+}
+/// A StatusUpdate message given over the ADB protocol for the device state.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StatusUpdate {
+    /// The device's state
+    #[prost(enumeration = "status_update::DeviceState", tag = "1")]
+    pub state: i32,
+    /// A map of properties with information about this device.
+    #[prost(btree_map = "string, string", tag = "2")]
+    pub properties: ::prost::alloc::collections::BTreeMap<
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    >,
+    /// A comma-separated list of "features" that this device supports.
+    #[prost(string, tag = "3")]
+    pub features: ::prost::alloc::string::String,
+}
+/// Nested message and enum types in `StatusUpdate`.
+pub mod status_update {
+    /// The state displayed with the ADB Device when running "adb devices"
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum DeviceState {
+        /// The device state is unknown.
+        Unspecified = 0,
+        /// The ADB device is in the "device" status.
+        Device = 1,
+        /// The ADB device is in the "recovery" status.
+        Recovery = 2,
+        /// The ADB device is in the "rescue" status.
+        Rescue = 3,
+        /// The ADB device is in the "sideload" status.
+        Sideload = 4,
+        /// The ADB device is in the "missing" status.
+        Missing = 10,
+        /// The ADB device is in the "offline" status.
+        Offline = 11,
+        /// The ADB device is in the "unauthorized" status.
+        Unauthorized = 12,
+        /// The ADB device is in the "authorizing" status.
+        Authorizing = 13,
+        /// The ADB device is in the "connecting" status.
+        Connecting = 14,
+    }
+    impl DeviceState {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                DeviceState::Unspecified => "DEVICE_STATE_UNSPECIFIED",
+                DeviceState::Device => "DEVICE",
+                DeviceState::Recovery => "RECOVERY",
+                DeviceState::Rescue => "RESCUE",
+                DeviceState::Sideload => "SIDELOAD",
+                DeviceState::Missing => "MISSING",
+                DeviceState::Offline => "OFFLINE",
+                DeviceState::Unauthorized => "UNAUTHORIZED",
+                DeviceState::Authorizing => "AUTHORIZING",
+                DeviceState::Connecting => "CONNECTING",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "DEVICE_STATE_UNSPECIFIED" => Some(Self::Unspecified),
+                "DEVICE" => Some(Self::Device),
+                "RECOVERY" => Some(Self::Recovery),
+                "RESCUE" => Some(Self::Rescue),
+                "SIDELOAD" => Some(Self::Sideload),
+                "MISSING" => Some(Self::Missing),
+                "OFFLINE" => Some(Self::Offline),
+                "UNAUTHORIZED" => Some(Self::Unauthorized),
+                "AUTHORIZING" => Some(Self::Authorizing),
+                "CONNECTING" => Some(Self::Connecting),
+                _ => None,
+            }
+        }
+    }
+}
+/// The result of a stream.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StreamStatus {
+    /// The unique ID of this stream, assigned by the client.
+    #[prost(int32, tag = "1")]
+    pub stream_id: i32,
+    /// The result of the stream. Either "Okay" for success or "Fail" for failure.
+    #[prost(oneof = "stream_status::Status", tags = "2, 3")]
+    pub status: ::core::option::Option<stream_status::Status>,
+}
+/// Nested message and enum types in `StreamStatus`.
+pub mod stream_status {
+    /// The result of the stream. Either "Okay" for success or "Fail" for failure.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Status {
+        /// Okay for success.
+        #[prost(message, tag = "2")]
+        Okay(super::Okay),
+        /// Fail for failure.
+        #[prost(message, tag = "3")]
+        Fail(super::Fail),
+    }
+}
+/// Message for opening a new stream.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Open {
+    /// The unique ID that will be used to talk to this stream. This should
+    /// probably just be a number that increments for each new Open request.
+    #[prost(int32, tag = "1")]
+    pub stream_id: i32,
+    /// An ADB service to use in the new stream.
+    #[prost(string, tag = "2")]
+    pub service: ::prost::alloc::string::String,
+}
+/// Data for a stream.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StreamData {
+    /// The unique ID of this stream, assigned by the client.
+    #[prost(int32, tag = "1")]
+    pub stream_id: i32,
+    /// The data of the stream, either bytes or "Close", indicating that the stream
+    /// is done.
+    #[prost(oneof = "stream_data::Contents", tags = "2, 3")]
+    pub contents: ::core::option::Option<stream_data::Contents>,
+}
+/// Nested message and enum types in `StreamData`.
+pub mod stream_data {
+    /// The data of the stream, either bytes or "Close", indicating that the stream
+    /// is done.
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Contents {
+        /// Data in the stream.
+        #[prost(bytes, tag = "2")]
+        Data(::prost::bytes::Bytes),
+        /// The stream is closing. EOF.
+        #[prost(message, tag = "3")]
+        Close(super::Close),
+    }
+}
+/// Message signifying that the stream is open
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Okay {}
+/// Message signifying that the stream failed to open
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Fail {
+    /// A user-displayable failure reason.
+    #[prost(string, tag = "1")]
+    pub reason: ::prost::alloc::string::String,
+}
+/// Message signifying that the stream closed.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Close {}
 /// TestMatrix captures all details about a test. It contains the environment
 /// configuration, test specification, test executions and overall state and
 /// outcome.
@@ -181,6 +395,10 @@ pub struct TestSetup {
     /// storage path prefix for that device.
     #[prost(string, repeated, tag = "2")]
     pub directories_to_pull: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Optional. Initial setup APKs to install before the app under test is
+    /// installed. Currently capped at 100.
+    #[prost(message, repeated, tag = "29")]
+    pub initial_setup_apks: ::prost::alloc::vec::Vec<Apk>,
     /// APKs to install in addition to those being directly tested. These will be
     /// installed after the app under test.
     /// Currently capped at 100.
@@ -1022,6 +1240,8 @@ pub mod invalid_request_detail {
         Unsupported = 4,
         /// This request is not currently implemented.
         NotImplemented = 5,
+        /// The caller has no permission for storing the test results
+        ResultStoragePermissionDenied = 6,
     }
     impl Reason {
         /// String value of the enum field names used in the ProtoBuf definition.
@@ -1036,6 +1256,9 @@ pub mod invalid_request_detail {
                 Reason::ResourceNotFound => "RESOURCE_NOT_FOUND",
                 Reason::Unsupported => "UNSUPPORTED",
                 Reason::NotImplemented => "NOT_IMPLEMENTED",
+                Reason::ResultStoragePermissionDenied => {
+                    "RESULT_STORAGE_PERMISSION_DENIED"
+                }
             }
         }
         /// Creates an enum from field names used in the ProtoBuf definition.
@@ -1047,6 +1270,9 @@ pub mod invalid_request_detail {
                 "RESOURCE_NOT_FOUND" => Some(Self::ResourceNotFound),
                 "UNSUPPORTED" => Some(Self::Unsupported),
                 "NOT_IMPLEMENTED" => Some(Self::NotImplemented),
+                "RESULT_STORAGE_PERMISSION_DENIED" => {
+                    Some(Self::ResultStoragePermissionDenied)
+                }
                 _ => None,
             }
         }
@@ -1091,7 +1317,7 @@ pub struct UniformSharding {
     /// Required. The total number of shards to create. This must always be a
     /// positive number that is no greater than the total number of test cases.
     /// When you select one or more physical devices, the number of shards must be
-    /// <= 50. When you select one or more ARM virtual devices, it must be <= 100.
+    /// <= 50. When you select one or more ARM virtual devices, it must be <= 200.
     /// When you select only x86 virtual devices, it must be <= 500.
     #[prost(int32, tag = "1")]
     pub num_shards: i32,
@@ -1108,7 +1334,7 @@ pub struct ManualSharding {
     /// each manually-created shard. You must specify at least one shard if this
     /// field is present. When you select one or more physical devices, the number
     /// of repeated test_targets_for_shard must be <= 50. When you select one or
-    /// more ARM virtual devices, it must be <= 100. When you select only x86
+    /// more ARM virtual devices, it must be <= 200. When you select only x86
     /// virtual devices, it must be <= 500.
     #[prost(message, repeated, tag = "1")]
     pub test_targets_for_shard: ::prost::alloc::vec::Vec<TestTargetsForShard>,
@@ -1164,7 +1390,7 @@ pub struct SmartSharding {
     ///
     /// Note that there is a limit for maximum number of shards. When you select
     /// one or more physical devices, the number of shards must be <= 50. When you
-    /// select one or more ARM virtual devices, it must be <= 100. When you select
+    /// select one or more ARM virtual devices, it must be <= 200. When you select
     /// only x86 virtual devices, it must be <= 500. To guarantee at least one test
     /// case for per shard, the number of shards will not exceed the number of test
     /// cases. Each shard created counts toward daily test quota.
@@ -1931,448 +2157,6 @@ pub mod test_execution_service_client {
         }
     }
 }
-/// Android application details based on application manifest and apk archive
-/// contents.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ApkDetail {
-    #[prost(message, optional, tag = "1")]
-    pub apk_manifest: ::core::option::Option<ApkManifest>,
-}
-/// An Android app manifest. See
-/// <http://developer.android.com/guide/topics/manifest/manifest-intro.html>
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ApkManifest {
-    /// Full Java-style package name for this application, e.g.
-    /// "com.example.foo".
-    #[prost(string, tag = "1")]
-    pub package_name: ::prost::alloc::string::String,
-    /// Minimum API level required for the application to run.
-    #[prost(int32, tag = "2")]
-    pub min_sdk_version: i32,
-    /// Maximum API level on which the application is designed to run.
-    #[prost(int32, tag = "3")]
-    pub max_sdk_version: i32,
-    /// Specifies the API Level on which the application is designed to run.
-    #[prost(int32, tag = "6")]
-    pub target_sdk_version: i32,
-    /// User-readable name for the application.
-    #[prost(string, tag = "4")]
-    pub application_label: ::prost::alloc::string::String,
-    #[prost(message, repeated, tag = "5")]
-    pub intent_filters: ::prost::alloc::vec::Vec<IntentFilter>,
-    /// Permissions declared to be used by the application
-    #[prost(string, repeated, tag = "7")]
-    pub uses_permission: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Version number used internally by the app.
-    #[prost(int64, tag = "8")]
-    pub version_code: i64,
-    /// Version number shown to users.
-    #[prost(string, tag = "9")]
-    pub version_name: ::prost::alloc::string::String,
-    /// Meta-data tags defined in the manifest.
-    #[prost(message, repeated, tag = "10")]
-    pub metadata: ::prost::alloc::vec::Vec<Metadata>,
-    /// Feature usage tags defined in the manifest.
-    #[prost(message, repeated, tag = "11")]
-    pub uses_feature: ::prost::alloc::vec::Vec<UsesFeature>,
-    /// Services contained in the <application> tag.
-    #[prost(message, repeated, tag = "12")]
-    pub services: ::prost::alloc::vec::Vec<Service>,
-}
-/// The <service> section of an <application> tag.
-/// <https://developer.android.com/guide/topics/manifest/service-element>
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Service {
-    /// The android:name value
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// Intent filters in the service
-    #[prost(message, repeated, tag = "2")]
-    pub intent_filter: ::prost::alloc::vec::Vec<IntentFilter>,
-}
-/// The <intent-filter> section of an <activity> tag.
-/// <https://developer.android.com/guide/topics/manifest/intent-filter-element.html>
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct IntentFilter {
-    /// The android:name value of the <action> tag.
-    #[prost(string, repeated, tag = "1")]
-    pub action_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The android:name value of the <category> tag.
-    #[prost(string, repeated, tag = "2")]
-    pub category_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// The android:mimeType value of the <data> tag.
-    #[prost(string, tag = "3")]
-    pub mime_type: ::prost::alloc::string::String,
-}
-/// A <meta-data> tag within a manifest.
-/// <https://developer.android.com/guide/topics/manifest/meta-data-element.html>
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Metadata {
-    /// The android:name value
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The android:value value
-    #[prost(string, tag = "2")]
-    pub value: ::prost::alloc::string::String,
-}
-/// A <uses-feature> tag within a manifest.
-/// <https://developer.android.com/guide/topics/manifest/uses-feature-element.html>
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UsesFeature {
-    /// The android:name value
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-    /// The android:required value
-    #[prost(bool, tag = "2")]
-    pub is_required: bool,
-}
-/// A request to get the details of an Android application APK.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetApkDetailsRequest {
-    /// The APK to be parsed for details.
-    #[prost(message, optional, tag = "1")]
-    pub location: ::core::option::Option<FileReference>,
-}
-/// Response containing the details of the specified Android application APK.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetApkDetailsResponse {
-    /// Details of the Android APK.
-    #[prost(message, optional, tag = "1")]
-    pub apk_detail: ::core::option::Option<ApkDetail>,
-}
-/// Generated client implementations.
-pub mod application_detail_service_client {
-    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    use tonic::codegen::*;
-    use tonic::codegen::http::Uri;
-    /// A service which parses input applications and returns details that can be
-    /// useful in the context of testing.
-    #[derive(Debug, Clone)]
-    pub struct ApplicationDetailServiceClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    impl<T> ApplicationDetailServiceClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_origin(inner: T, origin: Uri) -> Self {
-            let inner = tonic::client::Grpc::with_origin(inner, origin);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> ApplicationDetailServiceClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-            >>::Error: Into<StdError> + Send + Sync,
-        {
-            ApplicationDetailServiceClient::new(
-                InterceptedService::new(inner, interceptor),
-            )
-        }
-        /// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.send_compressed(encoding);
-            self
-        }
-        /// Enable decompressing responses.
-        #[must_use]
-        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.accept_compressed(encoding);
-            self
-        }
-        /// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        #[must_use]
-        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_decoding_message_size(limit);
-            self
-        }
-        /// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        #[must_use]
-        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_encoding_message_size(limit);
-            self
-        }
-        /// Gets the details of an Android application APK.
-        pub async fn get_apk_details(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetApkDetailsRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::GetApkDetailsResponse>,
-            tonic::Status,
-        > {
-            self.inner
-                .ready()
-                .await
-                .map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        format!("Service was not ready: {}", e.into()),
-                    )
-                })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/google.devtools.testing.v1.ApplicationDetailService/GetApkDetails",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        "google.devtools.testing.v1.ApplicationDetailService",
-                        "GetApkDetails",
-                    ),
-                );
-            self.inner.unary(req, path, codec).await
-        }
-    }
-}
-/// A message returned from a device.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct DeviceMessage {
-    #[prost(oneof = "device_message::Contents", tags = "1, 2, 3")]
-    pub contents: ::core::option::Option<device_message::Contents>,
-}
-/// Nested message and enum types in `DeviceMessage`.
-pub mod device_message {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Contents {
-        /// Information about the device's state.
-        #[prost(message, tag = "1")]
-        StatusUpdate(super::StatusUpdate),
-        /// The result of a device stream from ADB.
-        #[prost(message, tag = "2")]
-        StreamStatus(super::StreamStatus),
-        /// Data from an open stream.
-        #[prost(message, tag = "3")]
-        StreamData(super::StreamData),
-    }
-}
-/// A message to an ADB server.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AdbMessage {
-    #[prost(oneof = "adb_message::Contents", tags = "1, 2")]
-    pub contents: ::core::option::Option<adb_message::Contents>,
-}
-/// Nested message and enum types in `AdbMessage`.
-pub mod adb_message {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Contents {
-        /// Open a new stream.
-        #[prost(message, tag = "1")]
-        Open(super::Open),
-        /// Send data to a stream.
-        #[prost(message, tag = "2")]
-        StreamData(super::StreamData),
-    }
-}
-/// A StatusUpdate message given over the ADB protocol for the device state.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StatusUpdate {
-    /// The device's state
-    #[prost(enumeration = "status_update::DeviceState", tag = "1")]
-    pub state: i32,
-    /// A map of properties with information about this device.
-    #[prost(btree_map = "string, string", tag = "2")]
-    pub properties: ::prost::alloc::collections::BTreeMap<
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    >,
-    /// A comma-separated list of "features" that this device supports.
-    #[prost(string, tag = "3")]
-    pub features: ::prost::alloc::string::String,
-}
-/// Nested message and enum types in `StatusUpdate`.
-pub mod status_update {
-    /// The state displayed with the ADB Device when running "adb devices"
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum DeviceState {
-        /// The device state is unknown.
-        Unspecified = 0,
-        /// The ADB device is in the "device" status.
-        Device = 1,
-        /// The ADB device is in the "recovery" status.
-        Recovery = 2,
-        /// The ADB device is in the "rescue" status.
-        Rescue = 3,
-        /// The ADB device is in the "sideload" status.
-        Sideload = 4,
-        /// The ADB device is in the "missing" status.
-        Missing = 10,
-        /// The ADB device is in the "offline" status.
-        Offline = 11,
-        /// The ADB device is in the "unauthorized" status.
-        Unauthorized = 12,
-        /// The ADB device is in the "authorizing" status.
-        Authorizing = 13,
-        /// The ADB device is in the "connecting" status.
-        Connecting = 14,
-    }
-    impl DeviceState {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                DeviceState::Unspecified => "DEVICE_STATE_UNSPECIFIED",
-                DeviceState::Device => "DEVICE",
-                DeviceState::Recovery => "RECOVERY",
-                DeviceState::Rescue => "RESCUE",
-                DeviceState::Sideload => "SIDELOAD",
-                DeviceState::Missing => "MISSING",
-                DeviceState::Offline => "OFFLINE",
-                DeviceState::Unauthorized => "UNAUTHORIZED",
-                DeviceState::Authorizing => "AUTHORIZING",
-                DeviceState::Connecting => "CONNECTING",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "DEVICE_STATE_UNSPECIFIED" => Some(Self::Unspecified),
-                "DEVICE" => Some(Self::Device),
-                "RECOVERY" => Some(Self::Recovery),
-                "RESCUE" => Some(Self::Rescue),
-                "SIDELOAD" => Some(Self::Sideload),
-                "MISSING" => Some(Self::Missing),
-                "OFFLINE" => Some(Self::Offline),
-                "UNAUTHORIZED" => Some(Self::Unauthorized),
-                "AUTHORIZING" => Some(Self::Authorizing),
-                "CONNECTING" => Some(Self::Connecting),
-                _ => None,
-            }
-        }
-    }
-}
-/// The result of a stream.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StreamStatus {
-    /// The unique ID of this stream, assigned by the client.
-    #[prost(int32, tag = "1")]
-    pub stream_id: i32,
-    /// The result of the stream. Either "Okay" for success or "Fail" for failure.
-    #[prost(oneof = "stream_status::Status", tags = "2, 3")]
-    pub status: ::core::option::Option<stream_status::Status>,
-}
-/// Nested message and enum types in `StreamStatus`.
-pub mod stream_status {
-    /// The result of the stream. Either "Okay" for success or "Fail" for failure.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Status {
-        /// Okay for success.
-        #[prost(message, tag = "2")]
-        Okay(super::Okay),
-        /// Fail for failure.
-        #[prost(message, tag = "3")]
-        Fail(super::Fail),
-    }
-}
-/// Message for opening a new stream.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Open {
-    /// The unique ID that will be used to talk to this stream. This should
-    /// probably just be a number that increments for each new Open request.
-    #[prost(int32, tag = "1")]
-    pub stream_id: i32,
-    /// An ADB service to use in the new stream.
-    #[prost(string, tag = "2")]
-    pub service: ::prost::alloc::string::String,
-}
-/// Data for a stream.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct StreamData {
-    /// The unique ID of this stream, assigned by the client.
-    #[prost(int32, tag = "1")]
-    pub stream_id: i32,
-    /// The data of the stream, either bytes or "Close", indicating that the stream
-    /// is done.
-    #[prost(oneof = "stream_data::Contents", tags = "2, 3")]
-    pub contents: ::core::option::Option<stream_data::Contents>,
-}
-/// Nested message and enum types in `StreamData`.
-pub mod stream_data {
-    /// The data of the stream, either bytes or "Close", indicating that the stream
-    /// is done.
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum Contents {
-        /// Data in the stream.
-        #[prost(bytes, tag = "2")]
-        Data(::prost::bytes::Bytes),
-        /// The stream is closing. EOF.
-        #[prost(message, tag = "3")]
-        Close(super::Close),
-    }
-}
-/// Message signifying that the stream is open
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Okay {}
-/// Message signifying that the stream failed to open
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Fail {
-    /// A user-displayable failure reason.
-    #[prost(string, tag = "1")]
-    pub reason: ::prost::alloc::string::String,
-}
-/// Message signifying that the stream closed.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Close {}
 /// A Request for the device session from the session service.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2475,11 +2259,6 @@ pub struct DeviceSession {
     /// Output only. The timestamp that the session first became ACTIVE.
     #[prost(message, optional, tag = "9")]
     pub active_start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Optional. The list of requested devices. At most two devices may be
-    /// simultaneously requested.
-    #[deprecated]
-    #[prost(message, optional, tag = "12")]
-    pub android_device_list: ::core::option::Option<AndroidDeviceList>,
     /// Required. The requested device
     #[prost(message, optional, tag = "15")]
     pub android_device: ::core::option::Option<AndroidDevice>,
@@ -2580,7 +2359,7 @@ pub mod device_session {
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Expiration {
         /// Optional. The amount of time that a device will be initially allocated
-        /// for. This can eventually be extended with the ExtendDeviceSession RPC.
+        /// for. This can eventually be extended with the UpdateDeviceSession RPC.
         /// Default: 30 minutes.
         #[prost(message, tag = "13")]
         Ttl(::prost_types::Duration),
@@ -3673,6 +3452,234 @@ pub mod test_environment_discovery_service_client {
                     GrpcMethod::new(
                         "google.devtools.testing.v1.TestEnvironmentDiscoveryService",
                         "GetTestEnvironmentCatalog",
+                    ),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+    }
+}
+/// Android application details based on application manifest and apk archive
+/// contents.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ApkDetail {
+    #[prost(message, optional, tag = "1")]
+    pub apk_manifest: ::core::option::Option<ApkManifest>,
+}
+/// An Android app manifest. See
+/// <http://developer.android.com/guide/topics/manifest/manifest-intro.html>
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ApkManifest {
+    /// Full Java-style package name for this application, e.g.
+    /// "com.example.foo".
+    #[prost(string, tag = "1")]
+    pub package_name: ::prost::alloc::string::String,
+    /// Minimum API level required for the application to run.
+    #[prost(int32, tag = "2")]
+    pub min_sdk_version: i32,
+    /// Maximum API level on which the application is designed to run.
+    #[prost(int32, tag = "3")]
+    pub max_sdk_version: i32,
+    /// Specifies the API Level on which the application is designed to run.
+    #[prost(int32, tag = "6")]
+    pub target_sdk_version: i32,
+    /// User-readable name for the application.
+    #[prost(string, tag = "4")]
+    pub application_label: ::prost::alloc::string::String,
+    #[prost(message, repeated, tag = "5")]
+    pub intent_filters: ::prost::alloc::vec::Vec<IntentFilter>,
+    /// Permissions declared to be used by the application
+    #[prost(string, repeated, tag = "7")]
+    pub uses_permission: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Version number used internally by the app.
+    #[prost(int64, tag = "8")]
+    pub version_code: i64,
+    /// Version number shown to users.
+    #[prost(string, tag = "9")]
+    pub version_name: ::prost::alloc::string::String,
+    /// Meta-data tags defined in the manifest.
+    #[prost(message, repeated, tag = "10")]
+    pub metadata: ::prost::alloc::vec::Vec<Metadata>,
+    /// Feature usage tags defined in the manifest.
+    #[prost(message, repeated, tag = "11")]
+    pub uses_feature: ::prost::alloc::vec::Vec<UsesFeature>,
+    /// Services contained in the <application> tag.
+    #[prost(message, repeated, tag = "12")]
+    pub services: ::prost::alloc::vec::Vec<Service>,
+}
+/// The <service> section of an <application> tag.
+/// <https://developer.android.com/guide/topics/manifest/service-element>
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Service {
+    /// The android:name value
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// Intent filters in the service
+    #[prost(message, repeated, tag = "2")]
+    pub intent_filter: ::prost::alloc::vec::Vec<IntentFilter>,
+}
+/// The <intent-filter> section of an <activity> tag.
+/// <https://developer.android.com/guide/topics/manifest/intent-filter-element.html>
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct IntentFilter {
+    /// The android:name value of the <action> tag.
+    #[prost(string, repeated, tag = "1")]
+    pub action_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The android:name value of the <category> tag.
+    #[prost(string, repeated, tag = "2")]
+    pub category_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// The android:mimeType value of the <data> tag.
+    #[prost(string, tag = "3")]
+    pub mime_type: ::prost::alloc::string::String,
+}
+/// A <meta-data> tag within a manifest.
+/// <https://developer.android.com/guide/topics/manifest/meta-data-element.html>
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Metadata {
+    /// The android:name value
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The android:value value
+    #[prost(string, tag = "2")]
+    pub value: ::prost::alloc::string::String,
+}
+/// A <uses-feature> tag within a manifest.
+/// <https://developer.android.com/guide/topics/manifest/uses-feature-element.html>
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UsesFeature {
+    /// The android:name value
+    #[prost(string, tag = "1")]
+    pub name: ::prost::alloc::string::String,
+    /// The android:required value
+    #[prost(bool, tag = "2")]
+    pub is_required: bool,
+}
+/// A request to get the details of an Android application APK.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetApkDetailsRequest {
+    /// The APK to be parsed for details.
+    #[prost(message, optional, tag = "1")]
+    pub location: ::core::option::Option<FileReference>,
+}
+/// Response containing the details of the specified Android application APK.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetApkDetailsResponse {
+    /// Details of the Android APK.
+    #[prost(message, optional, tag = "1")]
+    pub apk_detail: ::core::option::Option<ApkDetail>,
+}
+/// Generated client implementations.
+pub mod application_detail_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    use tonic::codegen::http::Uri;
+    /// A service which parses input applications and returns details that can be
+    /// useful in the context of testing.
+    #[derive(Debug, Clone)]
+    pub struct ApplicationDetailServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl<T> ApplicationDetailServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_origin(inner: T, origin: Uri) -> Self {
+            let inner = tonic::client::Grpc::with_origin(inner, origin);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> ApplicationDetailServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+            >>::Error: Into<StdError> + Send + Sync,
+        {
+            ApplicationDetailServiceClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        /// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.send_compressed(encoding);
+            self
+        }
+        /// Enable decompressing responses.
+        #[must_use]
+        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.accept_compressed(encoding);
+            self
+        }
+        /// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        #[must_use]
+        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_decoding_message_size(limit);
+            self
+        }
+        /// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        #[must_use]
+        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_encoding_message_size(limit);
+            self
+        }
+        /// Gets the details of an Android application APK.
+        pub async fn get_apk_details(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetApkDetailsRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::GetApkDetailsResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/google.devtools.testing.v1.ApplicationDetailService/GetApkDetails",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        "google.devtools.testing.v1.ApplicationDetailService",
+                        "GetApkDetails",
                     ),
                 );
             self.inner.unary(req, path, codec).await
