@@ -58,7 +58,7 @@ The list of available features can be found [here](./google-api-proto/Cargo.toml
 | 1.243.0 <=       | 0.8.x  | 0.8.x       |
 | 1.280.0 <=       | 0.9.x  | 0.9.x       |
 | 1.415.0 <=       | 0.10.x | 0.10.x      |
-| 1.515.0 <=       | 0.11.x | 0.11.x      |
+| 1.516.0 <=       | 0.11.x | 0.11.x      |
 
 ## Example
 The complete code can be found [here](./examples/src/spanner.rs).
