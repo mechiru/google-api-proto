@@ -7833,6 +7833,7 @@
 <a href="#7832" id="7832">7832</a>
 <a href="#7833" id="7833">7833</a>
 <a href="#7834" id="7834">7834</a>
+<a href="#7835" id="7835">7835</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// An entry for an Access Control list.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -9129,9 +9130,10 @@
     <span class="doccomment">/// Whether the password policy is enabled or not.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>enable_password_policy: ::core::option::Option&lt;bool&gt;,
-    <span class="doccomment">/// Disallow credentials that have been previously compromised by a public data
-    /// breach.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    <span class="doccomment">/// This field is deprecated and will be removed in a future version of the
+    /// API.
+    </span><span class="attr">#[deprecated]
+    #[prost(message, optional, tag = <span class="string">"7"</span>)]
     </span><span class="kw">pub </span>disallow_compromised_credentials: ::core::option::Option&lt;bool&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `PasswordValidationPolicy`.

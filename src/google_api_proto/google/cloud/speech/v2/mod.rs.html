@@ -2831,6 +2831,59 @@
 <a href="#2830" id="2830">2830</a>
 <a href="#2831" id="2831">2831</a>
 <a href="#2832" id="2832">2832</a>
+<a href="#2833" id="2833">2833</a>
+<a href="#2834" id="2834">2834</a>
+<a href="#2835" id="2835">2835</a>
+<a href="#2836" id="2836">2836</a>
+<a href="#2837" id="2837">2837</a>
+<a href="#2838" id="2838">2838</a>
+<a href="#2839" id="2839">2839</a>
+<a href="#2840" id="2840">2840</a>
+<a href="#2841" id="2841">2841</a>
+<a href="#2842" id="2842">2842</a>
+<a href="#2843" id="2843">2843</a>
+<a href="#2844" id="2844">2844</a>
+<a href="#2845" id="2845">2845</a>
+<a href="#2846" id="2846">2846</a>
+<a href="#2847" id="2847">2847</a>
+<a href="#2848" id="2848">2848</a>
+<a href="#2849" id="2849">2849</a>
+<a href="#2850" id="2850">2850</a>
+<a href="#2851" id="2851">2851</a>
+<a href="#2852" id="2852">2852</a>
+<a href="#2853" id="2853">2853</a>
+<a href="#2854" id="2854">2854</a>
+<a href="#2855" id="2855">2855</a>
+<a href="#2856" id="2856">2856</a>
+<a href="#2857" id="2857">2857</a>
+<a href="#2858" id="2858">2858</a>
+<a href="#2859" id="2859">2859</a>
+<a href="#2860" id="2860">2860</a>
+<a href="#2861" id="2861">2861</a>
+<a href="#2862" id="2862">2862</a>
+<a href="#2863" id="2863">2863</a>
+<a href="#2864" id="2864">2864</a>
+<a href="#2865" id="2865">2865</a>
+<a href="#2866" id="2866">2866</a>
+<a href="#2867" id="2867">2867</a>
+<a href="#2868" id="2868">2868</a>
+<a href="#2869" id="2869">2869</a>
+<a href="#2870" id="2870">2870</a>
+<a href="#2871" id="2871">2871</a>
+<a href="#2872" id="2872">2872</a>
+<a href="#2873" id="2873">2873</a>
+<a href="#2874" id="2874">2874</a>
+<a href="#2875" id="2875">2875</a>
+<a href="#2876" id="2876">2876</a>
+<a href="#2877" id="2877">2877</a>
+<a href="#2878" id="2878">2878</a>
+<a href="#2879" id="2879">2879</a>
+<a href="#2880" id="2880">2880</a>
+<a href="#2881" id="2881">2881</a>
+<a href="#2882" id="2882">2882</a>
+<a href="#2883" id="2883">2883</a>
+<a href="#2884" id="2884">2884</a>
+<a href="#2885" id="2885">2885</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Request message for the
 /// [CreateRecognizer][google.cloud.speech.v2.Speech.CreateRecognizer] method.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3074,7 +3127,7 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Recognizer {
-    <span class="doccomment">/// Output only. The resource name of the Recognizer.
+    <span class="doccomment">/// Output only. Identifier. The resource name of the Recognizer.
     /// Format: `projects/{project}/locations/{location}/recognizers/{recognizer}`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
@@ -3987,10 +4040,47 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>InlineOutputConfig {}
+<span class="doccomment">/// Output configurations for serialized `BatchRecognizeResults` protos.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>NativeOutputFileFormatConfig {}
+<span class="doccomment">/// Output configurations for [WebVTT](&lt;https://www.w3.org/TR/webvtt1/&gt;) formatted
+/// subtitle file.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>VttOutputFileFormatConfig {}
+<span class="doccomment">/// Output configurations [SubRip
+/// Text](&lt;https://www.matroska.org/technical/subtitles.html#srt-subtitles&gt;)
+/// formatted subtitle file.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SrtOutputFileFormatConfig {}
+<span class="doccomment">/// Configuration for the format of the results stored to `output`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>OutputFormatConfig {
+    <span class="doccomment">/// Configuration for the native output format. If this field is set or if no
+    /// other output format field is set then transcripts will be written to the
+    /// sink in the native format.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>native: ::core::option::Option&lt;NativeOutputFileFormatConfig&gt;,
+    <span class="doccomment">/// Configuration for the vtt output format. If this field is set then
+    /// transcripts will be written to the sink in the vtt format.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>vtt: ::core::option::Option&lt;VttOutputFileFormatConfig&gt;,
+    <span class="doccomment">/// Configuration for the srt output format. If this field is set then
+    /// transcripts will be written to the sink in the srt format.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>srt: ::core::option::Option&lt;SrtOutputFileFormatConfig&gt;,
+}
 <span class="doccomment">/// Configuration options for the output(s) of recognition.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>RecognitionOutputConfig {
+    <span class="doccomment">/// Optional. Configuration for the format of the results stored to `output`.
+    /// If unspecified transcripts will be written in the `NATIVE` format only.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>output_format_config: ::core::option::Option&lt;OutputFormatConfig&gt;,
     <span class="attr">#[prost(oneof = <span class="string">"recognition_output_config::Output"</span>, tags = <span class="string">"1, 2"</span>)]
     </span><span class="kw">pub </span>output: ::core::option::Option&lt;recognition_output_config::Output&gt;,
 }
@@ -4049,6 +4139,14 @@
     <span class="doccomment">/// The Cloud Storage URI to which recognition results were written.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// The Cloud Storage URI to which recognition results were written as VTT
+    /// formatted captions. This is populated only when `VTT` output is requested.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>vtt_format_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// The Cloud Storage URI to which recognition results were written as SRT
+    /// formatted captions. This is populated only when `SRT` output is requested.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>srt_format_uri: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Final results returned inline in the recognition response.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4057,6 +4155,14 @@
     <span class="doccomment">/// The transcript for the audio file.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>transcript: ::core::option::Option&lt;BatchRecognizeResults&gt;,
+    <span class="doccomment">/// The transcript for the audio file as VTT formatted captions. This is
+    /// populated only when `VTT` output is requested.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>vtt_captions: ::prost::alloc::string::String,
+    <span class="doccomment">/// The transcript for the audio file as SRT formatted captions. This is
+    /// populated only when `SRT` output is requested.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>srt_captions: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Final results for a single file.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4348,8 +4454,8 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Config {
-    <span class="doccomment">/// Output only. The name of the config resource. There is exactly one config
-    /// resource per project per location. The expected format is
+    <span class="doccomment">/// Output only. Identifier. The name of the config resource. There is exactly
+    /// one config resource per project per location. The expected format is
     /// `projects/{project}/locations/{location}/config`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
@@ -4397,7 +4503,7 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CustomClass {
-    <span class="doccomment">/// Output only. The resource name of the CustomClass.
+    <span class="doccomment">/// Output only. Identifier. The resource name of the CustomClass.
     /// Format:
     /// `projects/{project}/locations/{location}/customClasses/{custom_class}`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -4405,8 +4511,8 @@
     <span class="doccomment">/// Output only. System-assigned unique identifier for the CustomClass.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// User-settable, human-readable name for the CustomClass. Must be 63
-    /// characters or less.
+    <span class="doccomment">/// Optional. User-settable, human-readable name for the CustomClass. Must be
+    /// 63 characters or less.
     </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
     <span class="doccomment">/// A collection of class items.
@@ -4427,7 +4533,7 @@
     <span class="doccomment">/// Output only. The time at which this resource will be purged.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
     </span><span class="kw">pub </span>expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Allows users to store small amounts of arbitrary data.
+    <span class="doccomment">/// Optional. Allows users to store small amounts of arbitrary data.
     /// Both the key and the value must be 63 characters or less each.
     /// At most 100 annotations.
     </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"10"</span>)]
@@ -4518,7 +4624,7 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>PhraseSet {
-    <span class="doccomment">/// Output only. The resource name of the PhraseSet.
+    <span class="doccomment">/// Output only. Identifier. The resource name of the PhraseSet.
     /// Format: `projects/{project}/locations/{location}/phraseSets/{phrase_set}`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,

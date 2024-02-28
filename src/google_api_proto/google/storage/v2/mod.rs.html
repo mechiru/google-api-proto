@@ -3309,6 +3309,18 @@
 <a href="#3308" id="3308">3308</a>
 <a href="#3309" id="3309">3309</a>
 <a href="#3310" id="3310">3310</a>
+<a href="#3311" id="3311">3311</a>
+<a href="#3312" id="3312">3312</a>
+<a href="#3313" id="3313">3313</a>
+<a href="#3314" id="3314">3314</a>
+<a href="#3315" id="3315">3315</a>
+<a href="#3316" id="3316">3316</a>
+<a href="#3317" id="3317">3317</a>
+<a href="#3318" id="3318">3318</a>
+<a href="#3319" id="3319">3319</a>
+<a href="#3320" id="3320">3320</a>
+<a href="#3321" id="3321">3321</a>
+<a href="#3322" id="3322">3322</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Request message for DeleteBucket.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -5459,6 +5471,18 @@
     <span class="doccomment">/// A user-specified timestamp set on an object.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"26"</span>)]
     </span><span class="kw">pub </span>custom_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. This is the time when the object became soft-deleted.
+    ///
+    /// Soft-deleted objects are only accessible if a soft_delete_policy is
+    /// enabled. Also see hard_delete_time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"28"</span>)]
+    </span><span class="kw">pub </span>soft_delete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The time when the object will be permanently deleted.
+    ///
+    /// Only set when an object becomes soft-deleted with a soft_delete_policy.
+    /// Otherwise, the object will not be accessible.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"29"</span>)]
+    </span><span class="kw">pub </span>hard_delete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
 }
 <span class="doccomment">/// An access-control entry.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

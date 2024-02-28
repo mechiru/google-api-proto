@@ -2043,6 +2043,26 @@
 <a href="#2042" id="2042">2042</a>
 <a href="#2043" id="2043">2043</a>
 <a href="#2044" id="2044">2044</a>
+<a href="#2045" id="2045">2045</a>
+<a href="#2046" id="2046">2046</a>
+<a href="#2047" id="2047">2047</a>
+<a href="#2048" id="2048">2048</a>
+<a href="#2049" id="2049">2049</a>
+<a href="#2050" id="2050">2050</a>
+<a href="#2051" id="2051">2051</a>
+<a href="#2052" id="2052">2052</a>
+<a href="#2053" id="2053">2053</a>
+<a href="#2054" id="2054">2054</a>
+<a href="#2055" id="2055">2055</a>
+<a href="#2056" id="2056">2056</a>
+<a href="#2057" id="2057">2057</a>
+<a href="#2058" id="2058">2058</a>
+<a href="#2059" id="2059">2059</a>
+<a href="#2060" id="2060">2060</a>
+<a href="#2061" id="2061">2061</a>
+<a href="#2062" id="2062">2062</a>
+<a href="#2063" id="2063">2063</a>
+<a href="#2064" id="2064">2064</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Arrow schema as specified in
 /// &lt;https://arrow.apache.org/docs/python/api/datatypes.html&gt;
 /// and serialized to bytes using IPC:
@@ -2276,9 +2296,25 @@
     /// (&lt;https://cloud.google.com/bigquery/docs/default-values&gt;) for this field.
     </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
     </span><span class="kw">pub </span>default_value_expression: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The subtype of the RANGE, if the type of this field is RANGE. If
+    /// the type is RANGE, this field is required. Possible values for the field
+    /// element type of a RANGE include:
+    /// * DATE
+    /// * DATETIME
+    /// * TIMESTAMP
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>range_element_type: ::core::option::Option&lt;table_field_schema::FieldElementType&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `TableFieldSchema`.
 </span><span class="kw">pub mod </span>table_field_schema {
+    <span class="doccomment">/// Represents the type of a field element.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>FieldElementType {
+        <span class="doccomment">/// Required. The type of a field element.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>r#type: i32,
+    }
     <span class="attr">#[derive(
         Clone,
         Copy,
@@ -2324,6 +2360,8 @@
         </span>Interval = <span class="number">14</span>,
         <span class="doccomment">/// JSON, String
         </span>Json = <span class="number">15</span>,
+        <span class="doccomment">/// RANGE
+        </span>Range = <span class="number">16</span>,
     }
     <span class="kw">impl </span>Type {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -2348,6 +2386,7 @@
                 Type::Bignumeric =&gt; <span class="string">"BIGNUMERIC"</span>,
                 Type::Interval =&gt; <span class="string">"INTERVAL"</span>,
                 Type::Json =&gt; <span class="string">"JSON"</span>,
+                Type::Range =&gt; <span class="string">"RANGE"</span>,
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -2369,6 +2408,7 @@
                 <span class="string">"BIGNUMERIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bignumeric),
                 <span class="string">"INTERVAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Interval),
                 <span class="string">"JSON" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Json),
+                <span class="string">"RANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Range),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }

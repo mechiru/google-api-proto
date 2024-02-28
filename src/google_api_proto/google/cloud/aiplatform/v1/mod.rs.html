@@ -31626,6 +31626,23 @@
 <a href="#31625" id="31625">31625</a>
 <a href="#31626" id="31626">31626</a>
 <a href="#31627" id="31627">31627</a>
+<a href="#31628" id="31628">31628</a>
+<a href="#31629" id="31629">31629</a>
+<a href="#31630" id="31630">31630</a>
+<a href="#31631" id="31631">31631</a>
+<a href="#31632" id="31632">31632</a>
+<a href="#31633" id="31633">31633</a>
+<a href="#31634" id="31634">31634</a>
+<a href="#31635" id="31635">31635</a>
+<a href="#31636" id="31636">31636</a>
+<a href="#31637" id="31637">31637</a>
+<a href="#31638" id="31638">31638</a>
+<a href="#31639" id="31639">31639</a>
+<a href="#31640" id="31640">31640</a>
+<a href="#31641" id="31641">31641</a>
+<a href="#31642" id="31642">31642</a>
+<a href="#31643" id="31643">31643</a>
+<a href="#31644" id="31644">31644</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(
     any(
         feature = <span class="string">"google-cloud-aiplatform-v1-schema-predict-instance"</span>,
@@ -45112,6 +45129,10 @@
     /// If no value is provided, will use feature_id.
     </span><span class="attr">#[prost(string, tag = <span class="string">"106"</span>)]
     </span><span class="kw">pub </span>version_column_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Entity responsible for maintaining this feature. Can be comma separated
+    /// list of email addresses or URIs.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"107"</span>)]
+    </span><span class="kw">pub </span>point_of_contact: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Nested message and enum types in `Feature`.
 </span><span class="kw">pub mod </span>feature {
@@ -51248,17 +51269,30 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>FeatureViewDataKey {
-    <span class="attr">#[prost(oneof = <span class="string">"feature_view_data_key::KeyOneof"</span>, tags = <span class="string">"1"</span>)]
+    <span class="attr">#[prost(oneof = <span class="string">"feature_view_data_key::KeyOneof"</span>, tags = <span class="string">"1, 2"</span>)]
     </span><span class="kw">pub </span>key_oneof: ::core::option::Option&lt;feature_view_data_key::KeyOneof&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `FeatureViewDataKey`.
 </span><span class="kw">pub mod </span>feature_view_data_key {
+    <span class="doccomment">/// ID that is comprised from several parts (columns).
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>CompositeKey {
+        <span class="doccomment">/// Parts to construct Entity ID. Should match with the same ID columns as
+        /// defined in FeatureView in the same order.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>parts: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    }
     <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>KeyOneof {
         <span class="doccomment">/// String key to use for lookup.
         </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
         </span>Key(::prost::alloc::string::String),
+        <span class="doccomment">/// The actual Entity ID will be composed from this struct. This should match
+        /// with the way ID is defined in the FeatureView spec.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>CompositeKey(CompositeKey),
     }
 }
 <span class="doccomment">/// Request message for

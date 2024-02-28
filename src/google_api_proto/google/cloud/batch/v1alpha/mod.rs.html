@@ -2066,6 +2066,32 @@
 <a href="#2065" id="2065">2065</a>
 <a href="#2066" id="2066">2066</a>
 <a href="#2067" id="2067">2067</a>
+<a href="#2068" id="2068">2068</a>
+<a href="#2069" id="2069">2069</a>
+<a href="#2070" id="2070">2070</a>
+<a href="#2071" id="2071">2071</a>
+<a href="#2072" id="2072">2072</a>
+<a href="#2073" id="2073">2073</a>
+<a href="#2074" id="2074">2074</a>
+<a href="#2075" id="2075">2075</a>
+<a href="#2076" id="2076">2076</a>
+<a href="#2077" id="2077">2077</a>
+<a href="#2078" id="2078">2078</a>
+<a href="#2079" id="2079">2079</a>
+<a href="#2080" id="2080">2080</a>
+<a href="#2081" id="2081">2081</a>
+<a href="#2082" id="2082">2082</a>
+<a href="#2083" id="2083">2083</a>
+<a href="#2084" id="2084">2084</a>
+<a href="#2085" id="2085">2085</a>
+<a href="#2086" id="2086">2086</a>
+<a href="#2087" id="2087">2087</a>
+<a href="#2088" id="2088">2088</a>
+<a href="#2089" id="2089">2089</a>
+<a href="#2090" id="2090">2090</a>
+<a href="#2091" id="2091">2091</a>
+<a href="#2092" id="2092">2092</a>
+<a href="#2093" id="2093">2093</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Volume describes a volume and parameters for it to be mounted to a VM.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2414,14 +2440,39 @@
         /// `container.options` field.
         </span><span class="attr">#[prost(bool, tag = <span class="string">"9"</span>)]
         </span><span class="kw">pub </span>block_external_network: bool,
-        <span class="doccomment">/// Optional username for logging in to a docker registry. If username
-        /// matches `projects/*/secrets/*/versions/*` then Batch will read the
-        /// username from the Secret Manager.
+        <span class="doccomment">/// Required if the container image is from a private Docker registry. The
+        /// username to login to the Docker registry that contains the image.
+        ///
+        /// You can either specify the username directly by using plain text or
+        /// specify an encrypted username by using a Secret Manager secret:
+        /// `projects/*/secrets/*/versions/*`. However, using a secret is
+        /// recommended for enhanced security.
+        ///
+        /// Caution: If you specify the username using plain text, you risk the
+        /// username being exposed to any users who can view the job or its logs.
+        /// To avoid this risk, specify a secret that contains the username instead.
+        ///
+        /// Learn more about [Secret
+        /// Manager](&lt;https://cloud.google.com/secret-manager/docs/&gt;) and [using
+        /// Secret Manager with
+        /// Batch](&lt;https://cloud.google.com/batch/docs/create-run-job-secret-manager&gt;).
         </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
         </span><span class="kw">pub </span>username: ::prost::alloc::string::String,
-        <span class="doccomment">/// Optional password for logging in to a docker registry. If password
-        /// matches `projects/*/secrets/*/versions/*` then Batch will read the
-        /// password from the Secret Manager;
+        <span class="doccomment">/// Required if the container image is from a private Docker registry. The
+        /// password to login to the Docker registry that contains the image.
+        ///
+        /// For security, it is strongly recommended to specify an
+        /// encrypted password by using a Secret Manager secret:
+        /// `projects/*/secrets/*/versions/*`.
+        ///
+        /// Warning: If you specify the password using plain text, you risk the
+        /// password being exposed to any users who can view the job or its logs.
+        /// To avoid this risk, specify a secret that contains the password instead.
+        ///
+        /// Learn more about [Secret
+        /// Manager](&lt;https://cloud.google.com/secret-manager/docs/&gt;) and [using
+        /// Secret Manager with
+        /// Batch](&lt;https://cloud.google.com/batch/docs/create-run-job-secret-manager&gt;).
         </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
         </span><span class="kw">pub </span>password: ::prost::alloc::string::String,
         <span class="doccomment">/// Optional. If set to true, this container runnable uses Image streaming.
@@ -2463,7 +2514,7 @@
             /// first line of the file.(For example, to execute the script using bash,
             /// `#!/bin/bash` should be the first line of the file. To execute the
             /// script using`Python3`, `#!/usr/bin/env python3` should be the first
-            /// line of the file.) Otherwise, the file will by default be excuted by
+            /// line of the file.) Otherwise, the file will by default be executed by
             /// `/bin/sh`.
             </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
             </span>Path(::prost::alloc::string::String),
@@ -2473,7 +2524,7 @@
             /// beginning of the text.(For example, to execute the script using bash,
             /// `#!/bin/bash\n` should be added. To execute the script using`Python3`,
             /// `#!/usr/bin/env python3\n` should be added.) Otherwise, the script will
-            /// by default be excuted by `/bin/sh`.
+            /// by default be executed by `/bin/sh`.
             </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
             </span>Text(::prost::alloc::string::String),
         }
@@ -2685,7 +2736,7 @@
     /// For example: "projects/123456/locations/us-central1/jobs/job01".
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. A system generated unique ID (in UUID4 format) for the Job.
+    <span class="doccomment">/// Output only. A system generated unique ID for the Job.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
     <span class="doccomment">/// Priority of the Job.
@@ -3622,17 +3673,18 @@
     </span><span class="kw">pub </span>task_count_per_node: i64,
     <span class="doccomment">/// When true, Batch will populate a file with a list of all VMs assigned to
     /// the TaskGroup and set the BATCH_HOSTS_FILE environment variable to the path
-    /// of that file. Defaults to false.
+    /// of that file. Defaults to false. The host file supports up to 1000 VMs.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"11"</span>)]
     </span><span class="kw">pub </span>require_hosts_file: bool,
     <span class="doccomment">/// When true, Batch will configure SSH to allow passwordless login between
     /// VMs running the Batch tasks in the same TaskGroup.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"12"</span>)]
     </span><span class="kw">pub </span>permissive_ssh: bool,
-    <span class="doccomment">/// Optional. If not set or set to false, Batch will use root user to execute
-    /// runnables. If set to true, Batch will make sure to run the runnables using
-    /// non-root user. Currently, the non-root user Batch used is generated by OS
-    /// login. Reference: &lt;https://cloud.google.com/compute/docs/oslogin&gt;
+    <span class="doccomment">/// Optional. If not set or set to false, Batch uses the root user to execute
+    /// runnables. If set to true, Batch runs the runnables using a non-root user.
+    /// Currently, the non-root user Batch used is generated by OS Login. For more
+    /// information, see [About OS
+    /// Login](&lt;https://cloud.google.com/compute/docs/oslogin&gt;).
     </span><span class="attr">#[prost(bool, tag = <span class="string">"14"</span>)]
     </span><span class="kw">pub </span>run_as_non_root: bool,
 }

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["AvailabilityType","InstanceType","State"],"mod":["update_policy"],"struct":["ClientConnectionConfig","MachineConfig","Node","QueryInsightsInstanceConfig","ReadPoolConfig","UpdatePolicy"]};
+window.SIDEBAR_ITEMS = {"enum":["AvailabilityType","InstanceType","State"],"mod":["instance_network_config","update_policy"],"struct":["ClientConnectionConfig","InstanceNetworkConfig","MachineConfig","Node","PscInstanceConfig","PscInterfaceConfig","QueryInsightsInstanceConfig","ReadPoolConfig","UpdatePolicy"]};

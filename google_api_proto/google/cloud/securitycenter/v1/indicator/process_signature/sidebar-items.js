@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Signature"],"mod":["memory_hash_signature"],"struct":["MemoryHashSignature","YaraRuleSignature"]};
+window.SIDEBAR_ITEMS = {"enum":["Signature","SignatureType"],"mod":["memory_hash_signature"],"struct":["MemoryHashSignature","YaraRuleSignature"]};

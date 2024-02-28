@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ApprovedEndTime","ApprovedSpendingLimit","ProposedEndTime","ProposedSpendingLimit","ProposedStartTime"]};

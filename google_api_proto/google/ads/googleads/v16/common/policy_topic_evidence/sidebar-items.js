@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Value"],"mod":["destination_not_working"],"struct":["DestinationMismatch","DestinationNotWorking","DestinationTextList","TextList","WebsiteList"]};

@@ -3097,6 +3097,22 @@
 <a href="#3096" id="3096">3096</a>
 <a href="#3097" id="3097">3097</a>
 <a href="#3098" id="3098">3098</a>
+<a href="#3099" id="3099">3099</a>
+<a href="#3100" id="3100">3100</a>
+<a href="#3101" id="3101">3101</a>
+<a href="#3102" id="3102">3102</a>
+<a href="#3103" id="3103">3103</a>
+<a href="#3104" id="3104">3104</a>
+<a href="#3105" id="3105">3105</a>
+<a href="#3106" id="3106">3106</a>
+<a href="#3107" id="3107">3107</a>
+<a href="#3108" id="3108">3108</a>
+<a href="#3109" id="3109">3109</a>
+<a href="#3110" id="3110">3110</a>
+<a href="#3111" id="3111">3111</a>
+<a href="#3112" id="3112">3112</a>
+<a href="#3113" id="3113">3113</a>
+<a href="#3114" id="3114">3114</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// The response for [Commit][google.spanner.v1.Spanner.Commit].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3845,6 +3861,22 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TransactionOptions {
+    <span class="doccomment">/// When `exclude_txn_from_change_streams` is set to `true`:
+    ///   * Mutations from this transaction will not be recorded in change streams
+    ///   with DDL option `allow_txn_exclusion=true` that are tracking columns
+    ///   modified by these transactions.
+    ///   * Mutations from this transaction will be recorded in change streams with
+    ///   DDL option `allow_txn_exclusion=false or not set` that are tracking
+    ///   columns modified by these transactions.
+    ///
+    /// When `exclude_txn_from_change_streams` is set to `false` or not set,
+    /// mutations from this transaction will be recorded in all change streams that
+    /// are tracking columns modified by these transactions.
+    /// `exclude_txn_from_change_streams` may only be specified for read-write or
+    /// partitioned-dml transactions, otherwise the API will return an
+    /// `INVALID_ARGUMENT` error.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>exclude_txn_from_change_streams: bool,
     <span class="doccomment">/// Required. The type of transaction.
     </span><span class="attr">#[prost(oneof = <span class="string">"transaction_options::Mode"</span>, tags = <span class="string">"1, 3, 2"</span>)]
     </span><span class="kw">pub </span>mode: ::core::option::Option&lt;transaction_options::Mode&gt;,

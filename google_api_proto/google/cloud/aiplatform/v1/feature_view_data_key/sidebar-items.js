@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["KeyOneof"]};
+window.SIDEBAR_ITEMS = {"enum":["KeyOneof"],"struct":["CompositeKey"]};

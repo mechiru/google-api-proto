@@ -4254,6 +4254,14 @@
 <a href="#4253" id="4253">4253</a>
 <a href="#4254" id="4254">4254</a>
 <a href="#4255" id="4255">4255</a>
+<a href="#4256" id="4256">4256</a>
+<a href="#4257" id="4257">4257</a>
+<a href="#4258" id="4258">4258</a>
+<a href="#4259" id="4259">4259</a>
+<a href="#4260" id="4260">4260</a>
+<a href="#4261" id="4261">4261</a>
+<a href="#4262" id="4262">4262</a>
+<a href="#4263" id="4263">4263</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// The username/password for a database user. Used for specifying initial
 /// users at cluster creation time.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -5159,6 +5167,11 @@
     /// This is the connection endpoint for an end-user application.
     </span><span class="attr">#[prost(string, tag = <span class="string">"15"</span>)]
     </span><span class="kw">pub </span>ip_address: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The public IP addresses for the Instance. This is available
+    /// ONLY when enable_public_ip is set. This is the connection endpoint for an
+    /// end-user application.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"27"</span>)]
+    </span><span class="kw">pub </span>public_ip_address: ::prost::alloc::string::String,
     <span class="doccomment">/// Output only. Reconciling (&lt;https://google.aip.dev/128#reconciliation&gt;).
     /// Set to true if the current state of Instance does not match the user's
     /// intended state, and the service is actively updating the resource to
@@ -5621,6 +5634,9 @@
     <span class="doccomment">/// Output only. The unique ID of the Instance.
     </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>instance_uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The DNS name to use with PSC for the Instance.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>psc_dns_name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Message describing Backup object
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

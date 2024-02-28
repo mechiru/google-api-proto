@@ -3687,6 +3687,28 @@
 <a href="#3686" id="3686">3686</a>
 <a href="#3687" id="3687">3687</a>
 <a href="#3688" id="3688">3688</a>
+<a href="#3689" id="3689">3689</a>
+<a href="#3690" id="3690">3690</a>
+<a href="#3691" id="3691">3691</a>
+<a href="#3692" id="3692">3692</a>
+<a href="#3693" id="3693">3693</a>
+<a href="#3694" id="3694">3694</a>
+<a href="#3695" id="3695">3695</a>
+<a href="#3696" id="3696">3696</a>
+<a href="#3697" id="3697">3697</a>
+<a href="#3698" id="3698">3698</a>
+<a href="#3699" id="3699">3699</a>
+<a href="#3700" id="3700">3700</a>
+<a href="#3701" id="3701">3701</a>
+<a href="#3702" id="3702">3702</a>
+<a href="#3703" id="3703">3703</a>
+<a href="#3704" id="3704">3704</a>
+<a href="#3705" id="3705">3705</a>
+<a href="#3706" id="3706">3706</a>
+<a href="#3707" id="3707">3707</a>
+<a href="#3708" id="3708">3708</a>
+<a href="#3709" id="3709">3709</a>
+<a href="#3710" id="3710">3710</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// A message returned from a device.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3939,6 +3961,11 @@
     /// Only useful for matrices in the INVALID state.
     </span><span class="attr">#[prost(enumeration = <span class="string">"InvalidMatrixDetails"</span>, tag = <span class="string">"11"</span>)]
     </span><span class="kw">pub </span>invalid_matrix_details: i32,
+    <span class="doccomment">/// Output only. Details about why a matrix was deemed invalid.
+    /// If multiple checks can be safely performed, they will be reported but no
+    /// assumptions should be made about the length of this list.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"22"</span>)]
+    </span><span class="kw">pub </span>extended_invalid_matrix_details: ::prost::alloc::vec::Vec&lt;MatrixErrorDetail&gt;,
     <span class="doccomment">/// The number of times a TestExecution should be re-attempted if one or more
     /// of its test cases fail for any reason.
     /// The maximum number of reruns allowed is 10.
@@ -3961,6 +3988,20 @@
     /// and support is more limited because of that expectation.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"17"</span>)]
     </span><span class="kw">pub </span>fail_fast: bool,
+}
+<span class="doccomment">/// Describes a single error or issue with a matrix.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>MatrixErrorDetail {
+    <span class="doccomment">/// Output only. The reason for the error. This is a constant value in
+    /// UPPER_SNAKE_CASE that identifies the cause of the error.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>reason: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. A human-readable message about how the error in the
+    /// TestMatrix. Expands on the `reason` field with additional details and
+    /// possible options to fix the issue.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// A single test executed in a single environment.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -7147,7 +7188,7 @@
         </span>}
     }
 }
-<span class="doccomment">/// Android application details based on application manifest and apk archive
+<span class="doccomment">/// Android application details based on application manifest and archive
 /// contents.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -7248,19 +7289,22 @@
     </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>is_required: bool,
 }
-<span class="doccomment">/// A request to get the details of an Android application APK.
+<span class="doccomment">/// A request to get the details of an Android application.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>GetApkDetailsRequest {
-    <span class="doccomment">/// The APK to be parsed for details.
+    <span class="doccomment">/// Optional. The APK to be parsed for details.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>location: ::core::option::Option&lt;FileReference&gt;,
+    <span class="doccomment">/// Optional. The App Bundle to be parsed for details.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>bundle_location: ::core::option::Option&lt;FileReference&gt;,
 }
-<span class="doccomment">/// Response containing the details of the specified Android application APK.
+<span class="doccomment">/// Response containing the details of the specified Android application.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>GetApkDetailsResponse {
-    <span class="doccomment">/// Details of the Android APK.
+    <span class="doccomment">/// Details of the Android App.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>apk_detail: ::core::option::Option&lt;ApkDetail&gt;,
 }

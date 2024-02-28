@@ -32850,6 +32850,94 @@
 <a href="#32849" id="32849">32849</a>
 <a href="#32850" id="32850">32850</a>
 <a href="#32851" id="32851">32851</a>
+<a href="#32852" id="32852">32852</a>
+<a href="#32853" id="32853">32853</a>
+<a href="#32854" id="32854">32854</a>
+<a href="#32855" id="32855">32855</a>
+<a href="#32856" id="32856">32856</a>
+<a href="#32857" id="32857">32857</a>
+<a href="#32858" id="32858">32858</a>
+<a href="#32859" id="32859">32859</a>
+<a href="#32860" id="32860">32860</a>
+<a href="#32861" id="32861">32861</a>
+<a href="#32862" id="32862">32862</a>
+<a href="#32863" id="32863">32863</a>
+<a href="#32864" id="32864">32864</a>
+<a href="#32865" id="32865">32865</a>
+<a href="#32866" id="32866">32866</a>
+<a href="#32867" id="32867">32867</a>
+<a href="#32868" id="32868">32868</a>
+<a href="#32869" id="32869">32869</a>
+<a href="#32870" id="32870">32870</a>
+<a href="#32871" id="32871">32871</a>
+<a href="#32872" id="32872">32872</a>
+<a href="#32873" id="32873">32873</a>
+<a href="#32874" id="32874">32874</a>
+<a href="#32875" id="32875">32875</a>
+<a href="#32876" id="32876">32876</a>
+<a href="#32877" id="32877">32877</a>
+<a href="#32878" id="32878">32878</a>
+<a href="#32879" id="32879">32879</a>
+<a href="#32880" id="32880">32880</a>
+<a href="#32881" id="32881">32881</a>
+<a href="#32882" id="32882">32882</a>
+<a href="#32883" id="32883">32883</a>
+<a href="#32884" id="32884">32884</a>
+<a href="#32885" id="32885">32885</a>
+<a href="#32886" id="32886">32886</a>
+<a href="#32887" id="32887">32887</a>
+<a href="#32888" id="32888">32888</a>
+<a href="#32889" id="32889">32889</a>
+<a href="#32890" id="32890">32890</a>
+<a href="#32891" id="32891">32891</a>
+<a href="#32892" id="32892">32892</a>
+<a href="#32893" id="32893">32893</a>
+<a href="#32894" id="32894">32894</a>
+<a href="#32895" id="32895">32895</a>
+<a href="#32896" id="32896">32896</a>
+<a href="#32897" id="32897">32897</a>
+<a href="#32898" id="32898">32898</a>
+<a href="#32899" id="32899">32899</a>
+<a href="#32900" id="32900">32900</a>
+<a href="#32901" id="32901">32901</a>
+<a href="#32902" id="32902">32902</a>
+<a href="#32903" id="32903">32903</a>
+<a href="#32904" id="32904">32904</a>
+<a href="#32905" id="32905">32905</a>
+<a href="#32906" id="32906">32906</a>
+<a href="#32907" id="32907">32907</a>
+<a href="#32908" id="32908">32908</a>
+<a href="#32909" id="32909">32909</a>
+<a href="#32910" id="32910">32910</a>
+<a href="#32911" id="32911">32911</a>
+<a href="#32912" id="32912">32912</a>
+<a href="#32913" id="32913">32913</a>
+<a href="#32914" id="32914">32914</a>
+<a href="#32915" id="32915">32915</a>
+<a href="#32916" id="32916">32916</a>
+<a href="#32917" id="32917">32917</a>
+<a href="#32918" id="32918">32918</a>
+<a href="#32919" id="32919">32919</a>
+<a href="#32920" id="32920">32920</a>
+<a href="#32921" id="32921">32921</a>
+<a href="#32922" id="32922">32922</a>
+<a href="#32923" id="32923">32923</a>
+<a href="#32924" id="32924">32924</a>
+<a href="#32925" id="32925">32925</a>
+<a href="#32926" id="32926">32926</a>
+<a href="#32927" id="32927">32927</a>
+<a href="#32928" id="32928">32928</a>
+<a href="#32929" id="32929">32929</a>
+<a href="#32930" id="32930">32930</a>
+<a href="#32931" id="32931">32931</a>
+<a href="#32932" id="32932">32932</a>
+<a href="#32933" id="32933">32933</a>
+<a href="#32934" id="32934">32934</a>
+<a href="#32935" id="32935">32935</a>
+<a href="#32936" id="32936">32936</a>
+<a href="#32937" id="32937">32937</a>
+<a href="#32938" id="32938">32938</a>
+<a href="#32939" id="32939">32939</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(
     any(
         feature = <span class="string">"google-cloud-aiplatform-v1beta1-schema"</span>,
@@ -46673,6 +46761,10 @@
     /// If no value is provided, will use feature_id.
     </span><span class="attr">#[prost(string, tag = <span class="string">"106"</span>)]
     </span><span class="kw">pub </span>version_column_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Entity responsible for maintaining this feature. Can be comma separated
+    /// list of email addresses or URIs.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"107"</span>)]
+    </span><span class="kw">pub </span>point_of_contact: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Nested message and enum types in `Feature`.
 </span><span class="kw">pub mod </span>feature {
@@ -49268,6 +49360,19 @@
     /// online serving.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
     </span><span class="kw">pub </span>vector_search_config: ::core::option::Option&lt;feature_view::VectorSearchConfig&gt;,
+    <span class="doccomment">/// Optional. Service agent type used during data sync. By default, the Vertex
+    /// AI Service Agent is used. When using an IAM Policy to isolate this
+    /// FeatureView within a project, a separate service account should be
+    /// provisioned by setting this field to `SERVICE_AGENT_TYPE_FEATURE_VIEW`.
+    /// This will generate a separate service account to access the BigQuery source
+    /// table.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"feature_view::ServiceAgentType"</span>, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>service_agent_type: i32,
+    <span class="doccomment">/// Output only. A Service Account unique to this FeatureView. The role
+    /// bigquery.dataViewer should be granted to this service account to allow
+    /// Vertex AI Feature Store to sync data to the online store.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>service_account_email: ::prost::alloc::string::String,
     <span class="attr">#[prost(oneof = <span class="string">"feature_view::Source"</span>, tags = <span class="string">"6, 9"</span>)]
     </span><span class="kw">pub </span>source: ::core::option::Option&lt;feature_view::Source&gt;,
 }
@@ -49439,6 +49544,53 @@
             <span class="doccomment">/// Required. Identifiers of features under the feature group.
             </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
             </span><span class="kw">pub </span>feature_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+        }
+    }
+    <span class="doccomment">/// Service agent type used during data sync.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ServiceAgentType {
+        <span class="doccomment">/// By default, the project-level Vertex AI Service Agent is enabled.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Indicates the project-level Vertex AI Service Agent
+        /// (&lt;https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents&gt;)
+        /// will be used during sync jobs.
+        </span>Project = <span class="number">1</span>,
+        <span class="doccomment">/// Enable a FeatureView service account to be created by Vertex AI and
+        /// output in the field `service_account_email`. This service account will
+        /// be used to read from the source BigQuery table during sync.
+        </span>FeatureView = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>ServiceAgentType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ServiceAgentType::Unspecified =&gt; <span class="string">"SERVICE_AGENT_TYPE_UNSPECIFIED"</span>,
+                ServiceAgentType::Project =&gt; <span class="string">"SERVICE_AGENT_TYPE_PROJECT"</span>,
+                ServiceAgentType::FeatureView =&gt; <span class="string">"SERVICE_AGENT_TYPE_FEATURE_VIEW"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"SERVICE_AGENT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"SERVICE_AGENT_TYPE_PROJECT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Project),
+                <span class="string">"SERVICE_AGENT_TYPE_FEATURE_VIEW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FeatureView),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
         }
     }
     <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -51366,6 +51518,9 @@
     /// set.
     </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
     </span><span class="kw">pub </span>head_node_resource_pool_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Ray metrics configurations.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>ray_metric_spec: ::core::option::Option&lt;RayMetricSpec&gt;,
 }
 <span class="doccomment">/// Persistent Cluster runtime information as output
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -51407,6 +51562,14 @@
     /// Required if any containers are specified in `ResourceRuntimeSpec`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>service_account: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Configuration for the Ray metrics.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RayMetricSpec {
+    <span class="doccomment">/// Optional. Flag to disable the Ray metrics collection.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>disabled: bool,
 }
 <span class="doccomment">/// All the data stored in a TensorboardTimeSeries.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -53182,17 +53345,30 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>FeatureViewDataKey {
-    <span class="attr">#[prost(oneof = <span class="string">"feature_view_data_key::KeyOneof"</span>, tags = <span class="string">"1"</span>)]
+    <span class="attr">#[prost(oneof = <span class="string">"feature_view_data_key::KeyOneof"</span>, tags = <span class="string">"1, 2"</span>)]
     </span><span class="kw">pub </span>key_oneof: ::core::option::Option&lt;feature_view_data_key::KeyOneof&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `FeatureViewDataKey`.
 </span><span class="kw">pub mod </span>feature_view_data_key {
+    <span class="doccomment">/// ID that is comprised from several parts (columns).
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>CompositeKey {
+        <span class="doccomment">/// Parts to construct Entity ID. Should match with the same ID columns as
+        /// defined in FeatureView in the same order.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>parts: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    }
     <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>KeyOneof {
         <span class="doccomment">/// String key to use for lookup.
         </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
         </span>Key(::prost::alloc::string::String),
+        <span class="doccomment">/// The actual Entity ID will be composed from this struct. This should match
+        /// with the way ID is defined in the FeatureView spec.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>CompositeKey(CompositeKey),
     }
 }
 <span class="doccomment">/// Request message for

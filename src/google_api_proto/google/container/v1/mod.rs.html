@@ -8104,6 +8104,12 @@
 <a href="#8103" id="8103">8103</a>
 <a href="#8104" id="8104">8104</a>
 <a href="#8105" id="8105">8105</a>
+<a href="#8106" id="8106">8106</a>
+<a href="#8107" id="8107">8107</a>
+<a href="#8108" id="8108">8108</a>
+<a href="#8109" id="8109">8109</a>
+<a href="#8110" id="8110">8110</a>
+<a href="#8111" id="8111">8111</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Parameters that can be configured on Linux nodes.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -8513,6 +8519,9 @@
     <span class="doccomment">/// A map of resource manager tag keys and values to be attached to the nodes.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"45"</span>)]
     </span><span class="kw">pub </span>resource_manager_tags: ::core::option::Option&lt;ResourceManagerTags&gt;,
+    <span class="doccomment">/// Optional. Reserved for future use.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"46"</span>)]
+    </span><span class="kw">pub </span>enable_confidential_storage: bool,
 }
 <span class="doccomment">/// Specifies options for controlling advanced machine features.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -11112,6 +11121,9 @@
     /// Existing tags will be replaced with new values.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"39"</span>)]
     </span><span class="kw">pub </span>resource_manager_tags: ::core::option::Option&lt;ResourceManagerTags&gt;,
+    <span class="doccomment">/// Specifies the configuration of queued provisioning.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"42"</span>)]
+    </span><span class="kw">pub </span>queued_provisioning: ::core::option::Option&lt;node_pool::QueuedProvisioning&gt;,
 }
 <span class="doccomment">/// SetNodePoolAutoscalingRequest sets the autoscaler settings of a node pool.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

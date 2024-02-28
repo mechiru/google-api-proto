@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Source"],"mod":["feature_registry_source","vector_search_config"],"struct":["BigQuerySource","FeatureRegistrySource","SyncConfig","VectorSearchConfig"]};
+window.SIDEBAR_ITEMS = {"enum":["ServiceAgentType","Source"],"mod":["feature_registry_source","vector_search_config"],"struct":["BigQuerySource","FeatureRegistrySource","SyncConfig","VectorSearchConfig"]};

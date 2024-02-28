@@ -9112,6 +9112,66 @@
 <a href="#9111" id="9111">9111</a>
 <a href="#9112" id="9112">9112</a>
 <a href="#9113" id="9113">9113</a>
+<a href="#9114" id="9114">9114</a>
+<a href="#9115" id="9115">9115</a>
+<a href="#9116" id="9116">9116</a>
+<a href="#9117" id="9117">9117</a>
+<a href="#9118" id="9118">9118</a>
+<a href="#9119" id="9119">9119</a>
+<a href="#9120" id="9120">9120</a>
+<a href="#9121" id="9121">9121</a>
+<a href="#9122" id="9122">9122</a>
+<a href="#9123" id="9123">9123</a>
+<a href="#9124" id="9124">9124</a>
+<a href="#9125" id="9125">9125</a>
+<a href="#9126" id="9126">9126</a>
+<a href="#9127" id="9127">9127</a>
+<a href="#9128" id="9128">9128</a>
+<a href="#9129" id="9129">9129</a>
+<a href="#9130" id="9130">9130</a>
+<a href="#9131" id="9131">9131</a>
+<a href="#9132" id="9132">9132</a>
+<a href="#9133" id="9133">9133</a>
+<a href="#9134" id="9134">9134</a>
+<a href="#9135" id="9135">9135</a>
+<a href="#9136" id="9136">9136</a>
+<a href="#9137" id="9137">9137</a>
+<a href="#9138" id="9138">9138</a>
+<a href="#9139" id="9139">9139</a>
+<a href="#9140" id="9140">9140</a>
+<a href="#9141" id="9141">9141</a>
+<a href="#9142" id="9142">9142</a>
+<a href="#9143" id="9143">9143</a>
+<a href="#9144" id="9144">9144</a>
+<a href="#9145" id="9145">9145</a>
+<a href="#9146" id="9146">9146</a>
+<a href="#9147" id="9147">9147</a>
+<a href="#9148" id="9148">9148</a>
+<a href="#9149" id="9149">9149</a>
+<a href="#9150" id="9150">9150</a>
+<a href="#9151" id="9151">9151</a>
+<a href="#9152" id="9152">9152</a>
+<a href="#9153" id="9153">9153</a>
+<a href="#9154" id="9154">9154</a>
+<a href="#9155" id="9155">9155</a>
+<a href="#9156" id="9156">9156</a>
+<a href="#9157" id="9157">9157</a>
+<a href="#9158" id="9158">9158</a>
+<a href="#9159" id="9159">9159</a>
+<a href="#9160" id="9160">9160</a>
+<a href="#9161" id="9161">9161</a>
+<a href="#9162" id="9162">9162</a>
+<a href="#9163" id="9163">9163</a>
+<a href="#9164" id="9164">9164</a>
+<a href="#9165" id="9165">9165</a>
+<a href="#9166" id="9166">9166</a>
+<a href="#9167" id="9167">9167</a>
+<a href="#9168" id="9168">9168</a>
+<a href="#9169" id="9169">9169</a>
+<a href="#9170" id="9170">9170</a>
+<a href="#9171" id="9171">9171</a>
+<a href="#9172" id="9172">9172</a>
+<a href="#9173" id="9173">9173</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Parameters that can be configured on Linux nodes.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -9531,11 +9591,12 @@
     <span class="doccomment">/// A map of resource manager tag keys and values to be attached to the nodes.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"45"</span>)]
     </span><span class="kw">pub </span>resource_manager_tags: ::core::option::Option&lt;ResourceManagerTags&gt;,
-    <span class="doccomment">/// Optional. Enable confidential storage on Hyperdisk.
-    /// boot_disk_kms_key is required when enable_confidential_storage is true.
-    /// This is only available for private preview.
+    <span class="doccomment">/// Optional. Reserved for future use.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"46"</span>)]
     </span><span class="kw">pub </span>enable_confidential_storage: bool,
+    <span class="doccomment">/// List of secondary boot disks attached to the nodes.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"48"</span>)]
+    </span><span class="kw">pub </span>secondary_boot_disks: ::prost::alloc::vec::Vec&lt;SecondaryBootDisk&gt;,
 }
 <span class="doccomment">/// Specifies options for controlling advanced machine features.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -12809,6 +12870,9 @@
     /// Existing tags will be replaced with new values.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"39"</span>)]
     </span><span class="kw">pub </span>resource_manager_tags: ::core::option::Option&lt;ResourceManagerTags&gt;,
+    <span class="doccomment">/// Specifies the configuration of queued provisioning.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"42"</span>)]
+    </span><span class="kw">pub </span>queued_provisioning: ::core::option::Option&lt;node_pool::QueuedProvisioning&gt;,
 }
 <span class="doccomment">/// SetNodePoolAutoscalingRequest sets the autoscaler settings of a node pool.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -16872,6 +16936,62 @@
                 <span class="string">"CLUSTER_TIER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
                 <span class="string">"STANDARD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Standard),
                 <span class="string">"ENTERPRISE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Enterprise),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// SecondaryBootDisk represents a persistent disk attached to a node
+/// with special configurations based on its mode.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SecondaryBootDisk {
+    <span class="doccomment">/// Disk mode (container image cache, etc.)
+    </span><span class="attr">#[prost(enumeration = <span class="string">"secondary_boot_disk::Mode"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>mode: i32,
+    <span class="doccomment">/// Fully-qualified resource ID for an existing disk image.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>disk_image: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `SecondaryBootDisk`.
+</span><span class="kw">pub mod </span>secondary_boot_disk {
+    <span class="doccomment">/// Mode specifies how the secondary boot disk will be used.
+    /// This triggers mode-specified logic in the control plane.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Mode {
+        <span class="doccomment">/// MODE_UNSPECIFIED is when mode is not set.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// CONTAINER_IMAGE_CACHE is for using the secondary boot disk as
+        /// a container image cache.
+        </span>ContainerImageCache = <span class="number">1</span>,
+    }
+    <span class="kw">impl </span>Mode {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Mode::Unspecified =&gt; <span class="string">"MODE_UNSPECIFIED"</span>,
+                Mode::ContainerImageCache =&gt; <span class="string">"CONTAINER_IMAGE_CACHE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CONTAINER_IMAGE_CACHE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ContainerImageCache),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }

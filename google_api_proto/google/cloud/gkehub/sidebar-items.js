@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["cloudauditlogging","configmanagement","metering","multiclusteringress","servicemesh","v1","v1alpha","v1alpha2","v1beta","v1beta1"]};
+window.SIDEBAR_ITEMS = {"mod":["cloudauditlogging","configmanagement","metering","multiclusteringress","servicemesh","v1","v1alpha","v1beta","v1beta1"]};

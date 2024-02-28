@@ -1489,6 +1489,11 @@
 <a href="#1488" id="1488">1488</a>
 <a href="#1489" id="1489">1489</a>
 <a href="#1490" id="1490">1490</a>
+<a href="#1491" id="1491">1491</a>
+<a href="#1492" id="1492">1492</a>
+<a href="#1493" id="1493">1493</a>
+<a href="#1494" id="1494">1494</a>
+<a href="#1495" id="1495">1495</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Defines the errors to be returned in
 /// [google.api.servicecontrol.v1.CheckResponse.check_errors][google.api.servicecontrol.v1.CheckResponse.check_errors].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2264,6 +2269,11 @@
         <span class="doccomment">/// Consumer info of this check.
         </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
         </span><span class="kw">pub </span>consumer_info: ::core::option::Option&lt;ConsumerInfo&gt;,
+        <span class="doccomment">/// The unique id of the api key in the format of "apikey:&lt;UID&gt;".
+        /// This field will be populated when the consumer passed to Service Control
+        /// is an API key and all the API key related validations are successful.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>api_key_uid: ::prost::alloc::string::String,
     }
     <span class="doccomment">/// `ConsumerInfo` provides information about the consumer.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

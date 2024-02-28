@@ -1777,13 +1777,13 @@
     <span class="doccomment">/// Specifies time to start scheduling transfer runs. The first run will be
     /// scheduled at or after the start time according to a recurrence pattern
     /// defined in the schedule string. The start time can be changed at any
-    /// moment. The time when a data transfer can be trigerred manually is not
+    /// moment. The time when a data transfer can be triggered manually is not
     /// limited by this option.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
     <span class="doccomment">/// Defines time to stop scheduling transfer runs. A transfer run cannot be
     /// scheduled at or after the end time. The end time can be changed at any
-    /// moment. The time when a data transfer can be trigerred manually is not
+    /// moment. The time when a data transfer can be triggered manually is not
     /// limited by this option.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
@@ -1830,8 +1830,7 @@
     </span><span class="kw">pub </span>params: ::core::option::Option&lt;::prost_types::Struct&gt;,
     <span class="doccomment">/// Data transfer schedule.
     /// If the data source does not support a custom schedule, this should be
-    /// empty. If it is empty, the default value for the data source will be
-    /// used.
+    /// empty. If it is empty, the default value for the data source will be used.
     /// The specified times are in UTC.
     /// Examples of valid format:
     /// `1st,3rd monday of month 15:30`,
@@ -1851,12 +1850,12 @@
     /// For example, if `data_refresh_window_days = 10`, then every day
     /// BigQuery reingests data for \[today-10, today-1\], rather than ingesting data
     /// for just \[today-1\].
-    /// Only valid if the data source supports the feature. Set the value to  0
+    /// Only valid if the data source supports the feature. Set the value to 0
     /// to use the default value.
     </span><span class="attr">#[prost(int32, tag = <span class="string">"12"</span>)]
     </span><span class="kw">pub </span>data_refresh_window_days: i32,
-    <span class="doccomment">/// Is this config disabled. When set to true, no runs are scheduled
-    /// for a given transfer.
+    <span class="doccomment">/// Is this config disabled. When set to true, no runs will be scheduled for
+    /// this transfer config.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"13"</span>)]
     </span><span class="kw">pub </span>disabled: bool,
     <span class="doccomment">/// Output only. Data transfer modification time. Ignored by server on input.
@@ -1878,7 +1877,7 @@
     /// associated with this transfer config finish.
     ///
     /// The format for specifying a pubsub topic is:
-    /// `projects/{project}/topics/{topic}`
+    /// `projects/{project_id}/topics/{topic_id}`
     </span><span class="attr">#[prost(string, tag = <span class="string">"15"</span>)]
     </span><span class="kw">pub </span>notification_pubsub_topic: ::prost::alloc::string::String,
     <span class="doccomment">/// Email notifications will be sent according to these preferences
@@ -1978,7 +1977,7 @@
     /// transfer run finishes.
     ///
     /// The format for specifying a pubsub topic is:
-    /// `projects/{project}/topics/{topic}`
+    /// `projects/{project_id}/topics/{topic_id}`
     </span><span class="attr">#[prost(string, tag = <span class="string">"23"</span>)]
     </span><span class="kw">pub </span>notification_pubsub_topic: ::prost::alloc::string::String,
     <span class="doccomment">/// Output only. Email notifications will be sent according to these
@@ -3481,7 +3480,8 @@
         <span class="doccomment">/// Unenroll data sources in a user project. This allows users to remove
         /// transfer configurations for these data sources. They will no longer appear
         /// in the ListDataSources RPC and will also no longer appear in the [BigQuery
-        /// UI](https://console.cloud.google.com/bigquery).
+        /// UI](https://console.cloud.google.com/bigquery). Data transfers
+        /// configurations of unenrolled data sources will not be scheduled.
         </span><span class="kw">pub async fn </span>unenroll_data_sources(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UnenrollDataSourcesRequest&gt;,

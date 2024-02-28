@@ -2496,7 +2496,7 @@
     <span class="doccomment">/// The project id of the key management project for the workload
     </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
     </span><span class="kw">pub </span>key_management_project_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The gcp location of the workload
+    <span class="doccomment">/// The Google Cloud location of the workload
     </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
     </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
     <span class="doccomment">/// Partner associated with this workload.
@@ -2880,8 +2880,8 @@
     /// &lt;https://cloud.google.com/compute/docs/regions-zones&gt;
     </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>operated_cloud_regions: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// GCP project ID in the partner's GCP organization for receiving enhanced
-    /// Logs for Partners.
+    <span class="doccomment">/// Google Cloud project ID in the partner's Google Cloud organization for
+    /// receiving enhanced Logs for Partners.
     </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
     </span><span class="kw">pub </span>partner_project_id: ::prost::alloc::string::String,
     <span class="doccomment">/// Output only. Time the resource was created
@@ -3176,7 +3176,7 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Lists customers of a partner identified by its GCP organization id
+        <span class="doccomment">/// Lists customers of a partner identified by its Google Cloud organization ID
         </span><span class="kw">pub async fn </span>list_customers(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListCustomersRequest&gt;,

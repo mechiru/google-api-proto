@@ -508,6 +508,24 @@
 <a href="#507" id="507">507</a>
 <a href="#508" id="508">508</a>
 <a href="#509" id="509">509</a>
+<a href="#510" id="510">510</a>
+<a href="#511" id="511">511</a>
+<a href="#512" id="512">512</a>
+<a href="#513" id="513">513</a>
+<a href="#514" id="514">514</a>
+<a href="#515" id="515">515</a>
+<a href="#516" id="516">516</a>
+<a href="#517" id="517">517</a>
+<a href="#518" id="518">518</a>
+<a href="#519" id="519">519</a>
+<a href="#520" id="520">520</a>
+<a href="#521" id="521">521</a>
+<a href="#522" id="522">522</a>
+<a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// CreateProfileRequest describes a profile resource online creation request.
 /// The deployment field must be populated. The profile_type specifies the list
 /// of profile types supported by the agent. The creation call will hang until a
@@ -587,6 +605,10 @@
         ::prost::alloc::string::String,
         ::prost::alloc::string::String,
     &gt;,
+    <span class="doccomment">/// Output only. Start time for the profile.
+    /// This output is only present in response from the ListProfiles method.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
 }
 <span class="doccomment">/// Deployment contains the deployment identification information.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -634,7 +656,7 @@
     </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
     <span class="doccomment">/// The maximum number of items to return.
     /// Default page_size is 1000.
-    /// Max limit is 10000.
+    /// Max limit is 1000.
     </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>page_size: i32,
     <span class="doccomment">/// The token to continue pagination and get profiles from a particular page.
@@ -731,9 +753,8 @@
     <span class="doccomment">/// Manage the collection of continuous profiling data provided by profiling
     /// agents running in the cloud or by an offline provider of profiling data.
     ///
-    /// General guidelines:
-    /// * Profiles for a single deployment must be created in ascending time order.
-    /// * Profiles can be created in either online or offline mode, see below.
+    /// __The APIs listed in this service are intended for use within our profiler
+    /// agents only.__
     </span><span class="attr">#[derive(Debug, Clone)]
     </span><span class="kw">pub struct </span>ProfilerServiceClient&lt;T&gt; {
         inner: tonic::client::Grpc&lt;T&gt;,
@@ -805,6 +826,11 @@
         </span>}
         <span class="doccomment">/// CreateProfile creates a new profile resource in the online mode.
         ///
+        /// _Direct use of this API is discouraged, please use a [supported
+        /// profiler
+        /// agent](https://cloud.google.com/profiler/docs/about-profiler#profiling_agent)
+        /// instead for profile collection._
+        ///
         /// The server ensures that the new profiles are created at a constant rate per
         /// deployment, so the creation request may hang for some time until the next
         /// profile session is available.
@@ -844,9 +870,14 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// CreateOfflineProfile creates a new profile resource in the offline mode.
-        /// The client provides the profile to create along with the profile bytes, the
-        /// server records it.
+        <span class="doccomment">/// CreateOfflineProfile creates a new profile resource in the offline
+        /// mode. The client provides the profile to create along with the profile
+        /// bytes, the server records it.
+        ///
+        /// _Direct use of this API is discouraged, please use a [supported
+        /// profiler
+        /// agent](https://cloud.google.com/profiler/docs/about-profiler#profiling_agent)
+        /// instead for profile collection._
         </span><span class="kw">pub async fn </span>create_offline_profile(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateOfflineProfileRequest&gt;,
@@ -878,6 +909,11 @@
         /// created in the online mode. Updating the bytes for profiles created in the
         /// offline mode is currently not supported: the profile content must be
         /// provided at the time of the profile creation.
+        ///
+        /// _Direct use of this API is discouraged, please use a [supported
+        /// profiler
+        /// agent](https://cloud.google.com/profiler/docs/about-profiler#profiling_agent)
+        /// instead for profile collection._
         </span><span class="kw">pub async fn </span>update_profile(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateProfileRequest&gt;,

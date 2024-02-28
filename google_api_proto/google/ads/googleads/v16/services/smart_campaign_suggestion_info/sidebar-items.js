@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["BusinessSetting","GeoTarget"],"struct":["BusinessContext","LocationList"]};
