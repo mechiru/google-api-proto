@@ -6824,6 +6824,84 @@
         ::prost::alloc::string::String,
     &gt;,
 }
+<span class="doccomment">/// Rich semantic information of an API field beyond basic typing.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FieldInfo {
+    <span class="doccomment">/// The standard format of a field value. This does not explicitly configure
+    /// any API consumer, just documents the API's format for the field it is
+    /// applied to.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"field_info::Format"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>format: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `FieldInfo`.
+</span><span class="kw">pub mod </span>field_info {
+    <span class="doccomment">/// The standard format of a field value. The supported formats are all backed
+    /// by either an RFC defined by the IETF or a Google-defined AIP.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Format {
+        <span class="doccomment">/// Default, unspecified value.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Universally Unique Identifier, version 4, value as defined by
+        /// &lt;https://datatracker.ietf.org/doc/html/rfc4122.&gt; The value may be
+        /// normalized to entirely lowercase letters. For example, the value
+        /// `F47AC10B-58CC-0372-8567-0E02B2C3D479` would be normalized to
+        /// `f47ac10b-58cc-0372-8567-0e02b2c3d479`.
+        </span>Uuid4 = <span class="number">1</span>,
+        <span class="doccomment">/// Internet Protocol v4 value as defined by [RFC
+        /// 791](&lt;https://datatracker.ietf.org/doc/html/rfc791&gt;). The value may be
+        /// condensed, with leading zeros in each octet stripped. For example,
+        /// `001.022.233.040` would be condensed to `1.22.233.40`.
+        </span>Ipv4 = <span class="number">2</span>,
+        <span class="doccomment">/// Internet Protocol v6 value as defined by [RFC
+        /// 2460](&lt;https://datatracker.ietf.org/doc/html/rfc2460&gt;). The value may be
+        /// normalized to entirely lowercase letters, and zero-padded partial and
+        /// empty octets. For example, the value `2001:DB8::` would be normalized to
+        /// `2001:0db8:0:0`.
+        </span>Ipv6 = <span class="number">3</span>,
+        <span class="doccomment">/// An IP address in either v4 or v6 format as described by the individual
+        /// values defined herein. See the comments on the IPV4 and IPV6 types for
+        /// allowed normalizations of each.
+        </span>Ipv4OrIpv6 = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>Format {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Format::Unspecified =&gt; <span class="string">"FORMAT_UNSPECIFIED"</span>,
+                Format::Uuid4 =&gt; <span class="string">"UUID4"</span>,
+                Format::Ipv4 =&gt; <span class="string">"IPV4"</span>,
+                Format::Ipv6 =&gt; <span class="string">"IPV6"</span>,
+                Format::Ipv4OrIpv6 =&gt; <span class="string">"IPV4_OR_IPV6"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"FORMAT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"UUID4" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Uuid4),
+                <span class="string">"IPV4" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ipv4),
+                <span class="string">"IPV6" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ipv6),
+                <span class="string">"IPV4_OR_IPV6" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ipv4OrIpv6),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
 <span class="doccomment">/// Specifies the routing information that should be sent along with the request
 /// in the form of routing header.
 /// **NOTE:** All service configuration rules follow the "last one wins" order.
@@ -7315,84 +7393,6 @@
     /// for streaming APIs.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>extensions: ::prost::alloc::vec::Vec&lt;::prost_types::Any&gt;,
-}
-<span class="doccomment">/// Rich semantic information of an API field beyond basic typing.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FieldInfo {
-    <span class="doccomment">/// The standard format of a field value. This does not explicitly configure
-    /// any API consumer, just documents the API's format for the field it is
-    /// applied to.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"field_info::Format"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>format: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `FieldInfo`.
-</span><span class="kw">pub mod </span>field_info {
-    <span class="doccomment">/// The standard format of a field value. The supported formats are all backed
-    /// by either an RFC defined by the IETF or a Google-defined AIP.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Format {
-        <span class="doccomment">/// Default, unspecified value.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Universally Unique Identifier, version 4, value as defined by
-        /// &lt;https://datatracker.ietf.org/doc/html/rfc4122.&gt; The value may be
-        /// normalized to entirely lowercase letters. For example, the value
-        /// `F47AC10B-58CC-0372-8567-0E02B2C3D479` would be normalized to
-        /// `f47ac10b-58cc-0372-8567-0e02b2c3d479`.
-        </span>Uuid4 = <span class="number">1</span>,
-        <span class="doccomment">/// Internet Protocol v4 value as defined by [RFC
-        /// 791](&lt;https://datatracker.ietf.org/doc/html/rfc791&gt;). The value may be
-        /// condensed, with leading zeros in each octet stripped. For example,
-        /// `001.022.233.040` would be condensed to `1.22.233.40`.
-        </span>Ipv4 = <span class="number">2</span>,
-        <span class="doccomment">/// Internet Protocol v6 value as defined by [RFC
-        /// 2460](&lt;https://datatracker.ietf.org/doc/html/rfc2460&gt;). The value may be
-        /// normalized to entirely lowercase letters, and zero-padded partial and
-        /// empty octets. For example, the value `2001:DB8::` would be normalized to
-        /// `2001:0db8:0:0`.
-        </span>Ipv6 = <span class="number">3</span>,
-        <span class="doccomment">/// An IP address in either v4 or v6 format as described by the individual
-        /// values defined herein. See the comments on the IPV4 and IPV6 types for
-        /// allowed normalizations of each.
-        </span>Ipv4OrIpv6 = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>Format {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Format::Unspecified =&gt; <span class="string">"FORMAT_UNSPECIFIED"</span>,
-                Format::Uuid4 =&gt; <span class="string">"UUID4"</span>,
-                Format::Ipv4 =&gt; <span class="string">"IPV4"</span>,
-                Format::Ipv6 =&gt; <span class="string">"IPV6"</span>,
-                Format::Ipv4OrIpv6 =&gt; <span class="string">"IPV4_OR_IPV6"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"FORMAT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"UUID4" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Uuid4),
-                <span class="string">"IPV4" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ipv4),
-                <span class="string">"IPV6" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ipv6),
-                <span class="string">"IPV4_OR_IPV6" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ipv4OrIpv6),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
 }
 <span class="doccomment">/// `Endpoint` describes a network address of a service that serves a set of
 /// APIs. It is commonly known as a service endpoint. A service may expose
