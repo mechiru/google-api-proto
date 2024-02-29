@@ -7565,6 +7565,14 @@
 <a href="#7564" id="7564">7564</a>
 <a href="#7565" id="7565">7565</a>
 <a href="#7566" id="7566">7566</a>
+<a href="#7567" id="7567">7567</a>
+<a href="#7568" id="7568">7568</a>
+<a href="#7569" id="7569">7569</a>
+<a href="#7570" id="7570">7570</a>
+<a href="#7571" id="7571">7571</a>
+<a href="#7572" id="7572">7572</a>
+<a href="#7573" id="7573">7573</a>
+<a href="#7574" id="7574">7574</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// An entry for an Access Control list.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -8091,13 +8099,14 @@
     <span class="doccomment">/// Name of the Cloud SQL instance. This does not include the project ID.
     </span><span class="attr">#[prost(string, tag = <span class="string">"23"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The geographical region. Can be:
-    /// *  `us-central` (`FIRST_GEN` instances only)
-    /// *  `us-central1` (`SECOND_GEN` instances only)
-    /// *  `asia-east1` or `europe-west1`.
+    <span class="doccomment">/// The geographical region of the Cloud SQL instance.
     ///
-    /// Defaults to `us-central` or `us-central1` depending on the instance
-    /// type. The region cannot be changed after instance creation.
+    /// It can be one of the
+    /// [regions](&lt;https://cloud.google.com/sql/docs/mysql/locations#location-r&gt;)
+    /// where Cloud SQL operates:
+    ///
+    /// For example,  `asia-east1`, `europe-west1`, and  `us-central1`.
+    /// The default value is `us-central1`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"24"</span>)]
     </span><span class="kw">pub </span>region: ::prost::alloc::string::String,
     <span class="doccomment">/// The Compute Engine zone that the instance is currently serving from. This
@@ -9379,6 +9388,13 @@
         /// client certificates.
         /// When this value is used, the legacy `require_ssl` flag must be true or
         /// cleared to avoid the conflict between values of two flags.
+        /// PostgreSQL clients or users that connect using IAM database
+        /// authentication must use either the
+        /// [Cloud SQL Auth
+        /// Proxy](&lt;https://cloud.google.com/sql/docs/postgres/connect-auth-proxy&gt;) or
+        /// [Cloud SQL
+        /// Connectors](&lt;https://cloud.google.com/sql/docs/postgres/connect-connectors&gt;)
+        /// to enforce client identity verification.
         </span>TrustedClientCertificateRequired = <span class="number">3</span>,
     }
     <span class="kw">impl </span>SslMode {
