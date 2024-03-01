@@ -3709,6 +3709,12 @@
 <a href="#3708" id="3708">3708</a>
 <a href="#3709" id="3709">3709</a>
 <a href="#3710" id="3710">3710</a>
+<a href="#3711" id="3711">3711</a>
+<a href="#3712" id="3712">3712</a>
+<a href="#3713" id="3713">3713</a>
+<a href="#3714" id="3714">3714</a>
+<a href="#3715" id="3715">3715</a>
+<a href="#3716" id="3716">3716</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// A message returned from a device.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -6642,6 +6648,12 @@
     <span class="doccomment">/// The number of online devices for an Android version.
     </span><span class="attr">#[prost(enumeration = <span class="string">"DeviceCapacity"</span>, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>device_capacity: i32,
+    <span class="doccomment">/// Output only. The estimated wait time for a single interactive device
+    /// session using Direct Access.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>interactive_device_availability_estimate: ::core::option::Option&lt;
+        ::prost_types::Duration,
+    &gt;,
     <span class="doccomment">/// Output only. Identifies supported clients for DirectAccess for this Android
     /// version.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]

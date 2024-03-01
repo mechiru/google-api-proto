@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["StackType"]};
+window.SIDEBAR_ITEMS = {"enum":["GatewayIpVersion","StackType"]};

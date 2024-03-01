@@ -7834,6 +7834,14 @@
 <a href="#7833" id="7833">7833</a>
 <a href="#7834" id="7834">7834</a>
 <a href="#7835" id="7835">7835</a>
+<a href="#7836" id="7836">7836</a>
+<a href="#7837" id="7837">7837</a>
+<a href="#7838" id="7838">7838</a>
+<a href="#7839" id="7839">7839</a>
+<a href="#7840" id="7840">7840</a>
+<a href="#7841" id="7841">7841</a>
+<a href="#7842" id="7842">7842</a>
+<a href="#7843" id="7843">7843</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// An entry for an Access Control list.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -8532,6 +8540,13 @@
         /// client certificates.
         /// When this value is used, the legacy `require_ssl` flag must be true or
         /// cleared to avoid the conflict between values of two flags.
+        /// PostgreSQL clients or users that connect using IAM database
+        /// authentication must use either the
+        /// [Cloud SQL Auth
+        /// Proxy](&lt;https://cloud.google.com/sql/docs/postgres/connect-auth-proxy&gt;) or
+        /// [Cloud SQL
+        /// Connectors](&lt;https://cloud.google.com/sql/docs/postgres/connect-connectors&gt;)
+        /// to enforce client identity verification.
         </span>TrustedClientCertificateRequired = <span class="number">3</span>,
     }
     <span class="kw">impl </span>SslMode {
@@ -10948,13 +10963,14 @@
     <span class="doccomment">/// Name of the Cloud SQL instance. This does not include the project ID.
     </span><span class="attr">#[prost(string, tag = <span class="string">"23"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The geographical region. Can be:
-    /// *  `us-central` (`FIRST_GEN` instances only)
-    /// *  `us-central1` (`SECOND_GEN` instances only)
-    /// *  `asia-east1` or `europe-west1`.
+    <span class="doccomment">/// The geographical region of the Cloud SQL instance.
     ///
-    /// Defaults to `us-central` or `us-central1` depending on the instance
-    /// type. The region cannot be changed after instance creation.
+    /// It can be one of the
+    /// [regions](&lt;https://cloud.google.com/sql/docs/mysql/locations#location-r&gt;)
+    /// where Cloud SQL operates:
+    ///
+    /// For example,  `asia-east1`, `europe-west1`, and  `us-central1`.
+    /// The default value is `us-central1`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"24"</span>)]
     </span><span class="kw">pub </span>region: ::prost::alloc::string::String,
     <span class="doccomment">/// The Compute Engine zone that the instance is currently serving from. This

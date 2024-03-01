@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["ForceUpdateOnRepair"]};
+window.SIDEBAR_ITEMS = {"enum":["DefaultActionOnFailure","ForceUpdateOnRepair"]};

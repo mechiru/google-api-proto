@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["DefaultNetworkTier","VmDnsSetting","XpnProjectStatus"]};
+window.SIDEBAR_ITEMS = {"enum":["CloudArmorTier","DefaultNetworkTier","VmDnsSetting","XpnProjectStatus"]};

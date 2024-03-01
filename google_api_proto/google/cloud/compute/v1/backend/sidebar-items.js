@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["BalancingMode"]};
+window.SIDEBAR_ITEMS = {"enum":["BalancingMode","Preference"]};

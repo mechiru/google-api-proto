@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["role","subject"],"struct":["AccessReview","Binding","Node","NodePool","Object","Pod","Role","Subject"]};
