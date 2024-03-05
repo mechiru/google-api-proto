@@ -768,6 +768,11 @@
 <a href="#767" id="767">767</a>
 <a href="#768" id="768">768</a>
 <a href="#769" id="769">769</a>
+<a href="#770" id="770">770</a>
+<a href="#771" id="771">771</a>
+<a href="#772" id="772">772</a>
+<a href="#773" id="773">773</a>
+<a href="#774" id="774">774</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(any(feature = <span class="string">"google-cloud-accessapproval-v1"</span>))]
 </span><span class="kw">pub mod </span>accessapproval;
 <span class="attr">#[cfg(any(feature = <span class="string">"google-cloud-advisorynotifications-v1"</span>))]
@@ -891,7 +896,12 @@
 </span><span class="kw">pub mod </span>certificatemanager;
 <span class="attr">#[cfg(any(feature = <span class="string">"google-cloud-channel-v1"</span>))]
 </span><span class="kw">pub mod </span>channel;
-<span class="attr">#[cfg(any(feature = <span class="string">"google-cloud-cloudcontrolspartner-v1beta"</span>))]
+<span class="attr">#[cfg(
+    any(
+        feature = <span class="string">"google-cloud-cloudcontrolspartner-v1"</span>,
+        feature = <span class="string">"google-cloud-cloudcontrolspartner-v1beta"</span>,
+    )
+)]
 </span><span class="kw">pub mod </span>cloudcontrolspartner;
 <span class="attr">#[cfg(
     any(
