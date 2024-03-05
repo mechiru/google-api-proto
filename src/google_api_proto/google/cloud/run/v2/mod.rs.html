@@ -3681,6 +3681,69 @@
 <a href="#3680" id="3680">3680</a>
 <a href="#3681" id="3681">3681</a>
 <a href="#3682" id="3682">3682</a>
+<a href="#3683" id="3683">3683</a>
+<a href="#3684" id="3684">3684</a>
+<a href="#3685" id="3685">3685</a>
+<a href="#3686" id="3686">3686</a>
+<a href="#3687" id="3687">3687</a>
+<a href="#3688" id="3688">3688</a>
+<a href="#3689" id="3689">3689</a>
+<a href="#3690" id="3690">3690</a>
+<a href="#3691" id="3691">3691</a>
+<a href="#3692" id="3692">3692</a>
+<a href="#3693" id="3693">3693</a>
+<a href="#3694" id="3694">3694</a>
+<a href="#3695" id="3695">3695</a>
+<a href="#3696" id="3696">3696</a>
+<a href="#3697" id="3697">3697</a>
+<a href="#3698" id="3698">3698</a>
+<a href="#3699" id="3699">3699</a>
+<a href="#3700" id="3700">3700</a>
+<a href="#3701" id="3701">3701</a>
+<a href="#3702" id="3702">3702</a>
+<a href="#3703" id="3703">3703</a>
+<a href="#3704" id="3704">3704</a>
+<a href="#3705" id="3705">3705</a>
+<a href="#3706" id="3706">3706</a>
+<a href="#3707" id="3707">3707</a>
+<a href="#3708" id="3708">3708</a>
+<a href="#3709" id="3709">3709</a>
+<a href="#3710" id="3710">3710</a>
+<a href="#3711" id="3711">3711</a>
+<a href="#3712" id="3712">3712</a>
+<a href="#3713" id="3713">3713</a>
+<a href="#3714" id="3714">3714</a>
+<a href="#3715" id="3715">3715</a>
+<a href="#3716" id="3716">3716</a>
+<a href="#3717" id="3717">3717</a>
+<a href="#3718" id="3718">3718</a>
+<a href="#3719" id="3719">3719</a>
+<a href="#3720" id="3720">3720</a>
+<a href="#3721" id="3721">3721</a>
+<a href="#3722" id="3722">3722</a>
+<a href="#3723" id="3723">3723</a>
+<a href="#3724" id="3724">3724</a>
+<a href="#3725" id="3725">3725</a>
+<a href="#3726" id="3726">3726</a>
+<a href="#3727" id="3727">3727</a>
+<a href="#3728" id="3728">3728</a>
+<a href="#3729" id="3729">3729</a>
+<a href="#3730" id="3730">3730</a>
+<a href="#3731" id="3731">3731</a>
+<a href="#3732" id="3732">3732</a>
+<a href="#3733" id="3733">3733</a>
+<a href="#3734" id="3734">3734</a>
+<a href="#3735" id="3735">3735</a>
+<a href="#3736" id="3736">3736</a>
+<a href="#3737" id="3737">3737</a>
+<a href="#3738" id="3738">3738</a>
+<a href="#3739" id="3739">3739</a>
+<a href="#3740" id="3740">3740</a>
+<a href="#3741" id="3741">3741</a>
+<a href="#3742" id="3742">3742</a>
+<a href="#3743" id="3743">3743</a>
+<a href="#3744" id="3744">3744</a>
+<a href="#3745" id="3745">3745</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// A single application container.
 /// This specifies both the container to run, the command to run in the container
 /// and the arguments to supply to it.
@@ -3745,7 +3808,7 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ResourceRequirements {
-    <span class="doccomment">/// Only ´memory´ and 'cpu' are supported.
+    <span class="doccomment">/// Only `memory` and `cpu` keys in the map are supported.
     ///
     /// &lt;p&gt;Notes:
     ///   * The only supported values for CPU are '1', '2', '4', and '8'. Setting 4
@@ -3758,7 +3821,9 @@
         ::prost::alloc::string::String,
         ::prost::alloc::string::String,
     &gt;,
-    <span class="doccomment">/// Determines whether CPU should be throttled or not outside of requests.
+    <span class="doccomment">/// Determines whether CPU is only allocated during requests (true by default).
+    /// However, if ResourceRequirements is set, the caller must explicitly
+    /// set this field to true to preserve the default behavior.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>cpu_idle: bool,
     <span class="doccomment">/// Determines whether CPU should be boosted on startup of a new container
@@ -3857,7 +3922,7 @@
     <span class="doccomment">/// Required. Volume's name.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="attr">#[prost(oneof = <span class="string">"volume::VolumeType"</span>, tags = <span class="string">"2, 3, 4"</span>)]
+    <span class="attr">#[prost(oneof = <span class="string">"volume::VolumeType"</span>, tags = <span class="string">"2, 3, 4, 5, 6"</span>)]
     </span><span class="kw">pub </span>volume_type: ::core::option::Option&lt;volume::VolumeType&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `Volume`.
@@ -3876,6 +3941,12 @@
         <span class="doccomment">/// Ephemeral storage used as a shared volume.
         </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
         </span>EmptyDir(<span class="kw">super</span>::EmptyDirVolumeSource),
+        <span class="doccomment">/// For NFS Voumes, contains the path to the nfs Volume
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>Nfs(<span class="kw">super</span>::NfsVolumeSource),
+        <span class="doccomment">/// Persistent storage backed by a Google Cloud Storage bucket.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>Gcs(<span class="kw">super</span>::GcsVolumeSource),
     }
 }
 <span class="doccomment">/// The secret's value will be presented as the content of a file whose
@@ -4029,6 +4100,31 @@
             }
         }
     }
+}
+<span class="doccomment">/// Represents an NFS mount.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>NfsVolumeSource {
+    <span class="doccomment">/// Hostname or IP address of the NFS server
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>server: ::prost::alloc::string::String,
+    <span class="doccomment">/// Path that is exported by the NFS server.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>path: ::prost::alloc::string::String,
+    <span class="doccomment">/// If true, mount the NFS volume as read only
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>read_only: bool,
+}
+<span class="doccomment">/// Represents a GCS Bucket mounted as a volume.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GcsVolumeSource {
+    <span class="doccomment">/// GCS Bucket name
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>bucket: ::prost::alloc::string::String,
+    <span class="doccomment">/// If true, mount the GCS bucket as read-only
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>read_only: bool,
 }
 <span class="doccomment">/// Probe describes a health check to be performed against a container to
 /// determine whether it is alive or ready to receive traffic.
@@ -4254,6 +4350,17 @@
     </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>max_instance_count: i32,
 }
+<span class="doccomment">/// Scaling settings applied at the service level rather than
+/// at the revision level.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ServiceScaling {
+    <span class="doccomment">/// total min instances for the service. This number of instances is
+    /// divided among all revisions with specified traffic based on the percent
+    /// of traffic they are receiving. (BETA)
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>min_instance_count: i32,
+}
 <span class="doccomment">/// Allowed ingress traffic for the Container.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -4467,6 +4574,14 @@
     /// execution.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>template: ::core::option::Option&lt;TaskTemplate&gt;,
+}
+<span class="doccomment">/// Effective settings for the current revision
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RevisionScalingStatus {
+    <span class="doccomment">/// The current number of min instances provisioned for this revision.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>desired_min_instance_count: i32,
 }
 <span class="doccomment">/// Holds a single traffic routing entry for the Service. Allocations can be done
 /// to a specific Revision name, or pointing to the latest Ready Revision.
@@ -6080,9 +6195,12 @@
     <span class="doccomment">/// Sets the maximum number of requests that each serving instance can receive.
     </span><span class="attr">#[prost(int32, tag = <span class="string">"15"</span>)]
     </span><span class="kw">pub </span>max_instance_request_concurrency: i32,
-    <span class="doccomment">/// Enable session affinity.
+    <span class="doccomment">/// Optional. Enable session affinity.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"19"</span>)]
     </span><span class="kw">pub </span>session_affinity: bool,
+    <span class="doccomment">/// Optional. Disables health checking containers during deployment.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"20"</span>)]
+    </span><span class="kw">pub </span>health_check_disabled: bool,
 }
 <span class="doccomment">/// Request message for creating a Service.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6215,11 +6333,10 @@
     /// APIs, its JSON representation will be a `string` instead of an `integer`.
     </span><span class="attr">#[prost(int64, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>generation: i64,
-    <span class="doccomment">/// Unstructured key value map that can be used to organize and categorize
-    /// objects.
-    /// User-provided labels are shared with Google's billing system, so they can
-    /// be used to filter, or break down billing charges by team, component,
-    /// environment, state, etc. For more information, visit
+    <span class="doccomment">/// Optional. Unstructured key value map that can be used to organize and
+    /// categorize objects. User-provided labels are shared with Google's billing
+    /// system, so they can be used to filter, or break down billing charges by
+    /// team, component, environment, state, etc. For more information, visit
     /// &lt;https://cloud.google.com/resource-manager/docs/creating-managing-labels&gt; or
     /// &lt;https://cloud.google.com/run/docs/configuring/labels.&gt;
     ///
@@ -6232,9 +6349,9 @@
         ::prost::alloc::string::String,
         ::prost::alloc::string::String,
     &gt;,
-    <span class="doccomment">/// Unstructured key value map that may be set by external tools to store and
-    /// arbitrary metadata. They are not queryable and should be preserved
-    /// when modifying objects.
+    <span class="doccomment">/// Optional. Unstructured key value map that may be set by external tools to
+    /// store and arbitrary metadata. They are not queryable and should be
+    /// preserved when modifying objects.
     ///
     /// &lt;p&gt;Cloud Run API v2 does not support annotations with `run.googleapis.com`,
     /// `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev`
@@ -6301,6 +6418,12 @@
     /// 100% traffic to the latest `Ready` Revision.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"19"</span>)]
     </span><span class="kw">pub </span>traffic: ::prost::alloc::vec::Vec&lt;TrafficTarget&gt;,
+    <span class="doccomment">/// Optional. Specifies service-level scaling settings
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"20"</span>)]
+    </span><span class="kw">pub </span>scaling: ::core::option::Option&lt;ServiceScaling&gt;,
+    <span class="doccomment">/// Optional. Disables public resolution of the default URI of this service.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"22"</span>)]
+    </span><span class="kw">pub </span>default_uri_disabled: bool,
     <span class="doccomment">/// Output only. The generation of this Service currently serving traffic. See
     /// comments in `reconciling` for additional information on reconciliation
     /// process in Cloud Run. Please note that unlike v1, this is an int64 value.
@@ -7202,6 +7325,9 @@
     <span class="doccomment">/// Enable session affinity.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"38"</span>)]
     </span><span class="kw">pub </span>session_affinity: bool,
+    <span class="doccomment">/// Output only. The current effective scaling settings for the revision.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"39"</span>)]
+    </span><span class="kw">pub </span>scaling_status: ::core::option::Option&lt;RevisionScalingStatus&gt;,
     <span class="doccomment">/// Output only. A system-generated fingerprint for this version of the
     /// resource. May be used to detect modification conflict during updates.
     </span><span class="attr">#[prost(string, tag = <span class="string">"99"</span>)]

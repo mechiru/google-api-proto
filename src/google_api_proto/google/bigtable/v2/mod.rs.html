@@ -1912,6 +1912,58 @@
 <a href="#1911" id="1911">1911</a>
 <a href="#1912" id="1912">1912</a>
 <a href="#1913" id="1913">1913</a>
+<a href="#1914" id="1914">1914</a>
+<a href="#1915" id="1915">1915</a>
+<a href="#1916" id="1916">1916</a>
+<a href="#1917" id="1917">1917</a>
+<a href="#1918" id="1918">1918</a>
+<a href="#1919" id="1919">1919</a>
+<a href="#1920" id="1920">1920</a>
+<a href="#1921" id="1921">1921</a>
+<a href="#1922" id="1922">1922</a>
+<a href="#1923" id="1923">1923</a>
+<a href="#1924" id="1924">1924</a>
+<a href="#1925" id="1925">1925</a>
+<a href="#1926" id="1926">1926</a>
+<a href="#1927" id="1927">1927</a>
+<a href="#1928" id="1928">1928</a>
+<a href="#1929" id="1929">1929</a>
+<a href="#1930" id="1930">1930</a>
+<a href="#1931" id="1931">1931</a>
+<a href="#1932" id="1932">1932</a>
+<a href="#1933" id="1933">1933</a>
+<a href="#1934" id="1934">1934</a>
+<a href="#1935" id="1935">1935</a>
+<a href="#1936" id="1936">1936</a>
+<a href="#1937" id="1937">1937</a>
+<a href="#1938" id="1938">1938</a>
+<a href="#1939" id="1939">1939</a>
+<a href="#1940" id="1940">1940</a>
+<a href="#1941" id="1941">1941</a>
+<a href="#1942" id="1942">1942</a>
+<a href="#1943" id="1943">1943</a>
+<a href="#1944" id="1944">1944</a>
+<a href="#1945" id="1945">1945</a>
+<a href="#1946" id="1946">1946</a>
+<a href="#1947" id="1947">1947</a>
+<a href="#1948" id="1948">1948</a>
+<a href="#1949" id="1949">1949</a>
+<a href="#1950" id="1950">1950</a>
+<a href="#1951" id="1951">1951</a>
+<a href="#1952" id="1952">1952</a>
+<a href="#1953" id="1953">1953</a>
+<a href="#1954" id="1954">1954</a>
+<a href="#1955" id="1955">1955</a>
+<a href="#1956" id="1956">1956</a>
+<a href="#1957" id="1957">1957</a>
+<a href="#1958" id="1958">1958</a>
+<a href="#1959" id="1959">1959</a>
+<a href="#1960" id="1960">1960</a>
+<a href="#1961" id="1961">1961</a>
+<a href="#1962" id="1962">1962</a>
+<a href="#1963" id="1963">1963</a>
+<a href="#1964" id="1964">1964</a>
+<a href="#1965" id="1965">1965</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Specifies the complete (requested) contents of a single row of a table.
 /// Rows which exceed 256MiB in size cannot be read in full.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2665,11 +2717,18 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ReadRowsRequest {
-    <span class="doccomment">/// Required. The unique name of the table from which to read.
+    <span class="doccomment">/// Optional. The unique name of the table from which to read.
+    ///
     /// Values are of the form
     /// `projects/&lt;project&gt;/instances/&lt;instance&gt;/tables/&lt;table&gt;`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>table_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The unique name of the AuthorizedView from which to read.
+    ///
+    /// Values are of the form
+    /// `projects/&lt;project&gt;/instances/&lt;instance&gt;/tables/&lt;table&gt;/authorizedViews/&lt;authorized_view&gt;`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>authorized_view_name: ::prost::alloc::string::String,
     <span class="doccomment">/// This value specifies routing for replication. If not specified, the
     /// "default" application profile will be used.
     </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
@@ -2874,11 +2933,19 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SampleRowKeysRequest {
-    <span class="doccomment">/// Required. The unique name of the table from which to sample row keys.
+    <span class="doccomment">/// Optional. The unique name of the table from which to sample row keys.
+    ///
     /// Values are of the form
     /// `projects/&lt;project&gt;/instances/&lt;instance&gt;/tables/&lt;table&gt;`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>table_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The unique name of the AuthorizedView from which to sample row
+    /// keys.
+    ///
+    /// Values are of the form
+    /// `projects/&lt;project&gt;/instances/&lt;instance&gt;/tables/&lt;table&gt;/authorizedViews/&lt;authorized_view&gt;`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>authorized_view_name: ::prost::alloc::string::String,
     <span class="doccomment">/// This value specifies routing for replication. If not specified, the
     /// "default" application profile will be used.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
@@ -2908,11 +2975,20 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MutateRowRequest {
-    <span class="doccomment">/// Required. The unique name of the table to which the mutation should be
-    /// applied. Values are of the form
+    <span class="doccomment">/// Optional. The unique name of the table to which the mutation should be
+    /// applied.
+    ///
+    /// Values are of the form
     /// `projects/&lt;project&gt;/instances/&lt;instance&gt;/tables/&lt;table&gt;`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>table_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The unique name of the AuthorizedView to which the mutation
+    /// should be applied.
+    ///
+    /// Values are of the form
+    /// `projects/&lt;project&gt;/instances/&lt;instance&gt;/tables/&lt;table&gt;/authorizedViews/&lt;authorized_view&gt;`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>authorized_view_name: ::prost::alloc::string::String,
     <span class="doccomment">/// This value specifies routing for replication. If not specified, the
     /// "default" application profile will be used.
     </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
@@ -2934,10 +3010,20 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MutateRowsRequest {
-    <span class="doccomment">/// Required. The unique name of the table to which the mutations should be
+    <span class="doccomment">/// Optional. The unique name of the table to which the mutations should be
     /// applied.
+    ///
+    /// Values are of the form
+    /// `projects/&lt;project&gt;/instances/&lt;instance&gt;/tables/&lt;table&gt;`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>table_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The unique name of the AuthorizedView to which the mutations
+    /// should be applied.
+    ///
+    /// Values are of the form
+    /// `projects/&lt;project&gt;/instances/&lt;instance&gt;/tables/&lt;table&gt;/authorizedViews/&lt;authorized_view&gt;`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>authorized_view_name: ::prost::alloc::string::String,
     <span class="doccomment">/// This value specifies routing for replication. If not specified, the
     /// "default" application profile will be used.
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
@@ -3025,11 +3111,20 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CheckAndMutateRowRequest {
-    <span class="doccomment">/// Required. The unique name of the table to which the conditional mutation
-    /// should be applied. Values are of the form
+    <span class="doccomment">/// Optional. The unique name of the table to which the conditional mutation
+    /// should be applied.
+    ///
+    /// Values are of the form
     /// `projects/&lt;project&gt;/instances/&lt;instance&gt;/tables/&lt;table&gt;`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>table_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The unique name of the AuthorizedView to which the conditional
+    /// mutation should be applied.
+    ///
+    /// Values are of the form
+    /// `projects/&lt;project&gt;/instances/&lt;instance&gt;/tables/&lt;table&gt;/authorizedViews/&lt;authorized_view&gt;`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>authorized_view_name: ::prost::alloc::string::String,
     <span class="doccomment">/// This value specifies routing for replication. If not specified, the
     /// "default" application profile will be used.
     </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
@@ -3090,11 +3185,20 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ReadModifyWriteRowRequest {
-    <span class="doccomment">/// Required. The unique name of the table to which the read/modify/write rules
-    /// should be applied. Values are of the form
+    <span class="doccomment">/// Optional. The unique name of the table to which the read/modify/write rules
+    /// should be applied.
+    ///
+    /// Values are of the form
     /// `projects/&lt;project&gt;/instances/&lt;instance&gt;/tables/&lt;table&gt;`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>table_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The unique name of the AuthorizedView to which the
+    /// read/modify/write rules should be applied.
+    ///
+    /// Values are of the form
+    /// `projects/&lt;project&gt;/instances/&lt;instance&gt;/tables/&lt;table&gt;/authorizedViews/&lt;authorized_view&gt;`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>authorized_view_name: ::prost::alloc::string::String,
     <span class="doccomment">/// This value specifies routing for replication. If not specified, the
     /// "default" application profile will be used.
     </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
