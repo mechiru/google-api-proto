@@ -1421,6 +1421,313 @@
         }
     }
 }
+<span class="doccomment">/// Request for query suggestions.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SuggestQueriesRequest {
+    <span class="doccomment">/// Required. The parent of the suggestion query is the resource denoting the project and
+    /// location.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The scopes to which this search is restricted. The only supported scope
+    /// pattern is
+    /// `//bigquery.googleapis.com/projects/{GCP-PROJECT-ID}/datasets/{DATASET-ID}/tables/{TABLE-ID}`.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>scopes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// User query for which to generate suggestions. If the query is empty, zero
+    /// state suggestions are returned. This allows UIs to display suggestions
+    /// right away, helping the user to get a sense of what a query might look
+    /// like.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>query: ::prost::alloc::string::String,
+    <span class="doccomment">/// The requested suggestion type. Multiple suggestion types can be
+    /// requested, but there is no guarantee that the service will return
+    /// suggestions for each type. Suggestions for a requested type might rank
+    /// lower than suggestions for other types and the service may decide to cut
+    /// these suggestions off.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"SuggestionType"</span>, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>suggestion_types: ::prost::alloc::vec::Vec&lt;i32&gt;,
+}
+<span class="doccomment">/// A suggestion for a query with a ranking score.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Suggestion {
+    <span class="doccomment">/// Detailed information about the suggestion.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>suggestion_info: ::core::option::Option&lt;SuggestionInfo&gt;,
+    <span class="doccomment">/// The score of the suggestion. This can be used to define ordering in UI.
+    /// The score represents confidence in the suggestion where higher is better.
+    /// All score values must be in the range [0, 1).
+    </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>ranking_score: f64,
+    <span class="doccomment">/// The type of the suggestion.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"SuggestionType"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>suggestion_type: i32,
+}
+<span class="doccomment">/// Detailed information about the suggestion.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SuggestionInfo {
+    <span class="doccomment">/// Annotations for the suggestion. This provides information about which part
+    /// of the suggestion corresponds to what semantic meaning (e.g. a metric).
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>annotated_suggestion: ::core::option::Option&lt;AnnotatedString&gt;,
+    <span class="doccomment">/// Matches between user query and the annotated string.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>query_matches: ::prost::alloc::vec::Vec&lt;suggestion_info::MatchInfo&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `SuggestionInfo`.
+</span><span class="kw">pub mod </span>suggestion_info {
+    <span class="doccomment">/// MatchInfo describes which part of suggestion matched with data in user
+    /// typed query. This can be used to highlight matching parts in the UI. This
+    /// is different from the annotations provided in annotated_suggestion. The
+    /// annotated_suggestion provides information about the semantic meaning, while
+    /// this provides information about how it relates to the input.
+    ///
+    /// Example:
+    /// user query: `top products`
+    ///
+    /// ```
+    /// annotated_suggestion {
+    ///   text_formatted = "top product_group"
+    ///   html_formatted = "top &lt;b&gt;product_group&lt;/b&gt;"
+    ///   markups {
+    ///    {type: TEXT, start_char_index: 0, length: 3}
+    ///    {type: DIMENSION, start_char_index: 4, length: 13}
+    ///   }
+    /// }
+    ///
+    /// query_matches {
+    ///   { start_char_index: 0, length: 3 }
+    ///   { start_char_index: 4, length: 7}
+    /// }
+    /// ```
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>MatchInfo {
+        <span class="doccomment">/// Unicode character index of the string annotation.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>start_char_index: i32,
+        <span class="doccomment">/// Count of unicode characters of this substring.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>length: i32,
+    }
+}
+<span class="doccomment">/// Response to SuggestQueries.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SuggestQueriesResponse {
+    <span class="doccomment">/// A list of suggestions.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>suggestions: ::prost::alloc::vec::Vec&lt;Suggestion&gt;,
+}
+<span class="doccomment">/// The type of suggestion.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>SuggestionType {
+    <span class="doccomment">/// No suggestiont type is specified.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Entity suggestion type. Suggestions are for single entities.
+    </span>Entity = <span class="number">1</span>,
+    <span class="doccomment">/// Template suggestion type. Suggestions are for full sentences.
+    </span>Template = <span class="number">2</span>,
+}
+<span class="kw">impl </span>SuggestionType {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            SuggestionType::Unspecified =&gt; <span class="string">"SUGGESTION_TYPE_UNSPECIFIED"</span>,
+            SuggestionType::Entity =&gt; <span class="string">"ENTITY"</span>,
+            SuggestionType::Template =&gt; <span class="string">"TEMPLATE"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"SUGGESTION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"ENTITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Entity),
+            <span class="string">"TEMPLATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Template),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>auto_suggestion_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// This stateless API provides automatic suggestions for natural language
+    /// queries for the data sources in the provided project and location.
+    ///
+    /// The service provides a resourceless operation `suggestQueries` that can be
+    /// called to get a list of suggestions for a given incomplete query and scope
+    /// (or list of scopes) under which the query is to be interpreted.
+    ///
+    /// There are two types of suggestions, ENTITY for single entity suggestions
+    /// and TEMPLATE for full sentences. By default, both types are returned.
+    ///
+    /// Example Request:
+    /// ```
+    /// GetSuggestions({
+    ///   parent: "locations/us/projects/my-project"
+    ///   scopes:
+    ///   "//bigquery.googleapis.com/projects/my-project/datasets/my-dataset/tables/my-table"
+    ///   query: "top it"
+    /// })
+    /// ```
+    ///
+    /// The service will retrieve information based on the given scope(s) and give
+    /// suggestions based on that (e.g. "top item" for "top it" if "item" is a known
+    /// dimension for the provided scope).
+    /// ```
+    /// suggestions {
+    ///   suggestion_info {
+    ///     annotated_suggestion {
+    ///       text_formatted: "top item by sum of usd_revenue_net"
+    ///       markups {
+    ///         type: DIMENSION
+    ///         start_char_index: 4
+    ///         length: 4
+    ///       }
+    ///       markups {
+    ///         type: METRIC
+    ///         start_char_index: 19
+    ///         length: 15
+    ///       }
+    ///     }
+    ///     query_matches {
+    ///       start_char_index: 0
+    ///       length: 6
+    ///     }
+    ///   }
+    ///   suggestion_type: TEMPLATE
+    ///   ranking_score: 0.9
+    /// }
+    /// suggestions {
+    ///   suggestion_info {
+    ///     annotated_suggestion {
+    ///       text_formatted: "item"
+    ///       markups {
+    ///         type: DIMENSION
+    ///         start_char_index: 4
+    ///         length: 2
+    ///       }
+    ///     }
+    ///     query_matches {
+    ///       start_char_index: 0
+    ///       length: 6
+    ///     }
+    ///   }
+    ///   suggestion_type: ENTITY
+    ///   ranking_score: 0.8
+    /// }
+    /// ```
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>AutoSuggestionServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; AutoSuggestionServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; AutoSuggestionServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            AutoSuggestionServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Gets a list of suggestions based on a prefix string.
+        /// AutoSuggestion tolerance should be less than 1 second.
+        </span><span class="kw">pub async fn </span>suggest_queries(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::SuggestQueriesRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::SuggestQueriesResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.dataqna.v1alpha.AutoSuggestionService/SuggestQueries"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.dataqna.v1alpha.AutoSuggestionService"</span>,
+                        <span class="string">"SuggestQueries"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
 <span class="doccomment">/// The question resource represents a natural language query, its settings,
 /// understanding generated by the system, and answer retrieval status.
 /// A question cannot be modified.
@@ -2290,313 +2597,6 @@
                     GrpcMethod::new(
                         <span class="string">"google.cloud.dataqna.v1alpha.QuestionService"</span>,
                         <span class="string">"UpdateUserFeedback"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// Request for query suggestions.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SuggestQueriesRequest {
-    <span class="doccomment">/// Required. The parent of the suggestion query is the resource denoting the project and
-    /// location.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The scopes to which this search is restricted. The only supported scope
-    /// pattern is
-    /// `//bigquery.googleapis.com/projects/{GCP-PROJECT-ID}/datasets/{DATASET-ID}/tables/{TABLE-ID}`.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>scopes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// User query for which to generate suggestions. If the query is empty, zero
-    /// state suggestions are returned. This allows UIs to display suggestions
-    /// right away, helping the user to get a sense of what a query might look
-    /// like.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>query: ::prost::alloc::string::String,
-    <span class="doccomment">/// The requested suggestion type. Multiple suggestion types can be
-    /// requested, but there is no guarantee that the service will return
-    /// suggestions for each type. Suggestions for a requested type might rank
-    /// lower than suggestions for other types and the service may decide to cut
-    /// these suggestions off.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"SuggestionType"</span>, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>suggestion_types: ::prost::alloc::vec::Vec&lt;i32&gt;,
-}
-<span class="doccomment">/// A suggestion for a query with a ranking score.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Suggestion {
-    <span class="doccomment">/// Detailed information about the suggestion.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>suggestion_info: ::core::option::Option&lt;SuggestionInfo&gt;,
-    <span class="doccomment">/// The score of the suggestion. This can be used to define ordering in UI.
-    /// The score represents confidence in the suggestion where higher is better.
-    /// All score values must be in the range [0, 1).
-    </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>ranking_score: f64,
-    <span class="doccomment">/// The type of the suggestion.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"SuggestionType"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>suggestion_type: i32,
-}
-<span class="doccomment">/// Detailed information about the suggestion.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SuggestionInfo {
-    <span class="doccomment">/// Annotations for the suggestion. This provides information about which part
-    /// of the suggestion corresponds to what semantic meaning (e.g. a metric).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>annotated_suggestion: ::core::option::Option&lt;AnnotatedString&gt;,
-    <span class="doccomment">/// Matches between user query and the annotated string.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>query_matches: ::prost::alloc::vec::Vec&lt;suggestion_info::MatchInfo&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `SuggestionInfo`.
-</span><span class="kw">pub mod </span>suggestion_info {
-    <span class="doccomment">/// MatchInfo describes which part of suggestion matched with data in user
-    /// typed query. This can be used to highlight matching parts in the UI. This
-    /// is different from the annotations provided in annotated_suggestion. The
-    /// annotated_suggestion provides information about the semantic meaning, while
-    /// this provides information about how it relates to the input.
-    ///
-    /// Example:
-    /// user query: `top products`
-    ///
-    /// ```
-    /// annotated_suggestion {
-    ///   text_formatted = "top product_group"
-    ///   html_formatted = "top &lt;b&gt;product_group&lt;/b&gt;"
-    ///   markups {
-    ///    {type: TEXT, start_char_index: 0, length: 3}
-    ///    {type: DIMENSION, start_char_index: 4, length: 13}
-    ///   }
-    /// }
-    ///
-    /// query_matches {
-    ///   { start_char_index: 0, length: 3 }
-    ///   { start_char_index: 4, length: 7}
-    /// }
-    /// ```
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>MatchInfo {
-        <span class="doccomment">/// Unicode character index of the string annotation.
-        </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>start_char_index: i32,
-        <span class="doccomment">/// Count of unicode characters of this substring.
-        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>length: i32,
-    }
-}
-<span class="doccomment">/// Response to SuggestQueries.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SuggestQueriesResponse {
-    <span class="doccomment">/// A list of suggestions.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>suggestions: ::prost::alloc::vec::Vec&lt;Suggestion&gt;,
-}
-<span class="doccomment">/// The type of suggestion.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>SuggestionType {
-    <span class="doccomment">/// No suggestiont type is specified.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Entity suggestion type. Suggestions are for single entities.
-    </span>Entity = <span class="number">1</span>,
-    <span class="doccomment">/// Template suggestion type. Suggestions are for full sentences.
-    </span>Template = <span class="number">2</span>,
-}
-<span class="kw">impl </span>SuggestionType {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            SuggestionType::Unspecified =&gt; <span class="string">"SUGGESTION_TYPE_UNSPECIFIED"</span>,
-            SuggestionType::Entity =&gt; <span class="string">"ENTITY"</span>,
-            SuggestionType::Template =&gt; <span class="string">"TEMPLATE"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"SUGGESTION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"ENTITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Entity),
-            <span class="string">"TEMPLATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Template),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>auto_suggestion_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// This stateless API provides automatic suggestions for natural language
-    /// queries for the data sources in the provided project and location.
-    ///
-    /// The service provides a resourceless operation `suggestQueries` that can be
-    /// called to get a list of suggestions for a given incomplete query and scope
-    /// (or list of scopes) under which the query is to be interpreted.
-    ///
-    /// There are two types of suggestions, ENTITY for single entity suggestions
-    /// and TEMPLATE for full sentences. By default, both types are returned.
-    ///
-    /// Example Request:
-    /// ```
-    /// GetSuggestions({
-    ///   parent: "locations/us/projects/my-project"
-    ///   scopes:
-    ///   "//bigquery.googleapis.com/projects/my-project/datasets/my-dataset/tables/my-table"
-    ///   query: "top it"
-    /// })
-    /// ```
-    ///
-    /// The service will retrieve information based on the given scope(s) and give
-    /// suggestions based on that (e.g. "top item" for "top it" if "item" is a known
-    /// dimension for the provided scope).
-    /// ```
-    /// suggestions {
-    ///   suggestion_info {
-    ///     annotated_suggestion {
-    ///       text_formatted: "top item by sum of usd_revenue_net"
-    ///       markups {
-    ///         type: DIMENSION
-    ///         start_char_index: 4
-    ///         length: 4
-    ///       }
-    ///       markups {
-    ///         type: METRIC
-    ///         start_char_index: 19
-    ///         length: 15
-    ///       }
-    ///     }
-    ///     query_matches {
-    ///       start_char_index: 0
-    ///       length: 6
-    ///     }
-    ///   }
-    ///   suggestion_type: TEMPLATE
-    ///   ranking_score: 0.9
-    /// }
-    /// suggestions {
-    ///   suggestion_info {
-    ///     annotated_suggestion {
-    ///       text_formatted: "item"
-    ///       markups {
-    ///         type: DIMENSION
-    ///         start_char_index: 4
-    ///         length: 2
-    ///       }
-    ///     }
-    ///     query_matches {
-    ///       start_char_index: 0
-    ///       length: 6
-    ///     }
-    ///   }
-    ///   suggestion_type: ENTITY
-    ///   ranking_score: 0.8
-    /// }
-    /// ```
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>AutoSuggestionServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; AutoSuggestionServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; AutoSuggestionServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            AutoSuggestionServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Gets a list of suggestions based on a prefix string.
-        /// AutoSuggestion tolerance should be less than 1 second.
-        </span><span class="kw">pub async fn </span>suggest_queries(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::SuggestQueriesRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::SuggestQueriesResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.dataqna.v1alpha.AutoSuggestionService/SuggestQueries"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.dataqna.v1alpha.AutoSuggestionService"</span>,
-                        <span class="string">"SuggestQueries"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

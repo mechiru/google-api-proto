@@ -8110,6 +8110,65 @@
 <a href="#8109" id="8109">8109</a>
 <a href="#8110" id="8110">8110</a>
 <a href="#8111" id="8111">8111</a>
+<a href="#8112" id="8112">8112</a>
+<a href="#8113" id="8113">8113</a>
+<a href="#8114" id="8114">8114</a>
+<a href="#8115" id="8115">8115</a>
+<a href="#8116" id="8116">8116</a>
+<a href="#8117" id="8117">8117</a>
+<a href="#8118" id="8118">8118</a>
+<a href="#8119" id="8119">8119</a>
+<a href="#8120" id="8120">8120</a>
+<a href="#8121" id="8121">8121</a>
+<a href="#8122" id="8122">8122</a>
+<a href="#8123" id="8123">8123</a>
+<a href="#8124" id="8124">8124</a>
+<a href="#8125" id="8125">8125</a>
+<a href="#8126" id="8126">8126</a>
+<a href="#8127" id="8127">8127</a>
+<a href="#8128" id="8128">8128</a>
+<a href="#8129" id="8129">8129</a>
+<a href="#8130" id="8130">8130</a>
+<a href="#8131" id="8131">8131</a>
+<a href="#8132" id="8132">8132</a>
+<a href="#8133" id="8133">8133</a>
+<a href="#8134" id="8134">8134</a>
+<a href="#8135" id="8135">8135</a>
+<a href="#8136" id="8136">8136</a>
+<a href="#8137" id="8137">8137</a>
+<a href="#8138" id="8138">8138</a>
+<a href="#8139" id="8139">8139</a>
+<a href="#8140" id="8140">8140</a>
+<a href="#8141" id="8141">8141</a>
+<a href="#8142" id="8142">8142</a>
+<a href="#8143" id="8143">8143</a>
+<a href="#8144" id="8144">8144</a>
+<a href="#8145" id="8145">8145</a>
+<a href="#8146" id="8146">8146</a>
+<a href="#8147" id="8147">8147</a>
+<a href="#8148" id="8148">8148</a>
+<a href="#8149" id="8149">8149</a>
+<a href="#8150" id="8150">8150</a>
+<a href="#8151" id="8151">8151</a>
+<a href="#8152" id="8152">8152</a>
+<a href="#8153" id="8153">8153</a>
+<a href="#8154" id="8154">8154</a>
+<a href="#8155" id="8155">8155</a>
+<a href="#8156" id="8156">8156</a>
+<a href="#8157" id="8157">8157</a>
+<a href="#8158" id="8158">8158</a>
+<a href="#8159" id="8159">8159</a>
+<a href="#8160" id="8160">8160</a>
+<a href="#8161" id="8161">8161</a>
+<a href="#8162" id="8162">8162</a>
+<a href="#8163" id="8163">8163</a>
+<a href="#8164" id="8164">8164</a>
+<a href="#8165" id="8165">8165</a>
+<a href="#8166" id="8166">8166</a>
+<a href="#8167" id="8167">8167</a>
+<a href="#8168" id="8168">8168</a>
+<a href="#8169" id="8169">8169</a>
+<a href="#8170" id="8170">8170</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Parameters that can be configured on Linux nodes.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -8522,6 +8581,9 @@
     <span class="doccomment">/// Optional. Reserved for future use.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"46"</span>)]
     </span><span class="kw">pub </span>enable_confidential_storage: bool,
+    <span class="doccomment">/// List of secondary boot disks attached to the nodes.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"48"</span>)]
+    </span><span class="kw">pub </span>secondary_boot_disks: ::prost::alloc::vec::Vec&lt;SecondaryBootDisk&gt;,
 }
 <span class="doccomment">/// Specifies options for controlling advanced machine features.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -14887,6 +14949,62 @@
                 <span class="string">"CLUSTER_TIER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
                 <span class="string">"STANDARD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Standard),
                 <span class="string">"ENTERPRISE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Enterprise),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// SecondaryBootDisk represents a persistent disk attached to a node
+/// with special configurations based on its mode.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SecondaryBootDisk {
+    <span class="doccomment">/// Disk mode (container image cache, etc.)
+    </span><span class="attr">#[prost(enumeration = <span class="string">"secondary_boot_disk::Mode"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>mode: i32,
+    <span class="doccomment">/// Fully-qualified resource ID for an existing disk image.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>disk_image: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `SecondaryBootDisk`.
+</span><span class="kw">pub mod </span>secondary_boot_disk {
+    <span class="doccomment">/// Mode specifies how the secondary boot disk will be used.
+    /// This triggers mode-specified logic in the control plane.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Mode {
+        <span class="doccomment">/// MODE_UNSPECIFIED is when mode is not set.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// CONTAINER_IMAGE_CACHE is for using the secondary boot disk as
+        /// a container image cache.
+        </span>ContainerImageCache = <span class="number">1</span>,
+    }
+    <span class="kw">impl </span>Mode {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Mode::Unspecified =&gt; <span class="string">"MODE_UNSPECIFIED"</span>,
+                Mode::ContainerImageCache =&gt; <span class="string">"CONTAINER_IMAGE_CACHE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CONTAINER_IMAGE_CACHE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ContainerImageCache),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }

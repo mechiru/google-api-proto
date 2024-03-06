@@ -1578,59 +1578,7 @@
 <a href="#1577" id="1577">1577</a>
 <a href="#1578" id="1578">1578</a>
 <a href="#1579" id="1579">1579</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// A vertex represents a 2D point in the image.
-/// NOTE: the vertex coordinates are in the same scale as the original image.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Vertex {
-    <span class="doccomment">/// X coordinate.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>x: i32,
-    <span class="doccomment">/// Y coordinate.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>y: i32,
-}
-<span class="doccomment">/// A vertex represents a 2D point in the image.
-/// NOTE: the normalized vertex coordinates are relative to the original image
-/// and range from 0 to 1.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>NormalizedVertex {
-    <span class="doccomment">/// X coordinate.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>x: f32,
-    <span class="doccomment">/// Y coordinate.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>y: f32,
-}
-<span class="doccomment">/// A bounding polygon for the detected image annotation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BoundingPoly {
-    <span class="doccomment">/// The bounding polygon vertices.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>vertices: ::prost::alloc::vec::Vec&lt;Vertex&gt;,
-    <span class="doccomment">/// The bounding polygon normalized vertices.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>normalized_vertices: ::prost::alloc::vec::Vec&lt;NormalizedVertex&gt;,
-}
-<span class="doccomment">/// A 3D position in the image, used primarily for Face detection landmarks.
-/// A valid Position must have both x and y coordinates.
-/// The position coordinates are in the same scale as the original image.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Position {
-    <span class="doccomment">/// X coordinate.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>x: f32,
-    <span class="doccomment">/// Y coordinate.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>y: f32,
-    <span class="doccomment">/// Z coordinate (or depth).
-    </span><span class="attr">#[prost(float, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>z: f32,
-}
-<span class="doccomment">/// Relevant information for the image from the Internet.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Relevant information for the image from the Internet.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>WebDetection {
@@ -1721,6 +1669,58 @@
         </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
         </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
     }
+}
+<span class="doccomment">/// A vertex represents a 2D point in the image.
+/// NOTE: the vertex coordinates are in the same scale as the original image.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Vertex {
+    <span class="doccomment">/// X coordinate.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>x: i32,
+    <span class="doccomment">/// Y coordinate.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>y: i32,
+}
+<span class="doccomment">/// A vertex represents a 2D point in the image.
+/// NOTE: the normalized vertex coordinates are relative to the original image
+/// and range from 0 to 1.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>NormalizedVertex {
+    <span class="doccomment">/// X coordinate.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>x: f32,
+    <span class="doccomment">/// Y coordinate.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>y: f32,
+}
+<span class="doccomment">/// A bounding polygon for the detected image annotation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BoundingPoly {
+    <span class="doccomment">/// The bounding polygon vertices.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>vertices: ::prost::alloc::vec::Vec&lt;Vertex&gt;,
+    <span class="doccomment">/// The bounding polygon normalized vertices.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>normalized_vertices: ::prost::alloc::vec::Vec&lt;NormalizedVertex&gt;,
+}
+<span class="doccomment">/// A 3D position in the image, used primarily for Face detection landmarks.
+/// A valid Position must have both x and y coordinates.
+/// The position coordinates are in the same scale as the original image.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Position {
+    <span class="doccomment">/// X coordinate.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>x: f32,
+    <span class="doccomment">/// Y coordinate.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>y: f32,
+    <span class="doccomment">/// Z coordinate (or depth).
+    </span><span class="attr">#[prost(float, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>z: f32,
 }
 <span class="doccomment">/// TextAnnotation contains a structured representation of OCR extracted text.
 /// The hierarchy of an OCR extracted text structure is like this:

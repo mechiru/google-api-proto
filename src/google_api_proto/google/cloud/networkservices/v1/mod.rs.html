@@ -3543,1199 +3543,7 @@
 <a href="#3542" id="3542">3542</a>
 <a href="#3543" id="3543">3543</a>
 <a href="#3544" id="3544">3544</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Represents the metadata of the long-running operation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OperationMetadata {
-    <span class="doccomment">/// Output only. The time the operation was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The time the operation finished running.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Server-defined resource path for the target of the operation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>target: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Name of the verb executed by the operation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>verb: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Human-readable status of the operation, if any.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>status_message: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Identifies whether the user has requested cancellation
-    /// of the operation. Operations that have successfully been cancelled
-    /// have [Operation.error][] value with a
-    /// [google.rpc.Status.code][google.rpc.Status.code] of 1, corresponding to
-    /// `Code.CANCELLED`.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>requested_cancellation: bool,
-    <span class="doccomment">/// Output only. API version used to start the operation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>api_version: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Specification of a port-based selector.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TrafficPortSelector {
-    <span class="doccomment">/// Optional. A list of ports. Can be port numbers or port range
-    /// (example, \[80-90\] specifies all ports from 80 to 90, including
-    /// 80 and 90) or named ports or * to specify all ports. If the
-    /// list is empty, all ports are selected.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>ports: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// A definition of a matcher that selects endpoints to which the policies
-/// should be applied.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EndpointMatcher {
-    <span class="doccomment">/// Specifies type of the matcher used for this endpoint matcher.
-    </span><span class="attr">#[prost(oneof = <span class="string">"endpoint_matcher::MatcherType"</span>, tags = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>matcher_type: ::core::option::Option&lt;endpoint_matcher::MatcherType&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `EndpointMatcher`.
-</span><span class="kw">pub mod </span>endpoint_matcher {
-    <span class="doccomment">/// The matcher that is based on node metadata presented by xDS clients.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>MetadataLabelMatcher {
-        <span class="doccomment">/// Specifies how matching should be done.
-        ///
-        /// Supported values are:
-        /// MATCH_ANY: At least one of the Labels specified in the
-        ///    matcher should match the metadata presented by xDS client.
-        /// MATCH_ALL: The metadata presented by the xDS client should
-        ///    contain all of the labels specified here.
-        ///
-        /// The selection is determined based on the best match. For
-        /// example, suppose there are three EndpointPolicy
-        /// resources P1, P2 and P3 and if P1 has a the matcher as
-        /// MATCH_ANY &lt;A:1, B:1&gt;, P2 has MATCH_ALL &lt;A:1,B:1&gt;, and P3 has
-        /// MATCH_ALL &lt;A:1,B:1,C:1&gt;.
-        ///
-        /// If a client with label &lt;A:1&gt; connects, the config from P1
-        /// will be selected.
-        ///
-        /// If a client with label &lt;A:1,B:1&gt; connects, the config from P2
-        /// will be selected.
-        ///
-        /// If a client with label &lt;A:1,B:1,C:1&gt; connects, the config
-        /// from P3 will be selected.
-        ///
-        /// If there is more than one best match, (for example, if a
-        /// config P4 with selector &lt;A:1,D:1&gt; exists and if a client with
-        /// label &lt;A:1,B:1,D:1&gt; connects), an error will be thrown.
-        </span><span class="attr">#[prost(
-            enumeration = <span class="string">"metadata_label_matcher::MetadataLabelMatchCriteria"</span>,
-            tag = <span class="string">"1"
-        </span>)]
-        </span><span class="kw">pub </span>metadata_label_match_criteria: i32,
-        <span class="doccomment">/// The list of label value pairs that must match labels in the
-        /// provided metadata based on filterMatchCriteria This list can
-        /// have at most 64 entries. The list can be empty if the match
-        /// criteria is MATCH_ANY, to specify a wildcard match (i.e this
-        /// matches any client).
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>metadata_labels: ::prost::alloc::vec::Vec&lt;
-            metadata_label_matcher::MetadataLabels,
-        &gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `MetadataLabelMatcher`.
-    </span><span class="kw">pub mod </span>metadata_label_matcher {
-        <span class="doccomment">/// Defines a name-pair value for a single label.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>MetadataLabels {
-            <span class="doccomment">/// Required. Label name presented as key in xDS Node Metadata.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>label_name: ::prost::alloc::string::String,
-            <span class="doccomment">/// Required. Label value presented as value corresponding to the above
-            /// key, in xDS Node Metadata.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>label_value: ::prost::alloc::string::String,
-        }
-        <span class="doccomment">/// Possible criteria values that define logic of how matching is made.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>MetadataLabelMatchCriteria {
-            <span class="doccomment">/// Default value. Should not be used.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// At least one of the Labels specified in the matcher should match the
-            /// metadata presented by xDS client.
-            </span>MatchAny = <span class="number">1</span>,
-            <span class="doccomment">/// The metadata presented by the xDS client should contain all of the
-            /// labels specified here.
-            </span>MatchAll = <span class="number">2</span>,
-        }
-        <span class="kw">impl </span>MetadataLabelMatchCriteria {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    MetadataLabelMatchCriteria::Unspecified =&gt; {
-                        <span class="string">"METADATA_LABEL_MATCH_CRITERIA_UNSPECIFIED"
-                    </span>}
-                    MetadataLabelMatchCriteria::MatchAny =&gt; <span class="string">"MATCH_ANY"</span>,
-                    MetadataLabelMatchCriteria::MatchAll =&gt; <span class="string">"MATCH_ALL"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"METADATA_LABEL_MATCH_CRITERIA_UNSPECIFIED" </span>=&gt; {
-                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified)
-                    }
-                    <span class="string">"MATCH_ANY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MatchAny),
-                    <span class="string">"MATCH_ALL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MatchAll),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-    <span class="doccomment">/// Specifies type of the matcher used for this endpoint matcher.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>MatcherType {
-        <span class="doccomment">/// The matcher is based on node metadata presented by xDS clients.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>MetadataLabelMatcher(MetadataLabelMatcher),
-    }
-}
-<span class="doccomment">/// EndpointPolicy is a resource that helps apply desired configuration
-/// on the endpoints that match specific criteria.
-/// For example, this resource can be used to apply "authentication config"
-/// an all endpoints that serve on port 8080.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EndpointPolicy {
-    <span class="doccomment">/// Required. Name of the EndpointPolicy resource. It matches pattern
-    /// `projects/{project}/locations/global/endpointPolicies/{endpoint_policy}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The timestamp when the resource was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp when the resource was updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Optional. Set of label tags associated with the EndpointPolicy resource.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Required. The type of endpoint policy. This is primarily used to validate
-    /// the configuration.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"endpoint_policy::EndpointPolicyType"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-    <span class="doccomment">/// Optional. This field specifies the URL of AuthorizationPolicy resource that
-    /// applies authorization policies to the inbound traffic at the
-    /// matched endpoints. Refer to Authorization. If this field is not
-    /// specified, authorization is disabled(no authz checks) for this
-    /// endpoint.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>authorization_policy: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. A matcher that selects endpoints to which the policies should be
-    /// applied.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>endpoint_matcher: ::core::option::Option&lt;EndpointMatcher&gt;,
-    <span class="doccomment">/// Optional. Port selector for the (matched) endpoints. If no port selector is
-    /// provided, the matched config is applied to all ports.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>traffic_port_selector: ::core::option::Option&lt;TrafficPortSelector&gt;,
-    <span class="doccomment">/// Optional. A free-text description of the resource. Max length 1024
-    /// characters.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. A URL referring to ServerTlsPolicy resource. ServerTlsPolicy is
-    /// used to determine the authentication policy to be applied to terminate the
-    /// inbound traffic at the identified backends. If this field is not set,
-    /// authentication is disabled(open) for this endpoint.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>server_tls_policy: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. A URL referring to a ClientTlsPolicy resource. ClientTlsPolicy
-    /// can be set to specify the authentication for traffic from the proxy to the
-    /// actual endpoints. More specifically, it is applied to the outgoing traffic
-    /// from the proxy to the endpoint. This is typically used for sidecar model
-    /// where the proxy identifies itself as endpoint to the control plane, with
-    /// the connection between sidecar and endpoint requiring authentication. If
-    /// this field is not set, authentication is disabled(open). Applicable only
-    /// when EndpointPolicyType is SIDECAR_PROXY.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>client_tls_policy: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `EndpointPolicy`.
-</span><span class="kw">pub mod </span>endpoint_policy {
-    <span class="doccomment">/// The type of endpoint policy.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>EndpointPolicyType {
-        <span class="doccomment">/// Default value. Must not be used.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Represents a proxy deployed as a sidecar.
-        </span>SidecarProxy = <span class="number">1</span>,
-        <span class="doccomment">/// Represents a proxyless gRPC backend.
-        </span>GrpcServer = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>EndpointPolicyType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                EndpointPolicyType::Unspecified =&gt; <span class="string">"ENDPOINT_POLICY_TYPE_UNSPECIFIED"</span>,
-                EndpointPolicyType::SidecarProxy =&gt; <span class="string">"SIDECAR_PROXY"</span>,
-                EndpointPolicyType::GrpcServer =&gt; <span class="string">"GRPC_SERVER"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"ENDPOINT_POLICY_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"SIDECAR_PROXY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SidecarProxy),
-                <span class="string">"GRPC_SERVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GrpcServer),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Request used with the ListEndpointPolicies method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListEndpointPoliciesRequest {
-    <span class="doccomment">/// Required. The project and location from which the EndpointPolicies should
-    /// be listed, specified in the format `projects/*/locations/global`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Maximum number of EndpointPolicies to return per call.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// The value returned by the last `ListEndpointPoliciesResponse`
-    /// Indicates that this is a continuation of a prior
-    /// `ListEndpointPolicies` call, and that the system should return the
-    /// next page of data.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response returned by the ListEndpointPolicies method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListEndpointPoliciesResponse {
-    <span class="doccomment">/// List of EndpointPolicy resources.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>endpoint_policies: ::prost::alloc::vec::Vec&lt;EndpointPolicy&gt;,
-    <span class="doccomment">/// If there might be more results than those appearing in this response, then
-    /// `next_page_token` is included. To get the next set of results, call this
-    /// method again using the value of `next_page_token` as `page_token`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request used with the GetEndpointPolicy method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetEndpointPolicyRequest {
-    <span class="doccomment">/// Required. A name of the EndpointPolicy to get. Must be in the format
-    /// `projects/*/locations/global/endpointPolicies/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request used with the CreateEndpointPolicy method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateEndpointPolicyRequest {
-    <span class="doccomment">/// Required. The parent resource of the EndpointPolicy. Must be in the
-    /// format `projects/*/locations/global`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Short name of the EndpointPolicy resource to be created.
-    /// E.g. "CustomECS".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>endpoint_policy_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. EndpointPolicy resource to be created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>endpoint_policy: ::core::option::Option&lt;EndpointPolicy&gt;,
-}
-<span class="doccomment">/// Request used with the UpdateEndpointPolicy method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateEndpointPolicyRequest {
-    <span class="doccomment">/// Optional. Field mask is used to specify the fields to be overwritten in the
-    /// EndpointPolicy resource by the update.
-    /// The fields specified in the update_mask are relative to the resource, not
-    /// the full request. A field will be overwritten if it is in the mask. If the
-    /// user does not provide a mask then all fields will be overwritten.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-    <span class="doccomment">/// Required. Updated EndpointPolicy resource.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>endpoint_policy: ::core::option::Option&lt;EndpointPolicy&gt;,
-}
-<span class="doccomment">/// Request used with the DeleteEndpointPolicy method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteEndpointPolicyRequest {
-    <span class="doccomment">/// Required. A name of the EndpointPolicy to delete. Must be in the format
-    /// `projects/*/locations/global/endpointPolicies/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// TlsRoute defines how traffic should be routed based on SNI and other matching
-/// L3 attributes.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TlsRoute {
-    <span class="doccomment">/// Required. Name of the TlsRoute resource. It matches pattern
-    /// `projects/*/locations/global/tlsRoutes/tls_route_name&gt;`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Server-defined URL of this resource
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>self_link: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The timestamp when the resource was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp when the resource was updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Optional. A free-text description of the resource. Max length 1024
-    /// characters.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Rules that define how traffic is routed and handled. At least one
-    /// RouteRule must be supplied. If there are multiple rules then the action
-    /// taken will be the first rule to match.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>rules: ::prost::alloc::vec::Vec&lt;tls_route::RouteRule&gt;,
-    <span class="doccomment">/// Optional. Meshes defines a list of meshes this TlsRoute is attached to, as
-    /// one of the routing rules to route the requests served by the mesh.
-    ///
-    /// Each mesh reference should match the pattern:
-    /// `projects/*/locations/global/meshes/&lt;mesh_name&gt;`
-    ///
-    /// The attached Mesh should be of a type SIDECAR
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>meshes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Optional. Gateways defines a list of gateways this TlsRoute is attached to,
-    /// as one of the routing rules to route the requests served by the gateway.
-    ///
-    /// Each gateway reference should match the pattern:
-    /// `projects/*/locations/global/gateways/&lt;gateway_name&gt;`
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>gateways: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `TlsRoute`.
-</span><span class="kw">pub mod </span>tls_route {
-    <span class="doccomment">/// Specifies how to match traffic and how to route traffic when traffic is
-    /// matched.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>RouteRule {
-        <span class="doccomment">/// Required. RouteMatch defines the predicate used to match requests to a
-        /// given action. Multiple match types are "OR"ed for evaluation.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>matches: ::prost::alloc::vec::Vec&lt;RouteMatch&gt;,
-        <span class="doccomment">/// Required. The detailed rule defining how to route matched traffic.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>action: ::core::option::Option&lt;RouteAction&gt;,
-    }
-    <span class="doccomment">/// RouteMatch defines the predicate used to match requests to a given action.
-    /// Multiple match types are "AND"ed for evaluation.
-    /// If no routeMatch field is specified, this rule will unconditionally match
-    /// traffic.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>RouteMatch {
-        <span class="doccomment">/// Optional. SNI (server name indicator) to match against.
-        /// SNI will be matched against all wildcard domains, i.e. `www.example.com`
-        /// will be first matched against `www.example.com`, then `*.example.com`,
-        /// then `*.com.`
-        /// Partial wildcards are not supported, and values like *w.example.com are
-        /// invalid.
-        /// At least one of sni_host and alpn is required.
-        /// Up to 5 sni hosts across all matches can be set.
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>sni_host: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        <span class="doccomment">/// Optional. ALPN (Application-Layer Protocol Negotiation) to match against.
-        /// Examples: "http/1.1", "h2".
-        /// At least one of sni_host and alpn is required.
-        /// Up to 5 alpns across all matches can be set.
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>alpn: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    }
-    <span class="doccomment">/// The specifications for routing traffic and applying associated policies.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>RouteAction {
-        <span class="doccomment">/// Required. The destination services to which traffic should be forwarded.
-        /// At least one destination service is required.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>destinations: ::prost::alloc::vec::Vec&lt;RouteDestination&gt;,
-    }
-    <span class="doccomment">/// Describe the destination for traffic to be routed to.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>RouteDestination {
-        <span class="doccomment">/// Required. The URL of a BackendService to route traffic to.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>service_name: ::prost::alloc::string::String,
-        <span class="doccomment">/// Optional. Specifies the proportion of requests forwareded to the backend
-        /// referenced by the service_name field. This is computed as:
-        /// - weight/Sum(weights in destinations)
-        /// Weights in all destinations does not need to sum up to 100.
-        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>weight: i32,
-    }
-}
-<span class="doccomment">/// Request used with the ListTlsRoutes method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListTlsRoutesRequest {
-    <span class="doccomment">/// Required. The project and location from which the TlsRoutes should be
-    /// listed, specified in the format `projects/*/locations/global`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Maximum number of TlsRoutes to return per call.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// The value returned by the last `ListTlsRoutesResponse`
-    /// Indicates that this is a continuation of a prior `ListTlsRoutes` call,
-    /// and that the system should return the next page of data.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response returned by the ListTlsRoutes method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListTlsRoutesResponse {
-    <span class="doccomment">/// List of TlsRoute resources.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>tls_routes: ::prost::alloc::vec::Vec&lt;TlsRoute&gt;,
-    <span class="doccomment">/// If there might be more results than those appearing in this response, then
-    /// `next_page_token` is included. To get the next set of results, call this
-    /// method again using the value of `next_page_token` as `page_token`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request used by the GetTlsRoute method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetTlsRouteRequest {
-    <span class="doccomment">/// Required. A name of the TlsRoute to get. Must be in the format
-    /// `projects/*/locations/global/tlsRoutes/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request used by the TlsRoute method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateTlsRouteRequest {
-    <span class="doccomment">/// Required. The parent resource of the TlsRoute. Must be in the
-    /// format `projects/*/locations/global`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Short name of the TlsRoute resource to be created.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>tls_route_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. TlsRoute resource to be created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>tls_route: ::core::option::Option&lt;TlsRoute&gt;,
-}
-<span class="doccomment">/// Request used by the UpdateTlsRoute method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateTlsRouteRequest {
-    <span class="doccomment">/// Optional. Field mask is used to specify the fields to be overwritten in the
-    /// TlsRoute resource by the update.
-    /// The fields specified in the update_mask are relative to the resource, not
-    /// the full request. A field will be overwritten if it is in the mask. If the
-    /// user does not provide a mask then all fields will be overwritten.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-    <span class="doccomment">/// Required. Updated TlsRoute resource.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>tls_route: ::core::option::Option&lt;TlsRoute&gt;,
-}
-<span class="doccomment">/// Request used by the DeleteTlsRoute method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteTlsRouteRequest {
-    <span class="doccomment">/// Required. A name of the TlsRoute to delete. Must be in the format
-    /// `projects/*/locations/global/tlsRoutes/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Gateway represents the configuration for a proxy, typically a load balancer.
-/// It captures the ip:port over which the services are exposed by the proxy,
-/// along with any policy configurations. Routes have reference to to Gateways to
-/// dictate how requests should be routed by this Gateway.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Gateway {
-    <span class="doccomment">/// Required. Name of the Gateway resource. It matches pattern
-    /// `projects/*/locations/*/gateways/&lt;gateway_name&gt;`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Server-defined URL of this resource
-    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>self_link: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The timestamp when the resource was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp when the resource was updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Optional. Set of label tags associated with the Gateway resource.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Optional. A free-text description of the resource. Max length 1024
-    /// characters.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Immutable. The type of the customer managed gateway.
-    /// This field is required. If unspecified, an error is returned.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"gateway::Type"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-    <span class="doccomment">/// Required. One or more ports that the Gateway must receive traffic on. The
-    /// proxy binds to the ports specified. Gateway listen on 0.0.0.0 on the ports
-    /// specified below.
-    </span><span class="attr">#[prost(int32, repeated, packed = <span class="string">"false"</span>, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>ports: ::prost::alloc::vec::Vec&lt;i32&gt;,
-    <span class="doccomment">/// Required. Immutable. Scope determines how configuration across multiple
-    /// Gateway instances are merged. The configuration for multiple Gateway
-    /// instances with the same scope will be merged as presented as a single
-    /// coniguration to the proxy/load balancer.
-    ///
-    /// Max length 64 characters.
-    /// Scope should start with a letter and can only have letters, numbers,
-    /// hyphens.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>scope: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. A fully-qualified ServerTLSPolicy URL reference. Specifies how
-    /// TLS traffic is terminated. If empty, TLS termination is disabled.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>server_tls_policy: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `Gateway`.
-</span><span class="kw">pub mod </span>gateway {
-    <span class="doccomment">/// The type of the customer-managed gateway.
-    /// Possible values are:
-    /// * OPEN_MESH
-    /// * SECURE_WEB_GATEWAY
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Type {
-        <span class="doccomment">/// The type of the customer managed gateway is unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The type of the customer managed gateway is TrafficDirector Open
-        /// Mesh.
-        </span>OpenMesh = <span class="number">1</span>,
-        <span class="doccomment">/// The type of the customer managed gateway is SecureWebGateway (SWG).
-        </span>SecureWebGateway = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Type {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
-                Type::OpenMesh =&gt; <span class="string">"OPEN_MESH"</span>,
-                Type::SecureWebGateway =&gt; <span class="string">"SECURE_WEB_GATEWAY"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"OPEN_MESH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OpenMesh),
-                <span class="string">"SECURE_WEB_GATEWAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SecureWebGateway),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Request used with the ListGateways method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListGatewaysRequest {
-    <span class="doccomment">/// Required. The project and location from which the Gateways should be
-    /// listed, specified in the format `projects/*/locations/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Maximum number of Gateways to return per call.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// The value returned by the last `ListGatewaysResponse`
-    /// Indicates that this is a continuation of a prior `ListGateways` call,
-    /// and that the system should return the next page of data.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response returned by the ListGateways method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListGatewaysResponse {
-    <span class="doccomment">/// List of Gateway resources.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>gateways: ::prost::alloc::vec::Vec&lt;Gateway&gt;,
-    <span class="doccomment">/// If there might be more results than those appearing in this response, then
-    /// `next_page_token` is included. To get the next set of results, call this
-    /// method again using the value of `next_page_token` as `page_token`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request used by the GetGateway method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetGatewayRequest {
-    <span class="doccomment">/// Required. A name of the Gateway to get. Must be in the format
-    /// `projects/*/locations/*/gateways/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request used by the CreateGateway method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateGatewayRequest {
-    <span class="doccomment">/// Required. The parent resource of the Gateway. Must be in the
-    /// format `projects/*/locations/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Short name of the Gateway resource to be created.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>gateway_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Gateway resource to be created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>gateway: ::core::option::Option&lt;Gateway&gt;,
-}
-<span class="doccomment">/// Request used by the UpdateGateway method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateGatewayRequest {
-    <span class="doccomment">/// Optional. Field mask is used to specify the fields to be overwritten in the
-    /// Gateway resource by the update.
-    /// The fields specified in the update_mask are relative to the resource, not
-    /// the full request. A field will be overwritten if it is in the mask. If the
-    /// user does not provide a mask then all fields will be overwritten.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-    <span class="doccomment">/// Required. Updated Gateway resource.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>gateway: ::core::option::Option&lt;Gateway&gt;,
-}
-<span class="doccomment">/// Request used by the DeleteGateway method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteGatewayRequest {
-    <span class="doccomment">/// Required. A name of the Gateway to delete. Must be in the format
-    /// `projects/*/locations/*/gateways/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// GrpcRoute is the resource defining how gRPC traffic routed by a Mesh
-/// or Gateway resource is routed.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GrpcRoute {
-    <span class="doccomment">/// Required. Name of the GrpcRoute resource. It matches pattern
-    /// `projects/*/locations/global/grpcRoutes/&lt;grpc_route_name&gt;`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Server-defined URL of this resource
-    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>self_link: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The timestamp when the resource was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp when the resource was updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Optional. Set of label tags associated with the GrpcRoute resource.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Optional. A free-text description of the resource. Max length 1024
-    /// characters.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Service hostnames with an optional port for which this route
-    /// describes traffic.
-    ///
-    /// Format: &lt;hostname&gt;\[:&lt;port&gt;\]
-    ///
-    /// Hostname is the fully qualified domain name of a network host. This matches
-    /// the RFC 1123 definition of a hostname with 2 notable exceptions:
-    ///   - IPs are not allowed.
-    ///   - A hostname may be prefixed with a wildcard label (`*.`). The wildcard
-    ///     label must appear by itself as the first label.
-    ///
-    /// Hostname can be "precise" which is a domain name without the terminating
-    /// dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a
-    /// domain name prefixed with a single wildcard label (e.g. `*.example.com`).
-    ///
-    /// Note that as per RFC1035 and RFC1123, a label must consist of lower case
-    /// alphanumeric characters or '-', and must start and end with an alphanumeric
-    /// character. No other punctuation is allowed.
-    ///
-    /// The routes associated with a Mesh or Gateway must have unique hostnames. If
-    /// you attempt to attach multiple routes with conflicting hostnames, the
-    /// configuration will be rejected.
-    ///
-    /// For example, while it is acceptable for routes for the hostnames
-    /// `*.foo.bar.com` and `*.bar.com` to be associated with the same route, it is
-    /// not possible to associate two routes both with `*.bar.com` or both with
-    /// `bar.com`.
-    ///
-    /// If a port is specified, then gRPC clients must use the channel URI with the
-    /// port to match this rule (i.e. "xds:///service:123"), otherwise they must
-    /// supply the URI without a port (i.e. "xds:///service").
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>hostnames: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Optional. Meshes defines a list of meshes this GrpcRoute is attached to, as
-    /// one of the routing rules to route the requests served by the mesh.
-    ///
-    /// Each mesh reference should match the pattern:
-    /// `projects/*/locations/global/meshes/&lt;mesh_name&gt;`
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>meshes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Optional. Gateways defines a list of gateways this GrpcRoute is attached
-    /// to, as one of the routing rules to route the requests served by the
-    /// gateway.
-    ///
-    /// Each gateway reference should match the pattern:
-    /// `projects/*/locations/global/gateways/&lt;gateway_name&gt;`
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>gateways: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Required. A list of detailed rules defining how to route traffic.
-    ///
-    /// Within a single GrpcRoute, the GrpcRoute.RouteAction associated with the
-    /// first matching GrpcRoute.RouteRule will be executed. At least one rule
-    /// must be supplied.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>rules: ::prost::alloc::vec::Vec&lt;grpc_route::RouteRule&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `GrpcRoute`.
-</span><span class="kw">pub mod </span>grpc_route {
-    <span class="doccomment">/// Specifies a match against a method.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>MethodMatch {
-        <span class="doccomment">/// Optional. Specifies how to match against the name. If not specified, a
-        /// default value of "EXACT" is used.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"method_match::Type"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>r#type: i32,
-        <span class="doccomment">/// Required. Name of the service to match against. If unspecified, will
-        /// match all services.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>grpc_service: ::prost::alloc::string::String,
-        <span class="doccomment">/// Required. Name of the method to match against. If unspecified, will match
-        /// all methods.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>grpc_method: ::prost::alloc::string::String,
-        <span class="doccomment">/// Optional. Specifies that matches are case sensitive.  The default value
-        /// is true. case_sensitive must not be used with a type of
-        /// REGULAR_EXPRESSION.
-        </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>case_sensitive: ::core::option::Option&lt;bool&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `MethodMatch`.
-    </span><span class="kw">pub mod </span>method_match {
-        <span class="doccomment">/// The type of the match.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>Type {
-            <span class="doccomment">/// Unspecified.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Will only match the exact name provided.
-            </span>Exact = <span class="number">1</span>,
-            <span class="doccomment">/// Will interpret grpc_method and grpc_service as regexes. RE2 syntax is
-            /// supported.
-            </span>RegularExpression = <span class="number">2</span>,
-        }
-        <span class="kw">impl </span>Type {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
-                    Type::Exact =&gt; <span class="string">"EXACT"</span>,
-                    Type::RegularExpression =&gt; <span class="string">"REGULAR_EXPRESSION"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"EXACT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Exact),
-                    <span class="string">"REGULAR_EXPRESSION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RegularExpression),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-    <span class="doccomment">/// A match against a collection of headers.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>HeaderMatch {
-        <span class="doccomment">/// Optional. Specifies how to match against the value of the header. If not
-        /// specified, a default value of EXACT is used.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"header_match::Type"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>r#type: i32,
-        <span class="doccomment">/// Required. The key of the header.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>key: ::prost::alloc::string::String,
-        <span class="doccomment">/// Required. The value of the header.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Nested message and enum types in `HeaderMatch`.
-    </span><span class="kw">pub mod </span>header_match {
-        <span class="doccomment">/// The type of match.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>Type {
-            <span class="doccomment">/// Unspecified.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Will only match the exact value provided.
-            </span>Exact = <span class="number">1</span>,
-            <span class="doccomment">/// Will match paths conforming to the prefix specified by value. RE2
-            /// syntax is supported.
-            </span>RegularExpression = <span class="number">2</span>,
-        }
-        <span class="kw">impl </span>Type {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
-                    Type::Exact =&gt; <span class="string">"EXACT"</span>,
-                    Type::RegularExpression =&gt; <span class="string">"REGULAR_EXPRESSION"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"EXACT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Exact),
-                    <span class="string">"REGULAR_EXPRESSION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RegularExpression),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-    <span class="doccomment">/// Criteria for matching traffic. A RouteMatch will be considered to match
-    /// when all supplied fields match.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>RouteMatch {
-        <span class="doccomment">/// Optional. A gRPC method to match against. If this field is empty or
-        /// omitted, will match all methods.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>method: ::core::option::Option&lt;MethodMatch&gt;,
-        <span class="doccomment">/// Optional. Specifies a collection of headers to match.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>headers: ::prost::alloc::vec::Vec&lt;HeaderMatch&gt;,
-    }
-    <span class="doccomment">/// The destination to which traffic will be routed.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Destination {
-        <span class="doccomment">/// Optional. Specifies the proportion of requests forwarded to the backend
-        /// referenced by the serviceName field. This is computed as:
-        /// - weight/Sum(weights in this destination list).
-        /// For non-zero values, there may be some epsilon from the exact proportion
-        /// defined here depending on the precision an implementation supports.
-        ///
-        /// If only one serviceName is specified and it has a weight greater than 0,
-        /// 100% of the traffic is forwarded to that backend.
-        ///
-        /// If weights are specified for any one service name, they need to be
-        /// specified for all of them.
-        ///
-        /// If weights are unspecified for all services, then, traffic is distributed
-        /// in equal proportions to all of them.
-        </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>weight: ::core::option::Option&lt;i32&gt;,
-        <span class="doccomment">/// Specifies the kind of destination to which traffic will be routed.
-        </span><span class="attr">#[prost(oneof = <span class="string">"destination::DestinationType"</span>, tags = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>destination_type: ::core::option::Option&lt;destination::DestinationType&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Destination`.
-    </span><span class="kw">pub mod </span>destination {
-        <span class="doccomment">/// Specifies the kind of destination to which traffic will be routed.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        </span><span class="kw">pub enum </span>DestinationType {
-            <span class="doccomment">/// Required. The URL of a destination service to which to route traffic.
-            /// Must refer to either a BackendService or ServiceDirectoryService.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span>ServiceName(::prost::alloc::string::String),
-        }
-    }
-    <span class="doccomment">/// The specification for fault injection introduced into traffic to test the
-    /// resiliency of clients to destination service failure. As part of fault
-    /// injection, when clients send requests to a destination, delays can be
-    /// introduced on a percentage of requests before sending those requests to the
-    /// destination service. Similarly requests from clients can be aborted by for
-    /// a percentage of requests.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>FaultInjectionPolicy {
-        <span class="doccomment">/// The specification for injecting delay to client requests.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>delay: ::core::option::Option&lt;fault_injection_policy::Delay&gt;,
-        <span class="doccomment">/// The specification for aborting to client requests.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>abort: ::core::option::Option&lt;fault_injection_policy::Abort&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `FaultInjectionPolicy`.
-    </span><span class="kw">pub mod </span>fault_injection_policy {
-        <span class="doccomment">/// Specification of how client requests are delayed as part of fault
-        /// injection before being sent to a destination.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>Delay {
-            <span class="doccomment">/// Specify a fixed delay before forwarding the request.
-            </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>fixed_delay: ::core::option::Option&lt;::prost_types::Duration&gt;,
-            <span class="doccomment">/// The percentage of traffic on which delay will be injected.
-            ///
-            /// The value must be between \[0, 100\]
-            </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>percentage: ::core::option::Option&lt;i32&gt;,
-        }
-        <span class="doccomment">/// Specification of how client requests are aborted as part of fault
-        /// injection before being sent to a destination.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>Abort {
-            <span class="doccomment">/// The HTTP status code used to abort the request.
-            ///
-            /// The value must be between 200 and 599 inclusive.
-            </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>http_status: ::core::option::Option&lt;i32&gt;,
-            <span class="doccomment">/// The percentage of traffic which will be aborted.
-            ///
-            /// The value must be between \[0, 100\]
-            </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>percentage: ::core::option::Option&lt;i32&gt;,
-        }
-    }
-    <span class="doccomment">/// The specifications for retries.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>RetryPolicy {
-        <span class="doccomment">/// - connect-failure: Router will retry on failures connecting to Backend
-        ///     Services, for example due to connection timeouts.
-        /// - refused-stream: Router will retry if the backend service resets the
-        /// stream
-        ///     with a REFUSED_STREAM error code. This reset type indicates that it is
-        ///     safe to retry.
-        /// - cancelled: Router will retry if the gRPC status code in the response
-        /// header
-        ///     is set to cancelled
-        /// - deadline-exceeded: Router will retry if the gRPC status code in the
-        /// response
-        ///     header is set to deadline-exceeded
-        /// - resource-exhausted: Router will retry if the gRPC status code in the
-        ///     response header is set to resource-exhausted
-        /// - unavailable: Router will retry if the gRPC status code in the response
-        ///     header is set to unavailable
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>retry_conditions: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        <span class="doccomment">/// Specifies the allowed number of retries. This number must be &gt; 0. If not
-        /// specified, default to 1.
-        </span><span class="attr">#[prost(uint32, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>num_retries: u32,
-    }
-    <span class="doccomment">/// Specifies how to route matched traffic.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>RouteAction {
-        <span class="doccomment">/// Optional. The destination services to which traffic should be forwarded.
-        /// If multiple destinations are specified, traffic will be split between
-        /// Backend Service(s) according to the weight field of these destinations.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>destinations: ::prost::alloc::vec::Vec&lt;Destination&gt;,
-        <span class="doccomment">/// Optional. The specification for fault injection introduced into traffic to test the
-        /// resiliency of clients to destination service failure. As part of fault
-        /// injection, when clients send requests to a destination, delays can be
-        /// introduced on a percentage of requests before sending those requests to
-        /// the destination service. Similarly requests from clients can be aborted
-        /// by for a percentage of requests.
-        ///
-        /// timeout and retry_policy will be ignored by clients that are configured
-        /// with a fault_injection_policy
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>fault_injection_policy: ::core::option::Option&lt;FaultInjectionPolicy&gt;,
-        <span class="doccomment">/// Optional. Specifies the timeout for selected route. Timeout is computed
-        /// from the time the request has been fully processed (i.e. end of stream)
-        /// up until the response has been completely processed. Timeout includes all
-        /// retries.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-        </span><span class="kw">pub </span>timeout: ::core::option::Option&lt;::prost_types::Duration&gt;,
-        <span class="doccomment">/// Optional. Specifies the retry policy associated with this route.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-        </span><span class="kw">pub </span>retry_policy: ::core::option::Option&lt;RetryPolicy&gt;,
-    }
-    <span class="doccomment">/// Describes how to route traffic.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>RouteRule {
-        <span class="doccomment">/// Optional. Matches define conditions used for matching the rule against
-        /// incoming gRPC requests. Each match is independent, i.e. this rule will be
-        /// matched if ANY one of the matches is satisfied.  If no matches field is
-        /// specified, this rule will unconditionally match traffic.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>matches: ::prost::alloc::vec::Vec&lt;RouteMatch&gt;,
-        <span class="doccomment">/// Required. A detailed rule defining how to route traffic. This field is
-        /// required.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>action: ::core::option::Option&lt;RouteAction&gt;,
-    }
-}
-<span class="doccomment">/// Request used with the ListGrpcRoutes method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListGrpcRoutesRequest {
-    <span class="doccomment">/// Required. The project and location from which the GrpcRoutes should be
-    /// listed, specified in the format `projects/*/locations/global`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Maximum number of GrpcRoutes to return per call.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// The value returned by the last `ListGrpcRoutesResponse`
-    /// Indicates that this is a continuation of a prior `ListGrpcRoutes` call,
-    /// and that the system should return the next page of data.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response returned by the ListGrpcRoutes method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListGrpcRoutesResponse {
-    <span class="doccomment">/// List of GrpcRoute resources.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>grpc_routes: ::prost::alloc::vec::Vec&lt;GrpcRoute&gt;,
-    <span class="doccomment">/// If there might be more results than those appearing in this response, then
-    /// `next_page_token` is included. To get the next set of results, call this
-    /// method again using the value of `next_page_token` as `page_token`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request used by the GetGrpcRoute method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetGrpcRouteRequest {
-    <span class="doccomment">/// Required. A name of the GrpcRoute to get. Must be in the format
-    /// `projects/*/locations/global/grpcRoutes/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request used by the CreateGrpcRoute method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateGrpcRouteRequest {
-    <span class="doccomment">/// Required. The parent resource of the GrpcRoute. Must be in the
-    /// format `projects/*/locations/global`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Short name of the GrpcRoute resource to be created.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>grpc_route_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. GrpcRoute resource to be created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>grpc_route: ::core::option::Option&lt;GrpcRoute&gt;,
-}
-<span class="doccomment">/// Request used by the UpdateGrpcRoute method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateGrpcRouteRequest {
-    <span class="doccomment">/// Optional. Field mask is used to specify the fields to be overwritten in the
-    /// GrpcRoute resource by the update.
-    /// The fields specified in the update_mask are relative to the resource, not
-    /// the full request. A field will be overwritten if it is in the mask. If the
-    /// user does not provide a mask then all fields will be overwritten.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-    <span class="doccomment">/// Required. Updated GrpcRoute resource.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>grpc_route: ::core::option::Option&lt;GrpcRoute&gt;,
-}
-<span class="doccomment">/// Request used by the DeleteGrpcRoute method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteGrpcRouteRequest {
-    <span class="doccomment">/// Required. A name of the GrpcRoute to delete. Must be in the format
-    /// `projects/*/locations/global/grpcRoutes/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// HttpRoute is the resource defining how HTTP traffic should be routed by a
+</pre></div><pre class="rust"><code><span class="doccomment">/// HttpRoute is the resource defining how HTTP traffic should be routed by a
 /// Mesh or Gateway resource.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -5410,6 +4218,1106 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
+<span class="doccomment">/// ServiceBinding is the resource that defines a Service Directory Service to
+/// be used in a BackendService resource.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ServiceBinding {
+    <span class="doccomment">/// Required. Name of the ServiceBinding resource. It matches pattern
+    /// `projects/*/locations/global/serviceBindings/service_binding_name`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. A free-text description of the resource. Max length 1024
+    /// characters.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The timestamp when the resource was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp when the resource was updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Required. The full service directory service name of the format
+    /// /projects/*/locations/*/namespaces/*/services/*
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>service: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Set of label tags associated with the ServiceBinding resource.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+}
+<span class="doccomment">/// Request used with the ListServiceBindings method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListServiceBindingsRequest {
+    <span class="doccomment">/// Required. The project and location from which the ServiceBindings should be
+    /// listed, specified in the format `projects/*/locations/global`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Maximum number of ServiceBindings to return per call.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// The value returned by the last `ListServiceBindingsResponse`
+    /// Indicates that this is a continuation of a prior `ListRouters` call,
+    /// and that the system should return the next page of data.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response returned by the ListServiceBindings method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListServiceBindingsResponse {
+    <span class="doccomment">/// List of ServiceBinding resources.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>service_bindings: ::prost::alloc::vec::Vec&lt;ServiceBinding&gt;,
+    <span class="doccomment">/// If there might be more results than those appearing in this response, then
+    /// `next_page_token` is included. To get the next set of results, call this
+    /// method again using the value of `next_page_token` as `page_token`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request used by the GetServiceBinding method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetServiceBindingRequest {
+    <span class="doccomment">/// Required. A name of the ServiceBinding to get. Must be in the format
+    /// `projects/*/locations/global/serviceBindings/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request used by the ServiceBinding method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateServiceBindingRequest {
+    <span class="doccomment">/// Required. The parent resource of the ServiceBinding. Must be in the
+    /// format `projects/*/locations/global`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Short name of the ServiceBinding resource to be created.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>service_binding_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. ServiceBinding resource to be created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>service_binding: ::core::option::Option&lt;ServiceBinding&gt;,
+}
+<span class="doccomment">/// Request used by the DeleteServiceBinding method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteServiceBindingRequest {
+    <span class="doccomment">/// Required. A name of the ServiceBinding to delete. Must be in the format
+    /// `projects/*/locations/global/serviceBindings/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Represents the metadata of the long-running operation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>OperationMetadata {
+    <span class="doccomment">/// Output only. The time the operation was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The time the operation finished running.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Server-defined resource path for the target of the operation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>target: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Name of the verb executed by the operation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>verb: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Human-readable status of the operation, if any.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>status_message: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Identifies whether the user has requested cancellation
+    /// of the operation. Operations that have successfully been cancelled
+    /// have [Operation.error][] value with a
+    /// [google.rpc.Status.code][google.rpc.Status.code] of 1, corresponding to
+    /// `Code.CANCELLED`.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>requested_cancellation: bool,
+    <span class="doccomment">/// Output only. API version used to start the operation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>api_version: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Specification of a port-based selector.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TrafficPortSelector {
+    <span class="doccomment">/// Optional. A list of ports. Can be port numbers or port range
+    /// (example, \[80-90\] specifies all ports from 80 to 90, including
+    /// 80 and 90) or named ports or * to specify all ports. If the
+    /// list is empty, all ports are selected.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>ports: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// A definition of a matcher that selects endpoints to which the policies
+/// should be applied.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>EndpointMatcher {
+    <span class="doccomment">/// Specifies type of the matcher used for this endpoint matcher.
+    </span><span class="attr">#[prost(oneof = <span class="string">"endpoint_matcher::MatcherType"</span>, tags = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>matcher_type: ::core::option::Option&lt;endpoint_matcher::MatcherType&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `EndpointMatcher`.
+</span><span class="kw">pub mod </span>endpoint_matcher {
+    <span class="doccomment">/// The matcher that is based on node metadata presented by xDS clients.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>MetadataLabelMatcher {
+        <span class="doccomment">/// Specifies how matching should be done.
+        ///
+        /// Supported values are:
+        /// MATCH_ANY: At least one of the Labels specified in the
+        ///    matcher should match the metadata presented by xDS client.
+        /// MATCH_ALL: The metadata presented by the xDS client should
+        ///    contain all of the labels specified here.
+        ///
+        /// The selection is determined based on the best match. For
+        /// example, suppose there are three EndpointPolicy
+        /// resources P1, P2 and P3 and if P1 has a the matcher as
+        /// MATCH_ANY &lt;A:1, B:1&gt;, P2 has MATCH_ALL &lt;A:1,B:1&gt;, and P3 has
+        /// MATCH_ALL &lt;A:1,B:1,C:1&gt;.
+        ///
+        /// If a client with label &lt;A:1&gt; connects, the config from P1
+        /// will be selected.
+        ///
+        /// If a client with label &lt;A:1,B:1&gt; connects, the config from P2
+        /// will be selected.
+        ///
+        /// If a client with label &lt;A:1,B:1,C:1&gt; connects, the config
+        /// from P3 will be selected.
+        ///
+        /// If there is more than one best match, (for example, if a
+        /// config P4 with selector &lt;A:1,D:1&gt; exists and if a client with
+        /// label &lt;A:1,B:1,D:1&gt; connects), an error will be thrown.
+        </span><span class="attr">#[prost(
+            enumeration = <span class="string">"metadata_label_matcher::MetadataLabelMatchCriteria"</span>,
+            tag = <span class="string">"1"
+        </span>)]
+        </span><span class="kw">pub </span>metadata_label_match_criteria: i32,
+        <span class="doccomment">/// The list of label value pairs that must match labels in the
+        /// provided metadata based on filterMatchCriteria This list can
+        /// have at most 64 entries. The list can be empty if the match
+        /// criteria is MATCH_ANY, to specify a wildcard match (i.e this
+        /// matches any client).
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>metadata_labels: ::prost::alloc::vec::Vec&lt;
+            metadata_label_matcher::MetadataLabels,
+        &gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `MetadataLabelMatcher`.
+    </span><span class="kw">pub mod </span>metadata_label_matcher {
+        <span class="doccomment">/// Defines a name-pair value for a single label.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>MetadataLabels {
+            <span class="doccomment">/// Required. Label name presented as key in xDS Node Metadata.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>label_name: ::prost::alloc::string::String,
+            <span class="doccomment">/// Required. Label value presented as value corresponding to the above
+            /// key, in xDS Node Metadata.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>label_value: ::prost::alloc::string::String,
+        }
+        <span class="doccomment">/// Possible criteria values that define logic of how matching is made.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>MetadataLabelMatchCriteria {
+            <span class="doccomment">/// Default value. Should not be used.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// At least one of the Labels specified in the matcher should match the
+            /// metadata presented by xDS client.
+            </span>MatchAny = <span class="number">1</span>,
+            <span class="doccomment">/// The metadata presented by the xDS client should contain all of the
+            /// labels specified here.
+            </span>MatchAll = <span class="number">2</span>,
+        }
+        <span class="kw">impl </span>MetadataLabelMatchCriteria {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    MetadataLabelMatchCriteria::Unspecified =&gt; {
+                        <span class="string">"METADATA_LABEL_MATCH_CRITERIA_UNSPECIFIED"
+                    </span>}
+                    MetadataLabelMatchCriteria::MatchAny =&gt; <span class="string">"MATCH_ANY"</span>,
+                    MetadataLabelMatchCriteria::MatchAll =&gt; <span class="string">"MATCH_ALL"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"METADATA_LABEL_MATCH_CRITERIA_UNSPECIFIED" </span>=&gt; {
+                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified)
+                    }
+                    <span class="string">"MATCH_ANY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MatchAny),
+                    <span class="string">"MATCH_ALL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MatchAll),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+    <span class="doccomment">/// Specifies type of the matcher used for this endpoint matcher.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>MatcherType {
+        <span class="doccomment">/// The matcher is based on node metadata presented by xDS clients.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>MetadataLabelMatcher(MetadataLabelMatcher),
+    }
+}
+<span class="doccomment">/// EndpointPolicy is a resource that helps apply desired configuration
+/// on the endpoints that match specific criteria.
+/// For example, this resource can be used to apply "authentication config"
+/// an all endpoints that serve on port 8080.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>EndpointPolicy {
+    <span class="doccomment">/// Required. Name of the EndpointPolicy resource. It matches pattern
+    /// `projects/{project}/locations/global/endpointPolicies/{endpoint_policy}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The timestamp when the resource was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp when the resource was updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Optional. Set of label tags associated with the EndpointPolicy resource.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Required. The type of endpoint policy. This is primarily used to validate
+    /// the configuration.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"endpoint_policy::EndpointPolicyType"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+    <span class="doccomment">/// Optional. This field specifies the URL of AuthorizationPolicy resource that
+    /// applies authorization policies to the inbound traffic at the
+    /// matched endpoints. Refer to Authorization. If this field is not
+    /// specified, authorization is disabled(no authz checks) for this
+    /// endpoint.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>authorization_policy: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. A matcher that selects endpoints to which the policies should be
+    /// applied.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>endpoint_matcher: ::core::option::Option&lt;EndpointMatcher&gt;,
+    <span class="doccomment">/// Optional. Port selector for the (matched) endpoints. If no port selector is
+    /// provided, the matched config is applied to all ports.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>traffic_port_selector: ::core::option::Option&lt;TrafficPortSelector&gt;,
+    <span class="doccomment">/// Optional. A free-text description of the resource. Max length 1024
+    /// characters.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. A URL referring to ServerTlsPolicy resource. ServerTlsPolicy is
+    /// used to determine the authentication policy to be applied to terminate the
+    /// inbound traffic at the identified backends. If this field is not set,
+    /// authentication is disabled(open) for this endpoint.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>server_tls_policy: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. A URL referring to a ClientTlsPolicy resource. ClientTlsPolicy
+    /// can be set to specify the authentication for traffic from the proxy to the
+    /// actual endpoints. More specifically, it is applied to the outgoing traffic
+    /// from the proxy to the endpoint. This is typically used for sidecar model
+    /// where the proxy identifies itself as endpoint to the control plane, with
+    /// the connection between sidecar and endpoint requiring authentication. If
+    /// this field is not set, authentication is disabled(open). Applicable only
+    /// when EndpointPolicyType is SIDECAR_PROXY.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>client_tls_policy: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `EndpointPolicy`.
+</span><span class="kw">pub mod </span>endpoint_policy {
+    <span class="doccomment">/// The type of endpoint policy.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>EndpointPolicyType {
+        <span class="doccomment">/// Default value. Must not be used.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Represents a proxy deployed as a sidecar.
+        </span>SidecarProxy = <span class="number">1</span>,
+        <span class="doccomment">/// Represents a proxyless gRPC backend.
+        </span>GrpcServer = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>EndpointPolicyType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                EndpointPolicyType::Unspecified =&gt; <span class="string">"ENDPOINT_POLICY_TYPE_UNSPECIFIED"</span>,
+                EndpointPolicyType::SidecarProxy =&gt; <span class="string">"SIDECAR_PROXY"</span>,
+                EndpointPolicyType::GrpcServer =&gt; <span class="string">"GRPC_SERVER"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"ENDPOINT_POLICY_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"SIDECAR_PROXY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SidecarProxy),
+                <span class="string">"GRPC_SERVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GrpcServer),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Request used with the ListEndpointPolicies method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListEndpointPoliciesRequest {
+    <span class="doccomment">/// Required. The project and location from which the EndpointPolicies should
+    /// be listed, specified in the format `projects/*/locations/global`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Maximum number of EndpointPolicies to return per call.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// The value returned by the last `ListEndpointPoliciesResponse`
+    /// Indicates that this is a continuation of a prior
+    /// `ListEndpointPolicies` call, and that the system should return the
+    /// next page of data.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response returned by the ListEndpointPolicies method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListEndpointPoliciesResponse {
+    <span class="doccomment">/// List of EndpointPolicy resources.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>endpoint_policies: ::prost::alloc::vec::Vec&lt;EndpointPolicy&gt;,
+    <span class="doccomment">/// If there might be more results than those appearing in this response, then
+    /// `next_page_token` is included. To get the next set of results, call this
+    /// method again using the value of `next_page_token` as `page_token`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request used with the GetEndpointPolicy method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetEndpointPolicyRequest {
+    <span class="doccomment">/// Required. A name of the EndpointPolicy to get. Must be in the format
+    /// `projects/*/locations/global/endpointPolicies/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request used with the CreateEndpointPolicy method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateEndpointPolicyRequest {
+    <span class="doccomment">/// Required. The parent resource of the EndpointPolicy. Must be in the
+    /// format `projects/*/locations/global`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Short name of the EndpointPolicy resource to be created.
+    /// E.g. "CustomECS".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>endpoint_policy_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. EndpointPolicy resource to be created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>endpoint_policy: ::core::option::Option&lt;EndpointPolicy&gt;,
+}
+<span class="doccomment">/// Request used with the UpdateEndpointPolicy method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateEndpointPolicyRequest {
+    <span class="doccomment">/// Optional. Field mask is used to specify the fields to be overwritten in the
+    /// EndpointPolicy resource by the update.
+    /// The fields specified in the update_mask are relative to the resource, not
+    /// the full request. A field will be overwritten if it is in the mask. If the
+    /// user does not provide a mask then all fields will be overwritten.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+    <span class="doccomment">/// Required. Updated EndpointPolicy resource.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>endpoint_policy: ::core::option::Option&lt;EndpointPolicy&gt;,
+}
+<span class="doccomment">/// Request used with the DeleteEndpointPolicy method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteEndpointPolicyRequest {
+    <span class="doccomment">/// Required. A name of the EndpointPolicy to delete. Must be in the format
+    /// `projects/*/locations/global/endpointPolicies/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Gateway represents the configuration for a proxy, typically a load balancer.
+/// It captures the ip:port over which the services are exposed by the proxy,
+/// along with any policy configurations. Routes have reference to to Gateways to
+/// dictate how requests should be routed by this Gateway.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Gateway {
+    <span class="doccomment">/// Required. Name of the Gateway resource. It matches pattern
+    /// `projects/*/locations/*/gateways/&lt;gateway_name&gt;`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Server-defined URL of this resource
+    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>self_link: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The timestamp when the resource was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp when the resource was updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Optional. Set of label tags associated with the Gateway resource.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Optional. A free-text description of the resource. Max length 1024
+    /// characters.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Immutable. The type of the customer managed gateway.
+    /// This field is required. If unspecified, an error is returned.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"gateway::Type"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+    <span class="doccomment">/// Required. One or more ports that the Gateway must receive traffic on. The
+    /// proxy binds to the ports specified. Gateway listen on 0.0.0.0 on the ports
+    /// specified below.
+    </span><span class="attr">#[prost(int32, repeated, packed = <span class="string">"false"</span>, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>ports: ::prost::alloc::vec::Vec&lt;i32&gt;,
+    <span class="doccomment">/// Required. Immutable. Scope determines how configuration across multiple
+    /// Gateway instances are merged. The configuration for multiple Gateway
+    /// instances with the same scope will be merged as presented as a single
+    /// coniguration to the proxy/load balancer.
+    ///
+    /// Max length 64 characters.
+    /// Scope should start with a letter and can only have letters, numbers,
+    /// hyphens.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>scope: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. A fully-qualified ServerTLSPolicy URL reference. Specifies how
+    /// TLS traffic is terminated. If empty, TLS termination is disabled.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>server_tls_policy: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `Gateway`.
+</span><span class="kw">pub mod </span>gateway {
+    <span class="doccomment">/// The type of the customer-managed gateway.
+    /// Possible values are:
+    /// * OPEN_MESH
+    /// * SECURE_WEB_GATEWAY
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Type {
+        <span class="doccomment">/// The type of the customer managed gateway is unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The type of the customer managed gateway is TrafficDirector Open
+        /// Mesh.
+        </span>OpenMesh = <span class="number">1</span>,
+        <span class="doccomment">/// The type of the customer managed gateway is SecureWebGateway (SWG).
+        </span>SecureWebGateway = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Type {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
+                Type::OpenMesh =&gt; <span class="string">"OPEN_MESH"</span>,
+                Type::SecureWebGateway =&gt; <span class="string">"SECURE_WEB_GATEWAY"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"OPEN_MESH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OpenMesh),
+                <span class="string">"SECURE_WEB_GATEWAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SecureWebGateway),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Request used with the ListGateways method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListGatewaysRequest {
+    <span class="doccomment">/// Required. The project and location from which the Gateways should be
+    /// listed, specified in the format `projects/*/locations/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Maximum number of Gateways to return per call.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// The value returned by the last `ListGatewaysResponse`
+    /// Indicates that this is a continuation of a prior `ListGateways` call,
+    /// and that the system should return the next page of data.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response returned by the ListGateways method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListGatewaysResponse {
+    <span class="doccomment">/// List of Gateway resources.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>gateways: ::prost::alloc::vec::Vec&lt;Gateway&gt;,
+    <span class="doccomment">/// If there might be more results than those appearing in this response, then
+    /// `next_page_token` is included. To get the next set of results, call this
+    /// method again using the value of `next_page_token` as `page_token`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request used by the GetGateway method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetGatewayRequest {
+    <span class="doccomment">/// Required. A name of the Gateway to get. Must be in the format
+    /// `projects/*/locations/*/gateways/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request used by the CreateGateway method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateGatewayRequest {
+    <span class="doccomment">/// Required. The parent resource of the Gateway. Must be in the
+    /// format `projects/*/locations/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Short name of the Gateway resource to be created.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>gateway_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Gateway resource to be created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>gateway: ::core::option::Option&lt;Gateway&gt;,
+}
+<span class="doccomment">/// Request used by the UpdateGateway method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateGatewayRequest {
+    <span class="doccomment">/// Optional. Field mask is used to specify the fields to be overwritten in the
+    /// Gateway resource by the update.
+    /// The fields specified in the update_mask are relative to the resource, not
+    /// the full request. A field will be overwritten if it is in the mask. If the
+    /// user does not provide a mask then all fields will be overwritten.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+    <span class="doccomment">/// Required. Updated Gateway resource.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>gateway: ::core::option::Option&lt;Gateway&gt;,
+}
+<span class="doccomment">/// Request used by the DeleteGateway method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteGatewayRequest {
+    <span class="doccomment">/// Required. A name of the Gateway to delete. Must be in the format
+    /// `projects/*/locations/*/gateways/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// GrpcRoute is the resource defining how gRPC traffic routed by a Mesh
+/// or Gateway resource is routed.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GrpcRoute {
+    <span class="doccomment">/// Required. Name of the GrpcRoute resource. It matches pattern
+    /// `projects/*/locations/global/grpcRoutes/&lt;grpc_route_name&gt;`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Server-defined URL of this resource
+    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>self_link: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The timestamp when the resource was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp when the resource was updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Optional. Set of label tags associated with the GrpcRoute resource.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Optional. A free-text description of the resource. Max length 1024
+    /// characters.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Service hostnames with an optional port for which this route
+    /// describes traffic.
+    ///
+    /// Format: &lt;hostname&gt;\[:&lt;port&gt;\]
+    ///
+    /// Hostname is the fully qualified domain name of a network host. This matches
+    /// the RFC 1123 definition of a hostname with 2 notable exceptions:
+    ///   - IPs are not allowed.
+    ///   - A hostname may be prefixed with a wildcard label (`*.`). The wildcard
+    ///     label must appear by itself as the first label.
+    ///
+    /// Hostname can be "precise" which is a domain name without the terminating
+    /// dot of a network host (e.g. `foo.example.com`) or "wildcard", which is a
+    /// domain name prefixed with a single wildcard label (e.g. `*.example.com`).
+    ///
+    /// Note that as per RFC1035 and RFC1123, a label must consist of lower case
+    /// alphanumeric characters or '-', and must start and end with an alphanumeric
+    /// character. No other punctuation is allowed.
+    ///
+    /// The routes associated with a Mesh or Gateway must have unique hostnames. If
+    /// you attempt to attach multiple routes with conflicting hostnames, the
+    /// configuration will be rejected.
+    ///
+    /// For example, while it is acceptable for routes for the hostnames
+    /// `*.foo.bar.com` and `*.bar.com` to be associated with the same route, it is
+    /// not possible to associate two routes both with `*.bar.com` or both with
+    /// `bar.com`.
+    ///
+    /// If a port is specified, then gRPC clients must use the channel URI with the
+    /// port to match this rule (i.e. "xds:///service:123"), otherwise they must
+    /// supply the URI without a port (i.e. "xds:///service").
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>hostnames: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Optional. Meshes defines a list of meshes this GrpcRoute is attached to, as
+    /// one of the routing rules to route the requests served by the mesh.
+    ///
+    /// Each mesh reference should match the pattern:
+    /// `projects/*/locations/global/meshes/&lt;mesh_name&gt;`
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>meshes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Optional. Gateways defines a list of gateways this GrpcRoute is attached
+    /// to, as one of the routing rules to route the requests served by the
+    /// gateway.
+    ///
+    /// Each gateway reference should match the pattern:
+    /// `projects/*/locations/global/gateways/&lt;gateway_name&gt;`
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>gateways: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Required. A list of detailed rules defining how to route traffic.
+    ///
+    /// Within a single GrpcRoute, the GrpcRoute.RouteAction associated with the
+    /// first matching GrpcRoute.RouteRule will be executed. At least one rule
+    /// must be supplied.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>rules: ::prost::alloc::vec::Vec&lt;grpc_route::RouteRule&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `GrpcRoute`.
+</span><span class="kw">pub mod </span>grpc_route {
+    <span class="doccomment">/// Specifies a match against a method.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>MethodMatch {
+        <span class="doccomment">/// Optional. Specifies how to match against the name. If not specified, a
+        /// default value of "EXACT" is used.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"method_match::Type"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>r#type: i32,
+        <span class="doccomment">/// Required. Name of the service to match against. If unspecified, will
+        /// match all services.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>grpc_service: ::prost::alloc::string::String,
+        <span class="doccomment">/// Required. Name of the method to match against. If unspecified, will match
+        /// all methods.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>grpc_method: ::prost::alloc::string::String,
+        <span class="doccomment">/// Optional. Specifies that matches are case sensitive.  The default value
+        /// is true. case_sensitive must not be used with a type of
+        /// REGULAR_EXPRESSION.
+        </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>case_sensitive: ::core::option::Option&lt;bool&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `MethodMatch`.
+    </span><span class="kw">pub mod </span>method_match {
+        <span class="doccomment">/// The type of the match.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>Type {
+            <span class="doccomment">/// Unspecified.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Will only match the exact name provided.
+            </span>Exact = <span class="number">1</span>,
+            <span class="doccomment">/// Will interpret grpc_method and grpc_service as regexes. RE2 syntax is
+            /// supported.
+            </span>RegularExpression = <span class="number">2</span>,
+        }
+        <span class="kw">impl </span>Type {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
+                    Type::Exact =&gt; <span class="string">"EXACT"</span>,
+                    Type::RegularExpression =&gt; <span class="string">"REGULAR_EXPRESSION"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"EXACT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Exact),
+                    <span class="string">"REGULAR_EXPRESSION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RegularExpression),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+    <span class="doccomment">/// A match against a collection of headers.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>HeaderMatch {
+        <span class="doccomment">/// Optional. Specifies how to match against the value of the header. If not
+        /// specified, a default value of EXACT is used.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"header_match::Type"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>r#type: i32,
+        <span class="doccomment">/// Required. The key of the header.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>key: ::prost::alloc::string::String,
+        <span class="doccomment">/// Required. The value of the header.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Nested message and enum types in `HeaderMatch`.
+    </span><span class="kw">pub mod </span>header_match {
+        <span class="doccomment">/// The type of match.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>Type {
+            <span class="doccomment">/// Unspecified.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Will only match the exact value provided.
+            </span>Exact = <span class="number">1</span>,
+            <span class="doccomment">/// Will match paths conforming to the prefix specified by value. RE2
+            /// syntax is supported.
+            </span>RegularExpression = <span class="number">2</span>,
+        }
+        <span class="kw">impl </span>Type {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
+                    Type::Exact =&gt; <span class="string">"EXACT"</span>,
+                    Type::RegularExpression =&gt; <span class="string">"REGULAR_EXPRESSION"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"EXACT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Exact),
+                    <span class="string">"REGULAR_EXPRESSION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RegularExpression),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+    <span class="doccomment">/// Criteria for matching traffic. A RouteMatch will be considered to match
+    /// when all supplied fields match.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>RouteMatch {
+        <span class="doccomment">/// Optional. A gRPC method to match against. If this field is empty or
+        /// omitted, will match all methods.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>method: ::core::option::Option&lt;MethodMatch&gt;,
+        <span class="doccomment">/// Optional. Specifies a collection of headers to match.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>headers: ::prost::alloc::vec::Vec&lt;HeaderMatch&gt;,
+    }
+    <span class="doccomment">/// The destination to which traffic will be routed.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Destination {
+        <span class="doccomment">/// Optional. Specifies the proportion of requests forwarded to the backend
+        /// referenced by the serviceName field. This is computed as:
+        /// - weight/Sum(weights in this destination list).
+        /// For non-zero values, there may be some epsilon from the exact proportion
+        /// defined here depending on the precision an implementation supports.
+        ///
+        /// If only one serviceName is specified and it has a weight greater than 0,
+        /// 100% of the traffic is forwarded to that backend.
+        ///
+        /// If weights are specified for any one service name, they need to be
+        /// specified for all of them.
+        ///
+        /// If weights are unspecified for all services, then, traffic is distributed
+        /// in equal proportions to all of them.
+        </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>weight: ::core::option::Option&lt;i32&gt;,
+        <span class="doccomment">/// Specifies the kind of destination to which traffic will be routed.
+        </span><span class="attr">#[prost(oneof = <span class="string">"destination::DestinationType"</span>, tags = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>destination_type: ::core::option::Option&lt;destination::DestinationType&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Destination`.
+    </span><span class="kw">pub mod </span>destination {
+        <span class="doccomment">/// Specifies the kind of destination to which traffic will be routed.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        </span><span class="kw">pub enum </span>DestinationType {
+            <span class="doccomment">/// Required. The URL of a destination service to which to route traffic.
+            /// Must refer to either a BackendService or ServiceDirectoryService.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span>ServiceName(::prost::alloc::string::String),
+        }
+    }
+    <span class="doccomment">/// The specification for fault injection introduced into traffic to test the
+    /// resiliency of clients to destination service failure. As part of fault
+    /// injection, when clients send requests to a destination, delays can be
+    /// introduced on a percentage of requests before sending those requests to the
+    /// destination service. Similarly requests from clients can be aborted by for
+    /// a percentage of requests.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>FaultInjectionPolicy {
+        <span class="doccomment">/// The specification for injecting delay to client requests.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>delay: ::core::option::Option&lt;fault_injection_policy::Delay&gt;,
+        <span class="doccomment">/// The specification for aborting to client requests.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>abort: ::core::option::Option&lt;fault_injection_policy::Abort&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `FaultInjectionPolicy`.
+    </span><span class="kw">pub mod </span>fault_injection_policy {
+        <span class="doccomment">/// Specification of how client requests are delayed as part of fault
+        /// injection before being sent to a destination.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>Delay {
+            <span class="doccomment">/// Specify a fixed delay before forwarding the request.
+            </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>fixed_delay: ::core::option::Option&lt;::prost_types::Duration&gt;,
+            <span class="doccomment">/// The percentage of traffic on which delay will be injected.
+            ///
+            /// The value must be between \[0, 100\]
+            </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>percentage: ::core::option::Option&lt;i32&gt;,
+        }
+        <span class="doccomment">/// Specification of how client requests are aborted as part of fault
+        /// injection before being sent to a destination.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>Abort {
+            <span class="doccomment">/// The HTTP status code used to abort the request.
+            ///
+            /// The value must be between 200 and 599 inclusive.
+            </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>http_status: ::core::option::Option&lt;i32&gt;,
+            <span class="doccomment">/// The percentage of traffic which will be aborted.
+            ///
+            /// The value must be between \[0, 100\]
+            </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>percentage: ::core::option::Option&lt;i32&gt;,
+        }
+    }
+    <span class="doccomment">/// The specifications for retries.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>RetryPolicy {
+        <span class="doccomment">/// - connect-failure: Router will retry on failures connecting to Backend
+        ///     Services, for example due to connection timeouts.
+        /// - refused-stream: Router will retry if the backend service resets the
+        /// stream
+        ///     with a REFUSED_STREAM error code. This reset type indicates that it is
+        ///     safe to retry.
+        /// - cancelled: Router will retry if the gRPC status code in the response
+        /// header
+        ///     is set to cancelled
+        /// - deadline-exceeded: Router will retry if the gRPC status code in the
+        /// response
+        ///     header is set to deadline-exceeded
+        /// - resource-exhausted: Router will retry if the gRPC status code in the
+        ///     response header is set to resource-exhausted
+        /// - unavailable: Router will retry if the gRPC status code in the response
+        ///     header is set to unavailable
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>retry_conditions: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+        <span class="doccomment">/// Specifies the allowed number of retries. This number must be &gt; 0. If not
+        /// specified, default to 1.
+        </span><span class="attr">#[prost(uint32, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>num_retries: u32,
+    }
+    <span class="doccomment">/// Specifies how to route matched traffic.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>RouteAction {
+        <span class="doccomment">/// Optional. The destination services to which traffic should be forwarded.
+        /// If multiple destinations are specified, traffic will be split between
+        /// Backend Service(s) according to the weight field of these destinations.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>destinations: ::prost::alloc::vec::Vec&lt;Destination&gt;,
+        <span class="doccomment">/// Optional. The specification for fault injection introduced into traffic to test the
+        /// resiliency of clients to destination service failure. As part of fault
+        /// injection, when clients send requests to a destination, delays can be
+        /// introduced on a percentage of requests before sending those requests to
+        /// the destination service. Similarly requests from clients can be aborted
+        /// by for a percentage of requests.
+        ///
+        /// timeout and retry_policy will be ignored by clients that are configured
+        /// with a fault_injection_policy
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>fault_injection_policy: ::core::option::Option&lt;FaultInjectionPolicy&gt;,
+        <span class="doccomment">/// Optional. Specifies the timeout for selected route. Timeout is computed
+        /// from the time the request has been fully processed (i.e. end of stream)
+        /// up until the response has been completely processed. Timeout includes all
+        /// retries.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+        </span><span class="kw">pub </span>timeout: ::core::option::Option&lt;::prost_types::Duration&gt;,
+        <span class="doccomment">/// Optional. Specifies the retry policy associated with this route.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+        </span><span class="kw">pub </span>retry_policy: ::core::option::Option&lt;RetryPolicy&gt;,
+    }
+    <span class="doccomment">/// Describes how to route traffic.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>RouteRule {
+        <span class="doccomment">/// Optional. Matches define conditions used for matching the rule against
+        /// incoming gRPC requests. Each match is independent, i.e. this rule will be
+        /// matched if ANY one of the matches is satisfied.  If no matches field is
+        /// specified, this rule will unconditionally match traffic.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>matches: ::prost::alloc::vec::Vec&lt;RouteMatch&gt;,
+        <span class="doccomment">/// Required. A detailed rule defining how to route traffic. This field is
+        /// required.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>action: ::core::option::Option&lt;RouteAction&gt;,
+    }
+}
+<span class="doccomment">/// Request used with the ListGrpcRoutes method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListGrpcRoutesRequest {
+    <span class="doccomment">/// Required. The project and location from which the GrpcRoutes should be
+    /// listed, specified in the format `projects/*/locations/global`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Maximum number of GrpcRoutes to return per call.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// The value returned by the last `ListGrpcRoutesResponse`
+    /// Indicates that this is a continuation of a prior `ListGrpcRoutes` call,
+    /// and that the system should return the next page of data.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response returned by the ListGrpcRoutes method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListGrpcRoutesResponse {
+    <span class="doccomment">/// List of GrpcRoute resources.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>grpc_routes: ::prost::alloc::vec::Vec&lt;GrpcRoute&gt;,
+    <span class="doccomment">/// If there might be more results than those appearing in this response, then
+    /// `next_page_token` is included. To get the next set of results, call this
+    /// method again using the value of `next_page_token` as `page_token`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request used by the GetGrpcRoute method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetGrpcRouteRequest {
+    <span class="doccomment">/// Required. A name of the GrpcRoute to get. Must be in the format
+    /// `projects/*/locations/global/grpcRoutes/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request used by the CreateGrpcRoute method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateGrpcRouteRequest {
+    <span class="doccomment">/// Required. The parent resource of the GrpcRoute. Must be in the
+    /// format `projects/*/locations/global`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Short name of the GrpcRoute resource to be created.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>grpc_route_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. GrpcRoute resource to be created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>grpc_route: ::core::option::Option&lt;GrpcRoute&gt;,
+}
+<span class="doccomment">/// Request used by the UpdateGrpcRoute method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateGrpcRouteRequest {
+    <span class="doccomment">/// Optional. Field mask is used to specify the fields to be overwritten in the
+    /// GrpcRoute resource by the update.
+    /// The fields specified in the update_mask are relative to the resource, not
+    /// the full request. A field will be overwritten if it is in the mask. If the
+    /// user does not provide a mask then all fields will be overwritten.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+    <span class="doccomment">/// Required. Updated GrpcRoute resource.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>grpc_route: ::core::option::Option&lt;GrpcRoute&gt;,
+}
+<span class="doccomment">/// Request used by the DeleteGrpcRoute method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteGrpcRouteRequest {
+    <span class="doccomment">/// Required. A name of the GrpcRoute to delete. Must be in the format
+    /// `projects/*/locations/global/grpcRoutes/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// Mesh represents a logical configuration grouping for workload to workload
 /// communication within a service mesh. Routes that point to mesh dictate how
 /// requests are routed within this logical mesh boundary.
@@ -5523,99 +5431,6 @@
 </span><span class="kw">pub struct </span>DeleteMeshRequest {
     <span class="doccomment">/// Required. A name of the Mesh to delete. Must be in the format
     /// `projects/*/locations/global/meshes/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// ServiceBinding is the resource that defines a Service Directory Service to
-/// be used in a BackendService resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ServiceBinding {
-    <span class="doccomment">/// Required. Name of the ServiceBinding resource. It matches pattern
-    /// `projects/*/locations/global/serviceBindings/service_binding_name`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. A free-text description of the resource. Max length 1024
-    /// characters.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The timestamp when the resource was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp when the resource was updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Required. The full service directory service name of the format
-    /// /projects/*/locations/*/namespaces/*/services/*
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>service: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Set of label tags associated with the ServiceBinding resource.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-}
-<span class="doccomment">/// Request used with the ListServiceBindings method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListServiceBindingsRequest {
-    <span class="doccomment">/// Required. The project and location from which the ServiceBindings should be
-    /// listed, specified in the format `projects/*/locations/global`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Maximum number of ServiceBindings to return per call.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// The value returned by the last `ListServiceBindingsResponse`
-    /// Indicates that this is a continuation of a prior `ListRouters` call,
-    /// and that the system should return the next page of data.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response returned by the ListServiceBindings method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListServiceBindingsResponse {
-    <span class="doccomment">/// List of ServiceBinding resources.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>service_bindings: ::prost::alloc::vec::Vec&lt;ServiceBinding&gt;,
-    <span class="doccomment">/// If there might be more results than those appearing in this response, then
-    /// `next_page_token` is included. To get the next set of results, call this
-    /// method again using the value of `next_page_token` as `page_token`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request used by the GetServiceBinding method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetServiceBindingRequest {
-    <span class="doccomment">/// Required. A name of the ServiceBinding to get. Must be in the format
-    /// `projects/*/locations/global/serviceBindings/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request used by the ServiceBinding method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateServiceBindingRequest {
-    <span class="doccomment">/// Required. The parent resource of the ServiceBinding. Must be in the
-    /// format `projects/*/locations/global`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Short name of the ServiceBinding resource to be created.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>service_binding_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. ServiceBinding resource to be created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>service_binding: ::core::option::Option&lt;ServiceBinding&gt;,
-}
-<span class="doccomment">/// Request used by the DeleteServiceBinding method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteServiceBindingRequest {
-    <span class="doccomment">/// Required. A name of the ServiceBinding to delete. Must be in the format
-    /// `projects/*/locations/global/serviceBindings/*`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
@@ -5823,6 +5638,191 @@
 </span><span class="kw">pub struct </span>DeleteTcpRouteRequest {
     <span class="doccomment">/// Required. A name of the TcpRoute to delete. Must be in the format
     /// `projects/*/locations/global/tcpRoutes/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// TlsRoute defines how traffic should be routed based on SNI and other matching
+/// L3 attributes.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TlsRoute {
+    <span class="doccomment">/// Required. Name of the TlsRoute resource. It matches pattern
+    /// `projects/*/locations/global/tlsRoutes/tls_route_name&gt;`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Server-defined URL of this resource
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>self_link: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The timestamp when the resource was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp when the resource was updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Optional. A free-text description of the resource. Max length 1024
+    /// characters.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Rules that define how traffic is routed and handled. At least one
+    /// RouteRule must be supplied. If there are multiple rules then the action
+    /// taken will be the first rule to match.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>rules: ::prost::alloc::vec::Vec&lt;tls_route::RouteRule&gt;,
+    <span class="doccomment">/// Optional. Meshes defines a list of meshes this TlsRoute is attached to, as
+    /// one of the routing rules to route the requests served by the mesh.
+    ///
+    /// Each mesh reference should match the pattern:
+    /// `projects/*/locations/global/meshes/&lt;mesh_name&gt;`
+    ///
+    /// The attached Mesh should be of a type SIDECAR
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>meshes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Optional. Gateways defines a list of gateways this TlsRoute is attached to,
+    /// as one of the routing rules to route the requests served by the gateway.
+    ///
+    /// Each gateway reference should match the pattern:
+    /// `projects/*/locations/global/gateways/&lt;gateway_name&gt;`
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>gateways: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `TlsRoute`.
+</span><span class="kw">pub mod </span>tls_route {
+    <span class="doccomment">/// Specifies how to match traffic and how to route traffic when traffic is
+    /// matched.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>RouteRule {
+        <span class="doccomment">/// Required. RouteMatch defines the predicate used to match requests to a
+        /// given action. Multiple match types are "OR"ed for evaluation.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>matches: ::prost::alloc::vec::Vec&lt;RouteMatch&gt;,
+        <span class="doccomment">/// Required. The detailed rule defining how to route matched traffic.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>action: ::core::option::Option&lt;RouteAction&gt;,
+    }
+    <span class="doccomment">/// RouteMatch defines the predicate used to match requests to a given action.
+    /// Multiple match types are "AND"ed for evaluation.
+    /// If no routeMatch field is specified, this rule will unconditionally match
+    /// traffic.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>RouteMatch {
+        <span class="doccomment">/// Optional. SNI (server name indicator) to match against.
+        /// SNI will be matched against all wildcard domains, i.e. `www.example.com`
+        /// will be first matched against `www.example.com`, then `*.example.com`,
+        /// then `*.com.`
+        /// Partial wildcards are not supported, and values like *w.example.com are
+        /// invalid.
+        /// At least one of sni_host and alpn is required.
+        /// Up to 5 sni hosts across all matches can be set.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>sni_host: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+        <span class="doccomment">/// Optional. ALPN (Application-Layer Protocol Negotiation) to match against.
+        /// Examples: "http/1.1", "h2".
+        /// At least one of sni_host and alpn is required.
+        /// Up to 5 alpns across all matches can be set.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>alpn: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    }
+    <span class="doccomment">/// The specifications for routing traffic and applying associated policies.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>RouteAction {
+        <span class="doccomment">/// Required. The destination services to which traffic should be forwarded.
+        /// At least one destination service is required.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>destinations: ::prost::alloc::vec::Vec&lt;RouteDestination&gt;,
+    }
+    <span class="doccomment">/// Describe the destination for traffic to be routed to.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>RouteDestination {
+        <span class="doccomment">/// Required. The URL of a BackendService to route traffic to.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>service_name: ::prost::alloc::string::String,
+        <span class="doccomment">/// Optional. Specifies the proportion of requests forwareded to the backend
+        /// referenced by the service_name field. This is computed as:
+        /// - weight/Sum(weights in destinations)
+        /// Weights in all destinations does not need to sum up to 100.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>weight: i32,
+    }
+}
+<span class="doccomment">/// Request used with the ListTlsRoutes method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListTlsRoutesRequest {
+    <span class="doccomment">/// Required. The project and location from which the TlsRoutes should be
+    /// listed, specified in the format `projects/*/locations/global`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Maximum number of TlsRoutes to return per call.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// The value returned by the last `ListTlsRoutesResponse`
+    /// Indicates that this is a continuation of a prior `ListTlsRoutes` call,
+    /// and that the system should return the next page of data.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response returned by the ListTlsRoutes method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListTlsRoutesResponse {
+    <span class="doccomment">/// List of TlsRoute resources.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>tls_routes: ::prost::alloc::vec::Vec&lt;TlsRoute&gt;,
+    <span class="doccomment">/// If there might be more results than those appearing in this response, then
+    /// `next_page_token` is included. To get the next set of results, call this
+    /// method again using the value of `next_page_token` as `page_token`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request used by the GetTlsRoute method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetTlsRouteRequest {
+    <span class="doccomment">/// Required. A name of the TlsRoute to get. Must be in the format
+    /// `projects/*/locations/global/tlsRoutes/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request used by the TlsRoute method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateTlsRouteRequest {
+    <span class="doccomment">/// Required. The parent resource of the TlsRoute. Must be in the
+    /// format `projects/*/locations/global`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Short name of the TlsRoute resource to be created.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>tls_route_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. TlsRoute resource to be created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>tls_route: ::core::option::Option&lt;TlsRoute&gt;,
+}
+<span class="doccomment">/// Request used by the UpdateTlsRoute method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateTlsRouteRequest {
+    <span class="doccomment">/// Optional. Field mask is used to specify the fields to be overwritten in the
+    /// TlsRoute resource by the update.
+    /// The fields specified in the update_mask are relative to the resource, not
+    /// the full request. A field will be overwritten if it is in the mask. If the
+    /// user does not provide a mask then all fields will be overwritten.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+    <span class="doccomment">/// Required. Updated TlsRoute resource.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>tls_route: ::core::option::Option&lt;TlsRoute&gt;,
+}
+<span class="doccomment">/// Request used by the DeleteTlsRoute method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteTlsRouteRequest {
+    <span class="doccomment">/// Required. A name of the TlsRoute to delete. Must be in the format
+    /// `projects/*/locations/global/tlsRoutes/*`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }

@@ -6050,123 +6050,35 @@
         }
     }
 }
-<span class="doccomment">/// Payload proto for "clouddeploy.googleapis.com/release_notification"
-/// Platform Log event that describes the failure to send release status change
+<span class="doccomment">/// Payload proto for "clouddeploy.googleapis.com/rollout_notification"
+/// Platform Log event that describes the failure to send rollout status change
 /// Pub/Sub notification.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ReleaseNotificationEvent {
+</span><span class="kw">pub struct </span>RolloutNotificationEvent {
     <span class="doccomment">/// Debug message for when a notification fails to send.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
     <span class="doccomment">/// Unique identifier of the `DeliveryPipeline`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>pipeline_uid: ::prost::alloc::string::String,
     <span class="doccomment">/// Unique identifier of the `Release`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>release_uid: ::prost::alloc::string::String,
     <span class="doccomment">/// The name of the `Release`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>release: ::prost::alloc::string::String,
-    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-}
-<span class="doccomment">/// Payload proto for "clouddeploy.googleapis.com/automation_run"
-/// Platform Log event that describes the AutomationRun related events.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutomationRunEvent {
-    <span class="doccomment">/// Debug message for when there is an update on the AutomationRun.
-    /// Provides further details about the resource creation or state change.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
-    <span class="doccomment">/// The name of the `AutomationRun`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>automation_run: ::prost::alloc::string::String,
-    <span class="doccomment">/// Unique identifier of the `DeliveryPipeline`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>pipeline_uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Identifier of the `Automation`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>automation_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Identifier of the `Automation` rule.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>rule_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// ID of the `Target` to which the `AutomationRun` is created.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>destination_target_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-}
-<span class="doccomment">/// Payload proto for "clouddeploy.googleapis.com/deliverypipeline_notification"
-/// Platform Log event that describes the failure to send delivery pipeline
-/// status change Pub/Sub notification.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeliveryPipelineNotificationEvent {
-    <span class="doccomment">/// Debug message for when a notification fails to send.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
-    <span class="doccomment">/// Unique identifier of the `DeliveryPipeline`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>pipeline_uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// The name of the `Delivery Pipeline`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>delivery_pipeline: ::prost::alloc::string::String,
-    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-}
-<span class="doccomment">/// Payload proto for "clouddeploy.googleapis.com/target_notification"
-/// Platform Log event that describes the failure to send target status change
-/// Pub/Sub notification.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TargetNotificationEvent {
-    <span class="doccomment">/// Debug message for when a notification fails to send.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
-    <span class="doccomment">/// The name of the `Target`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>target: ::prost::alloc::string::String,
-    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-}
-<span class="doccomment">/// Payload proto for "clouddeploy.googleapis.com/jobrun_notification"
-/// Platform Log event that describes the failure to send JobRun resource update
-/// Pub/Sub notification.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>JobRunNotificationEvent {
-    <span class="doccomment">/// Debug message for when a notification fails to send.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
-    <span class="doccomment">/// The name of the `JobRun`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>job_run: ::prost::alloc::string::String,
-    <span class="doccomment">/// Unique identifier of the `DeliveryPipeline`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>pipeline_uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Unique identifier of the `Release`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>release_uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// The name of the `Release`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
     </span><span class="kw">pub </span>release: ::prost::alloc::string::String,
     <span class="doccomment">/// Unique identifier of the `Rollout`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
     </span><span class="kw">pub </span>rollout_uid: ::prost::alloc::string::String,
     <span class="doccomment">/// The name of the `Rollout`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>rollout: ::prost::alloc::string::String,
-    <span class="doccomment">/// ID of the `Target`.
+    <span class="doccomment">/// ID of the `Target` that the rollout is deployed to.
     </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>target_id: ::prost::alloc::string::String,
     <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"7"</span>)]
+    </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>r#type: i32,
 }
 <span class="doccomment">/// A `DeliveryPipeline` resource in the Cloud Deploy API.
@@ -11823,54 +11735,89 @@
     </span><span class="attr">#[prost(enumeration = <span class="string">"release::RenderState"</span>, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>release_render_state: i32,
 }
-<span class="doccomment">/// Payload proto for "clouddeploy.googleapis.com/automation"
-/// Platform Log event that describes the Automation related events.
+<span class="doccomment">/// Payload proto for "clouddeploy.googleapis.com/deliverypipeline_notification"
+/// Platform Log event that describes the failure to send delivery pipeline
+/// status change Pub/Sub notification.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutomationEvent {
+</span><span class="kw">pub struct </span>DeliveryPipelineNotificationEvent {
+    <span class="doccomment">/// Debug message for when a notification fails to send.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+    <span class="doccomment">/// Unique identifier of the `DeliveryPipeline`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>pipeline_uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// The name of the `Delivery Pipeline`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>delivery_pipeline: ::prost::alloc::string::String,
+    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+}
+<span class="doccomment">/// Payload proto for "clouddeploy.googleapis.com/release_notification"
+/// Platform Log event that describes the failure to send release status change
+/// Pub/Sub notification.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ReleaseNotificationEvent {
+    <span class="doccomment">/// Debug message for when a notification fails to send.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+    <span class="doccomment">/// Unique identifier of the `DeliveryPipeline`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>pipeline_uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// Unique identifier of the `Release`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>release_uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// The name of the `Release`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>release: ::prost::alloc::string::String,
+    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+}
+<span class="doccomment">/// Payload proto for "clouddeploy.googleapis.com/target_notification"
+/// Platform Log event that describes the failure to send target status change
+/// Pub/Sub notification.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TargetNotificationEvent {
+    <span class="doccomment">/// Debug message for when a notification fails to send.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+    <span class="doccomment">/// The name of the `Target`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>target: ::prost::alloc::string::String,
+    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+}
+<span class="doccomment">/// Payload proto for "clouddeploy.googleapis.com/automation_run"
+/// Platform Log event that describes the AutomationRun related events.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutomationRunEvent {
     <span class="doccomment">/// Debug message for when there is an update on the AutomationRun.
     /// Provides further details about the resource creation or state change.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
     <span class="doccomment">/// The name of the `AutomationRun`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>automation: ::prost::alloc::string::String,
+    </span><span class="kw">pub </span>automation_run: ::prost::alloc::string::String,
     <span class="doccomment">/// Unique identifier of the `DeliveryPipeline`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>pipeline_uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-}
-<span class="doccomment">/// Payload proto for "clouddeploy.googleapis.com/rollout_notification"
-/// Platform Log event that describes the failure to send rollout status change
-/// Pub/Sub notification.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RolloutNotificationEvent {
-    <span class="doccomment">/// Debug message for when a notification fails to send.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
-    <span class="doccomment">/// Unique identifier of the `DeliveryPipeline`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>pipeline_uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Unique identifier of the `Release`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>release_uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// The name of the `Release`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>release: ::prost::alloc::string::String,
-    <span class="doccomment">/// Unique identifier of the `Rollout`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>rollout_uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// The name of the `Rollout`.
+    <span class="doccomment">/// Identifier of the `Automation`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>rollout: ::prost::alloc::string::String,
-    <span class="doccomment">/// ID of the `Target` that the rollout is deployed to.
+    </span><span class="kw">pub </span>automation_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Identifier of the `Automation` rule.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>rule_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// ID of the `Target` to which the `AutomationRun` is created.
     </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>target_id: ::prost::alloc::string::String,
+    </span><span class="kw">pub </span>destination_target_id: ::prost::alloc::string::String,
     <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"7"</span>)]
     </span><span class="kw">pub </span>r#type: i32,
 }
 <span class="doccomment">/// Payload proto for "clouddeploy.googleapis.com/rollout_update"
@@ -11994,5 +11941,58 @@
             }
         }
     }
+}
+<span class="doccomment">/// Payload proto for "clouddeploy.googleapis.com/automation"
+/// Platform Log event that describes the Automation related events.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutomationEvent {
+    <span class="doccomment">/// Debug message for when there is an update on the AutomationRun.
+    /// Provides further details about the resource creation or state change.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+    <span class="doccomment">/// The name of the `AutomationRun`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>automation: ::prost::alloc::string::String,
+    <span class="doccomment">/// Unique identifier of the `DeliveryPipeline`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>pipeline_uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+}
+<span class="doccomment">/// Payload proto for "clouddeploy.googleapis.com/jobrun_notification"
+/// Platform Log event that describes the failure to send JobRun resource update
+/// Pub/Sub notification.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>JobRunNotificationEvent {
+    <span class="doccomment">/// Debug message for when a notification fails to send.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+    <span class="doccomment">/// The name of the `JobRun`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>job_run: ::prost::alloc::string::String,
+    <span class="doccomment">/// Unique identifier of the `DeliveryPipeline`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>pipeline_uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// Unique identifier of the `Release`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>release_uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// The name of the `Release`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>release: ::prost::alloc::string::String,
+    <span class="doccomment">/// Unique identifier of the `Rollout`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>rollout_uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// The name of the `Rollout`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>rollout: ::prost::alloc::string::String,
+    <span class="doccomment">/// ID of the `Target`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>target_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Type of this notification, e.g. for a Pub/Sub failure.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
 }
 </code></pre></div></section></main></body></html>

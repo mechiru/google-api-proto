@@ -745,7 +745,66 @@
 <a href="#744" id="744">744</a>
 <a href="#745" id="745">745</a>
 <a href="#746" id="746">746</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// ResourceInfo represents the information/status of an app connector resource.
+</pre></div><pre class="rust"><code><span class="doccomment">/// AppConnectorInstanceConfig defines the instance config of a AppConnector.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AppConnectorInstanceConfig {
+    <span class="doccomment">/// Required. A monotonically increasing number generated and maintained
+    /// by the API provider. Every time a config changes in the backend, the
+    /// sequenceNumber should be bumped up to reflect the change.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>sequence_number: i64,
+    <span class="doccomment">/// The SLM instance agent configuration.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>instance_config: ::core::option::Option&lt;::prost_types::Any&gt;,
+    <span class="doccomment">/// NotificationConfig defines the notification mechanism that the remote
+    /// instance should subscribe to in order to receive notification.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>notification_config: ::core::option::Option&lt;NotificationConfig&gt;,
+    <span class="doccomment">/// ImageConfig defines the GCR images to run for the remote agent's control
+    /// plane.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>image_config: ::core::option::Option&lt;ImageConfig&gt;,
+}
+<span class="doccomment">/// NotificationConfig defines the mechanisms to notify instance agent.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>NotificationConfig {
+    <span class="attr">#[prost(oneof = <span class="string">"notification_config::Config"</span>, tags = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>config: ::core::option::Option&lt;notification_config::Config&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `NotificationConfig`.
+</span><span class="kw">pub mod </span>notification_config {
+    <span class="doccomment">/// The configuration for Pub/Sub messaging for the AppConnector.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>CloudPubSubNotificationConfig {
+        <span class="doccomment">/// The Pub/Sub subscription the AppConnector uses to receive notifications.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>pubsub_subscription: ::prost::alloc::string::String,
+    }
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Config {
+        <span class="doccomment">/// Cloud Pub/Sub Configuration to receive notifications.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>PubsubNotification(CloudPubSubNotificationConfig),
+    }
+}
+<span class="doccomment">/// ImageConfig defines the control plane images to run.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ImageConfig {
+    <span class="doccomment">/// The initial image the remote agent will attempt to run for the control
+    /// plane.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>target_image: ::prost::alloc::string::String,
+    <span class="doccomment">/// The stable image that the remote agent will fallback to if the target image
+    /// fails.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>stable_image: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// ResourceInfo represents the information/status of an app connector resource.
 /// Such as:
 /// - remote_agent
 ///    - container
@@ -816,65 +875,6 @@
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
-}
-<span class="doccomment">/// AppConnectorInstanceConfig defines the instance config of a AppConnector.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AppConnectorInstanceConfig {
-    <span class="doccomment">/// Required. A monotonically increasing number generated and maintained
-    /// by the API provider. Every time a config changes in the backend, the
-    /// sequenceNumber should be bumped up to reflect the change.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>sequence_number: i64,
-    <span class="doccomment">/// The SLM instance agent configuration.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>instance_config: ::core::option::Option&lt;::prost_types::Any&gt;,
-    <span class="doccomment">/// NotificationConfig defines the notification mechanism that the remote
-    /// instance should subscribe to in order to receive notification.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>notification_config: ::core::option::Option&lt;NotificationConfig&gt;,
-    <span class="doccomment">/// ImageConfig defines the GCR images to run for the remote agent's control
-    /// plane.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>image_config: ::core::option::Option&lt;ImageConfig&gt;,
-}
-<span class="doccomment">/// NotificationConfig defines the mechanisms to notify instance agent.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>NotificationConfig {
-    <span class="attr">#[prost(oneof = <span class="string">"notification_config::Config"</span>, tags = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>config: ::core::option::Option&lt;notification_config::Config&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `NotificationConfig`.
-</span><span class="kw">pub mod </span>notification_config {
-    <span class="doccomment">/// The configuration for Pub/Sub messaging for the AppConnector.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>CloudPubSubNotificationConfig {
-        <span class="doccomment">/// The Pub/Sub subscription the AppConnector uses to receive notifications.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>pubsub_subscription: ::prost::alloc::string::String,
-    }
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Config {
-        <span class="doccomment">/// Cloud Pub/Sub Configuration to receive notifications.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>PubsubNotification(CloudPubSubNotificationConfig),
-    }
-}
-<span class="doccomment">/// ImageConfig defines the control plane images to run.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ImageConfig {
-    <span class="doccomment">/// The initial image the remote agent will attempt to run for the control
-    /// plane.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>target_image: ::prost::alloc::string::String,
-    <span class="doccomment">/// The stable image that the remote agent will fallback to if the target image
-    /// fails.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>stable_image: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Request message for BeyondCorp.ListAppConnectors.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

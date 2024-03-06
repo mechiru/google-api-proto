@@ -804,94 +804,7 @@
 <a href="#803" id="803">803</a>
 <a href="#804" id="804">804</a>
 <a href="#805" id="805">805</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Restore as stored in Platform log. It's used to log the update details of a
-/// updateRestore request, so only mutable and non-output_only fields are
-/// included here..
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LoggedRestore {
-    <span class="doccomment">/// Full name of the Backup resource this Restore resource used to restore
-    /// from. Format: projects/*/locations/*/backupPlans/*/backups/*.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>backup: ::prost::alloc::string::String,
-    <span class="doccomment">/// GCP Labels.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// User specified descriptive string for this Restore.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// The current state of the Restore.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"logged_restore::State"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Human-readable description of why the Restore is in its current state.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>state_reason: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `LoggedRestore`.
-</span><span class="kw">pub mod </span>logged_restore {
-    <span class="doccomment">/// Possible values for state of the Restore.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// The Restore resource is in the process of being created.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The Restore resource has been created and the associated RestoreJob
-        /// Kubernetes resource has been injected into target cluster.
-        </span>Creating = <span class="number">1</span>,
-        <span class="doccomment">/// The gkebackup agent in the cluster has begun executing the restore
-        /// operation.
-        </span>InProgress = <span class="number">2</span>,
-        <span class="doccomment">/// The restore operation has completed successfully. Restored workloads may
-        /// not yet be operational.
-        </span>Succeeded = <span class="number">3</span>,
-        <span class="doccomment">/// The restore operation has failed.
-        </span>Failed = <span class="number">4</span>,
-        <span class="doccomment">/// This Restore resource is in the process of being deleted.
-        </span>Deleting = <span class="number">5</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Creating =&gt; <span class="string">"CREATING"</span>,
-                State::InProgress =&gt; <span class="string">"IN_PROGRESS"</span>,
-                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
-                State::Failed =&gt; <span class="string">"FAILED"</span>,
-                State::Deleting =&gt; <span class="string">"DELETING"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
-                <span class="string">"IN_PROGRESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InProgress),
-                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
-                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Namespaces, list of namespaces
+</pre></div><pre class="rust"><code><span class="doccomment">/// Namespaces, list of namespaces
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Namespaces {
@@ -1274,6 +1187,97 @@
         </span>SelectedApplications(<span class="kw">super</span>::NamespacedNames),
     }
 }
+<span class="doccomment">/// Backup as stored in Platform log. It's used to log the details of
+/// a createBackup/updateBackup request, so only fields that can be taken
+/// from API calls are included here.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LoggedBackup {
+    <span class="doccomment">/// A set of custom labels supplied by user.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// delete_lock_days specifies the number of days from the create_time of this
+    /// Backup before which deletion will be blocked.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>delete_lock_days: i32,
+    <span class="doccomment">/// retain_days specifies the desired number of days from the create_time of
+    /// this Backup after which it will be automatically deleted.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>retain_days: i32,
+    <span class="doccomment">/// User specified descriptive string for this Backup.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Current state of the Backup
+    </span><span class="attr">#[prost(enumeration = <span class="string">"logged_backup::State"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Human-readable description of why the backup is in the current `state`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>state_reason: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `LoggedBackup`.
+</span><span class="kw">pub mod </span>logged_backup {
+    <span class="doccomment">/// State
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// The Backup resource is in the process of being created.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The Backup resource has been created and the associated BackupJob
+        /// Kubernetes resource has been injected into the source cluster.
+        </span>Creating = <span class="number">1</span>,
+        <span class="doccomment">/// The gkebackup agent in the cluster has begun executing the backup
+        /// operation.
+        </span>InProgress = <span class="number">2</span>,
+        <span class="doccomment">/// The backup operation has completed successfully.
+        </span>Succeeded = <span class="number">3</span>,
+        <span class="doccomment">/// The backup operation has failed.
+        </span>Failed = <span class="number">4</span>,
+        <span class="doccomment">/// This Backup resource (and its associated artifacts) is in the process
+        /// of being deleted.
+        </span>Deleting = <span class="number">5</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Creating =&gt; <span class="string">"CREATING"</span>,
+                State::InProgress =&gt; <span class="string">"IN_PROGRESS"</span>,
+                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
+                State::Failed =&gt; <span class="string">"FAILED"</span>,
+                State::Deleting =&gt; <span class="string">"DELETING"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
+                <span class="string">"IN_PROGRESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InProgress),
+                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
+                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
 <span class="doccomment">/// BackupPlan as stored in Platform log. It's used to log the details of
 /// a createBackupPlan/updateBackupPlan request, so only fields that can be taken
 /// from user input are included here.
@@ -1377,39 +1381,35 @@
         }
     }
 }
-<span class="doccomment">/// Backup as stored in Platform log. It's used to log the details of
-/// a createBackup/updateBackup request, so only fields that can be taken
-/// from API calls are included here.
+<span class="doccomment">/// Restore as stored in Platform log. It's used to log the update details of a
+/// updateRestore request, so only mutable and non-output_only fields are
+/// included here..
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LoggedBackup {
-    <span class="doccomment">/// A set of custom labels supplied by user.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"1"</span>)]
+</span><span class="kw">pub struct </span>LoggedRestore {
+    <span class="doccomment">/// Full name of the Backup resource this Restore resource used to restore
+    /// from. Format: projects/*/locations/*/backupPlans/*/backups/*.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>backup: ::prost::alloc::string::String,
+    <span class="doccomment">/// GCP Labels.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
         ::prost::alloc::string::String,
         ::prost::alloc::string::String,
     &gt;,
-    <span class="doccomment">/// delete_lock_days specifies the number of days from the create_time of this
-    /// Backup before which deletion will be blocked.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>delete_lock_days: i32,
-    <span class="doccomment">/// retain_days specifies the desired number of days from the create_time of
-    /// this Backup after which it will be automatically deleted.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>retain_days: i32,
-    <span class="doccomment">/// User specified descriptive string for this Backup.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    <span class="doccomment">/// User specified descriptive string for this Restore.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Current state of the Backup
-    </span><span class="attr">#[prost(enumeration = <span class="string">"logged_backup::State"</span>, tag = <span class="string">"5"</span>)]
+    <span class="doccomment">/// The current state of the Restore.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"logged_restore::State"</span>, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Human-readable description of why the backup is in the current `state`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    <span class="doccomment">/// Human-readable description of why the Restore is in its current state.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>state_reason: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Nested message and enum types in `LoggedBackup`.
-</span><span class="kw">pub mod </span>logged_backup {
-    <span class="doccomment">/// State
+<span class="doccomment">/// Nested message and enum types in `LoggedRestore`.
+</span><span class="kw">pub mod </span>logged_restore {
+    <span class="doccomment">/// Possible values for state of the Restore.
     </span><span class="attr">#[derive(
         Clone,
         Copy,
@@ -1423,20 +1423,20 @@
     )]
     #[repr(i32)]
     </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// The Backup resource is in the process of being created.
+        <span class="doccomment">/// The Restore resource is in the process of being created.
         </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The Backup resource has been created and the associated BackupJob
-        /// Kubernetes resource has been injected into the source cluster.
+        <span class="doccomment">/// The Restore resource has been created and the associated RestoreJob
+        /// Kubernetes resource has been injected into target cluster.
         </span>Creating = <span class="number">1</span>,
-        <span class="doccomment">/// The gkebackup agent in the cluster has begun executing the backup
+        <span class="doccomment">/// The gkebackup agent in the cluster has begun executing the restore
         /// operation.
         </span>InProgress = <span class="number">2</span>,
-        <span class="doccomment">/// The backup operation has completed successfully.
+        <span class="doccomment">/// The restore operation has completed successfully. Restored workloads may
+        /// not yet be operational.
         </span>Succeeded = <span class="number">3</span>,
-        <span class="doccomment">/// The backup operation has failed.
+        <span class="doccomment">/// The restore operation has failed.
         </span>Failed = <span class="number">4</span>,
-        <span class="doccomment">/// This Backup resource (and its associated artifacts) is in the process
-        /// of being deleted.
+        <span class="doccomment">/// This Restore resource is in the process of being deleted.
         </span>Deleting = <span class="number">5</span>,
     }
     <span class="kw">impl </span>State {

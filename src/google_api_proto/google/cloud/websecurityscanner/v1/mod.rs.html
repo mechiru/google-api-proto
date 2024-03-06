@@ -2027,639 +2027,6 @@
     </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>finding_count: i32,
 }
-<span class="doccomment">/// Defines a custom error message used by CreateScanConfig and UpdateScanConfig
-/// APIs when scan configuration validation fails. It is also reported as part of
-/// a ScanRunErrorTrace message if scan validation fails due to a scan
-/// configuration error.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ScanConfigError {
-    <span class="doccomment">/// Output only. Indicates the reason code for a configuration failure.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_config_error::Code"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>code: i32,
-    <span class="doccomment">/// Output only. Indicates the full name of the ScanConfig field that triggers this error,
-    /// for example "scan_config.max_qps". This field is provided for
-    /// troubleshooting purposes only and its actual value can change in the
-    /// future.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>field_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `ScanConfigError`.
-</span><span class="kw">pub mod </span>scan_config_error {
-    <span class="doccomment">/// Output only.
-    /// Defines an error reason code.
-    /// Next id: 44
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Code {
-        <span class="doccomment">/// There is no error.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Indicates an internal server error.
-        /// Please DO NOT USE THIS ERROR CODE unless the root cause is truly unknown.
-        </span>InternalError = <span class="number">1</span>,
-        <span class="doccomment">/// One of the seed URLs is an App Engine URL but we cannot validate the scan
-        /// settings due to an App Engine API backend error.
-        </span>AppengineApiBackendError = <span class="number">2</span>,
-        <span class="doccomment">/// One of the seed URLs is an App Engine URL but we cannot access the
-        /// App Engine API to validate scan settings.
-        </span>AppengineApiNotAccessible = <span class="number">3</span>,
-        <span class="doccomment">/// One of the seed URLs is an App Engine URL but the Default Host of the
-        /// App Engine is not set.
-        </span>AppengineDefaultHostMissing = <span class="number">4</span>,
-        <span class="doccomment">/// Google corporate accounts can not be used for scanning.
-        </span>CannotUseGoogleComAccount = <span class="number">6</span>,
-        <span class="doccomment">/// The account of the scan creator can not be used for scanning.
-        </span>CannotUseOwnerAccount = <span class="number">7</span>,
-        <span class="doccomment">/// This scan targets Compute Engine, but we cannot validate scan settings
-        /// due to a Compute Engine API backend error.
-        </span>ComputeApiBackendError = <span class="number">8</span>,
-        <span class="doccomment">/// This scan targets Compute Engine, but we cannot access the Compute Engine
-        /// API to validate the scan settings.
-        </span>ComputeApiNotAccessible = <span class="number">9</span>,
-        <span class="doccomment">/// The Custom Login URL does not belong to the current project.
-        </span>CustomLoginUrlDoesNotBelongToCurrentProject = <span class="number">10</span>,
-        <span class="doccomment">/// The Custom Login URL is malformed (can not be parsed).
-        </span>CustomLoginUrlMalformed = <span class="number">11</span>,
-        <span class="doccomment">/// The Custom Login URL is mapped to a non-routable IP address in DNS.
-        </span>CustomLoginUrlMappedToNonRoutableAddress = <span class="number">12</span>,
-        <span class="doccomment">/// The Custom Login URL is mapped to an IP address which is not reserved for
-        /// the current project.
-        </span>CustomLoginUrlMappedToUnreservedAddress = <span class="number">13</span>,
-        <span class="doccomment">/// The Custom Login URL has a non-routable IP address.
-        </span>CustomLoginUrlHasNonRoutableIpAddress = <span class="number">14</span>,
-        <span class="doccomment">/// The Custom Login URL has an IP address which is not reserved for the
-        /// current project.
-        </span>CustomLoginUrlHasUnreservedIpAddress = <span class="number">15</span>,
-        <span class="doccomment">/// Another scan with the same name (case-sensitive) already exists.
-        </span>DuplicateScanName = <span class="number">16</span>,
-        <span class="doccomment">/// A field is set to an invalid value.
-        </span>InvalidFieldValue = <span class="number">18</span>,
-        <span class="doccomment">/// There was an error trying to authenticate to the scan target.
-        </span>FailedToAuthenticateToTarget = <span class="number">19</span>,
-        <span class="doccomment">/// Finding type value is not specified in the list findings request.
-        </span>FindingTypeUnspecified = <span class="number">20</span>,
-        <span class="doccomment">/// Scan targets Compute Engine, yet current project was not whitelisted for
-        /// Google Compute Engine Scanning Alpha access.
-        </span>ForbiddenToScanCompute = <span class="number">21</span>,
-        <span class="doccomment">/// User tries to update managed scan
-        </span>ForbiddenUpdateToManagedScan = <span class="number">43</span>,
-        <span class="doccomment">/// The supplied filter is malformed. For example, it can not be parsed, does
-        /// not have a filter type in expression, or the same filter type appears
-        /// more than once.
-        </span>MalformedFilter = <span class="number">22</span>,
-        <span class="doccomment">/// The supplied resource name is malformed (can not be parsed).
-        </span>MalformedResourceName = <span class="number">23</span>,
-        <span class="doccomment">/// The current project is not in an active state.
-        </span>ProjectInactive = <span class="number">24</span>,
-        <span class="doccomment">/// A required field is not set.
-        </span>RequiredField = <span class="number">25</span>,
-        <span class="doccomment">/// Project id, scanconfig id, scanrun id, or finding id are not consistent
-        /// with each other in resource name.
-        </span>ResourceNameInconsistent = <span class="number">26</span>,
-        <span class="doccomment">/// The scan being requested to start is already running.
-        </span>ScanAlreadyRunning = <span class="number">27</span>,
-        <span class="doccomment">/// The scan that was requested to be stopped is not running.
-        </span>ScanNotRunning = <span class="number">28</span>,
-        <span class="doccomment">/// One of the seed URLs does not belong to the current project.
-        </span>SeedUrlDoesNotBelongToCurrentProject = <span class="number">29</span>,
-        <span class="doccomment">/// One of the seed URLs is malformed (can not be parsed).
-        </span>SeedUrlMalformed = <span class="number">30</span>,
-        <span class="doccomment">/// One of the seed URLs is mapped to a non-routable IP address in DNS.
-        </span>SeedUrlMappedToNonRoutableAddress = <span class="number">31</span>,
-        <span class="doccomment">/// One of the seed URLs is mapped to an IP address which is not reserved
-        /// for the current project.
-        </span>SeedUrlMappedToUnreservedAddress = <span class="number">32</span>,
-        <span class="doccomment">/// One of the seed URLs has on-routable IP address.
-        </span>SeedUrlHasNonRoutableIpAddress = <span class="number">33</span>,
-        <span class="doccomment">/// One of the seed URLs has an IP address that is not reserved
-        /// for the current project.
-        </span>SeedUrlHasUnreservedIpAddress = <span class="number">35</span>,
-        <span class="doccomment">/// The Web Security Scanner service account is not configured under the
-        /// project.
-        </span>ServiceAccountNotConfigured = <span class="number">36</span>,
-        <span class="doccomment">/// A project has reached the maximum number of scans.
-        </span>TooManyScans = <span class="number">37</span>,
-        <span class="doccomment">/// Resolving the details of the current project fails.
-        </span>UnableToResolveProjectInfo = <span class="number">38</span>,
-        <span class="doccomment">/// One or more blacklist patterns were in the wrong format.
-        </span>UnsupportedBlacklistPatternFormat = <span class="number">39</span>,
-        <span class="doccomment">/// The supplied filter is not supported.
-        </span>UnsupportedFilter = <span class="number">40</span>,
-        <span class="doccomment">/// The supplied finding type is not supported. For example, we do not
-        /// provide findings of the given finding type.
-        </span>UnsupportedFindingType = <span class="number">41</span>,
-        <span class="doccomment">/// The URL scheme of one or more of the supplied URLs is not supported.
-        </span>UnsupportedUrlScheme = <span class="number">42</span>,
-    }
-    <span class="kw">impl </span>Code {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Code::Unspecified =&gt; <span class="string">"CODE_UNSPECIFIED"</span>,
-                Code::InternalError =&gt; <span class="string">"INTERNAL_ERROR"</span>,
-                Code::AppengineApiBackendError =&gt; <span class="string">"APPENGINE_API_BACKEND_ERROR"</span>,
-                Code::AppengineApiNotAccessible =&gt; <span class="string">"APPENGINE_API_NOT_ACCESSIBLE"</span>,
-                Code::AppengineDefaultHostMissing =&gt; <span class="string">"APPENGINE_DEFAULT_HOST_MISSING"</span>,
-                Code::CannotUseGoogleComAccount =&gt; <span class="string">"CANNOT_USE_GOOGLE_COM_ACCOUNT"</span>,
-                Code::CannotUseOwnerAccount =&gt; <span class="string">"CANNOT_USE_OWNER_ACCOUNT"</span>,
-                Code::ComputeApiBackendError =&gt; <span class="string">"COMPUTE_API_BACKEND_ERROR"</span>,
-                Code::ComputeApiNotAccessible =&gt; <span class="string">"COMPUTE_API_NOT_ACCESSIBLE"</span>,
-                Code::CustomLoginUrlDoesNotBelongToCurrentProject =&gt; {
-                    <span class="string">"CUSTOM_LOGIN_URL_DOES_NOT_BELONG_TO_CURRENT_PROJECT"
-                </span>}
-                Code::CustomLoginUrlMalformed =&gt; <span class="string">"CUSTOM_LOGIN_URL_MALFORMED"</span>,
-                Code::CustomLoginUrlMappedToNonRoutableAddress =&gt; {
-                    <span class="string">"CUSTOM_LOGIN_URL_MAPPED_TO_NON_ROUTABLE_ADDRESS"
-                </span>}
-                Code::CustomLoginUrlMappedToUnreservedAddress =&gt; {
-                    <span class="string">"CUSTOM_LOGIN_URL_MAPPED_TO_UNRESERVED_ADDRESS"
-                </span>}
-                Code::CustomLoginUrlHasNonRoutableIpAddress =&gt; {
-                    <span class="string">"CUSTOM_LOGIN_URL_HAS_NON_ROUTABLE_IP_ADDRESS"
-                </span>}
-                Code::CustomLoginUrlHasUnreservedIpAddress =&gt; {
-                    <span class="string">"CUSTOM_LOGIN_URL_HAS_UNRESERVED_IP_ADDRESS"
-                </span>}
-                Code::DuplicateScanName =&gt; <span class="string">"DUPLICATE_SCAN_NAME"</span>,
-                Code::InvalidFieldValue =&gt; <span class="string">"INVALID_FIELD_VALUE"</span>,
-                Code::FailedToAuthenticateToTarget =&gt; <span class="string">"FAILED_TO_AUTHENTICATE_TO_TARGET"</span>,
-                Code::FindingTypeUnspecified =&gt; <span class="string">"FINDING_TYPE_UNSPECIFIED"</span>,
-                Code::ForbiddenToScanCompute =&gt; <span class="string">"FORBIDDEN_TO_SCAN_COMPUTE"</span>,
-                Code::ForbiddenUpdateToManagedScan =&gt; <span class="string">"FORBIDDEN_UPDATE_TO_MANAGED_SCAN"</span>,
-                Code::MalformedFilter =&gt; <span class="string">"MALFORMED_FILTER"</span>,
-                Code::MalformedResourceName =&gt; <span class="string">"MALFORMED_RESOURCE_NAME"</span>,
-                Code::ProjectInactive =&gt; <span class="string">"PROJECT_INACTIVE"</span>,
-                Code::RequiredField =&gt; <span class="string">"REQUIRED_FIELD"</span>,
-                Code::ResourceNameInconsistent =&gt; <span class="string">"RESOURCE_NAME_INCONSISTENT"</span>,
-                Code::ScanAlreadyRunning =&gt; <span class="string">"SCAN_ALREADY_RUNNING"</span>,
-                Code::ScanNotRunning =&gt; <span class="string">"SCAN_NOT_RUNNING"</span>,
-                Code::SeedUrlDoesNotBelongToCurrentProject =&gt; {
-                    <span class="string">"SEED_URL_DOES_NOT_BELONG_TO_CURRENT_PROJECT"
-                </span>}
-                Code::SeedUrlMalformed =&gt; <span class="string">"SEED_URL_MALFORMED"</span>,
-                Code::SeedUrlMappedToNonRoutableAddress =&gt; {
-                    <span class="string">"SEED_URL_MAPPED_TO_NON_ROUTABLE_ADDRESS"
-                </span>}
-                Code::SeedUrlMappedToUnreservedAddress =&gt; {
-                    <span class="string">"SEED_URL_MAPPED_TO_UNRESERVED_ADDRESS"
-                </span>}
-                Code::SeedUrlHasNonRoutableIpAddress =&gt; {
-                    <span class="string">"SEED_URL_HAS_NON_ROUTABLE_IP_ADDRESS"
-                </span>}
-                Code::SeedUrlHasUnreservedIpAddress =&gt; {
-                    <span class="string">"SEED_URL_HAS_UNRESERVED_IP_ADDRESS"
-                </span>}
-                Code::ServiceAccountNotConfigured =&gt; <span class="string">"SERVICE_ACCOUNT_NOT_CONFIGURED"</span>,
-                Code::TooManyScans =&gt; <span class="string">"TOO_MANY_SCANS"</span>,
-                Code::UnableToResolveProjectInfo =&gt; <span class="string">"UNABLE_TO_RESOLVE_PROJECT_INFO"</span>,
-                Code::UnsupportedBlacklistPatternFormat =&gt; {
-                    <span class="string">"UNSUPPORTED_BLACKLIST_PATTERN_FORMAT"
-                </span>}
-                Code::UnsupportedFilter =&gt; <span class="string">"UNSUPPORTED_FILTER"</span>,
-                Code::UnsupportedFindingType =&gt; <span class="string">"UNSUPPORTED_FINDING_TYPE"</span>,
-                Code::UnsupportedUrlScheme =&gt; <span class="string">"UNSUPPORTED_URL_SCHEME"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"CODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"INTERNAL_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InternalError),
-                <span class="string">"APPENGINE_API_BACKEND_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AppengineApiBackendError),
-                <span class="string">"APPENGINE_API_NOT_ACCESSIBLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AppengineApiNotAccessible),
-                <span class="string">"APPENGINE_DEFAULT_HOST_MISSING" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::AppengineDefaultHostMissing)
-                }
-                <span class="string">"CANNOT_USE_GOOGLE_COM_ACCOUNT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotUseGoogleComAccount),
-                <span class="string">"CANNOT_USE_OWNER_ACCOUNT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotUseOwnerAccount),
-                <span class="string">"COMPUTE_API_BACKEND_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ComputeApiBackendError),
-                <span class="string">"COMPUTE_API_NOT_ACCESSIBLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ComputeApiNotAccessible),
-                <span class="string">"CUSTOM_LOGIN_URL_DOES_NOT_BELONG_TO_CURRENT_PROJECT" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomLoginUrlDoesNotBelongToCurrentProject)
-                }
-                <span class="string">"CUSTOM_LOGIN_URL_MALFORMED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomLoginUrlMalformed),
-                <span class="string">"CUSTOM_LOGIN_URL_MAPPED_TO_NON_ROUTABLE_ADDRESS" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomLoginUrlMappedToNonRoutableAddress)
-                }
-                <span class="string">"CUSTOM_LOGIN_URL_MAPPED_TO_UNRESERVED_ADDRESS" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomLoginUrlMappedToUnreservedAddress)
-                }
-                <span class="string">"CUSTOM_LOGIN_URL_HAS_NON_ROUTABLE_IP_ADDRESS" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomLoginUrlHasNonRoutableIpAddress)
-                }
-                <span class="string">"CUSTOM_LOGIN_URL_HAS_UNRESERVED_IP_ADDRESS" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomLoginUrlHasUnreservedIpAddress)
-                }
-                <span class="string">"DUPLICATE_SCAN_NAME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DuplicateScanName),
-                <span class="string">"INVALID_FIELD_VALUE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidFieldValue),
-                <span class="string">"FAILED_TO_AUTHENTICATE_TO_TARGET" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::FailedToAuthenticateToTarget)
-                }
-                <span class="string">"FINDING_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FindingTypeUnspecified),
-                <span class="string">"FORBIDDEN_TO_SCAN_COMPUTE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ForbiddenToScanCompute),
-                <span class="string">"FORBIDDEN_UPDATE_TO_MANAGED_SCAN" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::ForbiddenUpdateToManagedScan)
-                }
-                <span class="string">"MALFORMED_FILTER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MalformedFilter),
-                <span class="string">"MALFORMED_RESOURCE_NAME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MalformedResourceName),
-                <span class="string">"PROJECT_INACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ProjectInactive),
-                <span class="string">"REQUIRED_FIELD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RequiredField),
-                <span class="string">"RESOURCE_NAME_INCONSISTENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceNameInconsistent),
-                <span class="string">"SCAN_ALREADY_RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ScanAlreadyRunning),
-                <span class="string">"SCAN_NOT_RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ScanNotRunning),
-                <span class="string">"SEED_URL_DOES_NOT_BELONG_TO_CURRENT_PROJECT" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::SeedUrlDoesNotBelongToCurrentProject)
-                }
-                <span class="string">"SEED_URL_MALFORMED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SeedUrlMalformed),
-                <span class="string">"SEED_URL_MAPPED_TO_NON_ROUTABLE_ADDRESS" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::SeedUrlMappedToNonRoutableAddress)
-                }
-                <span class="string">"SEED_URL_MAPPED_TO_UNRESERVED_ADDRESS" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::SeedUrlMappedToUnreservedAddress)
-                }
-                <span class="string">"SEED_URL_HAS_NON_ROUTABLE_IP_ADDRESS" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::SeedUrlHasNonRoutableIpAddress)
-                }
-                <span class="string">"SEED_URL_HAS_UNRESERVED_IP_ADDRESS" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::SeedUrlHasUnreservedIpAddress)
-                }
-                <span class="string">"SERVICE_ACCOUNT_NOT_CONFIGURED" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::ServiceAccountNotConfigured)
-                }
-                <span class="string">"TOO_MANY_SCANS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TooManyScans),
-                <span class="string">"UNABLE_TO_RESOLVE_PROJECT_INFO" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnableToResolveProjectInfo)
-                }
-                <span class="string">"UNSUPPORTED_BLACKLIST_PATTERN_FORMAT" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnsupportedBlacklistPatternFormat)
-                }
-                <span class="string">"UNSUPPORTED_FILTER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnsupportedFilter),
-                <span class="string">"UNSUPPORTED_FINDING_TYPE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnsupportedFindingType),
-                <span class="string">"UNSUPPORTED_URL_SCHEME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnsupportedUrlScheme),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Output only.
-/// Defines an error trace message for a ScanRun.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ScanRunErrorTrace {
-    <span class="doccomment">/// Output only. Indicates the error reason code.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run_error_trace::Code"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>code: i32,
-    <span class="doccomment">/// Output only. If the scan encounters SCAN_CONFIG_ISSUE error, this field has the error
-    /// message encountered during scan configuration validation that is performed
-    /// before each scan run.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>scan_config_error: ::core::option::Option&lt;ScanConfigError&gt;,
-    <span class="doccomment">/// Output only. If the scan encounters TOO_MANY_HTTP_ERRORS, this field indicates the most
-    /// common HTTP error code, if such is available. For example, if this code is
-    /// 404, the scan has encountered too many NOT_FOUND responses.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>most_common_http_error_code: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `ScanRunErrorTrace`.
-</span><span class="kw">pub mod </span>scan_run_error_trace {
-    <span class="doccomment">/// Output only.
-    /// Defines an error reason code.
-    /// Next id: 8
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Code {
-        <span class="doccomment">/// Default value is never used.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Indicates that the scan run failed due to an internal server error.
-        </span>InternalError = <span class="number">1</span>,
-        <span class="doccomment">/// Indicates a scan configuration error, usually due to outdated ScanConfig
-        /// settings, such as starting_urls or the DNS configuration.
-        </span>ScanConfigIssue = <span class="number">2</span>,
-        <span class="doccomment">/// Indicates an authentication error, usually due to outdated ScanConfig
-        /// authentication settings.
-        </span>AuthenticationConfigIssue = <span class="number">3</span>,
-        <span class="doccomment">/// Indicates a scan operation timeout, usually caused by a very large site.
-        </span>TimedOutWhileScanning = <span class="number">4</span>,
-        <span class="doccomment">/// Indicates that a scan encountered excessive redirects, either to
-        /// authentication or some other page outside of the scan scope.
-        </span>TooManyRedirects = <span class="number">5</span>,
-        <span class="doccomment">/// Indicates that a scan encountered numerous errors from the web site
-        /// pages. When available, most_common_http_error_code field indicates the
-        /// most common HTTP error code encountered during the scan.
-        </span>TooManyHttpErrors = <span class="number">6</span>,
-    }
-    <span class="kw">impl </span>Code {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Code::Unspecified =&gt; <span class="string">"CODE_UNSPECIFIED"</span>,
-                Code::InternalError =&gt; <span class="string">"INTERNAL_ERROR"</span>,
-                Code::ScanConfigIssue =&gt; <span class="string">"SCAN_CONFIG_ISSUE"</span>,
-                Code::AuthenticationConfigIssue =&gt; <span class="string">"AUTHENTICATION_CONFIG_ISSUE"</span>,
-                Code::TimedOutWhileScanning =&gt; <span class="string">"TIMED_OUT_WHILE_SCANNING"</span>,
-                Code::TooManyRedirects =&gt; <span class="string">"TOO_MANY_REDIRECTS"</span>,
-                Code::TooManyHttpErrors =&gt; <span class="string">"TOO_MANY_HTTP_ERRORS"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"CODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"INTERNAL_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InternalError),
-                <span class="string">"SCAN_CONFIG_ISSUE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ScanConfigIssue),
-                <span class="string">"AUTHENTICATION_CONFIG_ISSUE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AuthenticationConfigIssue),
-                <span class="string">"TIMED_OUT_WHILE_SCANNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TimedOutWhileScanning),
-                <span class="string">"TOO_MANY_REDIRECTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TooManyRedirects),
-                <span class="string">"TOO_MANY_HTTP_ERRORS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TooManyHttpErrors),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Output only.
-/// Defines a warning trace message for ScanRun. Warning traces provide customers
-/// with useful information that helps make the scanning process more effective.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ScanRunWarningTrace {
-    <span class="doccomment">/// Output only. Indicates the warning code.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run_warning_trace::Code"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>code: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `ScanRunWarningTrace`.
-</span><span class="kw">pub mod </span>scan_run_warning_trace {
-    <span class="doccomment">/// Output only.
-    /// Defines a warning message code.
-    /// Next id: 6
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Code {
-        <span class="doccomment">/// Default value is never used.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Indicates that a scan discovered an unexpectedly low number of URLs. This
-        /// is sometimes caused by complex navigation features or by using a single
-        /// URL for numerous pages.
-        </span>InsufficientCrawlResults = <span class="number">1</span>,
-        <span class="doccomment">/// Indicates that a scan discovered too many URLs to test, or excessive
-        /// redundant URLs.
-        </span>TooManyCrawlResults = <span class="number">2</span>,
-        <span class="doccomment">/// Indicates that too many tests have been generated for the scan. Customer
-        /// should try reducing the number of starting URLs, increasing the QPS rate,
-        /// or narrowing down the scope of the scan using the excluded patterns.
-        </span>TooManyFuzzTasks = <span class="number">3</span>,
-        <span class="doccomment">/// Indicates that a scan is blocked by IAP.
-        </span>BlockedByIap = <span class="number">4</span>,
-        <span class="doccomment">/// Indicates that no seeds is found for a scan
-        </span>NoStartingUrlFoundForManagedScan = <span class="number">5</span>,
-    }
-    <span class="kw">impl </span>Code {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Code::Unspecified =&gt; <span class="string">"CODE_UNSPECIFIED"</span>,
-                Code::InsufficientCrawlResults =&gt; <span class="string">"INSUFFICIENT_CRAWL_RESULTS"</span>,
-                Code::TooManyCrawlResults =&gt; <span class="string">"TOO_MANY_CRAWL_RESULTS"</span>,
-                Code::TooManyFuzzTasks =&gt; <span class="string">"TOO_MANY_FUZZ_TASKS"</span>,
-                Code::BlockedByIap =&gt; <span class="string">"BLOCKED_BY_IAP"</span>,
-                Code::NoStartingUrlFoundForManagedScan =&gt; {
-                    <span class="string">"NO_STARTING_URL_FOUND_FOR_MANAGED_SCAN"
-                </span>}
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"CODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"INSUFFICIENT_CRAWL_RESULTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InsufficientCrawlResults),
-                <span class="string">"TOO_MANY_CRAWL_RESULTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TooManyCrawlResults),
-                <span class="string">"TOO_MANY_FUZZ_TASKS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TooManyFuzzTasks),
-                <span class="string">"BLOCKED_BY_IAP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BlockedByIap),
-                <span class="string">"NO_STARTING_URL_FOUND_FOR_MANAGED_SCAN" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::NoStartingUrlFoundForManagedScan)
-                }
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A ScanRun is a output-only resource representing an actual run of the scan.
-/// Next id: 12
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ScanRun {
-    <span class="doccomment">/// Output only. The resource name of the ScanRun. The name follows the format of
-    /// 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'.
-    /// The ScanRun IDs are generated by the system.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The execution state of the ScanRun.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ExecutionState"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>execution_state: i32,
-    <span class="doccomment">/// Output only. The result state of the ScanRun. This field is only available after the
-    /// execution state reaches "FINISHED".
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ResultState"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>result_state: i32,
-    <span class="doccomment">/// Output only. The time at which the ScanRun started.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The time at which the ScanRun reached termination state - that the ScanRun
-    /// is either finished or stopped by user.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The number of URLs crawled during this ScanRun. If the scan is in progress,
-    /// the value represents the number of URLs crawled up to now.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>urls_crawled_count: i64,
-    <span class="doccomment">/// Output only. The number of URLs tested during this ScanRun. If the scan is in progress,
-    /// the value represents the number of URLs tested up to now. The number of
-    /// URLs tested is usually larger than the number URLS crawled because
-    /// typically a crawled URL is tested with multiple test payloads.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>urls_tested_count: i64,
-    <span class="doccomment">/// Output only. Whether the scan run has found any vulnerabilities.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>has_vulnerabilities: bool,
-    <span class="doccomment">/// Output only. The percentage of total completion ranging from 0 to 100.
-    /// If the scan is in queue, the value is 0.
-    /// If the scan is running, the value ranges from 0 to 100.
-    /// If the scan is finished, the value is 100.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>progress_percent: i32,
-    <span class="doccomment">/// Output only. If result_state is an ERROR, this field provides the primary reason for
-    /// scan's termination and more details, if such are available.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>error_trace: ::core::option::Option&lt;ScanRunErrorTrace&gt;,
-    <span class="doccomment">/// Output only. A list of warnings, if such are encountered during this scan run.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>warning_traces: ::prost::alloc::vec::Vec&lt;ScanRunWarningTrace&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ScanRun`.
-</span><span class="kw">pub mod </span>scan_run {
-    <span class="doccomment">/// Types of ScanRun execution state.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ExecutionState {
-        <span class="doccomment">/// Represents an invalid state caused by internal server error. This value
-        /// should never be returned.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The scan is waiting in the queue.
-        </span>Queued = <span class="number">1</span>,
-        <span class="doccomment">/// The scan is in progress.
-        </span>Scanning = <span class="number">2</span>,
-        <span class="doccomment">/// The scan is either finished or stopped by user.
-        </span>Finished = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>ExecutionState {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ExecutionState::Unspecified =&gt; <span class="string">"EXECUTION_STATE_UNSPECIFIED"</span>,
-                ExecutionState::Queued =&gt; <span class="string">"QUEUED"</span>,
-                ExecutionState::Scanning =&gt; <span class="string">"SCANNING"</span>,
-                ExecutionState::Finished =&gt; <span class="string">"FINISHED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"EXECUTION_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"QUEUED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Queued),
-                <span class="string">"SCANNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Scanning),
-                <span class="string">"FINISHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Finished),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Types of ScanRun result state.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ResultState {
-        <span class="doccomment">/// Default value. This value is returned when the ScanRun is not yet
-        /// finished.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The scan finished without errors.
-        </span>Success = <span class="number">1</span>,
-        <span class="doccomment">/// The scan finished with errors.
-        </span>Error = <span class="number">2</span>,
-        <span class="doccomment">/// The scan was terminated by user.
-        </span>Killed = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>ResultState {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ResultState::Unspecified =&gt; <span class="string">"RESULT_STATE_UNSPECIFIED"</span>,
-                ResultState::Success =&gt; <span class="string">"SUCCESS"</span>,
-                ResultState::Error =&gt; <span class="string">"ERROR"</span>,
-                ResultState::Killed =&gt; <span class="string">"KILLED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"RESULT_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"SUCCESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Success),
-                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
-                <span class="string">"KILLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Killed),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A ScanRunLog is an output-only proto used for Stackdriver customer logging.
-/// It is used for logs covering the start and end of scan pipelines.
-/// Other than an added summary, this is a subset of the ScanRun.
-/// Representation in logs is either a proto Struct, or converted to JSON.
-/// Next id: 9
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ScanRunLog {
-    <span class="doccomment">/// Human friendly message about the event.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>summary: ::prost::alloc::string::String,
-    <span class="doccomment">/// The resource name of the ScanRun being logged.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The execution state of the ScanRun.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ExecutionState"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>execution_state: i32,
-    <span class="doccomment">/// The result state of the ScanRun.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ResultState"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>result_state: i32,
-    <span class="attr">#[prost(int64, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>urls_crawled_count: i64,
-    <span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>urls_tested_count: i64,
-    <span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>has_findings: bool,
-    <span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>error_trace: ::core::option::Option&lt;ScanRunErrorTrace&gt;,
-}
 <span class="doccomment">/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web
 /// Security Scanner Service crawls the web applications, following all links
 /// within the scope of sites, to find the URLs to test against.
@@ -3333,6 +2700,610 @@
                 }
                 <span class="string">"ENABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Enabled),
                 <span class="string">"DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Disabled),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Defines a custom error message used by CreateScanConfig and UpdateScanConfig
+/// APIs when scan configuration validation fails. It is also reported as part of
+/// a ScanRunErrorTrace message if scan validation fails due to a scan
+/// configuration error.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ScanConfigError {
+    <span class="doccomment">/// Output only. Indicates the reason code for a configuration failure.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_config_error::Code"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>code: i32,
+    <span class="doccomment">/// Output only. Indicates the full name of the ScanConfig field that triggers this error,
+    /// for example "scan_config.max_qps". This field is provided for
+    /// troubleshooting purposes only and its actual value can change in the
+    /// future.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>field_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `ScanConfigError`.
+</span><span class="kw">pub mod </span>scan_config_error {
+    <span class="doccomment">/// Output only.
+    /// Defines an error reason code.
+    /// Next id: 44
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Code {
+        <span class="doccomment">/// There is no error.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Indicates an internal server error.
+        /// Please DO NOT USE THIS ERROR CODE unless the root cause is truly unknown.
+        </span>InternalError = <span class="number">1</span>,
+        <span class="doccomment">/// One of the seed URLs is an App Engine URL but we cannot validate the scan
+        /// settings due to an App Engine API backend error.
+        </span>AppengineApiBackendError = <span class="number">2</span>,
+        <span class="doccomment">/// One of the seed URLs is an App Engine URL but we cannot access the
+        /// App Engine API to validate scan settings.
+        </span>AppengineApiNotAccessible = <span class="number">3</span>,
+        <span class="doccomment">/// One of the seed URLs is an App Engine URL but the Default Host of the
+        /// App Engine is not set.
+        </span>AppengineDefaultHostMissing = <span class="number">4</span>,
+        <span class="doccomment">/// Google corporate accounts can not be used for scanning.
+        </span>CannotUseGoogleComAccount = <span class="number">6</span>,
+        <span class="doccomment">/// The account of the scan creator can not be used for scanning.
+        </span>CannotUseOwnerAccount = <span class="number">7</span>,
+        <span class="doccomment">/// This scan targets Compute Engine, but we cannot validate scan settings
+        /// due to a Compute Engine API backend error.
+        </span>ComputeApiBackendError = <span class="number">8</span>,
+        <span class="doccomment">/// This scan targets Compute Engine, but we cannot access the Compute Engine
+        /// API to validate the scan settings.
+        </span>ComputeApiNotAccessible = <span class="number">9</span>,
+        <span class="doccomment">/// The Custom Login URL does not belong to the current project.
+        </span>CustomLoginUrlDoesNotBelongToCurrentProject = <span class="number">10</span>,
+        <span class="doccomment">/// The Custom Login URL is malformed (can not be parsed).
+        </span>CustomLoginUrlMalformed = <span class="number">11</span>,
+        <span class="doccomment">/// The Custom Login URL is mapped to a non-routable IP address in DNS.
+        </span>CustomLoginUrlMappedToNonRoutableAddress = <span class="number">12</span>,
+        <span class="doccomment">/// The Custom Login URL is mapped to an IP address which is not reserved for
+        /// the current project.
+        </span>CustomLoginUrlMappedToUnreservedAddress = <span class="number">13</span>,
+        <span class="doccomment">/// The Custom Login URL has a non-routable IP address.
+        </span>CustomLoginUrlHasNonRoutableIpAddress = <span class="number">14</span>,
+        <span class="doccomment">/// The Custom Login URL has an IP address which is not reserved for the
+        /// current project.
+        </span>CustomLoginUrlHasUnreservedIpAddress = <span class="number">15</span>,
+        <span class="doccomment">/// Another scan with the same name (case-sensitive) already exists.
+        </span>DuplicateScanName = <span class="number">16</span>,
+        <span class="doccomment">/// A field is set to an invalid value.
+        </span>InvalidFieldValue = <span class="number">18</span>,
+        <span class="doccomment">/// There was an error trying to authenticate to the scan target.
+        </span>FailedToAuthenticateToTarget = <span class="number">19</span>,
+        <span class="doccomment">/// Finding type value is not specified in the list findings request.
+        </span>FindingTypeUnspecified = <span class="number">20</span>,
+        <span class="doccomment">/// Scan targets Compute Engine, yet current project was not whitelisted for
+        /// Google Compute Engine Scanning Alpha access.
+        </span>ForbiddenToScanCompute = <span class="number">21</span>,
+        <span class="doccomment">/// User tries to update managed scan
+        </span>ForbiddenUpdateToManagedScan = <span class="number">43</span>,
+        <span class="doccomment">/// The supplied filter is malformed. For example, it can not be parsed, does
+        /// not have a filter type in expression, or the same filter type appears
+        /// more than once.
+        </span>MalformedFilter = <span class="number">22</span>,
+        <span class="doccomment">/// The supplied resource name is malformed (can not be parsed).
+        </span>MalformedResourceName = <span class="number">23</span>,
+        <span class="doccomment">/// The current project is not in an active state.
+        </span>ProjectInactive = <span class="number">24</span>,
+        <span class="doccomment">/// A required field is not set.
+        </span>RequiredField = <span class="number">25</span>,
+        <span class="doccomment">/// Project id, scanconfig id, scanrun id, or finding id are not consistent
+        /// with each other in resource name.
+        </span>ResourceNameInconsistent = <span class="number">26</span>,
+        <span class="doccomment">/// The scan being requested to start is already running.
+        </span>ScanAlreadyRunning = <span class="number">27</span>,
+        <span class="doccomment">/// The scan that was requested to be stopped is not running.
+        </span>ScanNotRunning = <span class="number">28</span>,
+        <span class="doccomment">/// One of the seed URLs does not belong to the current project.
+        </span>SeedUrlDoesNotBelongToCurrentProject = <span class="number">29</span>,
+        <span class="doccomment">/// One of the seed URLs is malformed (can not be parsed).
+        </span>SeedUrlMalformed = <span class="number">30</span>,
+        <span class="doccomment">/// One of the seed URLs is mapped to a non-routable IP address in DNS.
+        </span>SeedUrlMappedToNonRoutableAddress = <span class="number">31</span>,
+        <span class="doccomment">/// One of the seed URLs is mapped to an IP address which is not reserved
+        /// for the current project.
+        </span>SeedUrlMappedToUnreservedAddress = <span class="number">32</span>,
+        <span class="doccomment">/// One of the seed URLs has on-routable IP address.
+        </span>SeedUrlHasNonRoutableIpAddress = <span class="number">33</span>,
+        <span class="doccomment">/// One of the seed URLs has an IP address that is not reserved
+        /// for the current project.
+        </span>SeedUrlHasUnreservedIpAddress = <span class="number">35</span>,
+        <span class="doccomment">/// The Web Security Scanner service account is not configured under the
+        /// project.
+        </span>ServiceAccountNotConfigured = <span class="number">36</span>,
+        <span class="doccomment">/// A project has reached the maximum number of scans.
+        </span>TooManyScans = <span class="number">37</span>,
+        <span class="doccomment">/// Resolving the details of the current project fails.
+        </span>UnableToResolveProjectInfo = <span class="number">38</span>,
+        <span class="doccomment">/// One or more blacklist patterns were in the wrong format.
+        </span>UnsupportedBlacklistPatternFormat = <span class="number">39</span>,
+        <span class="doccomment">/// The supplied filter is not supported.
+        </span>UnsupportedFilter = <span class="number">40</span>,
+        <span class="doccomment">/// The supplied finding type is not supported. For example, we do not
+        /// provide findings of the given finding type.
+        </span>UnsupportedFindingType = <span class="number">41</span>,
+        <span class="doccomment">/// The URL scheme of one or more of the supplied URLs is not supported.
+        </span>UnsupportedUrlScheme = <span class="number">42</span>,
+    }
+    <span class="kw">impl </span>Code {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Code::Unspecified =&gt; <span class="string">"CODE_UNSPECIFIED"</span>,
+                Code::InternalError =&gt; <span class="string">"INTERNAL_ERROR"</span>,
+                Code::AppengineApiBackendError =&gt; <span class="string">"APPENGINE_API_BACKEND_ERROR"</span>,
+                Code::AppengineApiNotAccessible =&gt; <span class="string">"APPENGINE_API_NOT_ACCESSIBLE"</span>,
+                Code::AppengineDefaultHostMissing =&gt; <span class="string">"APPENGINE_DEFAULT_HOST_MISSING"</span>,
+                Code::CannotUseGoogleComAccount =&gt; <span class="string">"CANNOT_USE_GOOGLE_COM_ACCOUNT"</span>,
+                Code::CannotUseOwnerAccount =&gt; <span class="string">"CANNOT_USE_OWNER_ACCOUNT"</span>,
+                Code::ComputeApiBackendError =&gt; <span class="string">"COMPUTE_API_BACKEND_ERROR"</span>,
+                Code::ComputeApiNotAccessible =&gt; <span class="string">"COMPUTE_API_NOT_ACCESSIBLE"</span>,
+                Code::CustomLoginUrlDoesNotBelongToCurrentProject =&gt; {
+                    <span class="string">"CUSTOM_LOGIN_URL_DOES_NOT_BELONG_TO_CURRENT_PROJECT"
+                </span>}
+                Code::CustomLoginUrlMalformed =&gt; <span class="string">"CUSTOM_LOGIN_URL_MALFORMED"</span>,
+                Code::CustomLoginUrlMappedToNonRoutableAddress =&gt; {
+                    <span class="string">"CUSTOM_LOGIN_URL_MAPPED_TO_NON_ROUTABLE_ADDRESS"
+                </span>}
+                Code::CustomLoginUrlMappedToUnreservedAddress =&gt; {
+                    <span class="string">"CUSTOM_LOGIN_URL_MAPPED_TO_UNRESERVED_ADDRESS"
+                </span>}
+                Code::CustomLoginUrlHasNonRoutableIpAddress =&gt; {
+                    <span class="string">"CUSTOM_LOGIN_URL_HAS_NON_ROUTABLE_IP_ADDRESS"
+                </span>}
+                Code::CustomLoginUrlHasUnreservedIpAddress =&gt; {
+                    <span class="string">"CUSTOM_LOGIN_URL_HAS_UNRESERVED_IP_ADDRESS"
+                </span>}
+                Code::DuplicateScanName =&gt; <span class="string">"DUPLICATE_SCAN_NAME"</span>,
+                Code::InvalidFieldValue =&gt; <span class="string">"INVALID_FIELD_VALUE"</span>,
+                Code::FailedToAuthenticateToTarget =&gt; <span class="string">"FAILED_TO_AUTHENTICATE_TO_TARGET"</span>,
+                Code::FindingTypeUnspecified =&gt; <span class="string">"FINDING_TYPE_UNSPECIFIED"</span>,
+                Code::ForbiddenToScanCompute =&gt; <span class="string">"FORBIDDEN_TO_SCAN_COMPUTE"</span>,
+                Code::ForbiddenUpdateToManagedScan =&gt; <span class="string">"FORBIDDEN_UPDATE_TO_MANAGED_SCAN"</span>,
+                Code::MalformedFilter =&gt; <span class="string">"MALFORMED_FILTER"</span>,
+                Code::MalformedResourceName =&gt; <span class="string">"MALFORMED_RESOURCE_NAME"</span>,
+                Code::ProjectInactive =&gt; <span class="string">"PROJECT_INACTIVE"</span>,
+                Code::RequiredField =&gt; <span class="string">"REQUIRED_FIELD"</span>,
+                Code::ResourceNameInconsistent =&gt; <span class="string">"RESOURCE_NAME_INCONSISTENT"</span>,
+                Code::ScanAlreadyRunning =&gt; <span class="string">"SCAN_ALREADY_RUNNING"</span>,
+                Code::ScanNotRunning =&gt; <span class="string">"SCAN_NOT_RUNNING"</span>,
+                Code::SeedUrlDoesNotBelongToCurrentProject =&gt; {
+                    <span class="string">"SEED_URL_DOES_NOT_BELONG_TO_CURRENT_PROJECT"
+                </span>}
+                Code::SeedUrlMalformed =&gt; <span class="string">"SEED_URL_MALFORMED"</span>,
+                Code::SeedUrlMappedToNonRoutableAddress =&gt; {
+                    <span class="string">"SEED_URL_MAPPED_TO_NON_ROUTABLE_ADDRESS"
+                </span>}
+                Code::SeedUrlMappedToUnreservedAddress =&gt; {
+                    <span class="string">"SEED_URL_MAPPED_TO_UNRESERVED_ADDRESS"
+                </span>}
+                Code::SeedUrlHasNonRoutableIpAddress =&gt; {
+                    <span class="string">"SEED_URL_HAS_NON_ROUTABLE_IP_ADDRESS"
+                </span>}
+                Code::SeedUrlHasUnreservedIpAddress =&gt; {
+                    <span class="string">"SEED_URL_HAS_UNRESERVED_IP_ADDRESS"
+                </span>}
+                Code::ServiceAccountNotConfigured =&gt; <span class="string">"SERVICE_ACCOUNT_NOT_CONFIGURED"</span>,
+                Code::TooManyScans =&gt; <span class="string">"TOO_MANY_SCANS"</span>,
+                Code::UnableToResolveProjectInfo =&gt; <span class="string">"UNABLE_TO_RESOLVE_PROJECT_INFO"</span>,
+                Code::UnsupportedBlacklistPatternFormat =&gt; {
+                    <span class="string">"UNSUPPORTED_BLACKLIST_PATTERN_FORMAT"
+                </span>}
+                Code::UnsupportedFilter =&gt; <span class="string">"UNSUPPORTED_FILTER"</span>,
+                Code::UnsupportedFindingType =&gt; <span class="string">"UNSUPPORTED_FINDING_TYPE"</span>,
+                Code::UnsupportedUrlScheme =&gt; <span class="string">"UNSUPPORTED_URL_SCHEME"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"CODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"INTERNAL_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InternalError),
+                <span class="string">"APPENGINE_API_BACKEND_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AppengineApiBackendError),
+                <span class="string">"APPENGINE_API_NOT_ACCESSIBLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AppengineApiNotAccessible),
+                <span class="string">"APPENGINE_DEFAULT_HOST_MISSING" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::AppengineDefaultHostMissing)
+                }
+                <span class="string">"CANNOT_USE_GOOGLE_COM_ACCOUNT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotUseGoogleComAccount),
+                <span class="string">"CANNOT_USE_OWNER_ACCOUNT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotUseOwnerAccount),
+                <span class="string">"COMPUTE_API_BACKEND_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ComputeApiBackendError),
+                <span class="string">"COMPUTE_API_NOT_ACCESSIBLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ComputeApiNotAccessible),
+                <span class="string">"CUSTOM_LOGIN_URL_DOES_NOT_BELONG_TO_CURRENT_PROJECT" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomLoginUrlDoesNotBelongToCurrentProject)
+                }
+                <span class="string">"CUSTOM_LOGIN_URL_MALFORMED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomLoginUrlMalformed),
+                <span class="string">"CUSTOM_LOGIN_URL_MAPPED_TO_NON_ROUTABLE_ADDRESS" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomLoginUrlMappedToNonRoutableAddress)
+                }
+                <span class="string">"CUSTOM_LOGIN_URL_MAPPED_TO_UNRESERVED_ADDRESS" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomLoginUrlMappedToUnreservedAddress)
+                }
+                <span class="string">"CUSTOM_LOGIN_URL_HAS_NON_ROUTABLE_IP_ADDRESS" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomLoginUrlHasNonRoutableIpAddress)
+                }
+                <span class="string">"CUSTOM_LOGIN_URL_HAS_UNRESERVED_IP_ADDRESS" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomLoginUrlHasUnreservedIpAddress)
+                }
+                <span class="string">"DUPLICATE_SCAN_NAME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DuplicateScanName),
+                <span class="string">"INVALID_FIELD_VALUE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidFieldValue),
+                <span class="string">"FAILED_TO_AUTHENTICATE_TO_TARGET" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::FailedToAuthenticateToTarget)
+                }
+                <span class="string">"FINDING_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FindingTypeUnspecified),
+                <span class="string">"FORBIDDEN_TO_SCAN_COMPUTE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ForbiddenToScanCompute),
+                <span class="string">"FORBIDDEN_UPDATE_TO_MANAGED_SCAN" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::ForbiddenUpdateToManagedScan)
+                }
+                <span class="string">"MALFORMED_FILTER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MalformedFilter),
+                <span class="string">"MALFORMED_RESOURCE_NAME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MalformedResourceName),
+                <span class="string">"PROJECT_INACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ProjectInactive),
+                <span class="string">"REQUIRED_FIELD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RequiredField),
+                <span class="string">"RESOURCE_NAME_INCONSISTENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceNameInconsistent),
+                <span class="string">"SCAN_ALREADY_RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ScanAlreadyRunning),
+                <span class="string">"SCAN_NOT_RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ScanNotRunning),
+                <span class="string">"SEED_URL_DOES_NOT_BELONG_TO_CURRENT_PROJECT" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::SeedUrlDoesNotBelongToCurrentProject)
+                }
+                <span class="string">"SEED_URL_MALFORMED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SeedUrlMalformed),
+                <span class="string">"SEED_URL_MAPPED_TO_NON_ROUTABLE_ADDRESS" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::SeedUrlMappedToNonRoutableAddress)
+                }
+                <span class="string">"SEED_URL_MAPPED_TO_UNRESERVED_ADDRESS" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::SeedUrlMappedToUnreservedAddress)
+                }
+                <span class="string">"SEED_URL_HAS_NON_ROUTABLE_IP_ADDRESS" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::SeedUrlHasNonRoutableIpAddress)
+                }
+                <span class="string">"SEED_URL_HAS_UNRESERVED_IP_ADDRESS" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::SeedUrlHasUnreservedIpAddress)
+                }
+                <span class="string">"SERVICE_ACCOUNT_NOT_CONFIGURED" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::ServiceAccountNotConfigured)
+                }
+                <span class="string">"TOO_MANY_SCANS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TooManyScans),
+                <span class="string">"UNABLE_TO_RESOLVE_PROJECT_INFO" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnableToResolveProjectInfo)
+                }
+                <span class="string">"UNSUPPORTED_BLACKLIST_PATTERN_FORMAT" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnsupportedBlacklistPatternFormat)
+                }
+                <span class="string">"UNSUPPORTED_FILTER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnsupportedFilter),
+                <span class="string">"UNSUPPORTED_FINDING_TYPE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnsupportedFindingType),
+                <span class="string">"UNSUPPORTED_URL_SCHEME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnsupportedUrlScheme),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Output only.
+/// Defines an error trace message for a ScanRun.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ScanRunErrorTrace {
+    <span class="doccomment">/// Output only. Indicates the error reason code.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run_error_trace::Code"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>code: i32,
+    <span class="doccomment">/// Output only. If the scan encounters SCAN_CONFIG_ISSUE error, this field has the error
+    /// message encountered during scan configuration validation that is performed
+    /// before each scan run.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>scan_config_error: ::core::option::Option&lt;ScanConfigError&gt;,
+    <span class="doccomment">/// Output only. If the scan encounters TOO_MANY_HTTP_ERRORS, this field indicates the most
+    /// common HTTP error code, if such is available. For example, if this code is
+    /// 404, the scan has encountered too many NOT_FOUND responses.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>most_common_http_error_code: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `ScanRunErrorTrace`.
+</span><span class="kw">pub mod </span>scan_run_error_trace {
+    <span class="doccomment">/// Output only.
+    /// Defines an error reason code.
+    /// Next id: 8
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Code {
+        <span class="doccomment">/// Default value is never used.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Indicates that the scan run failed due to an internal server error.
+        </span>InternalError = <span class="number">1</span>,
+        <span class="doccomment">/// Indicates a scan configuration error, usually due to outdated ScanConfig
+        /// settings, such as starting_urls or the DNS configuration.
+        </span>ScanConfigIssue = <span class="number">2</span>,
+        <span class="doccomment">/// Indicates an authentication error, usually due to outdated ScanConfig
+        /// authentication settings.
+        </span>AuthenticationConfigIssue = <span class="number">3</span>,
+        <span class="doccomment">/// Indicates a scan operation timeout, usually caused by a very large site.
+        </span>TimedOutWhileScanning = <span class="number">4</span>,
+        <span class="doccomment">/// Indicates that a scan encountered excessive redirects, either to
+        /// authentication or some other page outside of the scan scope.
+        </span>TooManyRedirects = <span class="number">5</span>,
+        <span class="doccomment">/// Indicates that a scan encountered numerous errors from the web site
+        /// pages. When available, most_common_http_error_code field indicates the
+        /// most common HTTP error code encountered during the scan.
+        </span>TooManyHttpErrors = <span class="number">6</span>,
+    }
+    <span class="kw">impl </span>Code {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Code::Unspecified =&gt; <span class="string">"CODE_UNSPECIFIED"</span>,
+                Code::InternalError =&gt; <span class="string">"INTERNAL_ERROR"</span>,
+                Code::ScanConfigIssue =&gt; <span class="string">"SCAN_CONFIG_ISSUE"</span>,
+                Code::AuthenticationConfigIssue =&gt; <span class="string">"AUTHENTICATION_CONFIG_ISSUE"</span>,
+                Code::TimedOutWhileScanning =&gt; <span class="string">"TIMED_OUT_WHILE_SCANNING"</span>,
+                Code::TooManyRedirects =&gt; <span class="string">"TOO_MANY_REDIRECTS"</span>,
+                Code::TooManyHttpErrors =&gt; <span class="string">"TOO_MANY_HTTP_ERRORS"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"CODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"INTERNAL_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InternalError),
+                <span class="string">"SCAN_CONFIG_ISSUE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ScanConfigIssue),
+                <span class="string">"AUTHENTICATION_CONFIG_ISSUE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AuthenticationConfigIssue),
+                <span class="string">"TIMED_OUT_WHILE_SCANNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TimedOutWhileScanning),
+                <span class="string">"TOO_MANY_REDIRECTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TooManyRedirects),
+                <span class="string">"TOO_MANY_HTTP_ERRORS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TooManyHttpErrors),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Output only.
+/// Defines a warning trace message for ScanRun. Warning traces provide customers
+/// with useful information that helps make the scanning process more effective.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ScanRunWarningTrace {
+    <span class="doccomment">/// Output only. Indicates the warning code.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run_warning_trace::Code"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>code: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `ScanRunWarningTrace`.
+</span><span class="kw">pub mod </span>scan_run_warning_trace {
+    <span class="doccomment">/// Output only.
+    /// Defines a warning message code.
+    /// Next id: 6
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Code {
+        <span class="doccomment">/// Default value is never used.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Indicates that a scan discovered an unexpectedly low number of URLs. This
+        /// is sometimes caused by complex navigation features or by using a single
+        /// URL for numerous pages.
+        </span>InsufficientCrawlResults = <span class="number">1</span>,
+        <span class="doccomment">/// Indicates that a scan discovered too many URLs to test, or excessive
+        /// redundant URLs.
+        </span>TooManyCrawlResults = <span class="number">2</span>,
+        <span class="doccomment">/// Indicates that too many tests have been generated for the scan. Customer
+        /// should try reducing the number of starting URLs, increasing the QPS rate,
+        /// or narrowing down the scope of the scan using the excluded patterns.
+        </span>TooManyFuzzTasks = <span class="number">3</span>,
+        <span class="doccomment">/// Indicates that a scan is blocked by IAP.
+        </span>BlockedByIap = <span class="number">4</span>,
+        <span class="doccomment">/// Indicates that no seeds is found for a scan
+        </span>NoStartingUrlFoundForManagedScan = <span class="number">5</span>,
+    }
+    <span class="kw">impl </span>Code {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Code::Unspecified =&gt; <span class="string">"CODE_UNSPECIFIED"</span>,
+                Code::InsufficientCrawlResults =&gt; <span class="string">"INSUFFICIENT_CRAWL_RESULTS"</span>,
+                Code::TooManyCrawlResults =&gt; <span class="string">"TOO_MANY_CRAWL_RESULTS"</span>,
+                Code::TooManyFuzzTasks =&gt; <span class="string">"TOO_MANY_FUZZ_TASKS"</span>,
+                Code::BlockedByIap =&gt; <span class="string">"BLOCKED_BY_IAP"</span>,
+                Code::NoStartingUrlFoundForManagedScan =&gt; {
+                    <span class="string">"NO_STARTING_URL_FOUND_FOR_MANAGED_SCAN"
+                </span>}
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"CODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"INSUFFICIENT_CRAWL_RESULTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InsufficientCrawlResults),
+                <span class="string">"TOO_MANY_CRAWL_RESULTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TooManyCrawlResults),
+                <span class="string">"TOO_MANY_FUZZ_TASKS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TooManyFuzzTasks),
+                <span class="string">"BLOCKED_BY_IAP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BlockedByIap),
+                <span class="string">"NO_STARTING_URL_FOUND_FOR_MANAGED_SCAN" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::NoStartingUrlFoundForManagedScan)
+                }
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A ScanRun is a output-only resource representing an actual run of the scan.
+/// Next id: 12
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ScanRun {
+    <span class="doccomment">/// Output only. The resource name of the ScanRun. The name follows the format of
+    /// 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'.
+    /// The ScanRun IDs are generated by the system.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The execution state of the ScanRun.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ExecutionState"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>execution_state: i32,
+    <span class="doccomment">/// Output only. The result state of the ScanRun. This field is only available after the
+    /// execution state reaches "FINISHED".
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ResultState"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>result_state: i32,
+    <span class="doccomment">/// Output only. The time at which the ScanRun started.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The time at which the ScanRun reached termination state - that the ScanRun
+    /// is either finished or stopped by user.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The number of URLs crawled during this ScanRun. If the scan is in progress,
+    /// the value represents the number of URLs crawled up to now.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>urls_crawled_count: i64,
+    <span class="doccomment">/// Output only. The number of URLs tested during this ScanRun. If the scan is in progress,
+    /// the value represents the number of URLs tested up to now. The number of
+    /// URLs tested is usually larger than the number URLS crawled because
+    /// typically a crawled URL is tested with multiple test payloads.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>urls_tested_count: i64,
+    <span class="doccomment">/// Output only. Whether the scan run has found any vulnerabilities.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>has_vulnerabilities: bool,
+    <span class="doccomment">/// Output only. The percentage of total completion ranging from 0 to 100.
+    /// If the scan is in queue, the value is 0.
+    /// If the scan is running, the value ranges from 0 to 100.
+    /// If the scan is finished, the value is 100.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>progress_percent: i32,
+    <span class="doccomment">/// Output only. If result_state is an ERROR, this field provides the primary reason for
+    /// scan's termination and more details, if such are available.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>error_trace: ::core::option::Option&lt;ScanRunErrorTrace&gt;,
+    <span class="doccomment">/// Output only. A list of warnings, if such are encountered during this scan run.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>warning_traces: ::prost::alloc::vec::Vec&lt;ScanRunWarningTrace&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ScanRun`.
+</span><span class="kw">pub mod </span>scan_run {
+    <span class="doccomment">/// Types of ScanRun execution state.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ExecutionState {
+        <span class="doccomment">/// Represents an invalid state caused by internal server error. This value
+        /// should never be returned.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The scan is waiting in the queue.
+        </span>Queued = <span class="number">1</span>,
+        <span class="doccomment">/// The scan is in progress.
+        </span>Scanning = <span class="number">2</span>,
+        <span class="doccomment">/// The scan is either finished or stopped by user.
+        </span>Finished = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>ExecutionState {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ExecutionState::Unspecified =&gt; <span class="string">"EXECUTION_STATE_UNSPECIFIED"</span>,
+                ExecutionState::Queued =&gt; <span class="string">"QUEUED"</span>,
+                ExecutionState::Scanning =&gt; <span class="string">"SCANNING"</span>,
+                ExecutionState::Finished =&gt; <span class="string">"FINISHED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"EXECUTION_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"QUEUED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Queued),
+                <span class="string">"SCANNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Scanning),
+                <span class="string">"FINISHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Finished),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Types of ScanRun result state.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ResultState {
+        <span class="doccomment">/// Default value. This value is returned when the ScanRun is not yet
+        /// finished.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The scan finished without errors.
+        </span>Success = <span class="number">1</span>,
+        <span class="doccomment">/// The scan finished with errors.
+        </span>Error = <span class="number">2</span>,
+        <span class="doccomment">/// The scan was terminated by user.
+        </span>Killed = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>ResultState {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ResultState::Unspecified =&gt; <span class="string">"RESULT_STATE_UNSPECIFIED"</span>,
+                ResultState::Success =&gt; <span class="string">"SUCCESS"</span>,
+                ResultState::Error =&gt; <span class="string">"ERROR"</span>,
+                ResultState::Killed =&gt; <span class="string">"KILLED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"RESULT_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"SUCCESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Success),
+                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
+                <span class="string">"KILLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Killed),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
@@ -4030,5 +4001,34 @@
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
     }
+}
+<span class="doccomment">/// A ScanRunLog is an output-only proto used for Stackdriver customer logging.
+/// It is used for logs covering the start and end of scan pipelines.
+/// Other than an added summary, this is a subset of the ScanRun.
+/// Representation in logs is either a proto Struct, or converted to JSON.
+/// Next id: 9
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ScanRunLog {
+    <span class="doccomment">/// Human friendly message about the event.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>summary: ::prost::alloc::string::String,
+    <span class="doccomment">/// The resource name of the ScanRun being logged.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The execution state of the ScanRun.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ExecutionState"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>execution_state: i32,
+    <span class="doccomment">/// The result state of the ScanRun.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ResultState"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>result_state: i32,
+    <span class="attr">#[prost(int64, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>urls_crawled_count: i64,
+    <span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>urls_tested_count: i64,
+    <span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>has_findings: bool,
+    <span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>error_trace: ::core::option::Option&lt;ScanRunErrorTrace&gt;,
 }
 </code></pre></div></section></main></body></html>

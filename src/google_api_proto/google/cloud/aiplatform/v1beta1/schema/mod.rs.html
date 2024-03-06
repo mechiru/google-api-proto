@@ -521,19 +521,6 @@
 </span><span class="kw">pub mod </span>predict;
 <span class="attr">#[cfg(any(feature = <span class="string">"google-cloud-aiplatform-v1beta1-schema-trainingjob-definition"</span>))]
 </span><span class="kw">pub mod </span>trainingjob;
-<span class="doccomment">/// A vertex represents a 2D point in the image.
-/// NOTE: the normalized vertex coordinates are relative to the original image
-/// and range from 0 to 1.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Vertex {
-    <span class="doccomment">/// X coordinate.
-    </span><span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>x: f64,
-    <span class="doccomment">/// Y coordinate.
-    </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>y: f64,
-}
 <span class="doccomment">/// An entry of mapping between color and AnnotationSpec. The mapping is used in
 /// segmentation mask.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -692,6 +679,113 @@
         </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
         </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
     }
+}
+<span class="doccomment">/// A vertex represents a 2D point in the image.
+/// NOTE: the normalized vertex coordinates are relative to the original image
+/// and range from 0 to 1.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Vertex {
+    <span class="doccomment">/// X coordinate.
+    </span><span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>x: f64,
+    <span class="doccomment">/// Y coordinate.
+    </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>y: f64,
+}
+<span class="doccomment">/// Represents a line of JSONL in the batch prediction output file.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PredictionResult {
+    <span class="doccomment">/// The prediction result.
+    /// Value is used here instead of Any so that JsonFormat does not append an
+    /// extra "@type" field when we convert the proto to JSON and so we can
+    /// represent array of objects.
+    /// Do not set error if this is set.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>prediction: ::core::option::Option&lt;::prost_types::Value&gt;,
+    <span class="doccomment">/// The error result.
+    /// Do not set prediction if this is set.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>error: ::core::option::Option&lt;prediction_result::Error&gt;,
+    <span class="doccomment">/// Some identifier from the input so that the prediction can be mapped back to
+    /// the input instance.
+    </span><span class="attr">#[prost(oneof = <span class="string">"prediction_result::Input"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>input: ::core::option::Option&lt;prediction_result::Input&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `PredictionResult`.
+</span><span class="kw">pub mod </span>prediction_result {
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Error {
+        <span class="doccomment">/// Error status. This will be serialized into the enum name e.g.
+        /// "NOT_FOUND".
+        </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::super::super::super::rpc::Code"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>status: i32,
+        <span class="doccomment">/// Error message with additional details.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Some identifier from the input so that the prediction can be mapped back to
+    /// the input instance.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Input {
+        <span class="doccomment">/// User's input instance.
+        /// Struct is used here instead of Any so that JsonFormat does not append an
+        /// extra "@type" field when we convert the proto to JSON.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>Instance(::prost_types::Struct),
+        <span class="doccomment">/// Optional user-provided key from the input instance.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span>Key(::prost::alloc::string::String),
+    }
+}
+<span class="doccomment">/// Payload of Image DataItem.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ImageDataItem {
+    <span class="doccomment">/// Required. Google Cloud Storage URI points to the original image in user's bucket.
+    /// The image is up to 30MB in size.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>gcs_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The mime type of the content of the image. Only the images in below listed
+    /// mime types are supported.
+    /// - image/jpeg
+    /// - image/gif
+    /// - image/png
+    /// - image/webp
+    /// - image/bmp
+    /// - image/tiff
+    /// - image/vnd.microsoft.icon
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Payload of Video DataItem.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>VideoDataItem {
+    <span class="doccomment">/// Required. Google Cloud Storage URI points to the original video in user's bucket.
+    /// The video is up to 50 GB in size and up to 3 hour in duration.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>gcs_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The mime type of the content of the video. Only the videos in below listed
+    /// mime types are supported.
+    /// Supported mime_type:
+    /// - video/mp4
+    /// - video/avi
+    /// - video/quicktime
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Payload of Text DataItem.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TextDataItem {
+    <span class="doccomment">/// Output only. Google Cloud Storage URI points to the original text in user's bucket.
+    /// The text file is up to 10MB in size.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>gcs_uri: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Annotation details specific to image classification.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -928,99 +1022,5 @@
     <span class="doccomment">/// The display name of the AnnotationSpec that this Annotation pertains to.
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Represents a line of JSONL in the batch prediction output file.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PredictionResult {
-    <span class="doccomment">/// The prediction result.
-    /// Value is used here instead of Any so that JsonFormat does not append an
-    /// extra "@type" field when we convert the proto to JSON and so we can
-    /// represent array of objects.
-    /// Do not set error if this is set.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>prediction: ::core::option::Option&lt;::prost_types::Value&gt;,
-    <span class="doccomment">/// The error result.
-    /// Do not set prediction if this is set.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>error: ::core::option::Option&lt;prediction_result::Error&gt;,
-    <span class="doccomment">/// Some identifier from the input so that the prediction can be mapped back to
-    /// the input instance.
-    </span><span class="attr">#[prost(oneof = <span class="string">"prediction_result::Input"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>input: ::core::option::Option&lt;prediction_result::Input&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `PredictionResult`.
-</span><span class="kw">pub mod </span>prediction_result {
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Error {
-        <span class="doccomment">/// Error status. This will be serialized into the enum name e.g.
-        /// "NOT_FOUND".
-        </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::super::super::super::rpc::Code"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>status: i32,
-        <span class="doccomment">/// Error message with additional details.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Some identifier from the input so that the prediction can be mapped back to
-    /// the input instance.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Input {
-        <span class="doccomment">/// User's input instance.
-        /// Struct is used here instead of Any so that JsonFormat does not append an
-        /// extra "@type" field when we convert the proto to JSON.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>Instance(::prost_types::Struct),
-        <span class="doccomment">/// Optional user-provided key from the input instance.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span>Key(::prost::alloc::string::String),
-    }
-}
-<span class="doccomment">/// Payload of Image DataItem.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ImageDataItem {
-    <span class="doccomment">/// Required. Google Cloud Storage URI points to the original image in user's bucket.
-    /// The image is up to 30MB in size.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>gcs_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The mime type of the content of the image. Only the images in below listed
-    /// mime types are supported.
-    /// - image/jpeg
-    /// - image/gif
-    /// - image/png
-    /// - image/webp
-    /// - image/bmp
-    /// - image/tiff
-    /// - image/vnd.microsoft.icon
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Payload of Video DataItem.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VideoDataItem {
-    <span class="doccomment">/// Required. Google Cloud Storage URI points to the original video in user's bucket.
-    /// The video is up to 50 GB in size and up to 3 hour in duration.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>gcs_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The mime type of the content of the video. Only the videos in below listed
-    /// mime types are supported.
-    /// Supported mime_type:
-    /// - video/mp4
-    /// - video/avi
-    /// - video/quicktime
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Payload of Text DataItem.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TextDataItem {
-    <span class="doccomment">/// Output only. Google Cloud Storage URI points to the original text in user's bucket.
-    /// The text file is up to 10MB in size.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>gcs_uri: ::prost::alloc::string::String,
 }
 </code></pre></div></section></main></body></html>

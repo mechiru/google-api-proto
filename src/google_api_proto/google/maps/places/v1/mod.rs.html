@@ -2003,7 +2003,46 @@
 <a href="#2002" id="2002">2002</a>
 <a href="#2003" id="2003">2003</a>
 <a href="#2004" id="2004">2004</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Information about the EV Charge Station hosted in Place.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Information about the author of the UGC data. Used in
+/// [Photo][google.maps.places.v1.Photo], and
+/// [Review][google.maps.places.v1.Review].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AuthorAttribution {
+    <span class="doccomment">/// Name of the author of the [Photo][google.maps.places.v1.Photo] or
+    /// [Review][google.maps.places.v1.Review].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// URI of the author of the [Photo][google.maps.places.v1.Photo] or
+    /// [Review][google.maps.places.v1.Review].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// Profile photo URI of the author of the
+    /// [Photo][google.maps.places.v1.Photo] or
+    /// [Review][google.maps.places.v1.Review].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>photo_uri: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Information about a photo of a place.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Photo {
+    <span class="doccomment">/// Identifier. A reference representing this place photo which may be used to
+    /// look up this place photo again (also called the API "resource" name:
+    /// `places/{place_id}/photos/{photo}`).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum available width, in pixels.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>width_px: i32,
+    <span class="doccomment">/// The maximum available height, in pixels.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>height_px: i32,
+    <span class="doccomment">/// This photo's authors.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>author_attributions: ::prost::alloc::vec::Vec&lt;AuthorAttribution&gt;,
+}
+<span class="doccomment">/// Information about the EV Charge Station hosted in Place.
 /// Terminology follows
 /// &lt;https://afdc.energy.gov/fuels/electricity_infrastructure.html&gt; One port
 /// could charge one car at a time. One port has one or more connectors. One
@@ -2128,21 +2167,6 @@
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
-}
-<span class="doccomment">/// Circle with a LatLng as center and radius.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Circle {
-    <span class="doccomment">/// Required. Center latitude and longitude.
-    ///
-    /// The range of latitude must be within \[-90.0, 90.0\]. The range of the
-    /// longitude must be within \[-180.0, 180.0\].
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>center: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LatLng&gt;,
-    <span class="doccomment">/// Required. Radius measured in meters. The radius must be within [0.0,
-    /// 50000.0].
-    </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>radius: f64,
 }
 <span class="doccomment">/// The most recent information about fuel options in a gas station. This
 /// information is updated regularly.
@@ -2280,45 +2304,6 @@
             }
         }
     }
-}
-<span class="doccomment">/// Information about the author of the UGC data. Used in
-/// [Photo][google.maps.places.v1.Photo], and
-/// [Review][google.maps.places.v1.Review].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AuthorAttribution {
-    <span class="doccomment">/// Name of the author of the [Photo][google.maps.places.v1.Photo] or
-    /// [Review][google.maps.places.v1.Review].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// URI of the author of the [Photo][google.maps.places.v1.Photo] or
-    /// [Review][google.maps.places.v1.Review].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// Profile photo URI of the author of the
-    /// [Photo][google.maps.places.v1.Photo] or
-    /// [Review][google.maps.places.v1.Review].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>photo_uri: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Information about a photo of a place.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Photo {
-    <span class="doccomment">/// Identifier. A reference representing this place photo which may be used to
-    /// look up this place photo again (also called the API "resource" name:
-    /// `places/{place_id}/photos/{photo}`).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum available width, in pixels.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>width_px: i32,
-    <span class="doccomment">/// The maximum available height, in pixels.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>height_px: i32,
-    <span class="doccomment">/// This photo's authors.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>author_attributions: ::prost::alloc::vec::Vec&lt;AuthorAttribution&gt;,
 }
 <span class="doccomment">/// Information about a review of a place.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2985,6 +2970,21 @@
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
+}
+<span class="doccomment">/// Circle with a LatLng as center and radius.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Circle {
+    <span class="doccomment">/// Required. Center latitude and longitude.
+    ///
+    /// The range of latitude must be within \[-90.0, 90.0\]. The range of the
+    /// longitude must be within \[-180.0, 180.0\].
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>center: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LatLng&gt;,
+    <span class="doccomment">/// Required. Radius measured in meters. The radius must be within [0.0,
+    /// 50000.0].
+    </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>radius: f64,
 }
 <span class="doccomment">/// Request proto for Search Nearby.
 ///

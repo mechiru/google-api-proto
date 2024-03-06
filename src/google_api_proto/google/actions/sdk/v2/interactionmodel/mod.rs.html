@@ -365,30 +365,6 @@
 </span><span class="kw">pub mod </span>prompt;
 <span class="attr">#[cfg(any(feature = <span class="string">"google-actions-sdk-v2-interactionmodel-type"</span>))]
 </span><span class="kw">pub mod </span>r#type;
-<span class="doccomment">/// Entity sets describe the pre-defined set of entities that the values of
-/// built-in intent parameters can come from. Entity sets can be referenced from
-/// entity_set in built-in intent parameters.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EntitySet {
-    <span class="doccomment">/// Required. The list of entities this entity set supports.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>entities: ::prost::alloc::vec::Vec&lt;entity_set::Entity&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `EntitySet`.
-</span><span class="kw">pub mod </span>entity_set {
-    <span class="doccomment">/// An entity a built-in intent parameter value can come from.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Entity {
-        <span class="doccomment">/// Required. The ID of the entity.
-        /// For a list of built-in-intent parameters and their supported entities,
-        /// see
-        /// &lt;https://developers.google.com/assistant/conversational/build/built-in-intents&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    }
-}
 <span class="doccomment">/// Defines a handler to be executed after an event. Examples of events are
 /// intent and condition based events in a scene.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -416,26 +392,53 @@
         </span>StaticPromptName(::prost::alloc::string::String),
     }
 }
-<span class="doccomment">/// Defines a global intent handler. Global intent events are scoped to the
-/// entire Actions project and may be overridden by intent handlers in a scene.
-/// Intent names must be unique within an Actions project.
-///
-/// Global intents can be matched anytime during a session, allowing users to
-/// access common flows like  "get help" or "go back home." They can also be
-/// used to deep link users into specific flows when they invoke an Action.
-///
-/// Note, the intent name is specified in the name of the file.
+<span class="doccomment">/// Registers events that trigger as the result of a true condition.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GlobalIntentEvent {
+</span><span class="kw">pub struct </span>ConditionalEvent {
+    <span class="doccomment">/// Required. Filter condition for this event to trigger. If condition is evaluated to
+    /// true then the associated `handler` will be triggered.
+    /// The following variable references are supported:
+    ///    `$session` - To reference data in session storage.
+    ///    `$user` - To reference data in user storage.
+    /// The following boolean operators are supported (with examples):
+    ///    `&amp;&amp;` - `session.params.counter &gt; 0 &amp;&amp; session.params.counter &lt; 100`
+    ///    `||` - `session.params.foo == "John" || session.params.counter == "Adam"`
+    ///    `!`  - `!(session.params.counter == 5)`
+    /// The following comparisons are supported:
+    ///    `==`, `!=`, `&lt;`, `&gt;`, `&lt;=`, `&gt;=`
+    /// The following list and string operators are supported (with examples):
+    ///    `in`        - "Watermelon" in `session.params.fruitList`
+    ///    `size`      - `size(session.params.fruitList) &gt; 2`
+    ///    `substring` - `session.params.fullName.contains("John")`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>condition: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to when the associated
+    /// condition is evaluated to true. The state of the current scene is destroyed
+    /// on the transition.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>transition_to_scene: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Event handler which is triggered when the associated condition is evaluated
+    /// to `true`. Should execute before transitioning to the destination scene.
+    /// Useful to generate Prompts in response to events.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>handler: ::core::option::Option&lt;EventHandler&gt;,
+}
+<span class="doccomment">/// Registers Events which trigger as the result of an intent match.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>IntentEvent {
+    <span class="doccomment">/// Required. Intent triggering the event.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>intent: ::prost::alloc::string::String,
     <span class="doccomment">/// Optional. Destination scene which the conversation should jump to. The state of the
     /// current scene is destroyed on the transition.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>transition_to_scene: ::prost::alloc::string::String,
     <span class="doccomment">/// Optional. Event handler which is triggered when the intent is matched. Should execute
-    /// before transitioning to the destination scene. Useful to generate Prompts
+    /// before transitioning to the destination scene. Useful to generate prompts
     /// in response to events.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>handler: ::core::option::Option&lt;EventHandler&gt;,
 }
 <span class="doccomment">/// Intents map open-ended user input to structured objects. Spoken
@@ -521,55 +524,6 @@
             </span>EntitySetReferences(EntitySetReferences),
         }
     }
-}
-<span class="doccomment">/// Registers events that trigger as the result of a true condition.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ConditionalEvent {
-    <span class="doccomment">/// Required. Filter condition for this event to trigger. If condition is evaluated to
-    /// true then the associated `handler` will be triggered.
-    /// The following variable references are supported:
-    ///    `$session` - To reference data in session storage.
-    ///    `$user` - To reference data in user storage.
-    /// The following boolean operators are supported (with examples):
-    ///    `&amp;&amp;` - `session.params.counter &gt; 0 &amp;&amp; session.params.counter &lt; 100`
-    ///    `||` - `session.params.foo == "John" || session.params.counter == "Adam"`
-    ///    `!`  - `!(session.params.counter == 5)`
-    /// The following comparisons are supported:
-    ///    `==`, `!=`, `&lt;`, `&gt;`, `&lt;=`, `&gt;=`
-    /// The following list and string operators are supported (with examples):
-    ///    `in`        - "Watermelon" in `session.params.fruitList`
-    ///    `size`      - `size(session.params.fruitList) &gt; 2`
-    ///    `substring` - `session.params.fullName.contains("John")`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>condition: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to when the associated
-    /// condition is evaluated to true. The state of the current scene is destroyed
-    /// on the transition.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>transition_to_scene: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Event handler which is triggered when the associated condition is evaluated
-    /// to `true`. Should execute before transitioning to the destination scene.
-    /// Useful to generate Prompts in response to events.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>handler: ::core::option::Option&lt;EventHandler&gt;,
-}
-<span class="doccomment">/// Registers Events which trigger as the result of an intent match.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>IntentEvent {
-    <span class="doccomment">/// Required. Intent triggering the event.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>intent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to. The state of the
-    /// current scene is destroyed on the transition.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>transition_to_scene: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Event handler which is triggered when the intent is matched. Should execute
-    /// before transitioning to the destination scene. Useful to generate prompts
-    /// in response to events.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>handler: ::core::option::Option&lt;EventHandler&gt;,
 }
 <span class="doccomment">/// Configuration for a slot. Slots are single units of data that can be filled
 /// through natural language (ie. intent parameters), session parameters, and
@@ -722,5 +676,51 @@
     /// invalidated, the scene invalidated or other changes to scene state.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>on_slot_updated: ::core::option::Option&lt;EventHandler&gt;,
+}
+<span class="doccomment">/// Defines a global intent handler. Global intent events are scoped to the
+/// entire Actions project and may be overridden by intent handlers in a scene.
+/// Intent names must be unique within an Actions project.
+///
+/// Global intents can be matched anytime during a session, allowing users to
+/// access common flows like  "get help" or "go back home." They can also be
+/// used to deep link users into specific flows when they invoke an Action.
+///
+/// Note, the intent name is specified in the name of the file.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GlobalIntentEvent {
+    <span class="doccomment">/// Optional. Destination scene which the conversation should jump to. The state of the
+    /// current scene is destroyed on the transition.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>transition_to_scene: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Event handler which is triggered when the intent is matched. Should execute
+    /// before transitioning to the destination scene. Useful to generate Prompts
+    /// in response to events.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>handler: ::core::option::Option&lt;EventHandler&gt;,
+}
+<span class="doccomment">/// Entity sets describe the pre-defined set of entities that the values of
+/// built-in intent parameters can come from. Entity sets can be referenced from
+/// entity_set in built-in intent parameters.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>EntitySet {
+    <span class="doccomment">/// Required. The list of entities this entity set supports.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>entities: ::prost::alloc::vec::Vec&lt;entity_set::Entity&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `EntitySet`.
+</span><span class="kw">pub mod </span>entity_set {
+    <span class="doccomment">/// An entity a built-in intent parameter value can come from.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Entity {
+        <span class="doccomment">/// Required. The ID of the entity.
+        /// For a list of built-in-intent parameters and their supported entities,
+        /// see
+        /// &lt;https://developers.google.com/assistant/conversational/build/built-in-intents&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    }
 }
 </code></pre></div></section></main></body></html>

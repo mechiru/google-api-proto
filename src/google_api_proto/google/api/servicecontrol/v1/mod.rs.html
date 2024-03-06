@@ -1494,7 +1494,161 @@
 <a href="#1493" id="1493">1493</a>
 <a href="#1494" id="1494">1494</a>
 <a href="#1495" id="1495">1495</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// A common proto for logging HTTP requests. Only contains semantics
+</pre></div><pre class="rust"><code><span class="doccomment">/// Defines the errors to be returned in
+/// [google.api.servicecontrol.v1.CheckResponse.check_errors][google.api.servicecontrol.v1.CheckResponse.check_errors].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CheckError {
+    <span class="doccomment">/// The error code.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"check_error::Code"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>code: i32,
+    <span class="doccomment">/// Subject to whom this error applies. See the specific code enum for more
+    /// details on this field. For example:
+    ///
+    /// - "project:&lt;project-id or project-number&gt;"
+    /// - "folder:&lt;folder-id&gt;"
+    /// - "organization:&lt;organization-id&gt;"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>subject: ::prost::alloc::string::String,
+    <span class="doccomment">/// Free-form text providing details on the error cause of the error.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>detail: ::prost::alloc::string::String,
+    <span class="doccomment">/// Contains public information about the check error. If available,
+    /// `status.code` will be non zero and client can propagate it out as public
+    /// error.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `CheckError`.
+</span><span class="kw">pub mod </span>check_error {
+    <span class="doccomment">/// Error codes for Check responses.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Code {
+        <span class="doccomment">/// This is never used in `CheckResponse`.
+        </span>ErrorCodeUnspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The consumer's project id, network container, or resource container was
+        /// not found. Same as [google.rpc.Code.NOT_FOUND][google.rpc.Code.NOT_FOUND].
+        </span>NotFound = <span class="number">5</span>,
+        <span class="doccomment">/// The consumer doesn't have access to the specified resource.
+        /// Same as [google.rpc.Code.PERMISSION_DENIED][google.rpc.Code.PERMISSION_DENIED].
+        </span>PermissionDenied = <span class="number">7</span>,
+        <span class="doccomment">/// Quota check failed. Same as [google.rpc.Code.RESOURCE_EXHAUSTED][google.rpc.Code.RESOURCE_EXHAUSTED].
+        </span>ResourceExhausted = <span class="number">8</span>,
+        <span class="doccomment">/// The consumer hasn't activated the service.
+        </span>ServiceNotActivated = <span class="number">104</span>,
+        <span class="doccomment">/// The consumer cannot access the service because billing is disabled.
+        </span>BillingDisabled = <span class="number">107</span>,
+        <span class="doccomment">/// The consumer's project has been marked as deleted (soft deletion).
+        </span>ProjectDeleted = <span class="number">108</span>,
+        <span class="doccomment">/// The consumer's project number or id does not represent a valid project.
+        </span>ProjectInvalid = <span class="number">114</span>,
+        <span class="doccomment">/// The input consumer info does not represent a valid consumer folder or
+        /// organization.
+        </span>ConsumerInvalid = <span class="number">125</span>,
+        <span class="doccomment">/// The IP address of the consumer is invalid for the specific consumer
+        /// project.
+        </span>IpAddressBlocked = <span class="number">109</span>,
+        <span class="doccomment">/// The referer address of the consumer request is invalid for the specific
+        /// consumer project.
+        </span>RefererBlocked = <span class="number">110</span>,
+        <span class="doccomment">/// The client application of the consumer request is invalid for the
+        /// specific consumer project.
+        </span>ClientAppBlocked = <span class="number">111</span>,
+        <span class="doccomment">/// The API targeted by this request is invalid for the specified consumer
+        /// project.
+        </span>ApiTargetBlocked = <span class="number">122</span>,
+        <span class="doccomment">/// The consumer's API key is invalid.
+        </span>ApiKeyInvalid = <span class="number">105</span>,
+        <span class="doccomment">/// The consumer's API Key has expired.
+        </span>ApiKeyExpired = <span class="number">112</span>,
+        <span class="doccomment">/// The consumer's API Key was not found in config record.
+        </span>ApiKeyNotFound = <span class="number">113</span>,
+        <span class="doccomment">/// The credential in the request can not be verified.
+        </span>InvalidCredential = <span class="number">123</span>,
+        <span class="doccomment">/// The backend server for looking up project id/number is unavailable.
+        </span>NamespaceLookupUnavailable = <span class="number">300</span>,
+        <span class="doccomment">/// The backend server for checking service status is unavailable.
+        </span>ServiceStatusUnavailable = <span class="number">301</span>,
+        <span class="doccomment">/// The backend server for checking billing status is unavailable.
+        </span>BillingStatusUnavailable = <span class="number">302</span>,
+        <span class="doccomment">/// Cloud Resource Manager backend server is unavailable.
+        </span>CloudResourceManagerBackendUnavailable = <span class="number">305</span>,
+    }
+    <span class="kw">impl </span>Code {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Code::ErrorCodeUnspecified =&gt; <span class="string">"ERROR_CODE_UNSPECIFIED"</span>,
+                Code::NotFound =&gt; <span class="string">"NOT_FOUND"</span>,
+                Code::PermissionDenied =&gt; <span class="string">"PERMISSION_DENIED"</span>,
+                Code::ResourceExhausted =&gt; <span class="string">"RESOURCE_EXHAUSTED"</span>,
+                Code::ServiceNotActivated =&gt; <span class="string">"SERVICE_NOT_ACTIVATED"</span>,
+                Code::BillingDisabled =&gt; <span class="string">"BILLING_DISABLED"</span>,
+                Code::ProjectDeleted =&gt; <span class="string">"PROJECT_DELETED"</span>,
+                Code::ProjectInvalid =&gt; <span class="string">"PROJECT_INVALID"</span>,
+                Code::ConsumerInvalid =&gt; <span class="string">"CONSUMER_INVALID"</span>,
+                Code::IpAddressBlocked =&gt; <span class="string">"IP_ADDRESS_BLOCKED"</span>,
+                Code::RefererBlocked =&gt; <span class="string">"REFERER_BLOCKED"</span>,
+                Code::ClientAppBlocked =&gt; <span class="string">"CLIENT_APP_BLOCKED"</span>,
+                Code::ApiTargetBlocked =&gt; <span class="string">"API_TARGET_BLOCKED"</span>,
+                Code::ApiKeyInvalid =&gt; <span class="string">"API_KEY_INVALID"</span>,
+                Code::ApiKeyExpired =&gt; <span class="string">"API_KEY_EXPIRED"</span>,
+                Code::ApiKeyNotFound =&gt; <span class="string">"API_KEY_NOT_FOUND"</span>,
+                Code::InvalidCredential =&gt; <span class="string">"INVALID_CREDENTIAL"</span>,
+                Code::NamespaceLookupUnavailable =&gt; <span class="string">"NAMESPACE_LOOKUP_UNAVAILABLE"</span>,
+                Code::ServiceStatusUnavailable =&gt; <span class="string">"SERVICE_STATUS_UNAVAILABLE"</span>,
+                Code::BillingStatusUnavailable =&gt; <span class="string">"BILLING_STATUS_UNAVAILABLE"</span>,
+                Code::CloudResourceManagerBackendUnavailable =&gt; {
+                    <span class="string">"CLOUD_RESOURCE_MANAGER_BACKEND_UNAVAILABLE"
+                </span>}
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"ERROR_CODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ErrorCodeUnspecified),
+                <span class="string">"NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotFound),
+                <span class="string">"PERMISSION_DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PermissionDenied),
+                <span class="string">"RESOURCE_EXHAUSTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceExhausted),
+                <span class="string">"SERVICE_NOT_ACTIVATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ServiceNotActivated),
+                <span class="string">"BILLING_DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BillingDisabled),
+                <span class="string">"PROJECT_DELETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ProjectDeleted),
+                <span class="string">"PROJECT_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ProjectInvalid),
+                <span class="string">"CONSUMER_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ConsumerInvalid),
+                <span class="string">"IP_ADDRESS_BLOCKED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IpAddressBlocked),
+                <span class="string">"REFERER_BLOCKED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RefererBlocked),
+                <span class="string">"CLIENT_APP_BLOCKED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ClientAppBlocked),
+                <span class="string">"API_TARGET_BLOCKED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApiTargetBlocked),
+                <span class="string">"API_KEY_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApiKeyInvalid),
+                <span class="string">"API_KEY_EXPIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApiKeyExpired),
+                <span class="string">"API_KEY_NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApiKeyNotFound),
+                <span class="string">"INVALID_CREDENTIAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidCredential),
+                <span class="string">"NAMESPACE_LOOKUP_UNAVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NamespaceLookupUnavailable),
+                <span class="string">"SERVICE_STATUS_UNAVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ServiceStatusUnavailable),
+                <span class="string">"BILLING_STATUS_UNAVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BillingStatusUnavailable),
+                <span class="string">"CLOUD_RESOURCE_MANAGER_BACKEND_UNAVAILABLE" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudResourceManagerBackendUnavailable)
+                }
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A common proto for logging HTTP requests. Only contains semantics
 /// defined by the HTTP specification. Product-specific logging
 /// information MUST be defined in a separate message.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2047,160 +2201,6 @@
             <span class="kw">match </span>value {
                 <span class="string">"LOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Low),
                 <span class="string">"HIGH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Defines the errors to be returned in
-/// [google.api.servicecontrol.v1.CheckResponse.check_errors][google.api.servicecontrol.v1.CheckResponse.check_errors].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CheckError {
-    <span class="doccomment">/// The error code.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"check_error::Code"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>code: i32,
-    <span class="doccomment">/// Subject to whom this error applies. See the specific code enum for more
-    /// details on this field. For example:
-    ///
-    /// - "project:&lt;project-id or project-number&gt;"
-    /// - "folder:&lt;folder-id&gt;"
-    /// - "organization:&lt;organization-id&gt;"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>subject: ::prost::alloc::string::String,
-    <span class="doccomment">/// Free-form text providing details on the error cause of the error.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>detail: ::prost::alloc::string::String,
-    <span class="doccomment">/// Contains public information about the check error. If available,
-    /// `status.code` will be non zero and client can propagate it out as public
-    /// error.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `CheckError`.
-</span><span class="kw">pub mod </span>check_error {
-    <span class="doccomment">/// Error codes for Check responses.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Code {
-        <span class="doccomment">/// This is never used in `CheckResponse`.
-        </span>ErrorCodeUnspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The consumer's project id, network container, or resource container was
-        /// not found. Same as [google.rpc.Code.NOT_FOUND][google.rpc.Code.NOT_FOUND].
-        </span>NotFound = <span class="number">5</span>,
-        <span class="doccomment">/// The consumer doesn't have access to the specified resource.
-        /// Same as [google.rpc.Code.PERMISSION_DENIED][google.rpc.Code.PERMISSION_DENIED].
-        </span>PermissionDenied = <span class="number">7</span>,
-        <span class="doccomment">/// Quota check failed. Same as [google.rpc.Code.RESOURCE_EXHAUSTED][google.rpc.Code.RESOURCE_EXHAUSTED].
-        </span>ResourceExhausted = <span class="number">8</span>,
-        <span class="doccomment">/// The consumer hasn't activated the service.
-        </span>ServiceNotActivated = <span class="number">104</span>,
-        <span class="doccomment">/// The consumer cannot access the service because billing is disabled.
-        </span>BillingDisabled = <span class="number">107</span>,
-        <span class="doccomment">/// The consumer's project has been marked as deleted (soft deletion).
-        </span>ProjectDeleted = <span class="number">108</span>,
-        <span class="doccomment">/// The consumer's project number or id does not represent a valid project.
-        </span>ProjectInvalid = <span class="number">114</span>,
-        <span class="doccomment">/// The input consumer info does not represent a valid consumer folder or
-        /// organization.
-        </span>ConsumerInvalid = <span class="number">125</span>,
-        <span class="doccomment">/// The IP address of the consumer is invalid for the specific consumer
-        /// project.
-        </span>IpAddressBlocked = <span class="number">109</span>,
-        <span class="doccomment">/// The referer address of the consumer request is invalid for the specific
-        /// consumer project.
-        </span>RefererBlocked = <span class="number">110</span>,
-        <span class="doccomment">/// The client application of the consumer request is invalid for the
-        /// specific consumer project.
-        </span>ClientAppBlocked = <span class="number">111</span>,
-        <span class="doccomment">/// The API targeted by this request is invalid for the specified consumer
-        /// project.
-        </span>ApiTargetBlocked = <span class="number">122</span>,
-        <span class="doccomment">/// The consumer's API key is invalid.
-        </span>ApiKeyInvalid = <span class="number">105</span>,
-        <span class="doccomment">/// The consumer's API Key has expired.
-        </span>ApiKeyExpired = <span class="number">112</span>,
-        <span class="doccomment">/// The consumer's API Key was not found in config record.
-        </span>ApiKeyNotFound = <span class="number">113</span>,
-        <span class="doccomment">/// The credential in the request can not be verified.
-        </span>InvalidCredential = <span class="number">123</span>,
-        <span class="doccomment">/// The backend server for looking up project id/number is unavailable.
-        </span>NamespaceLookupUnavailable = <span class="number">300</span>,
-        <span class="doccomment">/// The backend server for checking service status is unavailable.
-        </span>ServiceStatusUnavailable = <span class="number">301</span>,
-        <span class="doccomment">/// The backend server for checking billing status is unavailable.
-        </span>BillingStatusUnavailable = <span class="number">302</span>,
-        <span class="doccomment">/// Cloud Resource Manager backend server is unavailable.
-        </span>CloudResourceManagerBackendUnavailable = <span class="number">305</span>,
-    }
-    <span class="kw">impl </span>Code {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Code::ErrorCodeUnspecified =&gt; <span class="string">"ERROR_CODE_UNSPECIFIED"</span>,
-                Code::NotFound =&gt; <span class="string">"NOT_FOUND"</span>,
-                Code::PermissionDenied =&gt; <span class="string">"PERMISSION_DENIED"</span>,
-                Code::ResourceExhausted =&gt; <span class="string">"RESOURCE_EXHAUSTED"</span>,
-                Code::ServiceNotActivated =&gt; <span class="string">"SERVICE_NOT_ACTIVATED"</span>,
-                Code::BillingDisabled =&gt; <span class="string">"BILLING_DISABLED"</span>,
-                Code::ProjectDeleted =&gt; <span class="string">"PROJECT_DELETED"</span>,
-                Code::ProjectInvalid =&gt; <span class="string">"PROJECT_INVALID"</span>,
-                Code::ConsumerInvalid =&gt; <span class="string">"CONSUMER_INVALID"</span>,
-                Code::IpAddressBlocked =&gt; <span class="string">"IP_ADDRESS_BLOCKED"</span>,
-                Code::RefererBlocked =&gt; <span class="string">"REFERER_BLOCKED"</span>,
-                Code::ClientAppBlocked =&gt; <span class="string">"CLIENT_APP_BLOCKED"</span>,
-                Code::ApiTargetBlocked =&gt; <span class="string">"API_TARGET_BLOCKED"</span>,
-                Code::ApiKeyInvalid =&gt; <span class="string">"API_KEY_INVALID"</span>,
-                Code::ApiKeyExpired =&gt; <span class="string">"API_KEY_EXPIRED"</span>,
-                Code::ApiKeyNotFound =&gt; <span class="string">"API_KEY_NOT_FOUND"</span>,
-                Code::InvalidCredential =&gt; <span class="string">"INVALID_CREDENTIAL"</span>,
-                Code::NamespaceLookupUnavailable =&gt; <span class="string">"NAMESPACE_LOOKUP_UNAVAILABLE"</span>,
-                Code::ServiceStatusUnavailable =&gt; <span class="string">"SERVICE_STATUS_UNAVAILABLE"</span>,
-                Code::BillingStatusUnavailable =&gt; <span class="string">"BILLING_STATUS_UNAVAILABLE"</span>,
-                Code::CloudResourceManagerBackendUnavailable =&gt; {
-                    <span class="string">"CLOUD_RESOURCE_MANAGER_BACKEND_UNAVAILABLE"
-                </span>}
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"ERROR_CODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ErrorCodeUnspecified),
-                <span class="string">"NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotFound),
-                <span class="string">"PERMISSION_DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PermissionDenied),
-                <span class="string">"RESOURCE_EXHAUSTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceExhausted),
-                <span class="string">"SERVICE_NOT_ACTIVATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ServiceNotActivated),
-                <span class="string">"BILLING_DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BillingDisabled),
-                <span class="string">"PROJECT_DELETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ProjectDeleted),
-                <span class="string">"PROJECT_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ProjectInvalid),
-                <span class="string">"CONSUMER_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ConsumerInvalid),
-                <span class="string">"IP_ADDRESS_BLOCKED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IpAddressBlocked),
-                <span class="string">"REFERER_BLOCKED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RefererBlocked),
-                <span class="string">"CLIENT_APP_BLOCKED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ClientAppBlocked),
-                <span class="string">"API_TARGET_BLOCKED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApiTargetBlocked),
-                <span class="string">"API_KEY_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApiKeyInvalid),
-                <span class="string">"API_KEY_EXPIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApiKeyExpired),
-                <span class="string">"API_KEY_NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApiKeyNotFound),
-                <span class="string">"INVALID_CREDENTIAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidCredential),
-                <span class="string">"NAMESPACE_LOOKUP_UNAVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NamespaceLookupUnavailable),
-                <span class="string">"SERVICE_STATUS_UNAVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ServiceStatusUnavailable),
-                <span class="string">"BILLING_STATUS_UNAVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BillingStatusUnavailable),
-                <span class="string">"CLOUD_RESOURCE_MANAGER_BACKEND_UNAVAILABLE" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudResourceManagerBackendUnavailable)
-                }
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }

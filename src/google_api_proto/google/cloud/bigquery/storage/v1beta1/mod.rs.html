@@ -793,6 +793,28 @@
     </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>row_count: i64,
 }
+<span class="doccomment">/// Table reference that includes just the 3 strings needed to identify a table.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TableReference {
+    <span class="doccomment">/// The assigned project ID of the project.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The ID of the dataset in the above project.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>dataset_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The ID of the table in the above dataset.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>table_id: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// All fields in this message optional.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TableModifiers {
+    <span class="doccomment">/// The snapshot time of the table. If not set, interpreted as now.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>snapshot_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
 <span class="doccomment">/// Avro schema.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -878,28 +900,6 @@
     /// Restricted to a maximum length for 1 MB.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>row_restriction: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Table reference that includes just the 3 strings needed to identify a table.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TableReference {
-    <span class="doccomment">/// The assigned project ID of the project.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The ID of the dataset in the above project.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>dataset_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The ID of the table in the above dataset.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>table_id: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// All fields in this message optional.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TableModifiers {
-    <span class="doccomment">/// The snapshot time of the table. If not set, interpreted as now.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>snapshot_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
 }
 <span class="doccomment">/// Information about a single data stream within a read session.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

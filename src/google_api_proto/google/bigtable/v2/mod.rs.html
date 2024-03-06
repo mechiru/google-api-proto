@@ -1964,22 +1964,7 @@
 <a href="#1963" id="1963">1963</a>
 <a href="#1964" id="1964">1964</a>
 <a href="#1965" id="1965">1965</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Response metadata proto
-/// This is an experimental feature that will be used to get zone_id and
-/// cluster_id from response trailers to tag the metrics. This should not be
-/// used by customers directly
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ResponseParams {
-    <span class="doccomment">/// The cloud bigtable zone associated with the cluster.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>zone_id: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Identifier for a cluster that represents set of
-    /// bigtable resources.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>cluster_id: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Specifies the complete (requested) contents of a single row of a table.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Specifies the complete (requested) contents of a single row of a table.
 /// Rows which exceed 256MiB in size cannot be read in full.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3928,5 +3913,20 @@
     /// durations to retry requests with.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
     </span><span class="kw">pub </span>retry_info: bool,
+}
+<span class="doccomment">/// Response metadata proto
+/// This is an experimental feature that will be used to get zone_id and
+/// cluster_id from response trailers to tag the metrics. This should not be
+/// used by customers directly
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ResponseParams {
+    <span class="doccomment">/// The cloud bigtable zone associated with the cluster.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>zone_id: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Identifier for a cluster that represents set of
+    /// bigtable resources.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>cluster_id: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
 }
 </code></pre></div></section></main></body></html>

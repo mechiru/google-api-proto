@@ -2660,353 +2660,28 @@
 <a href="#2659" id="2659">2659</a>
 <a href="#2660" id="2660">2660</a>
 <a href="#2661" id="2661">2661</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Table display options that can be reused.
+</pre></div><pre class="rust"><code><span class="doccomment">/// A filter to reduce the amount of data charted in relevant widgets.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TableDisplayOptions {
-    <span class="doccomment">/// Optional. This field is unused and has been replaced by
-    /// TimeSeriesTable.column_settings
-    </span><span class="attr">#[deprecated]
-    #[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>shown_columns: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// A widget that displays textual content.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Text {
-    <span class="doccomment">/// The text content to be displayed.
+</span><span class="kw">pub struct </span>DashboardFilter {
+    <span class="doccomment">/// Required. The key for the label
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
-    <span class="doccomment">/// How the text content is formatted.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"text::Format"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>format: i32,
-    <span class="doccomment">/// How the text is styled
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>style: ::core::option::Option&lt;text::TextStyle&gt;,
+    </span><span class="kw">pub </span>label_key: ::prost::alloc::string::String,
+    <span class="doccomment">/// The placeholder text that can be referenced in a filter string or MQL
+    /// query. If omitted, the dashboard filter will be applied to all relevant
+    /// widgets in the dashboard.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>template_variable: ::prost::alloc::string::String,
+    <span class="doccomment">/// The specified filter type
+    </span><span class="attr">#[prost(enumeration = <span class="string">"dashboard_filter::FilterType"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>filter_type: i32,
+    <span class="doccomment">/// The default value used in the filter comparison
+    </span><span class="attr">#[prost(oneof = <span class="string">"dashboard_filter::DefaultValue"</span>, tags = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>default_value: ::core::option::Option&lt;dashboard_filter::DefaultValue&gt;,
 }
-<span class="doccomment">/// Nested message and enum types in `Text`.
-</span><span class="kw">pub mod </span>text {
-    <span class="doccomment">/// Properties that determine how the title and content are styled
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>TextStyle {
-        <span class="doccomment">/// The background color as a hex string. "#RRGGBB" or "#RGB"
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>background_color: ::prost::alloc::string::String,
-        <span class="doccomment">/// The text color as a hex string. "#RRGGBB" or "#RGB"
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>text_color: ::prost::alloc::string::String,
-        <span class="doccomment">/// The horizontal alignment of both the title and content
-        </span><span class="attr">#[prost(enumeration = <span class="string">"text_style::HorizontalAlignment"</span>, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>horizontal_alignment: i32,
-        <span class="doccomment">/// The vertical alignment of both the title and content
-        </span><span class="attr">#[prost(enumeration = <span class="string">"text_style::VerticalAlignment"</span>, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>vertical_alignment: i32,
-        <span class="doccomment">/// The amount of padding around the widget
-        </span><span class="attr">#[prost(enumeration = <span class="string">"text_style::PaddingSize"</span>, tag = <span class="string">"5"</span>)]
-        </span><span class="kw">pub </span>padding: i32,
-        <span class="doccomment">/// Font sizes for both the title and content. The title will still be larger
-        /// relative to the content.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"text_style::FontSize"</span>, tag = <span class="string">"6"</span>)]
-        </span><span class="kw">pub </span>font_size: i32,
-        <span class="doccomment">/// The pointer location for this widget (also sometimes called a "tail")
-        </span><span class="attr">#[prost(enumeration = <span class="string">"text_style::PointerLocation"</span>, tag = <span class="string">"7"</span>)]
-        </span><span class="kw">pub </span>pointer_location: i32,
-    }
-    <span class="doccomment">/// Nested message and enum types in `TextStyle`.
-    </span><span class="kw">pub mod </span>text_style {
-        <span class="doccomment">/// The horizontal alignment of both the title and content on a text widget
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>HorizontalAlignment {
-            <span class="doccomment">/// No horizontal alignment specified, will default to H_LEFT
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Left-align
-            </span>HLeft = <span class="number">1</span>,
-            <span class="doccomment">/// Center-align
-            </span>HCenter = <span class="number">2</span>,
-            <span class="doccomment">/// Right-align
-            </span>HRight = <span class="number">3</span>,
-        }
-        <span class="kw">impl </span>HorizontalAlignment {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    HorizontalAlignment::Unspecified =&gt; {
-                        <span class="string">"HORIZONTAL_ALIGNMENT_UNSPECIFIED"
-                    </span>}
-                    HorizontalAlignment::HLeft =&gt; <span class="string">"H_LEFT"</span>,
-                    HorizontalAlignment::HCenter =&gt; <span class="string">"H_CENTER"</span>,
-                    HorizontalAlignment::HRight =&gt; <span class="string">"H_RIGHT"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"HORIZONTAL_ALIGNMENT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"H_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::HLeft),
-                    <span class="string">"H_CENTER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::HCenter),
-                    <span class="string">"H_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::HRight),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-        <span class="doccomment">/// The vertical alignment of both the title and content on a text widget
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>VerticalAlignment {
-            <span class="doccomment">/// No vertical alignment specified, will default to V_TOP
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Top-align
-            </span>VTop = <span class="number">1</span>,
-            <span class="doccomment">/// Center-align
-            </span>VCenter = <span class="number">2</span>,
-            <span class="doccomment">/// Bottom-align
-            </span>VBottom = <span class="number">3</span>,
-        }
-        <span class="kw">impl </span>VerticalAlignment {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    VerticalAlignment::Unspecified =&gt; <span class="string">"VERTICAL_ALIGNMENT_UNSPECIFIED"</span>,
-                    VerticalAlignment::VTop =&gt; <span class="string">"V_TOP"</span>,
-                    VerticalAlignment::VCenter =&gt; <span class="string">"V_CENTER"</span>,
-                    VerticalAlignment::VBottom =&gt; <span class="string">"V_BOTTOM"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"VERTICAL_ALIGNMENT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"V_TOP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::VTop),
-                    <span class="string">"V_CENTER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::VCenter),
-                    <span class="string">"V_BOTTOM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::VBottom),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-        <span class="doccomment">/// Specifies padding size around a text widget
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>PaddingSize {
-            <span class="doccomment">/// No padding size specified, will default to P_EXTRA_SMALL
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Extra small padding
-            </span>PExtraSmall = <span class="number">1</span>,
-            <span class="doccomment">/// Small padding
-            </span>PSmall = <span class="number">2</span>,
-            <span class="doccomment">/// Medium padding
-            </span>PMedium = <span class="number">3</span>,
-            <span class="doccomment">/// Large padding
-            </span>PLarge = <span class="number">4</span>,
-            <span class="doccomment">/// Extra large padding
-            </span>PExtraLarge = <span class="number">5</span>,
-        }
-        <span class="kw">impl </span>PaddingSize {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    PaddingSize::Unspecified =&gt; <span class="string">"PADDING_SIZE_UNSPECIFIED"</span>,
-                    PaddingSize::PExtraSmall =&gt; <span class="string">"P_EXTRA_SMALL"</span>,
-                    PaddingSize::PSmall =&gt; <span class="string">"P_SMALL"</span>,
-                    PaddingSize::PMedium =&gt; <span class="string">"P_MEDIUM"</span>,
-                    PaddingSize::PLarge =&gt; <span class="string">"P_LARGE"</span>,
-                    PaddingSize::PExtraLarge =&gt; <span class="string">"P_EXTRA_LARGE"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"PADDING_SIZE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"P_EXTRA_SMALL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PExtraSmall),
-                    <span class="string">"P_SMALL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PSmall),
-                    <span class="string">"P_MEDIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PMedium),
-                    <span class="string">"P_LARGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PLarge),
-                    <span class="string">"P_EXTRA_LARGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PExtraLarge),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-        <span class="doccomment">/// Specifies a font size for the title and content of a text widget
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>FontSize {
-            <span class="doccomment">/// No font size specified, will default to FS_LARGE
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Extra small font size
-            </span>FsExtraSmall = <span class="number">1</span>,
-            <span class="doccomment">/// Small font size
-            </span>FsSmall = <span class="number">2</span>,
-            <span class="doccomment">/// Medium font size
-            </span>FsMedium = <span class="number">3</span>,
-            <span class="doccomment">/// Large font size
-            </span>FsLarge = <span class="number">4</span>,
-            <span class="doccomment">/// Extra large font size
-            </span>FsExtraLarge = <span class="number">5</span>,
-        }
-        <span class="kw">impl </span>FontSize {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    FontSize::Unspecified =&gt; <span class="string">"FONT_SIZE_UNSPECIFIED"</span>,
-                    FontSize::FsExtraSmall =&gt; <span class="string">"FS_EXTRA_SMALL"</span>,
-                    FontSize::FsSmall =&gt; <span class="string">"FS_SMALL"</span>,
-                    FontSize::FsMedium =&gt; <span class="string">"FS_MEDIUM"</span>,
-                    FontSize::FsLarge =&gt; <span class="string">"FS_LARGE"</span>,
-                    FontSize::FsExtraLarge =&gt; <span class="string">"FS_EXTRA_LARGE"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"FONT_SIZE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"FS_EXTRA_SMALL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FsExtraSmall),
-                    <span class="string">"FS_SMALL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FsSmall),
-                    <span class="string">"FS_MEDIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FsMedium),
-                    <span class="string">"FS_LARGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FsLarge),
-                    <span class="string">"FS_EXTRA_LARGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FsExtraLarge),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-        <span class="doccomment">/// Specifies where a visual pointer is placed on a text widget (also
-        /// sometimes called a "tail")
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>PointerLocation {
-            <span class="doccomment">/// No visual pointer
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Placed in the middle of the top of the widget
-            </span>PlTop = <span class="number">1</span>,
-            <span class="doccomment">/// Placed in the middle of the right side of the widget
-            </span>PlRight = <span class="number">2</span>,
-            <span class="doccomment">/// Placed in the middle of the bottom of the widget
-            </span>PlBottom = <span class="number">3</span>,
-            <span class="doccomment">/// Placed in the middle of the left side of the widget
-            </span>PlLeft = <span class="number">4</span>,
-            <span class="doccomment">/// Placed on the left side of the top of the widget
-            </span>PlTopLeft = <span class="number">5</span>,
-            <span class="doccomment">/// Placed on the right side of the top of the widget
-            </span>PlTopRight = <span class="number">6</span>,
-            <span class="doccomment">/// Placed on the top of the right side of the widget
-            </span>PlRightTop = <span class="number">7</span>,
-            <span class="doccomment">/// Placed on the bottom of the right side of the widget
-            </span>PlRightBottom = <span class="number">8</span>,
-            <span class="doccomment">/// Placed on the right side of the bottom of the widget
-            </span>PlBottomRight = <span class="number">9</span>,
-            <span class="doccomment">/// Placed on the left side of the bottom of the widget
-            </span>PlBottomLeft = <span class="number">10</span>,
-            <span class="doccomment">/// Placed on the bottom of the left side of the widget
-            </span>PlLeftBottom = <span class="number">11</span>,
-            <span class="doccomment">/// Placed on the top of the left side of the widget
-            </span>PlLeftTop = <span class="number">12</span>,
-        }
-        <span class="kw">impl </span>PointerLocation {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    PointerLocation::Unspecified =&gt; <span class="string">"POINTER_LOCATION_UNSPECIFIED"</span>,
-                    PointerLocation::PlTop =&gt; <span class="string">"PL_TOP"</span>,
-                    PointerLocation::PlRight =&gt; <span class="string">"PL_RIGHT"</span>,
-                    PointerLocation::PlBottom =&gt; <span class="string">"PL_BOTTOM"</span>,
-                    PointerLocation::PlLeft =&gt; <span class="string">"PL_LEFT"</span>,
-                    PointerLocation::PlTopLeft =&gt; <span class="string">"PL_TOP_LEFT"</span>,
-                    PointerLocation::PlTopRight =&gt; <span class="string">"PL_TOP_RIGHT"</span>,
-                    PointerLocation::PlRightTop =&gt; <span class="string">"PL_RIGHT_TOP"</span>,
-                    PointerLocation::PlRightBottom =&gt; <span class="string">"PL_RIGHT_BOTTOM"</span>,
-                    PointerLocation::PlBottomRight =&gt; <span class="string">"PL_BOTTOM_RIGHT"</span>,
-                    PointerLocation::PlBottomLeft =&gt; <span class="string">"PL_BOTTOM_LEFT"</span>,
-                    PointerLocation::PlLeftBottom =&gt; <span class="string">"PL_LEFT_BOTTOM"</span>,
-                    PointerLocation::PlLeftTop =&gt; <span class="string">"PL_LEFT_TOP"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"POINTER_LOCATION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"PL_TOP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlTop),
-                    <span class="string">"PL_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlRight),
-                    <span class="string">"PL_BOTTOM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlBottom),
-                    <span class="string">"PL_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlLeft),
-                    <span class="string">"PL_TOP_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlTopLeft),
-                    <span class="string">"PL_TOP_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlTopRight),
-                    <span class="string">"PL_RIGHT_TOP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlRightTop),
-                    <span class="string">"PL_RIGHT_BOTTOM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlRightBottom),
-                    <span class="string">"PL_BOTTOM_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlBottomRight),
-                    <span class="string">"PL_BOTTOM_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlBottomLeft),
-                    <span class="string">"PL_LEFT_BOTTOM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlLeftBottom),
-                    <span class="string">"PL_LEFT_TOP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlLeftTop),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-    <span class="doccomment">/// The format type of the text content.
+<span class="doccomment">/// Nested message and enum types in `DashboardFilter`.
+</span><span class="kw">pub mod </span>dashboard_filter {
+    <span class="doccomment">/// The type for the dashboard filter
     </span><span class="attr">#[derive(
         Clone,
         Copy,
@@ -3019,35 +2694,55 @@
         ::prost::Enumeration
     )]
     #[repr(i32)]
-    </span><span class="kw">pub enum </span>Format {
-        <span class="doccomment">/// Format is unspecified. Defaults to MARKDOWN.
+    </span><span class="kw">pub enum </span>FilterType {
+        <span class="doccomment">/// Filter type is unspecified. This is not valid in a well-formed request.
         </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The text contains Markdown formatting.
-        </span>Markdown = <span class="number">1</span>,
-        <span class="doccomment">/// The text contains no special formatting.
-        </span>Raw = <span class="number">2</span>,
+        <span class="doccomment">/// Filter on a resource label value
+        </span>ResourceLabel = <span class="number">1</span>,
+        <span class="doccomment">/// Filter on a metrics label value
+        </span>MetricLabel = <span class="number">2</span>,
+        <span class="doccomment">/// Filter on a user metadata label value
+        </span>UserMetadataLabel = <span class="number">3</span>,
+        <span class="doccomment">/// Filter on a system metadata label value
+        </span>SystemMetadataLabel = <span class="number">4</span>,
+        <span class="doccomment">/// Filter on a group id
+        </span>Group = <span class="number">5</span>,
     }
-    <span class="kw">impl </span>Format {
+    <span class="kw">impl </span>FilterType {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
         ///
         /// The values are not transformed in any way and thus are considered stable
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
             <span class="kw">match </span><span class="self">self </span>{
-                Format::Unspecified =&gt; <span class="string">"FORMAT_UNSPECIFIED"</span>,
-                Format::Markdown =&gt; <span class="string">"MARKDOWN"</span>,
-                Format::Raw =&gt; <span class="string">"RAW"</span>,
+                FilterType::Unspecified =&gt; <span class="string">"FILTER_TYPE_UNSPECIFIED"</span>,
+                FilterType::ResourceLabel =&gt; <span class="string">"RESOURCE_LABEL"</span>,
+                FilterType::MetricLabel =&gt; <span class="string">"METRIC_LABEL"</span>,
+                FilterType::UserMetadataLabel =&gt; <span class="string">"USER_METADATA_LABEL"</span>,
+                FilterType::SystemMetadataLabel =&gt; <span class="string">"SYSTEM_METADATA_LABEL"</span>,
+                FilterType::Group =&gt; <span class="string">"GROUP"</span>,
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
         </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
             <span class="kw">match </span>value {
-                <span class="string">"FORMAT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"MARKDOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Markdown),
-                <span class="string">"RAW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Raw),
+                <span class="string">"FILTER_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"RESOURCE_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceLabel),
+                <span class="string">"METRIC_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetricLabel),
+                <span class="string">"USER_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserMetadataLabel),
+                <span class="string">"SYSTEM_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SystemMetadataLabel),
+                <span class="string">"GROUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Group),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
+    }
+    <span class="doccomment">/// The default value used in the filter comparison
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>DefaultValue {
+        <span class="doccomment">/// A variable-length string value.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span>StringValue(::prost::alloc::string::String),
     }
 }
 <span class="doccomment">/// A chart that displays alert policy data.
@@ -3059,6 +2754,76 @@
     ///      projects/\[PROJECT_ID_OR_NUMBER\]/alertPolicies/\[ALERT_POLICY_ID\]
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A widget that groups the other widgets. All widgets that are within
+/// the area spanned by the grouping widget are considered member widgets.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CollapsibleGroup {
+    <span class="doccomment">/// The collapsed state of the widget on first page load.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>collapsed: bool,
+}
+<span class="doccomment">/// A widget that displays a list of error groups.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ErrorReportingPanel {
+    <span class="doccomment">/// The resource name of the Google Cloud Platform project. Written
+    /// as `projects/{projectID}` or `projects/{projectNumber}`, where
+    /// `{projectID}` and `{projectNumber}` can be found in the
+    /// [Google Cloud console](&lt;https://support.google.com/cloud/answer/6158840&gt;).
+    ///
+    /// Examples: `projects/my-project-123`, `projects/5551234`.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>project_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// An identifier of the service, such as the name of the
+    /// executable, job, or Google App Engine service name. This field is expected
+    /// to have a low number of values that are relatively stable over time, as
+    /// opposed to `version`, which can be changed whenever new code is deployed.
+    ///
+    /// Contains the service name for error reports extracted from Google
+    /// App Engine logs or `default` if the App Engine default service is used.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>services: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Represents the source code version that the developer provided,
+    /// which could represent a version label or a Git SHA-1 hash, for example.
+    /// For App Engine standard environment, the version is set to the version of
+    /// the app.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>versions: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// A widget that displays a list of incidents
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>IncidentList {
+    <span class="doccomment">/// Optional. The monitored resource for which incidents are listed.
+    /// The resource doesn't need to be fully specified. That is, you can specify
+    /// the resource type but not the values of the resource labels.
+    /// The resource type and labels are used for filtering.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>monitored_resources: ::prost::alloc::vec::Vec&lt;
+        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::api::MonitoredResource,
+    &gt;,
+    <span class="doccomment">/// Optional. A list of alert policy names to filter the incident list by.
+    /// Don't include the project ID prefix in the policy name. For
+    /// example, use `alertPolicies/utilization`.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>policy_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// A widget that displays a stream of log.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LogsPanel {
+    <span class="doccomment">/// A filter that chooses which log entries to return.  See [Advanced Logs
+    /// Queries](&lt;https://cloud.google.com/logging/docs/view/advanced-queries&gt;).
+    /// Only log entries that match the filter are returned.  An empty filter
+    /// matches all log entries.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+    <span class="doccomment">/// The names of logging resources to collect logs for. Currently only projects
+    /// are supported. If empty, the widget will default to the host project.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>resource_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
 }
 <span class="doccomment">/// Describes how to combine multiple time series to provide a different view of
 /// the data.  Aggregation of time series is done in two steps. First, each time
@@ -3687,97 +3452,6 @@
         }
     }
 }
-<span class="doccomment">/// A widget that groups the other widgets by using a dropdown menu. All widgets
-/// that are within the area spanned by the grouping widget are considered
-/// member widgets.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SingleViewGroup {}
-<span class="doccomment">/// A filter to reduce the amount of data charted in relevant widgets.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DashboardFilter {
-    <span class="doccomment">/// Required. The key for the label
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>label_key: ::prost::alloc::string::String,
-    <span class="doccomment">/// The placeholder text that can be referenced in a filter string or MQL
-    /// query. If omitted, the dashboard filter will be applied to all relevant
-    /// widgets in the dashboard.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>template_variable: ::prost::alloc::string::String,
-    <span class="doccomment">/// The specified filter type
-    </span><span class="attr">#[prost(enumeration = <span class="string">"dashboard_filter::FilterType"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>filter_type: i32,
-    <span class="doccomment">/// The default value used in the filter comparison
-    </span><span class="attr">#[prost(oneof = <span class="string">"dashboard_filter::DefaultValue"</span>, tags = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>default_value: ::core::option::Option&lt;dashboard_filter::DefaultValue&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `DashboardFilter`.
-</span><span class="kw">pub mod </span>dashboard_filter {
-    <span class="doccomment">/// The type for the dashboard filter
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>FilterType {
-        <span class="doccomment">/// Filter type is unspecified. This is not valid in a well-formed request.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Filter on a resource label value
-        </span>ResourceLabel = <span class="number">1</span>,
-        <span class="doccomment">/// Filter on a metrics label value
-        </span>MetricLabel = <span class="number">2</span>,
-        <span class="doccomment">/// Filter on a user metadata label value
-        </span>UserMetadataLabel = <span class="number">3</span>,
-        <span class="doccomment">/// Filter on a system metadata label value
-        </span>SystemMetadataLabel = <span class="number">4</span>,
-        <span class="doccomment">/// Filter on a group id
-        </span>Group = <span class="number">5</span>,
-    }
-    <span class="kw">impl </span>FilterType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                FilterType::Unspecified =&gt; <span class="string">"FILTER_TYPE_UNSPECIFIED"</span>,
-                FilterType::ResourceLabel =&gt; <span class="string">"RESOURCE_LABEL"</span>,
-                FilterType::MetricLabel =&gt; <span class="string">"METRIC_LABEL"</span>,
-                FilterType::UserMetadataLabel =&gt; <span class="string">"USER_METADATA_LABEL"</span>,
-                FilterType::SystemMetadataLabel =&gt; <span class="string">"SYSTEM_METADATA_LABEL"</span>,
-                FilterType::Group =&gt; <span class="string">"GROUP"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"FILTER_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"RESOURCE_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceLabel),
-                <span class="string">"METRIC_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetricLabel),
-                <span class="string">"USER_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserMetadataLabel),
-                <span class="string">"SYSTEM_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SystemMetadataLabel),
-                <span class="string">"GROUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Group),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// The default value used in the filter comparison
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>DefaultValue {
-        <span class="doccomment">/// A variable-length string value.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span>StringValue(::prost::alloc::string::String),
-    }
-}
 <span class="doccomment">/// TimeSeriesQuery collects the set of supported methods for querying time
 /// series data from the Stackdriver metrics API.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4107,6 +3781,90 @@
         }
     }
 }
+<span class="doccomment">/// A widget that displays timeseries data as a pie or a donut.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PieChart {
+    <span class="doccomment">/// Required. The queries for the chart's data.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>data_sets: ::prost::alloc::vec::Vec&lt;pie_chart::PieChartDataSet&gt;,
+    <span class="doccomment">/// Required. Indicates the visualization type for the PieChart.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"pie_chart::PieChartType"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>chart_type: i32,
+    <span class="doccomment">/// Optional. Indicates whether or not the pie chart should show slices' labels
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>show_labels: bool,
+}
+<span class="doccomment">/// Nested message and enum types in `PieChart`.
+</span><span class="kw">pub mod </span>pie_chart {
+    <span class="doccomment">/// Groups a time series query definition.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>PieChartDataSet {
+        <span class="doccomment">/// Required. The query for the PieChart. See,
+        /// `google.monitoring.dashboard.v1.TimeSeriesQuery`.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>time_series_query: ::core::option::Option&lt;<span class="kw">super</span>::TimeSeriesQuery&gt;,
+        <span class="doccomment">/// Optional. A template for the name of the slice. This name will be
+        /// displayed in the legend and the tooltip of the pie chart. It replaces the
+        /// auto-generated names for the slices. For example, if the template is set
+        /// to
+        /// `${resource.labels.zone}`, the zone's value will be used for the name
+        /// instead of the default name.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>slice_name_template: ::prost::alloc::string::String,
+        <span class="doccomment">/// Optional. The lower bound on data point frequency for this data set,
+        /// implemented by specifying the minimum alignment period to use in a time
+        /// series query. For example, if the data is published once every 10
+        /// minutes, the `min_alignment_period` should be at least 10 minutes. It
+        /// would not make sense to fetch and align data at one minute intervals.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>min_alignment_period: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    }
+    <span class="doccomment">/// Types for the pie chart.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>PieChartType {
+        <span class="doccomment">/// The zero value. No type specified. Do not use.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// A Pie type PieChart.
+        </span>Pie = <span class="number">1</span>,
+        <span class="doccomment">/// Similar to PIE, but the DONUT type PieChart has a hole in the middle.
+        </span>Donut = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>PieChartType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                PieChartType::Unspecified =&gt; <span class="string">"PIE_CHART_TYPE_UNSPECIFIED"</span>,
+                PieChartType::Pie =&gt; <span class="string">"PIE"</span>,
+                PieChartType::Donut =&gt; <span class="string">"DONUT"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"PIE_CHART_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"PIE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pie),
+                <span class="string">"DONUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Donut),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
 <span class="doccomment">/// A widget showing the latest value of a metric, and how this value relates to
 /// one or more thresholds.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4213,160 +3971,6 @@
         </span>BlankView(()),
     }
 }
-<span class="doccomment">/// A widget that groups the other widgets. All widgets that are within
-/// the area spanned by the grouping widget are considered member widgets.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CollapsibleGroup {
-    <span class="doccomment">/// The collapsed state of the widget on first page load.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>collapsed: bool,
-}
-<span class="doccomment">/// A widget that displays a list of error groups.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ErrorReportingPanel {
-    <span class="doccomment">/// The resource name of the Google Cloud Platform project. Written
-    /// as `projects/{projectID}` or `projects/{projectNumber}`, where
-    /// `{projectID}` and `{projectNumber}` can be found in the
-    /// [Google Cloud console](&lt;https://support.google.com/cloud/answer/6158840&gt;).
-    ///
-    /// Examples: `projects/my-project-123`, `projects/5551234`.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>project_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// An identifier of the service, such as the name of the
-    /// executable, job, or Google App Engine service name. This field is expected
-    /// to have a low number of values that are relatively stable over time, as
-    /// opposed to `version`, which can be changed whenever new code is deployed.
-    ///
-    /// Contains the service name for error reports extracted from Google
-    /// App Engine logs or `default` if the App Engine default service is used.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>services: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Represents the source code version that the developer provided,
-    /// which could represent a version label or a Git SHA-1 hash, for example.
-    /// For App Engine standard environment, the version is set to the version of
-    /// the app.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>versions: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// A widget that displays a list of incidents
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>IncidentList {
-    <span class="doccomment">/// Optional. The monitored resource for which incidents are listed.
-    /// The resource doesn't need to be fully specified. That is, you can specify
-    /// the resource type but not the values of the resource labels.
-    /// The resource type and labels are used for filtering.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>monitored_resources: ::prost::alloc::vec::Vec&lt;
-        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::api::MonitoredResource,
-    &gt;,
-    <span class="doccomment">/// Optional. A list of alert policy names to filter the incident list by.
-    /// Don't include the project ID prefix in the policy name. For
-    /// example, use `alertPolicies/utilization`.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>policy_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// A widget that displays a stream of log.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LogsPanel {
-    <span class="doccomment">/// A filter that chooses which log entries to return.  See [Advanced Logs
-    /// Queries](&lt;https://cloud.google.com/logging/docs/view/advanced-queries&gt;).
-    /// Only log entries that match the filter are returned.  An empty filter
-    /// matches all log entries.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-    <span class="doccomment">/// The names of logging resources to collect logs for. Currently only projects
-    /// are supported. If empty, the widget will default to the host project.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>resource_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// A widget that displays timeseries data as a pie or a donut.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PieChart {
-    <span class="doccomment">/// Required. The queries for the chart's data.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>data_sets: ::prost::alloc::vec::Vec&lt;pie_chart::PieChartDataSet&gt;,
-    <span class="doccomment">/// Required. Indicates the visualization type for the PieChart.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"pie_chart::PieChartType"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>chart_type: i32,
-    <span class="doccomment">/// Optional. Indicates whether or not the pie chart should show slices' labels
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>show_labels: bool,
-}
-<span class="doccomment">/// Nested message and enum types in `PieChart`.
-</span><span class="kw">pub mod </span>pie_chart {
-    <span class="doccomment">/// Groups a time series query definition.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>PieChartDataSet {
-        <span class="doccomment">/// Required. The query for the PieChart. See,
-        /// `google.monitoring.dashboard.v1.TimeSeriesQuery`.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>time_series_query: ::core::option::Option&lt;<span class="kw">super</span>::TimeSeriesQuery&gt;,
-        <span class="doccomment">/// Optional. A template for the name of the slice. This name will be
-        /// displayed in the legend and the tooltip of the pie chart. It replaces the
-        /// auto-generated names for the slices. For example, if the template is set
-        /// to
-        /// `${resource.labels.zone}`, the zone's value will be used for the name
-        /// instead of the default name.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>slice_name_template: ::prost::alloc::string::String,
-        <span class="doccomment">/// Optional. The lower bound on data point frequency for this data set,
-        /// implemented by specifying the minimum alignment period to use in a time
-        /// series query. For example, if the data is published once every 10
-        /// minutes, the `min_alignment_period` should be at least 10 minutes. It
-        /// would not make sense to fetch and align data at one minute intervals.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>min_alignment_period: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    }
-    <span class="doccomment">/// Types for the pie chart.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>PieChartType {
-        <span class="doccomment">/// The zero value. No type specified. Do not use.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// A Pie type PieChart.
-        </span>Pie = <span class="number">1</span>,
-        <span class="doccomment">/// Similar to PIE, but the DONUT type PieChart has a hole in the middle.
-        </span>Donut = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>PieChartType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                PieChartType::Unspecified =&gt; <span class="string">"PIE_CHART_TYPE_UNSPECIFIED"</span>,
-                PieChartType::Pie =&gt; <span class="string">"PIE"</span>,
-                PieChartType::Donut =&gt; <span class="string">"DONUT"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"PIE_CHART_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"PIE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pie),
-                <span class="string">"DONUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Donut),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
 <span class="doccomment">/// A widget that defines a new section header. Sections populate a table of
 /// contents and allow easier navigation of long-form content.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4378,6 +3982,22 @@
     <span class="doccomment">/// Whether to insert a divider below the section in the table of contents
     </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>divider_below: bool,
+}
+<span class="doccomment">/// A widget that groups the other widgets by using a dropdown menu. All widgets
+/// that are within the area spanned by the grouping widget are considered
+/// member widgets.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SingleViewGroup {}
+<span class="doccomment">/// Table display options that can be reused.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TableDisplayOptions {
+    <span class="doccomment">/// Optional. This field is unused and has been replaced by
+    /// TimeSeriesTable.column_settings
+    </span><span class="attr">#[deprecated]
+    #[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>shown_columns: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
 }
 <span class="doccomment">/// A table that displays time series data.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4471,6 +4091,386 @@
                 <span class="string">"METRIC_VISUALIZATION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
                 <span class="string">"NUMBER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Number),
                 <span class="string">"BAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bar),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A widget that displays textual content.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Text {
+    <span class="doccomment">/// The text content to be displayed.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
+    <span class="doccomment">/// How the text content is formatted.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"text::Format"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>format: i32,
+    <span class="doccomment">/// How the text is styled
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>style: ::core::option::Option&lt;text::TextStyle&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Text`.
+</span><span class="kw">pub mod </span>text {
+    <span class="doccomment">/// Properties that determine how the title and content are styled
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>TextStyle {
+        <span class="doccomment">/// The background color as a hex string. "#RRGGBB" or "#RGB"
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>background_color: ::prost::alloc::string::String,
+        <span class="doccomment">/// The text color as a hex string. "#RRGGBB" or "#RGB"
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>text_color: ::prost::alloc::string::String,
+        <span class="doccomment">/// The horizontal alignment of both the title and content
+        </span><span class="attr">#[prost(enumeration = <span class="string">"text_style::HorizontalAlignment"</span>, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>horizontal_alignment: i32,
+        <span class="doccomment">/// The vertical alignment of both the title and content
+        </span><span class="attr">#[prost(enumeration = <span class="string">"text_style::VerticalAlignment"</span>, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>vertical_alignment: i32,
+        <span class="doccomment">/// The amount of padding around the widget
+        </span><span class="attr">#[prost(enumeration = <span class="string">"text_style::PaddingSize"</span>, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>padding: i32,
+        <span class="doccomment">/// Font sizes for both the title and content. The title will still be larger
+        /// relative to the content.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"text_style::FontSize"</span>, tag = <span class="string">"6"</span>)]
+        </span><span class="kw">pub </span>font_size: i32,
+        <span class="doccomment">/// The pointer location for this widget (also sometimes called a "tail")
+        </span><span class="attr">#[prost(enumeration = <span class="string">"text_style::PointerLocation"</span>, tag = <span class="string">"7"</span>)]
+        </span><span class="kw">pub </span>pointer_location: i32,
+    }
+    <span class="doccomment">/// Nested message and enum types in `TextStyle`.
+    </span><span class="kw">pub mod </span>text_style {
+        <span class="doccomment">/// The horizontal alignment of both the title and content on a text widget
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>HorizontalAlignment {
+            <span class="doccomment">/// No horizontal alignment specified, will default to H_LEFT
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Left-align
+            </span>HLeft = <span class="number">1</span>,
+            <span class="doccomment">/// Center-align
+            </span>HCenter = <span class="number">2</span>,
+            <span class="doccomment">/// Right-align
+            </span>HRight = <span class="number">3</span>,
+        }
+        <span class="kw">impl </span>HorizontalAlignment {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    HorizontalAlignment::Unspecified =&gt; {
+                        <span class="string">"HORIZONTAL_ALIGNMENT_UNSPECIFIED"
+                    </span>}
+                    HorizontalAlignment::HLeft =&gt; <span class="string">"H_LEFT"</span>,
+                    HorizontalAlignment::HCenter =&gt; <span class="string">"H_CENTER"</span>,
+                    HorizontalAlignment::HRight =&gt; <span class="string">"H_RIGHT"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"HORIZONTAL_ALIGNMENT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"H_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::HLeft),
+                    <span class="string">"H_CENTER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::HCenter),
+                    <span class="string">"H_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::HRight),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+        <span class="doccomment">/// The vertical alignment of both the title and content on a text widget
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>VerticalAlignment {
+            <span class="doccomment">/// No vertical alignment specified, will default to V_TOP
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Top-align
+            </span>VTop = <span class="number">1</span>,
+            <span class="doccomment">/// Center-align
+            </span>VCenter = <span class="number">2</span>,
+            <span class="doccomment">/// Bottom-align
+            </span>VBottom = <span class="number">3</span>,
+        }
+        <span class="kw">impl </span>VerticalAlignment {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    VerticalAlignment::Unspecified =&gt; <span class="string">"VERTICAL_ALIGNMENT_UNSPECIFIED"</span>,
+                    VerticalAlignment::VTop =&gt; <span class="string">"V_TOP"</span>,
+                    VerticalAlignment::VCenter =&gt; <span class="string">"V_CENTER"</span>,
+                    VerticalAlignment::VBottom =&gt; <span class="string">"V_BOTTOM"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"VERTICAL_ALIGNMENT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"V_TOP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::VTop),
+                    <span class="string">"V_CENTER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::VCenter),
+                    <span class="string">"V_BOTTOM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::VBottom),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+        <span class="doccomment">/// Specifies padding size around a text widget
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>PaddingSize {
+            <span class="doccomment">/// No padding size specified, will default to P_EXTRA_SMALL
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Extra small padding
+            </span>PExtraSmall = <span class="number">1</span>,
+            <span class="doccomment">/// Small padding
+            </span>PSmall = <span class="number">2</span>,
+            <span class="doccomment">/// Medium padding
+            </span>PMedium = <span class="number">3</span>,
+            <span class="doccomment">/// Large padding
+            </span>PLarge = <span class="number">4</span>,
+            <span class="doccomment">/// Extra large padding
+            </span>PExtraLarge = <span class="number">5</span>,
+        }
+        <span class="kw">impl </span>PaddingSize {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    PaddingSize::Unspecified =&gt; <span class="string">"PADDING_SIZE_UNSPECIFIED"</span>,
+                    PaddingSize::PExtraSmall =&gt; <span class="string">"P_EXTRA_SMALL"</span>,
+                    PaddingSize::PSmall =&gt; <span class="string">"P_SMALL"</span>,
+                    PaddingSize::PMedium =&gt; <span class="string">"P_MEDIUM"</span>,
+                    PaddingSize::PLarge =&gt; <span class="string">"P_LARGE"</span>,
+                    PaddingSize::PExtraLarge =&gt; <span class="string">"P_EXTRA_LARGE"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"PADDING_SIZE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"P_EXTRA_SMALL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PExtraSmall),
+                    <span class="string">"P_SMALL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PSmall),
+                    <span class="string">"P_MEDIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PMedium),
+                    <span class="string">"P_LARGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PLarge),
+                    <span class="string">"P_EXTRA_LARGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PExtraLarge),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+        <span class="doccomment">/// Specifies a font size for the title and content of a text widget
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>FontSize {
+            <span class="doccomment">/// No font size specified, will default to FS_LARGE
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Extra small font size
+            </span>FsExtraSmall = <span class="number">1</span>,
+            <span class="doccomment">/// Small font size
+            </span>FsSmall = <span class="number">2</span>,
+            <span class="doccomment">/// Medium font size
+            </span>FsMedium = <span class="number">3</span>,
+            <span class="doccomment">/// Large font size
+            </span>FsLarge = <span class="number">4</span>,
+            <span class="doccomment">/// Extra large font size
+            </span>FsExtraLarge = <span class="number">5</span>,
+        }
+        <span class="kw">impl </span>FontSize {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    FontSize::Unspecified =&gt; <span class="string">"FONT_SIZE_UNSPECIFIED"</span>,
+                    FontSize::FsExtraSmall =&gt; <span class="string">"FS_EXTRA_SMALL"</span>,
+                    FontSize::FsSmall =&gt; <span class="string">"FS_SMALL"</span>,
+                    FontSize::FsMedium =&gt; <span class="string">"FS_MEDIUM"</span>,
+                    FontSize::FsLarge =&gt; <span class="string">"FS_LARGE"</span>,
+                    FontSize::FsExtraLarge =&gt; <span class="string">"FS_EXTRA_LARGE"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"FONT_SIZE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"FS_EXTRA_SMALL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FsExtraSmall),
+                    <span class="string">"FS_SMALL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FsSmall),
+                    <span class="string">"FS_MEDIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FsMedium),
+                    <span class="string">"FS_LARGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FsLarge),
+                    <span class="string">"FS_EXTRA_LARGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FsExtraLarge),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+        <span class="doccomment">/// Specifies where a visual pointer is placed on a text widget (also
+        /// sometimes called a "tail")
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>PointerLocation {
+            <span class="doccomment">/// No visual pointer
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Placed in the middle of the top of the widget
+            </span>PlTop = <span class="number">1</span>,
+            <span class="doccomment">/// Placed in the middle of the right side of the widget
+            </span>PlRight = <span class="number">2</span>,
+            <span class="doccomment">/// Placed in the middle of the bottom of the widget
+            </span>PlBottom = <span class="number">3</span>,
+            <span class="doccomment">/// Placed in the middle of the left side of the widget
+            </span>PlLeft = <span class="number">4</span>,
+            <span class="doccomment">/// Placed on the left side of the top of the widget
+            </span>PlTopLeft = <span class="number">5</span>,
+            <span class="doccomment">/// Placed on the right side of the top of the widget
+            </span>PlTopRight = <span class="number">6</span>,
+            <span class="doccomment">/// Placed on the top of the right side of the widget
+            </span>PlRightTop = <span class="number">7</span>,
+            <span class="doccomment">/// Placed on the bottom of the right side of the widget
+            </span>PlRightBottom = <span class="number">8</span>,
+            <span class="doccomment">/// Placed on the right side of the bottom of the widget
+            </span>PlBottomRight = <span class="number">9</span>,
+            <span class="doccomment">/// Placed on the left side of the bottom of the widget
+            </span>PlBottomLeft = <span class="number">10</span>,
+            <span class="doccomment">/// Placed on the bottom of the left side of the widget
+            </span>PlLeftBottom = <span class="number">11</span>,
+            <span class="doccomment">/// Placed on the top of the left side of the widget
+            </span>PlLeftTop = <span class="number">12</span>,
+        }
+        <span class="kw">impl </span>PointerLocation {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    PointerLocation::Unspecified =&gt; <span class="string">"POINTER_LOCATION_UNSPECIFIED"</span>,
+                    PointerLocation::PlTop =&gt; <span class="string">"PL_TOP"</span>,
+                    PointerLocation::PlRight =&gt; <span class="string">"PL_RIGHT"</span>,
+                    PointerLocation::PlBottom =&gt; <span class="string">"PL_BOTTOM"</span>,
+                    PointerLocation::PlLeft =&gt; <span class="string">"PL_LEFT"</span>,
+                    PointerLocation::PlTopLeft =&gt; <span class="string">"PL_TOP_LEFT"</span>,
+                    PointerLocation::PlTopRight =&gt; <span class="string">"PL_TOP_RIGHT"</span>,
+                    PointerLocation::PlRightTop =&gt; <span class="string">"PL_RIGHT_TOP"</span>,
+                    PointerLocation::PlRightBottom =&gt; <span class="string">"PL_RIGHT_BOTTOM"</span>,
+                    PointerLocation::PlBottomRight =&gt; <span class="string">"PL_BOTTOM_RIGHT"</span>,
+                    PointerLocation::PlBottomLeft =&gt; <span class="string">"PL_BOTTOM_LEFT"</span>,
+                    PointerLocation::PlLeftBottom =&gt; <span class="string">"PL_LEFT_BOTTOM"</span>,
+                    PointerLocation::PlLeftTop =&gt; <span class="string">"PL_LEFT_TOP"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"POINTER_LOCATION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"PL_TOP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlTop),
+                    <span class="string">"PL_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlRight),
+                    <span class="string">"PL_BOTTOM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlBottom),
+                    <span class="string">"PL_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlLeft),
+                    <span class="string">"PL_TOP_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlTopLeft),
+                    <span class="string">"PL_TOP_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlTopRight),
+                    <span class="string">"PL_RIGHT_TOP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlRightTop),
+                    <span class="string">"PL_RIGHT_BOTTOM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlRightBottom),
+                    <span class="string">"PL_BOTTOM_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlBottomRight),
+                    <span class="string">"PL_BOTTOM_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlBottomLeft),
+                    <span class="string">"PL_LEFT_BOTTOM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlLeftBottom),
+                    <span class="string">"PL_LEFT_TOP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PlLeftTop),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+    <span class="doccomment">/// The format type of the text content.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Format {
+        <span class="doccomment">/// Format is unspecified. Defaults to MARKDOWN.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The text contains Markdown formatting.
+        </span>Markdown = <span class="number">1</span>,
+        <span class="doccomment">/// The text contains no special formatting.
+        </span>Raw = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Format {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Format::Unspecified =&gt; <span class="string">"FORMAT_UNSPECIFIED"</span>,
+                Format::Markdown =&gt; <span class="string">"MARKDOWN"</span>,
+                Format::Raw =&gt; <span class="string">"RAW"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"FORMAT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"MARKDOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Markdown),
+                <span class="string">"RAW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Raw),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }

@@ -3715,822 +3715,7 @@
 <a href="#3714" id="3714">3714</a>
 <a href="#3715" id="3715">3715</a>
 <a href="#3716" id="3716">3716</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// A single device IP block
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeviceIpBlock {
-    <span class="doccomment">/// An IP address block in CIDR notation eg: 34.68.194.64/29
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>block: ::prost::alloc::string::String,
-    <span class="doccomment">/// Whether this block is used by physical or virtual devices
-    </span><span class="attr">#[prost(enumeration = <span class="string">"DeviceForm"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>form: i32,
-    <span class="doccomment">/// The date this block was added to Firebase Test Lab
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>added_date: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
-}
-<span class="doccomment">/// Request to list the currently supported values for an environment type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetTestEnvironmentCatalogRequest {
-    <span class="doccomment">/// Required. The type of environment that should be listed.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"get_test_environment_catalog_request::EnvironmentType"</span>,
-        tag = <span class="string">"1"
-    </span>)]
-    </span><span class="kw">pub </span>environment_type: i32,
-    <span class="doccomment">/// For authorization, the cloud project requesting the TestEnvironmentCatalog.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `GetTestEnvironmentCatalogRequest`.
-</span><span class="kw">pub mod </span>get_test_environment_catalog_request {
-    <span class="doccomment">/// Types of environments the Test API supports.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>EnvironmentType {
-        <span class="doccomment">/// Do not use.  For proto versioning only.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// A device running a version of the Android OS.
-        </span>Android = <span class="number">1</span>,
-        <span class="doccomment">/// A device running a version of iOS.
-        </span>Ios = <span class="number">3</span>,
-        <span class="doccomment">/// A network configuration to use when running a test.
-        </span>NetworkConfiguration = <span class="number">4</span>,
-        <span class="doccomment">/// The software environment provided by TestExecutionService.
-        </span>ProvidedSoftware = <span class="number">5</span>,
-        <span class="doccomment">/// The IP blocks used by devices in the test environment.
-        </span>DeviceIpBlocks = <span class="number">6</span>,
-    }
-    <span class="kw">impl </span>EnvironmentType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                EnvironmentType::Unspecified =&gt; <span class="string">"ENVIRONMENT_TYPE_UNSPECIFIED"</span>,
-                EnvironmentType::Android =&gt; <span class="string">"ANDROID"</span>,
-                EnvironmentType::Ios =&gt; <span class="string">"IOS"</span>,
-                EnvironmentType::NetworkConfiguration =&gt; <span class="string">"NETWORK_CONFIGURATION"</span>,
-                EnvironmentType::ProvidedSoftware =&gt; <span class="string">"PROVIDED_SOFTWARE"</span>,
-                EnvironmentType::DeviceIpBlocks =&gt; <span class="string">"DEVICE_IP_BLOCKS"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"ENVIRONMENT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"ANDROID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Android),
-                <span class="string">"IOS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ios),
-                <span class="string">"NETWORK_CONFIGURATION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NetworkConfiguration),
-                <span class="string">"PROVIDED_SOFTWARE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ProvidedSoftware),
-                <span class="string">"DEVICE_IP_BLOCKS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DeviceIpBlocks),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A description of a test environment.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TestEnvironmentCatalog {
-    <span class="doccomment">/// Output only.
-    </span><span class="attr">#[prost(
-        oneof = <span class="string">"test_environment_catalog::EnvironmentCatalog"</span>,
-        tags = <span class="string">"1, 3, 4, 5, 6"
-    </span>)]
-    </span><span class="kw">pub </span>environment_catalog: ::core::option::Option&lt;
-        test_environment_catalog::EnvironmentCatalog,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `TestEnvironmentCatalog`.
-</span><span class="kw">pub mod </span>test_environment_catalog {
-    <span class="doccomment">/// Output only.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>EnvironmentCatalog {
-        <span class="doccomment">/// Supported Android devices.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>AndroidDeviceCatalog(<span class="kw">super</span>::AndroidDeviceCatalog),
-        <span class="doccomment">/// Supported iOS devices.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>IosDeviceCatalog(<span class="kw">super</span>::IosDeviceCatalog),
-        <span class="doccomment">/// Supported network configurations.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>NetworkConfigurationCatalog(<span class="kw">super</span>::NetworkConfigurationCatalog),
-        <span class="doccomment">/// The software test environment provided by TestExecutionService.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>SoftwareCatalog(<span class="kw">super</span>::ProvidedSoftwareCatalog),
-        <span class="doccomment">/// The IP blocks used by devices in the test environment.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>DeviceIpBlockCatalog(<span class="kw">super</span>::DeviceIpBlockCatalog),
-    }
-}
-<span class="doccomment">/// List of IP blocks used by the Firebase Test Lab
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeviceIpBlockCatalog {
-    <span class="doccomment">/// The device IP blocks used by Firebase Test Lab
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>ip_blocks: ::prost::alloc::vec::Vec&lt;DeviceIpBlock&gt;,
-}
-<span class="doccomment">/// The currently supported Android devices.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AndroidDeviceCatalog {
-    <span class="doccomment">/// The set of supported Android device models.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>models: ::prost::alloc::vec::Vec&lt;AndroidModel&gt;,
-    <span class="doccomment">/// The set of supported Android OS versions.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>versions: ::prost::alloc::vec::Vec&lt;AndroidVersion&gt;,
-    <span class="doccomment">/// The set of supported runtime configurations.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>runtime_configuration: ::core::option::Option&lt;AndroidRuntimeConfiguration&gt;,
-}
-<span class="doccomment">/// Android configuration that can be selected at the time a test is run.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AndroidRuntimeConfiguration {
-    <span class="doccomment">/// The set of available locales.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>locales: ::prost::alloc::vec::Vec&lt;Locale&gt;,
-    <span class="doccomment">/// The set of available orientations.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>orientations: ::prost::alloc::vec::Vec&lt;Orientation&gt;,
-}
-<span class="doccomment">/// A description of an Android device tests may be run on.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AndroidModel {
-    <span class="doccomment">/// The unique opaque id for this model.
-    /// Use this for invoking the TestExecutionService.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The human-readable marketing name for this device model.
-    /// Examples: "Nexus 5", "Galaxy S5".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The manufacturer of this device.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>manufacturer: ::prost::alloc::string::String,
-    <span class="doccomment">/// The company that this device is branded with.
-    /// Example: "Google", "Samsung".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>brand: ::prost::alloc::string::String,
-    <span class="doccomment">/// The name of the industrial design.
-    /// This corresponds to android.os.Build.DEVICE.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>codename: ::prost::alloc::string::String,
-    <span class="doccomment">/// Whether this device is virtual or physical.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"DeviceForm"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>form: i32,
-    <span class="doccomment">/// Whether this device is a phone, tablet, wearable, etc.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"DeviceFormFactor"</span>, tag = <span class="string">"16"</span>)]
-    </span><span class="kw">pub </span>form_factor: i32,
-    <span class="doccomment">/// Version-specific information of an Android model.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"21"</span>)]
-    </span><span class="kw">pub </span>per_version_info: ::prost::alloc::vec::Vec&lt;PerAndroidVersionInfo&gt;,
-    <span class="doccomment">/// Screen size in the horizontal (X) dimension measured in pixels.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>screen_x: i32,
-    <span class="doccomment">/// Screen size in the vertical (Y) dimension measured in pixels.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>screen_y: i32,
-    <span class="doccomment">/// Screen density in DPI.
-    /// This corresponds to ro.sf.lcd_density
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>screen_density: i32,
-    <span class="doccomment">/// True if and only if tests with this model are recorded by stitching
-    /// together screenshots. See use_low_spec_video_recording in device config.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"17"</span>)]
-    </span><span class="kw">pub </span>low_fps_video_recording: bool,
-    <span class="doccomment">/// The set of Android versions this device supports.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>supported_version_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The list of supported ABIs for this device.
-    /// This corresponds to either android.os.Build.SUPPORTED_ABIS (for API level
-    /// 21 and above) or android.os.Build.CPU_ABI/CPU_ABI2.
-    /// The most preferred ABI is the first element in the list.
-    ///
-    /// Elements are optionally prefixed by "version_id:" (where version_id is
-    /// the id of an AndroidVersion), denoting an ABI that is supported only on
-    /// a particular version.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>supported_abis: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Tags for this dimension.
-    /// Examples: "default", "preview", "deprecated".
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// URL of a thumbnail image (photo) of the device.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"19"</span>)]
-    </span><span class="kw">pub </span>thumbnail_url: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A version of the Android OS.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AndroidVersion {
-    <span class="doccomment">/// An opaque id for this Android version.
-    /// Use this id to invoke the TestExecutionService.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// A string representing this version of the Android OS.
-    /// Examples: "4.3", "4.4".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>version_string: ::prost::alloc::string::String,
-    <span class="doccomment">/// The API level for this Android version.
-    /// Examples: 18, 19.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>api_level: i32,
-    <span class="doccomment">/// The code name for this Android version.
-    /// Examples: "JellyBean", "KitKat".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>code_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The date this Android version became available in the market.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>release_date: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
-    <span class="doccomment">/// Market share for this version.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>distribution: ::core::option::Option&lt;Distribution&gt;,
-    <span class="doccomment">/// Tags for this dimension.
-    /// Examples: "default", "preview", "deprecated".
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// A version-specific information of an Android model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PerAndroidVersionInfo {
-    <span class="doccomment">/// An Android version.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>version_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The number of online devices for an Android version.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"DeviceCapacity"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>device_capacity: i32,
-    <span class="doccomment">/// Output only. The estimated wait time for a single interactive device
-    /// session using Direct Access.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>interactive_device_availability_estimate: ::core::option::Option&lt;
-        ::prost_types::Duration,
-    &gt;,
-    <span class="doccomment">/// Output only. Identifies supported clients for DirectAccess for this Android
-    /// version.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>direct_access_version_info: ::core::option::Option&lt;DirectAccessVersionInfo&gt;,
-}
-<span class="doccomment">/// Denotes whether Direct Access is supported, and by which client versions.
-///
-/// DirectAccessService is currently available as a preview to select developers.
-/// You can register today on behalf of you and your team at
-/// &lt;https://developer.android.com/studio/preview/android-device-streaming&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DirectAccessVersionInfo {
-    <span class="doccomment">/// Whether direct access is supported at all. Clients are expected to
-    /// filter down the device list to only android models and versions which
-    /// support Direct Access when that is the user intent.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>direct_access_supported: bool,
-    <span class="doccomment">/// Output only. Indicates client-device compatibility, where a device is known
-    /// to work only with certain workarounds implemented in the Android Studio
-    /// client. Expected format "major.minor.micro.patch", e.g.
-    /// "5921.22.2211.8881706".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>minimum_android_studio_version: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Data about the relative number of devices running a
-/// given configuration of the Android platform.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Distribution {
-    <span class="doccomment">/// Output only. The time this distribution was measured.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>measurement_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The estimated fraction (0-1) of the total market with this
-    /// configuration.
-    </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>market_share: f64,
-}
-<span class="doccomment">/// The currently supported iOS devices.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>IosDeviceCatalog {
-    <span class="doccomment">/// The set of supported iOS device models.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>models: ::prost::alloc::vec::Vec&lt;IosModel&gt;,
-    <span class="doccomment">/// The set of supported iOS software versions.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>versions: ::prost::alloc::vec::Vec&lt;IosVersion&gt;,
-    <span class="doccomment">/// The set of supported Xcode versions.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>xcode_versions: ::prost::alloc::vec::Vec&lt;XcodeVersion&gt;,
-    <span class="doccomment">/// The set of supported runtime configurations.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>runtime_configuration: ::core::option::Option&lt;IosRuntimeConfiguration&gt;,
-}
-<span class="doccomment">/// iOS configuration that can be selected at the time a test is run.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>IosRuntimeConfiguration {
-    <span class="doccomment">/// The set of available locales.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>locales: ::prost::alloc::vec::Vec&lt;Locale&gt;,
-    <span class="doccomment">/// The set of available orientations.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>orientations: ::prost::alloc::vec::Vec&lt;Orientation&gt;,
-}
-<span class="doccomment">/// A description of an iOS device tests may be run on.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>IosModel {
-    <span class="doccomment">/// The unique opaque id for this model.
-    /// Use this for invoking the TestExecutionService.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The human-readable name for this device model.
-    /// Examples: "iPhone 4s", "iPad Mini 2".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The set of iOS major software versions this device supports.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>supported_version_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Tags for this dimension.
-    /// Examples: "default", "preview", "deprecated".
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Device capabilities.
-    /// Copied from
-    /// &lt;https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/DeviceCompatibilityMatrix/DeviceCompatibilityMatrix.html&gt;
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>device_capabilities: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Screen size in the horizontal (X) dimension measured in pixels.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>screen_x: i32,
-    <span class="doccomment">/// Screen size in the vertical (Y) dimension measured in pixels.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>screen_y: i32,
-    <span class="doccomment">/// Screen density in DPI.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>screen_density: i32,
-    <span class="doccomment">/// Whether this device is a phone, tablet, wearable, etc.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"DeviceFormFactor"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>form_factor: i32,
-    <span class="doccomment">/// Version-specific information of an iOS model.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>per_version_info: ::prost::alloc::vec::Vec&lt;PerIosVersionInfo&gt;,
-}
-<span class="doccomment">/// An iOS version.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>IosVersion {
-    <span class="doccomment">/// An opaque id for this iOS version.
-    /// Use this id to invoke the TestExecutionService.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// An integer representing the major iOS version.
-    /// Examples: "8", "9".
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>major_version: i32,
-    <span class="doccomment">/// An integer representing the minor iOS version.
-    /// Examples: "1", "2".
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>minor_version: i32,
-    <span class="doccomment">/// Tags for this dimension.
-    /// Examples: "default", "preview", "deprecated".
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The available Xcode versions for this version.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>supported_xcode_version_ids: ::prost::alloc::vec::Vec&lt;
-        ::prost::alloc::string::String,
-    &gt;,
-}
-<span class="doccomment">/// A version-specific information of an iOS model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PerIosVersionInfo {
-    <span class="doccomment">/// An iOS version.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>version_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The number of online devices for an iOS version.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"DeviceCapacity"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>device_capacity: i32,
-}
-<span class="doccomment">/// A location/region designation for language.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Locale {
-    <span class="doccomment">/// The id for this locale.
-    /// Example: "en_US".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// A human-friendly name for this language/locale.
-    /// Example: "English".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// A human-friendly string representing the region for this
-    /// locale. Example: "United States". Not present for every locale.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>region: ::prost::alloc::string::String,
-    <span class="doccomment">/// Tags for this dimension.
-    /// Example: "default".
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Screen orientation of the device.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Orientation {
-    <span class="doccomment">/// The id for this orientation.
-    /// Example: "portrait".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// A human-friendly name for this orientation.
-    /// Example: "portrait".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Tags for this dimension.
-    /// Example: "default".
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// An Xcode version that an iOS version is compatible with.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>XcodeVersion {
-    <span class="doccomment">/// The id for this version.
-    /// Example: "9.2".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
-    <span class="doccomment">/// Tags for this Xcode version.
-    /// Example: "default".
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>NetworkConfigurationCatalog {
-    <span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>configurations: ::prost::alloc::vec::Vec&lt;NetworkConfiguration&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>NetworkConfiguration {
-    <span class="doccomment">/// The unique opaque id for this network traffic configuration.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The emulation rule applying to the upload traffic.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>up_rule: ::core::option::Option&lt;TrafficRule&gt;,
-    <span class="doccomment">/// The emulation rule applying to the download traffic.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>down_rule: ::core::option::Option&lt;TrafficRule&gt;,
-}
-<span class="doccomment">/// Network emulation parameters.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TrafficRule {
-    <span class="doccomment">/// Packet delay, must be &gt;= 0.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>delay: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// Packet loss ratio (0.0 - 1.0).
-    </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>packet_loss_ratio: f32,
-    <span class="doccomment">/// Packet duplication ratio (0.0 - 1.0).
-    </span><span class="attr">#[prost(float, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>packet_duplication_ratio: f32,
-    <span class="doccomment">/// Bandwidth in kbits/second.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>bandwidth: f32,
-    <span class="doccomment">/// Burst size in kbits.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>burst: f32,
-}
-<span class="doccomment">/// The currently provided software environment on the devices under test.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProvidedSoftwareCatalog {
-    <span class="doccomment">/// Deprecated: Use AndroidX Test Orchestrator going forward.
-    ///
-    /// A string representing the current version of Android Test Orchestrator
-    /// that is used in the environment. The package is available at
-    /// &lt;https://maven.google.com/web/index.html#com.android.support.test:orchestrator.&gt;
-    </span><span class="attr">#[deprecated]
-    #[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>orchestrator_version: ::prost::alloc::string::String,
-    <span class="doccomment">/// A string representing the current version of AndroidX Test Orchestrator
-    /// that is used in the environment. The package is available at
-    /// &lt;https://maven.google.com/web/index.html#androidx.test:orchestrator.&gt;
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>androidx_orchestrator_version: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Whether the device is physical or virtual.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>DeviceForm {
-    <span class="doccomment">/// Do not use.  For proto versioning only.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Android virtual device using Compute Engine native virtualization. Firebase
-    /// Test Lab only.
-    </span>Virtual = <span class="number">1</span>,
-    <span class="doccomment">/// Actual hardware.
-    </span>Physical = <span class="number">2</span>,
-    <span class="doccomment">/// Android virtual device using emulator in nested virtualization. Equivalent
-    /// to Android Studio.
-    </span>Emulator = <span class="number">3</span>,
-}
-<span class="kw">impl </span>DeviceForm {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            DeviceForm::Unspecified =&gt; <span class="string">"DEVICE_FORM_UNSPECIFIED"</span>,
-            DeviceForm::Virtual =&gt; <span class="string">"VIRTUAL"</span>,
-            DeviceForm::Physical =&gt; <span class="string">"PHYSICAL"</span>,
-            DeviceForm::Emulator =&gt; <span class="string">"EMULATOR"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"DEVICE_FORM_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"VIRTUAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Virtual),
-            <span class="string">"PHYSICAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Physical),
-            <span class="string">"EMULATOR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Emulator),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// The form factor of a device.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>DeviceFormFactor {
-    <span class="doccomment">/// Do not use. For proto versioning only.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// This device has the shape of a phone.
-    </span>Phone = <span class="number">1</span>,
-    <span class="doccomment">/// This device has the shape of a tablet.
-    </span>Tablet = <span class="number">2</span>,
-    <span class="doccomment">/// This device has the shape of a watch or other wearable.
-    </span>Wearable = <span class="number">3</span>,
-}
-<span class="kw">impl </span>DeviceFormFactor {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            DeviceFormFactor::Unspecified =&gt; <span class="string">"DEVICE_FORM_FACTOR_UNSPECIFIED"</span>,
-            DeviceFormFactor::Phone =&gt; <span class="string">"PHONE"</span>,
-            DeviceFormFactor::Tablet =&gt; <span class="string">"TABLET"</span>,
-            DeviceFormFactor::Wearable =&gt; <span class="string">"WEARABLE"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"DEVICE_FORM_FACTOR_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"PHONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Phone),
-            <span class="string">"TABLET" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Tablet),
-            <span class="string">"WEARABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Wearable),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Capacity based on the number of online devices in the lab.
-///
-/// Important: device capacity does not directly reflect the length of the
-/// queue at a moment in time. It does not take into account current traffic or
-/// the state of the devices.
-///
-/// For physical devices, the number is the average of online devices in the last
-/// 30 days.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>DeviceCapacity {
-    <span class="doccomment">/// The value of device capacity is unknown or unset.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Devices that are high in capacity (The lab has a large number of these
-    /// devices).
-    ///
-    /// These devices are generally suggested for running a large number of
-    /// simultaneous tests (e.g. more than 100 tests).
-    ///
-    /// Please note that high capacity devices do not guarantee short wait times
-    /// due to several factors:
-    /// 1. Traffic (how heavily they are used at any given moment)
-    /// 2. High capacity devices are prioritized for certain usages, which may
-    /// cause user tests to be slower than selecting other similar device types.
-    </span>High = <span class="number">1</span>,
-    <span class="doccomment">/// Devices that are medium in capacity (The lab has a decent number of these
-    /// devices, though not as many as high capacity devices).
-    ///
-    /// These devices are suitable for fewer test runs (e.g. fewer than 100 tests)
-    /// and only for low shard counts (e.g. less than 10 shards).
-    </span>Medium = <span class="number">2</span>,
-    <span class="doccomment">/// Devices that are low in capacity (The lab has a small number of these
-    /// devices).
-    ///
-    /// These devices may be used if users need to test on this specific device
-    /// model and version. Please note that due to low capacity, the tests may take
-    /// much longer to finish, especially if a large number of tests are invoked at
-    /// once. These devices are not suitable for test sharding.
-    </span>Low = <span class="number">3</span>,
-    <span class="doccomment">/// Devices that are completely missing from the lab.
-    ///
-    /// These devices are unavailable either temporarily or permanently and should
-    /// not be requested. If the device is also marked as deprecated, this state
-    /// is very likely permanent.
-    </span><span class="prelude-val">None </span>= <span class="number">4</span>,
-}
-<span class="kw">impl </span>DeviceCapacity {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            DeviceCapacity::Unspecified =&gt; <span class="string">"DEVICE_CAPACITY_UNSPECIFIED"</span>,
-            DeviceCapacity::High =&gt; <span class="string">"DEVICE_CAPACITY_HIGH"</span>,
-            DeviceCapacity::Medium =&gt; <span class="string">"DEVICE_CAPACITY_MEDIUM"</span>,
-            DeviceCapacity::Low =&gt; <span class="string">"DEVICE_CAPACITY_LOW"</span>,
-            DeviceCapacity::None =&gt; <span class="string">"DEVICE_CAPACITY_NONE"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"DEVICE_CAPACITY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"DEVICE_CAPACITY_HIGH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High),
-            <span class="string">"DEVICE_CAPACITY_MEDIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Medium),
-            <span class="string">"DEVICE_CAPACITY_LOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Low),
-            <span class="string">"DEVICE_CAPACITY_NONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::None),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>test_environment_discovery_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Service for discovering environments supported by the TestExecutionService.
-    ///
-    /// Over time the TestService may add or remove devices or configuration options
-    /// (e.g., when new devices and APIs are released).  Clients should check here
-    /// periodically to discover what options are supported.
-    ///
-    /// It defines the following resource model:
-    ///
-    /// - The API a collection of [TestEnvironmentCatalog]
-    ///   [google.devtools.test.v1.TestEnvironmentCatalog] resources, named
-    ///   `testEnvironmentCatalog/*`
-    ///
-    /// - Each TestEnvironmentCatalog resource describes a set of supported
-    ///   environments.
-    ///
-    /// - An [AndroidDeviceCatalog][google.devtools.test.v1.AndroidDeviceCatalog]
-    ///   describes supported Android devices. It contains lists of supported
-    ///   [AndroidModels][google.devtools.test.v1.AndroidModel] and
-    ///   [AndroidVersions][google.devtools.test.v1.AndroidVersion] along with a
-    ///   [AndroidRuntimeConfiguration][google.devtools.test.v1.AndroidRuntimeConfiguration].
-    ///   Each AndroidModel contains a list of Versions it supports. All
-    ///   models support all locales and orientations described by the
-    ///   AndroidRuntimeConfiguration
-    ///
-    /// - An [IosDeviceCatalog][google.devtools.test.v1.IosDeviceCatalog]
-    ///   describes supported iOS devices. It contains lists of supported
-    ///   [IosModels][google.devtools.test.v1.IosModel] and
-    ///   [IosVersions][google.devtools.test.v1.IosVersion] along with a
-    ///   [IosRuntimeConfiguration][google.devtools.test.v1.IosRuntimeConfiguration].
-    ///   Each IosModel contains a list of Versions it supports. All
-    ///   models support all locales and orientations described by the
-    ///   IosRuntimeConfiguration.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>TestEnvironmentDiscoveryServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; TestEnvironmentDiscoveryServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; TestEnvironmentDiscoveryServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            TestEnvironmentDiscoveryServiceClient::new(
-                InterceptedService::new(inner, interceptor),
-            )
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Gets the catalog of supported test environments.
-        ///
-        /// May return any of the following canonical error codes:
-        ///
-        /// - INVALID_ARGUMENT - if the request is malformed
-        /// - NOT_FOUND - if the environment type does not exist
-        /// - INTERNAL - if an internal error occurred
-        </span><span class="kw">pub async fn </span>get_test_environment_catalog(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetTestEnvironmentCatalogRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::TestEnvironmentCatalog&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.devtools.testing.v1.TestEnvironmentDiscoveryService/GetTestEnvironmentCatalog"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.devtools.testing.v1.TestEnvironmentDiscoveryService"</span>,
-                        <span class="string">"GetTestEnvironmentCatalog"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// A message returned from a device.
+</pre></div><pre class="rust"><code><span class="doccomment">/// A message returned from a device.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DeviceMessage {
@@ -7197,6 +6382,821 @@
                     ),
                 );
             <span class="self">self</span>.inner.streaming(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// A single device IP block
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeviceIpBlock {
+    <span class="doccomment">/// An IP address block in CIDR notation eg: 34.68.194.64/29
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>block: ::prost::alloc::string::String,
+    <span class="doccomment">/// Whether this block is used by physical or virtual devices
+    </span><span class="attr">#[prost(enumeration = <span class="string">"DeviceForm"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>form: i32,
+    <span class="doccomment">/// The date this block was added to Firebase Test Lab
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>added_date: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
+}
+<span class="doccomment">/// Request to list the currently supported values for an environment type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetTestEnvironmentCatalogRequest {
+    <span class="doccomment">/// Required. The type of environment that should be listed.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"get_test_environment_catalog_request::EnvironmentType"</span>,
+        tag = <span class="string">"1"
+    </span>)]
+    </span><span class="kw">pub </span>environment_type: i32,
+    <span class="doccomment">/// For authorization, the cloud project requesting the TestEnvironmentCatalog.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `GetTestEnvironmentCatalogRequest`.
+</span><span class="kw">pub mod </span>get_test_environment_catalog_request {
+    <span class="doccomment">/// Types of environments the Test API supports.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>EnvironmentType {
+        <span class="doccomment">/// Do not use.  For proto versioning only.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// A device running a version of the Android OS.
+        </span>Android = <span class="number">1</span>,
+        <span class="doccomment">/// A device running a version of iOS.
+        </span>Ios = <span class="number">3</span>,
+        <span class="doccomment">/// A network configuration to use when running a test.
+        </span>NetworkConfiguration = <span class="number">4</span>,
+        <span class="doccomment">/// The software environment provided by TestExecutionService.
+        </span>ProvidedSoftware = <span class="number">5</span>,
+        <span class="doccomment">/// The IP blocks used by devices in the test environment.
+        </span>DeviceIpBlocks = <span class="number">6</span>,
+    }
+    <span class="kw">impl </span>EnvironmentType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                EnvironmentType::Unspecified =&gt; <span class="string">"ENVIRONMENT_TYPE_UNSPECIFIED"</span>,
+                EnvironmentType::Android =&gt; <span class="string">"ANDROID"</span>,
+                EnvironmentType::Ios =&gt; <span class="string">"IOS"</span>,
+                EnvironmentType::NetworkConfiguration =&gt; <span class="string">"NETWORK_CONFIGURATION"</span>,
+                EnvironmentType::ProvidedSoftware =&gt; <span class="string">"PROVIDED_SOFTWARE"</span>,
+                EnvironmentType::DeviceIpBlocks =&gt; <span class="string">"DEVICE_IP_BLOCKS"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"ENVIRONMENT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"ANDROID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Android),
+                <span class="string">"IOS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ios),
+                <span class="string">"NETWORK_CONFIGURATION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NetworkConfiguration),
+                <span class="string">"PROVIDED_SOFTWARE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ProvidedSoftware),
+                <span class="string">"DEVICE_IP_BLOCKS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DeviceIpBlocks),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A description of a test environment.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TestEnvironmentCatalog {
+    <span class="doccomment">/// Output only.
+    </span><span class="attr">#[prost(
+        oneof = <span class="string">"test_environment_catalog::EnvironmentCatalog"</span>,
+        tags = <span class="string">"1, 3, 4, 5, 6"
+    </span>)]
+    </span><span class="kw">pub </span>environment_catalog: ::core::option::Option&lt;
+        test_environment_catalog::EnvironmentCatalog,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `TestEnvironmentCatalog`.
+</span><span class="kw">pub mod </span>test_environment_catalog {
+    <span class="doccomment">/// Output only.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>EnvironmentCatalog {
+        <span class="doccomment">/// Supported Android devices.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>AndroidDeviceCatalog(<span class="kw">super</span>::AndroidDeviceCatalog),
+        <span class="doccomment">/// Supported iOS devices.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>IosDeviceCatalog(<span class="kw">super</span>::IosDeviceCatalog),
+        <span class="doccomment">/// Supported network configurations.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>NetworkConfigurationCatalog(<span class="kw">super</span>::NetworkConfigurationCatalog),
+        <span class="doccomment">/// The software test environment provided by TestExecutionService.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>SoftwareCatalog(<span class="kw">super</span>::ProvidedSoftwareCatalog),
+        <span class="doccomment">/// The IP blocks used by devices in the test environment.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>DeviceIpBlockCatalog(<span class="kw">super</span>::DeviceIpBlockCatalog),
+    }
+}
+<span class="doccomment">/// List of IP blocks used by the Firebase Test Lab
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeviceIpBlockCatalog {
+    <span class="doccomment">/// The device IP blocks used by Firebase Test Lab
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>ip_blocks: ::prost::alloc::vec::Vec&lt;DeviceIpBlock&gt;,
+}
+<span class="doccomment">/// The currently supported Android devices.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AndroidDeviceCatalog {
+    <span class="doccomment">/// The set of supported Android device models.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>models: ::prost::alloc::vec::Vec&lt;AndroidModel&gt;,
+    <span class="doccomment">/// The set of supported Android OS versions.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>versions: ::prost::alloc::vec::Vec&lt;AndroidVersion&gt;,
+    <span class="doccomment">/// The set of supported runtime configurations.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>runtime_configuration: ::core::option::Option&lt;AndroidRuntimeConfiguration&gt;,
+}
+<span class="doccomment">/// Android configuration that can be selected at the time a test is run.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AndroidRuntimeConfiguration {
+    <span class="doccomment">/// The set of available locales.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>locales: ::prost::alloc::vec::Vec&lt;Locale&gt;,
+    <span class="doccomment">/// The set of available orientations.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>orientations: ::prost::alloc::vec::Vec&lt;Orientation&gt;,
+}
+<span class="doccomment">/// A description of an Android device tests may be run on.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AndroidModel {
+    <span class="doccomment">/// The unique opaque id for this model.
+    /// Use this for invoking the TestExecutionService.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The human-readable marketing name for this device model.
+    /// Examples: "Nexus 5", "Galaxy S5".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The manufacturer of this device.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>manufacturer: ::prost::alloc::string::String,
+    <span class="doccomment">/// The company that this device is branded with.
+    /// Example: "Google", "Samsung".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>brand: ::prost::alloc::string::String,
+    <span class="doccomment">/// The name of the industrial design.
+    /// This corresponds to android.os.Build.DEVICE.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>codename: ::prost::alloc::string::String,
+    <span class="doccomment">/// Whether this device is virtual or physical.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"DeviceForm"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>form: i32,
+    <span class="doccomment">/// Whether this device is a phone, tablet, wearable, etc.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"DeviceFormFactor"</span>, tag = <span class="string">"16"</span>)]
+    </span><span class="kw">pub </span>form_factor: i32,
+    <span class="doccomment">/// Version-specific information of an Android model.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"21"</span>)]
+    </span><span class="kw">pub </span>per_version_info: ::prost::alloc::vec::Vec&lt;PerAndroidVersionInfo&gt;,
+    <span class="doccomment">/// Screen size in the horizontal (X) dimension measured in pixels.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>screen_x: i32,
+    <span class="doccomment">/// Screen size in the vertical (Y) dimension measured in pixels.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>screen_y: i32,
+    <span class="doccomment">/// Screen density in DPI.
+    /// This corresponds to ro.sf.lcd_density
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>screen_density: i32,
+    <span class="doccomment">/// True if and only if tests with this model are recorded by stitching
+    /// together screenshots. See use_low_spec_video_recording in device config.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"17"</span>)]
+    </span><span class="kw">pub </span>low_fps_video_recording: bool,
+    <span class="doccomment">/// The set of Android versions this device supports.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>supported_version_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The list of supported ABIs for this device.
+    /// This corresponds to either android.os.Build.SUPPORTED_ABIS (for API level
+    /// 21 and above) or android.os.Build.CPU_ABI/CPU_ABI2.
+    /// The most preferred ABI is the first element in the list.
+    ///
+    /// Elements are optionally prefixed by "version_id:" (where version_id is
+    /// the id of an AndroidVersion), denoting an ABI that is supported only on
+    /// a particular version.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>supported_abis: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Tags for this dimension.
+    /// Examples: "default", "preview", "deprecated".
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// URL of a thumbnail image (photo) of the device.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"19"</span>)]
+    </span><span class="kw">pub </span>thumbnail_url: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A version of the Android OS.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AndroidVersion {
+    <span class="doccomment">/// An opaque id for this Android version.
+    /// Use this id to invoke the TestExecutionService.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// A string representing this version of the Android OS.
+    /// Examples: "4.3", "4.4".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>version_string: ::prost::alloc::string::String,
+    <span class="doccomment">/// The API level for this Android version.
+    /// Examples: 18, 19.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>api_level: i32,
+    <span class="doccomment">/// The code name for this Android version.
+    /// Examples: "JellyBean", "KitKat".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>code_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The date this Android version became available in the market.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>release_date: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
+    <span class="doccomment">/// Market share for this version.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>distribution: ::core::option::Option&lt;Distribution&gt;,
+    <span class="doccomment">/// Tags for this dimension.
+    /// Examples: "default", "preview", "deprecated".
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// A version-specific information of an Android model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PerAndroidVersionInfo {
+    <span class="doccomment">/// An Android version.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>version_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The number of online devices for an Android version.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"DeviceCapacity"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>device_capacity: i32,
+    <span class="doccomment">/// Output only. The estimated wait time for a single interactive device
+    /// session using Direct Access.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>interactive_device_availability_estimate: ::core::option::Option&lt;
+        ::prost_types::Duration,
+    &gt;,
+    <span class="doccomment">/// Output only. Identifies supported clients for DirectAccess for this Android
+    /// version.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>direct_access_version_info: ::core::option::Option&lt;DirectAccessVersionInfo&gt;,
+}
+<span class="doccomment">/// Denotes whether Direct Access is supported, and by which client versions.
+///
+/// DirectAccessService is currently available as a preview to select developers.
+/// You can register today on behalf of you and your team at
+/// &lt;https://developer.android.com/studio/preview/android-device-streaming&gt;
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DirectAccessVersionInfo {
+    <span class="doccomment">/// Whether direct access is supported at all. Clients are expected to
+    /// filter down the device list to only android models and versions which
+    /// support Direct Access when that is the user intent.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>direct_access_supported: bool,
+    <span class="doccomment">/// Output only. Indicates client-device compatibility, where a device is known
+    /// to work only with certain workarounds implemented in the Android Studio
+    /// client. Expected format "major.minor.micro.patch", e.g.
+    /// "5921.22.2211.8881706".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>minimum_android_studio_version: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Data about the relative number of devices running a
+/// given configuration of the Android platform.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Distribution {
+    <span class="doccomment">/// Output only. The time this distribution was measured.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>measurement_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The estimated fraction (0-1) of the total market with this
+    /// configuration.
+    </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>market_share: f64,
+}
+<span class="doccomment">/// The currently supported iOS devices.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>IosDeviceCatalog {
+    <span class="doccomment">/// The set of supported iOS device models.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>models: ::prost::alloc::vec::Vec&lt;IosModel&gt;,
+    <span class="doccomment">/// The set of supported iOS software versions.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>versions: ::prost::alloc::vec::Vec&lt;IosVersion&gt;,
+    <span class="doccomment">/// The set of supported Xcode versions.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>xcode_versions: ::prost::alloc::vec::Vec&lt;XcodeVersion&gt;,
+    <span class="doccomment">/// The set of supported runtime configurations.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>runtime_configuration: ::core::option::Option&lt;IosRuntimeConfiguration&gt;,
+}
+<span class="doccomment">/// iOS configuration that can be selected at the time a test is run.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>IosRuntimeConfiguration {
+    <span class="doccomment">/// The set of available locales.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>locales: ::prost::alloc::vec::Vec&lt;Locale&gt;,
+    <span class="doccomment">/// The set of available orientations.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>orientations: ::prost::alloc::vec::Vec&lt;Orientation&gt;,
+}
+<span class="doccomment">/// A description of an iOS device tests may be run on.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>IosModel {
+    <span class="doccomment">/// The unique opaque id for this model.
+    /// Use this for invoking the TestExecutionService.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The human-readable name for this device model.
+    /// Examples: "iPhone 4s", "iPad Mini 2".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The set of iOS major software versions this device supports.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>supported_version_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Tags for this dimension.
+    /// Examples: "default", "preview", "deprecated".
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Device capabilities.
+    /// Copied from
+    /// &lt;https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/DeviceCompatibilityMatrix/DeviceCompatibilityMatrix.html&gt;
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>device_capabilities: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Screen size in the horizontal (X) dimension measured in pixels.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>screen_x: i32,
+    <span class="doccomment">/// Screen size in the vertical (Y) dimension measured in pixels.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>screen_y: i32,
+    <span class="doccomment">/// Screen density in DPI.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>screen_density: i32,
+    <span class="doccomment">/// Whether this device is a phone, tablet, wearable, etc.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"DeviceFormFactor"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>form_factor: i32,
+    <span class="doccomment">/// Version-specific information of an iOS model.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>per_version_info: ::prost::alloc::vec::Vec&lt;PerIosVersionInfo&gt;,
+}
+<span class="doccomment">/// An iOS version.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>IosVersion {
+    <span class="doccomment">/// An opaque id for this iOS version.
+    /// Use this id to invoke the TestExecutionService.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// An integer representing the major iOS version.
+    /// Examples: "8", "9".
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>major_version: i32,
+    <span class="doccomment">/// An integer representing the minor iOS version.
+    /// Examples: "1", "2".
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>minor_version: i32,
+    <span class="doccomment">/// Tags for this dimension.
+    /// Examples: "default", "preview", "deprecated".
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The available Xcode versions for this version.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>supported_xcode_version_ids: ::prost::alloc::vec::Vec&lt;
+        ::prost::alloc::string::String,
+    &gt;,
+}
+<span class="doccomment">/// A version-specific information of an iOS model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PerIosVersionInfo {
+    <span class="doccomment">/// An iOS version.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>version_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The number of online devices for an iOS version.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"DeviceCapacity"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>device_capacity: i32,
+}
+<span class="doccomment">/// A location/region designation for language.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Locale {
+    <span class="doccomment">/// The id for this locale.
+    /// Example: "en_US".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// A human-friendly name for this language/locale.
+    /// Example: "English".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// A human-friendly string representing the region for this
+    /// locale. Example: "United States". Not present for every locale.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>region: ::prost::alloc::string::String,
+    <span class="doccomment">/// Tags for this dimension.
+    /// Example: "default".
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Screen orientation of the device.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Orientation {
+    <span class="doccomment">/// The id for this orientation.
+    /// Example: "portrait".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// A human-friendly name for this orientation.
+    /// Example: "portrait".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Tags for this dimension.
+    /// Example: "default".
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// An Xcode version that an iOS version is compatible with.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>XcodeVersion {
+    <span class="doccomment">/// The id for this version.
+    /// Example: "9.2".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
+    <span class="doccomment">/// Tags for this Xcode version.
+    /// Example: "default".
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>NetworkConfigurationCatalog {
+    <span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>configurations: ::prost::alloc::vec::Vec&lt;NetworkConfiguration&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>NetworkConfiguration {
+    <span class="doccomment">/// The unique opaque id for this network traffic configuration.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The emulation rule applying to the upload traffic.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>up_rule: ::core::option::Option&lt;TrafficRule&gt;,
+    <span class="doccomment">/// The emulation rule applying to the download traffic.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>down_rule: ::core::option::Option&lt;TrafficRule&gt;,
+}
+<span class="doccomment">/// Network emulation parameters.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TrafficRule {
+    <span class="doccomment">/// Packet delay, must be &gt;= 0.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>delay: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// Packet loss ratio (0.0 - 1.0).
+    </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>packet_loss_ratio: f32,
+    <span class="doccomment">/// Packet duplication ratio (0.0 - 1.0).
+    </span><span class="attr">#[prost(float, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>packet_duplication_ratio: f32,
+    <span class="doccomment">/// Bandwidth in kbits/second.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>bandwidth: f32,
+    <span class="doccomment">/// Burst size in kbits.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>burst: f32,
+}
+<span class="doccomment">/// The currently provided software environment on the devices under test.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProvidedSoftwareCatalog {
+    <span class="doccomment">/// Deprecated: Use AndroidX Test Orchestrator going forward.
+    ///
+    /// A string representing the current version of Android Test Orchestrator
+    /// that is used in the environment. The package is available at
+    /// &lt;https://maven.google.com/web/index.html#com.android.support.test:orchestrator.&gt;
+    </span><span class="attr">#[deprecated]
+    #[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>orchestrator_version: ::prost::alloc::string::String,
+    <span class="doccomment">/// A string representing the current version of AndroidX Test Orchestrator
+    /// that is used in the environment. The package is available at
+    /// &lt;https://maven.google.com/web/index.html#androidx.test:orchestrator.&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>androidx_orchestrator_version: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Whether the device is physical or virtual.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>DeviceForm {
+    <span class="doccomment">/// Do not use.  For proto versioning only.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Android virtual device using Compute Engine native virtualization. Firebase
+    /// Test Lab only.
+    </span>Virtual = <span class="number">1</span>,
+    <span class="doccomment">/// Actual hardware.
+    </span>Physical = <span class="number">2</span>,
+    <span class="doccomment">/// Android virtual device using emulator in nested virtualization. Equivalent
+    /// to Android Studio.
+    </span>Emulator = <span class="number">3</span>,
+}
+<span class="kw">impl </span>DeviceForm {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            DeviceForm::Unspecified =&gt; <span class="string">"DEVICE_FORM_UNSPECIFIED"</span>,
+            DeviceForm::Virtual =&gt; <span class="string">"VIRTUAL"</span>,
+            DeviceForm::Physical =&gt; <span class="string">"PHYSICAL"</span>,
+            DeviceForm::Emulator =&gt; <span class="string">"EMULATOR"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"DEVICE_FORM_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"VIRTUAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Virtual),
+            <span class="string">"PHYSICAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Physical),
+            <span class="string">"EMULATOR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Emulator),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// The form factor of a device.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>DeviceFormFactor {
+    <span class="doccomment">/// Do not use. For proto versioning only.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// This device has the shape of a phone.
+    </span>Phone = <span class="number">1</span>,
+    <span class="doccomment">/// This device has the shape of a tablet.
+    </span>Tablet = <span class="number">2</span>,
+    <span class="doccomment">/// This device has the shape of a watch or other wearable.
+    </span>Wearable = <span class="number">3</span>,
+}
+<span class="kw">impl </span>DeviceFormFactor {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            DeviceFormFactor::Unspecified =&gt; <span class="string">"DEVICE_FORM_FACTOR_UNSPECIFIED"</span>,
+            DeviceFormFactor::Phone =&gt; <span class="string">"PHONE"</span>,
+            DeviceFormFactor::Tablet =&gt; <span class="string">"TABLET"</span>,
+            DeviceFormFactor::Wearable =&gt; <span class="string">"WEARABLE"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"DEVICE_FORM_FACTOR_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"PHONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Phone),
+            <span class="string">"TABLET" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Tablet),
+            <span class="string">"WEARABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Wearable),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Capacity based on the number of online devices in the lab.
+///
+/// Important: device capacity does not directly reflect the length of the
+/// queue at a moment in time. It does not take into account current traffic or
+/// the state of the devices.
+///
+/// For physical devices, the number is the average of online devices in the last
+/// 30 days.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>DeviceCapacity {
+    <span class="doccomment">/// The value of device capacity is unknown or unset.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Devices that are high in capacity (The lab has a large number of these
+    /// devices).
+    ///
+    /// These devices are generally suggested for running a large number of
+    /// simultaneous tests (e.g. more than 100 tests).
+    ///
+    /// Please note that high capacity devices do not guarantee short wait times
+    /// due to several factors:
+    /// 1. Traffic (how heavily they are used at any given moment)
+    /// 2. High capacity devices are prioritized for certain usages, which may
+    /// cause user tests to be slower than selecting other similar device types.
+    </span>High = <span class="number">1</span>,
+    <span class="doccomment">/// Devices that are medium in capacity (The lab has a decent number of these
+    /// devices, though not as many as high capacity devices).
+    ///
+    /// These devices are suitable for fewer test runs (e.g. fewer than 100 tests)
+    /// and only for low shard counts (e.g. less than 10 shards).
+    </span>Medium = <span class="number">2</span>,
+    <span class="doccomment">/// Devices that are low in capacity (The lab has a small number of these
+    /// devices).
+    ///
+    /// These devices may be used if users need to test on this specific device
+    /// model and version. Please note that due to low capacity, the tests may take
+    /// much longer to finish, especially if a large number of tests are invoked at
+    /// once. These devices are not suitable for test sharding.
+    </span>Low = <span class="number">3</span>,
+    <span class="doccomment">/// Devices that are completely missing from the lab.
+    ///
+    /// These devices are unavailable either temporarily or permanently and should
+    /// not be requested. If the device is also marked as deprecated, this state
+    /// is very likely permanent.
+    </span><span class="prelude-val">None </span>= <span class="number">4</span>,
+}
+<span class="kw">impl </span>DeviceCapacity {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            DeviceCapacity::Unspecified =&gt; <span class="string">"DEVICE_CAPACITY_UNSPECIFIED"</span>,
+            DeviceCapacity::High =&gt; <span class="string">"DEVICE_CAPACITY_HIGH"</span>,
+            DeviceCapacity::Medium =&gt; <span class="string">"DEVICE_CAPACITY_MEDIUM"</span>,
+            DeviceCapacity::Low =&gt; <span class="string">"DEVICE_CAPACITY_LOW"</span>,
+            DeviceCapacity::None =&gt; <span class="string">"DEVICE_CAPACITY_NONE"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"DEVICE_CAPACITY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"DEVICE_CAPACITY_HIGH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High),
+            <span class="string">"DEVICE_CAPACITY_MEDIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Medium),
+            <span class="string">"DEVICE_CAPACITY_LOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Low),
+            <span class="string">"DEVICE_CAPACITY_NONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::None),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>test_environment_discovery_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Service for discovering environments supported by the TestExecutionService.
+    ///
+    /// Over time the TestService may add or remove devices or configuration options
+    /// (e.g., when new devices and APIs are released).  Clients should check here
+    /// periodically to discover what options are supported.
+    ///
+    /// It defines the following resource model:
+    ///
+    /// - The API a collection of [TestEnvironmentCatalog]
+    ///   [google.devtools.test.v1.TestEnvironmentCatalog] resources, named
+    ///   `testEnvironmentCatalog/*`
+    ///
+    /// - Each TestEnvironmentCatalog resource describes a set of supported
+    ///   environments.
+    ///
+    /// - An [AndroidDeviceCatalog][google.devtools.test.v1.AndroidDeviceCatalog]
+    ///   describes supported Android devices. It contains lists of supported
+    ///   [AndroidModels][google.devtools.test.v1.AndroidModel] and
+    ///   [AndroidVersions][google.devtools.test.v1.AndroidVersion] along with a
+    ///   [AndroidRuntimeConfiguration][google.devtools.test.v1.AndroidRuntimeConfiguration].
+    ///   Each AndroidModel contains a list of Versions it supports. All
+    ///   models support all locales and orientations described by the
+    ///   AndroidRuntimeConfiguration
+    ///
+    /// - An [IosDeviceCatalog][google.devtools.test.v1.IosDeviceCatalog]
+    ///   describes supported iOS devices. It contains lists of supported
+    ///   [IosModels][google.devtools.test.v1.IosModel] and
+    ///   [IosVersions][google.devtools.test.v1.IosVersion] along with a
+    ///   [IosRuntimeConfiguration][google.devtools.test.v1.IosRuntimeConfiguration].
+    ///   Each IosModel contains a list of Versions it supports. All
+    ///   models support all locales and orientations described by the
+    ///   IosRuntimeConfiguration.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>TestEnvironmentDiscoveryServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; TestEnvironmentDiscoveryServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; TestEnvironmentDiscoveryServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            TestEnvironmentDiscoveryServiceClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Gets the catalog of supported test environments.
+        ///
+        /// May return any of the following canonical error codes:
+        ///
+        /// - INVALID_ARGUMENT - if the request is malformed
+        /// - NOT_FOUND - if the environment type does not exist
+        /// - INTERNAL - if an internal error occurred
+        </span><span class="kw">pub async fn </span>get_test_environment_catalog(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetTestEnvironmentCatalogRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::TestEnvironmentCatalog&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.devtools.testing.v1.TestEnvironmentDiscoveryService/GetTestEnvironmentCatalog"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.devtools.testing.v1.TestEnvironmentDiscoveryService"</span>,
+                        <span class="string">"GetTestEnvironmentCatalog"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
     }
 }

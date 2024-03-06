@@ -3788,6 +3788,128 @@
         </span>ExcludedNamespaces(<span class="kw">super</span>::Namespaces),
     }
 }
+<span class="doccomment">/// The configuration of a potential series of Restore operations to be performed
+/// against Backups belong to a particular BackupPlan.
+/// Next id: 13
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RestorePlan {
+    <span class="doccomment">/// Output only. The full name of the RestorePlan resource.
+    /// Format: `projects/*/locations/*/restorePlans/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Server generated global unique identifier of
+    /// [UUID](&lt;https://en.wikipedia.org/wiki/Universally_unique_identifier&gt;) format.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The timestamp when this RestorePlan resource was
+    /// created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp when this RestorePlan resource was last
+    /// updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// User specified descriptive string for this RestorePlan.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Immutable. A reference to the
+    /// [BackupPlan][google.cloud.gkebackup.v1.BackupPlan] from which Backups may
+    /// be used as the source for Restores created via this RestorePlan. Format:
+    /// `projects/*/locations/*/backupPlans/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>backup_plan: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Immutable. The target cluster into which Restores created via
+    /// this RestorePlan will restore data. NOTE: the cluster's region must be the
+    /// same as the RestorePlan. Valid formats:
+    ///
+    ///    - `projects/*/locations/*/clusters/*`
+    ///    - `projects/*/zones/*/clusters/*`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>cluster: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Configuration of Restores created via this RestorePlan.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>restore_config: ::core::option::Option&lt;RestoreConfig&gt;,
+    <span class="doccomment">/// A set of custom labels supplied by user.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Output only. `etag` is used for optimistic concurrency control as a way to
+    /// help prevent simultaneous updates of a restore from overwriting each other.
+    /// It is strongly suggested that systems make use of the `etag` in the
+    /// read-modify-write cycle to perform restore updates in order to avoid
+    /// race conditions: An `etag` is returned in the response to `GetRestorePlan`,
+    /// and systems are expected to put that etag in the request to
+    /// `UpdateRestorePlan` or `DeleteRestorePlan` to ensure that their change
+    /// will be applied to the same version of the resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. State of the RestorePlan. This State field reflects the
+    /// various stages a RestorePlan can be in
+    /// during the Create operation.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"restore_plan::State"</span>, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Output only. Human-readable description of why RestorePlan is in the
+    /// current `state`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>state_reason: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `RestorePlan`.
+</span><span class="kw">pub mod </span>restore_plan {
+    <span class="doccomment">/// State
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Default first value for Enums.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Waiting for cluster state to be RUNNING.
+        </span>ClusterPending = <span class="number">1</span>,
+        <span class="doccomment">/// The RestorePlan has successfully been created and is ready for Restores.
+        </span>Ready = <span class="number">2</span>,
+        <span class="doccomment">/// RestorePlan creation has failed.
+        </span>Failed = <span class="number">3</span>,
+        <span class="doccomment">/// The RestorePlan is in the process of being deleted.
+        </span>Deleting = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::ClusterPending =&gt; <span class="string">"CLUSTER_PENDING"</span>,
+                State::Ready =&gt; <span class="string">"READY"</span>,
+                State::Failed =&gt; <span class="string">"FAILED"</span>,
+                State::Deleting =&gt; <span class="string">"DELETING"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CLUSTER_PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ClusterPending),
+                <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
+                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
 <span class="doccomment">/// Represents a request to perform a single point-in-time capture of
 /// some portion of the state of a GKE cluster, the record of the backup
 /// operation itself, and an anchor for the underlying artifacts that
@@ -4298,128 +4420,6 @@
                 <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
                 <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
                 <span class="string">"DEACTIVATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deactivated),
-                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// The configuration of a potential series of Restore operations to be performed
-/// against Backups belong to a particular BackupPlan.
-/// Next id: 13
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RestorePlan {
-    <span class="doccomment">/// Output only. The full name of the RestorePlan resource.
-    /// Format: `projects/*/locations/*/restorePlans/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Server generated global unique identifier of
-    /// [UUID](&lt;https://en.wikipedia.org/wiki/Universally_unique_identifier&gt;) format.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The timestamp when this RestorePlan resource was
-    /// created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp when this RestorePlan resource was last
-    /// updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// User specified descriptive string for this RestorePlan.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Immutable. A reference to the
-    /// [BackupPlan][google.cloud.gkebackup.v1.BackupPlan] from which Backups may
-    /// be used as the source for Restores created via this RestorePlan. Format:
-    /// `projects/*/locations/*/backupPlans/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>backup_plan: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Immutable. The target cluster into which Restores created via
-    /// this RestorePlan will restore data. NOTE: the cluster's region must be the
-    /// same as the RestorePlan. Valid formats:
-    ///
-    ///    - `projects/*/locations/*/clusters/*`
-    ///    - `projects/*/zones/*/clusters/*`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>cluster: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Configuration of Restores created via this RestorePlan.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>restore_config: ::core::option::Option&lt;RestoreConfig&gt;,
-    <span class="doccomment">/// A set of custom labels supplied by user.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Output only. `etag` is used for optimistic concurrency control as a way to
-    /// help prevent simultaneous updates of a restore from overwriting each other.
-    /// It is strongly suggested that systems make use of the `etag` in the
-    /// read-modify-write cycle to perform restore updates in order to avoid
-    /// race conditions: An `etag` is returned in the response to `GetRestorePlan`,
-    /// and systems are expected to put that etag in the request to
-    /// `UpdateRestorePlan` or `DeleteRestorePlan` to ensure that their change
-    /// will be applied to the same version of the resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. State of the RestorePlan. This State field reflects the
-    /// various stages a RestorePlan can be in
-    /// during the Create operation.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"restore_plan::State"</span>, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Output only. Human-readable description of why RestorePlan is in the
-    /// current `state`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>state_reason: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `RestorePlan`.
-</span><span class="kw">pub mod </span>restore_plan {
-    <span class="doccomment">/// State
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Default first value for Enums.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Waiting for cluster state to be RUNNING.
-        </span>ClusterPending = <span class="number">1</span>,
-        <span class="doccomment">/// The RestorePlan has successfully been created and is ready for Restores.
-        </span>Ready = <span class="number">2</span>,
-        <span class="doccomment">/// RestorePlan creation has failed.
-        </span>Failed = <span class="number">3</span>,
-        <span class="doccomment">/// The RestorePlan is in the process of being deleted.
-        </span>Deleting = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::ClusterPending =&gt; <span class="string">"CLUSTER_PENDING"</span>,
-                State::Ready =&gt; <span class="string">"READY"</span>,
-                State::Failed =&gt; <span class="string">"FAILED"</span>,
-                State::Deleting =&gt; <span class="string">"DELETING"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CLUSTER_PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ClusterPending),
-                <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
-                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
                 <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }

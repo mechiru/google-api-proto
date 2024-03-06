@@ -5739,6 +5739,629 @@
     }
 }
 <span class="doccomment">/// Request message for
+/// [EkmService.ListEkmConnections][google.cloud.kms.v1.EkmService.ListEkmConnections].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListEkmConnectionsRequest {
+    <span class="doccomment">/// Required. The resource name of the location associated with the
+    /// [EkmConnections][google.cloud.kms.v1.EkmConnection] to list, in the format
+    /// `projects/*/locations/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Optional limit on the number of
+    /// [EkmConnections][google.cloud.kms.v1.EkmConnection] to include in the
+    /// response. Further [EkmConnections][google.cloud.kms.v1.EkmConnection] can
+    /// subsequently be obtained by including the
+    /// [ListEkmConnectionsResponse.next_page_token][google.cloud.kms.v1.ListEkmConnectionsResponse.next_page_token]
+    /// in a subsequent request. If unspecified, the server will pick an
+    /// appropriate default.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// Optional. Optional pagination token, returned earlier via
+    /// [ListEkmConnectionsResponse.next_page_token][google.cloud.kms.v1.ListEkmConnectionsResponse.next_page_token].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Only include resources that match the filter in the response. For
+    /// more information, see
+    /// [Sorting and filtering list
+    /// results](&lt;https://cloud.google.com/kms/docs/sorting-and-filtering&gt;).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Specify how the results should be sorted. If not specified, the
+    /// results will be sorted in the default order.  For more information, see
+    /// [Sorting and filtering list
+    /// results](&lt;https://cloud.google.com/kms/docs/sorting-and-filtering&gt;).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response message for
+/// [EkmService.ListEkmConnections][google.cloud.kms.v1.EkmService.ListEkmConnections].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListEkmConnectionsResponse {
+    <span class="doccomment">/// The list of [EkmConnections][google.cloud.kms.v1.EkmConnection].
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>ekm_connections: ::prost::alloc::vec::Vec&lt;EkmConnection&gt;,
+    <span class="doccomment">/// A token to retrieve next page of results. Pass this value in
+    /// [ListEkmConnectionsRequest.page_token][google.cloud.kms.v1.ListEkmConnectionsRequest.page_token]
+    /// to retrieve the next page of results.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// The total number of [EkmConnections][google.cloud.kms.v1.EkmConnection]
+    /// that matched the query.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>total_size: i32,
+}
+<span class="doccomment">/// Request message for
+/// [EkmService.GetEkmConnection][google.cloud.kms.v1.EkmService.GetEkmConnection].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetEkmConnectionRequest {
+    <span class="doccomment">/// Required. The [name][google.cloud.kms.v1.EkmConnection.name] of the
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] to get.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for
+/// [EkmService.CreateEkmConnection][google.cloud.kms.v1.EkmService.CreateEkmConnection].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateEkmConnectionRequest {
+    <span class="doccomment">/// Required. The resource name of the location associated with the
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection], in the format
+    /// `projects/*/locations/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. It must be unique within a location and match the regular
+    /// expression `\[a-zA-Z0-9_-\]{1,63}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>ekm_connection_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. An [EkmConnection][google.cloud.kms.v1.EkmConnection] with
+    /// initial field values.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>ekm_connection: ::core::option::Option&lt;EkmConnection&gt;,
+}
+<span class="doccomment">/// Request message for
+/// [EkmService.UpdateEkmConnection][google.cloud.kms.v1.EkmService.UpdateEkmConnection].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateEkmConnectionRequest {
+    <span class="doccomment">/// Required. [EkmConnection][google.cloud.kms.v1.EkmConnection] with updated
+    /// values.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>ekm_connection: ::core::option::Option&lt;EkmConnection&gt;,
+    <span class="doccomment">/// Required. List of fields to be updated in this request.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+}
+<span class="doccomment">/// Request message for
+/// [EkmService.GetEkmConfig][google.cloud.kms.v1.EkmService.GetEkmConfig].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetEkmConfigRequest {
+    <span class="doccomment">/// Required. The [name][google.cloud.kms.v1.EkmConfig.name] of the
+    /// [EkmConfig][google.cloud.kms.v1.EkmConfig] to get.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for
+/// [EkmService.UpdateEkmConfig][google.cloud.kms.v1.EkmService.UpdateEkmConfig].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateEkmConfigRequest {
+    <span class="doccomment">/// Required. [EkmConfig][google.cloud.kms.v1.EkmConfig] with updated values.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>ekm_config: ::core::option::Option&lt;EkmConfig&gt;,
+    <span class="doccomment">/// Required. List of fields to be updated in this request.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+}
+<span class="doccomment">/// A [Certificate][google.cloud.kms.v1.Certificate] represents an X.509
+/// certificate used to authenticate HTTPS connections to EKM replicas.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Certificate {
+    <span class="doccomment">/// Required. The raw certificate bytes in DER format.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>raw_der: ::prost::bytes::Bytes,
+    <span class="doccomment">/// Output only. True if the certificate was parsed successfully.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>parsed: bool,
+    <span class="doccomment">/// Output only. The issuer distinguished name in RFC 2253 format. Only present
+    /// if [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>issuer: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The subject distinguished name in RFC 2253 format. Only
+    /// present if [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>subject: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The subject Alternative DNS names. Only present if
+    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>subject_alternative_dns_names: ::prost::alloc::vec::Vec&lt;
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Output only. The certificate is not valid before this time. Only present if
+    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>not_before_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The certificate is not valid after this time. Only present if
+    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>not_after_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The certificate serial number as a hex string. Only present if
+    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>serial_number: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The SHA-256 certificate fingerprint as a hex string. Only
+    /// present if [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>sha256_fingerprint: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// An [EkmConnection][google.cloud.kms.v1.EkmConnection] represents an
+/// individual EKM connection. It can be used for creating
+/// [CryptoKeys][google.cloud.kms.v1.CryptoKey] and
+/// [CryptoKeyVersions][google.cloud.kms.v1.CryptoKeyVersion] with a
+/// [ProtectionLevel][google.cloud.kms.v1.ProtectionLevel] of
+/// [EXTERNAL_VPC][CryptoKeyVersion.ProtectionLevel.EXTERNAL_VPC], as well as
+/// performing cryptographic operations using keys created within the
+/// [EkmConnection][google.cloud.kms.v1.EkmConnection].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>EkmConnection {
+    <span class="doccomment">/// Output only. The resource name for the
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] in the format
+    /// `projects/*/locations/*/ekmConnections/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The time at which the
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// A list of
+    /// [ServiceResolvers][google.cloud.kms.v1.EkmConnection.ServiceResolver] where
+    /// the EKM can be reached. There should be one ServiceResolver per EKM
+    /// replica. Currently, only a single
+    /// [ServiceResolver][google.cloud.kms.v1.EkmConnection.ServiceResolver] is
+    /// supported.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>service_resolvers: ::prost::alloc::vec::Vec&lt;ekm_connection::ServiceResolver&gt;,
+    <span class="doccomment">/// Optional. Etag of the currently stored
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Describes who can perform control plane operations on the EKM. If
+    /// unset, this defaults to
+    /// [MANUAL][google.cloud.kms.v1.EkmConnection.KeyManagementMode.MANUAL].
+    </span><span class="attr">#[prost(enumeration = <span class="string">"ekm_connection::KeyManagementMode"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>key_management_mode: i32,
+    <span class="doccomment">/// Optional. Identifies the EKM Crypto Space that this
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] maps to. Note: This
+    /// field is required if
+    /// [KeyManagementMode][google.cloud.kms.v1.EkmConnection.KeyManagementMode] is
+    /// [CLOUD_KMS][google.cloud.kms.v1.EkmConnection.KeyManagementMode.CLOUD_KMS].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>crypto_space_path: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `EkmConnection`.
+</span><span class="kw">pub mod </span>ekm_connection {
+    <span class="doccomment">/// A [ServiceResolver][google.cloud.kms.v1.EkmConnection.ServiceResolver]
+    /// represents an EKM replica that can be reached within an
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ServiceResolver {
+        <span class="doccomment">/// Required. The resource name of the Service Directory service pointing to
+        /// an EKM replica, in the format
+        /// `projects/*/locations/*/namespaces/*/services/*`.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>service_directory_service: ::prost::alloc::string::String,
+        <span class="doccomment">/// Optional. The filter applied to the endpoints of the resolved service. If
+        /// no filter is specified, all endpoints will be considered. An endpoint
+        /// will be chosen arbitrarily from the filtered list for each request.
+        ///
+        /// For endpoint filter syntax and examples, see
+        /// &lt;https://cloud.google.com/service-directory/docs/reference/rpc/google.cloud.servicedirectory.v1#resolveservicerequest.&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>endpoint_filter: ::prost::alloc::string::String,
+        <span class="doccomment">/// Required. The hostname of the EKM replica used at TLS and HTTP layers.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>hostname: ::prost::alloc::string::String,
+        <span class="doccomment">/// Required. A list of leaf server certificates used to authenticate HTTPS
+        /// connections to the EKM replica. Currently, a maximum of 10
+        /// [Certificate][google.cloud.kms.v1.Certificate] is supported.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>server_certificates: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::Certificate&gt;,
+    }
+    <span class="doccomment">/// [KeyManagementMode][google.cloud.kms.v1.EkmConnection.KeyManagementMode]
+    /// describes who can perform control plane cryptographic operations using this
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>KeyManagementMode {
+        <span class="doccomment">/// Not specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// EKM-side key management operations on
+        /// [CryptoKeys][google.cloud.kms.v1.CryptoKey] created with this
+        /// [EkmConnection][google.cloud.kms.v1.EkmConnection] must be initiated from
+        /// the EKM directly and cannot be performed from Cloud KMS. This means that:
+        /// * When creating a
+        /// [CryptoKeyVersion][google.cloud.kms.v1.CryptoKeyVersion] associated with
+        /// this
+        ///    [EkmConnection][google.cloud.kms.v1.EkmConnection], the caller must
+        ///    supply the key path of pre-existing external key material that will be
+        ///    linked to the [CryptoKeyVersion][google.cloud.kms.v1.CryptoKeyVersion].
+        /// * Destruction of external key material cannot be requested via the
+        ///    Cloud KMS API and must be performed directly in the EKM.
+        /// * Automatic rotation of key material is not supported.
+        </span>Manual = <span class="number">1</span>,
+        <span class="doccomment">/// All [CryptoKeys][google.cloud.kms.v1.CryptoKey] created with this
+        /// [EkmConnection][google.cloud.kms.v1.EkmConnection] use EKM-side key
+        /// management operations initiated from Cloud KMS. This means that:
+        /// * When a [CryptoKeyVersion][google.cloud.kms.v1.CryptoKeyVersion]
+        /// associated with this [EkmConnection][google.cloud.kms.v1.EkmConnection]
+        /// is
+        ///    created, the EKM automatically generates new key material and a new
+        ///    key path. The caller cannot supply the key path of pre-existing
+        ///    external key material.
+        /// * Destruction of external key material associated with this
+        ///    [EkmConnection][google.cloud.kms.v1.EkmConnection] can be requested by
+        ///    calling [DestroyCryptoKeyVersion][EkmService.DestroyCryptoKeyVersion].
+        /// * Automatic rotation of key material is supported.
+        </span>CloudKms = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>KeyManagementMode {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                KeyManagementMode::Unspecified =&gt; <span class="string">"KEY_MANAGEMENT_MODE_UNSPECIFIED"</span>,
+                KeyManagementMode::Manual =&gt; <span class="string">"MANUAL"</span>,
+                KeyManagementMode::CloudKms =&gt; <span class="string">"CLOUD_KMS"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"KEY_MANAGEMENT_MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"MANUAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Manual),
+                <span class="string">"CLOUD_KMS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudKms),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// An [EkmConfig][google.cloud.kms.v1.EkmConfig] is a singleton resource that
+/// represents configuration parameters that apply to all
+/// [CryptoKeys][google.cloud.kms.v1.CryptoKey] and
+/// [CryptoKeyVersions][google.cloud.kms.v1.CryptoKeyVersion] with a
+/// [ProtectionLevel][google.cloud.kms.v1.ProtectionLevel] of
+/// [EXTERNAL_VPC][CryptoKeyVersion.ProtectionLevel.EXTERNAL_VPC] in a given
+/// project and location.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>EkmConfig {
+    <span class="doccomment">/// Output only. The resource name for the
+    /// [EkmConfig][google.cloud.kms.v1.EkmConfig] in the format
+    /// `projects/*/locations/*/ekmConfig`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Resource name of the default
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection]. Setting this field to
+    /// the empty string removes the default.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>default_ekm_connection: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for
+/// [EkmService.VerifyConnectivity][google.cloud.kms.v1.EkmService.VerifyConnectivity].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>VerifyConnectivityRequest {
+    <span class="doccomment">/// Required. The [name][google.cloud.kms.v1.EkmConnection.name] of the
+    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] to verify.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response message for
+/// [EkmService.VerifyConnectivity][google.cloud.kms.v1.EkmService.VerifyConnectivity].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>VerifyConnectivityResponse {}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>ekm_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Google Cloud Key Management EKM Service
+    ///
+    /// Manages external cryptographic keys and operations using those keys.
+    /// Implements a REST model with the following objects:
+    /// * [EkmConnection][google.cloud.kms.v1.EkmConnection]
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>EkmServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; EkmServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; EkmServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            EkmServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Lists [EkmConnections][google.cloud.kms.v1.EkmConnection].
+        </span><span class="kw">pub async fn </span>list_ekm_connections(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListEkmConnectionsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListEkmConnectionsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.kms.v1.EkmService/ListEkmConnections"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.kms.v1.EkmService"</span>,
+                        <span class="string">"ListEkmConnections"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Returns metadata for a given
+        /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
+        </span><span class="kw">pub async fn </span>get_ekm_connection(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetEkmConnectionRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::EkmConnection&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.kms.v1.EkmService/GetEkmConnection"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"google.cloud.kms.v1.EkmService"</span>, <span class="string">"GetEkmConnection"</span>),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Creates a new [EkmConnection][google.cloud.kms.v1.EkmConnection] in a given
+        /// Project and Location.
+        </span><span class="kw">pub async fn </span>create_ekm_connection(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateEkmConnectionRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::EkmConnection&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.kms.v1.EkmService/CreateEkmConnection"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.kms.v1.EkmService"</span>,
+                        <span class="string">"CreateEkmConnection"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Updates an [EkmConnection][google.cloud.kms.v1.EkmConnection]'s metadata.
+        </span><span class="kw">pub async fn </span>update_ekm_connection(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateEkmConnectionRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::EkmConnection&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.kms.v1.EkmService/UpdateEkmConnection"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.kms.v1.EkmService"</span>,
+                        <span class="string">"UpdateEkmConnection"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Returns the [EkmConfig][google.cloud.kms.v1.EkmConfig] singleton resource
+        /// for a given project and location.
+        </span><span class="kw">pub async fn </span>get_ekm_config(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetEkmConfigRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::EkmConfig&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.kms.v1.EkmService/GetEkmConfig"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"google.cloud.kms.v1.EkmService"</span>, <span class="string">"GetEkmConfig"</span>),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Updates the [EkmConfig][google.cloud.kms.v1.EkmConfig] singleton resource
+        /// for a given project and location.
+        </span><span class="kw">pub async fn </span>update_ekm_config(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateEkmConfigRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::EkmConfig&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.kms.v1.EkmService/UpdateEkmConfig"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"google.cloud.kms.v1.EkmService"</span>, <span class="string">"UpdateEkmConfig"</span>),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Verifies that Cloud KMS can successfully connect to the external key
+        /// manager specified by an [EkmConnection][google.cloud.kms.v1.EkmConnection].
+        /// If there is an error connecting to the EKM, this method returns a
+        /// FAILED_PRECONDITION status containing structured information as described
+        /// at https://cloud.google.com/kms/docs/reference/ekm_errors.
+        </span><span class="kw">pub async fn </span>verify_connectivity(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::VerifyConnectivityRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::VerifyConnectivityResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.kms.v1.EkmService/VerifyConnectivity"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.kms.v1.EkmService"</span>,
+                        <span class="string">"VerifyConnectivity"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Request message for
 /// [KeyManagementService.ListKeyRings][google.cloud.kms.v1.KeyManagementService.ListKeyRings].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -8394,629 +9017,6 @@
                     GrpcMethod::new(
                         <span class="string">"google.cloud.kms.v1.KeyManagementService"</span>,
                         <span class="string">"GenerateRandomBytes"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// Request message for
-/// [EkmService.ListEkmConnections][google.cloud.kms.v1.EkmService.ListEkmConnections].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListEkmConnectionsRequest {
-    <span class="doccomment">/// Required. The resource name of the location associated with the
-    /// [EkmConnections][google.cloud.kms.v1.EkmConnection] to list, in the format
-    /// `projects/*/locations/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Optional limit on the number of
-    /// [EkmConnections][google.cloud.kms.v1.EkmConnection] to include in the
-    /// response. Further [EkmConnections][google.cloud.kms.v1.EkmConnection] can
-    /// subsequently be obtained by including the
-    /// [ListEkmConnectionsResponse.next_page_token][google.cloud.kms.v1.ListEkmConnectionsResponse.next_page_token]
-    /// in a subsequent request. If unspecified, the server will pick an
-    /// appropriate default.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// Optional. Optional pagination token, returned earlier via
-    /// [ListEkmConnectionsResponse.next_page_token][google.cloud.kms.v1.ListEkmConnectionsResponse.next_page_token].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Only include resources that match the filter in the response. For
-    /// more information, see
-    /// [Sorting and filtering list
-    /// results](&lt;https://cloud.google.com/kms/docs/sorting-and-filtering&gt;).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Specify how the results should be sorted. If not specified, the
-    /// results will be sorted in the default order.  For more information, see
-    /// [Sorting and filtering list
-    /// results](&lt;https://cloud.google.com/kms/docs/sorting-and-filtering&gt;).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response message for
-/// [EkmService.ListEkmConnections][google.cloud.kms.v1.EkmService.ListEkmConnections].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListEkmConnectionsResponse {
-    <span class="doccomment">/// The list of [EkmConnections][google.cloud.kms.v1.EkmConnection].
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>ekm_connections: ::prost::alloc::vec::Vec&lt;EkmConnection&gt;,
-    <span class="doccomment">/// A token to retrieve next page of results. Pass this value in
-    /// [ListEkmConnectionsRequest.page_token][google.cloud.kms.v1.ListEkmConnectionsRequest.page_token]
-    /// to retrieve the next page of results.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// The total number of [EkmConnections][google.cloud.kms.v1.EkmConnection]
-    /// that matched the query.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>total_size: i32,
-}
-<span class="doccomment">/// Request message for
-/// [EkmService.GetEkmConnection][google.cloud.kms.v1.EkmService.GetEkmConnection].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetEkmConnectionRequest {
-    <span class="doccomment">/// Required. The [name][google.cloud.kms.v1.EkmConnection.name] of the
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] to get.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request message for
-/// [EkmService.CreateEkmConnection][google.cloud.kms.v1.EkmService.CreateEkmConnection].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateEkmConnectionRequest {
-    <span class="doccomment">/// Required. The resource name of the location associated with the
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection], in the format
-    /// `projects/*/locations/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. It must be unique within a location and match the regular
-    /// expression `\[a-zA-Z0-9_-\]{1,63}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>ekm_connection_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. An [EkmConnection][google.cloud.kms.v1.EkmConnection] with
-    /// initial field values.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>ekm_connection: ::core::option::Option&lt;EkmConnection&gt;,
-}
-<span class="doccomment">/// Request message for
-/// [EkmService.UpdateEkmConnection][google.cloud.kms.v1.EkmService.UpdateEkmConnection].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateEkmConnectionRequest {
-    <span class="doccomment">/// Required. [EkmConnection][google.cloud.kms.v1.EkmConnection] with updated
-    /// values.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>ekm_connection: ::core::option::Option&lt;EkmConnection&gt;,
-    <span class="doccomment">/// Required. List of fields to be updated in this request.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-}
-<span class="doccomment">/// Request message for
-/// [EkmService.GetEkmConfig][google.cloud.kms.v1.EkmService.GetEkmConfig].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetEkmConfigRequest {
-    <span class="doccomment">/// Required. The [name][google.cloud.kms.v1.EkmConfig.name] of the
-    /// [EkmConfig][google.cloud.kms.v1.EkmConfig] to get.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request message for
-/// [EkmService.UpdateEkmConfig][google.cloud.kms.v1.EkmService.UpdateEkmConfig].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateEkmConfigRequest {
-    <span class="doccomment">/// Required. [EkmConfig][google.cloud.kms.v1.EkmConfig] with updated values.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>ekm_config: ::core::option::Option&lt;EkmConfig&gt;,
-    <span class="doccomment">/// Required. List of fields to be updated in this request.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-}
-<span class="doccomment">/// A [Certificate][google.cloud.kms.v1.Certificate] represents an X.509
-/// certificate used to authenticate HTTPS connections to EKM replicas.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Certificate {
-    <span class="doccomment">/// Required. The raw certificate bytes in DER format.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>raw_der: ::prost::bytes::Bytes,
-    <span class="doccomment">/// Output only. True if the certificate was parsed successfully.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>parsed: bool,
-    <span class="doccomment">/// Output only. The issuer distinguished name in RFC 2253 format. Only present
-    /// if [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>issuer: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The subject distinguished name in RFC 2253 format. Only
-    /// present if [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>subject: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The subject Alternative DNS names. Only present if
-    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>subject_alternative_dns_names: ::prost::alloc::vec::Vec&lt;
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Output only. The certificate is not valid before this time. Only present if
-    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>not_before_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The certificate is not valid after this time. Only present if
-    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>not_after_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The certificate serial number as a hex string. Only present if
-    /// [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>serial_number: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The SHA-256 certificate fingerprint as a hex string. Only
-    /// present if [parsed][google.cloud.kms.v1.Certificate.parsed] is true.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>sha256_fingerprint: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// An [EkmConnection][google.cloud.kms.v1.EkmConnection] represents an
-/// individual EKM connection. It can be used for creating
-/// [CryptoKeys][google.cloud.kms.v1.CryptoKey] and
-/// [CryptoKeyVersions][google.cloud.kms.v1.CryptoKeyVersion] with a
-/// [ProtectionLevel][google.cloud.kms.v1.ProtectionLevel] of
-/// [EXTERNAL_VPC][CryptoKeyVersion.ProtectionLevel.EXTERNAL_VPC], as well as
-/// performing cryptographic operations using keys created within the
-/// [EkmConnection][google.cloud.kms.v1.EkmConnection].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EkmConnection {
-    <span class="doccomment">/// Output only. The resource name for the
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] in the format
-    /// `projects/*/locations/*/ekmConnections/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The time at which the
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// A list of
-    /// [ServiceResolvers][google.cloud.kms.v1.EkmConnection.ServiceResolver] where
-    /// the EKM can be reached. There should be one ServiceResolver per EKM
-    /// replica. Currently, only a single
-    /// [ServiceResolver][google.cloud.kms.v1.EkmConnection.ServiceResolver] is
-    /// supported.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>service_resolvers: ::prost::alloc::vec::Vec&lt;ekm_connection::ServiceResolver&gt;,
-    <span class="doccomment">/// Optional. Etag of the currently stored
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Describes who can perform control plane operations on the EKM. If
-    /// unset, this defaults to
-    /// [MANUAL][google.cloud.kms.v1.EkmConnection.KeyManagementMode.MANUAL].
-    </span><span class="attr">#[prost(enumeration = <span class="string">"ekm_connection::KeyManagementMode"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>key_management_mode: i32,
-    <span class="doccomment">/// Optional. Identifies the EKM Crypto Space that this
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] maps to. Note: This
-    /// field is required if
-    /// [KeyManagementMode][google.cloud.kms.v1.EkmConnection.KeyManagementMode] is
-    /// [CLOUD_KMS][google.cloud.kms.v1.EkmConnection.KeyManagementMode.CLOUD_KMS].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>crypto_space_path: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `EkmConnection`.
-</span><span class="kw">pub mod </span>ekm_connection {
-    <span class="doccomment">/// A [ServiceResolver][google.cloud.kms.v1.EkmConnection.ServiceResolver]
-    /// represents an EKM replica that can be reached within an
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ServiceResolver {
-        <span class="doccomment">/// Required. The resource name of the Service Directory service pointing to
-        /// an EKM replica, in the format
-        /// `projects/*/locations/*/namespaces/*/services/*`.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>service_directory_service: ::prost::alloc::string::String,
-        <span class="doccomment">/// Optional. The filter applied to the endpoints of the resolved service. If
-        /// no filter is specified, all endpoints will be considered. An endpoint
-        /// will be chosen arbitrarily from the filtered list for each request.
-        ///
-        /// For endpoint filter syntax and examples, see
-        /// &lt;https://cloud.google.com/service-directory/docs/reference/rpc/google.cloud.servicedirectory.v1#resolveservicerequest.&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>endpoint_filter: ::prost::alloc::string::String,
-        <span class="doccomment">/// Required. The hostname of the EKM replica used at TLS and HTTP layers.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>hostname: ::prost::alloc::string::String,
-        <span class="doccomment">/// Required. A list of leaf server certificates used to authenticate HTTPS
-        /// connections to the EKM replica. Currently, a maximum of 10
-        /// [Certificate][google.cloud.kms.v1.Certificate] is supported.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>server_certificates: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::Certificate&gt;,
-    }
-    <span class="doccomment">/// [KeyManagementMode][google.cloud.kms.v1.EkmConnection.KeyManagementMode]
-    /// describes who can perform control plane cryptographic operations using this
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>KeyManagementMode {
-        <span class="doccomment">/// Not specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// EKM-side key management operations on
-        /// [CryptoKeys][google.cloud.kms.v1.CryptoKey] created with this
-        /// [EkmConnection][google.cloud.kms.v1.EkmConnection] must be initiated from
-        /// the EKM directly and cannot be performed from Cloud KMS. This means that:
-        /// * When creating a
-        /// [CryptoKeyVersion][google.cloud.kms.v1.CryptoKeyVersion] associated with
-        /// this
-        ///    [EkmConnection][google.cloud.kms.v1.EkmConnection], the caller must
-        ///    supply the key path of pre-existing external key material that will be
-        ///    linked to the [CryptoKeyVersion][google.cloud.kms.v1.CryptoKeyVersion].
-        /// * Destruction of external key material cannot be requested via the
-        ///    Cloud KMS API and must be performed directly in the EKM.
-        /// * Automatic rotation of key material is not supported.
-        </span>Manual = <span class="number">1</span>,
-        <span class="doccomment">/// All [CryptoKeys][google.cloud.kms.v1.CryptoKey] created with this
-        /// [EkmConnection][google.cloud.kms.v1.EkmConnection] use EKM-side key
-        /// management operations initiated from Cloud KMS. This means that:
-        /// * When a [CryptoKeyVersion][google.cloud.kms.v1.CryptoKeyVersion]
-        /// associated with this [EkmConnection][google.cloud.kms.v1.EkmConnection]
-        /// is
-        ///    created, the EKM automatically generates new key material and a new
-        ///    key path. The caller cannot supply the key path of pre-existing
-        ///    external key material.
-        /// * Destruction of external key material associated with this
-        ///    [EkmConnection][google.cloud.kms.v1.EkmConnection] can be requested by
-        ///    calling [DestroyCryptoKeyVersion][EkmService.DestroyCryptoKeyVersion].
-        /// * Automatic rotation of key material is supported.
-        </span>CloudKms = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>KeyManagementMode {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                KeyManagementMode::Unspecified =&gt; <span class="string">"KEY_MANAGEMENT_MODE_UNSPECIFIED"</span>,
-                KeyManagementMode::Manual =&gt; <span class="string">"MANUAL"</span>,
-                KeyManagementMode::CloudKms =&gt; <span class="string">"CLOUD_KMS"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"KEY_MANAGEMENT_MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"MANUAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Manual),
-                <span class="string">"CLOUD_KMS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudKms),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// An [EkmConfig][google.cloud.kms.v1.EkmConfig] is a singleton resource that
-/// represents configuration parameters that apply to all
-/// [CryptoKeys][google.cloud.kms.v1.CryptoKey] and
-/// [CryptoKeyVersions][google.cloud.kms.v1.CryptoKeyVersion] with a
-/// [ProtectionLevel][google.cloud.kms.v1.ProtectionLevel] of
-/// [EXTERNAL_VPC][CryptoKeyVersion.ProtectionLevel.EXTERNAL_VPC] in a given
-/// project and location.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EkmConfig {
-    <span class="doccomment">/// Output only. The resource name for the
-    /// [EkmConfig][google.cloud.kms.v1.EkmConfig] in the format
-    /// `projects/*/locations/*/ekmConfig`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Resource name of the default
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection]. Setting this field to
-    /// the empty string removes the default.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>default_ekm_connection: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request message for
-/// [EkmService.VerifyConnectivity][google.cloud.kms.v1.EkmService.VerifyConnectivity].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VerifyConnectivityRequest {
-    <span class="doccomment">/// Required. The [name][google.cloud.kms.v1.EkmConnection.name] of the
-    /// [EkmConnection][google.cloud.kms.v1.EkmConnection] to verify.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response message for
-/// [EkmService.VerifyConnectivity][google.cloud.kms.v1.EkmService.VerifyConnectivity].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VerifyConnectivityResponse {}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>ekm_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Google Cloud Key Management EKM Service
-    ///
-    /// Manages external cryptographic keys and operations using those keys.
-    /// Implements a REST model with the following objects:
-    /// * [EkmConnection][google.cloud.kms.v1.EkmConnection]
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>EkmServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; EkmServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; EkmServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            EkmServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Lists [EkmConnections][google.cloud.kms.v1.EkmConnection].
-        </span><span class="kw">pub async fn </span>list_ekm_connections(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListEkmConnectionsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListEkmConnectionsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.kms.v1.EkmService/ListEkmConnections"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.kms.v1.EkmService"</span>,
-                        <span class="string">"ListEkmConnections"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Returns metadata for a given
-        /// [EkmConnection][google.cloud.kms.v1.EkmConnection].
-        </span><span class="kw">pub async fn </span>get_ekm_connection(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetEkmConnectionRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::EkmConnection&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.kms.v1.EkmService/GetEkmConnection"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"google.cloud.kms.v1.EkmService"</span>, <span class="string">"GetEkmConnection"</span>),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Creates a new [EkmConnection][google.cloud.kms.v1.EkmConnection] in a given
-        /// Project and Location.
-        </span><span class="kw">pub async fn </span>create_ekm_connection(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateEkmConnectionRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::EkmConnection&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.kms.v1.EkmService/CreateEkmConnection"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.kms.v1.EkmService"</span>,
-                        <span class="string">"CreateEkmConnection"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Updates an [EkmConnection][google.cloud.kms.v1.EkmConnection]'s metadata.
-        </span><span class="kw">pub async fn </span>update_ekm_connection(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateEkmConnectionRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::EkmConnection&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.kms.v1.EkmService/UpdateEkmConnection"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.kms.v1.EkmService"</span>,
-                        <span class="string">"UpdateEkmConnection"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Returns the [EkmConfig][google.cloud.kms.v1.EkmConfig] singleton resource
-        /// for a given project and location.
-        </span><span class="kw">pub async fn </span>get_ekm_config(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetEkmConfigRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::EkmConfig&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.kms.v1.EkmService/GetEkmConfig"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"google.cloud.kms.v1.EkmService"</span>, <span class="string">"GetEkmConfig"</span>),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Updates the [EkmConfig][google.cloud.kms.v1.EkmConfig] singleton resource
-        /// for a given project and location.
-        </span><span class="kw">pub async fn </span>update_ekm_config(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateEkmConfigRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::EkmConfig&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.kms.v1.EkmService/UpdateEkmConfig"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"google.cloud.kms.v1.EkmService"</span>, <span class="string">"UpdateEkmConfig"</span>),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Verifies that Cloud KMS can successfully connect to the external key
-        /// manager specified by an [EkmConnection][google.cloud.kms.v1.EkmConnection].
-        /// If there is an error connecting to the EKM, this method returns a
-        /// FAILED_PRECONDITION status containing structured information as described
-        /// at https://cloud.google.com/kms/docs/reference/ekm_errors.
-        </span><span class="kw">pub async fn </span>verify_connectivity(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::VerifyConnectivityRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::VerifyConnectivityResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.kms.v1.EkmService/VerifyConnectivity"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.kms.v1.EkmService"</span>,
-                        <span class="string">"VerifyConnectivity"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

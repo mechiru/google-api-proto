@@ -2564,83 +2564,7 @@
 <a href="#2563" id="2563">2563</a>
 <a href="#2564" id="2564">2564</a>
 <a href="#2565" id="2565">2565</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Security Command Center finding source. A finding source
-/// is an entity or a mechanism that can produce a finding. A source is like a
-/// container of findings that come from the same scanner, logger, monitor, etc.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Source {
-    <span class="doccomment">/// The relative resource name of this source. See:
-    /// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;
-    /// Example:
-    /// "organizations/{organization_id}/sources/{source_id}"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The source's display name.
-    /// A source's display name must be unique amongst its siblings, for example,
-    /// two sources with the same parent can't share the same display name.
-    /// The display name must have a length between 1 and 64 characters
-    /// (inclusive).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The description of the source (max of 1024 characters).
-    /// Example:
-    /// "Web Security Scanner is a web security scanner for common
-    /// vulnerabilities in App Engine applications. It can automatically
-    /// scan and detect four common vulnerabilities, including cross-site-scripting
-    /// (XSS), Flash injection, mixed content (HTTP in HTTPS), and
-    /// outdated/insecure libraries."
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// The canonical name of the finding. It's either
-    /// "organizations/{organization_id}/sources/{source_id}",
-    /// "folders/{folder_id}/sources/{source_id}" or
-    /// "projects/{project_number}/sources/{source_id}",
-    /// depending on the closest CRM ancestor of the resource associated with the
-    /// finding.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>canonical_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Message that contains the resource name and display name of a folder
-/// resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Folder {
-    <span class="doccomment">/// Full resource name of this folder. See:
-    /// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>resource_folder: ::prost::alloc::string::String,
-    <span class="doccomment">/// The user defined display name for this folder.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>resource_folder_display_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Information related to the Google Cloud resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Resource {
-    <span class="doccomment">/// The full resource name of the resource. See:
-    /// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The full resource name of project that the resource belongs to.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>project: ::prost::alloc::string::String,
-    <span class="doccomment">/// The human readable name of project that the resource belongs to.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>project_display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The full resource name of resource's parent.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The human readable name of resource's parent.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>parent_display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Contains a Folder message for each folder in the assets ancestry.
-    /// The first folder is the deepest nested folder, and the last folder is the
-    /// folder directly under the Organization.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>folders: ::prost::alloc::vec::Vec&lt;Folder&gt;,
-}
-<span class="doccomment">/// Response of asset discovery run
+</pre></div><pre class="rust"><code><span class="doccomment">/// Response of asset discovery run
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>RunAssetDiscoveryResponse {
@@ -2698,6 +2622,116 @@
                 <span class="string">"SUPERSEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Superseded),
                 <span class="string">"TERMINATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Terminated),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Message that contains the resource name and display name of a folder
+/// resource.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Folder {
+    <span class="doccomment">/// Full resource name of this folder. See:
+    /// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>resource_folder: ::prost::alloc::string::String,
+    <span class="doccomment">/// The user defined display name for this folder.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>resource_folder_display_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// User specified settings that are attached to the Security Command
+/// Center organization.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>OrganizationSettings {
+    <span class="doccomment">/// The relative resource name of the settings. See:
+    /// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;
+    /// Example:
+    /// "organizations/{organization_id}/organizationSettings".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// A flag that indicates if Asset Discovery should be enabled. If the flag is
+    /// set to `true`, then discovery of assets will occur. If it is set to `false,
+    /// all historical assets will remain, but discovery of future assets will not
+    /// occur.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>enable_asset_discovery: bool,
+    <span class="doccomment">/// The configuration used for Asset Discovery runs.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>asset_discovery_config: ::core::option::Option&lt;
+        organization_settings::AssetDiscoveryConfig,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `OrganizationSettings`.
+</span><span class="kw">pub mod </span>organization_settings {
+    <span class="doccomment">/// The configuration used for Asset Discovery runs.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>AssetDiscoveryConfig {
+        <span class="doccomment">/// The project ids to use for filtering asset discovery.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>project_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+        <span class="doccomment">/// The mode to use for filtering asset discovery.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"asset_discovery_config::InclusionMode"</span>, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>inclusion_mode: i32,
+        <span class="doccomment">/// The folder ids to use for filtering asset discovery.
+        /// It consists of only digits, e.g., 756619654966.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>folder_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `AssetDiscoveryConfig`.
+    </span><span class="kw">pub mod </span>asset_discovery_config {
+        <span class="doccomment">/// The mode of inclusion when running Asset Discovery.
+        /// Asset discovery can be limited by explicitly identifying projects to be
+        /// included or excluded. If INCLUDE_ONLY is set, then only those projects
+        /// within the organization and their children are discovered during asset
+        /// discovery. If EXCLUDE is set, then projects that don't match those
+        /// projects are discovered during asset discovery. If neither are set, then
+        /// all projects within the organization are discovered during asset
+        /// discovery.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>InclusionMode {
+            <span class="doccomment">/// Unspecified. Setting the mode with this value will disable
+            /// inclusion/exclusion filtering for Asset Discovery.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Asset Discovery will capture only the resources within the projects
+            /// specified. All other resources will be ignored.
+            </span>IncludeOnly = <span class="number">1</span>,
+            <span class="doccomment">/// Asset Discovery will ignore all resources under the projects specified.
+            /// All other resources will be retrieved.
+            </span>Exclude = <span class="number">2</span>,
+        }
+        <span class="kw">impl </span>InclusionMode {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    InclusionMode::Unspecified =&gt; <span class="string">"INCLUSION_MODE_UNSPECIFIED"</span>,
+                    InclusionMode::IncludeOnly =&gt; <span class="string">"INCLUDE_ONLY"</span>,
+                    InclusionMode::Exclude =&gt; <span class="string">"EXCLUDE"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"INCLUSION_MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"INCLUDE_ONLY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IncludeOnly),
+                    <span class="string">"EXCLUDE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Exclude),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
             }
         }
     }
@@ -2920,6 +2954,143 @@
         }
     }
 }
+<span class="doccomment">/// Security Command Center notification configs.
+///
+/// A notification config is a Security Command Center resource that contains the
+/// configuration to send notifications for create/update events of findings,
+/// assets and etc.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>NotificationConfig {
+    <span class="doccomment">/// The relative resource name of this notification config. See:
+    /// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;
+    /// Example:
+    /// "organizations/{organization_id}/notificationConfigs/notify_public_bucket".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The description of the notification config (max of 1024 characters).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// The type of events the config is for, e.g. FINDING.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"notification_config::EventType"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>event_type: i32,
+    <span class="doccomment">/// The Pub/Sub topic to send notifications to. Its format is
+    /// "projects/\[project_id\]/topics/\[topic\]".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>pubsub_topic: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The service account that needs "pubsub.topics.publish"
+    /// permission to publish to the Pub/Sub topic.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>service_account: ::prost::alloc::string::String,
+    <span class="doccomment">/// The config for triggering notifications.
+    </span><span class="attr">#[prost(oneof = <span class="string">"notification_config::NotifyConfig"</span>, tags = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>notify_config: ::core::option::Option&lt;notification_config::NotifyConfig&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `NotificationConfig`.
+</span><span class="kw">pub mod </span>notification_config {
+    <span class="doccomment">/// The config for streaming-based notifications, which send each event as soon
+    /// as it is detected.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>StreamingConfig {
+        <span class="doccomment">/// Expression that defines the filter to apply across create/update events
+        /// of assets or findings as specified by the event type. The expression is a
+        /// list of zero or more restrictions combined via logical operators `AND`
+        /// and `OR`. Parentheses are supported, and `OR` has higher precedence than
+        /// `AND`.
+        ///
+        /// Restrictions have the form `&lt;field&gt; &lt;operator&gt; &lt;value&gt;` and may have a
+        /// `-` character in front of them to indicate negation. The fields map to
+        /// those defined in the corresponding resource.
+        ///
+        /// The supported operators are:
+        ///
+        /// * `=` for all value types.
+        /// * `&gt;`, `&lt;`, `&gt;=`, `&lt;=` for integer values.
+        /// * `:`, meaning substring matching, for strings.
+        ///
+        /// The supported value types are:
+        ///
+        /// * string literals in quotes.
+        /// * integer literals without quotes.
+        /// * boolean literals `true` and `false` without quotes.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// The type of events.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>EventType {
+        <span class="doccomment">/// Unspecified event type.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Events for findings.
+        </span>Finding = <span class="number">1</span>,
+    }
+    <span class="kw">impl </span>EventType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                EventType::Unspecified =&gt; <span class="string">"EVENT_TYPE_UNSPECIFIED"</span>,
+                EventType::Finding =&gt; <span class="string">"FINDING"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"EVENT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"FINDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Finding),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// The config for triggering notifications.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>NotifyConfig {
+        <span class="doccomment">/// The config for triggering streaming-based notifications.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>StreamingConfig(StreamingConfig),
+    }
+}
+<span class="doccomment">/// Information related to the Google Cloud resource.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Resource {
+    <span class="doccomment">/// The full resource name of the resource. See:
+    /// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The full resource name of project that the resource belongs to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>project: ::prost::alloc::string::String,
+    <span class="doccomment">/// The human readable name of project that the resource belongs to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>project_display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The full resource name of resource's parent.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The human readable name of resource's parent.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>parent_display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Contains a Folder message for each folder in the assets ancestry.
+    /// The first folder is the deepest nested folder, and the last folder is the
+    /// folder directly under the Organization.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>folders: ::prost::alloc::vec::Vec&lt;Folder&gt;,
+}
 <span class="doccomment">/// Security Command Center's Notification
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2944,103 +3115,6 @@
         /// populated.
         </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
         </span>Finding(<span class="kw">super</span>::Finding),
-    }
-}
-<span class="doccomment">/// User specified settings that are attached to the Security Command
-/// Center organization.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OrganizationSettings {
-    <span class="doccomment">/// The relative resource name of the settings. See:
-    /// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;
-    /// Example:
-    /// "organizations/{organization_id}/organizationSettings".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// A flag that indicates if Asset Discovery should be enabled. If the flag is
-    /// set to `true`, then discovery of assets will occur. If it is set to `false,
-    /// all historical assets will remain, but discovery of future assets will not
-    /// occur.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>enable_asset_discovery: bool,
-    <span class="doccomment">/// The configuration used for Asset Discovery runs.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>asset_discovery_config: ::core::option::Option&lt;
-        organization_settings::AssetDiscoveryConfig,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `OrganizationSettings`.
-</span><span class="kw">pub mod </span>organization_settings {
-    <span class="doccomment">/// The configuration used for Asset Discovery runs.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>AssetDiscoveryConfig {
-        <span class="doccomment">/// The project ids to use for filtering asset discovery.
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>project_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        <span class="doccomment">/// The mode to use for filtering asset discovery.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"asset_discovery_config::InclusionMode"</span>, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>inclusion_mode: i32,
-        <span class="doccomment">/// The folder ids to use for filtering asset discovery.
-        /// It consists of only digits, e.g., 756619654966.
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>folder_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `AssetDiscoveryConfig`.
-    </span><span class="kw">pub mod </span>asset_discovery_config {
-        <span class="doccomment">/// The mode of inclusion when running Asset Discovery.
-        /// Asset discovery can be limited by explicitly identifying projects to be
-        /// included or excluded. If INCLUDE_ONLY is set, then only those projects
-        /// within the organization and their children are discovered during asset
-        /// discovery. If EXCLUDE is set, then projects that don't match those
-        /// projects are discovered during asset discovery. If neither are set, then
-        /// all projects within the organization are discovered during asset
-        /// discovery.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>InclusionMode {
-            <span class="doccomment">/// Unspecified. Setting the mode with this value will disable
-            /// inclusion/exclusion filtering for Asset Discovery.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Asset Discovery will capture only the resources within the projects
-            /// specified. All other resources will be ignored.
-            </span>IncludeOnly = <span class="number">1</span>,
-            <span class="doccomment">/// Asset Discovery will ignore all resources under the projects specified.
-            /// All other resources will be retrieved.
-            </span>Exclude = <span class="number">2</span>,
-        }
-        <span class="kw">impl </span>InclusionMode {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    InclusionMode::Unspecified =&gt; <span class="string">"INCLUSION_MODE_UNSPECIFIED"</span>,
-                    InclusionMode::IncludeOnly =&gt; <span class="string">"INCLUDE_ONLY"</span>,
-                    InclusionMode::Exclude =&gt; <span class="string">"EXCLUDE"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"INCLUSION_MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"INCLUDE_ONLY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IncludeOnly),
-                    <span class="string">"EXCLUDE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Exclude),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
     }
 }
 <span class="doccomment">/// Security Command Center representation of a Google Cloud
@@ -3154,116 +3228,42 @@
         </span><span class="kw">pub </span>policy_blob: ::prost::alloc::string::String,
     }
 }
-<span class="doccomment">/// Security Command Center notification configs.
-///
-/// A notification config is a Security Command Center resource that contains the
-/// configuration to send notifications for create/update events of findings,
-/// assets and etc.
+<span class="doccomment">/// Security Command Center finding source. A finding source
+/// is an entity or a mechanism that can produce a finding. A source is like a
+/// container of findings that come from the same scanner, logger, monitor, etc.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>NotificationConfig {
-    <span class="doccomment">/// The relative resource name of this notification config. See:
+</span><span class="kw">pub struct </span>Source {
+    <span class="doccomment">/// The relative resource name of this source. See:
     /// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;
     /// Example:
-    /// "organizations/{organization_id}/notificationConfigs/notify_public_bucket".
+    /// "organizations/{organization_id}/sources/{source_id}"
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The description of the notification config (max of 1024 characters).
+    <span class="doccomment">/// The source's display name.
+    /// A source's display name must be unique amongst its siblings, for example,
+    /// two sources with the same parent can't share the same display name.
+    /// The display name must have a length between 1 and 64 characters
+    /// (inclusive).
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The description of the source (max of 1024 characters).
+    /// Example:
+    /// "Web Security Scanner is a web security scanner for common
+    /// vulnerabilities in App Engine applications. It can automatically
+    /// scan and detect four common vulnerabilities, including cross-site-scripting
+    /// (XSS), Flash injection, mixed content (HTTP in HTTPS), and
+    /// outdated/insecure libraries."
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// The type of events the config is for, e.g. FINDING.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"notification_config::EventType"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>event_type: i32,
-    <span class="doccomment">/// The Pub/Sub topic to send notifications to. Its format is
-    /// "projects/\[project_id\]/topics/\[topic\]".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>pubsub_topic: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The service account that needs "pubsub.topics.publish"
-    /// permission to publish to the Pub/Sub topic.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>service_account: ::prost::alloc::string::String,
-    <span class="doccomment">/// The config for triggering notifications.
-    </span><span class="attr">#[prost(oneof = <span class="string">"notification_config::NotifyConfig"</span>, tags = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>notify_config: ::core::option::Option&lt;notification_config::NotifyConfig&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `NotificationConfig`.
-</span><span class="kw">pub mod </span>notification_config {
-    <span class="doccomment">/// The config for streaming-based notifications, which send each event as soon
-    /// as it is detected.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>StreamingConfig {
-        <span class="doccomment">/// Expression that defines the filter to apply across create/update events
-        /// of assets or findings as specified by the event type. The expression is a
-        /// list of zero or more restrictions combined via logical operators `AND`
-        /// and `OR`. Parentheses are supported, and `OR` has higher precedence than
-        /// `AND`.
-        ///
-        /// Restrictions have the form `&lt;field&gt; &lt;operator&gt; &lt;value&gt;` and may have a
-        /// `-` character in front of them to indicate negation. The fields map to
-        /// those defined in the corresponding resource.
-        ///
-        /// The supported operators are:
-        ///
-        /// * `=` for all value types.
-        /// * `&gt;`, `&lt;`, `&gt;=`, `&lt;=` for integer values.
-        /// * `:`, meaning substring matching, for strings.
-        ///
-        /// The supported value types are:
-        ///
-        /// * string literals in quotes.
-        /// * integer literals without quotes.
-        /// * boolean literals `true` and `false` without quotes.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// The type of events.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>EventType {
-        <span class="doccomment">/// Unspecified event type.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Events for findings.
-        </span>Finding = <span class="number">1</span>,
-    }
-    <span class="kw">impl </span>EventType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                EventType::Unspecified =&gt; <span class="string">"EVENT_TYPE_UNSPECIFIED"</span>,
-                EventType::Finding =&gt; <span class="string">"FINDING"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"EVENT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"FINDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Finding),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// The config for triggering notifications.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>NotifyConfig {
-        <span class="doccomment">/// The config for triggering streaming-based notifications.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>StreamingConfig(StreamingConfig),
-    }
+    <span class="doccomment">/// The canonical name of the finding. It's either
+    /// "organizations/{organization_id}/sources/{source_id}",
+    /// "folders/{folder_id}/sources/{source_id}" or
+    /// "projects/{project_number}/sources/{source_id}",
+    /// depending on the closest CRM ancestor of the resource associated with the
+    /// finding.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>canonical_name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Request message for creating a finding.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

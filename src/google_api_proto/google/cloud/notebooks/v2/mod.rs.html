@@ -1560,7 +1560,90 @@
 <a href="#1559" id="1559">1559</a>
 <a href="#1560" id="1560">1560</a>
 <a href="#1561" id="1561">1561</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Defines flags that are used to run the diagnostic tool
+</pre></div><pre class="rust"><code><span class="doccomment">/// The definition of an Event for a managed / semi-managed notebook instance.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Event {
+    <span class="doccomment">/// Optional. Event report time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>report_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Optional. Event type.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"event::EventType"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+    <span class="doccomment">/// Optional. Event details. This field is used to pass event information.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>details: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Event`.
+</span><span class="kw">pub mod </span>event {
+    <span class="doccomment">/// The definition of the event types.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>EventType {
+        <span class="doccomment">/// Event is not specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The instance / runtime is idle
+        </span>Idle = <span class="number">1</span>,
+        <span class="doccomment">/// The instance / runtime is available.
+        /// This event indicates that instance / runtime underlying compute is
+        /// operational.
+        </span>Heartbeat = <span class="number">2</span>,
+        <span class="doccomment">/// The instance / runtime health is available.
+        /// This event indicates that instance / runtime health information.
+        </span>Health = <span class="number">3</span>,
+        <span class="doccomment">/// The instance / runtime is available.
+        /// This event allows instance / runtime to send Host maintenance
+        /// information to Control Plane.
+        /// &lt;https://cloud.google.com/compute/docs/gpus/gpu-host-maintenance&gt;
+        </span>Maintenance = <span class="number">4</span>,
+        <span class="doccomment">/// The instance / runtime is available.
+        /// This event indicates that the instance had metadata that needs to be
+        /// modified.
+        </span>MetadataChange = <span class="number">5</span>,
+    }
+    <span class="kw">impl </span>EventType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                EventType::Unspecified =&gt; <span class="string">"EVENT_TYPE_UNSPECIFIED"</span>,
+                EventType::Idle =&gt; <span class="string">"IDLE"</span>,
+                EventType::Heartbeat =&gt; <span class="string">"HEARTBEAT"</span>,
+                EventType::Health =&gt; <span class="string">"HEALTH"</span>,
+                EventType::Maintenance =&gt; <span class="string">"MAINTENANCE"</span>,
+                EventType::MetadataChange =&gt; <span class="string">"METADATA_CHANGE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"EVENT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"IDLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Idle),
+                <span class="string">"HEARTBEAT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Heartbeat),
+                <span class="string">"HEALTH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Health),
+                <span class="string">"MAINTENANCE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Maintenance),
+                <span class="string">"METADATA_CHANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetadataChange),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Defines flags that are used to run the diagnostic tool
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DiagnosticConfig {
@@ -2367,89 +2450,6 @@
             <span class="string">"AGENT_NOT_INSTALLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AgentNotInstalled),
             <span class="string">"AGENT_NOT_RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AgentNotRunning),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// The definition of an Event for a managed / semi-managed notebook instance.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Event {
-    <span class="doccomment">/// Optional. Event report time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>report_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Optional. Event type.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"event::EventType"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-    <span class="doccomment">/// Optional. Event details. This field is used to pass event information.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>details: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Event`.
-</span><span class="kw">pub mod </span>event {
-    <span class="doccomment">/// The definition of the event types.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>EventType {
-        <span class="doccomment">/// Event is not specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The instance / runtime is idle
-        </span>Idle = <span class="number">1</span>,
-        <span class="doccomment">/// The instance / runtime is available.
-        /// This event indicates that instance / runtime underlying compute is
-        /// operational.
-        </span>Heartbeat = <span class="number">2</span>,
-        <span class="doccomment">/// The instance / runtime health is available.
-        /// This event indicates that instance / runtime health information.
-        </span>Health = <span class="number">3</span>,
-        <span class="doccomment">/// The instance / runtime is available.
-        /// This event allows instance / runtime to send Host maintenance
-        /// information to Control Plane.
-        /// &lt;https://cloud.google.com/compute/docs/gpus/gpu-host-maintenance&gt;
-        </span>Maintenance = <span class="number">4</span>,
-        <span class="doccomment">/// The instance / runtime is available.
-        /// This event indicates that the instance had metadata that needs to be
-        /// modified.
-        </span>MetadataChange = <span class="number">5</span>,
-    }
-    <span class="kw">impl </span>EventType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                EventType::Unspecified =&gt; <span class="string">"EVENT_TYPE_UNSPECIFIED"</span>,
-                EventType::Idle =&gt; <span class="string">"IDLE"</span>,
-                EventType::Heartbeat =&gt; <span class="string">"HEARTBEAT"</span>,
-                EventType::Health =&gt; <span class="string">"HEALTH"</span>,
-                EventType::Maintenance =&gt; <span class="string">"MAINTENANCE"</span>,
-                EventType::MetadataChange =&gt; <span class="string">"METADATA_CHANGE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"EVENT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"IDLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Idle),
-                <span class="string">"HEARTBEAT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Heartbeat),
-                <span class="string">"HEALTH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Health),
-                <span class="string">"MAINTENANCE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Maintenance),
-                <span class="string">"METADATA_CHANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetadataChange),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
         }
     }
 }

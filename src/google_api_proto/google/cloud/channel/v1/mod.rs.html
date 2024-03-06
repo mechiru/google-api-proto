@@ -7046,7 +7046,28 @@
 <a href="#7045" id="7045">7045</a>
 <a href="#7046" id="7046">7046</a>
 <a href="#7047" id="7047">7047</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Required Edu Attributes
+</pre></div><pre class="rust"><code><span class="doccomment">/// Represents a billing account.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BillingAccount {
+    <span class="doccomment">/// Output only. Resource name of the billing account.
+    /// Format: accounts/{account_id}/billingAccounts/{billing_account_id}.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Display name of the billing account.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The time when this billing account was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The 3-letter currency code defined in ISO 4217.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>currency_code: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The CLDR region code.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>region_code: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Required Edu Attributes
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>EduData {
@@ -8213,441 +8234,6 @@
         }
     }
 }
-<span class="doccomment">/// Configuration for how a reseller will reprice a Customer.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CustomerRepricingConfig {
-    <span class="doccomment">/// Output only. Resource name of the CustomerRepricingConfig.
-    /// Format:
-    /// accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The configuration for bill modifications made by a reseller
-    /// before sending it to customers.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>repricing_config: ::core::option::Option&lt;RepricingConfig&gt;,
-    <span class="doccomment">/// Output only. Timestamp of an update to the repricing rule. If `update_time`
-    /// is after
-    /// [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month]
-    /// then it indicates this was set mid-month.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Configuration for how a distributor will rebill a channel partner
-/// (also known as a distributor-authorized reseller).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ChannelPartnerRepricingConfig {
-    <span class="doccomment">/// Output only. Resource name of the ChannelPartnerRepricingConfig.
-    /// Format:
-    /// accounts/{account_id}/channelPartnerLinks/{channel_partner_id}/channelPartnerRepricingConfigs/{id}.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The configuration for bill modifications made by a reseller
-    /// before sending it to ChannelPartner.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>repricing_config: ::core::option::Option&lt;RepricingConfig&gt;,
-    <span class="doccomment">/// Output only. Timestamp of an update to the repricing rule. If `update_time`
-    /// is after
-    /// [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month]
-    /// then it indicates this was set mid-month.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Configuration for repricing a Google bill over a period of time.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RepricingConfig {
-    <span class="doccomment">/// Required. The YearMonth when these adjustments activate. The Day field
-    /// needs to be "0" since we only accept YearMonth repricing boundaries.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>effective_invoice_month: ::core::option::Option&lt;
-        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date,
-    &gt;,
-    <span class="doccomment">/// Required. Information about the adjustment.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>adjustment: ::core::option::Option&lt;RepricingAdjustment&gt;,
-    <span class="doccomment">/// Required. The [RebillingBasis][google.cloud.channel.v1.RebillingBasis] to
-    /// use for this bill. Specifies the relative cost based on repricing costs you
-    /// will apply.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"RebillingBasis"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>rebilling_basis: i32,
-    <span class="doccomment">/// The conditional overrides to apply for this configuration. If you list
-    /// multiple overrides, only the first valid override is used.  If you don't
-    /// list any overrides, the API uses the normal adjustment and rebilling basis.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>conditional_overrides: ::prost::alloc::vec::Vec&lt;ConditionalOverride&gt;,
-    <span class="doccomment">/// Required. Defines the granularity for repricing.
-    </span><span class="attr">#[prost(oneof = <span class="string">"repricing_config::Granularity"</span>, tags = <span class="string">"4, 5"</span>)]
-    </span><span class="kw">pub </span>granularity: ::core::option::Option&lt;repricing_config::Granularity&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `RepricingConfig`.
-</span><span class="kw">pub mod </span>repricing_config {
-    <span class="doccomment">/// Applies the repricing configuration at the entitlement level.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>EntitlementGranularity {
-        <span class="doccomment">/// Resource name of the entitlement.
-        /// Format:
-        /// accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>entitlement: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Applies the repricing configuration at the channel partner level.
-    /// The channel partner value is derived from the resource name. Takes an
-    /// empty json object.
-    /// Deprecated: This is no longer supported. Use
-    /// [RepricingConfig.EntitlementGranularity][google.cloud.channel.v1.RepricingConfig.EntitlementGranularity]
-    /// instead.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ChannelPartnerGranularity {}
-    <span class="doccomment">/// Required. Defines the granularity for repricing.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Granularity {
-        <span class="doccomment">/// Applies the repricing configuration at the entitlement level.
-        ///
-        /// Note: If a
-        /// [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig]
-        /// using
-        /// [RepricingConfig.EntitlementGranularity][google.cloud.channel.v1.RepricingConfig.EntitlementGranularity]
-        /// becomes effective, then no existing or future
-        /// [RepricingConfig.ChannelPartnerGranularity][google.cloud.channel.v1.RepricingConfig.ChannelPartnerGranularity]
-        /// will apply to the
-        /// [RepricingConfig.EntitlementGranularity.entitlement][google.cloud.channel.v1.RepricingConfig.EntitlementGranularity.entitlement].
-        /// This is the recommended value for both
-        /// [CustomerRepricingConfig][google.cloud.channel.v1.CustomerRepricingConfig]
-        /// and
-        /// [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig].
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>EntitlementGranularity(EntitlementGranularity),
-        <span class="doccomment">/// Applies the repricing configuration at the channel partner level.
-        /// Only
-        /// [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig]
-        /// supports this value. Deprecated: This is no longer supported. Use
-        /// [RepricingConfig.entitlement_granularity][google.cloud.channel.v1.RepricingConfig.entitlement_granularity]
-        /// instead.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>ChannelPartnerGranularity(ChannelPartnerGranularity),
-    }
-}
-<span class="doccomment">/// A type that represents the various adjustments you can apply to a bill.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RepricingAdjustment {
-    <span class="doccomment">/// A oneof that represents the different types for this adjustment.
-    </span><span class="attr">#[prost(oneof = <span class="string">"repricing_adjustment::Adjustment"</span>, tags = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>adjustment: ::core::option::Option&lt;repricing_adjustment::Adjustment&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `RepricingAdjustment`.
-</span><span class="kw">pub mod </span>repricing_adjustment {
-    <span class="doccomment">/// A oneof that represents the different types for this adjustment.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Adjustment {
-        <span class="doccomment">/// Flat markup or markdown on an entire bill.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>PercentageAdjustment(<span class="kw">super</span>::PercentageAdjustment),
-    }
-}
-<span class="doccomment">/// An adjustment that applies a flat markup or markdown to an entire bill.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PercentageAdjustment {
-    <span class="doccomment">/// The percentage of the bill to adjust.
-    /// For example:
-    /// Mark down by 1% =&gt; "-1.00"
-    /// Mark up by 1%   =&gt; "1.00"
-    /// Pass-Through    =&gt; "0.00"
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>percentage: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Decimal&gt;,
-}
-<span class="doccomment">/// Specifies the override to conditionally apply.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ConditionalOverride {
-    <span class="doccomment">/// Required. Information about the applied override's adjustment.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>adjustment: ::core::option::Option&lt;RepricingAdjustment&gt;,
-    <span class="doccomment">/// Required. The [RebillingBasis][google.cloud.channel.v1.RebillingBasis] to
-    /// use for the applied override. Shows the relative cost based on your
-    /// repricing costs.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"RebillingBasis"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>rebilling_basis: i32,
-    <span class="doccomment">/// Required. Specifies the condition which, if met, will apply the override.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>repricing_condition: ::core::option::Option&lt;RepricingCondition&gt;,
-}
-<span class="doccomment">/// Represents the various repricing conditions you can use for a conditional
-/// override.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RepricingCondition {
-    <span class="doccomment">/// Represents the types of existing conditional statements.
-    </span><span class="attr">#[prost(oneof = <span class="string">"repricing_condition::Condition"</span>, tags = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>condition: ::core::option::Option&lt;repricing_condition::Condition&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `RepricingCondition`.
-</span><span class="kw">pub mod </span>repricing_condition {
-    <span class="doccomment">/// Represents the types of existing conditional statements.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Condition {
-        <span class="doccomment">/// SKU Group condition for override.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>SkuGroupCondition(<span class="kw">super</span>::SkuGroupCondition),
-    }
-}
-<span class="doccomment">/// A condition that applies the override if a line item SKU is found in the SKU
-/// group.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SkuGroupCondition {
-    <span class="doccomment">/// Specifies a SKU group (&lt;https://cloud.google.com/skus/sku-groups&gt;).
-    /// Resource name of SKU group. Format:
-    /// accounts/{account}/skuGroups/{sku_group}.
-    /// Example:
-    /// "accounts/C01234/skuGroups/3d50fd57-3157-4577-a5a9-a219b8490041".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>sku_group: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Specifies the different costs that the modified bill can be based on.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>RebillingBasis {
-    <span class="doccomment">/// Not used.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Use the list cost, also known as the MSRP.
-    </span>CostAtList = <span class="number">1</span>,
-    <span class="doccomment">/// Pass through all discounts except the Reseller Program Discount. If this is
-    /// the default cost base and no adjustments are specified, the output cost
-    /// will be exactly what the customer would see if they viewed the bill in the
-    /// Google Cloud Console.
-    </span>DirectCustomerCost = <span class="number">2</span>,
-}
-<span class="kw">impl </span>RebillingBasis {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            RebillingBasis::Unspecified =&gt; <span class="string">"REBILLING_BASIS_UNSPECIFIED"</span>,
-            RebillingBasis::CostAtList =&gt; <span class="string">"COST_AT_LIST"</span>,
-            RebillingBasis::DirectCustomerCost =&gt; <span class="string">"DIRECT_CUSTOMER_COST"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"REBILLING_BASIS_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"COST_AT_LIST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CostAtList),
-            <span class="string">"DIRECT_CUSTOMER_COST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DirectCustomerCost),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Entity representing a customer of a reseller or distributor.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Customer {
-    <span class="doccomment">/// Output only. Resource name of the customer.
-    /// Format: accounts/{account_id}/customers/{customer_id}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Name of the organization that the customer entity represents.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>org_display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The organization address for the customer. To enforce US laws and
-    /// embargoes, we require a region, postal code, and address lines. You must
-    /// provide valid addresses for every customer. To set the customer's
-    /// language, use the Customer-level language code.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>org_postal_address: ::core::option::Option&lt;
-        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::PostalAddress,
-    &gt;,
-    <span class="doccomment">/// Primary contact info.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>primary_contact_info: ::core::option::Option&lt;ContactInfo&gt;,
-    <span class="doccomment">/// Secondary contact email. You need to provide an alternate email to create
-    /// different domains if a primary contact email already exists. Users will
-    /// receive a notification with credentials when you create an admin.google.com
-    /// account. Secondary emails are also recovery email addresses. Alternate
-    /// emails are optional when you create Team customers.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>alternate_email: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The customer's primary domain. Must match the primary contact
-    /// email's domain.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>domain: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Time when the customer was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Time when the customer was updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The customer's Cloud Identity ID if the customer has a Cloud
-    /// Identity resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>cloud_identity_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The BCP-47 language code, such as "en-US" or "sr-Latn". For more
-    /// information, see
-    /// &lt;https://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt;
-    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Cloud Identity information for the customer.
-    /// Populated only if a Cloud Identity account exists for this customer.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>cloud_identity_info: ::core::option::Option&lt;CloudIdentityInfo&gt;,
-    <span class="doccomment">/// Cloud Identity ID of the customer's channel partner.
-    /// Populated only if a channel partner exists for this customer.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>channel_partner_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. External CRM ID for the customer.
-    /// Populated only if a CRM ID exists for this customer.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>correlation_id: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Contact information for a customer account.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ContactInfo {
-    <span class="doccomment">/// The customer account contact's first name. Optional for Team customers.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>first_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The customer account contact's last name. Optional for Team customers.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>last_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The customer account contact's display name, formatted as a
-    /// combination of the customer's first and last name.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The customer account's contact email. Required for entitlements that create
-    /// admin.google.com accounts, and serves as the customer's username for those
-    /// accounts. Use this email to invite Team customers.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The customer account contact's job title.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
-    <span class="doccomment">/// The customer account's contact phone number.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>phone: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Entity representing a link between distributors and their indirect
-/// resellers in an n-tier resale channel.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ChannelPartnerLink {
-    <span class="doccomment">/// Output only. Resource name for the channel partner link, in the format
-    /// accounts/{account_id}/channelPartnerLinks/{id}.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Cloud Identity ID of the linked reseller.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>reseller_cloud_identity_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. State of the channel partner link.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"ChannelPartnerLinkState"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>link_state: i32,
-    <span class="doccomment">/// Output only. URI of the web page where partner accepts the link invitation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>invite_link_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Timestamp of when the channel partner link is created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Timestamp of when the channel partner link is updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Public identifier that a customer must use to generate a
-    /// transfer token to move to this distributor-reseller combination.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>public_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Cloud Identity info of the channel partner (IR).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>channel_partner_cloud_identity_info: ::core::option::Option&lt;CloudIdentityInfo&gt;,
-}
-<span class="doccomment">/// The level of granularity the
-/// [ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink] will
-/// display.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>ChannelPartnerLinkView {
-    <span class="doccomment">/// The default / unset value.
-    /// The API will default to the BASIC view.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Includes all fields except the
-    /// [ChannelPartnerLink.channel_partner_cloud_identity_info][google.cloud.channel.v1.ChannelPartnerLink.channel_partner_cloud_identity_info].
-    </span>Basic = <span class="number">1</span>,
-    <span class="doccomment">/// Includes all fields.
-    </span>Full = <span class="number">2</span>,
-}
-<span class="kw">impl </span>ChannelPartnerLinkView {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            ChannelPartnerLinkView::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
-            ChannelPartnerLinkView::Basic =&gt; <span class="string">"BASIC"</span>,
-            ChannelPartnerLinkView::Full =&gt; <span class="string">"FULL"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"BASIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Basic),
-            <span class="string">"FULL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Full),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// ChannelPartnerLinkState represents state of a channel partner link.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>ChannelPartnerLinkState {
-    <span class="doccomment">/// Not used.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// An invitation has been sent to the reseller to create a channel partner
-    /// link.
-    </span>Invited = <span class="number">1</span>,
-    <span class="doccomment">/// Status when the reseller is active.
-    </span>Active = <span class="number">2</span>,
-    <span class="doccomment">/// Status when the reseller has been revoked by the distributor.
-    </span>Revoked = <span class="number">3</span>,
-    <span class="doccomment">/// Status when the reseller is suspended by Google or distributor.
-    </span>Suspended = <span class="number">4</span>,
-}
-<span class="kw">impl </span>ChannelPartnerLinkState {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            ChannelPartnerLinkState::Unspecified =&gt; {
-                <span class="string">"CHANNEL_PARTNER_LINK_STATE_UNSPECIFIED"
-            </span>}
-            ChannelPartnerLinkState::Invited =&gt; <span class="string">"INVITED"</span>,
-            ChannelPartnerLinkState::Active =&gt; <span class="string">"ACTIVE"</span>,
-            ChannelPartnerLinkState::Revoked =&gt; <span class="string">"REVOKED"</span>,
-            ChannelPartnerLinkState::Suspended =&gt; <span class="string">"SUSPENDED"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"CHANNEL_PARTNER_LINK_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"INVITED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Invited),
-            <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
-            <span class="string">"REVOKED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Revoked),
-            <span class="string">"SUSPENDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Suspended),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
 <span class="doccomment">/// Change event entry for Entitlement order history
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -8963,6 +8549,119 @@
         </span>OtherChangeReason(::prost::alloc::string::String),
     }
 }
+<span class="doccomment">/// Entity representing a link between distributors and their indirect
+/// resellers in an n-tier resale channel.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ChannelPartnerLink {
+    <span class="doccomment">/// Output only. Resource name for the channel partner link, in the format
+    /// accounts/{account_id}/channelPartnerLinks/{id}.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Cloud Identity ID of the linked reseller.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>reseller_cloud_identity_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. State of the channel partner link.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"ChannelPartnerLinkState"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>link_state: i32,
+    <span class="doccomment">/// Output only. URI of the web page where partner accepts the link invitation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>invite_link_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Timestamp of when the channel partner link is created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Timestamp of when the channel partner link is updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Public identifier that a customer must use to generate a
+    /// transfer token to move to this distributor-reseller combination.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>public_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Cloud Identity info of the channel partner (IR).
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>channel_partner_cloud_identity_info: ::core::option::Option&lt;CloudIdentityInfo&gt;,
+}
+<span class="doccomment">/// The level of granularity the
+/// [ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink] will
+/// display.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>ChannelPartnerLinkView {
+    <span class="doccomment">/// The default / unset value.
+    /// The API will default to the BASIC view.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Includes all fields except the
+    /// [ChannelPartnerLink.channel_partner_cloud_identity_info][google.cloud.channel.v1.ChannelPartnerLink.channel_partner_cloud_identity_info].
+    </span>Basic = <span class="number">1</span>,
+    <span class="doccomment">/// Includes all fields.
+    </span>Full = <span class="number">2</span>,
+}
+<span class="kw">impl </span>ChannelPartnerLinkView {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            ChannelPartnerLinkView::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
+            ChannelPartnerLinkView::Basic =&gt; <span class="string">"BASIC"</span>,
+            ChannelPartnerLinkView::Full =&gt; <span class="string">"FULL"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"BASIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Basic),
+            <span class="string">"FULL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Full),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// ChannelPartnerLinkState represents state of a channel partner link.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>ChannelPartnerLinkState {
+    <span class="doccomment">/// Not used.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// An invitation has been sent to the reseller to create a channel partner
+    /// link.
+    </span>Invited = <span class="number">1</span>,
+    <span class="doccomment">/// Status when the reseller is active.
+    </span>Active = <span class="number">2</span>,
+    <span class="doccomment">/// Status when the reseller has been revoked by the distributor.
+    </span>Revoked = <span class="number">3</span>,
+    <span class="doccomment">/// Status when the reseller is suspended by Google or distributor.
+    </span>Suspended = <span class="number">4</span>,
+}
+<span class="kw">impl </span>ChannelPartnerLinkState {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            ChannelPartnerLinkState::Unspecified =&gt; {
+                <span class="string">"CHANNEL_PARTNER_LINK_STATE_UNSPECIFIED"
+            </span>}
+            ChannelPartnerLinkState::Invited =&gt; <span class="string">"INVITED"</span>,
+            ChannelPartnerLinkState::Active =&gt; <span class="string">"ACTIVE"</span>,
+            ChannelPartnerLinkState::Revoked =&gt; <span class="string">"REVOKED"</span>,
+            ChannelPartnerLinkState::Suspended =&gt; <span class="string">"SUSPENDED"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"CHANNEL_PARTNER_LINK_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"INVITED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Invited),
+            <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
+            <span class="string">"REVOKED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Revoked),
+            <span class="string">"SUSPENDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Suspended),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
 <span class="doccomment">/// Provides contextual information about a
 /// [google.longrunning.Operation][google.longrunning.Operation].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -9058,26 +8757,991 @@
         }
     }
 }
-<span class="doccomment">/// Represents a billing account.
+<span class="doccomment">/// Request message for
+/// [CloudChannelReportsService.RunReportJob][google.cloud.channel.v1.CloudChannelReportsService.RunReportJob].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BillingAccount {
-    <span class="doccomment">/// Output only. Resource name of the billing account.
-    /// Format: accounts/{account_id}/billingAccounts/{billing_account_id}.
+</span><span class="kw">pub struct </span>RunReportJobRequest {
+    <span class="doccomment">/// Required. The report's resource name. Specifies the account and report used
+    /// to generate report data. The report_id identifier is a UID (for example,
+    /// `613bf59q`).
+    /// Name uses the format:
+    /// accounts/{account_id}/reports/{report_id}
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Display name of the billing account.
+    <span class="doccomment">/// Optional. The range of usage or invoice dates to include in the result.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>date_range: ::core::option::Option&lt;DateRange&gt;,
+    <span class="doccomment">/// Optional. A structured string that defines conditions on dimension columns
+    /// to restrict the report output.
+    ///
+    /// Filters support logical operators (AND, OR, NOT) and conditional operators
+    /// (=, !=, &lt;, &gt;, &lt;=, and &gt;=) using `column_id` as keys.
+    ///
+    /// For example:
+    /// `(customer:"accounts/C123abc/customers/S456def" OR
+    /// customer:"accounts/C123abc/customers/S789ghi") AND
+    /// invoice_start_date.year &gt;= 2022`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The BCP-47 language code, such as "en-US".  If specified, the
+    /// response is localized to the corresponding language code if the
+    /// original data sources support it.
+    /// Default is "en-US".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response message for
+/// [CloudChannelReportsService.RunReportJob][google.cloud.channel.v1.CloudChannelReportsService.RunReportJob].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RunReportJobResponse {
+    <span class="doccomment">/// Pass `report_job.name` to
+    /// [FetchReportResultsRequest.report_job][google.cloud.channel.v1.FetchReportResultsRequest.report_job]
+    /// to retrieve the report's results.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>report_job: ::core::option::Option&lt;ReportJob&gt;,
+    <span class="doccomment">/// The metadata for the report's results (display name, columns, row count,
+    /// and date range). If you view this before the operation finishes,
+    /// you may see incomplete data.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>report_metadata: ::core::option::Option&lt;ReportResultsMetadata&gt;,
+}
+<span class="doccomment">/// Request message for
+/// [CloudChannelReportsService.FetchReportResults][google.cloud.channel.v1.CloudChannelReportsService.FetchReportResults].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FetchReportResultsRequest {
+    <span class="doccomment">/// Required. The report job created by
+    /// [CloudChannelReportsService.RunReportJob][google.cloud.channel.v1.CloudChannelReportsService.RunReportJob].
+    /// Report_job uses the format:
+    /// accounts/{account_id}/reportJobs/{report_job_id}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>report_job: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Requested page size of the report. The server may return fewer
+    /// results than requested. If you don't specify a page size, the server uses a
+    /// sensible default (may change over time).
+    ///
+    /// The maximum value is 30,000; the server will change larger values to
+    /// 30,000.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// Optional. A token that specifies a page of results beyond the first page.
+    /// Obtained through
+    /// [FetchReportResultsResponse.next_page_token][google.cloud.channel.v1.FetchReportResultsResponse.next_page_token]
+    /// of the previous
+    /// [CloudChannelReportsService.FetchReportResults][google.cloud.channel.v1.CloudChannelReportsService.FetchReportResults]
+    /// call.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. List of keys specifying which report partitions to return.
+    /// If empty, returns all partitions.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>partition_keys: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Response message for
+/// [CloudChannelReportsService.FetchReportResults][google.cloud.channel.v1.CloudChannelReportsService.FetchReportResults].
+/// Contains a tabular representation of the report results.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FetchReportResultsResponse {
+    <span class="doccomment">/// The metadata for the report results (display name, columns, row count, and
+    /// date ranges).
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>report_metadata: ::core::option::Option&lt;ReportResultsMetadata&gt;,
+    <span class="doccomment">/// The report's lists of values. Each row follows the settings and ordering
+    /// of the columns from `report_metadata`.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>rows: ::prost::alloc::vec::Vec&lt;Row&gt;,
+    <span class="doccomment">/// Pass this token to
+    /// [FetchReportResultsRequest.page_token][google.cloud.channel.v1.FetchReportResultsRequest.page_token]
+    /// to retrieve the next page of results.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for
+/// [CloudChannelReportsService.ListReports][google.cloud.channel.v1.CloudChannelReportsService.ListReports].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListReportsRequest {
+    <span class="doccomment">/// Required. The resource name of the partner account to list available
+    /// reports for. Parent uses the format: accounts/{account_id}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Requested page size of the report. The server might return fewer
+    /// results than requested. If unspecified, returns 20 reports. The maximum
+    /// value is 100.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// Optional. A token that specifies a page of results beyond the first page.
+    /// Obtained through
+    /// [ListReportsResponse.next_page_token][google.cloud.channel.v1.ListReportsResponse.next_page_token]
+    /// of the previous
+    /// [CloudChannelReportsService.ListReports][google.cloud.channel.v1.CloudChannelReportsService.ListReports]
+    /// call.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The BCP-47 language code, such as "en-US".  If specified, the
+    /// response is localized to the corresponding language code if the
+    /// original data sources support it.
+    /// Default is "en-US".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response message for
+/// [CloudChannelReportsService.ListReports][google.cloud.channel.v1.CloudChannelReportsService.ListReports].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListReportsResponse {
+    <span class="doccomment">/// The reports available to the partner.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>reports: ::prost::alloc::vec::Vec&lt;Report&gt;,
+    <span class="doccomment">/// Pass this token to
+    /// [FetchReportResultsRequest.page_token][google.cloud.channel.v1.FetchReportResultsRequest.page_token]
+    /// to retrieve the next page of results.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The result of a [RunReportJob][] operation. Contains the name to use in
+/// [FetchReportResultsRequest.report_job][google.cloud.channel.v1.FetchReportResultsRequest.report_job]
+/// and the status of the operation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ReportJob {
+    <span class="doccomment">/// Required. The resource name of a report job.
+    /// Name uses the format:
+    /// `accounts/{account_id}/reportJobs/{report_job_id}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The current status of report generation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>report_status: ::core::option::Option&lt;ReportStatus&gt;,
+}
+<span class="doccomment">/// The features describing the data. Returned by
+/// [CloudChannelReportsService.RunReportJob][google.cloud.channel.v1.CloudChannelReportsService.RunReportJob]
+/// and
+/// [CloudChannelReportsService.FetchReportResults][google.cloud.channel.v1.CloudChannelReportsService.FetchReportResults].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ReportResultsMetadata {
+    <span class="doccomment">/// Details of the completed report.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>report: ::core::option::Option&lt;Report&gt;,
+    <span class="doccomment">/// The total number of rows of data in the final report.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>row_count: i64,
+    <span class="doccomment">/// The date range of reported usage.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>date_range: ::core::option::Option&lt;DateRange&gt;,
+    <span class="doccomment">/// The usage dates immediately preceding `date_range` with the same duration.
+    /// Use this to calculate trending usage and costs. This is only populated if
+    /// you request trending data.
+    ///
+    /// For example, if `date_range` is July 1-15, `preceding_date_range` will be
+    /// June 16-30.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>preceding_date_range: ::core::option::Option&lt;DateRange&gt;,
+}
+<span class="doccomment">/// The definition of a report column. Specifies the data properties
+/// in the corresponding position of the report rows.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Column {
+    <span class="doccomment">/// The unique name of the column (for example, customer_domain,
+    /// channel_partner, customer_cost). You can use column IDs in
+    /// [RunReportJobRequest.filter][google.cloud.channel.v1.RunReportJobRequest.filter].
+    /// To see all reports and their columns, call
+    /// [CloudChannelReportsService.ListReports][google.cloud.channel.v1.CloudChannelReportsService.ListReports].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>column_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The column's display name.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The time when this billing account was created.
+    <span class="doccomment">/// The type of the values for this column.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"column::DataType"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>data_type: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `Column`.
+</span><span class="kw">pub mod </span>column {
+    <span class="doccomment">/// Available data types for columns. Corresponds to the fields in the
+    /// ReportValue `oneof` field.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>DataType {
+        <span class="doccomment">/// Not used.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// ReportValues for this column will use string_value.
+        </span>String = <span class="number">1</span>,
+        <span class="doccomment">/// ReportValues for this column will use int_value.
+        </span>Int = <span class="number">2</span>,
+        <span class="doccomment">/// ReportValues for this column will use decimal_value.
+        </span>Decimal = <span class="number">3</span>,
+        <span class="doccomment">/// ReportValues for this column will use money_value.
+        </span>Money = <span class="number">4</span>,
+        <span class="doccomment">/// ReportValues for this column will use date_value.
+        </span>Date = <span class="number">5</span>,
+        <span class="doccomment">/// ReportValues for this column will use date_time_value.
+        </span>DateTime = <span class="number">6</span>,
+    }
+    <span class="kw">impl </span>DataType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                DataType::Unspecified =&gt; <span class="string">"DATA_TYPE_UNSPECIFIED"</span>,
+                DataType::String =&gt; <span class="string">"STRING"</span>,
+                DataType::Int =&gt; <span class="string">"INT"</span>,
+                DataType::Decimal =&gt; <span class="string">"DECIMAL"</span>,
+                DataType::Money =&gt; <span class="string">"MONEY"</span>,
+                DataType::Date =&gt; <span class="string">"DATE"</span>,
+                DataType::DateTime =&gt; <span class="string">"DATE_TIME"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"DATA_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"STRING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::String),
+                <span class="string">"INT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Int),
+                <span class="string">"DECIMAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Decimal),
+                <span class="string">"MONEY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Money),
+                <span class="string">"DATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Date),
+                <span class="string">"DATE_TIME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DateTime),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A representation of usage or invoice date ranges.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DateRange {
+    <span class="doccomment">/// The earliest usage date time (inclusive).
+    ///
+    /// If you use time groupings (daily, weekly, etc), each group uses
+    /// midnight to midnight (Pacific time). The usage start date is
+    /// rounded down to include all usage from the specified date. We recommend
+    /// that clients pass `usage_start_date_time` in Pacific time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>usage_start_date_time: ::core::option::Option&lt;
+        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::DateTime,
+    &gt;,
+    <span class="doccomment">/// The latest usage date time (exclusive).
+    ///
+    /// If you use time groupings (daily, weekly, etc), each group uses
+    /// midnight to midnight (Pacific time). The usage end date is
+    /// rounded down to include all usage from the specified date. We recommend
+    /// that clients pass `usage_start_date_time` in Pacific time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>usage_end_date_time: ::core::option::Option&lt;
+        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::DateTime,
+    &gt;,
+    <span class="doccomment">/// The earliest invoice date (inclusive).
+    ///
+    /// If this value is not the first day of a month, this will move it back to
+    /// the first day of the given month.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The 3-letter currency code defined in ISO 4217.
+    </span><span class="kw">pub </span>invoice_start_date: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
+    <span class="doccomment">/// The latest invoice date (inclusive).
+    ///
+    /// If this value is not the last day of a month, this will move it forward to
+    /// the last day of the given month.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>invoice_end_date: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
+}
+<span class="doccomment">/// A row of report values.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Row {
+    <span class="doccomment">/// The list of values in the row.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>values: ::prost::alloc::vec::Vec&lt;ReportValue&gt;,
+    <span class="doccomment">/// The key for the partition this row belongs to. This field is empty
+    /// if the report is not partitioned.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>partition_key: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A single report value.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ReportValue {
+    <span class="doccomment">/// A single report value.
+    </span><span class="attr">#[prost(oneof = <span class="string">"report_value::Value"</span>, tags = <span class="string">"1, 2, 3, 4, 5, 6"</span>)]
+    </span><span class="kw">pub </span>value: ::core::option::Option&lt;report_value::Value&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ReportValue`.
+</span><span class="kw">pub mod </span>report_value {
+    <span class="doccomment">/// A single report value.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Value {
+        <span class="doccomment">/// A value of type `string`.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span>StringValue(::prost::alloc::string::String),
+        <span class="doccomment">/// A value of type `int`.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+        </span>IntValue(i64),
+        <span class="doccomment">/// A value of type `google.type.Decimal`, representing non-integer numeric
+        /// values.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>DecimalValue(<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Decimal),
+        <span class="doccomment">/// A value of type `google.type.Money` (currency code, whole units, decimal
+        /// units).
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>MoneyValue(<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Money),
+        <span class="doccomment">/// A value of type `google.type.Date` (year, month, day).
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>DateValue(<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date),
+        <span class="doccomment">/// A value of type `google.type.DateTime` (year, month, day, hour, minute,
+        /// second, and UTC offset or timezone.)
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>DateTimeValue(<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::DateTime),
+    }
+}
+<span class="doccomment">/// Status of a report generation process.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ReportStatus {
+    <span class="doccomment">/// The current state of the report generation process.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"report_status::State"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// The report generation's start time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The report generation's completion time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ReportStatus`.
+</span><span class="kw">pub mod </span>report_status {
+    <span class="doccomment">/// Available states of report generation.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Not used.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Report processing started.
+        </span>Started = <span class="number">1</span>,
+        <span class="doccomment">/// Data generated from the report is being staged.
+        </span>Writing = <span class="number">2</span>,
+        <span class="doccomment">/// Report data is available for access.
+        </span>Available = <span class="number">3</span>,
+        <span class="doccomment">/// Report failed.
+        </span>Failed = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Started =&gt; <span class="string">"STARTED"</span>,
+                State::Writing =&gt; <span class="string">"WRITING"</span>,
+                State::Available =&gt; <span class="string">"AVAILABLE"</span>,
+                State::Failed =&gt; <span class="string">"FAILED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"STARTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Started),
+                <span class="string">"WRITING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Writing),
+                <span class="string">"AVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Available),
+                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// The ID and description of a report that was used to generate report data.
+/// For example, "Google Cloud Daily Spend", "Google Workspace License Activity",
+/// etc.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Report {
+    <span class="doccomment">/// Required. The report's resource name. Specifies the account and report used
+    /// to generate report data. The report_id identifier is a UID (for example,
+    /// `613bf59q`).
+    ///
+    /// Name uses the format:
+    /// accounts/{account_id}/reports/{report_id}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// A human-readable name for this report.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The list of columns included in the report. This defines the schema of
+    /// the report results.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>columns: ::prost::alloc::vec::Vec&lt;Column&gt;,
+    <span class="doccomment">/// A description of other aspects of the report, such as the products
+    /// it supports.
     </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>currency_code: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The CLDR region code.
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>cloud_channel_reports_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// CloudChannelReportsService lets Google Cloud resellers and
+    /// distributors retrieve and combine a variety of data in Cloud Channel for
+    /// multiple products (Google Cloud, Google Voice, and Google Workspace.)
+    ///
+    /// Deprecated: This service is being deprecated. Please use [Export Channel
+    /// Services data to
+    /// BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-bigquery)
+    /// instead.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>CloudChannelReportsServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; CloudChannelReportsServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; CloudChannelReportsServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            CloudChannelReportsServiceClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Begins generation of data for a given report. The report
+        /// identifier is a UID (for example, `613bf59q`).
+        ///
+        /// Possible error codes:
+        ///
+        /// * PERMISSION_DENIED: The user doesn't have access to this report.
+        /// * INVALID_ARGUMENT: Required request parameters are missing
+        ///   or invalid.
+        /// * NOT_FOUND: The report identifier was not found.
+        /// * INTERNAL: Any non-user error related to a technical issue
+        ///   in the backend. Contact Cloud Channel support.
+        /// * UNKNOWN: Any non-user error related to a technical issue
+        ///   in the backend. Contact Cloud Channel support.
+        ///
+        /// Return value:
+        /// The ID of a long-running operation.
+        ///
+        /// To get the results of the operation, call the GetOperation method of
+        /// CloudChannelOperationsService. The Operation metadata contains an
+        /// instance of [OperationMetadata][google.cloud.channel.v1.OperationMetadata].
+        ///
+        /// To get the results of report generation, call
+        /// [CloudChannelReportsService.FetchReportResults][google.cloud.channel.v1.CloudChannelReportsService.FetchReportResults]
+        /// with the
+        /// [RunReportJobResponse.report_job][google.cloud.channel.v1.RunReportJobResponse.report_job].
+        ///
+        /// Deprecated: Please use [Export Channel Services data to
+        /// BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-bigquery)
+        /// instead.
+        </span><span class="kw">pub async fn </span>run_report_job(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::RunReportJobRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.channel.v1.CloudChannelReportsService/RunReportJob"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.channel.v1.CloudChannelReportsService"</span>,
+                        <span class="string">"RunReportJob"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Retrieves data generated by
+        /// [CloudChannelReportsService.RunReportJob][google.cloud.channel.v1.CloudChannelReportsService.RunReportJob].
+        ///
+        /// Deprecated: Please use [Export Channel Services data to
+        /// BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-bigquery)
+        /// instead.
+        </span><span class="kw">pub async fn </span>fetch_report_results(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::FetchReportResultsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::FetchReportResultsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.channel.v1.CloudChannelReportsService/FetchReportResults"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.channel.v1.CloudChannelReportsService"</span>,
+                        <span class="string">"FetchReportResults"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Lists the reports that RunReportJob can run. These reports include an ID,
+        /// a description, and the list of columns that will be in the result.
+        ///
+        /// Deprecated: Please use [Export Channel Services data to
+        /// BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-bigquery)
+        /// instead.
+        </span><span class="kw">pub async fn </span>list_reports(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListReportsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListReportsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.channel.v1.CloudChannelReportsService/ListReports"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.channel.v1.CloudChannelReportsService"</span>,
+                        <span class="string">"ListReports"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Entity representing a customer of a reseller or distributor.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Customer {
+    <span class="doccomment">/// Output only. Resource name of the customer.
+    /// Format: accounts/{account_id}/customers/{customer_id}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Name of the organization that the customer entity represents.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>org_display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The organization address for the customer. To enforce US laws and
+    /// embargoes, we require a region, postal code, and address lines. You must
+    /// provide valid addresses for every customer. To set the customer's
+    /// language, use the Customer-level language code.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>org_postal_address: ::core::option::Option&lt;
+        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::PostalAddress,
+    &gt;,
+    <span class="doccomment">/// Primary contact info.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>primary_contact_info: ::core::option::Option&lt;ContactInfo&gt;,
+    <span class="doccomment">/// Secondary contact email. You need to provide an alternate email to create
+    /// different domains if a primary contact email already exists. Users will
+    /// receive a notification with credentials when you create an admin.google.com
+    /// account. Secondary emails are also recovery email addresses. Alternate
+    /// emails are optional when you create Team customers.
     </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>region_code: ::prost::alloc::string::String,
+    </span><span class="kw">pub </span>alternate_email: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The customer's primary domain. Must match the primary contact
+    /// email's domain.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>domain: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Time when the customer was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Time when the customer was updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The customer's Cloud Identity ID if the customer has a Cloud
+    /// Identity resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>cloud_identity_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The BCP-47 language code, such as "en-US" or "sr-Latn". For more
+    /// information, see
+    /// &lt;https://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Cloud Identity information for the customer.
+    /// Populated only if a Cloud Identity account exists for this customer.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>cloud_identity_info: ::core::option::Option&lt;CloudIdentityInfo&gt;,
+    <span class="doccomment">/// Cloud Identity ID of the customer's channel partner.
+    /// Populated only if a channel partner exists for this customer.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>channel_partner_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. External CRM ID for the customer.
+    /// Populated only if a CRM ID exists for this customer.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>correlation_id: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Contact information for a customer account.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ContactInfo {
+    <span class="doccomment">/// The customer account contact's first name. Optional for Team customers.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>first_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The customer account contact's last name. Optional for Team customers.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>last_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The customer account contact's display name, formatted as a
+    /// combination of the customer's first and last name.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The customer account's contact email. Required for entitlements that create
+    /// admin.google.com accounts, and serves as the customer's username for those
+    /// accounts. Use this email to invite Team customers.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The customer account contact's job title.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
+    <span class="doccomment">/// The customer account's contact phone number.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>phone: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Configuration for how a reseller will reprice a Customer.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CustomerRepricingConfig {
+    <span class="doccomment">/// Output only. Resource name of the CustomerRepricingConfig.
+    /// Format:
+    /// accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The configuration for bill modifications made by a reseller
+    /// before sending it to customers.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>repricing_config: ::core::option::Option&lt;RepricingConfig&gt;,
+    <span class="doccomment">/// Output only. Timestamp of an update to the repricing rule. If `update_time`
+    /// is after
+    /// [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month]
+    /// then it indicates this was set mid-month.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Configuration for how a distributor will rebill a channel partner
+/// (also known as a distributor-authorized reseller).
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ChannelPartnerRepricingConfig {
+    <span class="doccomment">/// Output only. Resource name of the ChannelPartnerRepricingConfig.
+    /// Format:
+    /// accounts/{account_id}/channelPartnerLinks/{channel_partner_id}/channelPartnerRepricingConfigs/{id}.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The configuration for bill modifications made by a reseller
+    /// before sending it to ChannelPartner.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>repricing_config: ::core::option::Option&lt;RepricingConfig&gt;,
+    <span class="doccomment">/// Output only. Timestamp of an update to the repricing rule. If `update_time`
+    /// is after
+    /// [RepricingConfig.effective_invoice_month][google.cloud.channel.v1.RepricingConfig.effective_invoice_month]
+    /// then it indicates this was set mid-month.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Configuration for repricing a Google bill over a period of time.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RepricingConfig {
+    <span class="doccomment">/// Required. The YearMonth when these adjustments activate. The Day field
+    /// needs to be "0" since we only accept YearMonth repricing boundaries.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>effective_invoice_month: ::core::option::Option&lt;
+        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date,
+    &gt;,
+    <span class="doccomment">/// Required. Information about the adjustment.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>adjustment: ::core::option::Option&lt;RepricingAdjustment&gt;,
+    <span class="doccomment">/// Required. The [RebillingBasis][google.cloud.channel.v1.RebillingBasis] to
+    /// use for this bill. Specifies the relative cost based on repricing costs you
+    /// will apply.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"RebillingBasis"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>rebilling_basis: i32,
+    <span class="doccomment">/// The conditional overrides to apply for this configuration. If you list
+    /// multiple overrides, only the first valid override is used.  If you don't
+    /// list any overrides, the API uses the normal adjustment and rebilling basis.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>conditional_overrides: ::prost::alloc::vec::Vec&lt;ConditionalOverride&gt;,
+    <span class="doccomment">/// Required. Defines the granularity for repricing.
+    </span><span class="attr">#[prost(oneof = <span class="string">"repricing_config::Granularity"</span>, tags = <span class="string">"4, 5"</span>)]
+    </span><span class="kw">pub </span>granularity: ::core::option::Option&lt;repricing_config::Granularity&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `RepricingConfig`.
+</span><span class="kw">pub mod </span>repricing_config {
+    <span class="doccomment">/// Applies the repricing configuration at the entitlement level.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>EntitlementGranularity {
+        <span class="doccomment">/// Resource name of the entitlement.
+        /// Format:
+        /// accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>entitlement: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Applies the repricing configuration at the channel partner level.
+    /// The channel partner value is derived from the resource name. Takes an
+    /// empty json object.
+    /// Deprecated: This is no longer supported. Use
+    /// [RepricingConfig.EntitlementGranularity][google.cloud.channel.v1.RepricingConfig.EntitlementGranularity]
+    /// instead.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ChannelPartnerGranularity {}
+    <span class="doccomment">/// Required. Defines the granularity for repricing.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Granularity {
+        <span class="doccomment">/// Applies the repricing configuration at the entitlement level.
+        ///
+        /// Note: If a
+        /// [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig]
+        /// using
+        /// [RepricingConfig.EntitlementGranularity][google.cloud.channel.v1.RepricingConfig.EntitlementGranularity]
+        /// becomes effective, then no existing or future
+        /// [RepricingConfig.ChannelPartnerGranularity][google.cloud.channel.v1.RepricingConfig.ChannelPartnerGranularity]
+        /// will apply to the
+        /// [RepricingConfig.EntitlementGranularity.entitlement][google.cloud.channel.v1.RepricingConfig.EntitlementGranularity.entitlement].
+        /// This is the recommended value for both
+        /// [CustomerRepricingConfig][google.cloud.channel.v1.CustomerRepricingConfig]
+        /// and
+        /// [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig].
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>EntitlementGranularity(EntitlementGranularity),
+        <span class="doccomment">/// Applies the repricing configuration at the channel partner level.
+        /// Only
+        /// [ChannelPartnerRepricingConfig][google.cloud.channel.v1.ChannelPartnerRepricingConfig]
+        /// supports this value. Deprecated: This is no longer supported. Use
+        /// [RepricingConfig.entitlement_granularity][google.cloud.channel.v1.RepricingConfig.entitlement_granularity]
+        /// instead.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>ChannelPartnerGranularity(ChannelPartnerGranularity),
+    }
+}
+<span class="doccomment">/// A type that represents the various adjustments you can apply to a bill.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RepricingAdjustment {
+    <span class="doccomment">/// A oneof that represents the different types for this adjustment.
+    </span><span class="attr">#[prost(oneof = <span class="string">"repricing_adjustment::Adjustment"</span>, tags = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>adjustment: ::core::option::Option&lt;repricing_adjustment::Adjustment&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `RepricingAdjustment`.
+</span><span class="kw">pub mod </span>repricing_adjustment {
+    <span class="doccomment">/// A oneof that represents the different types for this adjustment.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Adjustment {
+        <span class="doccomment">/// Flat markup or markdown on an entire bill.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>PercentageAdjustment(<span class="kw">super</span>::PercentageAdjustment),
+    }
+}
+<span class="doccomment">/// An adjustment that applies a flat markup or markdown to an entire bill.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PercentageAdjustment {
+    <span class="doccomment">/// The percentage of the bill to adjust.
+    /// For example:
+    /// Mark down by 1% =&gt; "-1.00"
+    /// Mark up by 1%   =&gt; "1.00"
+    /// Pass-Through    =&gt; "0.00"
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>percentage: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Decimal&gt;,
+}
+<span class="doccomment">/// Specifies the override to conditionally apply.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ConditionalOverride {
+    <span class="doccomment">/// Required. Information about the applied override's adjustment.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>adjustment: ::core::option::Option&lt;RepricingAdjustment&gt;,
+    <span class="doccomment">/// Required. The [RebillingBasis][google.cloud.channel.v1.RebillingBasis] to
+    /// use for the applied override. Shows the relative cost based on your
+    /// repricing costs.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"RebillingBasis"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>rebilling_basis: i32,
+    <span class="doccomment">/// Required. Specifies the condition which, if met, will apply the override.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>repricing_condition: ::core::option::Option&lt;RepricingCondition&gt;,
+}
+<span class="doccomment">/// Represents the various repricing conditions you can use for a conditional
+/// override.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RepricingCondition {
+    <span class="doccomment">/// Represents the types of existing conditional statements.
+    </span><span class="attr">#[prost(oneof = <span class="string">"repricing_condition::Condition"</span>, tags = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>condition: ::core::option::Option&lt;repricing_condition::Condition&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `RepricingCondition`.
+</span><span class="kw">pub mod </span>repricing_condition {
+    <span class="doccomment">/// Represents the types of existing conditional statements.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Condition {
+        <span class="doccomment">/// SKU Group condition for override.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>SkuGroupCondition(<span class="kw">super</span>::SkuGroupCondition),
+    }
+}
+<span class="doccomment">/// A condition that applies the override if a line item SKU is found in the SKU
+/// group.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SkuGroupCondition {
+    <span class="doccomment">/// Specifies a SKU group (&lt;https://cloud.google.com/skus/sku-groups&gt;).
+    /// Resource name of SKU group. Format:
+    /// accounts/{account}/skuGroups/{sku_group}.
+    /// Example:
+    /// "accounts/C01234/skuGroups/3d50fd57-3157-4577-a5a9-a219b8490041".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>sku_group: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Specifies the different costs that the modified bill can be based on.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>RebillingBasis {
+    <span class="doccomment">/// Not used.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Use the list cost, also known as the MSRP.
+    </span>CostAtList = <span class="number">1</span>,
+    <span class="doccomment">/// Pass through all discounts except the Reseller Program Discount. If this is
+    /// the default cost base and no adjustments are specified, the output cost
+    /// will be exactly what the customer would see if they viewed the bill in the
+    /// Google Cloud Console.
+    </span>DirectCustomerCost = <span class="number">2</span>,
+}
+<span class="kw">impl </span>RebillingBasis {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            RebillingBasis::Unspecified =&gt; <span class="string">"REBILLING_BASIS_UNSPECIFIED"</span>,
+            RebillingBasis::CostAtList =&gt; <span class="string">"COST_AT_LIST"</span>,
+            RebillingBasis::DirectCustomerCost =&gt; <span class="string">"DIRECT_CUSTOMER_COST"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"REBILLING_BASIS_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"COST_AT_LIST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CostAtList),
+            <span class="string">"DIRECT_CUSTOMER_COST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DirectCustomerCost),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
 }
 <span class="doccomment">/// Request message for
 /// [CloudChannelService.CheckCloudIdentityAccountsExist][google.cloud.channel.v1.CloudChannelService.CheckCloudIdentityAccountsExist].
@@ -13239,670 +13903,6 @@
                     GrpcMethod::new(
                         <span class="string">"google.cloud.channel.v1.CloudChannelService"</span>,
                         <span class="string">"ListEntitlementChanges"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// Request message for
-/// [CloudChannelReportsService.RunReportJob][google.cloud.channel.v1.CloudChannelReportsService.RunReportJob].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RunReportJobRequest {
-    <span class="doccomment">/// Required. The report's resource name. Specifies the account and report used
-    /// to generate report data. The report_id identifier is a UID (for example,
-    /// `613bf59q`).
-    /// Name uses the format:
-    /// accounts/{account_id}/reports/{report_id}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The range of usage or invoice dates to include in the result.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>date_range: ::core::option::Option&lt;DateRange&gt;,
-    <span class="doccomment">/// Optional. A structured string that defines conditions on dimension columns
-    /// to restrict the report output.
-    ///
-    /// Filters support logical operators (AND, OR, NOT) and conditional operators
-    /// (=, !=, &lt;, &gt;, &lt;=, and &gt;=) using `column_id` as keys.
-    ///
-    /// For example:
-    /// `(customer:"accounts/C123abc/customers/S456def" OR
-    /// customer:"accounts/C123abc/customers/S789ghi") AND
-    /// invoice_start_date.year &gt;= 2022`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The BCP-47 language code, such as "en-US".  If specified, the
-    /// response is localized to the corresponding language code if the
-    /// original data sources support it.
-    /// Default is "en-US".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response message for
-/// [CloudChannelReportsService.RunReportJob][google.cloud.channel.v1.CloudChannelReportsService.RunReportJob].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RunReportJobResponse {
-    <span class="doccomment">/// Pass `report_job.name` to
-    /// [FetchReportResultsRequest.report_job][google.cloud.channel.v1.FetchReportResultsRequest.report_job]
-    /// to retrieve the report's results.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>report_job: ::core::option::Option&lt;ReportJob&gt;,
-    <span class="doccomment">/// The metadata for the report's results (display name, columns, row count,
-    /// and date range). If you view this before the operation finishes,
-    /// you may see incomplete data.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>report_metadata: ::core::option::Option&lt;ReportResultsMetadata&gt;,
-}
-<span class="doccomment">/// Request message for
-/// [CloudChannelReportsService.FetchReportResults][google.cloud.channel.v1.CloudChannelReportsService.FetchReportResults].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FetchReportResultsRequest {
-    <span class="doccomment">/// Required. The report job created by
-    /// [CloudChannelReportsService.RunReportJob][google.cloud.channel.v1.CloudChannelReportsService.RunReportJob].
-    /// Report_job uses the format:
-    /// accounts/{account_id}/reportJobs/{report_job_id}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>report_job: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Requested page size of the report. The server may return fewer
-    /// results than requested. If you don't specify a page size, the server uses a
-    /// sensible default (may change over time).
-    ///
-    /// The maximum value is 30,000; the server will change larger values to
-    /// 30,000.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// Optional. A token that specifies a page of results beyond the first page.
-    /// Obtained through
-    /// [FetchReportResultsResponse.next_page_token][google.cloud.channel.v1.FetchReportResultsResponse.next_page_token]
-    /// of the previous
-    /// [CloudChannelReportsService.FetchReportResults][google.cloud.channel.v1.CloudChannelReportsService.FetchReportResults]
-    /// call.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. List of keys specifying which report partitions to return.
-    /// If empty, returns all partitions.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>partition_keys: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Response message for
-/// [CloudChannelReportsService.FetchReportResults][google.cloud.channel.v1.CloudChannelReportsService.FetchReportResults].
-/// Contains a tabular representation of the report results.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FetchReportResultsResponse {
-    <span class="doccomment">/// The metadata for the report results (display name, columns, row count, and
-    /// date ranges).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>report_metadata: ::core::option::Option&lt;ReportResultsMetadata&gt;,
-    <span class="doccomment">/// The report's lists of values. Each row follows the settings and ordering
-    /// of the columns from `report_metadata`.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>rows: ::prost::alloc::vec::Vec&lt;Row&gt;,
-    <span class="doccomment">/// Pass this token to
-    /// [FetchReportResultsRequest.page_token][google.cloud.channel.v1.FetchReportResultsRequest.page_token]
-    /// to retrieve the next page of results.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request message for
-/// [CloudChannelReportsService.ListReports][google.cloud.channel.v1.CloudChannelReportsService.ListReports].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListReportsRequest {
-    <span class="doccomment">/// Required. The resource name of the partner account to list available
-    /// reports for. Parent uses the format: accounts/{account_id}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Requested page size of the report. The server might return fewer
-    /// results than requested. If unspecified, returns 20 reports. The maximum
-    /// value is 100.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// Optional. A token that specifies a page of results beyond the first page.
-    /// Obtained through
-    /// [ListReportsResponse.next_page_token][google.cloud.channel.v1.ListReportsResponse.next_page_token]
-    /// of the previous
-    /// [CloudChannelReportsService.ListReports][google.cloud.channel.v1.CloudChannelReportsService.ListReports]
-    /// call.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The BCP-47 language code, such as "en-US".  If specified, the
-    /// response is localized to the corresponding language code if the
-    /// original data sources support it.
-    /// Default is "en-US".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response message for
-/// [CloudChannelReportsService.ListReports][google.cloud.channel.v1.CloudChannelReportsService.ListReports].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListReportsResponse {
-    <span class="doccomment">/// The reports available to the partner.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>reports: ::prost::alloc::vec::Vec&lt;Report&gt;,
-    <span class="doccomment">/// Pass this token to
-    /// [FetchReportResultsRequest.page_token][google.cloud.channel.v1.FetchReportResultsRequest.page_token]
-    /// to retrieve the next page of results.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The result of a [RunReportJob][] operation. Contains the name to use in
-/// [FetchReportResultsRequest.report_job][google.cloud.channel.v1.FetchReportResultsRequest.report_job]
-/// and the status of the operation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ReportJob {
-    <span class="doccomment">/// Required. The resource name of a report job.
-    /// Name uses the format:
-    /// `accounts/{account_id}/reportJobs/{report_job_id}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The current status of report generation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>report_status: ::core::option::Option&lt;ReportStatus&gt;,
-}
-<span class="doccomment">/// The features describing the data. Returned by
-/// [CloudChannelReportsService.RunReportJob][google.cloud.channel.v1.CloudChannelReportsService.RunReportJob]
-/// and
-/// [CloudChannelReportsService.FetchReportResults][google.cloud.channel.v1.CloudChannelReportsService.FetchReportResults].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ReportResultsMetadata {
-    <span class="doccomment">/// Details of the completed report.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>report: ::core::option::Option&lt;Report&gt;,
-    <span class="doccomment">/// The total number of rows of data in the final report.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>row_count: i64,
-    <span class="doccomment">/// The date range of reported usage.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>date_range: ::core::option::Option&lt;DateRange&gt;,
-    <span class="doccomment">/// The usage dates immediately preceding `date_range` with the same duration.
-    /// Use this to calculate trending usage and costs. This is only populated if
-    /// you request trending data.
-    ///
-    /// For example, if `date_range` is July 1-15, `preceding_date_range` will be
-    /// June 16-30.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>preceding_date_range: ::core::option::Option&lt;DateRange&gt;,
-}
-<span class="doccomment">/// The definition of a report column. Specifies the data properties
-/// in the corresponding position of the report rows.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Column {
-    <span class="doccomment">/// The unique name of the column (for example, customer_domain,
-    /// channel_partner, customer_cost). You can use column IDs in
-    /// [RunReportJobRequest.filter][google.cloud.channel.v1.RunReportJobRequest.filter].
-    /// To see all reports and their columns, call
-    /// [CloudChannelReportsService.ListReports][google.cloud.channel.v1.CloudChannelReportsService.ListReports].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>column_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The column's display name.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The type of the values for this column.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"column::DataType"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>data_type: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `Column`.
-</span><span class="kw">pub mod </span>column {
-    <span class="doccomment">/// Available data types for columns. Corresponds to the fields in the
-    /// ReportValue `oneof` field.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>DataType {
-        <span class="doccomment">/// Not used.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// ReportValues for this column will use string_value.
-        </span>String = <span class="number">1</span>,
-        <span class="doccomment">/// ReportValues for this column will use int_value.
-        </span>Int = <span class="number">2</span>,
-        <span class="doccomment">/// ReportValues for this column will use decimal_value.
-        </span>Decimal = <span class="number">3</span>,
-        <span class="doccomment">/// ReportValues for this column will use money_value.
-        </span>Money = <span class="number">4</span>,
-        <span class="doccomment">/// ReportValues for this column will use date_value.
-        </span>Date = <span class="number">5</span>,
-        <span class="doccomment">/// ReportValues for this column will use date_time_value.
-        </span>DateTime = <span class="number">6</span>,
-    }
-    <span class="kw">impl </span>DataType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                DataType::Unspecified =&gt; <span class="string">"DATA_TYPE_UNSPECIFIED"</span>,
-                DataType::String =&gt; <span class="string">"STRING"</span>,
-                DataType::Int =&gt; <span class="string">"INT"</span>,
-                DataType::Decimal =&gt; <span class="string">"DECIMAL"</span>,
-                DataType::Money =&gt; <span class="string">"MONEY"</span>,
-                DataType::Date =&gt; <span class="string">"DATE"</span>,
-                DataType::DateTime =&gt; <span class="string">"DATE_TIME"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"DATA_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"STRING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::String),
-                <span class="string">"INT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Int),
-                <span class="string">"DECIMAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Decimal),
-                <span class="string">"MONEY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Money),
-                <span class="string">"DATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Date),
-                <span class="string">"DATE_TIME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DateTime),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A representation of usage or invoice date ranges.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DateRange {
-    <span class="doccomment">/// The earliest usage date time (inclusive).
-    ///
-    /// If you use time groupings (daily, weekly, etc), each group uses
-    /// midnight to midnight (Pacific time). The usage start date is
-    /// rounded down to include all usage from the specified date. We recommend
-    /// that clients pass `usage_start_date_time` in Pacific time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>usage_start_date_time: ::core::option::Option&lt;
-        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::DateTime,
-    &gt;,
-    <span class="doccomment">/// The latest usage date time (exclusive).
-    ///
-    /// If you use time groupings (daily, weekly, etc), each group uses
-    /// midnight to midnight (Pacific time). The usage end date is
-    /// rounded down to include all usage from the specified date. We recommend
-    /// that clients pass `usage_start_date_time` in Pacific time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>usage_end_date_time: ::core::option::Option&lt;
-        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::DateTime,
-    &gt;,
-    <span class="doccomment">/// The earliest invoice date (inclusive).
-    ///
-    /// If this value is not the first day of a month, this will move it back to
-    /// the first day of the given month.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>invoice_start_date: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
-    <span class="doccomment">/// The latest invoice date (inclusive).
-    ///
-    /// If this value is not the last day of a month, this will move it forward to
-    /// the last day of the given month.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>invoice_end_date: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
-}
-<span class="doccomment">/// A row of report values.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Row {
-    <span class="doccomment">/// The list of values in the row.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>values: ::prost::alloc::vec::Vec&lt;ReportValue&gt;,
-    <span class="doccomment">/// The key for the partition this row belongs to. This field is empty
-    /// if the report is not partitioned.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>partition_key: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A single report value.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ReportValue {
-    <span class="doccomment">/// A single report value.
-    </span><span class="attr">#[prost(oneof = <span class="string">"report_value::Value"</span>, tags = <span class="string">"1, 2, 3, 4, 5, 6"</span>)]
-    </span><span class="kw">pub </span>value: ::core::option::Option&lt;report_value::Value&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ReportValue`.
-</span><span class="kw">pub mod </span>report_value {
-    <span class="doccomment">/// A single report value.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Value {
-        <span class="doccomment">/// A value of type `string`.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span>StringValue(::prost::alloc::string::String),
-        <span class="doccomment">/// A value of type `int`.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-        </span>IntValue(i64),
-        <span class="doccomment">/// A value of type `google.type.Decimal`, representing non-integer numeric
-        /// values.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>DecimalValue(<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Decimal),
-        <span class="doccomment">/// A value of type `google.type.Money` (currency code, whole units, decimal
-        /// units).
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>MoneyValue(<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Money),
-        <span class="doccomment">/// A value of type `google.type.Date` (year, month, day).
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>DateValue(<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date),
-        <span class="doccomment">/// A value of type `google.type.DateTime` (year, month, day, hour, minute,
-        /// second, and UTC offset or timezone.)
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>DateTimeValue(<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::DateTime),
-    }
-}
-<span class="doccomment">/// Status of a report generation process.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ReportStatus {
-    <span class="doccomment">/// The current state of the report generation process.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"report_status::State"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// The report generation's start time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The report generation's completion time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ReportStatus`.
-</span><span class="kw">pub mod </span>report_status {
-    <span class="doccomment">/// Available states of report generation.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Not used.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Report processing started.
-        </span>Started = <span class="number">1</span>,
-        <span class="doccomment">/// Data generated from the report is being staged.
-        </span>Writing = <span class="number">2</span>,
-        <span class="doccomment">/// Report data is available for access.
-        </span>Available = <span class="number">3</span>,
-        <span class="doccomment">/// Report failed.
-        </span>Failed = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Started =&gt; <span class="string">"STARTED"</span>,
-                State::Writing =&gt; <span class="string">"WRITING"</span>,
-                State::Available =&gt; <span class="string">"AVAILABLE"</span>,
-                State::Failed =&gt; <span class="string">"FAILED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"STARTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Started),
-                <span class="string">"WRITING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Writing),
-                <span class="string">"AVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Available),
-                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// The ID and description of a report that was used to generate report data.
-/// For example, "Google Cloud Daily Spend", "Google Workspace License Activity",
-/// etc.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Report {
-    <span class="doccomment">/// Required. The report's resource name. Specifies the account and report used
-    /// to generate report data. The report_id identifier is a UID (for example,
-    /// `613bf59q`).
-    ///
-    /// Name uses the format:
-    /// accounts/{account_id}/reports/{report_id}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// A human-readable name for this report.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The list of columns included in the report. This defines the schema of
-    /// the report results.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>columns: ::prost::alloc::vec::Vec&lt;Column&gt;,
-    <span class="doccomment">/// A description of other aspects of the report, such as the products
-    /// it supports.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>cloud_channel_reports_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// CloudChannelReportsService lets Google Cloud resellers and
-    /// distributors retrieve and combine a variety of data in Cloud Channel for
-    /// multiple products (Google Cloud, Google Voice, and Google Workspace.)
-    ///
-    /// Deprecated: This service is being deprecated. Please use [Export Channel
-    /// Services data to
-    /// BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-bigquery)
-    /// instead.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>CloudChannelReportsServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; CloudChannelReportsServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; CloudChannelReportsServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            CloudChannelReportsServiceClient::new(
-                InterceptedService::new(inner, interceptor),
-            )
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Begins generation of data for a given report. The report
-        /// identifier is a UID (for example, `613bf59q`).
-        ///
-        /// Possible error codes:
-        ///
-        /// * PERMISSION_DENIED: The user doesn't have access to this report.
-        /// * INVALID_ARGUMENT: Required request parameters are missing
-        ///   or invalid.
-        /// * NOT_FOUND: The report identifier was not found.
-        /// * INTERNAL: Any non-user error related to a technical issue
-        ///   in the backend. Contact Cloud Channel support.
-        /// * UNKNOWN: Any non-user error related to a technical issue
-        ///   in the backend. Contact Cloud Channel support.
-        ///
-        /// Return value:
-        /// The ID of a long-running operation.
-        ///
-        /// To get the results of the operation, call the GetOperation method of
-        /// CloudChannelOperationsService. The Operation metadata contains an
-        /// instance of [OperationMetadata][google.cloud.channel.v1.OperationMetadata].
-        ///
-        /// To get the results of report generation, call
-        /// [CloudChannelReportsService.FetchReportResults][google.cloud.channel.v1.CloudChannelReportsService.FetchReportResults]
-        /// with the
-        /// [RunReportJobResponse.report_job][google.cloud.channel.v1.RunReportJobResponse.report_job].
-        ///
-        /// Deprecated: Please use [Export Channel Services data to
-        /// BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-bigquery)
-        /// instead.
-        </span><span class="kw">pub async fn </span>run_report_job(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::RunReportJobRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.channel.v1.CloudChannelReportsService/RunReportJob"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.channel.v1.CloudChannelReportsService"</span>,
-                        <span class="string">"RunReportJob"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Retrieves data generated by
-        /// [CloudChannelReportsService.RunReportJob][google.cloud.channel.v1.CloudChannelReportsService.RunReportJob].
-        ///
-        /// Deprecated: Please use [Export Channel Services data to
-        /// BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-bigquery)
-        /// instead.
-        </span><span class="kw">pub async fn </span>fetch_report_results(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::FetchReportResultsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::FetchReportResultsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.channel.v1.CloudChannelReportsService/FetchReportResults"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.channel.v1.CloudChannelReportsService"</span>,
-                        <span class="string">"FetchReportResults"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Lists the reports that RunReportJob can run. These reports include an ID,
-        /// a description, and the list of columns that will be in the result.
-        ///
-        /// Deprecated: Please use [Export Channel Services data to
-        /// BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-bigquery)
-        /// instead.
-        </span><span class="kw">pub async fn </span>list_reports(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListReportsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListReportsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.channel.v1.CloudChannelReportsService/ListReports"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.channel.v1.CloudChannelReportsService"</span>,
-                        <span class="string">"ListReports"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

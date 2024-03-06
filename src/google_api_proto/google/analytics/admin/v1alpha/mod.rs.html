@@ -11248,7 +11248,231 @@
 <a href="#11247" id="11247">11247</a>
 <a href="#11248" id="11248">11248</a>
 <a href="#11249" id="11249">11249</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Dimensions are attributes of your data. For example, the dimension
+</pre></div><pre class="rust"><code><span class="doccomment">/// A specific filter expression
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SubpropertyEventFilterCondition {
+    <span class="doccomment">/// Required. The field that is being filtered.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>field_name: ::prost::alloc::string::String,
+    <span class="attr">#[prost(oneof = <span class="string">"subproperty_event_filter_condition::OneFilter"</span>, tags = <span class="string">"2, 3"</span>)]
+    </span><span class="kw">pub </span>one_filter: ::core::option::Option&lt;
+        subproperty_event_filter_condition::OneFilter,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `SubpropertyEventFilterCondition`.
+</span><span class="kw">pub mod </span>subproperty_event_filter_condition {
+    <span class="doccomment">/// A filter for a string-type dimension that matches a particular pattern.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>StringFilter {
+        <span class="doccomment">/// Required. The match type for the string filter.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"string_filter::MatchType"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>match_type: i32,
+        <span class="doccomment">/// Required. The string value used for the matching.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
+        <span class="doccomment">/// Optional. If true, the string value is case sensitive. If false, the
+        /// match is case-insensitive.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>case_sensitive: bool,
+    }
+    <span class="doccomment">/// Nested message and enum types in `StringFilter`.
+    </span><span class="kw">pub mod </span>string_filter {
+        <span class="doccomment">/// How the filter will be used to determine a match.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>MatchType {
+            <span class="doccomment">/// Match type unknown or not specified.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Exact match of the string value.
+            </span>Exact = <span class="number">1</span>,
+            <span class="doccomment">/// Begins with the string value.
+            </span>BeginsWith = <span class="number">2</span>,
+            <span class="doccomment">/// Ends with the string value.
+            </span>EndsWith = <span class="number">3</span>,
+            <span class="doccomment">/// Contains the string value.
+            </span>Contains = <span class="number">4</span>,
+            <span class="doccomment">/// Full regular expression matches with the string value.
+            </span>FullRegexp = <span class="number">5</span>,
+            <span class="doccomment">/// Partial regular expression matches with the string value.
+            </span>PartialRegexp = <span class="number">6</span>,
+        }
+        <span class="kw">impl </span>MatchType {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    MatchType::Unspecified =&gt; <span class="string">"MATCH_TYPE_UNSPECIFIED"</span>,
+                    MatchType::Exact =&gt; <span class="string">"EXACT"</span>,
+                    MatchType::BeginsWith =&gt; <span class="string">"BEGINS_WITH"</span>,
+                    MatchType::EndsWith =&gt; <span class="string">"ENDS_WITH"</span>,
+                    MatchType::Contains =&gt; <span class="string">"CONTAINS"</span>,
+                    MatchType::FullRegexp =&gt; <span class="string">"FULL_REGEXP"</span>,
+                    MatchType::PartialRegexp =&gt; <span class="string">"PARTIAL_REGEXP"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"MATCH_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"EXACT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Exact),
+                    <span class="string">"BEGINS_WITH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BeginsWith),
+                    <span class="string">"ENDS_WITH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EndsWith),
+                    <span class="string">"CONTAINS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Contains),
+                    <span class="string">"FULL_REGEXP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FullRegexp),
+                    <span class="string">"PARTIAL_REGEXP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PartialRegexp),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>OneFilter {
+        <span class="doccomment">/// A filter for null values.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+        </span>NullFilter(bool),
+        <span class="doccomment">/// A filter for a string-type dimension that matches a particular pattern.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>StringFilter(StringFilter),
+    }
+}
+<span class="doccomment">/// A logical expression of Subproperty event filters.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SubpropertyEventFilterExpression {
+    <span class="doccomment">/// The expression applied to a filter.
+    </span><span class="attr">#[prost(oneof = <span class="string">"subproperty_event_filter_expression::Expr"</span>, tags = <span class="string">"1, 2, 3"</span>)]
+    </span><span class="kw">pub </span>expr: ::core::option::Option&lt;subproperty_event_filter_expression::Expr&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `SubpropertyEventFilterExpression`.
+</span><span class="kw">pub mod </span>subproperty_event_filter_expression {
+    <span class="doccomment">/// The expression applied to a filter.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Expr {
+        <span class="doccomment">/// A list of expressions to OR’ed together. Must only contain
+        /// not_expression or filter_condition expressions.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>OrGroup(<span class="kw">super</span>::SubpropertyEventFilterExpressionList),
+        <span class="doccomment">/// A filter expression to be NOT'ed (inverted, complemented). It can only
+        /// include a filter. This cannot be set on the top level
+        /// SubpropertyEventFilterExpression.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>NotExpression(
+            ::prost::alloc::boxed::Box&lt;<span class="kw">super</span>::SubpropertyEventFilterExpression&gt;,
+        ),
+        <span class="doccomment">/// Creates a filter that matches a specific event. This cannot be set on the
+        /// top level SubpropertyEventFilterExpression.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>FilterCondition(<span class="kw">super</span>::SubpropertyEventFilterCondition),
+    }
+}
+<span class="doccomment">/// A list of Subproperty event filter expressions.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SubpropertyEventFilterExpressionList {
+    <span class="doccomment">/// Required. Unordered list. A list of Subproperty event filter expressions
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>filter_expressions: ::prost::alloc::vec::Vec&lt;SubpropertyEventFilterExpression&gt;,
+}
+<span class="doccomment">/// A clause for defining a filter. A filter may be inclusive (events satisfying
+/// the filter clause are included in the subproperty's data) or exclusive
+/// (events satisfying the filter clause are excluded from the subproperty's
+/// data).
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SubpropertyEventFilterClause {
+    <span class="doccomment">/// Required. The type for the filter clause.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"subproperty_event_filter_clause::FilterClauseType"</span>,
+        tag = <span class="string">"1"
+    </span>)]
+    </span><span class="kw">pub </span>filter_clause_type: i32,
+    <span class="doccomment">/// Required. The logical expression for what events are sent to the
+    /// subproperty.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>filter_expression: ::core::option::Option&lt;SubpropertyEventFilterExpression&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `SubpropertyEventFilterClause`.
+</span><span class="kw">pub mod </span>subproperty_event_filter_clause {
+    <span class="doccomment">/// Specifies whether this is an include or exclude filter clause.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>FilterClauseType {
+        <span class="doccomment">/// Filter clause type unknown or not specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Events will be included in the Sub property if the filter clause is met.
+        </span>Include = <span class="number">1</span>,
+        <span class="doccomment">/// Events will be excluded from the Sub property if the filter clause is
+        /// met.
+        </span>Exclude = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>FilterClauseType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                FilterClauseType::Unspecified =&gt; <span class="string">"FILTER_CLAUSE_TYPE_UNSPECIFIED"</span>,
+                FilterClauseType::Include =&gt; <span class="string">"INCLUDE"</span>,
+                FilterClauseType::Exclude =&gt; <span class="string">"EXCLUDE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"FILTER_CLAUSE_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"INCLUDE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Include),
+                <span class="string">"EXCLUDE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Exclude),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A resource message representing a GA4 Subproperty event filter.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SubpropertyEventFilter {
+    <span class="doccomment">/// Output only. Format:
+    /// properties/{ordinary_property_id}/subpropertyEventFilters/{sub_property_event_filter}
+    /// Example: properties/1234/subpropertyEventFilters/5678
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Immutable. Resource name of the Subproperty that uses this filter.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>apply_to_property: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Required. Unordered list. Filter clauses that define the
+    /// SubpropertyEventFilter. All clauses are AND'ed together to determine what
+    /// data is sent to the subproperty.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>filter_clauses: ::prost::alloc::vec::Vec&lt;SubpropertyEventFilterClause&gt;,
+}
+<span class="doccomment">/// Dimensions are attributes of your data. For example, the dimension
 /// `userEmail` indicates the email of the user that accessed reporting data.
 /// Dimension values in report responses are strings.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -11747,230 +11971,6 @@
     <span class="doccomment">/// Quota remaining after this request.
     </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>remaining: i32,
-}
-<span class="doccomment">/// A specific filter expression
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SubpropertyEventFilterCondition {
-    <span class="doccomment">/// Required. The field that is being filtered.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>field_name: ::prost::alloc::string::String,
-    <span class="attr">#[prost(oneof = <span class="string">"subproperty_event_filter_condition::OneFilter"</span>, tags = <span class="string">"2, 3"</span>)]
-    </span><span class="kw">pub </span>one_filter: ::core::option::Option&lt;
-        subproperty_event_filter_condition::OneFilter,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `SubpropertyEventFilterCondition`.
-</span><span class="kw">pub mod </span>subproperty_event_filter_condition {
-    <span class="doccomment">/// A filter for a string-type dimension that matches a particular pattern.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>StringFilter {
-        <span class="doccomment">/// Required. The match type for the string filter.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"string_filter::MatchType"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>match_type: i32,
-        <span class="doccomment">/// Required. The string value used for the matching.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
-        <span class="doccomment">/// Optional. If true, the string value is case sensitive. If false, the
-        /// match is case-insensitive.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>case_sensitive: bool,
-    }
-    <span class="doccomment">/// Nested message and enum types in `StringFilter`.
-    </span><span class="kw">pub mod </span>string_filter {
-        <span class="doccomment">/// How the filter will be used to determine a match.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>MatchType {
-            <span class="doccomment">/// Match type unknown or not specified.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Exact match of the string value.
-            </span>Exact = <span class="number">1</span>,
-            <span class="doccomment">/// Begins with the string value.
-            </span>BeginsWith = <span class="number">2</span>,
-            <span class="doccomment">/// Ends with the string value.
-            </span>EndsWith = <span class="number">3</span>,
-            <span class="doccomment">/// Contains the string value.
-            </span>Contains = <span class="number">4</span>,
-            <span class="doccomment">/// Full regular expression matches with the string value.
-            </span>FullRegexp = <span class="number">5</span>,
-            <span class="doccomment">/// Partial regular expression matches with the string value.
-            </span>PartialRegexp = <span class="number">6</span>,
-        }
-        <span class="kw">impl </span>MatchType {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    MatchType::Unspecified =&gt; <span class="string">"MATCH_TYPE_UNSPECIFIED"</span>,
-                    MatchType::Exact =&gt; <span class="string">"EXACT"</span>,
-                    MatchType::BeginsWith =&gt; <span class="string">"BEGINS_WITH"</span>,
-                    MatchType::EndsWith =&gt; <span class="string">"ENDS_WITH"</span>,
-                    MatchType::Contains =&gt; <span class="string">"CONTAINS"</span>,
-                    MatchType::FullRegexp =&gt; <span class="string">"FULL_REGEXP"</span>,
-                    MatchType::PartialRegexp =&gt; <span class="string">"PARTIAL_REGEXP"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"MATCH_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"EXACT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Exact),
-                    <span class="string">"BEGINS_WITH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BeginsWith),
-                    <span class="string">"ENDS_WITH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EndsWith),
-                    <span class="string">"CONTAINS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Contains),
-                    <span class="string">"FULL_REGEXP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FullRegexp),
-                    <span class="string">"PARTIAL_REGEXP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PartialRegexp),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>OneFilter {
-        <span class="doccomment">/// A filter for null values.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-        </span>NullFilter(bool),
-        <span class="doccomment">/// A filter for a string-type dimension that matches a particular pattern.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>StringFilter(StringFilter),
-    }
-}
-<span class="doccomment">/// A logical expression of Subproperty event filters.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SubpropertyEventFilterExpression {
-    <span class="doccomment">/// The expression applied to a filter.
-    </span><span class="attr">#[prost(oneof = <span class="string">"subproperty_event_filter_expression::Expr"</span>, tags = <span class="string">"1, 2, 3"</span>)]
-    </span><span class="kw">pub </span>expr: ::core::option::Option&lt;subproperty_event_filter_expression::Expr&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `SubpropertyEventFilterExpression`.
-</span><span class="kw">pub mod </span>subproperty_event_filter_expression {
-    <span class="doccomment">/// The expression applied to a filter.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Expr {
-        <span class="doccomment">/// A list of expressions to OR’ed together. Must only contain
-        /// not_expression or filter_condition expressions.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>OrGroup(<span class="kw">super</span>::SubpropertyEventFilterExpressionList),
-        <span class="doccomment">/// A filter expression to be NOT'ed (inverted, complemented). It can only
-        /// include a filter. This cannot be set on the top level
-        /// SubpropertyEventFilterExpression.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>NotExpression(
-            ::prost::alloc::boxed::Box&lt;<span class="kw">super</span>::SubpropertyEventFilterExpression&gt;,
-        ),
-        <span class="doccomment">/// Creates a filter that matches a specific event. This cannot be set on the
-        /// top level SubpropertyEventFilterExpression.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>FilterCondition(<span class="kw">super</span>::SubpropertyEventFilterCondition),
-    }
-}
-<span class="doccomment">/// A list of Subproperty event filter expressions.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SubpropertyEventFilterExpressionList {
-    <span class="doccomment">/// Required. Unordered list. A list of Subproperty event filter expressions
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>filter_expressions: ::prost::alloc::vec::Vec&lt;SubpropertyEventFilterExpression&gt;,
-}
-<span class="doccomment">/// A clause for defining a filter. A filter may be inclusive (events satisfying
-/// the filter clause are included in the subproperty's data) or exclusive
-/// (events satisfying the filter clause are excluded from the subproperty's
-/// data).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SubpropertyEventFilterClause {
-    <span class="doccomment">/// Required. The type for the filter clause.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"subproperty_event_filter_clause::FilterClauseType"</span>,
-        tag = <span class="string">"1"
-    </span>)]
-    </span><span class="kw">pub </span>filter_clause_type: i32,
-    <span class="doccomment">/// Required. The logical expression for what events are sent to the
-    /// subproperty.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>filter_expression: ::core::option::Option&lt;SubpropertyEventFilterExpression&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `SubpropertyEventFilterClause`.
-</span><span class="kw">pub mod </span>subproperty_event_filter_clause {
-    <span class="doccomment">/// Specifies whether this is an include or exclude filter clause.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>FilterClauseType {
-        <span class="doccomment">/// Filter clause type unknown or not specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Events will be included in the Sub property if the filter clause is met.
-        </span>Include = <span class="number">1</span>,
-        <span class="doccomment">/// Events will be excluded from the Sub property if the filter clause is
-        /// met.
-        </span>Exclude = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>FilterClauseType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                FilterClauseType::Unspecified =&gt; <span class="string">"FILTER_CLAUSE_TYPE_UNSPECIFIED"</span>,
-                FilterClauseType::Include =&gt; <span class="string">"INCLUDE"</span>,
-                FilterClauseType::Exclude =&gt; <span class="string">"EXCLUDE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"FILTER_CLAUSE_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"INCLUDE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Include),
-                <span class="string">"EXCLUDE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Exclude),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A resource message representing a GA4 Subproperty event filter.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SubpropertyEventFilter {
-    <span class="doccomment">/// Output only. Format:
-    /// properties/{ordinary_property_id}/subpropertyEventFilters/{sub_property_event_filter}
-    /// Example: properties/1234/subpropertyEventFilters/5678
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Immutable. Resource name of the Subproperty that uses this filter.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>apply_to_property: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Required. Unordered list. Filter clauses that define the
-    /// SubpropertyEventFilter. All clauses are AND'ed together to determine what
-    /// data is sent to the subproperty.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>filter_clauses: ::prost::alloc::vec::Vec&lt;SubpropertyEventFilterClause&gt;,
 }
 <span class="doccomment">/// A specific filter for a single dimension or metric.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
