@@ -5545,369 +5545,7 @@
 <a href="#5544" id="5544">5544</a>
 <a href="#5545" id="5545">5545</a>
 <a href="#5546" id="5546">5546</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// A processor type is responsible for performing a certain document
-/// understanding task on a certain type of document.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProcessorType {
-    <span class="doccomment">/// The resource name of the processor type.
-    /// Format: `projects/{project}/processorTypes/{processor_type}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The processor type, such as: `OCR_PROCESSOR`, `INVOICE_PROCESSOR`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>r#type: ::prost::alloc::string::String,
-    <span class="doccomment">/// The processor category, used by UI to group processor types.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>category: ::prost::alloc::string::String,
-    <span class="doccomment">/// The locations in which this processor is available.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>available_locations: ::prost::alloc::vec::Vec&lt;processor_type::LocationInfo&gt;,
-    <span class="doccomment">/// Whether the processor type allows creation. If true, users can create a
-    /// processor of this processor type. Otherwise, users need to request access.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>allow_creation: bool,
-    <span class="doccomment">/// Launch stage of the processor type
-    </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::super::api::LaunchStage"</span>, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>launch_stage: i32,
-    <span class="doccomment">/// A set of Cloud Storage URIs of sample documents for this processor.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>sample_document_uris: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ProcessorType`.
-</span><span class="kw">pub mod </span>processor_type {
-    <span class="doccomment">/// The location information about where the processor is available.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>LocationInfo {
-        <span class="doccomment">/// The location ID. For supported locations, refer to [regional and
-        /// multi-regional support](/document-ai/docs/regions).
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>location_id: ::prost::alloc::string::String,
-    }
-}
-<span class="doccomment">/// Metadata for document summarization.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SummaryOptions {
-    <span class="doccomment">/// How long the summary should be.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"summary_options::Length"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>length: i32,
-    <span class="doccomment">/// The format the summary should be in.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"summary_options::Format"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>format: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `SummaryOptions`.
-</span><span class="kw">pub mod </span>summary_options {
-    <span class="doccomment">/// The Length enum.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Length {
-        <span class="doccomment">/// Default.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// A brief summary of one or two sentences.
-        </span>Brief = <span class="number">1</span>,
-        <span class="doccomment">/// A paragraph-length summary.
-        </span>Moderate = <span class="number">2</span>,
-        <span class="doccomment">/// The longest option available.
-        </span>Comprehensive = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>Length {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Length::Unspecified =&gt; <span class="string">"LENGTH_UNSPECIFIED"</span>,
-                Length::Brief =&gt; <span class="string">"BRIEF"</span>,
-                Length::Moderate =&gt; <span class="string">"MODERATE"</span>,
-                Length::Comprehensive =&gt; <span class="string">"COMPREHENSIVE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"LENGTH_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"BRIEF" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Brief),
-                <span class="string">"MODERATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Moderate),
-                <span class="string">"COMPREHENSIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Comprehensive),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// The Format enum.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Format {
-        <span class="doccomment">/// Default.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Format the output in paragraphs.
-        </span>Paragraph = <span class="number">1</span>,
-        <span class="doccomment">/// Format the output in bullets.
-        </span>Bullets = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Format {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Format::Unspecified =&gt; <span class="string">"FORMAT_UNSPECIFIED"</span>,
-                Format::Paragraph =&gt; <span class="string">"PARAGRAPH"</span>,
-                Format::Bullets =&gt; <span class="string">"BULLETS"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"FORMAT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"PARAGRAPH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Paragraph),
-                <span class="string">"BULLETS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bullets),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Metadata for how this field value is extracted.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FieldExtractionMetadata {
-    <span class="doccomment">/// Summary options config.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>summary_options: ::core::option::Option&lt;SummaryOptions&gt;,
-}
-<span class="doccomment">/// Metadata about a property.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PropertyMetadata {
-    <span class="doccomment">/// Whether the property should be considered as "inactive".
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>inactive: bool,
-    <span class="doccomment">/// Field extraction metadata on the property.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>field_extraction_metadata: ::core::option::Option&lt;FieldExtractionMetadata&gt;,
-}
-<span class="doccomment">/// Metadata about an entity type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EntityTypeMetadata {
-    <span class="doccomment">/// Whether the entity type should be considered inactive.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>inactive: bool,
-}
-<span class="doccomment">/// The schema defines the output of the processed document by a processor.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DocumentSchema {
-    <span class="doccomment">/// Display name to show to users.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Description of the schema.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Entity types of the schema.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>entity_types: ::prost::alloc::vec::Vec&lt;document_schema::EntityType&gt;,
-    <span class="doccomment">/// Metadata of the schema.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>metadata: ::core::option::Option&lt;document_schema::Metadata&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `DocumentSchema`.
-</span><span class="kw">pub mod </span>document_schema {
-    <span class="doccomment">/// EntityType is the wrapper of a label of the corresponding model with
-    /// detailed attributes and limitations for entity-based processors. Multiple
-    /// types can also compose a dependency tree to represent nested types.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>EntityType {
-        <span class="doccomment">/// User defined name for the type.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
-        </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-        <span class="doccomment">/// Name of the type. It must be unique within the schema file and
-        /// cannot be a "Common Type".  The following naming conventions are used:
-        ///
-        /// - Use `snake_casing`.
-        /// - Name matching is case-sensitive.
-        /// - Maximum 64 characters.
-        /// - Must start with a letter.
-        /// - Allowed characters: ASCII letters `\[a-z0-9_-\]`.  (For backward
-        ///    compatibility internal infrastructure and tooling can handle any ascii
-        ///    character.)
-        /// - The `/` is sometimes used to denote a property of a type.  For example
-        ///    `line_item/amount`.  This convention is deprecated, but will still be
-        ///    honored for backward compatibility.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-        <span class="doccomment">/// The entity type that this type is derived from.  For now, one and only
-        /// one should be set.
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>base_types: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        <span class="doccomment">/// Description the nested structure, or composition of an entity.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
-        </span><span class="kw">pub </span>properties: ::prost::alloc::vec::Vec&lt;entity_type::Property&gt;,
-        <span class="doccomment">/// Metadata for the entity type.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
-        </span><span class="kw">pub </span>entity_type_metadata: ::core::option::Option&lt;<span class="kw">super</span>::EntityTypeMetadata&gt;,
-        <span class="attr">#[prost(oneof = <span class="string">"entity_type::ValueSource"</span>, tags = <span class="string">"14"</span>)]
-        </span><span class="kw">pub </span>value_source: ::core::option::Option&lt;entity_type::ValueSource&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `EntityType`.
-    </span><span class="kw">pub mod </span>entity_type {
-        <span class="doccomment">/// Defines the a list of enum values.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>EnumValues {
-            <span class="doccomment">/// The individual values that this enum values type can include.
-            </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>values: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        }
-        <span class="doccomment">/// Defines properties that can be part of the entity type.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>Property {
-            <span class="doccomment">/// The name of the property.  Follows the same guidelines as the
-            /// EntityType name.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-            <span class="doccomment">/// User defined name for the property.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-            </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-            <span class="doccomment">/// A reference to the value type of the property.  This type is subject
-            /// to the same conventions as the `Entity.base_types` field.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>value_type: ::prost::alloc::string::String,
-            <span class="doccomment">/// Occurrence type limits the number of instances an entity type appears
-            /// in the document.
-            </span><span class="attr">#[prost(enumeration = <span class="string">"property::OccurrenceType"</span>, tag = <span class="string">"3"</span>)]
-            </span><span class="kw">pub </span>occurrence_type: i32,
-            <span class="doccomment">/// Any additional metadata about the property can be added here.
-            </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-            </span><span class="kw">pub </span>property_metadata: ::core::option::Option&lt;
-                <span class="kw">super</span>::<span class="kw">super</span>::PropertyMetadata,
-            &gt;,
-        }
-        <span class="doccomment">/// Nested message and enum types in `Property`.
-        </span><span class="kw">pub mod </span>property {
-            <span class="doccomment">/// Types of occurrences of the entity type in the document.  This
-            /// represents the number of instances, not mentions, of an entity.
-            /// For example, a bank statement might only have one
-            /// `account_number`, but this account number can be mentioned in several
-            /// places on the document.  In this case, the `account_number` is
-            /// considered a `REQUIRED_ONCE` entity type. If, on the other hand, we
-            /// expect a bank statement to contain the status of multiple different
-            /// accounts for the customers, the occurrence type is set to
-            /// `REQUIRED_MULTIPLE`.
-            </span><span class="attr">#[derive(
-                Clone,
-                Copy,
-                Debug,
-                PartialEq,
-                Eq,
-                Hash,
-                PartialOrd,
-                Ord,
-                ::prost::Enumeration
-            )]
-            #[repr(i32)]
-            </span><span class="kw">pub enum </span>OccurrenceType {
-                <span class="doccomment">/// Unspecified occurrence type.
-                </span>Unspecified = <span class="number">0</span>,
-                <span class="doccomment">/// There will be zero or one instance of this entity type.  The same
-                /// entity instance may be mentioned multiple times.
-                </span>OptionalOnce = <span class="number">1</span>,
-                <span class="doccomment">/// The entity type will appear zero or multiple times.
-                </span>OptionalMultiple = <span class="number">2</span>,
-                <span class="doccomment">/// The entity type will only appear exactly once.  The same
-                /// entity instance may be mentioned multiple times.
-                </span>RequiredOnce = <span class="number">3</span>,
-                <span class="doccomment">/// The entity type will appear once or more times.
-                </span>RequiredMultiple = <span class="number">4</span>,
-            }
-            <span class="kw">impl </span>OccurrenceType {
-                <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-                ///
-                /// The values are not transformed in any way and thus are considered stable
-                /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-                </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                    <span class="kw">match </span><span class="self">self </span>{
-                        OccurrenceType::Unspecified =&gt; <span class="string">"OCCURRENCE_TYPE_UNSPECIFIED"</span>,
-                        OccurrenceType::OptionalOnce =&gt; <span class="string">"OPTIONAL_ONCE"</span>,
-                        OccurrenceType::OptionalMultiple =&gt; <span class="string">"OPTIONAL_MULTIPLE"</span>,
-                        OccurrenceType::RequiredOnce =&gt; <span class="string">"REQUIRED_ONCE"</span>,
-                        OccurrenceType::RequiredMultiple =&gt; <span class="string">"REQUIRED_MULTIPLE"</span>,
-                    }
-                }
-                <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-                </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                    <span class="kw">match </span>value {
-                        <span class="string">"OCCURRENCE_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                        <span class="string">"OPTIONAL_ONCE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OptionalOnce),
-                        <span class="string">"OPTIONAL_MULTIPLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OptionalMultiple),
-                        <span class="string">"REQUIRED_ONCE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RequiredOnce),
-                        <span class="string">"REQUIRED_MULTIPLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RequiredMultiple),
-                        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                    }
-                }
-            }
-        }
-        <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        </span><span class="kw">pub enum </span>ValueSource {
-            <span class="doccomment">/// If specified, lists all the possible values for this entity.  This
-            /// should not be more than a handful of values.  If the number of values
-            /// is &gt;10 or could change frequently use the `EntityType.value_ontology`
-            /// field and specify a list of all possible values in a value ontology
-            /// file.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"14"</span>)]
-            </span>EnumValues(EnumValues),
-        }
-    }
-    <span class="doccomment">/// Metadata for global schema behavior.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Metadata {
-        <span class="doccomment">/// If true, a `document` entity type can be applied to subdocument
-        /// (splitting). Otherwise, it can only be applied to the entire document
-        /// (classification).
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>document_splitter: bool,
-        <span class="doccomment">/// If true, on a given page, there can be multiple `document` annotations
-        /// covering it.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>document_allow_multiple_labels: bool,
-        <span class="doccomment">/// If set, all the nested entities must be prefixed with the parents.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
-        </span><span class="kw">pub </span>prefixed_naming_on_properties: bool,
-        <span class="doccomment">/// If set, we will skip the naming format validation in the schema. So the
-        /// string values in `DocumentSchema.EntityType.name` and
-        /// `DocumentSchema.EntityType.Property.name` will not be checked.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
-        </span><span class="kw">pub </span>skip_naming_validation: bool,
-    }
-}
-<span class="doccomment">/// Encodes the detailed information of a barcode.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Encodes the detailed information of a barcode.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Barcode {
@@ -7476,58 +7114,20 @@
         </span><span class="kw">pub </span>enable_math_ocr: bool,
     }
 }
-<span class="doccomment">/// A singleton resource under a
-/// [Processor][google.cloud.documentai.v1beta3.Processor] which configures a
-/// collection of documents.
+<span class="doccomment">/// Metadata for document summarization.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Dataset {
-    <span class="doccomment">/// Dataset resource name.
-    /// Format:
-    /// `projects/{project}/locations/{location}/processors/{processor}/dataset`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. State of the dataset. Ignored when updating dataset.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"dataset::State"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="attr">#[prost(oneof = <span class="string">"dataset::StorageSource"</span>, tags = <span class="string">"3, 5, 6"</span>)]
-    </span><span class="kw">pub </span>storage_source: ::core::option::Option&lt;dataset::StorageSource&gt;,
-    <span class="attr">#[prost(oneof = <span class="string">"dataset::IndexingSource"</span>, tags = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>indexing_source: ::core::option::Option&lt;dataset::IndexingSource&gt;,
+</span><span class="kw">pub struct </span>SummaryOptions {
+    <span class="doccomment">/// How long the summary should be.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"summary_options::Length"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>length: i32,
+    <span class="doccomment">/// The format the summary should be in.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"summary_options::Format"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>format: i32,
 }
-<span class="doccomment">/// Nested message and enum types in `Dataset`.
-</span><span class="kw">pub mod </span>dataset {
-    <span class="doccomment">/// Configuration specific to the Cloud Storage-based implementation.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>GcsManagedConfig {
-        <span class="doccomment">/// Required. The Cloud Storage URI (a directory) where the documents
-        /// belonging to the dataset must be stored.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>gcs_prefix: ::core::option::Option&lt;<span class="kw">super</span>::GcsPrefix&gt;,
-    }
-    <span class="doccomment">/// Configuration specific to the Document AI Warehouse-based implementation.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>DocumentWarehouseConfig {
-        <span class="doccomment">/// Output only. The collection in Document AI Warehouse associated with the
-        /// dataset.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>collection: ::prost::alloc::string::String,
-        <span class="doccomment">/// Output only. The schema in Document AI Warehouse associated with the
-        /// dataset.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>schema: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Configuration specific to an unmanaged dataset.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>UnmanagedDatasetConfig {}
-    <span class="doccomment">/// Configuration specific to spanner-based indexing.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>SpannerIndexingConfig {}
-    <span class="doccomment">/// Different states of a dataset.
+<span class="doccomment">/// Nested message and enum types in `SummaryOptions`.
+</span><span class="kw">pub mod </span>summary_options {
+    <span class="doccomment">/// The Length enum.
     </span><span class="attr">#[derive(
         Clone,
         Copy,
@@ -7540,180 +7140,41 @@
         ::prost::Enumeration
     )]
     #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Default unspecified enum, should not be used.
+    </span><span class="kw">pub enum </span>Length {
+        <span class="doccomment">/// Default.
         </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Dataset has not been initialized.
-        </span>Uninitialized = <span class="number">1</span>,
-        <span class="doccomment">/// Dataset is being initialized.
-        </span>Initializing = <span class="number">2</span>,
-        <span class="doccomment">/// Dataset has been initialized.
-        </span>Initialized = <span class="number">3</span>,
+        <span class="doccomment">/// A brief summary of one or two sentences.
+        </span>Brief = <span class="number">1</span>,
+        <span class="doccomment">/// A paragraph-length summary.
+        </span>Moderate = <span class="number">2</span>,
+        <span class="doccomment">/// The longest option available.
+        </span>Comprehensive = <span class="number">3</span>,
     }
-    <span class="kw">impl </span>State {
+    <span class="kw">impl </span>Length {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
         ///
         /// The values are not transformed in any way and thus are considered stable
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
             <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Uninitialized =&gt; <span class="string">"UNINITIALIZED"</span>,
-                State::Initializing =&gt; <span class="string">"INITIALIZING"</span>,
-                State::Initialized =&gt; <span class="string">"INITIALIZED"</span>,
+                Length::Unspecified =&gt; <span class="string">"LENGTH_UNSPECIFIED"</span>,
+                Length::Brief =&gt; <span class="string">"BRIEF"</span>,
+                Length::Moderate =&gt; <span class="string">"MODERATE"</span>,
+                Length::Comprehensive =&gt; <span class="string">"COMPREHENSIVE"</span>,
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
         </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
             <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"UNINITIALIZED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Uninitialized),
-                <span class="string">"INITIALIZING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Initializing),
-                <span class="string">"INITIALIZED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Initialized),
+                <span class="string">"LENGTH_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"BRIEF" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Brief),
+                <span class="string">"MODERATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Moderate),
+                <span class="string">"COMPREHENSIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Comprehensive),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
     }
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>StorageSource {
-        <span class="doccomment">/// Optional. User-managed Cloud Storage dataset configuration. Use this
-        /// configuration if the dataset documents are stored under a user-managed
-        /// Cloud Storage location.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>GcsManagedConfig(GcsManagedConfig),
-        <span class="doccomment">/// Optional. Deprecated. Warehouse-based dataset configuration is not
-        /// supported.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>DocumentWarehouseConfig(DocumentWarehouseConfig),
-        <span class="doccomment">/// Optional. Unmanaged dataset configuration. Use this configuration if the
-        /// dataset documents are managed by the document service internally (not
-        /// user-managed).
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>UnmanagedDatasetConfig(UnmanagedDatasetConfig),
-    }
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>IndexingSource {
-        <span class="doccomment">/// Optional. A lightweight indexing source with low latency and high
-        /// reliability, but lacking advanced features like CMEK and content-based
-        /// search.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>SpannerIndexingConfig(SpannerIndexingConfig),
-    }
-}
-<span class="doccomment">/// Document Identifier.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DocumentId {
-    <span class="doccomment">/// Points to a specific revision of the document if set.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>revision_ref: ::core::option::Option&lt;RevisionRef&gt;,
-    <span class="attr">#[prost(oneof = <span class="string">"document_id::Type"</span>, tags = <span class="string">"1, 4"</span>)]
-    </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;document_id::Type&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `DocumentId`.
-</span><span class="kw">pub mod </span>document_id {
-    <span class="doccomment">/// Identifies a document uniquely within the scope of a dataset in the
-    /// user-managed Cloud Storage option.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>GcsManagedDocumentId {
-        <span class="doccomment">/// Required. The Cloud Storage URI where the actual document is stored.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>gcs_uri: ::prost::alloc::string::String,
-        <span class="doccomment">/// Id of the document (indexed) managed by Content Warehouse.
-        </span><span class="attr">#[deprecated]
-        #[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>cw_doc_id: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Identifies a document uniquely within the scope of a dataset in unmanaged
-    /// option.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>UnmanagedDocumentId {
-        <span class="doccomment">/// Required. The id of the document.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>doc_id: ::prost::alloc::string::String,
-    }
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Type {
-        <span class="doccomment">/// A document id within user-managed Cloud Storage.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>GcsManagedDocId(GcsManagedDocumentId),
-        <span class="doccomment">/// A document id within unmanaged dataset.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>UnmanagedDocId(UnmanagedDocumentId),
-    }
-}
-<span class="doccomment">/// Dataset Schema.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DatasetSchema {
-    <span class="doccomment">/// Dataset schema resource name.
-    /// Format:
-    /// `projects/{project}/locations/{location}/processors/{processor}/dataset/datasetSchema`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Schema of the dataset.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>document_schema: ::core::option::Option&lt;DocumentSchema&gt;,
-}
-<span class="doccomment">/// Dataset documents that the batch operation will be applied to.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BatchDatasetDocuments {
-    <span class="attr">#[prost(oneof = <span class="string">"batch_dataset_documents::Criteria"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>criteria: ::core::option::Option&lt;batch_dataset_documents::Criteria&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `BatchDatasetDocuments`.
-</span><span class="kw">pub mod </span>batch_dataset_documents {
-    <span class="doccomment">/// List of individual DocumentIds.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>IndividualDocumentIds {
-        <span class="doccomment">/// Required. List of Document IDs indicating where the actual documents are
-        /// stored.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>document_ids: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::DocumentId&gt;,
-    }
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Criteria {
-        <span class="doccomment">/// Document identifiers.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>IndividualDocumentIds(IndividualDocumentIds),
-        <span class="doccomment">/// A filter matching the documents.
-        /// Follows the same format and restriction as
-        /// \[google.cloud.documentai.master.ListDocumentsRequest.filter\].
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span>Filter(::prost::alloc::string::String),
-    }
-}
-<span class="doccomment">/// The common metadata for long running operations.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CommonOperationMetadata {
-    <span class="doccomment">/// The state of the operation.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"common_operation_metadata::State"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// A message providing more details about the current state of processing.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>state_message: ::prost::alloc::string::String,
-    <span class="doccomment">/// A related resource to this operation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>resource: ::prost::alloc::string::String,
-    <span class="doccomment">/// The creation time of the operation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The last update time of the operation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `CommonOperationMetadata`.
-</span><span class="kw">pub mod </span>common_operation_metadata {
-    <span class="doccomment">/// State of the longrunning operation.
+    <span class="doccomment">/// The Format enum.
     </span><span class="attr">#[derive(
         Clone,
         Copy,
@@ -7726,747 +7187,252 @@
         ::prost::Enumeration
     )]
     #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Unspecified state.
+    </span><span class="kw">pub enum </span>Format {
+        <span class="doccomment">/// Default.
         </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Operation is still running.
-        </span>Running = <span class="number">1</span>,
-        <span class="doccomment">/// Operation is being cancelled.
-        </span>Cancelling = <span class="number">2</span>,
-        <span class="doccomment">/// Operation succeeded.
-        </span>Succeeded = <span class="number">3</span>,
-        <span class="doccomment">/// Operation failed.
-        </span>Failed = <span class="number">4</span>,
-        <span class="doccomment">/// Operation is cancelled.
-        </span>Cancelled = <span class="number">5</span>,
+        <span class="doccomment">/// Format the output in paragraphs.
+        </span>Paragraph = <span class="number">1</span>,
+        <span class="doccomment">/// Format the output in bullets.
+        </span>Bullets = <span class="number">2</span>,
     }
-    <span class="kw">impl </span>State {
+    <span class="kw">impl </span>Format {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
         ///
         /// The values are not transformed in any way and thus are considered stable
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
             <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Running =&gt; <span class="string">"RUNNING"</span>,
-                State::Cancelling =&gt; <span class="string">"CANCELLING"</span>,
-                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
-                State::Failed =&gt; <span class="string">"FAILED"</span>,
-                State::Cancelled =&gt; <span class="string">"CANCELLED"</span>,
+                Format::Unspecified =&gt; <span class="string">"FORMAT_UNSPECIFIED"</span>,
+                Format::Paragraph =&gt; <span class="string">"PARAGRAPH"</span>,
+                Format::Bullets =&gt; <span class="string">"BULLETS"</span>,
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
         </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
             <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Running),
-                <span class="string">"CANCELLING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelling),
-                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
-                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-                <span class="string">"CANCELLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelled),
+                <span class="string">"FORMAT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"PARAGRAPH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Paragraph),
+                <span class="string">"BULLETS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bullets),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
     }
 }
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+<span class="doccomment">/// Metadata for how this field value is extracted.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateDatasetRequest {
-    <span class="doccomment">/// Required. The `name` field of the `Dataset` is used to identify the
-    /// resource to be updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>dataset: ::core::option::Option&lt;Dataset&gt;,
-    <span class="doccomment">/// The update mask applies to the resource.
+</span><span class="kw">pub struct </span>FieldExtractionMetadata {
+    <span class="doccomment">/// Summary options config.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+    </span><span class="kw">pub </span>summary_options: ::core::option::Option&lt;SummaryOptions&gt;,
 }
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+<span class="doccomment">/// Metadata about a property.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateDatasetOperationMetadata {
-    <span class="doccomment">/// The basic metadata of the long-running operation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>common_metadata: ::core::option::Option&lt;CommonOperationMetadata&gt;,
+</span><span class="kw">pub struct </span>PropertyMetadata {
+    <span class="doccomment">/// Whether the property should be considered as "inactive".
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>inactive: bool,
+    <span class="doccomment">/// Field extraction metadata on the property.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>field_extraction_metadata: ::core::option::Option&lt;FieldExtractionMetadata&gt;,
 }
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+<span class="doccomment">/// Metadata about an entity type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ImportDocumentsRequest {
-    <span class="doccomment">/// Required. The dataset resource name.
-    /// Format:
-    /// projects/{project}/locations/{location}/processors/{processor}/dataset
+</span><span class="kw">pub struct </span>EntityTypeMetadata {
+    <span class="doccomment">/// Whether the entity type should be considered inactive.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>inactive: bool,
+}
+<span class="doccomment">/// The schema defines the output of the processed document by a processor.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DocumentSchema {
+    <span class="doccomment">/// Display name to show to users.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>dataset: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The Cloud Storage uri containing raw documents that must be
-    /// imported.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>batch_documents_import_configs: ::prost::alloc::vec::Vec&lt;
-        import_documents_request::BatchDocumentsImportConfig,
-    &gt;,
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Description of the schema.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Entity types of the schema.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>entity_types: ::prost::alloc::vec::Vec&lt;document_schema::EntityType&gt;,
+    <span class="doccomment">/// Metadata of the schema.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>metadata: ::core::option::Option&lt;document_schema::Metadata&gt;,
 }
-<span class="doccomment">/// Nested message and enum types in `ImportDocumentsRequest`.
-</span><span class="kw">pub mod </span>import_documents_request {
-    <span class="doccomment">/// Config for importing documents.
-    /// Each batch can have its own dataset split type.
+<span class="doccomment">/// Nested message and enum types in `DocumentSchema`.
+</span><span class="kw">pub mod </span>document_schema {
+    <span class="doccomment">/// EntityType is the wrapper of a label of the corresponding model with
+    /// detailed attributes and limitations for entity-based processors. Multiple
+    /// types can also compose a dependency tree to represent nested types.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>BatchDocumentsImportConfig {
-        <span class="doccomment">/// The common config to specify a set of documents used as input.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>batch_input_config: ::core::option::Option&lt;<span class="kw">super</span>::BatchDocumentsInputConfig&gt;,
-        <span class="attr">#[prost(oneof = <span class="string">"batch_documents_import_config::SplitTypeConfig"</span>, tags = <span class="string">"2, 3"</span>)]
-        </span><span class="kw">pub </span>split_type_config: ::core::option::Option&lt;
-            batch_documents_import_config::SplitTypeConfig,
-        &gt;,
+    </span><span class="kw">pub struct </span>EntityType {
+        <span class="doccomment">/// User defined name for the type.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
+        </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+        <span class="doccomment">/// Name of the type. It must be unique within the schema file and
+        /// cannot be a "Common Type".  The following naming conventions are used:
+        ///
+        /// - Use `snake_casing`.
+        /// - Name matching is case-sensitive.
+        /// - Maximum 64 characters.
+        /// - Must start with a letter.
+        /// - Allowed characters: ASCII letters `\[a-z0-9_-\]`.  (For backward
+        ///    compatibility internal infrastructure and tooling can handle any ascii
+        ///    character.)
+        /// - The `/` is sometimes used to denote a property of a type.  For example
+        ///    `line_item/amount`.  This convention is deprecated, but will still be
+        ///    honored for backward compatibility.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+        <span class="doccomment">/// The entity type that this type is derived from.  For now, one and only
+        /// one should be set.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>base_types: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+        <span class="doccomment">/// Description the nested structure, or composition of an entity.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
+        </span><span class="kw">pub </span>properties: ::prost::alloc::vec::Vec&lt;entity_type::Property&gt;,
+        <span class="doccomment">/// Metadata for the entity type.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
+        </span><span class="kw">pub </span>entity_type_metadata: ::core::option::Option&lt;<span class="kw">super</span>::EntityTypeMetadata&gt;,
+        <span class="attr">#[prost(oneof = <span class="string">"entity_type::ValueSource"</span>, tags = <span class="string">"14"</span>)]
+        </span><span class="kw">pub </span>value_source: ::core::option::Option&lt;entity_type::ValueSource&gt;,
     }
-    <span class="doccomment">/// Nested message and enum types in `BatchDocumentsImportConfig`.
-    </span><span class="kw">pub mod </span>batch_documents_import_config {
-        <span class="doccomment">/// The config for auto-split.
+    <span class="doccomment">/// Nested message and enum types in `EntityType`.
+    </span><span class="kw">pub mod </span>entity_type {
+        <span class="doccomment">/// Defines the a list of enum values.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
         #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>AutoSplitConfig {
-            <span class="doccomment">/// Ratio of training dataset split.
-            </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>training_split_ratio: f32,
+        </span><span class="kw">pub struct </span>EnumValues {
+            <span class="doccomment">/// The individual values that this enum values type can include.
+            </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>values: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+        }
+        <span class="doccomment">/// Defines properties that can be part of the entity type.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>Property {
+            <span class="doccomment">/// The name of the property.  Follows the same guidelines as the
+            /// EntityType name.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+            <span class="doccomment">/// User defined name for the property.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+            </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+            <span class="doccomment">/// A reference to the value type of the property.  This type is subject
+            /// to the same conventions as the `Entity.base_types` field.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>value_type: ::prost::alloc::string::String,
+            <span class="doccomment">/// Occurrence type limits the number of instances an entity type appears
+            /// in the document.
+            </span><span class="attr">#[prost(enumeration = <span class="string">"property::OccurrenceType"</span>, tag = <span class="string">"3"</span>)]
+            </span><span class="kw">pub </span>occurrence_type: i32,
+            <span class="doccomment">/// Any additional metadata about the property can be added here.
+            </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+            </span><span class="kw">pub </span>property_metadata: ::core::option::Option&lt;
+                <span class="kw">super</span>::<span class="kw">super</span>::PropertyMetadata,
+            &gt;,
+        }
+        <span class="doccomment">/// Nested message and enum types in `Property`.
+        </span><span class="kw">pub mod </span>property {
+            <span class="doccomment">/// Types of occurrences of the entity type in the document.  This
+            /// represents the number of instances, not mentions, of an entity.
+            /// For example, a bank statement might only have one
+            /// `account_number`, but this account number can be mentioned in several
+            /// places on the document.  In this case, the `account_number` is
+            /// considered a `REQUIRED_ONCE` entity type. If, on the other hand, we
+            /// expect a bank statement to contain the status of multiple different
+            /// accounts for the customers, the occurrence type is set to
+            /// `REQUIRED_MULTIPLE`.
+            </span><span class="attr">#[derive(
+                Clone,
+                Copy,
+                Debug,
+                PartialEq,
+                Eq,
+                Hash,
+                PartialOrd,
+                Ord,
+                ::prost::Enumeration
+            )]
+            #[repr(i32)]
+            </span><span class="kw">pub enum </span>OccurrenceType {
+                <span class="doccomment">/// Unspecified occurrence type.
+                </span>Unspecified = <span class="number">0</span>,
+                <span class="doccomment">/// There will be zero or one instance of this entity type.  The same
+                /// entity instance may be mentioned multiple times.
+                </span>OptionalOnce = <span class="number">1</span>,
+                <span class="doccomment">/// The entity type will appear zero or multiple times.
+                </span>OptionalMultiple = <span class="number">2</span>,
+                <span class="doccomment">/// The entity type will only appear exactly once.  The same
+                /// entity instance may be mentioned multiple times.
+                </span>RequiredOnce = <span class="number">3</span>,
+                <span class="doccomment">/// The entity type will appear once or more times.
+                </span>RequiredMultiple = <span class="number">4</span>,
+            }
+            <span class="kw">impl </span>OccurrenceType {
+                <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+                ///
+                /// The values are not transformed in any way and thus are considered stable
+                /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+                </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                    <span class="kw">match </span><span class="self">self </span>{
+                        OccurrenceType::Unspecified =&gt; <span class="string">"OCCURRENCE_TYPE_UNSPECIFIED"</span>,
+                        OccurrenceType::OptionalOnce =&gt; <span class="string">"OPTIONAL_ONCE"</span>,
+                        OccurrenceType::OptionalMultiple =&gt; <span class="string">"OPTIONAL_MULTIPLE"</span>,
+                        OccurrenceType::RequiredOnce =&gt; <span class="string">"REQUIRED_ONCE"</span>,
+                        OccurrenceType::RequiredMultiple =&gt; <span class="string">"REQUIRED_MULTIPLE"</span>,
+                    }
+                }
+                <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+                </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                    <span class="kw">match </span>value {
+                        <span class="string">"OCCURRENCE_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                        <span class="string">"OPTIONAL_ONCE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OptionalOnce),
+                        <span class="string">"OPTIONAL_MULTIPLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OptionalMultiple),
+                        <span class="string">"REQUIRED_ONCE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RequiredOnce),
+                        <span class="string">"REQUIRED_MULTIPLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RequiredMultiple),
+                        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                    }
+                }
+            }
         }
         <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
         #[derive(Clone, PartialEq, ::prost::Oneof)]
-        </span><span class="kw">pub enum </span>SplitTypeConfig {
-            <span class="doccomment">/// Target dataset split where the documents must be stored.
-            </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::DatasetSplitType"</span>, tag = <span class="string">"2"</span>)]
-            </span>DatasetSplit(i32),
-            <span class="doccomment">/// If set, documents will be automatically split into training and test
-            /// split category with the specified ratio.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-            </span>AutoSplitConfig(AutoSplitConfig),
+        </span><span class="kw">pub enum </span>ValueSource {
+            <span class="doccomment">/// If specified, lists all the possible values for this entity.  This
+            /// should not be more than a handful of values.  If the number of values
+            /// is &gt;10 or could change frequently use the `EntityType.value_ontology`
+            /// field and specify a list of all possible values in a value ontology
+            /// file.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"14"</span>)]
+            </span>EnumValues(EnumValues),
         }
     }
-}
-<span class="doccomment">/// Response of the import document operation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ImportDocumentsResponse {}
-<span class="doccomment">/// Metadata of the import document operation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ImportDocumentsMetadata {
-    <span class="doccomment">/// The basic metadata of the long-running operation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>common_metadata: ::core::option::Option&lt;CommonOperationMetadata&gt;,
-    <span class="doccomment">/// The list of response details of each document.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>individual_import_statuses: ::prost::alloc::vec::Vec&lt;
-        import_documents_metadata::IndividualImportStatus,
-    &gt;,
-    <span class="doccomment">/// Validation statuses of the batch documents import config.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>import_config_validation_results: ::prost::alloc::vec::Vec&lt;
-        import_documents_metadata::ImportConfigValidationResult,
-    &gt;,
-    <span class="doccomment">/// Total number of the documents that are qualified for importing.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>total_document_count: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `ImportDocumentsMetadata`.
-</span><span class="kw">pub mod </span>import_documents_metadata {
-    <span class="doccomment">/// The status of each individual document in the import process.
+    <span class="doccomment">/// Metadata for global schema behavior.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>IndividualImportStatus {
-        <span class="doccomment">/// The source Cloud Storage URI of the document.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>input_gcs_source: ::prost::alloc::string::String,
-        <span class="doccomment">/// The status of the importing of the document.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
-        <span class="doccomment">/// The document id of imported document if it was successful, otherwise
-        /// empty.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>output_document_id: ::core::option::Option&lt;<span class="kw">super</span>::DocumentId&gt;,
-    }
-    <span class="doccomment">/// The validation status of each import config. Status is set to an error if
-    /// there are no documents to import in the `import_config`, or `OK` if the
-    /// operation will try to proceed with at least one document.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ImportConfigValidationResult {
-        <span class="doccomment">/// The source Cloud Storage URI specified in the import config.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>input_gcs_source: ::prost::alloc::string::String,
-        <span class="doccomment">/// The validation status of import config.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
-    }
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetDocumentRequest {
-    <span class="doccomment">/// Required. The resource name of the dataset that the document belongs to .
-    /// Format:
-    /// projects/{project}/locations/{location}/processors/{processor}/dataset
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>dataset: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Document identifier.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>document_id: ::core::option::Option&lt;DocumentId&gt;,
-    <span class="doccomment">/// If set, only fields listed here will be returned. Otherwise, all fields
-    /// will be returned by default.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>read_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-    <span class="doccomment">/// List of pages for which the fields specified in the `read_mask` must
-    /// be served.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>page_range: ::core::option::Option&lt;DocumentPageRange&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetDocumentResponse {
-    <span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>document: ::core::option::Option&lt;Document&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListDocumentsRequest {
-    <span class="doccomment">/// Required. The resource name of the dataset to be listed.
-    /// Format:
-    /// projects/{project}/locations/{location}/processors/{processor}/dataset
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>dataset: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of documents to return. The service may return
-    /// fewer than this value.
-    /// If unspecified, at most 20 documents will be returned.
-    /// The maximum value is 100; values above 100 will be coerced to 100.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A page token, received from a previous `ListDocuments` call.
-    /// Provide this to retrieve the subsequent page.
-    ///
-    /// When paginating, all other parameters provided to `ListDocuments`
-    /// must match the call that provided the page token.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Query to filter the documents based on
-    /// &lt;https://google.aip.dev/160.&gt;
-    /// ## Currently support query strings are:
-    ///
-    /// `SplitType=DATASET_SPLIT_TEST|DATASET_SPLIT_TRAIN|DATASET_SPLIT_UNASSIGNED`
-    /// - `LabelingState=DOCUMENT_LABELED|DOCUMENT_UNLABELED|DOCUMENT_AUTO_LABELED`
-    /// - `DisplayName=\"file_name.pdf\"`
-    /// - `EntityType=abc/def`
-    /// - `TagName=\"auto-labeling-running\"|\"sampled\"`
-    ///
-    /// Note:
-    /// - Only `AND`, `=` and `!=` are supported.
-    ///      e.g. `DisplayName=file_name AND EntityType!=abc` IS supported.
-    /// - Wildcard `*` is supported only in `DisplayName` filter
-    /// - No duplicate filter keys are allowed,
-    ///      e.g. `EntityType=a AND EntityType=b` is NOT supported.
-    /// - String match is case sensitive (for filter `DisplayName` &amp; `EntityType`).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Controls if the request requires a total size of matched
-    /// documents. See
-    /// [ListDocumentsResponse.total_size][google.cloud.documentai.v1beta3.ListDocumentsResponse.total_size].
-    ///
-    /// Enabling this flag may adversely impact performance.
-    ///
-    /// Defaults to false.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>return_total_size: bool,
-    <span class="doccomment">/// Optional. Number of results to skip beginning from the `page_token` if
-    /// provided. &lt;https://google.aip.dev/158#skipping-results.&gt; It must be a
-    /// non-negative integer. Negative values will be rejected. Note that this is
-    /// not the number of pages to skip. If this value causes the cursor to move
-    /// past the end of results,
-    /// [ListDocumentsResponse.document_metadata][google.cloud.documentai.v1beta3.ListDocumentsResponse.document_metadata]
-    /// and
-    /// [ListDocumentsResponse.next_page_token][google.cloud.documentai.v1beta3.ListDocumentsResponse.next_page_token]
-    /// will be empty.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>skip: i32,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListDocumentsResponse {
-    <span class="doccomment">/// Document metadata corresponding to the listed documents.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>document_metadata: ::prost::alloc::vec::Vec&lt;DocumentMetadata&gt;,
-    <span class="doccomment">/// A token, which can be sent as
-    /// [ListDocumentsRequest.page_token][google.cloud.documentai.v1beta3.ListDocumentsRequest.page_token]
-    /// to retrieve the next page. If this field is omitted, there are no
-    /// subsequent pages.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Total count of documents queried.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>total_size: i32,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BatchDeleteDocumentsRequest {
-    <span class="doccomment">/// Required. The dataset resource name.
-    /// Format:
-    /// projects/{project}/locations/{location}/processors/{processor}/dataset
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>dataset: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Dataset documents input. If given `filter`, all documents
-    /// satisfying the filter will be deleted. If given documentIds, a maximum of
-    /// 50 documents can be deleted in a batch. The request will be rejected if
-    /// more than 50 document_ids are provided.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>dataset_documents: ::core::option::Option&lt;BatchDatasetDocuments&gt;,
-}
-<span class="doccomment">/// Response of the delete documents operation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BatchDeleteDocumentsResponse {}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BatchDeleteDocumentsMetadata {
-    <span class="doccomment">/// The basic metadata of the long-running operation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>common_metadata: ::core::option::Option&lt;CommonOperationMetadata&gt;,
-    <span class="doccomment">/// The list of response details of each document.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>individual_batch_delete_statuses: ::prost::alloc::vec::Vec&lt;
-        batch_delete_documents_metadata::IndividualBatchDeleteStatus,
-    &gt;,
-    <span class="doccomment">/// Total number of documents deleting from dataset.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>total_document_count: i32,
-    <span class="doccomment">/// Total number of documents that failed to be deleted in storage.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>error_document_count: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `BatchDeleteDocumentsMetadata`.
-</span><span class="kw">pub mod </span>batch_delete_documents_metadata {
-    <span class="doccomment">/// The status of each individual document in the batch delete process.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>IndividualBatchDeleteStatus {
-        <span class="doccomment">/// The document id of the document.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>document_id: ::core::option::Option&lt;<span class="kw">super</span>::DocumentId&gt;,
-        <span class="doccomment">/// The status of deleting the document in storage.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
-    }
-}
-<span class="doccomment">/// Request for `GetDatasetSchema`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetDatasetSchemaRequest {
-    <span class="doccomment">/// Required. The dataset schema resource name.
-    /// Format:
-    /// projects/{project}/locations/{location}/processors/{processor}/dataset/datasetSchema
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// If set, only returns the visible fields of the schema.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>visible_fields_only: bool,
-}
-<span class="doccomment">/// Request for `UpdateDatasetSchema`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateDatasetSchemaRequest {
-    <span class="doccomment">/// Required. The name field of the `DatasetSchema` is used to identify the
-    /// resource to be updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>dataset_schema: ::core::option::Option&lt;DatasetSchema&gt;,
-    <span class="doccomment">/// The update mask applies to the resource.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-}
-<span class="doccomment">/// Range of pages present in a document.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DocumentPageRange {
-    <span class="doccomment">/// First page number (one-based index) to be returned.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>start: i32,
-    <span class="doccomment">/// Last page number (one-based index) to be returned.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>end: i32,
-}
-<span class="doccomment">/// Metadata about a document.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DocumentMetadata {
-    <span class="doccomment">/// Document identifier.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>document_id: ::core::option::Option&lt;DocumentId&gt;,
-    <span class="doccomment">/// Number of pages in the document.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_count: i32,
-    <span class="doccomment">/// Type of the dataset split to which the document belongs.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"DatasetSplitType"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>dataset_type: i32,
-    <span class="doccomment">/// Labeling state of the document.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"DocumentLabelingState"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>labeling_state: i32,
-    <span class="doccomment">/// The display name of the document.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Documents belonging to a dataset will be split into different groups
-/// referred to as splits: train, test.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>DatasetSplitType {
-    <span class="doccomment">/// Default value if the enum is not set.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Identifies the train documents.
-    </span>DatasetSplitTrain = <span class="number">1</span>,
-    <span class="doccomment">/// Identifies the test documents.
-    </span>DatasetSplitTest = <span class="number">2</span>,
-    <span class="doccomment">/// Identifies the unassigned documents.
-    </span>DatasetSplitUnassigned = <span class="number">3</span>,
-}
-<span class="kw">impl </span>DatasetSplitType {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            DatasetSplitType::Unspecified =&gt; <span class="string">"DATASET_SPLIT_TYPE_UNSPECIFIED"</span>,
-            DatasetSplitType::DatasetSplitTrain =&gt; <span class="string">"DATASET_SPLIT_TRAIN"</span>,
-            DatasetSplitType::DatasetSplitTest =&gt; <span class="string">"DATASET_SPLIT_TEST"</span>,
-            DatasetSplitType::DatasetSplitUnassigned =&gt; <span class="string">"DATASET_SPLIT_UNASSIGNED"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"DATASET_SPLIT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"DATASET_SPLIT_TRAIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DatasetSplitTrain),
-            <span class="string">"DATASET_SPLIT_TEST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DatasetSplitTest),
-            <span class="string">"DATASET_SPLIT_UNASSIGNED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DatasetSplitUnassigned),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Describes the labeling status of a document.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>DocumentLabelingState {
-    <span class="doccomment">/// Default value if the enum is not set.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Document has been labeled.
-    </span>DocumentLabeled = <span class="number">1</span>,
-    <span class="doccomment">/// Document has not been labeled.
-    </span>DocumentUnlabeled = <span class="number">2</span>,
-    <span class="doccomment">/// Document has been auto-labeled.
-    </span>DocumentAutoLabeled = <span class="number">3</span>,
-}
-<span class="kw">impl </span>DocumentLabelingState {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            DocumentLabelingState::Unspecified =&gt; <span class="string">"DOCUMENT_LABELING_STATE_UNSPECIFIED"</span>,
-            DocumentLabelingState::DocumentLabeled =&gt; <span class="string">"DOCUMENT_LABELED"</span>,
-            DocumentLabelingState::DocumentUnlabeled =&gt; <span class="string">"DOCUMENT_UNLABELED"</span>,
-            DocumentLabelingState::DocumentAutoLabeled =&gt; <span class="string">"DOCUMENT_AUTO_LABELED"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"DOCUMENT_LABELING_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"DOCUMENT_LABELED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DocumentLabeled),
-            <span class="string">"DOCUMENT_UNLABELED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DocumentUnlabeled),
-            <span class="string">"DOCUMENT_AUTO_LABELED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DocumentAutoLabeled),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>document_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Service to call Cloud DocumentAI to manage document collection (dataset).
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>DocumentServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; DocumentServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; DocumentServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            DocumentServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Updates metadata associated with a dataset.
-        </span><span class="kw">pub async fn </span>update_dataset(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateDatasetRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.documentai.v1beta3.DocumentService/UpdateDataset"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.documentai.v1beta3.DocumentService"</span>,
-                        <span class="string">"UpdateDataset"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Import documents into a dataset.
-        </span><span class="kw">pub async fn </span>import_documents(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ImportDocumentsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.documentai.v1beta3.DocumentService/ImportDocuments"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.documentai.v1beta3.DocumentService"</span>,
-                        <span class="string">"ImportDocuments"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Returns relevant fields present in the requested document.
-        </span><span class="kw">pub async fn </span>get_document(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetDocumentRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::GetDocumentResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.documentai.v1beta3.DocumentService/GetDocument"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.documentai.v1beta3.DocumentService"</span>,
-                        <span class="string">"GetDocument"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Returns a list of documents present in the dataset.
-        </span><span class="kw">pub async fn </span>list_documents(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListDocumentsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListDocumentsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.documentai.v1beta3.DocumentService/ListDocuments"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.documentai.v1beta3.DocumentService"</span>,
-                        <span class="string">"ListDocuments"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Deletes a set of documents.
-        </span><span class="kw">pub async fn </span>batch_delete_documents(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::BatchDeleteDocumentsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.documentai.v1beta3.DocumentService/BatchDeleteDocuments"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.documentai.v1beta3.DocumentService"</span>,
-                        <span class="string">"BatchDeleteDocuments"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Gets the `DatasetSchema` of a `Dataset`.
-        </span><span class="kw">pub async fn </span>get_dataset_schema(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetDatasetSchemaRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::DatasetSchema&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.documentai.v1beta3.DocumentService/GetDatasetSchema"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.documentai.v1beta3.DocumentService"</span>,
-                        <span class="string">"GetDatasetSchema"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Updates a `DatasetSchema`.
-        </span><span class="kw">pub async fn </span>update_dataset_schema(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateDatasetSchemaRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::DatasetSchema&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.documentai.v1beta3.DocumentService/UpdateDatasetSchema"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.documentai.v1beta3.DocumentService"</span>,
-                        <span class="string">"UpdateDatasetSchema"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
+    </span><span class="kw">pub struct </span>Metadata {
+        <span class="doccomment">/// If true, a `document` entity type can be applied to subdocument
+        /// (splitting). Otherwise, it can only be applied to the entire document
+        /// (classification).
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>document_splitter: bool,
+        <span class="doccomment">/// If true, on a given page, there can be multiple `document` annotations
+        /// covering it.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>document_allow_multiple_labels: bool,
+        <span class="doccomment">/// If set, all the nested entities must be prefixed with the parents.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
+        </span><span class="kw">pub </span>prefixed_naming_on_properties: bool,
+        <span class="doccomment">/// If set, we will skip the naming format validation in the schema. So the
+        /// string values in `DocumentSchema.EntityType.name` and
+        /// `DocumentSchema.EntityType.Property.name` will not be checked.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
+        </span><span class="kw">pub </span>skip_naming_validation: bool,
     }
 }
 <span class="doccomment">/// Gives a short summary of an evaluation, and links to the evaluation itself.
@@ -8664,6 +7630,84 @@
                     <span class="string">"AGGREGATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Aggregate),
                     <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
                 }
+            }
+        }
+    }
+}
+<span class="doccomment">/// The common metadata for long running operations.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CommonOperationMetadata {
+    <span class="doccomment">/// The state of the operation.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"common_operation_metadata::State"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// A message providing more details about the current state of processing.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>state_message: ::prost::alloc::string::String,
+    <span class="doccomment">/// A related resource to this operation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>resource: ::prost::alloc::string::String,
+    <span class="doccomment">/// The creation time of the operation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The last update time of the operation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `CommonOperationMetadata`.
+</span><span class="kw">pub mod </span>common_operation_metadata {
+    <span class="doccomment">/// State of the longrunning operation.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Unspecified state.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Operation is still running.
+        </span>Running = <span class="number">1</span>,
+        <span class="doccomment">/// Operation is being cancelled.
+        </span>Cancelling = <span class="number">2</span>,
+        <span class="doccomment">/// Operation succeeded.
+        </span>Succeeded = <span class="number">3</span>,
+        <span class="doccomment">/// Operation failed.
+        </span>Failed = <span class="number">4</span>,
+        <span class="doccomment">/// Operation is cancelled.
+        </span>Cancelled = <span class="number">5</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Running =&gt; <span class="string">"RUNNING"</span>,
+                State::Cancelling =&gt; <span class="string">"CANCELLING"</span>,
+                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
+                State::Failed =&gt; <span class="string">"FAILED"</span>,
+                State::Cancelled =&gt; <span class="string">"CANCELLED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Running),
+                <span class="string">"CANCELLING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelling),
+                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
+                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+                <span class="string">"CANCELLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelled),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
     }
@@ -8956,6 +8000,47 @@
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
+    }
+}
+<span class="doccomment">/// A processor type is responsible for performing a certain document
+/// understanding task on a certain type of document.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProcessorType {
+    <span class="doccomment">/// The resource name of the processor type.
+    /// Format: `projects/{project}/processorTypes/{processor_type}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The processor type, such as: `OCR_PROCESSOR`, `INVOICE_PROCESSOR`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>r#type: ::prost::alloc::string::String,
+    <span class="doccomment">/// The processor category, used by UI to group processor types.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>category: ::prost::alloc::string::String,
+    <span class="doccomment">/// The locations in which this processor is available.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>available_locations: ::prost::alloc::vec::Vec&lt;processor_type::LocationInfo&gt;,
+    <span class="doccomment">/// Whether the processor type allows creation. If true, users can create a
+    /// processor of this processor type. Otherwise, users need to request access.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>allow_creation: bool,
+    <span class="doccomment">/// Launch stage of the processor type
+    </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::super::api::LaunchStage"</span>, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>launch_stage: i32,
+    <span class="doccomment">/// A set of Cloud Storage URIs of sample documents for this processor.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>sample_document_uris: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ProcessorType`.
+</span><span class="kw">pub mod </span>processor_type {
+    <span class="doccomment">/// The location information about where the processor is available.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>LocationInfo {
+        <span class="doccomment">/// The location ID. For supported locations, refer to [regional and
+        /// multi-regional support](/document-ai/docs/regions).
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>location_id: ::prost::alloc::string::String,
     }
 }
 <span class="doccomment">/// Options for Process API
@@ -11085,6 +10170,921 @@
                     GrpcMethod::new(
                         <span class="string">"google.cloud.documentai.v1beta3.DocumentProcessorService"</span>,
                         <span class="string">"ImportProcessorVersion"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// A singleton resource under a
+/// [Processor][google.cloud.documentai.v1beta3.Processor] which configures a
+/// collection of documents.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Dataset {
+    <span class="doccomment">/// Dataset resource name.
+    /// Format:
+    /// `projects/{project}/locations/{location}/processors/{processor}/dataset`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. State of the dataset. Ignored when updating dataset.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"dataset::State"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="attr">#[prost(oneof = <span class="string">"dataset::StorageSource"</span>, tags = <span class="string">"3, 5, 6"</span>)]
+    </span><span class="kw">pub </span>storage_source: ::core::option::Option&lt;dataset::StorageSource&gt;,
+    <span class="attr">#[prost(oneof = <span class="string">"dataset::IndexingSource"</span>, tags = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>indexing_source: ::core::option::Option&lt;dataset::IndexingSource&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Dataset`.
+</span><span class="kw">pub mod </span>dataset {
+    <span class="doccomment">/// Configuration specific to the Cloud Storage-based implementation.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>GcsManagedConfig {
+        <span class="doccomment">/// Required. The Cloud Storage URI (a directory) where the documents
+        /// belonging to the dataset must be stored.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>gcs_prefix: ::core::option::Option&lt;<span class="kw">super</span>::GcsPrefix&gt;,
+    }
+    <span class="doccomment">/// Configuration specific to the Document AI Warehouse-based implementation.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>DocumentWarehouseConfig {
+        <span class="doccomment">/// Output only. The collection in Document AI Warehouse associated with the
+        /// dataset.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>collection: ::prost::alloc::string::String,
+        <span class="doccomment">/// Output only. The schema in Document AI Warehouse associated with the
+        /// dataset.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>schema: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Configuration specific to an unmanaged dataset.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>UnmanagedDatasetConfig {}
+    <span class="doccomment">/// Configuration specific to spanner-based indexing.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>SpannerIndexingConfig {}
+    <span class="doccomment">/// Different states of a dataset.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Default unspecified enum, should not be used.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Dataset has not been initialized.
+        </span>Uninitialized = <span class="number">1</span>,
+        <span class="doccomment">/// Dataset is being initialized.
+        </span>Initializing = <span class="number">2</span>,
+        <span class="doccomment">/// Dataset has been initialized.
+        </span>Initialized = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Uninitialized =&gt; <span class="string">"UNINITIALIZED"</span>,
+                State::Initializing =&gt; <span class="string">"INITIALIZING"</span>,
+                State::Initialized =&gt; <span class="string">"INITIALIZED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"UNINITIALIZED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Uninitialized),
+                <span class="string">"INITIALIZING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Initializing),
+                <span class="string">"INITIALIZED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Initialized),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>StorageSource {
+        <span class="doccomment">/// Optional. User-managed Cloud Storage dataset configuration. Use this
+        /// configuration if the dataset documents are stored under a user-managed
+        /// Cloud Storage location.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>GcsManagedConfig(GcsManagedConfig),
+        <span class="doccomment">/// Optional. Deprecated. Warehouse-based dataset configuration is not
+        /// supported.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>DocumentWarehouseConfig(DocumentWarehouseConfig),
+        <span class="doccomment">/// Optional. Unmanaged dataset configuration. Use this configuration if the
+        /// dataset documents are managed by the document service internally (not
+        /// user-managed).
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>UnmanagedDatasetConfig(UnmanagedDatasetConfig),
+    }
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>IndexingSource {
+        <span class="doccomment">/// Optional. A lightweight indexing source with low latency and high
+        /// reliability, but lacking advanced features like CMEK and content-based
+        /// search.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>SpannerIndexingConfig(SpannerIndexingConfig),
+    }
+}
+<span class="doccomment">/// Document Identifier.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DocumentId {
+    <span class="doccomment">/// Points to a specific revision of the document if set.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>revision_ref: ::core::option::Option&lt;RevisionRef&gt;,
+    <span class="attr">#[prost(oneof = <span class="string">"document_id::Type"</span>, tags = <span class="string">"1, 4"</span>)]
+    </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;document_id::Type&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `DocumentId`.
+</span><span class="kw">pub mod </span>document_id {
+    <span class="doccomment">/// Identifies a document uniquely within the scope of a dataset in the
+    /// user-managed Cloud Storage option.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>GcsManagedDocumentId {
+        <span class="doccomment">/// Required. The Cloud Storage URI where the actual document is stored.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>gcs_uri: ::prost::alloc::string::String,
+        <span class="doccomment">/// Id of the document (indexed) managed by Content Warehouse.
+        </span><span class="attr">#[deprecated]
+        #[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>cw_doc_id: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Identifies a document uniquely within the scope of a dataset in unmanaged
+    /// option.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>UnmanagedDocumentId {
+        <span class="doccomment">/// Required. The id of the document.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>doc_id: ::prost::alloc::string::String,
+    }
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Type {
+        <span class="doccomment">/// A document id within user-managed Cloud Storage.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>GcsManagedDocId(GcsManagedDocumentId),
+        <span class="doccomment">/// A document id within unmanaged dataset.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>UnmanagedDocId(UnmanagedDocumentId),
+    }
+}
+<span class="doccomment">/// Dataset Schema.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DatasetSchema {
+    <span class="doccomment">/// Dataset schema resource name.
+    /// Format:
+    /// `projects/{project}/locations/{location}/processors/{processor}/dataset/datasetSchema`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Schema of the dataset.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>document_schema: ::core::option::Option&lt;DocumentSchema&gt;,
+}
+<span class="doccomment">/// Dataset documents that the batch operation will be applied to.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BatchDatasetDocuments {
+    <span class="attr">#[prost(oneof = <span class="string">"batch_dataset_documents::Criteria"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>criteria: ::core::option::Option&lt;batch_dataset_documents::Criteria&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `BatchDatasetDocuments`.
+</span><span class="kw">pub mod </span>batch_dataset_documents {
+    <span class="doccomment">/// List of individual DocumentIds.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>IndividualDocumentIds {
+        <span class="doccomment">/// Required. List of Document IDs indicating where the actual documents are
+        /// stored.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>document_ids: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::DocumentId&gt;,
+    }
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Criteria {
+        <span class="doccomment">/// Document identifiers.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>IndividualDocumentIds(IndividualDocumentIds),
+        <span class="doccomment">/// A filter matching the documents.
+        /// Follows the same format and restriction as
+        /// \[google.cloud.documentai.master.ListDocumentsRequest.filter\].
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span>Filter(::prost::alloc::string::String),
+    }
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateDatasetRequest {
+    <span class="doccomment">/// Required. The `name` field of the `Dataset` is used to identify the
+    /// resource to be updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>dataset: ::core::option::Option&lt;Dataset&gt;,
+    <span class="doccomment">/// The update mask applies to the resource.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateDatasetOperationMetadata {
+    <span class="doccomment">/// The basic metadata of the long-running operation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>common_metadata: ::core::option::Option&lt;CommonOperationMetadata&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ImportDocumentsRequest {
+    <span class="doccomment">/// Required. The dataset resource name.
+    /// Format:
+    /// projects/{project}/locations/{location}/processors/{processor}/dataset
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>dataset: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The Cloud Storage uri containing raw documents that must be
+    /// imported.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>batch_documents_import_configs: ::prost::alloc::vec::Vec&lt;
+        import_documents_request::BatchDocumentsImportConfig,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ImportDocumentsRequest`.
+</span><span class="kw">pub mod </span>import_documents_request {
+    <span class="doccomment">/// Config for importing documents.
+    /// Each batch can have its own dataset split type.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>BatchDocumentsImportConfig {
+        <span class="doccomment">/// The common config to specify a set of documents used as input.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>batch_input_config: ::core::option::Option&lt;<span class="kw">super</span>::BatchDocumentsInputConfig&gt;,
+        <span class="attr">#[prost(oneof = <span class="string">"batch_documents_import_config::SplitTypeConfig"</span>, tags = <span class="string">"2, 3"</span>)]
+        </span><span class="kw">pub </span>split_type_config: ::core::option::Option&lt;
+            batch_documents_import_config::SplitTypeConfig,
+        &gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `BatchDocumentsImportConfig`.
+    </span><span class="kw">pub mod </span>batch_documents_import_config {
+        <span class="doccomment">/// The config for auto-split.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>AutoSplitConfig {
+            <span class="doccomment">/// Ratio of training dataset split.
+            </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>training_split_ratio: f32,
+        }
+        <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        </span><span class="kw">pub enum </span>SplitTypeConfig {
+            <span class="doccomment">/// Target dataset split where the documents must be stored.
+            </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::DatasetSplitType"</span>, tag = <span class="string">"2"</span>)]
+            </span>DatasetSplit(i32),
+            <span class="doccomment">/// If set, documents will be automatically split into training and test
+            /// split category with the specified ratio.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+            </span>AutoSplitConfig(AutoSplitConfig),
+        }
+    }
+}
+<span class="doccomment">/// Response of the import document operation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ImportDocumentsResponse {}
+<span class="doccomment">/// Metadata of the import document operation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ImportDocumentsMetadata {
+    <span class="doccomment">/// The basic metadata of the long-running operation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>common_metadata: ::core::option::Option&lt;CommonOperationMetadata&gt;,
+    <span class="doccomment">/// The list of response details of each document.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>individual_import_statuses: ::prost::alloc::vec::Vec&lt;
+        import_documents_metadata::IndividualImportStatus,
+    &gt;,
+    <span class="doccomment">/// Validation statuses of the batch documents import config.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>import_config_validation_results: ::prost::alloc::vec::Vec&lt;
+        import_documents_metadata::ImportConfigValidationResult,
+    &gt;,
+    <span class="doccomment">/// Total number of the documents that are qualified for importing.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>total_document_count: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `ImportDocumentsMetadata`.
+</span><span class="kw">pub mod </span>import_documents_metadata {
+    <span class="doccomment">/// The status of each individual document in the import process.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>IndividualImportStatus {
+        <span class="doccomment">/// The source Cloud Storage URI of the document.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>input_gcs_source: ::prost::alloc::string::String,
+        <span class="doccomment">/// The status of the importing of the document.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
+        <span class="doccomment">/// The document id of imported document if it was successful, otherwise
+        /// empty.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>output_document_id: ::core::option::Option&lt;<span class="kw">super</span>::DocumentId&gt;,
+    }
+    <span class="doccomment">/// The validation status of each import config. Status is set to an error if
+    /// there are no documents to import in the `import_config`, or `OK` if the
+    /// operation will try to proceed with at least one document.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ImportConfigValidationResult {
+        <span class="doccomment">/// The source Cloud Storage URI specified in the import config.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>input_gcs_source: ::prost::alloc::string::String,
+        <span class="doccomment">/// The validation status of import config.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
+    }
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetDocumentRequest {
+    <span class="doccomment">/// Required. The resource name of the dataset that the document belongs to .
+    /// Format:
+    /// projects/{project}/locations/{location}/processors/{processor}/dataset
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>dataset: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Document identifier.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>document_id: ::core::option::Option&lt;DocumentId&gt;,
+    <span class="doccomment">/// If set, only fields listed here will be returned. Otherwise, all fields
+    /// will be returned by default.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>read_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+    <span class="doccomment">/// List of pages for which the fields specified in the `read_mask` must
+    /// be served.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>page_range: ::core::option::Option&lt;DocumentPageRange&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetDocumentResponse {
+    <span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>document: ::core::option::Option&lt;Document&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListDocumentsRequest {
+    <span class="doccomment">/// Required. The resource name of the dataset to be listed.
+    /// Format:
+    /// projects/{project}/locations/{location}/processors/{processor}/dataset
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>dataset: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of documents to return. The service may return
+    /// fewer than this value.
+    /// If unspecified, at most 20 documents will be returned.
+    /// The maximum value is 100; values above 100 will be coerced to 100.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A page token, received from a previous `ListDocuments` call.
+    /// Provide this to retrieve the subsequent page.
+    ///
+    /// When paginating, all other parameters provided to `ListDocuments`
+    /// must match the call that provided the page token.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Query to filter the documents based on
+    /// &lt;https://google.aip.dev/160.&gt;
+    /// ## Currently support query strings are:
+    ///
+    /// `SplitType=DATASET_SPLIT_TEST|DATASET_SPLIT_TRAIN|DATASET_SPLIT_UNASSIGNED`
+    /// - `LabelingState=DOCUMENT_LABELED|DOCUMENT_UNLABELED|DOCUMENT_AUTO_LABELED`
+    /// - `DisplayName=\"file_name.pdf\"`
+    /// - `EntityType=abc/def`
+    /// - `TagName=\"auto-labeling-running\"|\"sampled\"`
+    ///
+    /// Note:
+    /// - Only `AND`, `=` and `!=` are supported.
+    ///      e.g. `DisplayName=file_name AND EntityType!=abc` IS supported.
+    /// - Wildcard `*` is supported only in `DisplayName` filter
+    /// - No duplicate filter keys are allowed,
+    ///      e.g. `EntityType=a AND EntityType=b` is NOT supported.
+    /// - String match is case sensitive (for filter `DisplayName` &amp; `EntityType`).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Controls if the request requires a total size of matched
+    /// documents. See
+    /// [ListDocumentsResponse.total_size][google.cloud.documentai.v1beta3.ListDocumentsResponse.total_size].
+    ///
+    /// Enabling this flag may adversely impact performance.
+    ///
+    /// Defaults to false.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>return_total_size: bool,
+    <span class="doccomment">/// Optional. Number of results to skip beginning from the `page_token` if
+    /// provided. &lt;https://google.aip.dev/158#skipping-results.&gt; It must be a
+    /// non-negative integer. Negative values will be rejected. Note that this is
+    /// not the number of pages to skip. If this value causes the cursor to move
+    /// past the end of results,
+    /// [ListDocumentsResponse.document_metadata][google.cloud.documentai.v1beta3.ListDocumentsResponse.document_metadata]
+    /// and
+    /// [ListDocumentsResponse.next_page_token][google.cloud.documentai.v1beta3.ListDocumentsResponse.next_page_token]
+    /// will be empty.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>skip: i32,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListDocumentsResponse {
+    <span class="doccomment">/// Document metadata corresponding to the listed documents.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>document_metadata: ::prost::alloc::vec::Vec&lt;DocumentMetadata&gt;,
+    <span class="doccomment">/// A token, which can be sent as
+    /// [ListDocumentsRequest.page_token][google.cloud.documentai.v1beta3.ListDocumentsRequest.page_token]
+    /// to retrieve the next page. If this field is omitted, there are no
+    /// subsequent pages.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Total count of documents queried.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>total_size: i32,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BatchDeleteDocumentsRequest {
+    <span class="doccomment">/// Required. The dataset resource name.
+    /// Format:
+    /// projects/{project}/locations/{location}/processors/{processor}/dataset
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>dataset: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Dataset documents input. If given `filter`, all documents
+    /// satisfying the filter will be deleted. If given documentIds, a maximum of
+    /// 50 documents can be deleted in a batch. The request will be rejected if
+    /// more than 50 document_ids are provided.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>dataset_documents: ::core::option::Option&lt;BatchDatasetDocuments&gt;,
+}
+<span class="doccomment">/// Response of the delete documents operation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BatchDeleteDocumentsResponse {}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BatchDeleteDocumentsMetadata {
+    <span class="doccomment">/// The basic metadata of the long-running operation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>common_metadata: ::core::option::Option&lt;CommonOperationMetadata&gt;,
+    <span class="doccomment">/// The list of response details of each document.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>individual_batch_delete_statuses: ::prost::alloc::vec::Vec&lt;
+        batch_delete_documents_metadata::IndividualBatchDeleteStatus,
+    &gt;,
+    <span class="doccomment">/// Total number of documents deleting from dataset.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>total_document_count: i32,
+    <span class="doccomment">/// Total number of documents that failed to be deleted in storage.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>error_document_count: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `BatchDeleteDocumentsMetadata`.
+</span><span class="kw">pub mod </span>batch_delete_documents_metadata {
+    <span class="doccomment">/// The status of each individual document in the batch delete process.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>IndividualBatchDeleteStatus {
+        <span class="doccomment">/// The document id of the document.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>document_id: ::core::option::Option&lt;<span class="kw">super</span>::DocumentId&gt;,
+        <span class="doccomment">/// The status of deleting the document in storage.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
+    }
+}
+<span class="doccomment">/// Request for `GetDatasetSchema`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetDatasetSchemaRequest {
+    <span class="doccomment">/// Required. The dataset schema resource name.
+    /// Format:
+    /// projects/{project}/locations/{location}/processors/{processor}/dataset/datasetSchema
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// If set, only returns the visible fields of the schema.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>visible_fields_only: bool,
+}
+<span class="doccomment">/// Request for `UpdateDatasetSchema`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateDatasetSchemaRequest {
+    <span class="doccomment">/// Required. The name field of the `DatasetSchema` is used to identify the
+    /// resource to be updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>dataset_schema: ::core::option::Option&lt;DatasetSchema&gt;,
+    <span class="doccomment">/// The update mask applies to the resource.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+}
+<span class="doccomment">/// Range of pages present in a document.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DocumentPageRange {
+    <span class="doccomment">/// First page number (one-based index) to be returned.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>start: i32,
+    <span class="doccomment">/// Last page number (one-based index) to be returned.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>end: i32,
+}
+<span class="doccomment">/// Metadata about a document.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DocumentMetadata {
+    <span class="doccomment">/// Document identifier.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>document_id: ::core::option::Option&lt;DocumentId&gt;,
+    <span class="doccomment">/// Number of pages in the document.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_count: i32,
+    <span class="doccomment">/// Type of the dataset split to which the document belongs.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"DatasetSplitType"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>dataset_type: i32,
+    <span class="doccomment">/// Labeling state of the document.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"DocumentLabelingState"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>labeling_state: i32,
+    <span class="doccomment">/// The display name of the document.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Documents belonging to a dataset will be split into different groups
+/// referred to as splits: train, test.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>DatasetSplitType {
+    <span class="doccomment">/// Default value if the enum is not set.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Identifies the train documents.
+    </span>DatasetSplitTrain = <span class="number">1</span>,
+    <span class="doccomment">/// Identifies the test documents.
+    </span>DatasetSplitTest = <span class="number">2</span>,
+    <span class="doccomment">/// Identifies the unassigned documents.
+    </span>DatasetSplitUnassigned = <span class="number">3</span>,
+}
+<span class="kw">impl </span>DatasetSplitType {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            DatasetSplitType::Unspecified =&gt; <span class="string">"DATASET_SPLIT_TYPE_UNSPECIFIED"</span>,
+            DatasetSplitType::DatasetSplitTrain =&gt; <span class="string">"DATASET_SPLIT_TRAIN"</span>,
+            DatasetSplitType::DatasetSplitTest =&gt; <span class="string">"DATASET_SPLIT_TEST"</span>,
+            DatasetSplitType::DatasetSplitUnassigned =&gt; <span class="string">"DATASET_SPLIT_UNASSIGNED"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"DATASET_SPLIT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"DATASET_SPLIT_TRAIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DatasetSplitTrain),
+            <span class="string">"DATASET_SPLIT_TEST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DatasetSplitTest),
+            <span class="string">"DATASET_SPLIT_UNASSIGNED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DatasetSplitUnassigned),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Describes the labeling status of a document.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>DocumentLabelingState {
+    <span class="doccomment">/// Default value if the enum is not set.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Document has been labeled.
+    </span>DocumentLabeled = <span class="number">1</span>,
+    <span class="doccomment">/// Document has not been labeled.
+    </span>DocumentUnlabeled = <span class="number">2</span>,
+    <span class="doccomment">/// Document has been auto-labeled.
+    </span>DocumentAutoLabeled = <span class="number">3</span>,
+}
+<span class="kw">impl </span>DocumentLabelingState {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            DocumentLabelingState::Unspecified =&gt; <span class="string">"DOCUMENT_LABELING_STATE_UNSPECIFIED"</span>,
+            DocumentLabelingState::DocumentLabeled =&gt; <span class="string">"DOCUMENT_LABELED"</span>,
+            DocumentLabelingState::DocumentUnlabeled =&gt; <span class="string">"DOCUMENT_UNLABELED"</span>,
+            DocumentLabelingState::DocumentAutoLabeled =&gt; <span class="string">"DOCUMENT_AUTO_LABELED"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"DOCUMENT_LABELING_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"DOCUMENT_LABELED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DocumentLabeled),
+            <span class="string">"DOCUMENT_UNLABELED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DocumentUnlabeled),
+            <span class="string">"DOCUMENT_AUTO_LABELED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DocumentAutoLabeled),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>document_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Service to call Cloud DocumentAI to manage document collection (dataset).
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>DocumentServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; DocumentServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; DocumentServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            DocumentServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Updates metadata associated with a dataset.
+        </span><span class="kw">pub async fn </span>update_dataset(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateDatasetRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.documentai.v1beta3.DocumentService/UpdateDataset"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.documentai.v1beta3.DocumentService"</span>,
+                        <span class="string">"UpdateDataset"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Import documents into a dataset.
+        </span><span class="kw">pub async fn </span>import_documents(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ImportDocumentsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.documentai.v1beta3.DocumentService/ImportDocuments"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.documentai.v1beta3.DocumentService"</span>,
+                        <span class="string">"ImportDocuments"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Returns relevant fields present in the requested document.
+        </span><span class="kw">pub async fn </span>get_document(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetDocumentRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::GetDocumentResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.documentai.v1beta3.DocumentService/GetDocument"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.documentai.v1beta3.DocumentService"</span>,
+                        <span class="string">"GetDocument"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Returns a list of documents present in the dataset.
+        </span><span class="kw">pub async fn </span>list_documents(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListDocumentsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListDocumentsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.documentai.v1beta3.DocumentService/ListDocuments"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.documentai.v1beta3.DocumentService"</span>,
+                        <span class="string">"ListDocuments"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Deletes a set of documents.
+        </span><span class="kw">pub async fn </span>batch_delete_documents(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::BatchDeleteDocumentsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.documentai.v1beta3.DocumentService/BatchDeleteDocuments"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.documentai.v1beta3.DocumentService"</span>,
+                        <span class="string">"BatchDeleteDocuments"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Gets the `DatasetSchema` of a `Dataset`.
+        </span><span class="kw">pub async fn </span>get_dataset_schema(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetDatasetSchemaRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::DatasetSchema&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.documentai.v1beta3.DocumentService/GetDatasetSchema"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.documentai.v1beta3.DocumentService"</span>,
+                        <span class="string">"GetDatasetSchema"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Updates a `DatasetSchema`.
+        </span><span class="kw">pub async fn </span>update_dataset_schema(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateDatasetSchemaRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::DatasetSchema&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.documentai.v1beta3.DocumentService/UpdateDatasetSchema"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.documentai.v1beta3.DocumentService"</span>,
+                        <span class="string">"UpdateDatasetSchema"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

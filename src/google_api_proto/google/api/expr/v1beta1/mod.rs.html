@@ -631,7 +631,49 @@
 <a href="#630" id="630">630</a>
 <a href="#631" id="631">631</a>
 <a href="#632" id="632">632</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Represents a CEL value.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Source information collected at parse time.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SourceInfo {
+    <span class="doccomment">/// The location name. All position information attached to an expression is
+    /// relative to this location.
+    ///
+    /// The location could be a file, UI element, or similar. For example,
+    /// `acme/app/AnvilPolicy.cel`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+    <span class="doccomment">/// Monotonically increasing list of character offsets where newlines appear.
+    ///
+    /// The line number of a given position is the index `i` where for a given
+    /// `id` the `line_offsets\[i\] &lt; id_positions\[id\] &lt; line_offsets\[i+1\]`. The
+    /// column may be derivd from `id_positions\[id\] - line_offsets\[i\]`.
+    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>line_offsets: ::prost::alloc::vec::Vec&lt;i32&gt;,
+    <span class="doccomment">/// A map from the parse node id (e.g. `Expr.id`) to the character offset
+    /// within source.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"int32, int32"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>positions: ::prost::alloc::collections::BTreeMap&lt;i32, i32&gt;,
+}
+<span class="doccomment">/// A specific position in source.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SourcePosition {
+    <span class="doccomment">/// The soucre location name (e.g. file name).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+    <span class="doccomment">/// The character offset.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>offset: i32,
+    <span class="doccomment">/// The 1-based index of the starting line in the source text
+    /// where the issue occurs, or 0 if unknown.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>line: i32,
+    <span class="doccomment">/// The 0-based index of the starting position within the line of source text
+    /// where the issue occurs.  Only meaningful if line is nonzer..
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>column: i32,
+}
+<span class="doccomment">/// Represents a CEL value.
 ///
 /// This is similar to `google.protobuf.Value`, but can represent CEL's full
 /// range of values.
@@ -859,48 +901,6 @@
     <span class="doccomment">/// The expression id.
     </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>id: i32,
-}
-<span class="doccomment">/// Source information collected at parse time.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SourceInfo {
-    <span class="doccomment">/// The location name. All position information attached to an expression is
-    /// relative to this location.
-    ///
-    /// The location could be a file, UI element, or similar. For example,
-    /// `acme/app/AnvilPolicy.cel`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
-    <span class="doccomment">/// Monotonically increasing list of character offsets where newlines appear.
-    ///
-    /// The line number of a given position is the index `i` where for a given
-    /// `id` the `line_offsets\[i\] &lt; id_positions\[id\] &lt; line_offsets\[i+1\]`. The
-    /// column may be derivd from `id_positions\[id\] - line_offsets\[i\]`.
-    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>line_offsets: ::prost::alloc::vec::Vec&lt;i32&gt;,
-    <span class="doccomment">/// A map from the parse node id (e.g. `Expr.id`) to the character offset
-    /// within source.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"int32, int32"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>positions: ::prost::alloc::collections::BTreeMap&lt;i32, i32&gt;,
-}
-<span class="doccomment">/// A specific position in source.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SourcePosition {
-    <span class="doccomment">/// The soucre location name (e.g. file name).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
-    <span class="doccomment">/// The character offset.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>offset: i32,
-    <span class="doccomment">/// The 1-based index of the starting line in the source text
-    /// where the issue occurs, or 0 if unknown.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>line: i32,
-    <span class="doccomment">/// The 0-based index of the starting position within the line of source text
-    /// where the issue occurs.  Only meaningful if line is nonzer..
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>column: i32,
 }
 <span class="doccomment">/// An expression together with source information as returned by the parser.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

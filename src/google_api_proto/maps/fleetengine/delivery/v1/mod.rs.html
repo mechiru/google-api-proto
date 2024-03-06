@@ -3088,6 +3088,70 @@
         }
     }
 }
+<span class="doccomment">/// The `TaskTrackingInfo` message. The message contains task tracking
+/// information which will be used for display. If a tracking ID is associated
+/// with multiple Tasks, Fleet Engine uses a heuristic to decide which Task's
+/// TaskTrackingInfo to select.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TaskTrackingInfo {
+    <span class="doccomment">/// Must be in the format `providers/{provider}/taskTrackingInfo/{tracking}`,
+    /// where `tracking` represents the tracking ID.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Immutable. The tracking ID of a Task.
+    /// * Must be a valid Unicode string.
+    /// * Limited to a maximum length of 64 characters.
+    /// * Normalized according to \[Unicode Normalization Form C\]
+    /// (&lt;http://www.unicode.org/reports/tr15/&gt;).
+    /// * May not contain any of the following ASCII characters: '/', ':', '?',
+    /// ',', or '#'.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>tracking_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The vehicle's last location.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>vehicle_location: ::core::option::Option&lt;DeliveryVehicleLocation&gt;,
+    <span class="doccomment">/// A list of points which when connected forms a polyline of the vehicle's
+    /// expected route to the location of this task.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>route_polyline_points: ::prost::alloc::vec::Vec&lt;
+        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::google::r#type::LatLng,
+    &gt;,
+    <span class="doccomment">/// Indicates the number of stops the vehicle remaining until the task stop is
+    /// reached, including the task stop. For example, if the vehicle's next stop
+    /// is the task stop, the value will be 1.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>remaining_stop_count: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// The total remaining distance in meters to the `VehicleStop` of interest.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>remaining_driving_distance_meters: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// The timestamp that indicates the estimated arrival time to the stop
+    /// location.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>estimated_arrival_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The timestamp that indicates the estimated completion time of a Task.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>estimated_task_completion_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The current execution state of the Task.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"task::State"</span>, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// The outcome of attempting to execute a Task.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"task::TaskOutcome"</span>, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>task_outcome: i32,
+    <span class="doccomment">/// The timestamp that indicates when the Task's outcome was set by the
+    /// provider.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>task_outcome_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Immutable. The location where the Task will be completed.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>planned_location: ::core::option::Option&lt;LocationInfo&gt;,
+    <span class="doccomment">/// The time window during which the task should be completed.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>target_time_window: ::core::option::Option&lt;TimeWindow&gt;,
+    <span class="doccomment">/// The custom attributes set on the task.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>attributes: ::prost::alloc::vec::Vec&lt;TaskAttribute&gt;,
+}
 <span class="doccomment">/// A RequestHeader contains fields common to all Delivery RPC requests.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3238,70 +3302,6 @@
             }
         }
     }
-}
-<span class="doccomment">/// The `TaskTrackingInfo` message. The message contains task tracking
-/// information which will be used for display. If a tracking ID is associated
-/// with multiple Tasks, Fleet Engine uses a heuristic to decide which Task's
-/// TaskTrackingInfo to select.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TaskTrackingInfo {
-    <span class="doccomment">/// Must be in the format `providers/{provider}/taskTrackingInfo/{tracking}`,
-    /// where `tracking` represents the tracking ID.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Immutable. The tracking ID of a Task.
-    /// * Must be a valid Unicode string.
-    /// * Limited to a maximum length of 64 characters.
-    /// * Normalized according to \[Unicode Normalization Form C\]
-    /// (&lt;http://www.unicode.org/reports/tr15/&gt;).
-    /// * May not contain any of the following ASCII characters: '/', ':', '?',
-    /// ',', or '#'.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>tracking_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The vehicle's last location.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>vehicle_location: ::core::option::Option&lt;DeliveryVehicleLocation&gt;,
-    <span class="doccomment">/// A list of points which when connected forms a polyline of the vehicle's
-    /// expected route to the location of this task.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>route_polyline_points: ::prost::alloc::vec::Vec&lt;
-        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::google::r#type::LatLng,
-    &gt;,
-    <span class="doccomment">/// Indicates the number of stops the vehicle remaining until the task stop is
-    /// reached, including the task stop. For example, if the vehicle's next stop
-    /// is the task stop, the value will be 1.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>remaining_stop_count: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// The total remaining distance in meters to the `VehicleStop` of interest.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>remaining_driving_distance_meters: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// The timestamp that indicates the estimated arrival time to the stop
-    /// location.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>estimated_arrival_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The timestamp that indicates the estimated completion time of a Task.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>estimated_task_completion_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The current execution state of the Task.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"task::State"</span>, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// The outcome of attempting to execute a Task.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"task::TaskOutcome"</span>, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>task_outcome: i32,
-    <span class="doccomment">/// The timestamp that indicates when the Task's outcome was set by the
-    /// provider.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>task_outcome_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Immutable. The location where the Task will be completed.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>planned_location: ::core::option::Option&lt;LocationInfo&gt;,
-    <span class="doccomment">/// The time window during which the task should be completed.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>target_time_window: ::core::option::Option&lt;TimeWindow&gt;,
-    <span class="doccomment">/// The custom attributes set on the task.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>attributes: ::prost::alloc::vec::Vec&lt;TaskAttribute&gt;,
 }
 <span class="doccomment">/// The `CreateDeliveryVehicle` request message.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

@@ -262,75 +262,7 @@
 <a href="#261" id="261">261</a>
 <a href="#262" id="262">262</a>
 <a href="#263" id="263">263</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Prediction output format for Video Classification.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VideoClassificationPredictionResult {
-    <span class="doccomment">/// The resource ID of the AnnotationSpec that had been identified.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The display name of the AnnotationSpec that had been identified.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The type of the prediction. The requested types can be configured
-    /// via parameters. This will be one of
-    /// - segment-classification
-    /// - shot-classification
-    /// - one-sec-interval-classification
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>r#type: ::prost::alloc::string::String,
-    <span class="doccomment">/// The beginning, inclusive, of the video's time segment in which the
-    /// AnnotationSpec has been identified. Expressed as a number of seconds as
-    /// measured from the start of the video, with fractions up to a microsecond
-    /// precision, and with "s" appended at the end. Note that for
-    /// 'segment-classification' prediction type, this equals the original
-    /// 'timeSegmentStart' from the input instance, for other types it is the
-    /// start of a shot or a 1 second interval respectively.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>time_segment_start: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// The end, exclusive, of the video's time segment in which the
-    /// AnnotationSpec has been identified. Expressed as a number of seconds as
-    /// measured from the start of the video, with fractions up to a microsecond
-    /// precision, and with "s" appended at the end. Note that for
-    /// 'segment-classification' prediction type, this equals the original
-    /// 'timeSegmentEnd' from the input instance, for other types it is the end
-    /// of a shot or a 1 second interval respectively.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>time_segment_end: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// The Model's confidence in correction of this prediction, higher
-    /// value means higher confidence.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>confidence: ::core::option::Option&lt;f32&gt;,
-}
-<span class="doccomment">/// Prediction output format for Tabular Classification.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TabularClassificationPredictionResult {
-    <span class="doccomment">/// The name of the classes being classified, contains all possible values of
-    /// the target column.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>classes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The model's confidence in each class being correct, higher
-    /// value means higher confidence. The N-th score corresponds to
-    /// the N-th class in classes.
-    </span><span class="attr">#[prost(float, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>scores: ::prost::alloc::vec::Vec&lt;f32&gt;,
-}
-<span class="doccomment">/// Prediction output format for Tabular Regression.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TabularRegressionPredictionResult {
-    <span class="doccomment">/// The regression value.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>value: f32,
-    <span class="doccomment">/// The lower bound of the prediction interval.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>lower_bound: f32,
-    <span class="doccomment">/// The upper bound of the prediction interval.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>upper_bound: f32,
-}
-<span class="doccomment">/// Prediction output format for Image Object Detection.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Prediction output format for Image Object Detection.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ImageObjectDetectionPredictionResult {
@@ -382,6 +314,20 @@
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>confidence: ::core::option::Option&lt;f32&gt;,
 }
+<span class="doccomment">/// Prediction output format for Tabular Regression.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TabularRegressionPredictionResult {
+    <span class="doccomment">/// The regression value.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>value: f32,
+    <span class="doccomment">/// The lower bound of the prediction interval.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>lower_bound: f32,
+    <span class="doccomment">/// The upper bound of the prediction interval.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>upper_bound: f32,
+}
 <span class="doccomment">/// Prediction output format for Text Sentiment
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -394,25 +340,19 @@
     </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>sentiment: i32,
 }
-<span class="doccomment">/// Prediction output format for Image Segmentation.
+<span class="doccomment">/// Prediction output format for Tabular Classification.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ImageSegmentationPredictionResult {
-    <span class="doccomment">/// A PNG image where each pixel in the mask represents the category in which
-    /// the pixel in the original image was predicted to belong to. The size of
-    /// this image will be the same as the original image. The mapping between the
-    /// AnntoationSpec and the color can be found in model's metadata. The model
-    /// will choose the most likely category and if none of the categories reach
-    /// the confidence threshold, the pixel will be marked as background.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>category_mask: ::prost::alloc::string::String,
-    <span class="doccomment">/// A one channel image which is encoded as an 8bit lossless PNG. The size of
-    /// the image will be the same as the original image. For a specific pixel,
-    /// darker color means less confidence in correctness of the cateogry in the
-    /// categoryMask for the corresponding pixel. Black means no confidence and
-    /// white means complete confidence.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>confidence_mask: ::prost::alloc::string::String,
+</span><span class="kw">pub struct </span>TabularClassificationPredictionResult {
+    <span class="doccomment">/// The name of the classes being classified, contains all possible values of
+    /// the target column.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>classes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The model's confidence in each class being correct, higher
+    /// value means higher confidence. The N-th score corresponds to
+    /// the N-th class in classes.
+    </span><span class="attr">#[prost(float, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>scores: ::prost::alloc::vec::Vec&lt;f32&gt;,
 }
 <span class="doccomment">/// Prediction output format for Image and Text Classification.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -430,13 +370,45 @@
     </span><span class="attr">#[prost(float, repeated, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>confidences: ::prost::alloc::vec::Vec&lt;f32&gt;,
 }
-<span class="doccomment">/// Prediction output format for Time Series Forecasting.
+<span class="doccomment">/// Prediction output format for Video Classification.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TimeSeriesForecastingPredictionResult {
-    <span class="doccomment">/// The regression value.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>value: f32,
+</span><span class="kw">pub struct </span>VideoClassificationPredictionResult {
+    <span class="doccomment">/// The resource ID of the AnnotationSpec that had been identified.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The display name of the AnnotationSpec that had been identified.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The type of the prediction. The requested types can be configured
+    /// via parameters. This will be one of
+    /// - segment-classification
+    /// - shot-classification
+    /// - one-sec-interval-classification
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>r#type: ::prost::alloc::string::String,
+    <span class="doccomment">/// The beginning, inclusive, of the video's time segment in which the
+    /// AnnotationSpec has been identified. Expressed as a number of seconds as
+    /// measured from the start of the video, with fractions up to a microsecond
+    /// precision, and with "s" appended at the end. Note that for
+    /// 'segment-classification' prediction type, this equals the original
+    /// 'timeSegmentStart' from the input instance, for other types it is the
+    /// start of a shot or a 1 second interval respectively.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>time_segment_start: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// The end, exclusive, of the video's time segment in which the
+    /// AnnotationSpec has been identified. Expressed as a number of seconds as
+    /// measured from the start of the video, with fractions up to a microsecond
+    /// precision, and with "s" appended at the end. Note that for
+    /// 'segment-classification' prediction type, this equals the original
+    /// 'timeSegmentEnd' from the input instance, for other types it is the end
+    /// of a shot or a 1 second interval respectively.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>time_segment_end: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// The Model's confidence in correction of this prediction, higher
+    /// value means higher confidence.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>confidence: ::core::option::Option&lt;f32&gt;,
 }
 <span class="doccomment">/// Prediction output format for Text Extraction.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -464,6 +436,14 @@
     /// value means higher confidence. Order matches the Ids.
     </span><span class="attr">#[prost(float, repeated, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>confidences: ::prost::alloc::vec::Vec&lt;f32&gt;,
+}
+<span class="doccomment">/// Prediction output format for Time Series Forecasting.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TimeSeriesForecastingPredictionResult {
+    <span class="doccomment">/// The regression value.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>value: f32,
 }
 <span class="doccomment">/// Prediction output format for Video Object Tracking.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -524,5 +504,25 @@
         </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
         </span><span class="kw">pub </span>y_max: ::core::option::Option&lt;f32&gt;,
     }
+}
+<span class="doccomment">/// Prediction output format for Image Segmentation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ImageSegmentationPredictionResult {
+    <span class="doccomment">/// A PNG image where each pixel in the mask represents the category in which
+    /// the pixel in the original image was predicted to belong to. The size of
+    /// this image will be the same as the original image. The mapping between the
+    /// AnntoationSpec and the color can be found in model's metadata. The model
+    /// will choose the most likely category and if none of the categories reach
+    /// the confidence threshold, the pixel will be marked as background.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>category_mask: ::prost::alloc::string::String,
+    <span class="doccomment">/// A one channel image which is encoded as an 8bit lossless PNG. The size of
+    /// the image will be the same as the original image. For a specific pixel,
+    /// darker color means less confidence in correctness of the cateogry in the
+    /// categoryMask for the corresponding pixel. Black means no confidence and
+    /// white means complete confidence.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>confidence_mask: ::prost::alloc::string::String,
 }
 </code></pre></div></section></main></body></html>
