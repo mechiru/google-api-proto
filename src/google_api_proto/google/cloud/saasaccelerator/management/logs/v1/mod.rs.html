@@ -129,28 +129,7 @@
 <a href="#128" id="128">128</a>
 <a href="#129" id="129">129</a>
 <a href="#130" id="130">130</a>
-</pre></div><pre class="rust"><code><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>InstanceEvent {
-    <span class="doccomment">/// The type of the event, e.g. Create, Update, etc.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>verb: ::prost::alloc::string::String,
-    <span class="doccomment">/// The state of the instance, e.g. "RETRYING_CREATE_INSTANCE".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>stage: ::prost::alloc::string::String,
-    <span class="doccomment">/// A human-readable log message, e.g. "error in stage: CREATING, err: location
-    /// not available".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>msg: ::prost::alloc::string::String,
-    <span class="doccomment">/// The ID to uniquely locate all logs associated with a given request.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>trace_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The instance node which is the subject of the operation, if known.
-    /// Currently unused as tf actuation does not manage nodes.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>node_id: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Payload proto for Notification logs.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Payload proto for Notification logs.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>NotificationStage {
@@ -258,5 +237,26 @@
             }
         }
     }
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>InstanceEvent {
+    <span class="doccomment">/// The type of the event, e.g. Create, Update, etc.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>verb: ::prost::alloc::string::String,
+    <span class="doccomment">/// The state of the instance, e.g. "RETRYING_CREATE_INSTANCE".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>stage: ::prost::alloc::string::String,
+    <span class="doccomment">/// A human-readable log message, e.g. "error in stage: CREATING, err: location
+    /// not available".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>msg: ::prost::alloc::string::String,
+    <span class="doccomment">/// The ID to uniquely locate all logs associated with a given request.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>trace_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The instance node which is the subject of the operation, if known.
+    /// Currently unused as tf actuation does not manage nodes.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>node_id: ::prost::alloc::string::String,
 }
 </code></pre></div></section></main></body></html>

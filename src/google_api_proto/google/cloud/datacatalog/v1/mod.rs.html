@@ -5907,76 +5907,7 @@
 <a href="#5906" id="5906">5906</a>
 <a href="#5907" id="5907">5907</a>
 <a href="#5908" id="5908">5908</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Native schema used by a resource represented as an entry. Used by query
-/// engines for deserializing and parsing source data.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PhysicalSchema {
-    <span class="attr">#[prost(oneof = <span class="string">"physical_schema::Schema"</span>, tags = <span class="string">"1, 2, 3, 4, 5, 6"</span>)]
-    </span><span class="kw">pub </span>schema: ::core::option::Option&lt;physical_schema::Schema&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `PhysicalSchema`.
-</span><span class="kw">pub mod </span>physical_schema {
-    <span class="doccomment">/// Schema in Avro JSON format.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>AvroSchema {
-        <span class="doccomment">/// JSON source of the Avro schema.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Schema in Thrift format.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ThriftSchema {
-        <span class="doccomment">/// Thrift IDL source of the schema.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Schema in protocol buffer format.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ProtobufSchema {
-        <span class="doccomment">/// Protocol buffer source of the schema.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Marks a Parquet-encoded data source.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ParquetSchema {}
-    <span class="doccomment">/// Marks an ORC-encoded data source.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>OrcSchema {}
-    <span class="doccomment">/// Marks a CSV-encoded data source.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>CsvSchema {}
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Schema {
-        <span class="doccomment">/// Schema in Avro JSON format.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>Avro(AvroSchema),
-        <span class="doccomment">/// Schema in Thrift format.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>Thrift(ThriftSchema),
-        <span class="doccomment">/// Schema in protocol buffer format.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>Protobuf(ProtobufSchema),
-        <span class="doccomment">/// Marks a Parquet-encoded data source.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>Parquet(ParquetSchema),
-        <span class="doccomment">/// Marks an ORC-encoded data source.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>Orc(OrcSchema),
-        <span class="doccomment">/// Marks a CSV-encoded data source.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>Csv(CsvSchema),
-    }
-}
-<span class="doccomment">/// Specification for the BigQuery connection.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Specification for the BigQuery connection.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>BigQueryConnectionSpec {
@@ -6318,6 +6249,75 @@
     <span class="doccomment">/// File type in MIME format, for example, `text/plain`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>file_type: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Native schema used by a resource represented as an entry. Used by query
+/// engines for deserializing and parsing source data.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PhysicalSchema {
+    <span class="attr">#[prost(oneof = <span class="string">"physical_schema::Schema"</span>, tags = <span class="string">"1, 2, 3, 4, 5, 6"</span>)]
+    </span><span class="kw">pub </span>schema: ::core::option::Option&lt;physical_schema::Schema&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `PhysicalSchema`.
+</span><span class="kw">pub mod </span>physical_schema {
+    <span class="doccomment">/// Schema in Avro JSON format.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>AvroSchema {
+        <span class="doccomment">/// JSON source of the Avro schema.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Schema in Thrift format.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ThriftSchema {
+        <span class="doccomment">/// Thrift IDL source of the schema.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Schema in protocol buffer format.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ProtobufSchema {
+        <span class="doccomment">/// Protocol buffer source of the schema.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Marks a Parquet-encoded data source.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ParquetSchema {}
+    <span class="doccomment">/// Marks an ORC-encoded data source.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>OrcSchema {}
+    <span class="doccomment">/// Marks a CSV-encoded data source.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>CsvSchema {}
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Schema {
+        <span class="doccomment">/// Schema in Avro JSON format.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>Avro(AvroSchema),
+        <span class="doccomment">/// Schema in Thrift format.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>Thrift(ThriftSchema),
+        <span class="doccomment">/// Schema in protocol buffer format.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>Protobuf(ProtobufSchema),
+        <span class="doccomment">/// Marks a Parquet-encoded data source.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>Parquet(ParquetSchema),
+        <span class="doccomment">/// Marks an ORC-encoded data source.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>Orc(OrcSchema),
+        <span class="doccomment">/// Marks a CSV-encoded data source.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>Csv(CsvSchema),
+    }
 }
 <span class="doccomment">/// Common Dataplex fields.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

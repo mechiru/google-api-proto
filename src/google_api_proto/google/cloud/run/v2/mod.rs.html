@@ -4518,71 +4518,6 @@
         </span>MaxRetries(i32),
     }
 }
-<span class="doccomment">/// ExecutionTemplate describes the data an execution should have when created
-/// from a template.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExecutionTemplate {
-    <span class="doccomment">/// Unstructured key value map that can be used to organize and categorize
-    /// objects.
-    /// User-provided labels are shared with Google's billing system, so they can
-    /// be used to filter, or break down billing charges by team, component,
-    /// environment, state, etc. For more information, visit
-    /// &lt;https://cloud.google.com/resource-manager/docs/creating-managing-labels&gt; or
-    /// &lt;https://cloud.google.com/run/docs/configuring/labels.&gt;
-    ///
-    /// &lt;p&gt;Cloud Run API v2 does not support labels with `run.googleapis.com`,
-    /// `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev`
-    /// namespaces, and they will be rejected. All system labels in v1 now have a
-    /// corresponding field in v2 ExecutionTemplate.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Unstructured key value map that may be set by external tools to store and
-    /// arbitrary metadata. They are not queryable and should be preserved
-    /// when modifying objects.
-    ///
-    /// &lt;p&gt;Cloud Run API v2 does not support annotations with `run.googleapis.com`,
-    /// `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev`
-    /// namespaces, and they will be rejected. All system annotations in v1 now
-    /// have a corresponding field in v2 ExecutionTemplate.
-    ///
-    /// &lt;p&gt;This field follows Kubernetes annotations' namespacing, limits, and
-    /// rules.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>annotations: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Specifies the maximum desired number of tasks the execution should run at
-    /// given time. Must be &lt;= task_count.
-    /// When the job is run, if this field is 0 or unset, the maximum possible
-    /// value will be used for that execution.
-    /// The actual number of tasks running in steady state will be less than this
-    /// number when there are fewer tasks waiting to be completed remaining,
-    /// i.e. when the work left to do is less than max parallelism.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>parallelism: i32,
-    <span class="doccomment">/// Specifies the desired number of tasks the execution should run.
-    /// Setting to 1 means that parallelism is limited to 1 and the success of
-    /// that task signals the success of the execution. Defaults to 1.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>task_count: i32,
-    <span class="doccomment">/// Required. Describes the task(s) that will be created when executing an
-    /// execution.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>template: ::core::option::Option&lt;TaskTemplate&gt;,
-}
-<span class="doccomment">/// Effective settings for the current revision
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RevisionScalingStatus {
-    <span class="doccomment">/// The current number of min instances provisioned for this revision.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>desired_min_instance_count: i32,
-}
 <span class="doccomment">/// Holds a single traffic routing entry for the Service. Allocations can be done
 /// to a specific Revision name, or pointing to the latest Ready Revision.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -5070,6 +5005,340 @@
         </span>ExecutionReason(i32),
     }
 }
+<span class="doccomment">/// Request message for obtaining a Task by its full name.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetTaskRequest {
+    <span class="doccomment">/// Required. The full name of the Task.
+    /// Format:
+    /// projects/{project}/locations/{location}/jobs/{job}/executions/{execution}/tasks/{task}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for retrieving a list of Tasks.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListTasksRequest {
+    <span class="doccomment">/// Required. The Execution from which the Tasks should be listed.
+    /// To list all Tasks across Executions of a Job, use "-" instead of Execution
+    /// name. To list all Tasks across Jobs, use "-" instead of Job name. Format:
+    /// projects/{project}/locations/{location}/jobs/{job}/executions/{execution}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Maximum number of Tasks to return in this call.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A page token received from a previous call to ListTasks.
+    /// All other parameters must match.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// If true, returns deleted (but unexpired) resources along with active ones.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>show_deleted: bool,
+}
+<span class="doccomment">/// Response message containing a list of Tasks.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListTasksResponse {
+    <span class="doccomment">/// The resulting list of Tasks.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>tasks: ::prost::alloc::vec::Vec&lt;Task&gt;,
+    <span class="doccomment">/// A token indicating there are more items than page_size. Use it in the next
+    /// ListTasks request to continue.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Task represents a single run of a container to completion.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Task {
+    <span class="doccomment">/// Output only. The unique name of this Task.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Server assigned unique identifier for the Task. The value is a
+    /// UUID4 string and guaranteed to remain unchanged until the resource is
+    /// deleted.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. A number that monotonically increases every time the user
+    /// modifies the desired state.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>generation: i64,
+    <span class="doccomment">/// Output only. Unstructured key value map that can be used to organize and
+    /// categorize objects. User-provided labels are shared with Google's billing
+    /// system, so they can be used to filter, or break down billing charges by
+    /// team, component, environment, state, etc. For more information, visit
+    /// &lt;https://cloud.google.com/resource-manager/docs/creating-managing-labels&gt; or
+    /// &lt;https://cloud.google.com/run/docs/configuring/labels&gt;
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Output only. Unstructured key value map that may
+    /// be set by external tools to store and arbitrary metadata.
+    /// They are not queryable and should be preserved
+    /// when modifying objects.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>annotations: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Output only. Represents time when the task was created by the system.
+    /// It is not guaranteed to be set in happens-before order across separate
+    /// operations.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Represents time when the task was scheduled to run by the
+    /// system. It is not guaranteed to be set in happens-before order across
+    /// separate operations.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"34"</span>)]
+    </span><span class="kw">pub </span>scheduled_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Represents time when the task started to run.
+    /// It is not guaranteed to be set in happens-before order across separate
+    /// operations.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"27"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Represents time when the Task was completed. It is not
+    /// guaranteed to be set in happens-before order across separate operations.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>completion_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The last-modified time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. For a deleted resource, the deletion time. It is only
+    /// populated as a response to a Delete request.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>delete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. For a deleted resource, the time after which it will be
+    /// permamently deleted. It is only populated as a response to a Delete
+    /// request.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The name of the parent Job.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>job: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The name of the parent Execution.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>execution: ::prost::alloc::string::String,
+    <span class="doccomment">/// Holds the single container that defines the unit of execution for this
+    /// task.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>containers: ::prost::alloc::vec::Vec&lt;Container&gt;,
+    <span class="doccomment">/// A list of Volumes to make available to containers.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>volumes: ::prost::alloc::vec::Vec&lt;Volume&gt;,
+    <span class="doccomment">/// Number of retries allowed per Task, before marking this Task failed.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"16"</span>)]
+    </span><span class="kw">pub </span>max_retries: i32,
+    <span class="doccomment">/// Max allowed time duration the Task may be active before the system will
+    /// actively try to mark it failed and kill associated containers. This applies
+    /// per attempt of a task, meaning each retry can run for the full timeout.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"17"</span>)]
+    </span><span class="kw">pub </span>timeout: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// Email address of the IAM service account associated with the Task of a
+    /// Job. The service account represents the identity of the
+    /// running task, and determines what permissions the task has. If
+    /// not provided, the task will use the project's default service account.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"18"</span>)]
+    </span><span class="kw">pub </span>service_account: ::prost::alloc::string::String,
+    <span class="doccomment">/// The execution environment being used to host this Task.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"ExecutionEnvironment"</span>, tag = <span class="string">"20"</span>)]
+    </span><span class="kw">pub </span>execution_environment: i32,
+    <span class="doccomment">/// Output only. Indicates whether the resource's reconciliation is still in
+    /// progress. See comments in `Job.reconciling` for additional information on
+    /// reconciliation process in Cloud Run.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"21"</span>)]
+    </span><span class="kw">pub </span>reconciling: bool,
+    <span class="doccomment">/// Output only. The Condition of this Task, containing its readiness status,
+    /// and detailed error information in case it did not reach the desired state.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"22"</span>)]
+    </span><span class="kw">pub </span>conditions: ::prost::alloc::vec::Vec&lt;Condition&gt;,
+    <span class="doccomment">/// Output only. The generation of this Task. See comments in `Job.reconciling`
+    /// for additional information on reconciliation process in Cloud Run.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"23"</span>)]
+    </span><span class="kw">pub </span>observed_generation: i64,
+    <span class="doccomment">/// Output only. Index of the Task, unique per execution, and beginning at 0.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"24"</span>)]
+    </span><span class="kw">pub </span>index: i32,
+    <span class="doccomment">/// Output only. The number of times this Task was retried.
+    /// Tasks are retried when they fail up to the maxRetries limit.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"25"</span>)]
+    </span><span class="kw">pub </span>retried: i32,
+    <span class="doccomment">/// Output only. Result of the last attempt of this Task.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"26"</span>)]
+    </span><span class="kw">pub </span>last_attempt_result: ::core::option::Option&lt;TaskAttemptResult&gt;,
+    <span class="doccomment">/// Output only. A reference to a customer managed encryption key (CMEK) to use
+    /// to encrypt this container image. For more information, go to
+    /// &lt;https://cloud.google.com/run/docs/securing/using-cmek&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"28"</span>)]
+    </span><span class="kw">pub </span>encryption_key: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. VPC Access configuration to use for this Task. For more
+    /// information, visit
+    /// &lt;https://cloud.google.com/run/docs/configuring/connecting-vpc.&gt;
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"29"</span>)]
+    </span><span class="kw">pub </span>vpc_access: ::core::option::Option&lt;VpcAccess&gt;,
+    <span class="doccomment">/// Output only. URI where logs for this execution can be found in Cloud
+    /// Console.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"32"</span>)]
+    </span><span class="kw">pub </span>log_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Reserved for future use.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"33"</span>)]
+    </span><span class="kw">pub </span>satisfies_pzs: bool,
+    <span class="doccomment">/// Output only. A system-generated fingerprint for this version of the
+    /// resource. May be used to detect modification conflict during updates.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"99"</span>)]
+    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Result of a task attempt.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TaskAttemptResult {
+    <span class="doccomment">/// Output only. The status of this attempt.
+    /// If the status code is OK, then the attempt succeeded.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
+    <span class="doccomment">/// Output only. The exit code of this attempt.
+    /// This may be unset if the container was unable to exit cleanly with a code
+    /// due to some other failure.
+    /// See status field for possible failure details.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>exit_code: i32,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>tasks_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Cloud Run Task Control Plane API.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>TasksClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; TasksClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; TasksClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            TasksClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Gets information about a Task.
+        </span><span class="kw">pub async fn </span>get_task(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetTaskRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Task&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.run.v2.Tasks/GetTask"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new(<span class="string">"google.cloud.run.v2.Tasks"</span>, <span class="string">"GetTask"</span>));
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Lists Tasks from an Execution of a Job.
+        </span><span class="kw">pub async fn </span>list_tasks(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListTasksRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListTasksResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.run.v2.Tasks/ListTasks"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new(<span class="string">"google.cloud.run.v2.Tasks"</span>, <span class="string">"ListTasks"</span>));
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Effective settings for the current revision
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RevisionScalingStatus {
+    <span class="doccomment">/// The current number of min instances provisioned for this revision.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>desired_min_instance_count: i32,
+}
 <span class="doccomment">/// Request message for obtaining a Execution by its full name.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -5471,6 +5740,63 @@
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
     }
+}
+<span class="doccomment">/// ExecutionTemplate describes the data an execution should have when created
+/// from a template.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExecutionTemplate {
+    <span class="doccomment">/// Unstructured key value map that can be used to organize and categorize
+    /// objects.
+    /// User-provided labels are shared with Google's billing system, so they can
+    /// be used to filter, or break down billing charges by team, component,
+    /// environment, state, etc. For more information, visit
+    /// &lt;https://cloud.google.com/resource-manager/docs/creating-managing-labels&gt; or
+    /// &lt;https://cloud.google.com/run/docs/configuring/labels.&gt;
+    ///
+    /// &lt;p&gt;Cloud Run API v2 does not support labels with `run.googleapis.com`,
+    /// `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev`
+    /// namespaces, and they will be rejected. All system labels in v1 now have a
+    /// corresponding field in v2 ExecutionTemplate.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Unstructured key value map that may be set by external tools to store and
+    /// arbitrary metadata. They are not queryable and should be preserved
+    /// when modifying objects.
+    ///
+    /// &lt;p&gt;Cloud Run API v2 does not support annotations with `run.googleapis.com`,
+    /// `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev`
+    /// namespaces, and they will be rejected. All system annotations in v1 now
+    /// have a corresponding field in v2 ExecutionTemplate.
+    ///
+    /// &lt;p&gt;This field follows Kubernetes annotations' namespacing, limits, and
+    /// rules.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>annotations: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Specifies the maximum desired number of tasks the execution should run at
+    /// given time. Must be &lt;= task_count.
+    /// When the job is run, if this field is 0 or unset, the maximum possible
+    /// value will be used for that execution.
+    /// The actual number of tasks running in steady state will be less than this
+    /// number when there are fewer tasks waiting to be completed remaining,
+    /// i.e. when the work left to do is less than max parallelism.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>parallelism: i32,
+    <span class="doccomment">/// Specifies the desired number of tasks the execution should run.
+    /// Setting to 1 means that parallelism is limited to 1 and the success of
+    /// that task signals the success of the execution. Defaults to 1.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>task_count: i32,
+    <span class="doccomment">/// Required. Describes the task(s) that will be created when executing an
+    /// execution.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>template: ::core::option::Option&lt;TaskTemplate&gt;,
 }
 <span class="doccomment">/// Request message for creating a Job.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6202,6 +6528,365 @@
     </span><span class="attr">#[prost(bool, tag = <span class="string">"20"</span>)]
     </span><span class="kw">pub </span>health_check_disabled: bool,
 }
+<span class="doccomment">/// Request message for obtaining a Revision by its full name.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetRevisionRequest {
+    <span class="doccomment">/// Required. The full name of the Revision.
+    /// Format:
+    /// projects/{project}/locations/{location}/services/{service}/revisions/{revision}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for retrieving a list of Revisions.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListRevisionsRequest {
+    <span class="doccomment">/// Required. The Service from which the Revisions should be listed.
+    /// To list all Revisions across Services, use "-" instead of Service name.
+    /// Format:
+    /// projects/{project}/locations/{location}/services/{service}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Maximum number of revisions to return in this call.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A page token received from a previous call to ListRevisions.
+    /// All other parameters must match.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// If true, returns deleted (but unexpired) resources along with active ones.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>show_deleted: bool,
+}
+<span class="doccomment">/// Response message containing a list of Revisions.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListRevisionsResponse {
+    <span class="doccomment">/// The resulting list of Revisions.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>revisions: ::prost::alloc::vec::Vec&lt;Revision&gt;,
+    <span class="doccomment">/// A token indicating there are more items than page_size. Use it in the next
+    /// ListRevisions request to continue.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for deleting a retired Revision.
+/// Revision lifecycle is usually managed by making changes to the parent
+/// Service. Only retired revisions can be deleted with this API.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteRevisionRequest {
+    <span class="doccomment">/// Required. The name of the Revision to delete.
+    /// Format:
+    /// projects/{project}/locations/{location}/services/{service}/revisions/{revision}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Indicates that the request should be validated without actually
+    /// deleting any resources.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>validate_only: bool,
+    <span class="doccomment">/// A system-generated fingerprint for this version of the
+    /// resource. This may be used to detect modification conflict during updates.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A Revision is an immutable snapshot of code and configuration.  A Revision
+/// references a container image. Revisions are only created by updates to its
+/// parent Service.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Revision {
+    <span class="doccomment">/// Output only. The unique name of this Revision.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Server assigned unique identifier for the Revision. The value
+    /// is a UUID4 string and guaranteed to remain unchanged until the resource is
+    /// deleted.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. A number that monotonically increases every time the user
+    /// modifies the desired state.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>generation: i64,
+    <span class="doccomment">/// Output only. Unstructured key value map that can be used to organize and
+    /// categorize objects. User-provided labels are shared with Google's billing
+    /// system, so they can be used to filter, or break down billing charges by
+    /// team, component, environment, state, etc. For more information, visit
+    /// &lt;https://cloud.google.com/resource-manager/docs/creating-managing-labels&gt; or
+    /// &lt;https://cloud.google.com/run/docs/configuring/labels.&gt;
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Output only. Unstructured key value map that may
+    /// be set by external tools to store and arbitrary metadata.
+    /// They are not queryable and should be preserved
+    /// when modifying objects.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>annotations: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Output only. The creation time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The last-modified time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. For a deleted resource, the deletion time. It is only
+    /// populated as a response to a Delete request.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>delete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. For a deleted resource, the time after which it will be
+    /// permamently deleted. It is only populated as a response to a Delete
+    /// request.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The least stable launch stage needed to create this resource, as defined by
+    /// [Google Cloud Platform Launch
+    /// Stages](&lt;https://cloud.google.com/terms/launch-stages&gt;). Cloud Run supports
+    /// `ALPHA`, `BETA`, and `GA`.
+    /// &lt;p&gt;Note that this value might not be what was used
+    /// as input. For example, if ALPHA was provided as input in the parent
+    /// resource, but only BETA and GA-level features are were, this field will be
+    /// BETA.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::super::api::LaunchStage"</span>, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>launch_stage: i32,
+    <span class="doccomment">/// Output only. The name of the parent service.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>service: ::prost::alloc::string::String,
+    <span class="doccomment">/// Scaling settings for this revision.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>scaling: ::core::option::Option&lt;RevisionScaling&gt;,
+    <span class="doccomment">/// VPC Access configuration for this Revision. For more information, visit
+    /// &lt;https://cloud.google.com/run/docs/configuring/connecting-vpc.&gt;
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>vpc_access: ::core::option::Option&lt;VpcAccess&gt;,
+    <span class="doccomment">/// Sets the maximum number of requests that each serving instance can receive.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"34"</span>)]
+    </span><span class="kw">pub </span>max_instance_request_concurrency: i32,
+    <span class="doccomment">/// Max allowed time for an instance to respond to a request.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>timeout: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// Email address of the IAM service account associated with the revision of
+    /// the service. The service account represents the identity of the running
+    /// revision, and determines what permissions the revision has.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"16"</span>)]
+    </span><span class="kw">pub </span>service_account: ::prost::alloc::string::String,
+    <span class="doccomment">/// Holds the single container that defines the unit of execution for this
+    /// Revision.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"17"</span>)]
+    </span><span class="kw">pub </span>containers: ::prost::alloc::vec::Vec&lt;Container&gt;,
+    <span class="doccomment">/// A list of Volumes to make available to containers.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"18"</span>)]
+    </span><span class="kw">pub </span>volumes: ::prost::alloc::vec::Vec&lt;Volume&gt;,
+    <span class="doccomment">/// The execution environment being used to host this Revision.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"ExecutionEnvironment"</span>, tag = <span class="string">"20"</span>)]
+    </span><span class="kw">pub </span>execution_environment: i32,
+    <span class="doccomment">/// A reference to a customer managed encryption key (CMEK) to use to encrypt
+    /// this container image. For more information, go to
+    /// &lt;https://cloud.google.com/run/docs/securing/using-cmek&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"21"</span>)]
+    </span><span class="kw">pub </span>encryption_key: ::prost::alloc::string::String,
+    <span class="doccomment">/// The action to take if the encryption key is revoked.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"EncryptionKeyRevocationAction"</span>, tag = <span class="string">"23"</span>)]
+    </span><span class="kw">pub </span>encryption_key_revocation_action: i32,
+    <span class="doccomment">/// If encryption_key_revocation_action is SHUTDOWN, the duration before
+    /// shutting down all instances. The minimum increment is 1 hour.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"24"</span>)]
+    </span><span class="kw">pub </span>encryption_key_shutdown_duration: ::core::option::Option&lt;
+        ::prost_types::Duration,
+    &gt;,
+    <span class="doccomment">/// Output only. Indicates whether the resource's reconciliation is still in
+    /// progress. See comments in `Service.reconciling` for additional information
+    /// on reconciliation process in Cloud Run.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"30"</span>)]
+    </span><span class="kw">pub </span>reconciling: bool,
+    <span class="doccomment">/// Output only. The Condition of this Revision, containing its readiness
+    /// status, and detailed error information in case it did not reach a serving
+    /// state.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"31"</span>)]
+    </span><span class="kw">pub </span>conditions: ::prost::alloc::vec::Vec&lt;Condition&gt;,
+    <span class="doccomment">/// Output only. The generation of this Revision currently serving traffic. See
+    /// comments in `reconciling` for additional information on reconciliation
+    /// process in Cloud Run.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"32"</span>)]
+    </span><span class="kw">pub </span>observed_generation: i64,
+    <span class="doccomment">/// Output only. The Google Console URI to obtain logs for the Revision.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"33"</span>)]
+    </span><span class="kw">pub </span>log_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Reserved for future use.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"37"</span>)]
+    </span><span class="kw">pub </span>satisfies_pzs: bool,
+    <span class="doccomment">/// Enable session affinity.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"38"</span>)]
+    </span><span class="kw">pub </span>session_affinity: bool,
+    <span class="doccomment">/// Output only. The current effective scaling settings for the revision.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"39"</span>)]
+    </span><span class="kw">pub </span>scaling_status: ::core::option::Option&lt;RevisionScalingStatus&gt;,
+    <span class="doccomment">/// Output only. A system-generated fingerprint for this version of the
+    /// resource. May be used to detect modification conflict during updates.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"99"</span>)]
+    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>revisions_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Cloud Run Revision Control Plane API.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>RevisionsClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; RevisionsClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; RevisionsClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            RevisionsClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Gets information about a Revision.
+        </span><span class="kw">pub async fn </span>get_revision(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetRevisionRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Revision&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.run.v2.Revisions/GetRevision"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new(<span class="string">"google.cloud.run.v2.Revisions"</span>, <span class="string">"GetRevision"</span>));
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Lists Revisions from a given Service, or from a given location.
+        </span><span class="kw">pub async fn </span>list_revisions(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListRevisionsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListRevisionsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.run.v2.Revisions/ListRevisions"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"google.cloud.run.v2.Revisions"</span>, <span class="string">"ListRevisions"</span>),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Deletes a Revision.
+        </span><span class="kw">pub async fn </span>delete_revision(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeleteRevisionRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.run.v2.Revisions/DeleteRevision"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"google.cloud.run.v2.Revisions"</span>, <span class="string">"DeleteRevision"</span>),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
 <span class="doccomment">/// Request message for creating a Service.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -6799,691 +7484,6 @@
             req.extensions_mut()
                 .insert(
                     GrpcMethod::new(<span class="string">"google.cloud.run.v2.Services"</span>, <span class="string">"TestIamPermissions"</span>),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// Request message for obtaining a Task by its full name.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetTaskRequest {
-    <span class="doccomment">/// Required. The full name of the Task.
-    /// Format:
-    /// projects/{project}/locations/{location}/jobs/{job}/executions/{execution}/tasks/{task}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request message for retrieving a list of Tasks.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListTasksRequest {
-    <span class="doccomment">/// Required. The Execution from which the Tasks should be listed.
-    /// To list all Tasks across Executions of a Job, use "-" instead of Execution
-    /// name. To list all Tasks across Jobs, use "-" instead of Job name. Format:
-    /// projects/{project}/locations/{location}/jobs/{job}/executions/{execution}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Maximum number of Tasks to return in this call.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A page token received from a previous call to ListTasks.
-    /// All other parameters must match.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// If true, returns deleted (but unexpired) resources along with active ones.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>show_deleted: bool,
-}
-<span class="doccomment">/// Response message containing a list of Tasks.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListTasksResponse {
-    <span class="doccomment">/// The resulting list of Tasks.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>tasks: ::prost::alloc::vec::Vec&lt;Task&gt;,
-    <span class="doccomment">/// A token indicating there are more items than page_size. Use it in the next
-    /// ListTasks request to continue.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Task represents a single run of a container to completion.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Task {
-    <span class="doccomment">/// Output only. The unique name of this Task.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Server assigned unique identifier for the Task. The value is a
-    /// UUID4 string and guaranteed to remain unchanged until the resource is
-    /// deleted.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. A number that monotonically increases every time the user
-    /// modifies the desired state.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>generation: i64,
-    <span class="doccomment">/// Output only. Unstructured key value map that can be used to organize and
-    /// categorize objects. User-provided labels are shared with Google's billing
-    /// system, so they can be used to filter, or break down billing charges by
-    /// team, component, environment, state, etc. For more information, visit
-    /// &lt;https://cloud.google.com/resource-manager/docs/creating-managing-labels&gt; or
-    /// &lt;https://cloud.google.com/run/docs/configuring/labels&gt;
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Output only. Unstructured key value map that may
-    /// be set by external tools to store and arbitrary metadata.
-    /// They are not queryable and should be preserved
-    /// when modifying objects.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>annotations: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Output only. Represents time when the task was created by the system.
-    /// It is not guaranteed to be set in happens-before order across separate
-    /// operations.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Represents time when the task was scheduled to run by the
-    /// system. It is not guaranteed to be set in happens-before order across
-    /// separate operations.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"34"</span>)]
-    </span><span class="kw">pub </span>scheduled_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Represents time when the task started to run.
-    /// It is not guaranteed to be set in happens-before order across separate
-    /// operations.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"27"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Represents time when the Task was completed. It is not
-    /// guaranteed to be set in happens-before order across separate operations.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>completion_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The last-modified time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. For a deleted resource, the deletion time. It is only
-    /// populated as a response to a Delete request.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>delete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. For a deleted resource, the time after which it will be
-    /// permamently deleted. It is only populated as a response to a Delete
-    /// request.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The name of the parent Job.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>job: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The name of the parent Execution.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>execution: ::prost::alloc::string::String,
-    <span class="doccomment">/// Holds the single container that defines the unit of execution for this
-    /// task.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>containers: ::prost::alloc::vec::Vec&lt;Container&gt;,
-    <span class="doccomment">/// A list of Volumes to make available to containers.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>volumes: ::prost::alloc::vec::Vec&lt;Volume&gt;,
-    <span class="doccomment">/// Number of retries allowed per Task, before marking this Task failed.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"16"</span>)]
-    </span><span class="kw">pub </span>max_retries: i32,
-    <span class="doccomment">/// Max allowed time duration the Task may be active before the system will
-    /// actively try to mark it failed and kill associated containers. This applies
-    /// per attempt of a task, meaning each retry can run for the full timeout.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"17"</span>)]
-    </span><span class="kw">pub </span>timeout: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// Email address of the IAM service account associated with the Task of a
-    /// Job. The service account represents the identity of the
-    /// running task, and determines what permissions the task has. If
-    /// not provided, the task will use the project's default service account.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"18"</span>)]
-    </span><span class="kw">pub </span>service_account: ::prost::alloc::string::String,
-    <span class="doccomment">/// The execution environment being used to host this Task.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"ExecutionEnvironment"</span>, tag = <span class="string">"20"</span>)]
-    </span><span class="kw">pub </span>execution_environment: i32,
-    <span class="doccomment">/// Output only. Indicates whether the resource's reconciliation is still in
-    /// progress. See comments in `Job.reconciling` for additional information on
-    /// reconciliation process in Cloud Run.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"21"</span>)]
-    </span><span class="kw">pub </span>reconciling: bool,
-    <span class="doccomment">/// Output only. The Condition of this Task, containing its readiness status,
-    /// and detailed error information in case it did not reach the desired state.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"22"</span>)]
-    </span><span class="kw">pub </span>conditions: ::prost::alloc::vec::Vec&lt;Condition&gt;,
-    <span class="doccomment">/// Output only. The generation of this Task. See comments in `Job.reconciling`
-    /// for additional information on reconciliation process in Cloud Run.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"23"</span>)]
-    </span><span class="kw">pub </span>observed_generation: i64,
-    <span class="doccomment">/// Output only. Index of the Task, unique per execution, and beginning at 0.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"24"</span>)]
-    </span><span class="kw">pub </span>index: i32,
-    <span class="doccomment">/// Output only. The number of times this Task was retried.
-    /// Tasks are retried when they fail up to the maxRetries limit.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"25"</span>)]
-    </span><span class="kw">pub </span>retried: i32,
-    <span class="doccomment">/// Output only. Result of the last attempt of this Task.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"26"</span>)]
-    </span><span class="kw">pub </span>last_attempt_result: ::core::option::Option&lt;TaskAttemptResult&gt;,
-    <span class="doccomment">/// Output only. A reference to a customer managed encryption key (CMEK) to use
-    /// to encrypt this container image. For more information, go to
-    /// &lt;https://cloud.google.com/run/docs/securing/using-cmek&gt;
-    </span><span class="attr">#[prost(string, tag = <span class="string">"28"</span>)]
-    </span><span class="kw">pub </span>encryption_key: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. VPC Access configuration to use for this Task. For more
-    /// information, visit
-    /// &lt;https://cloud.google.com/run/docs/configuring/connecting-vpc.&gt;
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"29"</span>)]
-    </span><span class="kw">pub </span>vpc_access: ::core::option::Option&lt;VpcAccess&gt;,
-    <span class="doccomment">/// Output only. URI where logs for this execution can be found in Cloud
-    /// Console.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"32"</span>)]
-    </span><span class="kw">pub </span>log_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Reserved for future use.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"33"</span>)]
-    </span><span class="kw">pub </span>satisfies_pzs: bool,
-    <span class="doccomment">/// Output only. A system-generated fingerprint for this version of the
-    /// resource. May be used to detect modification conflict during updates.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"99"</span>)]
-    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Result of a task attempt.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TaskAttemptResult {
-    <span class="doccomment">/// Output only. The status of this attempt.
-    /// If the status code is OK, then the attempt succeeded.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
-    <span class="doccomment">/// Output only. The exit code of this attempt.
-    /// This may be unset if the container was unable to exit cleanly with a code
-    /// due to some other failure.
-    /// See status field for possible failure details.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>exit_code: i32,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>tasks_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Cloud Run Task Control Plane API.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>TasksClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; TasksClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; TasksClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            TasksClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Gets information about a Task.
-        </span><span class="kw">pub async fn </span>get_task(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetTaskRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Task&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.run.v2.Tasks/GetTask"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new(<span class="string">"google.cloud.run.v2.Tasks"</span>, <span class="string">"GetTask"</span>));
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Lists Tasks from an Execution of a Job.
-        </span><span class="kw">pub async fn </span>list_tasks(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListTasksRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListTasksResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.run.v2.Tasks/ListTasks"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new(<span class="string">"google.cloud.run.v2.Tasks"</span>, <span class="string">"ListTasks"</span>));
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// Request message for obtaining a Revision by its full name.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetRevisionRequest {
-    <span class="doccomment">/// Required. The full name of the Revision.
-    /// Format:
-    /// projects/{project}/locations/{location}/services/{service}/revisions/{revision}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request message for retrieving a list of Revisions.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListRevisionsRequest {
-    <span class="doccomment">/// Required. The Service from which the Revisions should be listed.
-    /// To list all Revisions across Services, use "-" instead of Service name.
-    /// Format:
-    /// projects/{project}/locations/{location}/services/{service}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Maximum number of revisions to return in this call.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A page token received from a previous call to ListRevisions.
-    /// All other parameters must match.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// If true, returns deleted (but unexpired) resources along with active ones.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>show_deleted: bool,
-}
-<span class="doccomment">/// Response message containing a list of Revisions.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListRevisionsResponse {
-    <span class="doccomment">/// The resulting list of Revisions.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>revisions: ::prost::alloc::vec::Vec&lt;Revision&gt;,
-    <span class="doccomment">/// A token indicating there are more items than page_size. Use it in the next
-    /// ListRevisions request to continue.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request message for deleting a retired Revision.
-/// Revision lifecycle is usually managed by making changes to the parent
-/// Service. Only retired revisions can be deleted with this API.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteRevisionRequest {
-    <span class="doccomment">/// Required. The name of the Revision to delete.
-    /// Format:
-    /// projects/{project}/locations/{location}/services/{service}/revisions/{revision}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Indicates that the request should be validated without actually
-    /// deleting any resources.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>validate_only: bool,
-    <span class="doccomment">/// A system-generated fingerprint for this version of the
-    /// resource. This may be used to detect modification conflict during updates.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A Revision is an immutable snapshot of code and configuration.  A Revision
-/// references a container image. Revisions are only created by updates to its
-/// parent Service.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Revision {
-    <span class="doccomment">/// Output only. The unique name of this Revision.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Server assigned unique identifier for the Revision. The value
-    /// is a UUID4 string and guaranteed to remain unchanged until the resource is
-    /// deleted.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. A number that monotonically increases every time the user
-    /// modifies the desired state.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>generation: i64,
-    <span class="doccomment">/// Output only. Unstructured key value map that can be used to organize and
-    /// categorize objects. User-provided labels are shared with Google's billing
-    /// system, so they can be used to filter, or break down billing charges by
-    /// team, component, environment, state, etc. For more information, visit
-    /// &lt;https://cloud.google.com/resource-manager/docs/creating-managing-labels&gt; or
-    /// &lt;https://cloud.google.com/run/docs/configuring/labels.&gt;
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Output only. Unstructured key value map that may
-    /// be set by external tools to store and arbitrary metadata.
-    /// They are not queryable and should be preserved
-    /// when modifying objects.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>annotations: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Output only. The creation time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The last-modified time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. For a deleted resource, the deletion time. It is only
-    /// populated as a response to a Delete request.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>delete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. For a deleted resource, the time after which it will be
-    /// permamently deleted. It is only populated as a response to a Delete
-    /// request.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The least stable launch stage needed to create this resource, as defined by
-    /// [Google Cloud Platform Launch
-    /// Stages](&lt;https://cloud.google.com/terms/launch-stages&gt;). Cloud Run supports
-    /// `ALPHA`, `BETA`, and `GA`.
-    /// &lt;p&gt;Note that this value might not be what was used
-    /// as input. For example, if ALPHA was provided as input in the parent
-    /// resource, but only BETA and GA-level features are were, this field will be
-    /// BETA.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::super::api::LaunchStage"</span>, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>launch_stage: i32,
-    <span class="doccomment">/// Output only. The name of the parent service.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>service: ::prost::alloc::string::String,
-    <span class="doccomment">/// Scaling settings for this revision.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>scaling: ::core::option::Option&lt;RevisionScaling&gt;,
-    <span class="doccomment">/// VPC Access configuration for this Revision. For more information, visit
-    /// &lt;https://cloud.google.com/run/docs/configuring/connecting-vpc.&gt;
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>vpc_access: ::core::option::Option&lt;VpcAccess&gt;,
-    <span class="doccomment">/// Sets the maximum number of requests that each serving instance can receive.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"34"</span>)]
-    </span><span class="kw">pub </span>max_instance_request_concurrency: i32,
-    <span class="doccomment">/// Max allowed time for an instance to respond to a request.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>timeout: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// Email address of the IAM service account associated with the revision of
-    /// the service. The service account represents the identity of the running
-    /// revision, and determines what permissions the revision has.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"16"</span>)]
-    </span><span class="kw">pub </span>service_account: ::prost::alloc::string::String,
-    <span class="doccomment">/// Holds the single container that defines the unit of execution for this
-    /// Revision.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"17"</span>)]
-    </span><span class="kw">pub </span>containers: ::prost::alloc::vec::Vec&lt;Container&gt;,
-    <span class="doccomment">/// A list of Volumes to make available to containers.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"18"</span>)]
-    </span><span class="kw">pub </span>volumes: ::prost::alloc::vec::Vec&lt;Volume&gt;,
-    <span class="doccomment">/// The execution environment being used to host this Revision.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"ExecutionEnvironment"</span>, tag = <span class="string">"20"</span>)]
-    </span><span class="kw">pub </span>execution_environment: i32,
-    <span class="doccomment">/// A reference to a customer managed encryption key (CMEK) to use to encrypt
-    /// this container image. For more information, go to
-    /// &lt;https://cloud.google.com/run/docs/securing/using-cmek&gt;
-    </span><span class="attr">#[prost(string, tag = <span class="string">"21"</span>)]
-    </span><span class="kw">pub </span>encryption_key: ::prost::alloc::string::String,
-    <span class="doccomment">/// The action to take if the encryption key is revoked.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"EncryptionKeyRevocationAction"</span>, tag = <span class="string">"23"</span>)]
-    </span><span class="kw">pub </span>encryption_key_revocation_action: i32,
-    <span class="doccomment">/// If encryption_key_revocation_action is SHUTDOWN, the duration before
-    /// shutting down all instances. The minimum increment is 1 hour.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"24"</span>)]
-    </span><span class="kw">pub </span>encryption_key_shutdown_duration: ::core::option::Option&lt;
-        ::prost_types::Duration,
-    &gt;,
-    <span class="doccomment">/// Output only. Indicates whether the resource's reconciliation is still in
-    /// progress. See comments in `Service.reconciling` for additional information
-    /// on reconciliation process in Cloud Run.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"30"</span>)]
-    </span><span class="kw">pub </span>reconciling: bool,
-    <span class="doccomment">/// Output only. The Condition of this Revision, containing its readiness
-    /// status, and detailed error information in case it did not reach a serving
-    /// state.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"31"</span>)]
-    </span><span class="kw">pub </span>conditions: ::prost::alloc::vec::Vec&lt;Condition&gt;,
-    <span class="doccomment">/// Output only. The generation of this Revision currently serving traffic. See
-    /// comments in `reconciling` for additional information on reconciliation
-    /// process in Cloud Run.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"32"</span>)]
-    </span><span class="kw">pub </span>observed_generation: i64,
-    <span class="doccomment">/// Output only. The Google Console URI to obtain logs for the Revision.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"33"</span>)]
-    </span><span class="kw">pub </span>log_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Reserved for future use.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"37"</span>)]
-    </span><span class="kw">pub </span>satisfies_pzs: bool,
-    <span class="doccomment">/// Enable session affinity.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"38"</span>)]
-    </span><span class="kw">pub </span>session_affinity: bool,
-    <span class="doccomment">/// Output only. The current effective scaling settings for the revision.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"39"</span>)]
-    </span><span class="kw">pub </span>scaling_status: ::core::option::Option&lt;RevisionScalingStatus&gt;,
-    <span class="doccomment">/// Output only. A system-generated fingerprint for this version of the
-    /// resource. May be used to detect modification conflict during updates.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"99"</span>)]
-    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>revisions_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Cloud Run Revision Control Plane API.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>RevisionsClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; RevisionsClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; RevisionsClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            RevisionsClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Gets information about a Revision.
-        </span><span class="kw">pub async fn </span>get_revision(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetRevisionRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Revision&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.run.v2.Revisions/GetRevision"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new(<span class="string">"google.cloud.run.v2.Revisions"</span>, <span class="string">"GetRevision"</span>));
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Lists Revisions from a given Service, or from a given location.
-        </span><span class="kw">pub async fn </span>list_revisions(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListRevisionsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListRevisionsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.run.v2.Revisions/ListRevisions"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"google.cloud.run.v2.Revisions"</span>, <span class="string">"ListRevisions"</span>),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Deletes a Revision.
-        </span><span class="kw">pub async fn </span>delete_revision(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeleteRevisionRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.run.v2.Revisions/DeleteRevision"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"google.cloud.run.v2.Revisions"</span>, <span class="string">"DeleteRevision"</span>),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}

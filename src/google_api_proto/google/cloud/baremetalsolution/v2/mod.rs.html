@@ -4461,77 +4461,7 @@
 <a href="#4460" id="4460">4460</a>
 <a href="#4461" id="4461">4461</a>
 <a href="#4462" id="4462">4462</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Performance tier of the Volume.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>VolumePerformanceTier {
-    <span class="doccomment">/// Value is not specified.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Regular volumes, shared aggregates.
-    </span>Shared = <span class="number">1</span>,
-    <span class="doccomment">/// Assigned aggregates.
-    </span>Assigned = <span class="number">2</span>,
-    <span class="doccomment">/// High throughput aggregates.
-    </span>Ht = <span class="number">3</span>,
-}
-<span class="kw">impl </span>VolumePerformanceTier {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            VolumePerformanceTier::Unspecified =&gt; <span class="string">"VOLUME_PERFORMANCE_TIER_UNSPECIFIED"</span>,
-            VolumePerformanceTier::Shared =&gt; <span class="string">"VOLUME_PERFORMANCE_TIER_SHARED"</span>,
-            VolumePerformanceTier::Assigned =&gt; <span class="string">"VOLUME_PERFORMANCE_TIER_ASSIGNED"</span>,
-            VolumePerformanceTier::Ht =&gt; <span class="string">"VOLUME_PERFORMANCE_TIER_HT"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"VOLUME_PERFORMANCE_TIER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"VOLUME_PERFORMANCE_TIER_SHARED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Shared),
-            <span class="string">"VOLUME_PERFORMANCE_TIER_ASSIGNED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Assigned),
-            <span class="string">"VOLUME_PERFORMANCE_TIER_HT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ht),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// The possible values for a workload profile.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>WorkloadProfile {
-    <span class="doccomment">/// The workload profile is in an unknown state.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// The workload profile is generic.
-    </span>Generic = <span class="number">1</span>,
-    <span class="doccomment">/// The workload profile is hana.
-    </span>Hana = <span class="number">2</span>,
-}
-<span class="kw">impl </span>WorkloadProfile {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            WorkloadProfile::Unspecified =&gt; <span class="string">"WORKLOAD_PROFILE_UNSPECIFIED"</span>,
-            WorkloadProfile::Generic =&gt; <span class="string">"WORKLOAD_PROFILE_GENERIC"</span>,
-            WorkloadProfile::Hana =&gt; <span class="string">"WORKLOAD_PROFILE_HANA"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"WORKLOAD_PROFILE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"WORKLOAD_PROFILE_GENERIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Generic),
-            <span class="string">"WORKLOAD_PROFILE_HANA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Hana),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// A storage volume logical unit number (LUN).
+</pre></div><pre class="rust"><code><span class="doccomment">/// A storage volume logical unit number (LUN).
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Lun {
@@ -4758,6 +4688,76 @@
     <span class="doccomment">/// Required. The name of the lun.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Performance tier of the Volume.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>VolumePerformanceTier {
+    <span class="doccomment">/// Value is not specified.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Regular volumes, shared aggregates.
+    </span>Shared = <span class="number">1</span>,
+    <span class="doccomment">/// Assigned aggregates.
+    </span>Assigned = <span class="number">2</span>,
+    <span class="doccomment">/// High throughput aggregates.
+    </span>Ht = <span class="number">3</span>,
+}
+<span class="kw">impl </span>VolumePerformanceTier {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            VolumePerformanceTier::Unspecified =&gt; <span class="string">"VOLUME_PERFORMANCE_TIER_UNSPECIFIED"</span>,
+            VolumePerformanceTier::Shared =&gt; <span class="string">"VOLUME_PERFORMANCE_TIER_SHARED"</span>,
+            VolumePerformanceTier::Assigned =&gt; <span class="string">"VOLUME_PERFORMANCE_TIER_ASSIGNED"</span>,
+            VolumePerformanceTier::Ht =&gt; <span class="string">"VOLUME_PERFORMANCE_TIER_HT"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"VOLUME_PERFORMANCE_TIER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"VOLUME_PERFORMANCE_TIER_SHARED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Shared),
+            <span class="string">"VOLUME_PERFORMANCE_TIER_ASSIGNED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Assigned),
+            <span class="string">"VOLUME_PERFORMANCE_TIER_HT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ht),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// The possible values for a workload profile.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>WorkloadProfile {
+    <span class="doccomment">/// The workload profile is in an unknown state.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// The workload profile is generic.
+    </span>Generic = <span class="number">1</span>,
+    <span class="doccomment">/// The workload profile is hana.
+    </span>Hana = <span class="number">2</span>,
+}
+<span class="kw">impl </span>WorkloadProfile {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            WorkloadProfile::Unspecified =&gt; <span class="string">"WORKLOAD_PROFILE_UNSPECIFIED"</span>,
+            WorkloadProfile::Generic =&gt; <span class="string">"WORKLOAD_PROFILE_GENERIC"</span>,
+            WorkloadProfile::Hana =&gt; <span class="string">"WORKLOAD_PROFILE_HANA"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"WORKLOAD_PROFILE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"WORKLOAD_PROFILE_GENERIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Generic),
+            <span class="string">"WORKLOAD_PROFILE_HANA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Hana),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
 }
 <span class="doccomment">/// A Network.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -5195,6 +5195,942 @@
     <span class="doccomment">/// Required. The new `id` of the network.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>new_network_id: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A provisioning configuration.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProvisioningConfig {
+    <span class="doccomment">/// Output only. The system-generated name of the provisioning config. This
+    /// follows the UUID format.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Instances to be created.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>instances: ::prost::alloc::vec::Vec&lt;InstanceConfig&gt;,
+    <span class="doccomment">/// Networks to be created.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>networks: ::prost::alloc::vec::Vec&lt;NetworkConfig&gt;,
+    <span class="doccomment">/// Volumes to be created.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>volumes: ::prost::alloc::vec::Vec&lt;VolumeConfig&gt;,
+    <span class="doccomment">/// A generated ticket id to track provisioning request.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>ticket_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// A service account to enable customers to access instance credentials upon
+    /// handover.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>handover_service_account: ::prost::alloc::string::String,
+    <span class="doccomment">/// Email provided to send a confirmation with provisioning config to.
+    /// Deprecated in favour of email field in request messages.
+    </span><span class="attr">#[deprecated]
+    #[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. State of ProvisioningConfig.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"provisioning_config::State"</span>, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Optional. Location name of this ProvisioningConfig.
+    /// It is optional only for Intake UI transition period.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Last update timestamp.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. URI to Cloud Console UI view of this provisioning config.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>cloud_console_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// If true, VPC SC is enabled for the cluster.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>vpc_sc_enabled: bool,
+    <span class="doccomment">/// Optional status messages associated with the FAILED state.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>status_message: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The user-defined identifier of the provisioning config.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>custom_id: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `ProvisioningConfig`.
+</span><span class="kw">pub mod </span>provisioning_config {
+    <span class="doccomment">/// The possible states for this ProvisioningConfig.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// State wasn't specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// ProvisioningConfig is a draft and can be freely modified.
+        </span>Draft = <span class="number">1</span>,
+        <span class="doccomment">/// ProvisioningConfig was already submitted and cannot be modified.
+        </span>Submitted = <span class="number">2</span>,
+        <span class="doccomment">/// ProvisioningConfig was in the provisioning state.  Initially this state
+        /// comes from the work order table in big query when SNOW is used.  Later
+        /// this field can be set by the work order API.
+        </span>Provisioning = <span class="number">3</span>,
+        <span class="doccomment">/// ProvisioningConfig was provisioned, meaning the resources exist.
+        </span>Provisioned = <span class="number">4</span>,
+        <span class="doccomment">/// ProvisioningConfig was validated.  A validation tool will be run to
+        /// set this state.
+        </span>Validated = <span class="number">5</span>,
+        <span class="doccomment">/// ProvisioningConfig was canceled.
+        </span>Cancelled = <span class="number">6</span>,
+        <span class="doccomment">/// The request is submitted for provisioning, with error return.
+        </span>Failed = <span class="number">7</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Draft =&gt; <span class="string">"DRAFT"</span>,
+                State::Submitted =&gt; <span class="string">"SUBMITTED"</span>,
+                State::Provisioning =&gt; <span class="string">"PROVISIONING"</span>,
+                State::Provisioned =&gt; <span class="string">"PROVISIONED"</span>,
+                State::Validated =&gt; <span class="string">"VALIDATED"</span>,
+                State::Cancelled =&gt; <span class="string">"CANCELLED"</span>,
+                State::Failed =&gt; <span class="string">"FAILED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"DRAFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Draft),
+                <span class="string">"SUBMITTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Submitted),
+                <span class="string">"PROVISIONING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Provisioning),
+                <span class="string">"PROVISIONED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Provisioned),
+                <span class="string">"VALIDATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Validated),
+                <span class="string">"CANCELLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelled),
+                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Request for SubmitProvisioningConfig.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SubmitProvisioningConfigRequest {
+    <span class="doccomment">/// Required. The parent project and location containing the
+    /// ProvisioningConfig.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The ProvisioningConfig to create.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>provisioning_config: ::core::option::Option&lt;ProvisioningConfig&gt;,
+    <span class="doccomment">/// Optional. Email provided to send a confirmation with provisioning config
+    /// to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response for SubmitProvisioningConfig.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SubmitProvisioningConfigResponse {
+    <span class="doccomment">/// The submitted provisioning config.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>provisioning_config: ::core::option::Option&lt;ProvisioningConfig&gt;,
+}
+<span class="doccomment">/// A provisioning quota for a given project.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProvisioningQuota {
+    <span class="doccomment">/// Output only. The name of the provisioning quota.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The asset type of this provisioning quota.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"provisioning_quota::AssetType"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>asset_type: i32,
+    <span class="doccomment">/// The gcp service of the provisioning quota.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>gcp_service: ::prost::alloc::string::String,
+    <span class="doccomment">/// The specific location of the provisioining quota.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+    <span class="doccomment">/// The available count of the provisioning quota.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>available_count: i32,
+    <span class="doccomment">/// The quota of one asset type.
+    </span><span class="attr">#[prost(oneof = <span class="string">"provisioning_quota::Quota"</span>, tags = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>quota: ::core::option::Option&lt;provisioning_quota::Quota&gt;,
+    <span class="doccomment">/// Available quantity based on asset type.
+    </span><span class="attr">#[prost(oneof = <span class="string">"provisioning_quota::Availability"</span>, tags = <span class="string">"7, 8, 9"</span>)]
+    </span><span class="kw">pub </span>availability: ::core::option::Option&lt;provisioning_quota::Availability&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ProvisioningQuota`.
+</span><span class="kw">pub mod </span>provisioning_quota {
+    <span class="doccomment">/// The available asset types for intake.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>AssetType {
+        <span class="doccomment">/// The unspecified type.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The server asset type.
+        </span>Server = <span class="number">1</span>,
+        <span class="doccomment">/// The storage asset type.
+        </span>Storage = <span class="number">2</span>,
+        <span class="doccomment">/// The network asset type.
+        </span>Network = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>AssetType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                AssetType::Unspecified =&gt; <span class="string">"ASSET_TYPE_UNSPECIFIED"</span>,
+                AssetType::Server =&gt; <span class="string">"ASSET_TYPE_SERVER"</span>,
+                AssetType::Storage =&gt; <span class="string">"ASSET_TYPE_STORAGE"</span>,
+                AssetType::Network =&gt; <span class="string">"ASSET_TYPE_NETWORK"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"ASSET_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"ASSET_TYPE_SERVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Server),
+                <span class="string">"ASSET_TYPE_STORAGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Storage),
+                <span class="string">"ASSET_TYPE_NETWORK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Network),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// The quota of one asset type.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Quota {
+        <span class="doccomment">/// Instance quota.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>InstanceQuota(<span class="kw">super</span>::InstanceQuota),
+    }
+    <span class="doccomment">/// Available quantity based on asset type.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Availability {
+        <span class="doccomment">/// Server count.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"7"</span>)]
+        </span>ServerCount(i64),
+        <span class="doccomment">/// Network bandwidth, Gbps
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"8"</span>)]
+        </span>NetworkBandwidth(i64),
+        <span class="doccomment">/// Storage size (GB).
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"9"</span>)]
+        </span>StorageGib(i64),
+    }
+}
+<span class="doccomment">/// Message for requesting the list of provisioning quotas.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListProvisioningQuotasRequest {
+    <span class="doccomment">/// Required. Parent value for ListProvisioningQuotasRequest.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Requested page size. The server might return fewer items than requested.
+    /// If unspecified, server will pick an appropriate default.
+    /// Notice that page_size field is not supported and won't be respected in
+    /// the API request for now, will be updated when pagination is supported.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A token identifying a page of results from the server.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response message for the list of provisioning quotas.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListProvisioningQuotasResponse {
+    <span class="doccomment">/// The provisioning quotas registered in this project.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>provisioning_quotas: ::prost::alloc::vec::Vec&lt;ProvisioningQuota&gt;,
+    <span class="doccomment">/// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Configuration parameters for a new instance.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>InstanceConfig {
+    <span class="doccomment">/// Output only. The name of the instance config.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// A transient unique identifier to idenfity an instance within an
+    /// ProvisioningConfig request.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Instance type.
+    /// [Available
+    /// types](&lt;https://cloud.google.com/bare-metal/docs/bms-planning#server_configurations&gt;)
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>instance_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Whether the instance should be provisioned with Hyperthreading enabled.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>hyperthreading: bool,
+    <span class="doccomment">/// OS image to initialize the instance.
+    /// [Available
+    /// images](&lt;https://cloud.google.com/bare-metal/docs/bms-planning#server_configurations&gt;)
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>os_image: ::prost::alloc::string::String,
+    <span class="doccomment">/// Client network address. Filled if InstanceConfig.multivlan_config is false.
+    </span><span class="attr">#[deprecated]
+    #[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>client_network: ::core::option::Option&lt;instance_config::NetworkAddress&gt;,
+    <span class="doccomment">/// Private network address, if any. Filled if InstanceConfig.multivlan_config
+    /// is false.
+    </span><span class="attr">#[deprecated]
+    #[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>private_network: ::core::option::Option&lt;instance_config::NetworkAddress&gt;,
+    <span class="doccomment">/// User note field, it can be used by customers to add additional information
+    /// for the BMS Ops team .
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>user_note: ::prost::alloc::string::String,
+    <span class="doccomment">/// If true networks can be from different projects of the same vendor account.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>account_networks_enabled: bool,
+    <span class="doccomment">/// The type of network configuration on the instance.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"instance_config::NetworkConfig"</span>, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>network_config: i32,
+    <span class="doccomment">/// Server network template name. Filled if InstanceConfig.multivlan_config is
+    /// true.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>network_template: ::prost::alloc::string::String,
+    <span class="doccomment">/// List of logical interfaces for the instance. The number of logical
+    /// interfaces will be the same as number of hardware bond/nic on the chosen
+    /// network template. Filled if InstanceConfig.multivlan_config is true.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>logical_interfaces: ::prost::alloc::vec::Vec&lt;LogicalInterface&gt;,
+    <span class="doccomment">/// List of names of ssh keys used to provision the instance.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>ssh_key_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `InstanceConfig`.
+</span><span class="kw">pub mod </span>instance_config {
+    <span class="doccomment">/// A network.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>NetworkAddress {
+        <span class="doccomment">/// Id of the network to use, within the same ProvisioningConfig request.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>network_id: ::prost::alloc::string::String,
+        <span class="doccomment">/// IPv4 address to be assigned to the server.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>address: ::prost::alloc::string::String,
+        <span class="doccomment">/// Name of the existing network to use.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>existing_network_id: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// The network configuration of the instance.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>NetworkConfig {
+        <span class="doccomment">/// The unspecified network configuration.
+        </span>NetworkconfigUnspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Instance part of single client network and single private network.
+        </span>SingleVlan = <span class="number">1</span>,
+        <span class="doccomment">/// Instance part of multiple (or single) client networks and private
+        /// networks.
+        </span>MultiVlan = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>NetworkConfig {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                NetworkConfig::NetworkconfigUnspecified =&gt; <span class="string">"NETWORKCONFIG_UNSPECIFIED"</span>,
+                NetworkConfig::SingleVlan =&gt; <span class="string">"SINGLE_VLAN"</span>,
+                NetworkConfig::MultiVlan =&gt; <span class="string">"MULTI_VLAN"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"NETWORKCONFIG_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NetworkconfigUnspecified),
+                <span class="string">"SINGLE_VLAN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SingleVlan),
+                <span class="string">"MULTI_VLAN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MultiVlan),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Configuration parameters for a new volume.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>VolumeConfig {
+    <span class="doccomment">/// Output only. The name of the volume config.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// A transient unique identifier to identify a volume within an
+    /// ProvisioningConfig request.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Whether snapshots should be enabled.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>snapshots_enabled: bool,
+    <span class="doccomment">/// The type of this Volume.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"volume_config::Type"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+    <span class="doccomment">/// Volume protocol.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"volume_config::Protocol"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>protocol: i32,
+    <span class="doccomment">/// The requested size of this volume, in GB.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>size_gb: i32,
+    <span class="doccomment">/// LUN ranges to be configured. Set only when protocol is PROTOCOL_FC.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>lun_ranges: ::prost::alloc::vec::Vec&lt;volume_config::LunRange&gt;,
+    <span class="doccomment">/// Machine ids connected to this volume. Set only when protocol is
+    /// PROTOCOL_FC.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>machine_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// NFS exports. Set only when protocol is PROTOCOL_NFS.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>nfs_exports: ::prost::alloc::vec::Vec&lt;volume_config::NfsExport&gt;,
+    <span class="doccomment">/// User note field, it can be used by customers to add additional information
+    /// for the BMS Ops team .
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>user_note: ::prost::alloc::string::String,
+    <span class="doccomment">/// The GCP service of the storage volume. Available gcp_service are in
+    /// &lt;https://cloud.google.com/bare-metal/docs/bms-planning.&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>gcp_service: ::prost::alloc::string::String,
+    <span class="doccomment">/// Performance tier of the Volume.
+    /// Default is SHARED.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"VolumePerformanceTier"</span>, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>performance_tier: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `VolumeConfig`.
+</span><span class="kw">pub mod </span>volume_config {
+    <span class="doccomment">/// A LUN(Logical Unit Number) range.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>LunRange {
+        <span class="doccomment">/// Number of LUNs to create.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>quantity: i32,
+        <span class="doccomment">/// The requested size of each LUN, in GB.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>size_gb: i32,
+    }
+    <span class="doccomment">/// A NFS export entry.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>NfsExport {
+        <span class="doccomment">/// Network to use to publish the export.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>network_id: ::prost::alloc::string::String,
+        <span class="doccomment">/// Export permissions.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"nfs_export::Permissions"</span>, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>permissions: i32,
+        <span class="doccomment">/// Disable root squashing, which is a feature of NFS.
+        /// Root squash is a special mapping of the remote superuser (root) identity
+        /// when using identity authentication.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>no_root_squash: bool,
+        <span class="doccomment">/// Allow the setuid flag.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
+        </span><span class="kw">pub </span>allow_suid: bool,
+        <span class="doccomment">/// Allow dev flag in NfsShare AllowedClientsRequest.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
+        </span><span class="kw">pub </span>allow_dev: bool,
+        <span class="doccomment">/// A client object.
+        </span><span class="attr">#[prost(oneof = <span class="string">"nfs_export::Client"</span>, tags = <span class="string">"2, 3"</span>)]
+        </span><span class="kw">pub </span>client: ::core::option::Option&lt;nfs_export::Client&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `NfsExport`.
+    </span><span class="kw">pub mod </span>nfs_export {
+        <span class="doccomment">/// Permissions that can granted for an export.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>Permissions {
+            <span class="doccomment">/// Unspecified value.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Read-only permission.
+            </span>ReadOnly = <span class="number">1</span>,
+            <span class="doccomment">/// Read-write permission.
+            </span>ReadWrite = <span class="number">2</span>,
+        }
+        <span class="kw">impl </span>Permissions {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    Permissions::Unspecified =&gt; <span class="string">"PERMISSIONS_UNSPECIFIED"</span>,
+                    Permissions::ReadOnly =&gt; <span class="string">"READ_ONLY"</span>,
+                    Permissions::ReadWrite =&gt; <span class="string">"READ_WRITE"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"PERMISSIONS_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"READ_ONLY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ReadOnly),
+                    <span class="string">"READ_WRITE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ReadWrite),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+        <span class="doccomment">/// A client object.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        </span><span class="kw">pub enum </span>Client {
+            <span class="doccomment">/// Either a single machine, identified by an ID, or a comma-separated
+            /// list of machine IDs.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+            </span>MachineId(::prost::alloc::string::String),
+            <span class="doccomment">/// A CIDR range.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+            </span>Cidr(::prost::alloc::string::String),
+        }
+    }
+    <span class="doccomment">/// The types of Volumes.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Type {
+        <span class="doccomment">/// The unspecified type.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// This Volume is on flash.
+        </span>Flash = <span class="number">1</span>,
+        <span class="doccomment">/// This Volume is on disk.
+        </span>Disk = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Type {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
+                Type::Flash =&gt; <span class="string">"FLASH"</span>,
+                Type::Disk =&gt; <span class="string">"DISK"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"FLASH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Flash),
+                <span class="string">"DISK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Disk),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// The protocol used to access the volume.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Protocol {
+        <span class="doccomment">/// Unspecified value.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Fibre channel.
+        </span>Fc = <span class="number">1</span>,
+        <span class="doccomment">/// Network file system.
+        </span>Nfs = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Protocol {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Protocol::Unspecified =&gt; <span class="string">"PROTOCOL_UNSPECIFIED"</span>,
+                Protocol::Fc =&gt; <span class="string">"PROTOCOL_FC"</span>,
+                Protocol::Nfs =&gt; <span class="string">"PROTOCOL_NFS"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"PROTOCOL_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"PROTOCOL_FC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Fc),
+                <span class="string">"PROTOCOL_NFS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Nfs),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Configuration parameters for a new network.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>NetworkConfig {
+    <span class="doccomment">/// Output only. The name of the network config.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// A transient unique identifier to identify a volume within an
+    /// ProvisioningConfig request.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The type of this network, either Client or Private.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"network_config::Type"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+    <span class="doccomment">/// Interconnect bandwidth. Set only when type is CLIENT.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"network_config::Bandwidth"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>bandwidth: i32,
+    <span class="doccomment">/// List of VLAN attachments. As of now there are always 2 attachments, but it
+    /// is going to change in  the future (multi vlan).
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>vlan_attachments: ::prost::alloc::vec::Vec&lt;network_config::IntakeVlanAttachment&gt;,
+    <span class="doccomment">/// CIDR range of the network.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>cidr: ::prost::alloc::string::String,
+    <span class="doccomment">/// Service CIDR, if any.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"network_config::ServiceCidr"</span>, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>service_cidr: i32,
+    <span class="doccomment">/// User note field, it can be used by customers to add additional information
+    /// for the BMS Ops team .
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>user_note: ::prost::alloc::string::String,
+    <span class="doccomment">/// The GCP service of the network. Available gcp_service are in
+    /// &lt;https://cloud.google.com/bare-metal/docs/bms-planning.&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>gcp_service: ::prost::alloc::string::String,
+    <span class="doccomment">/// Whether the VLAN attachment pair is located in the same project.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>vlan_same_project: bool,
+    <span class="doccomment">/// The JumboFramesEnabled option for customer to set.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>jumbo_frames_enabled: bool,
+}
+<span class="doccomment">/// Nested message and enum types in `NetworkConfig`.
+</span><span class="kw">pub mod </span>network_config {
+    <span class="doccomment">/// A GCP vlan attachment.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>IntakeVlanAttachment {
+        <span class="doccomment">/// Identifier of the VLAN attachment.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+        <span class="doccomment">/// Attachment pairing key.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>pairing_key: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Network type.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Type {
+        <span class="doccomment">/// Unspecified value.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Client network, that is a network peered to a GCP VPC.
+        </span>Client = <span class="number">1</span>,
+        <span class="doccomment">/// Private network, that is a network local to the BMS POD.
+        </span>Private = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Type {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
+                Type::Client =&gt; <span class="string">"CLIENT"</span>,
+                Type::Private =&gt; <span class="string">"PRIVATE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CLIENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Client),
+                <span class="string">"PRIVATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Private),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Interconnect bandwidth.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Bandwidth {
+        <span class="doccomment">/// Unspecified value.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// 1 Gbps.
+        </span>Bw1Gbps = <span class="number">1</span>,
+        <span class="doccomment">/// 2 Gbps.
+        </span>Bw2Gbps = <span class="number">2</span>,
+        <span class="doccomment">/// 5 Gbps.
+        </span>Bw5Gbps = <span class="number">3</span>,
+        <span class="doccomment">/// 10 Gbps.
+        </span>Bw10Gbps = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>Bandwidth {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Bandwidth::Unspecified =&gt; <span class="string">"BANDWIDTH_UNSPECIFIED"</span>,
+                Bandwidth::Bw1Gbps =&gt; <span class="string">"BW_1_GBPS"</span>,
+                Bandwidth::Bw2Gbps =&gt; <span class="string">"BW_2_GBPS"</span>,
+                Bandwidth::Bw5Gbps =&gt; <span class="string">"BW_5_GBPS"</span>,
+                Bandwidth::Bw10Gbps =&gt; <span class="string">"BW_10_GBPS"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"BANDWIDTH_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"BW_1_GBPS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bw1Gbps),
+                <span class="string">"BW_2_GBPS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bw2Gbps),
+                <span class="string">"BW_5_GBPS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bw5Gbps),
+                <span class="string">"BW_10_GBPS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bw10Gbps),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Service network block.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ServiceCidr {
+        <span class="doccomment">/// Unspecified value.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Services are disabled for the given network.
+        </span>Disabled = <span class="number">1</span>,
+        <span class="doccomment">/// Use the highest /26 block of the network to host services.
+        </span>High26 = <span class="number">2</span>,
+        <span class="doccomment">/// Use the highest /27 block of the network to host services.
+        </span>High27 = <span class="number">3</span>,
+        <span class="doccomment">/// Use the highest /28 block of the network to host services.
+        </span>High28 = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>ServiceCidr {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ServiceCidr::Unspecified =&gt; <span class="string">"SERVICE_CIDR_UNSPECIFIED"</span>,
+                ServiceCidr::Disabled =&gt; <span class="string">"DISABLED"</span>,
+                ServiceCidr::High26 =&gt; <span class="string">"HIGH_26"</span>,
+                ServiceCidr::High27 =&gt; <span class="string">"HIGH_27"</span>,
+                ServiceCidr::High28 =&gt; <span class="string">"HIGH_28"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"SERVICE_CIDR_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Disabled),
+                <span class="string">"HIGH_26" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High26),
+                <span class="string">"HIGH_27" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High27),
+                <span class="string">"HIGH_28" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High28),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A resource budget.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>InstanceQuota {
+    <span class="doccomment">/// Output only. The name of the instance quota.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Instance type.
+    /// Deprecated: use gcp_service.
+    </span><span class="attr">#[deprecated]
+    #[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>instance_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// The gcp service of the provisioning quota.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>gcp_service: ::prost::alloc::string::String,
+    <span class="doccomment">/// Location where the quota applies.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+    <span class="doccomment">/// Number of machines than can be created for the given location and
+    /// instance_type.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>available_machine_count: i32,
+}
+<span class="doccomment">/// Request for GetProvisioningConfig.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetProvisioningConfigRequest {
+    <span class="doccomment">/// Required. Name of the ProvisioningConfig.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request for CreateProvisioningConfig.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateProvisioningConfigRequest {
+    <span class="doccomment">/// Required. The parent project and location containing the
+    /// ProvisioningConfig.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The ProvisioningConfig to create.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>provisioning_config: ::core::option::Option&lt;ProvisioningConfig&gt;,
+    <span class="doccomment">/// Optional. Email provided to send a confirmation with provisioning config
+    /// to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Message for updating a ProvisioningConfig.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateProvisioningConfigRequest {
+    <span class="doccomment">/// Required. The ProvisioningConfig to update.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>provisioning_config: ::core::option::Option&lt;ProvisioningConfig&gt;,
+    <span class="doccomment">/// Required. The list of fields to update.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+    <span class="doccomment">/// Optional. Email provided to send a confirmation with provisioning config
+    /// to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Operation System image.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>OsImage {
+    <span class="doccomment">/// Output only. OS Image's unique name.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// OS Image code.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>code: ::prost::alloc::string::String,
+    <span class="doccomment">/// OS Image description.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Instance types this image is applicable to.
+    /// [Available
+    /// types](&lt;https://cloud.google.com/bare-metal/docs/bms-planning#server_configurations&gt;)
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>applicable_instance_types: ::prost::alloc::vec::Vec&lt;
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Network templates that can be used with this OS Image.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>supported_network_templates: ::prost::alloc::vec::Vec&lt;
+        ::prost::alloc::string::String,
+    &gt;,
+}
+<span class="doccomment">/// Request for getting all available OS images.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListOsImagesRequest {
+    <span class="doccomment">/// Required. Parent value for ListProvisioningQuotasRequest.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Requested page size. The server might return fewer items than requested.
+    /// If unspecified, server will pick an appropriate default.
+    /// Notice that page_size field is not supported and won't be respected in
+    /// the API request for now, will be updated when pagination is supported.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A token identifying a page of results from the server.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request for getting all available OS images.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListOsImagesResponse {
+    <span class="doccomment">/// The OS images available.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>os_images: ::prost::alloc::vec::Vec&lt;OsImage&gt;,
+    <span class="doccomment">/// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// A storage volume.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6325,942 +7261,6 @@
     <span class="doccomment">/// Required. The name of the NFS share to delete.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Operation System image.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OsImage {
-    <span class="doccomment">/// Output only. OS Image's unique name.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// OS Image code.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>code: ::prost::alloc::string::String,
-    <span class="doccomment">/// OS Image description.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Instance types this image is applicable to.
-    /// [Available
-    /// types](&lt;https://cloud.google.com/bare-metal/docs/bms-planning#server_configurations&gt;)
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>applicable_instance_types: ::prost::alloc::vec::Vec&lt;
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Network templates that can be used with this OS Image.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>supported_network_templates: ::prost::alloc::vec::Vec&lt;
-        ::prost::alloc::string::String,
-    &gt;,
-}
-<span class="doccomment">/// Request for getting all available OS images.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListOsImagesRequest {
-    <span class="doccomment">/// Required. Parent value for ListProvisioningQuotasRequest.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Requested page size. The server might return fewer items than requested.
-    /// If unspecified, server will pick an appropriate default.
-    /// Notice that page_size field is not supported and won't be respected in
-    /// the API request for now, will be updated when pagination is supported.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A token identifying a page of results from the server.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request for getting all available OS images.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListOsImagesResponse {
-    <span class="doccomment">/// The OS images available.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>os_images: ::prost::alloc::vec::Vec&lt;OsImage&gt;,
-    <span class="doccomment">/// Token to retrieve the next page of results, or empty if there are no more
-    /// results in the list.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A provisioning configuration.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProvisioningConfig {
-    <span class="doccomment">/// Output only. The system-generated name of the provisioning config. This
-    /// follows the UUID format.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Instances to be created.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>instances: ::prost::alloc::vec::Vec&lt;InstanceConfig&gt;,
-    <span class="doccomment">/// Networks to be created.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>networks: ::prost::alloc::vec::Vec&lt;NetworkConfig&gt;,
-    <span class="doccomment">/// Volumes to be created.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>volumes: ::prost::alloc::vec::Vec&lt;VolumeConfig&gt;,
-    <span class="doccomment">/// A generated ticket id to track provisioning request.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>ticket_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// A service account to enable customers to access instance credentials upon
-    /// handover.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>handover_service_account: ::prost::alloc::string::String,
-    <span class="doccomment">/// Email provided to send a confirmation with provisioning config to.
-    /// Deprecated in favour of email field in request messages.
-    </span><span class="attr">#[deprecated]
-    #[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. State of ProvisioningConfig.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"provisioning_config::State"</span>, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Optional. Location name of this ProvisioningConfig.
-    /// It is optional only for Intake UI transition period.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Last update timestamp.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. URI to Cloud Console UI view of this provisioning config.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>cloud_console_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// If true, VPC SC is enabled for the cluster.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>vpc_sc_enabled: bool,
-    <span class="doccomment">/// Optional status messages associated with the FAILED state.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>status_message: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The user-defined identifier of the provisioning config.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>custom_id: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `ProvisioningConfig`.
-</span><span class="kw">pub mod </span>provisioning_config {
-    <span class="doccomment">/// The possible states for this ProvisioningConfig.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// State wasn't specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// ProvisioningConfig is a draft and can be freely modified.
-        </span>Draft = <span class="number">1</span>,
-        <span class="doccomment">/// ProvisioningConfig was already submitted and cannot be modified.
-        </span>Submitted = <span class="number">2</span>,
-        <span class="doccomment">/// ProvisioningConfig was in the provisioning state.  Initially this state
-        /// comes from the work order table in big query when SNOW is used.  Later
-        /// this field can be set by the work order API.
-        </span>Provisioning = <span class="number">3</span>,
-        <span class="doccomment">/// ProvisioningConfig was provisioned, meaning the resources exist.
-        </span>Provisioned = <span class="number">4</span>,
-        <span class="doccomment">/// ProvisioningConfig was validated.  A validation tool will be run to
-        /// set this state.
-        </span>Validated = <span class="number">5</span>,
-        <span class="doccomment">/// ProvisioningConfig was canceled.
-        </span>Cancelled = <span class="number">6</span>,
-        <span class="doccomment">/// The request is submitted for provisioning, with error return.
-        </span>Failed = <span class="number">7</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Draft =&gt; <span class="string">"DRAFT"</span>,
-                State::Submitted =&gt; <span class="string">"SUBMITTED"</span>,
-                State::Provisioning =&gt; <span class="string">"PROVISIONING"</span>,
-                State::Provisioned =&gt; <span class="string">"PROVISIONED"</span>,
-                State::Validated =&gt; <span class="string">"VALIDATED"</span>,
-                State::Cancelled =&gt; <span class="string">"CANCELLED"</span>,
-                State::Failed =&gt; <span class="string">"FAILED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"DRAFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Draft),
-                <span class="string">"SUBMITTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Submitted),
-                <span class="string">"PROVISIONING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Provisioning),
-                <span class="string">"PROVISIONED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Provisioned),
-                <span class="string">"VALIDATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Validated),
-                <span class="string">"CANCELLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelled),
-                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Request for SubmitProvisioningConfig.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SubmitProvisioningConfigRequest {
-    <span class="doccomment">/// Required. The parent project and location containing the
-    /// ProvisioningConfig.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The ProvisioningConfig to create.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>provisioning_config: ::core::option::Option&lt;ProvisioningConfig&gt;,
-    <span class="doccomment">/// Optional. Email provided to send a confirmation with provisioning config
-    /// to.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response for SubmitProvisioningConfig.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SubmitProvisioningConfigResponse {
-    <span class="doccomment">/// The submitted provisioning config.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>provisioning_config: ::core::option::Option&lt;ProvisioningConfig&gt;,
-}
-<span class="doccomment">/// A provisioning quota for a given project.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProvisioningQuota {
-    <span class="doccomment">/// Output only. The name of the provisioning quota.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The asset type of this provisioning quota.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"provisioning_quota::AssetType"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>asset_type: i32,
-    <span class="doccomment">/// The gcp service of the provisioning quota.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>gcp_service: ::prost::alloc::string::String,
-    <span class="doccomment">/// The specific location of the provisioining quota.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
-    <span class="doccomment">/// The available count of the provisioning quota.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>available_count: i32,
-    <span class="doccomment">/// The quota of one asset type.
-    </span><span class="attr">#[prost(oneof = <span class="string">"provisioning_quota::Quota"</span>, tags = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>quota: ::core::option::Option&lt;provisioning_quota::Quota&gt;,
-    <span class="doccomment">/// Available quantity based on asset type.
-    </span><span class="attr">#[prost(oneof = <span class="string">"provisioning_quota::Availability"</span>, tags = <span class="string">"7, 8, 9"</span>)]
-    </span><span class="kw">pub </span>availability: ::core::option::Option&lt;provisioning_quota::Availability&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ProvisioningQuota`.
-</span><span class="kw">pub mod </span>provisioning_quota {
-    <span class="doccomment">/// The available asset types for intake.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>AssetType {
-        <span class="doccomment">/// The unspecified type.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The server asset type.
-        </span>Server = <span class="number">1</span>,
-        <span class="doccomment">/// The storage asset type.
-        </span>Storage = <span class="number">2</span>,
-        <span class="doccomment">/// The network asset type.
-        </span>Network = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>AssetType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                AssetType::Unspecified =&gt; <span class="string">"ASSET_TYPE_UNSPECIFIED"</span>,
-                AssetType::Server =&gt; <span class="string">"ASSET_TYPE_SERVER"</span>,
-                AssetType::Storage =&gt; <span class="string">"ASSET_TYPE_STORAGE"</span>,
-                AssetType::Network =&gt; <span class="string">"ASSET_TYPE_NETWORK"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"ASSET_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"ASSET_TYPE_SERVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Server),
-                <span class="string">"ASSET_TYPE_STORAGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Storage),
-                <span class="string">"ASSET_TYPE_NETWORK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Network),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// The quota of one asset type.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Quota {
-        <span class="doccomment">/// Instance quota.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>InstanceQuota(<span class="kw">super</span>::InstanceQuota),
-    }
-    <span class="doccomment">/// Available quantity based on asset type.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Availability {
-        <span class="doccomment">/// Server count.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"7"</span>)]
-        </span>ServerCount(i64),
-        <span class="doccomment">/// Network bandwidth, Gbps
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"8"</span>)]
-        </span>NetworkBandwidth(i64),
-        <span class="doccomment">/// Storage size (GB).
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"9"</span>)]
-        </span>StorageGib(i64),
-    }
-}
-<span class="doccomment">/// Message for requesting the list of provisioning quotas.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListProvisioningQuotasRequest {
-    <span class="doccomment">/// Required. Parent value for ListProvisioningQuotasRequest.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Requested page size. The server might return fewer items than requested.
-    /// If unspecified, server will pick an appropriate default.
-    /// Notice that page_size field is not supported and won't be respected in
-    /// the API request for now, will be updated when pagination is supported.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A token identifying a page of results from the server.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response message for the list of provisioning quotas.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListProvisioningQuotasResponse {
-    <span class="doccomment">/// The provisioning quotas registered in this project.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>provisioning_quotas: ::prost::alloc::vec::Vec&lt;ProvisioningQuota&gt;,
-    <span class="doccomment">/// Token to retrieve the next page of results, or empty if there are no more
-    /// results in the list.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Configuration parameters for a new instance.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>InstanceConfig {
-    <span class="doccomment">/// Output only. The name of the instance config.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// A transient unique identifier to idenfity an instance within an
-    /// ProvisioningConfig request.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Instance type.
-    /// [Available
-    /// types](&lt;https://cloud.google.com/bare-metal/docs/bms-planning#server_configurations&gt;)
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>instance_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Whether the instance should be provisioned with Hyperthreading enabled.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>hyperthreading: bool,
-    <span class="doccomment">/// OS image to initialize the instance.
-    /// [Available
-    /// images](&lt;https://cloud.google.com/bare-metal/docs/bms-planning#server_configurations&gt;)
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>os_image: ::prost::alloc::string::String,
-    <span class="doccomment">/// Client network address. Filled if InstanceConfig.multivlan_config is false.
-    </span><span class="attr">#[deprecated]
-    #[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>client_network: ::core::option::Option&lt;instance_config::NetworkAddress&gt;,
-    <span class="doccomment">/// Private network address, if any. Filled if InstanceConfig.multivlan_config
-    /// is false.
-    </span><span class="attr">#[deprecated]
-    #[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>private_network: ::core::option::Option&lt;instance_config::NetworkAddress&gt;,
-    <span class="doccomment">/// User note field, it can be used by customers to add additional information
-    /// for the BMS Ops team .
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>user_note: ::prost::alloc::string::String,
-    <span class="doccomment">/// If true networks can be from different projects of the same vendor account.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>account_networks_enabled: bool,
-    <span class="doccomment">/// The type of network configuration on the instance.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"instance_config::NetworkConfig"</span>, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>network_config: i32,
-    <span class="doccomment">/// Server network template name. Filled if InstanceConfig.multivlan_config is
-    /// true.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>network_template: ::prost::alloc::string::String,
-    <span class="doccomment">/// List of logical interfaces for the instance. The number of logical
-    /// interfaces will be the same as number of hardware bond/nic on the chosen
-    /// network template. Filled if InstanceConfig.multivlan_config is true.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>logical_interfaces: ::prost::alloc::vec::Vec&lt;LogicalInterface&gt;,
-    <span class="doccomment">/// List of names of ssh keys used to provision the instance.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>ssh_key_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `InstanceConfig`.
-</span><span class="kw">pub mod </span>instance_config {
-    <span class="doccomment">/// A network.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>NetworkAddress {
-        <span class="doccomment">/// Id of the network to use, within the same ProvisioningConfig request.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>network_id: ::prost::alloc::string::String,
-        <span class="doccomment">/// IPv4 address to be assigned to the server.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>address: ::prost::alloc::string::String,
-        <span class="doccomment">/// Name of the existing network to use.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>existing_network_id: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// The network configuration of the instance.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>NetworkConfig {
-        <span class="doccomment">/// The unspecified network configuration.
-        </span>NetworkconfigUnspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Instance part of single client network and single private network.
-        </span>SingleVlan = <span class="number">1</span>,
-        <span class="doccomment">/// Instance part of multiple (or single) client networks and private
-        /// networks.
-        </span>MultiVlan = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>NetworkConfig {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                NetworkConfig::NetworkconfigUnspecified =&gt; <span class="string">"NETWORKCONFIG_UNSPECIFIED"</span>,
-                NetworkConfig::SingleVlan =&gt; <span class="string">"SINGLE_VLAN"</span>,
-                NetworkConfig::MultiVlan =&gt; <span class="string">"MULTI_VLAN"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"NETWORKCONFIG_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NetworkconfigUnspecified),
-                <span class="string">"SINGLE_VLAN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SingleVlan),
-                <span class="string">"MULTI_VLAN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MultiVlan),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Configuration parameters for a new volume.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VolumeConfig {
-    <span class="doccomment">/// Output only. The name of the volume config.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// A transient unique identifier to identify a volume within an
-    /// ProvisioningConfig request.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Whether snapshots should be enabled.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>snapshots_enabled: bool,
-    <span class="doccomment">/// The type of this Volume.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"volume_config::Type"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-    <span class="doccomment">/// Volume protocol.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"volume_config::Protocol"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>protocol: i32,
-    <span class="doccomment">/// The requested size of this volume, in GB.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>size_gb: i32,
-    <span class="doccomment">/// LUN ranges to be configured. Set only when protocol is PROTOCOL_FC.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>lun_ranges: ::prost::alloc::vec::Vec&lt;volume_config::LunRange&gt;,
-    <span class="doccomment">/// Machine ids connected to this volume. Set only when protocol is
-    /// PROTOCOL_FC.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>machine_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// NFS exports. Set only when protocol is PROTOCOL_NFS.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>nfs_exports: ::prost::alloc::vec::Vec&lt;volume_config::NfsExport&gt;,
-    <span class="doccomment">/// User note field, it can be used by customers to add additional information
-    /// for the BMS Ops team .
-    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>user_note: ::prost::alloc::string::String,
-    <span class="doccomment">/// The GCP service of the storage volume. Available gcp_service are in
-    /// &lt;https://cloud.google.com/bare-metal/docs/bms-planning.&gt;
-    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>gcp_service: ::prost::alloc::string::String,
-    <span class="doccomment">/// Performance tier of the Volume.
-    /// Default is SHARED.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"VolumePerformanceTier"</span>, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>performance_tier: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `VolumeConfig`.
-</span><span class="kw">pub mod </span>volume_config {
-    <span class="doccomment">/// A LUN(Logical Unit Number) range.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>LunRange {
-        <span class="doccomment">/// Number of LUNs to create.
-        </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>quantity: i32,
-        <span class="doccomment">/// The requested size of each LUN, in GB.
-        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>size_gb: i32,
-    }
-    <span class="doccomment">/// A NFS export entry.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>NfsExport {
-        <span class="doccomment">/// Network to use to publish the export.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>network_id: ::prost::alloc::string::String,
-        <span class="doccomment">/// Export permissions.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"nfs_export::Permissions"</span>, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>permissions: i32,
-        <span class="doccomment">/// Disable root squashing, which is a feature of NFS.
-        /// Root squash is a special mapping of the remote superuser (root) identity
-        /// when using identity authentication.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
-        </span><span class="kw">pub </span>no_root_squash: bool,
-        <span class="doccomment">/// Allow the setuid flag.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
-        </span><span class="kw">pub </span>allow_suid: bool,
-        <span class="doccomment">/// Allow dev flag in NfsShare AllowedClientsRequest.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
-        </span><span class="kw">pub </span>allow_dev: bool,
-        <span class="doccomment">/// A client object.
-        </span><span class="attr">#[prost(oneof = <span class="string">"nfs_export::Client"</span>, tags = <span class="string">"2, 3"</span>)]
-        </span><span class="kw">pub </span>client: ::core::option::Option&lt;nfs_export::Client&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `NfsExport`.
-    </span><span class="kw">pub mod </span>nfs_export {
-        <span class="doccomment">/// Permissions that can granted for an export.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>Permissions {
-            <span class="doccomment">/// Unspecified value.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Read-only permission.
-            </span>ReadOnly = <span class="number">1</span>,
-            <span class="doccomment">/// Read-write permission.
-            </span>ReadWrite = <span class="number">2</span>,
-        }
-        <span class="kw">impl </span>Permissions {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    Permissions::Unspecified =&gt; <span class="string">"PERMISSIONS_UNSPECIFIED"</span>,
-                    Permissions::ReadOnly =&gt; <span class="string">"READ_ONLY"</span>,
-                    Permissions::ReadWrite =&gt; <span class="string">"READ_WRITE"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"PERMISSIONS_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"READ_ONLY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ReadOnly),
-                    <span class="string">"READ_WRITE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ReadWrite),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-        <span class="doccomment">/// A client object.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        </span><span class="kw">pub enum </span>Client {
-            <span class="doccomment">/// Either a single machine, identified by an ID, or a comma-separated
-            /// list of machine IDs.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-            </span>MachineId(::prost::alloc::string::String),
-            <span class="doccomment">/// A CIDR range.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-            </span>Cidr(::prost::alloc::string::String),
-        }
-    }
-    <span class="doccomment">/// The types of Volumes.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Type {
-        <span class="doccomment">/// The unspecified type.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// This Volume is on flash.
-        </span>Flash = <span class="number">1</span>,
-        <span class="doccomment">/// This Volume is on disk.
-        </span>Disk = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Type {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
-                Type::Flash =&gt; <span class="string">"FLASH"</span>,
-                Type::Disk =&gt; <span class="string">"DISK"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"FLASH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Flash),
-                <span class="string">"DISK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Disk),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// The protocol used to access the volume.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Protocol {
-        <span class="doccomment">/// Unspecified value.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Fibre channel.
-        </span>Fc = <span class="number">1</span>,
-        <span class="doccomment">/// Network file system.
-        </span>Nfs = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Protocol {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Protocol::Unspecified =&gt; <span class="string">"PROTOCOL_UNSPECIFIED"</span>,
-                Protocol::Fc =&gt; <span class="string">"PROTOCOL_FC"</span>,
-                Protocol::Nfs =&gt; <span class="string">"PROTOCOL_NFS"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"PROTOCOL_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"PROTOCOL_FC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Fc),
-                <span class="string">"PROTOCOL_NFS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Nfs),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Configuration parameters for a new network.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>NetworkConfig {
-    <span class="doccomment">/// Output only. The name of the network config.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// A transient unique identifier to identify a volume within an
-    /// ProvisioningConfig request.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The type of this network, either Client or Private.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"network_config::Type"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-    <span class="doccomment">/// Interconnect bandwidth. Set only when type is CLIENT.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"network_config::Bandwidth"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>bandwidth: i32,
-    <span class="doccomment">/// List of VLAN attachments. As of now there are always 2 attachments, but it
-    /// is going to change in  the future (multi vlan).
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>vlan_attachments: ::prost::alloc::vec::Vec&lt;network_config::IntakeVlanAttachment&gt;,
-    <span class="doccomment">/// CIDR range of the network.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>cidr: ::prost::alloc::string::String,
-    <span class="doccomment">/// Service CIDR, if any.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"network_config::ServiceCidr"</span>, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>service_cidr: i32,
-    <span class="doccomment">/// User note field, it can be used by customers to add additional information
-    /// for the BMS Ops team .
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>user_note: ::prost::alloc::string::String,
-    <span class="doccomment">/// The GCP service of the network. Available gcp_service are in
-    /// &lt;https://cloud.google.com/bare-metal/docs/bms-planning.&gt;
-    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>gcp_service: ::prost::alloc::string::String,
-    <span class="doccomment">/// Whether the VLAN attachment pair is located in the same project.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>vlan_same_project: bool,
-    <span class="doccomment">/// The JumboFramesEnabled option for customer to set.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>jumbo_frames_enabled: bool,
-}
-<span class="doccomment">/// Nested message and enum types in `NetworkConfig`.
-</span><span class="kw">pub mod </span>network_config {
-    <span class="doccomment">/// A GCP vlan attachment.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>IntakeVlanAttachment {
-        <span class="doccomment">/// Identifier of the VLAN attachment.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-        <span class="doccomment">/// Attachment pairing key.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>pairing_key: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Network type.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Type {
-        <span class="doccomment">/// Unspecified value.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Client network, that is a network peered to a GCP VPC.
-        </span>Client = <span class="number">1</span>,
-        <span class="doccomment">/// Private network, that is a network local to the BMS POD.
-        </span>Private = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Type {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
-                Type::Client =&gt; <span class="string">"CLIENT"</span>,
-                Type::Private =&gt; <span class="string">"PRIVATE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CLIENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Client),
-                <span class="string">"PRIVATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Private),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Interconnect bandwidth.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Bandwidth {
-        <span class="doccomment">/// Unspecified value.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// 1 Gbps.
-        </span>Bw1Gbps = <span class="number">1</span>,
-        <span class="doccomment">/// 2 Gbps.
-        </span>Bw2Gbps = <span class="number">2</span>,
-        <span class="doccomment">/// 5 Gbps.
-        </span>Bw5Gbps = <span class="number">3</span>,
-        <span class="doccomment">/// 10 Gbps.
-        </span>Bw10Gbps = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>Bandwidth {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Bandwidth::Unspecified =&gt; <span class="string">"BANDWIDTH_UNSPECIFIED"</span>,
-                Bandwidth::Bw1Gbps =&gt; <span class="string">"BW_1_GBPS"</span>,
-                Bandwidth::Bw2Gbps =&gt; <span class="string">"BW_2_GBPS"</span>,
-                Bandwidth::Bw5Gbps =&gt; <span class="string">"BW_5_GBPS"</span>,
-                Bandwidth::Bw10Gbps =&gt; <span class="string">"BW_10_GBPS"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"BANDWIDTH_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"BW_1_GBPS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bw1Gbps),
-                <span class="string">"BW_2_GBPS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bw2Gbps),
-                <span class="string">"BW_5_GBPS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bw5Gbps),
-                <span class="string">"BW_10_GBPS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bw10Gbps),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Service network block.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ServiceCidr {
-        <span class="doccomment">/// Unspecified value.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Services are disabled for the given network.
-        </span>Disabled = <span class="number">1</span>,
-        <span class="doccomment">/// Use the highest /26 block of the network to host services.
-        </span>High26 = <span class="number">2</span>,
-        <span class="doccomment">/// Use the highest /27 block of the network to host services.
-        </span>High27 = <span class="number">3</span>,
-        <span class="doccomment">/// Use the highest /28 block of the network to host services.
-        </span>High28 = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>ServiceCidr {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ServiceCidr::Unspecified =&gt; <span class="string">"SERVICE_CIDR_UNSPECIFIED"</span>,
-                ServiceCidr::Disabled =&gt; <span class="string">"DISABLED"</span>,
-                ServiceCidr::High26 =&gt; <span class="string">"HIGH_26"</span>,
-                ServiceCidr::High27 =&gt; <span class="string">"HIGH_27"</span>,
-                ServiceCidr::High28 =&gt; <span class="string">"HIGH_28"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"SERVICE_CIDR_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Disabled),
-                <span class="string">"HIGH_26" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High26),
-                <span class="string">"HIGH_27" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High27),
-                <span class="string">"HIGH_28" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High28),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A resource budget.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>InstanceQuota {
-    <span class="doccomment">/// Output only. The name of the instance quota.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Instance type.
-    /// Deprecated: use gcp_service.
-    </span><span class="attr">#[deprecated]
-    #[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>instance_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// The gcp service of the provisioning quota.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>gcp_service: ::prost::alloc::string::String,
-    <span class="doccomment">/// Location where the quota applies.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
-    <span class="doccomment">/// Number of machines than can be created for the given location and
-    /// instance_type.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>available_machine_count: i32,
-}
-<span class="doccomment">/// Request for GetProvisioningConfig.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetProvisioningConfigRequest {
-    <span class="doccomment">/// Required. Name of the ProvisioningConfig.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request for CreateProvisioningConfig.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateProvisioningConfigRequest {
-    <span class="doccomment">/// Required. The parent project and location containing the
-    /// ProvisioningConfig.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The ProvisioningConfig to create.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>provisioning_config: ::core::option::Option&lt;ProvisioningConfig&gt;,
-    <span class="doccomment">/// Optional. Email provided to send a confirmation with provisioning config
-    /// to.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Message for updating a ProvisioningConfig.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateProvisioningConfigRequest {
-    <span class="doccomment">/// Required. The ProvisioningConfig to update.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>provisioning_config: ::core::option::Option&lt;ProvisioningConfig&gt;,
-    <span class="doccomment">/// Required. The list of fields to update.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-    <span class="doccomment">/// Optional. Email provided to send a confirmation with provisioning config
-    /// to.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// An SSH key, used for authorizing with the interactive serial console feature.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

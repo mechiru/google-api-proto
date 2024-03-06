@@ -9172,6 +9172,26 @@
 <a href="#9171" id="9171">9171</a>
 <a href="#9172" id="9172">9172</a>
 <a href="#9173" id="9173">9173</a>
+<a href="#9174" id="9174">9174</a>
+<a href="#9175" id="9175">9175</a>
+<a href="#9176" id="9176">9176</a>
+<a href="#9177" id="9177">9177</a>
+<a href="#9178" id="9178">9178</a>
+<a href="#9179" id="9179">9179</a>
+<a href="#9180" id="9180">9180</a>
+<a href="#9181" id="9181">9181</a>
+<a href="#9182" id="9182">9182</a>
+<a href="#9183" id="9183">9183</a>
+<a href="#9184" id="9184">9184</a>
+<a href="#9185" id="9185">9185</a>
+<a href="#9186" id="9186">9186</a>
+<a href="#9187" id="9187">9187</a>
+<a href="#9188" id="9188">9188</a>
+<a href="#9189" id="9189">9189</a>
+<a href="#9190" id="9190">9190</a>
+<a href="#9191" id="9191">9191</a>
+<a href="#9192" id="9192">9192</a>
+<a href="#9193" id="9193">9193</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Parameters that can be configured on Linux nodes.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -11636,6 +11656,9 @@
     <span class="doccomment">/// GKE Enterprise Configuration.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"149"</span>)]
     </span><span class="kw">pub </span>enterprise_config: ::core::option::Option&lt;EnterpriseConfig&gt;,
+    <span class="doccomment">/// Secret CSI driver configuration.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"150"</span>)]
+    </span><span class="kw">pub </span>secret_manager_config: ::core::option::Option&lt;SecretManagerConfig&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `Cluster`.
 </span><span class="kw">pub mod </span>cluster {
@@ -12265,6 +12288,12 @@
     <span class="doccomment">/// Specify the details of in-transit encryption.
     </span><span class="attr">#[prost(enumeration = <span class="string">"InTransitEncryptionConfig"</span>, optional, tag = <span class="string">"137"</span>)]
     </span><span class="kw">pub </span>desired_in_transit_encryption_config: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Enable/Disable Cilium Clusterwide Network Policy for the cluster.
+    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"138"</span>)]
+    </span><span class="kw">pub </span>desired_enable_cilium_clusterwide_network_policy: ::core::option::Option&lt;bool&gt;,
+    <span class="doccomment">/// Enable/Disable Secret Manager Config.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"139"</span>)]
+    </span><span class="kw">pub </span>desired_secret_manager_config: ::core::option::Option&lt;SecretManagerConfig&gt;,
 }
 <span class="doccomment">/// AdditionalPodRangesConfig is the configuration for additional pod secondary
 /// ranges supporting the ClusterUpdate message.
@@ -15370,6 +15399,9 @@
     <span class="doccomment">/// Specify the details of in-transit encryption.
     </span><span class="attr">#[prost(enumeration = <span class="string">"InTransitEncryptionConfig"</span>, optional, tag = <span class="string">"20"</span>)]
     </span><span class="kw">pub </span>in_transit_encryption_config: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Whether CiliumClusterWideNetworkPolicy is enabled on this cluster.
+    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"21"</span>)]
+    </span><span class="kw">pub </span>enable_cilium_clusterwide_network_policy: ::core::option::Option&lt;bool&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `NetworkConfig`.
 </span><span class="kw">pub mod </span>network_config {
@@ -16940,6 +16972,14 @@
             }
         }
     }
+}
+<span class="doccomment">/// SecretManagerConfig is config for secret manager enablement.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SecretManagerConfig {
+    <span class="doccomment">/// Whether the cluster is configured to use secret manager CSI component.
+    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>enabled: ::core::option::Option&lt;bool&gt;,
 }
 <span class="doccomment">/// SecondaryBootDisk represents a persistent disk attached to a node
 /// with special configurations based on its mode.
