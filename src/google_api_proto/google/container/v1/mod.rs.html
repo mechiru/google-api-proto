@@ -8169,6 +8169,12 @@
 <a href="#8168" id="8168">8168</a>
 <a href="#8169" id="8169">8169</a>
 <a href="#8170" id="8170">8170</a>
+<a href="#8171" id="8171">8171</a>
+<a href="#8172" id="8172">8172</a>
+<a href="#8173" id="8173">8173</a>
+<a href="#8174" id="8174">8174</a>
+<a href="#8175" id="8175">8175</a>
+<a href="#8176" id="8176">8176</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Parameters that can be configured on Linux nodes.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -10576,6 +10582,9 @@
     <span class="doccomment">/// Specify the details of in-transit encryption.
     </span><span class="attr">#[prost(enumeration = <span class="string">"InTransitEncryptionConfig"</span>, optional, tag = <span class="string">"137"</span>)]
     </span><span class="kw">pub </span>desired_in_transit_encryption_config: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Enable/Disable Cilium Clusterwide Network Policy for the cluster.
+    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"138"</span>)]
+    </span><span class="kw">pub </span>desired_enable_cilium_clusterwide_network_policy: ::core::option::Option&lt;bool&gt;,
 }
 <span class="doccomment">/// AdditionalPodRangesConfig is the configuration for additional pod secondary
 /// ranges supporting the ClusterUpdate message.
@@ -13438,6 +13447,9 @@
     <span class="doccomment">/// Specify the details of in-transit encryption.
     </span><span class="attr">#[prost(enumeration = <span class="string">"InTransitEncryptionConfig"</span>, optional, tag = <span class="string">"20"</span>)]
     </span><span class="kw">pub </span>in_transit_encryption_config: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Whether CiliumClusterwideNetworkPolicy is enabled on this cluster.
+    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"21"</span>)]
+    </span><span class="kw">pub </span>enable_cilium_clusterwide_network_policy: ::core::option::Option&lt;bool&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `NetworkConfig`.
 </span><span class="kw">pub mod </span>network_config {
