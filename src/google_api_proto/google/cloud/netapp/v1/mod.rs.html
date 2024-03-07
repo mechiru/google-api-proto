@@ -4206,6 +4206,9 @@
 <a href="#4205" id="4205">4205</a>
 <a href="#4206" id="4206">4206</a>
 <a href="#4207" id="4207">4207</a>
+<a href="#4208" id="4208">4208</a>
+<a href="#4209" id="4209">4209</a>
+<a href="#4210" id="4210">4210</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// ListSnapshotsRequest lists snapshots.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4507,10 +4510,11 @@
     <span class="doccomment">/// Required. Password of the Active Directory domain administrator.
     </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
     </span><span class="kw">pub </span>password: ::prost::alloc::string::String,
-    <span class="doccomment">/// Users to be added to the Built-in Backup Operator active directory group.
+    <span class="doccomment">/// Optional. Users to be added to the Built-in Backup Operator active
+    /// directory group.
     </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"12"</span>)]
     </span><span class="kw">pub </span>backup_operators: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Domain users to be given the SeSecurityPrivilege.
+    <span class="doccomment">/// Optional. Domain users to be given the SeSecurityPrivilege.
     </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"13"</span>)]
     </span><span class="kw">pub </span>security_operators: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
     <span class="doccomment">/// Name of the active directory machine. This optional parameter is used only
@@ -5907,7 +5911,7 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// The service levels - Storage Pool, Volumes
+<span class="doccomment">/// The service level of a storage pool and its volumes.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 </span><span class="kw">pub enum </span>ServiceLevel {
@@ -5917,7 +5921,7 @@
     </span>Premium = <span class="number">1</span>,
     <span class="doccomment">/// Extreme service level.
     </span>Extreme = <span class="number">2</span>,
-    <span class="doccomment">/// Standard (Software offering)
+    <span class="doccomment">/// Standard service level.
     </span>Standard = <span class="number">3</span>,
 }
 <span class="kw">impl </span>ServiceLevel {
@@ -5944,11 +5948,11 @@
         }
     }
 }
-<span class="doccomment">/// Defined the current volume encryption key source.
+<span class="doccomment">/// The volume encryption key source.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 </span><span class="kw">pub enum </span>EncryptionType {
-    <span class="doccomment">/// The source of encryption key is not specified.
+    <span class="doccomment">/// The source of the encryption key is not specified.
     </span>Unspecified = <span class="number">0</span>,
     <span class="doccomment">/// Google managed encryption key.
     </span>ServiceManaged = <span class="number">1</span>,
@@ -5992,17 +5996,18 @@
     <span class="doccomment">/// Required. Parent value
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of items to return.
+    <span class="doccomment">/// Optional. The maximum number of items to return.
     </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// The next_page_token value to use if there are additional
+    <span class="doccomment">/// Optional. The next_page_token value to use if there are additional
     /// results to retrieve for this list request.
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Sort results. Supported values are "name", "name desc" or "" (unsorted).
+    <span class="doccomment">/// Optional. Sort results. Supported values are "name", "name desc" or ""
+    /// (unsorted).
     </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
-    <span class="doccomment">/// List filter.
+    <span class="doccomment">/// Optional. List filter.
     </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
 }
@@ -6089,10 +6094,10 @@
     <span class="doccomment">/// Output only. Create time of the storage pool
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
     </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Description of the storage pool
+    <span class="doccomment">/// Optional. Description of the storage pool
     </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
     </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Labels as key value pairs
+    <span class="doccomment">/// Optional. Labels as key value pairs
     </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"10"</span>)]
     </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
         ::prost::alloc::string::String,
@@ -6102,17 +6107,18 @@
     /// Format: projects/{project}/global/networks/{network}
     </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
     </span><span class="kw">pub </span>network: ::prost::alloc::string::String,
-    <span class="doccomment">/// Specifies the Active Directory to be used for creating a SMB volume.
+    <span class="doccomment">/// Optional. Specifies the Active Directory to be used for creating a SMB
+    /// volume.
     </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
     </span><span class="kw">pub </span>active_directory: ::prost::alloc::string::String,
-    <span class="doccomment">/// Specifies the KMS config to be used for volume encryption.
+    <span class="doccomment">/// Optional. Specifies the KMS config to be used for volume encryption.
     </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
     </span><span class="kw">pub </span>kms_config: ::prost::alloc::string::String,
-    <span class="doccomment">/// Flag indicating if the pool is NFS LDAP enabled or not.
+    <span class="doccomment">/// Optional. Flag indicating if the pool is NFS LDAP enabled or not.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"14"</span>)]
     </span><span class="kw">pub </span>ldap_enabled: bool,
-    <span class="doccomment">/// Name of the Private Service Access allocated range. If
-    /// not provided, any available range will be chosen.
+    <span class="doccomment">/// Optional. This field is currently not implemented. Currently values
+    /// provided in this field will be ignored.
     </span><span class="attr">#[prost(string, tag = <span class="string">"15"</span>)]
     </span><span class="kw">pub </span>psa_range: ::prost::alloc::string::String,
     <span class="doccomment">/// Output only. Specifies the current pool encryption key source.
@@ -6310,8 +6316,8 @@
     <span class="doccomment">/// Required. Share name of the volume
     </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>share_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Name of the Private Service Access allocated range. This is
-    /// optional. If not provided, any available range will be chosen.
+    <span class="doccomment">/// Output only. This field is currently not implemented. Currently values
+    /// provided in this field will be ignored.
     </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>psa_range: ::prost::alloc::string::String,
     <span class="doccomment">/// Required. StoragePool name of the volume
