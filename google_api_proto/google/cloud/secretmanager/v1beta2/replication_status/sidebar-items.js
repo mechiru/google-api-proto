@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ReplicationStatus"],"mod":["user_managed_status"],"struct":["AutomaticStatus","UserManagedStatus"]};
