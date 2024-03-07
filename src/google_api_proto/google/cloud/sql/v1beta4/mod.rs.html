@@ -7573,6 +7573,19 @@
 <a href="#7572" id="7572">7572</a>
 <a href="#7573" id="7573">7573</a>
 <a href="#7574" id="7574">7574</a>
+<a href="#7575" id="7575">7575</a>
+<a href="#7576" id="7576">7576</a>
+<a href="#7577" id="7577">7577</a>
+<a href="#7578" id="7578">7578</a>
+<a href="#7579" id="7579">7579</a>
+<a href="#7580" id="7580">7580</a>
+<a href="#7581" id="7581">7581</a>
+<a href="#7582" id="7582">7582</a>
+<a href="#7583" id="7583">7583</a>
+<a href="#7584" id="7584">7584</a>
+<a href="#7585" id="7585">7585</a>
+<a href="#7586" id="7586">7586</a>
+<a href="#7587" id="7587">7587</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// An entry for an Access Control list.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -9099,6 +9112,11 @@
         <span class="doccomment">/// If a time out occurs while the subscription counts are calculated, then
         /// this value is set to 1. Otherwise, this value is set to 2.
         </span>SubscriptionCalculationStatus = <span class="number">40</span>,
+        <span class="doccomment">/// Count of subscriptions needed to sync source data for PostgreSQL
+        /// database.
+        </span>PgSubscriptionCount = <span class="number">41</span>,
+        <span class="doccomment">/// Final parallel level that is used to do migration.
+        </span>PgSyncParallelLevel = <span class="number">42</span>,
     }
     <span class="kw">impl </span>SqlExternalSyncSettingErrorType {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -9220,6 +9238,12 @@
                 SqlExternalSyncSettingErrorType::SubscriptionCalculationStatus =&gt; {
                     <span class="string">"SUBSCRIPTION_CALCULATION_STATUS"
                 </span>}
+                SqlExternalSyncSettingErrorType::PgSubscriptionCount =&gt; {
+                    <span class="string">"PG_SUBSCRIPTION_COUNT"
+                </span>}
+                SqlExternalSyncSettingErrorType::PgSyncParallelLevel =&gt; {
+                    <span class="string">"PG_SYNC_PARALLEL_LEVEL"
+                </span>}
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -9288,6 +9312,8 @@
                 <span class="string">"SUBSCRIPTION_CALCULATION_STATUS" </span>=&gt; {
                     <span class="prelude-val">Some</span>(<span class="self">Self</span>::SubscriptionCalculationStatus)
                 }
+                <span class="string">"PG_SUBSCRIPTION_COUNT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PgSubscriptionCount),
+                <span class="string">"PG_SYNC_PARALLEL_LEVEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PgSyncParallelLevel),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }

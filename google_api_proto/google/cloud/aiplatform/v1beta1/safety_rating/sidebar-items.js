@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["HarmProbability"]};
+window.SIDEBAR_ITEMS = {"enum":["HarmProbability","HarmSeverity"]};
