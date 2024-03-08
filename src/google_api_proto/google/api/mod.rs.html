@@ -4891,6 +4891,30 @@
 <a href="#4890" id="4890">4890</a>
 <a href="#4891" id="4891">4891</a>
 <a href="#4892" id="4892">4892</a>
+<a href="#4893" id="4893">4893</a>
+<a href="#4894" id="4894">4894</a>
+<a href="#4895" id="4895">4895</a>
+<a href="#4896" id="4896">4896</a>
+<a href="#4897" id="4897">4897</a>
+<a href="#4898" id="4898">4898</a>
+<a href="#4899" id="4899">4899</a>
+<a href="#4900" id="4900">4900</a>
+<a href="#4901" id="4901">4901</a>
+<a href="#4902" id="4902">4902</a>
+<a href="#4903" id="4903">4903</a>
+<a href="#4904" id="4904">4904</a>
+<a href="#4905" id="4905">4905</a>
+<a href="#4906" id="4906">4906</a>
+<a href="#4907" id="4907">4907</a>
+<a href="#4908" id="4908">4908</a>
+<a href="#4909" id="4909">4909</a>
+<a href="#4910" id="4910">4910</a>
+<a href="#4911" id="4911">4911</a>
+<a href="#4912" id="4912">4912</a>
+<a href="#4913" id="4913">4913</a>
+<a href="#4914" id="4914">4914</a>
+<a href="#4915" id="4915">4915</a>
+<a href="#4916" id="4916">4916</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(any(feature = <span class="string">"google-api-apikeys-v2"</span>))]
 </span><span class="kw">pub mod </span>apikeys;
 <span class="attr">#[cfg(any(feature = <span class="string">"google-api-cloudquotas-v1"</span>))]
@@ -5465,6 +5489,10 @@
     /// &lt;https://cloud.google.com/pubsub/lite/docs/reference/rpc&gt;
     </span><span class="attr">#[prost(string, tag = <span class="string">"110"</span>)]
     </span><span class="kw">pub </span>proto_reference_documentation_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional link to REST reference documentation.  Example:
+    /// &lt;https://cloud.google.com/pubsub/lite/docs/reference/rest&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"111"</span>)]
+    </span><span class="kw">pub </span>rest_reference_documentation_uri: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Settings for Java client libraries.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6199,7 +6227,7 @@
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
     <span class="doccomment">/// Required. The monitored resource type. For example, the type
     /// `"cloudsql_database"` represents databases in Google Cloud SQL.
-    ///   For a list of types, see [Monitoring resource
+    ///   For a list of types, see [Monitored resource
     ///   types](&lt;https://cloud.google.com/monitoring/api/resources&gt;)
     /// and [Logging resource
     /// types](&lt;https://cloud.google.com/logging/docs/api/v2/resource-list&gt;).
@@ -6866,9 +6894,9 @@
         </span>Ipv4 = <span class="number">2</span>,
         <span class="doccomment">/// Internet Protocol v6 value as defined by [RFC
         /// 2460](&lt;https://datatracker.ietf.org/doc/html/rfc2460&gt;). The value may be
-        /// normalized to entirely lowercase letters, and zero-padded partial and
-        /// empty octets. For example, the value `2001:DB8::` would be normalized to
-        /// `2001:0db8:0:0`.
+        /// normalized to entirely lowercase letters with zeros compressed, following
+        /// [RFC 5952](&lt;https://datatracker.ietf.org/doc/html/rfc5952&gt;). For example,
+        /// the value `2001:0DB8:0::0` would be normalized to `2001:db8::`.
         </span>Ipv6 = <span class="number">3</span>,
         <span class="doccomment">/// An IP address in either v4 or v6 format as described by the individual
         /// values defined herein. See the comments on the IPV4 and IPV6 types for
@@ -7639,7 +7667,7 @@
 ///      content: &amp;#40;== include google/foo/overview.md ==&amp;#41;
 ///    - name: Tutorial
 ///      content: &amp;#40;== include google/foo/tutorial.md ==&amp;#41;
-///      subpages;
+///      subpages:
 ///      - name: Java
 ///        content: &amp;#40;== include google/foo/tutorial_java.md ==&amp;#41;
 ///    rules:
@@ -8794,6 +8822,24 @@
     ///
     /// This response indicates the associated GCP account has been suspended.
     </span>GcpSuspended = <span class="number">30</span>,
+    <span class="doccomment">/// The request violates the location policies when creating resources in
+    /// the restricted region.
+    ///
+    /// Example of an ErrorInfo when creating the Cloud Storage Bucket by
+    /// "projects/123" for service storage.googleapis.com:
+    ///
+    ///      { "reason": "LOCATION_POLICY_VIOLATED",
+    ///        "domain": "googleapis.com",
+    ///        "metadata": {
+    ///          "consumer": "projects/123",
+    ///          "service": "storage.googleapis.com",
+    ///        }
+    ///      }
+    ///
+    /// This response indicates creating the Cloud Storage Bucket in
+    /// "locations/asia-northeast3" violates at least one location policy.
+    /// The troubleshooting guidance is provided in the Help links.
+    </span>LocationPolicyViolated = <span class="number">31</span>,
 }
 <span class="kw">impl </span>ErrorReason {
     <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -8836,6 +8882,7 @@
             ErrorReason::OrgRestrictionHeaderInvalid =&gt; <span class="string">"ORG_RESTRICTION_HEADER_INVALID"</span>,
             ErrorReason::ServiceNotVisible =&gt; <span class="string">"SERVICE_NOT_VISIBLE"</span>,
             ErrorReason::GcpSuspended =&gt; <span class="string">"GCP_SUSPENDED"</span>,
+            ErrorReason::LocationPolicyViolated =&gt; <span class="string">"LOCATION_POLICY_VIOLATED"</span>,
         }
     }
     <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -8873,6 +8920,7 @@
             <span class="string">"ORG_RESTRICTION_HEADER_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OrgRestrictionHeaderInvalid),
             <span class="string">"SERVICE_NOT_VISIBLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ServiceNotVisible),
             <span class="string">"GCP_SUSPENDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GcpSuspended),
+            <span class="string">"LOCATION_POLICY_VIOLATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LocationPolicyViolated),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
