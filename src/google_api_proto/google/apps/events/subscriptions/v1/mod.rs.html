@@ -770,11 +770,9 @@
 <a href="#769" id="769">769</a>
 <a href="#770" id="770">770</a>
 <a href="#771" id="771">771</a>
-<a href="#772" id="772">772</a>
-<a href="#773" id="773">773</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// A subscription to receive events about a Google Workspace resource. To learn
 /// more about subscriptions, see the [Google Workspace Events API
-/// overview](&lt;https://developers.google.com/workspace/events/guides&gt;).
+/// overview](&lt;https://developers.google.com/workspace/events&gt;).
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Subscription {
@@ -789,8 +787,9 @@
     <span class="doccomment">/// Required. Immutable. The Google Workspace resource that's monitored for
     /// events, formatted as the [full resource
     /// name](&lt;https://google.aip.dev/122#full-resource-names&gt;). To learn about
-    /// target resources, see [Supported Google Workspace
-    /// resources](&lt;https://developers.google.com/workspace/events/guides#supported-resources&gt;).
+    /// target resources and the events that they support, see [Supported Google
+    /// Workspace
+    /// events](&lt;https://developers.google.com/workspace/events#supported-events&gt;).
     ///
     /// A user can only authorize your app to create one subscription for a given
     /// target resource. If your app tries to create another subscription with the
@@ -801,12 +800,9 @@
     /// Otherwise, output only. One or more types of events to receive about the
     /// target resource. Formatted according to the CloudEvents specification.
     ///
-    /// For a list of supported event types, see the following documentation:
-    ///
-    /// * [Google Chat
-    /// events](&lt;https://developers.google.com/workspace/events/guides/events-chat&gt;)
-    /// * [Google Meet
-    /// events](&lt;https://developers.google.com/workspace/events/guides/events-meet&gt;)
+    /// The supported event types depend on the target resource of your
+    /// subscription. For details, see [Supported Google Workspace
+    /// events](&lt;https://developers.google.com/workspace/events/guides#supported-events&gt;).
     ///
     /// By default, you also receive events about the [lifecycle of your
     /// subscription](&lt;https://developers.google.com/workspace/events/guides/events-lifecycle&gt;).

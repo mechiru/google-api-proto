@@ -1964,6 +1964,72 @@
 <a href="#1963" id="1963">1963</a>
 <a href="#1964" id="1964">1964</a>
 <a href="#1965" id="1965">1965</a>
+<a href="#1966" id="1966">1966</a>
+<a href="#1967" id="1967">1967</a>
+<a href="#1968" id="1968">1968</a>
+<a href="#1969" id="1969">1969</a>
+<a href="#1970" id="1970">1970</a>
+<a href="#1971" id="1971">1971</a>
+<a href="#1972" id="1972">1972</a>
+<a href="#1973" id="1973">1973</a>
+<a href="#1974" id="1974">1974</a>
+<a href="#1975" id="1975">1975</a>
+<a href="#1976" id="1976">1976</a>
+<a href="#1977" id="1977">1977</a>
+<a href="#1978" id="1978">1978</a>
+<a href="#1979" id="1979">1979</a>
+<a href="#1980" id="1980">1980</a>
+<a href="#1981" id="1981">1981</a>
+<a href="#1982" id="1982">1982</a>
+<a href="#1983" id="1983">1983</a>
+<a href="#1984" id="1984">1984</a>
+<a href="#1985" id="1985">1985</a>
+<a href="#1986" id="1986">1986</a>
+<a href="#1987" id="1987">1987</a>
+<a href="#1988" id="1988">1988</a>
+<a href="#1989" id="1989">1989</a>
+<a href="#1990" id="1990">1990</a>
+<a href="#1991" id="1991">1991</a>
+<a href="#1992" id="1992">1992</a>
+<a href="#1993" id="1993">1993</a>
+<a href="#1994" id="1994">1994</a>
+<a href="#1995" id="1995">1995</a>
+<a href="#1996" id="1996">1996</a>
+<a href="#1997" id="1997">1997</a>
+<a href="#1998" id="1998">1998</a>
+<a href="#1999" id="1999">1999</a>
+<a href="#2000" id="2000">2000</a>
+<a href="#2001" id="2001">2001</a>
+<a href="#2002" id="2002">2002</a>
+<a href="#2003" id="2003">2003</a>
+<a href="#2004" id="2004">2004</a>
+<a href="#2005" id="2005">2005</a>
+<a href="#2006" id="2006">2006</a>
+<a href="#2007" id="2007">2007</a>
+<a href="#2008" id="2008">2008</a>
+<a href="#2009" id="2009">2009</a>
+<a href="#2010" id="2010">2010</a>
+<a href="#2011" id="2011">2011</a>
+<a href="#2012" id="2012">2012</a>
+<a href="#2013" id="2013">2013</a>
+<a href="#2014" id="2014">2014</a>
+<a href="#2015" id="2015">2015</a>
+<a href="#2016" id="2016">2016</a>
+<a href="#2017" id="2017">2017</a>
+<a href="#2018" id="2018">2018</a>
+<a href="#2019" id="2019">2019</a>
+<a href="#2020" id="2020">2020</a>
+<a href="#2021" id="2021">2021</a>
+<a href="#2022" id="2022">2022</a>
+<a href="#2023" id="2023">2023</a>
+<a href="#2024" id="2024">2024</a>
+<a href="#2025" id="2025">2025</a>
+<a href="#2026" id="2026">2026</a>
+<a href="#2027" id="2027">2027</a>
+<a href="#2028" id="2028">2028</a>
+<a href="#2029" id="2029">2029</a>
+<a href="#2030" id="2030">2030</a>
+<a href="#2031" id="2031">2031</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Response metadata proto
 /// This is an experimental feature that will be used to get zone_id and
 /// cluster_id from response trailers to tag the metrics. This should not be
@@ -2047,6 +2113,47 @@
     <span class="doccomment">/// Labels applied to the cell by a [RowFilter][google.bigtable.v2.RowFilter].
     </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>labels: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// `Value` represents a dynamically typed value.
+/// The typed fields in `Value` are used as a transport encoding for the actual
+/// value (which may be of a more complex type). See the documentation of the
+/// `Type` message for more details.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Value {
+    <span class="doccomment">/// Options for transporting values within the protobuf type system. A given
+    /// `kind` may support more than one `type` and vice versa. On write, this is
+    /// roughly analogous to a GoogleSQL literal.
+    ///
+    /// The value is `NULL` if none of the fields in `kind` is set. If `type` is
+    /// also omitted on write, we will infer it based on the schema.
+    </span><span class="attr">#[prost(oneof = <span class="string">"value::Kind"</span>, tags = <span class="string">"8, 9, 6"</span>)]
+    </span><span class="kw">pub </span>kind: ::core::option::Option&lt;value::Kind&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Value`.
+</span><span class="kw">pub mod </span>value {
+    <span class="doccomment">/// Options for transporting values within the protobuf type system. A given
+    /// `kind` may support more than one `type` and vice versa. On write, this is
+    /// roughly analogous to a GoogleSQL literal.
+    ///
+    /// The value is `NULL` if none of the fields in `kind` is set. If `type` is
+    /// also omitted on write, we will infer it based on the schema.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Kind {
+        <span class="doccomment">/// Represents a raw byte sequence with no type information.
+        /// The `type` field must be omitted.
+        </span><span class="attr">#[prost(bytes, tag = <span class="string">"8"</span>)]
+        </span>RawValue(::prost::bytes::Bytes),
+        <span class="doccomment">/// Represents a raw cell timestamp with no type information.
+        /// The `type` field must be omitted.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"9"</span>)]
+        </span>RawTimestampMicros(i64),
+        <span class="doccomment">/// Represents a typed value transported as an integer.
+        /// Default type for writes: `Int64`
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
+        </span>IntValue(i64),
+    }
 }
 <span class="doccomment">/// Specifies a contiguous range of rows.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2489,7 +2596,7 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Mutation {
     <span class="doccomment">/// Which of the possible Mutation types to apply.
-    </span><span class="attr">#[prost(oneof = <span class="string">"mutation::Mutation"</span>, tags = <span class="string">"1, 2, 3, 4"</span>)]
+    </span><span class="attr">#[prost(oneof = <span class="string">"mutation::Mutation"</span>, tags = <span class="string">"1, 5, 2, 3, 4"</span>)]
     </span><span class="kw">pub </span>mutation: ::core::option::Option&lt;mutation::Mutation&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `Mutation`.
@@ -2516,6 +2623,28 @@
         <span class="doccomment">/// The value to be written into the specified cell.
         </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"4"</span>)]
         </span><span class="kw">pub </span>value: ::prost::bytes::Bytes,
+    }
+    <span class="doccomment">/// A Mutation which incrementally updates a cell in an `Aggregate` family.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>AddToCell {
+        <span class="doccomment">/// The name of the `Aggregate` family into which new data should be added.
+        /// This must be a family with a `value_type` of `Aggregate`.
+        /// Format: `\[-_.a-zA-Z0-9\]+`
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>family_name: ::prost::alloc::string::String,
+        <span class="doccomment">/// The qualifier of the column into which new data should be added. This
+        /// must be a `raw_value`.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>column_qualifier: ::core::option::Option&lt;<span class="kw">super</span>::Value&gt;,
+        <span class="doccomment">/// The timestamp of the cell to which new data should be added. This must
+        /// be a `raw_timestamp_micros` that matches the table's `granularity`.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>timestamp: ::core::option::Option&lt;<span class="kw">super</span>::Value&gt;,
+        <span class="doccomment">/// The input value to be accumulated into the specified cell. This must be
+        /// compatible with the family's `value_type.input_type`.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>input: ::core::option::Option&lt;<span class="kw">super</span>::Value&gt;,
     }
     <span class="doccomment">/// A Mutation which deletes cells from the specified column, optionally
     /// restricting the deletions to a given timestamp range.
@@ -2554,6 +2683,9 @@
         <span class="doccomment">/// Set a cell's value.
         </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
         </span>SetCell(SetCell),
+        <span class="doccomment">/// Incrementally updates an `Aggregate` cell.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>AddToCell(AddToCell),
         <span class="doccomment">/// Deletes cells from a column.
         </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
         </span>DeleteFromColumn(DeleteFromColumn),

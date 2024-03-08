@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["iam_config","lifecycle"],"struct":["Autoclass","Billing","Cors","CustomPlacementConfig","Encryption","IamConfig","Lifecycle","Logging","RetentionPolicy","SoftDeletePolicy","Versioning","Website"]};
+window.SIDEBAR_ITEMS = {"mod":["iam_config","lifecycle"],"struct":["Autoclass","Billing","Cors","CustomPlacementConfig","Encryption","HierarchicalNamespace","IamConfig","Lifecycle","Logging","RetentionPolicy","SoftDeletePolicy","Versioning","Website"]};
