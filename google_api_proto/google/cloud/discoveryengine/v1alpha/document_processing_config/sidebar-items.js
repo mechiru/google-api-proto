@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["chunking_config","parsing_config"],"struct":["ChunkingConfig","ParsingConfig"]};

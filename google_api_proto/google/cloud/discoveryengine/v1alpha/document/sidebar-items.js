@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Data"],"mod":["content"],"struct":["Content"]};
+window.SIDEBAR_ITEMS = {"enum":["Data"],"mod":["acl_info","content"],"struct":["AclInfo","Content"]};
