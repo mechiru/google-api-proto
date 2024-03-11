@@ -1530,26 +1530,6 @@
     </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>serialized_binary_rows: ::prost::bytes::Bytes,
 }
-<span class="doccomment">/// ProtoSchema describes the schema of the serialized protocol buffer data rows.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProtoSchema {
-    <span class="doccomment">/// Descriptor for input message. The descriptor has to be self contained,
-    /// including all the nested types, excepted for proto buffer well known types
-    /// (&lt;https://developers.google.com/protocol-buffers/docs/reference/google.protobuf&gt;).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>proto_descriptor: ::core::option::Option&lt;::prost_types::DescriptorProto&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProtoRows {
-    <span class="doccomment">/// A sequence of rows serialized as a Protocol Buffer.
-    ///
-    /// See &lt;https://developers.google.com/protocol-buffers/docs/overview&gt; for more
-    /// information on deserializing this field.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>serialized_rows: ::prost::alloc::vec::Vec&lt;::prost::bytes::Bytes&gt;,
-}
 <span class="doccomment">/// Schema of a table
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1935,6 +1915,26 @@
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
+}
+<span class="doccomment">/// ProtoSchema describes the schema of the serialized protocol buffer data rows.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProtoSchema {
+    <span class="doccomment">/// Descriptor for input message. The descriptor has to be self contained,
+    /// including all the nested types, excepted for proto buffer well known types
+    /// (&lt;https://developers.google.com/protocol-buffers/docs/reference/google.protobuf&gt;).
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>proto_descriptor: ::core::option::Option&lt;::prost_types::DescriptorProto&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProtoRows {
+    <span class="doccomment">/// A sequence of rows serialized as a Protocol Buffer.
+    ///
+    /// See &lt;https://developers.google.com/protocol-buffers/docs/overview&gt; for more
+    /// information on deserializing this field.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>serialized_rows: ::prost::alloc::vec::Vec&lt;::prost::bytes::Bytes&gt;,
 }
 <span class="doccomment">/// Request message for `CreateReadSession`.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

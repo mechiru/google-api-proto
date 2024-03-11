@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["DeploymentResourcesType"],"mod":["export_format"],"struct":["DataStats","ExportFormat","OriginalModelInfo"]};
+window.SIDEBAR_ITEMS = {"enum":["DeploymentResourcesType"],"mod":["base_model_source","export_format"],"struct":["BaseModelSource","DataStats","ExportFormat","OriginalModelInfo"]};

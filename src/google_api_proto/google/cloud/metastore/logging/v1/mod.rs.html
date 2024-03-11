@@ -98,25 +98,7 @@
 <a href="#97" id="97">97</a>
 <a href="#98" id="98">98</a>
 <a href="#99" id="99">99</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Stackdriver structured-payload for events generated from Hive Metastore
-/// API requests.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RequestsLogEntry {
-    <span class="doccomment">/// A free-text string describing the request.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Stackdriver structured-payload for events generated from Hive Metastore
-/// system activity.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SystemActivityLogEntry {
-    <span class="doccomment">/// A free-text string describing the system activity.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Cloud Logging log schema for scheduled backup events.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Cloud Logging log schema for scheduled backup events.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ScheduledBackupLogEntry {
@@ -196,5 +178,23 @@
             }
         }
     }
+}
+<span class="doccomment">/// Stackdriver structured-payload for events generated from Hive Metastore
+/// API requests.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RequestsLogEntry {
+    <span class="doccomment">/// A free-text string describing the request.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Stackdriver structured-payload for events generated from Hive Metastore
+/// system activity.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SystemActivityLogEntry {
+    <span class="doccomment">/// A free-text string describing the system activity.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
 }
 </code></pre></div></section></main></body></html>

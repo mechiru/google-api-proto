@@ -708,6 +708,251 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>phone_number: ::prost::alloc::string::String,
 }
+<span class="doccomment">/// Finalizes sign-in by verifying MFA challenge.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FinalizeMfaSignInRequest {
+    <span class="doccomment">/// Required. Pending credential from first factor sign-in.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mfa_pending_credential: ::prost::alloc::string::String,
+    <span class="doccomment">/// The ID of the Identity Platform tenant the user is signing in to. If not
+    /// set, the user will sign in to the default Identity Platform project.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>tenant_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Proof of completion of the MFA challenge.
+    </span><span class="attr">#[prost(oneof = <span class="string">"finalize_mfa_sign_in_request::VerificationInfo"</span>, tags = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>verification_info: ::core::option::Option&lt;
+        finalize_mfa_sign_in_request::VerificationInfo,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `FinalizeMfaSignInRequest`.
+</span><span class="kw">pub mod </span>finalize_mfa_sign_in_request {
+    <span class="doccomment">/// Proof of completion of the MFA challenge.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>VerificationInfo {
+        <span class="doccomment">/// Proof of completion of the SMS based MFA challenge.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>PhoneVerificationInfo(<span class="kw">super</span>::FinalizeMfaPhoneRequestInfo),
+    }
+}
+<span class="doccomment">/// FinalizeMfaSignIn response.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FinalizeMfaSignInResponse {
+    <span class="doccomment">/// ID token for the authenticated user.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Refresh token for the authenticated user.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>refresh_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// MFA verified sign-in information.
+    </span><span class="attr">#[prost(oneof = <span class="string">"finalize_mfa_sign_in_response::AuxiliaryAuthInfo"</span>, tags = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>auxiliary_auth_info: ::core::option::Option&lt;
+        finalize_mfa_sign_in_response::AuxiliaryAuthInfo,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `FinalizeMfaSignInResponse`.
+</span><span class="kw">pub mod </span>finalize_mfa_sign_in_response {
+    <span class="doccomment">/// MFA verified sign-in information.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>AuxiliaryAuthInfo {
+        <span class="doccomment">/// Extra phone auth info, including android verification proof.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>PhoneAuthInfo(<span class="kw">super</span>::FinalizeMfaPhoneResponseInfo),
+    }
+}
+<span class="doccomment">/// Starts multi-factor sign-in by sending the multi-factor auth challenge.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>StartMfaSignInRequest {
+    <span class="doccomment">/// Required. Pending credential from first factor sign-in.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mfa_pending_credential: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. MFA enrollment id from the user's list of current MFA enrollments.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>mfa_enrollment_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The ID of the Identity Platform tenant the user is signing in to. If not
+    /// set, the user will sign in to the default Identity Platform project.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>tenant_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// MFA information by type of 2nd factor.
+    </span><span class="attr">#[prost(oneof = <span class="string">"start_mfa_sign_in_request::SignInInfo"</span>, tags = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>sign_in_info: ::core::option::Option&lt;start_mfa_sign_in_request::SignInInfo&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `StartMfaSignInRequest`.
+</span><span class="kw">pub mod </span>start_mfa_sign_in_request {
+    <span class="doccomment">/// MFA information by type of 2nd factor.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>SignInInfo {
+        <span class="doccomment">/// Verification info to authorize sending an SMS for phone verification.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>PhoneSignInInfo(<span class="kw">super</span>::StartMfaPhoneRequestInfo),
+    }
+}
+<span class="doccomment">/// StartMfaSignIn response.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>StartMfaSignInResponse {
+    <span class="doccomment">/// MultiFactor start sign-in response by 2nd factor type.
+    </span><span class="attr">#[prost(oneof = <span class="string">"start_mfa_sign_in_response::ResponseInfo"</span>, tags = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>response_info: ::core::option::Option&lt;start_mfa_sign_in_response::ResponseInfo&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `StartMfaSignInResponse`.
+</span><span class="kw">pub mod </span>start_mfa_sign_in_response {
+    <span class="doccomment">/// MultiFactor start sign-in response by 2nd factor type.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>ResponseInfo {
+        <span class="doccomment">/// MultiFactor sign-in session information specific to SMS-type second
+        /// factors. Along with the one-time code retrieved from the sent SMS, the
+        /// contents of this session information should be passed to
+        /// FinalizeMfaSignIn to complete the sign in.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>PhoneResponseInfo(<span class="kw">super</span>::StartMfaPhoneResponseInfo),
+    }
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>authentication_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Authentication for Identity Toolkit
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>AuthenticationServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; AuthenticationServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; AuthenticationServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            AuthenticationServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Verifies the MFA challenge and performs sign-in
+        </span><span class="kw">pub async fn </span>finalize_mfa_sign_in(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::FinalizeMfaSignInRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::FinalizeMfaSignInResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.identitytoolkit.v2.AuthenticationService/FinalizeMfaSignIn"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.identitytoolkit.v2.AuthenticationService"</span>,
+                        <span class="string">"FinalizeMfaSignIn"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Sends the MFA challenge
+        </span><span class="kw">pub async fn </span>start_mfa_sign_in(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::StartMfaSignInRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::StartMfaSignInResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.identitytoolkit.v2.AuthenticationService/StartMfaSignIn"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.identitytoolkit.v2.AuthenticationService"</span>,
+                        <span class="string">"StartMfaSignIn"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
 <span class="doccomment">/// Finishes enrolling a second factor for the user.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1010,251 +1255,6 @@
                     GrpcMethod::new(
                         <span class="string">"google.cloud.identitytoolkit.v2.AccountManagementService"</span>,
                         <span class="string">"WithdrawMfa"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// Finalizes sign-in by verifying MFA challenge.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FinalizeMfaSignInRequest {
-    <span class="doccomment">/// Required. Pending credential from first factor sign-in.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>mfa_pending_credential: ::prost::alloc::string::String,
-    <span class="doccomment">/// The ID of the Identity Platform tenant the user is signing in to. If not
-    /// set, the user will sign in to the default Identity Platform project.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>tenant_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Proof of completion of the MFA challenge.
-    </span><span class="attr">#[prost(oneof = <span class="string">"finalize_mfa_sign_in_request::VerificationInfo"</span>, tags = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>verification_info: ::core::option::Option&lt;
-        finalize_mfa_sign_in_request::VerificationInfo,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `FinalizeMfaSignInRequest`.
-</span><span class="kw">pub mod </span>finalize_mfa_sign_in_request {
-    <span class="doccomment">/// Proof of completion of the MFA challenge.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>VerificationInfo {
-        <span class="doccomment">/// Proof of completion of the SMS based MFA challenge.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>PhoneVerificationInfo(<span class="kw">super</span>::FinalizeMfaPhoneRequestInfo),
-    }
-}
-<span class="doccomment">/// FinalizeMfaSignIn response.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FinalizeMfaSignInResponse {
-    <span class="doccomment">/// ID token for the authenticated user.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Refresh token for the authenticated user.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>refresh_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// MFA verified sign-in information.
-    </span><span class="attr">#[prost(oneof = <span class="string">"finalize_mfa_sign_in_response::AuxiliaryAuthInfo"</span>, tags = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>auxiliary_auth_info: ::core::option::Option&lt;
-        finalize_mfa_sign_in_response::AuxiliaryAuthInfo,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `FinalizeMfaSignInResponse`.
-</span><span class="kw">pub mod </span>finalize_mfa_sign_in_response {
-    <span class="doccomment">/// MFA verified sign-in information.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>AuxiliaryAuthInfo {
-        <span class="doccomment">/// Extra phone auth info, including android verification proof.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>PhoneAuthInfo(<span class="kw">super</span>::FinalizeMfaPhoneResponseInfo),
-    }
-}
-<span class="doccomment">/// Starts multi-factor sign-in by sending the multi-factor auth challenge.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>StartMfaSignInRequest {
-    <span class="doccomment">/// Required. Pending credential from first factor sign-in.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>mfa_pending_credential: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. MFA enrollment id from the user's list of current MFA enrollments.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>mfa_enrollment_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The ID of the Identity Platform tenant the user is signing in to. If not
-    /// set, the user will sign in to the default Identity Platform project.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>tenant_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// MFA information by type of 2nd factor.
-    </span><span class="attr">#[prost(oneof = <span class="string">"start_mfa_sign_in_request::SignInInfo"</span>, tags = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>sign_in_info: ::core::option::Option&lt;start_mfa_sign_in_request::SignInInfo&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `StartMfaSignInRequest`.
-</span><span class="kw">pub mod </span>start_mfa_sign_in_request {
-    <span class="doccomment">/// MFA information by type of 2nd factor.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>SignInInfo {
-        <span class="doccomment">/// Verification info to authorize sending an SMS for phone verification.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>PhoneSignInInfo(<span class="kw">super</span>::StartMfaPhoneRequestInfo),
-    }
-}
-<span class="doccomment">/// StartMfaSignIn response.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>StartMfaSignInResponse {
-    <span class="doccomment">/// MultiFactor start sign-in response by 2nd factor type.
-    </span><span class="attr">#[prost(oneof = <span class="string">"start_mfa_sign_in_response::ResponseInfo"</span>, tags = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>response_info: ::core::option::Option&lt;start_mfa_sign_in_response::ResponseInfo&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `StartMfaSignInResponse`.
-</span><span class="kw">pub mod </span>start_mfa_sign_in_response {
-    <span class="doccomment">/// MultiFactor start sign-in response by 2nd factor type.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>ResponseInfo {
-        <span class="doccomment">/// MultiFactor sign-in session information specific to SMS-type second
-        /// factors. Along with the one-time code retrieved from the sent SMS, the
-        /// contents of this session information should be passed to
-        /// FinalizeMfaSignIn to complete the sign in.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>PhoneResponseInfo(<span class="kw">super</span>::StartMfaPhoneResponseInfo),
-    }
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>authentication_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Authentication for Identity Toolkit
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>AuthenticationServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; AuthenticationServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; AuthenticationServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            AuthenticationServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Verifies the MFA challenge and performs sign-in
-        </span><span class="kw">pub async fn </span>finalize_mfa_sign_in(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::FinalizeMfaSignInRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::FinalizeMfaSignInResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.identitytoolkit.v2.AuthenticationService/FinalizeMfaSignIn"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.identitytoolkit.v2.AuthenticationService"</span>,
-                        <span class="string">"FinalizeMfaSignIn"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Sends the MFA challenge
-        </span><span class="kw">pub async fn </span>start_mfa_sign_in(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::StartMfaSignInRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::StartMfaSignInResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.identitytoolkit.v2.AuthenticationService/StartMfaSignIn"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.identitytoolkit.v2.AuthenticationService"</span>,
-                        <span class="string">"StartMfaSignIn"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

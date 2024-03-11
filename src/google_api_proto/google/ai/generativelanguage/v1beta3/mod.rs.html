@@ -2304,7 +2304,897 @@
 <a href="#2303" id="2303">2303</a>
 <a href="#2304" id="2304">2304</a>
 <a href="#2305" id="2305">2305</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// A collection of source attributions for a piece of content.
+</pre></div><pre class="rust"><code><span class="doccomment">/// A fine-tuned model created using ModelService.CreateTunedModel.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TunedModel {
+    <span class="doccomment">/// Output only. The tuned model name. A unique name will be generated on
+    /// create. Example: `tunedModels/az2mb0bpw6i` If display_name is set on
+    /// create, the id portion of the name will be set by concatenating the words
+    /// of the display_name with hyphens and adding a random portion for
+    /// uniqueness. Example:
+    ///      display_name = "Sentence Translator"
+    ///      name = "tunedModels/sentence-translator-u3b7m"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The name to display for this model in user interfaces.
+    /// The display name must be up to 40 characters including spaces.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. A short description of this model.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Controls the randomness of the output.
+    ///
+    /// Values can range over `\[0.0,1.0\]`, inclusive. A value closer to `1.0` will
+    /// produce responses that are more varied, while a value closer to `0.0` will
+    /// typically result in less surprising responses from the model.
+    ///
+    /// This value specifies default to be the one used by the base model while
+    /// creating the model.
+    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>temperature: ::core::option::Option&lt;f32&gt;,
+    <span class="doccomment">/// Optional. For Nucleus sampling.
+    ///
+    /// Nucleus sampling considers the smallest set of tokens whose probability
+    /// sum is at least `top_p`.
+    ///
+    /// This value specifies default to be the one used by the base model while
+    /// creating the model.
+    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>top_p: ::core::option::Option&lt;f32&gt;,
+    <span class="doccomment">/// Optional. For Top-k sampling.
+    ///
+    /// Top-k sampling considers the set of `top_k` most probable tokens.
+    /// This value specifies default to be used by the backend while making the
+    /// call to the model.
+    ///
+    /// This value specifies default to be the one used by the base model while
+    /// creating the model.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>top_k: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Output only. The state of the tuned model.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"tuned_model::State"</span>, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Output only. The timestamp when this model was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp when this model was updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Required. The tuning task that creates the tuned model.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>tuning_task: ::core::option::Option&lt;TuningTask&gt;,
+    <span class="doccomment">/// The model used as the starting point for tuning.
+    </span><span class="attr">#[prost(oneof = <span class="string">"tuned_model::SourceModel"</span>, tags = <span class="string">"3, 4"</span>)]
+    </span><span class="kw">pub </span>source_model: ::core::option::Option&lt;tuned_model::SourceModel&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `TunedModel`.
+</span><span class="kw">pub mod </span>tuned_model {
+    <span class="doccomment">/// The state of the tuned model.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// The default value. This value is unused.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The model is being created.
+        </span>Creating = <span class="number">1</span>,
+        <span class="doccomment">/// The model is ready to be used.
+        </span>Active = <span class="number">2</span>,
+        <span class="doccomment">/// The model failed to be created.
+        </span>Failed = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Creating =&gt; <span class="string">"CREATING"</span>,
+                State::Active =&gt; <span class="string">"ACTIVE"</span>,
+                State::Failed =&gt; <span class="string">"FAILED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
+                <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
+                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// The model used as the starting point for tuning.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>SourceModel {
+        <span class="doccomment">/// Optional. TunedModel to use as the starting point for training the new
+        /// model.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>TunedModelSource(<span class="kw">super</span>::TunedModelSource),
+        <span class="doccomment">/// Immutable. The name of the `Model` to tune.
+        /// Example: `models/text-bison-001`
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span>BaseModel(::prost::alloc::string::String),
+    }
+}
+<span class="doccomment">/// Tuned model as a source for training a new model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TunedModelSource {
+    <span class="doccomment">/// Immutable. The name of the `TunedModel` to use as the starting point for
+    /// training the new model.
+    /// Example: `tunedModels/my-tuned-model`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>tuned_model: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The name of the base `Model` this `TunedModel` was tuned from.
+    /// Example: `models/text-bison-001`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>base_model: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Tuning tasks that create tuned models.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TuningTask {
+    <span class="doccomment">/// Output only. The timestamp when tuning this model started.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp when tuning this model completed.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>complete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Metrics collected during tuning.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>snapshots: ::prost::alloc::vec::Vec&lt;TuningSnapshot&gt;,
+    <span class="doccomment">/// Required. Input only. Immutable. The model training data.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>training_data: ::core::option::Option&lt;Dataset&gt;,
+    <span class="doccomment">/// Immutable. Hyperparameters controlling the tuning process. If not provided,
+    /// default values will be used.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>hyperparameters: ::core::option::Option&lt;Hyperparameters&gt;,
+}
+<span class="doccomment">/// Hyperparameters controlling the tuning process.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Hyperparameters {
+    <span class="doccomment">/// Immutable. The number of training epochs. An epoch is one pass through the
+    /// training data. If not set, a default of 10 will be used.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>epoch_count: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Immutable. The batch size hyperparameter for tuning.
+    /// If not set, a default of 16 or 64 will be used based on the number of
+    /// training examples.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>batch_size: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Immutable. The learning rate hyperparameter for tuning.
+    /// If not set, a default of 0.0002 or 0.002 will be calculated based on the
+    /// number of training examples.
+    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"16"</span>)]
+    </span><span class="kw">pub </span>learning_rate: ::core::option::Option&lt;f32&gt;,
+}
+<span class="doccomment">/// Dataset for training or validation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Dataset {
+    <span class="doccomment">/// Inline data or a reference to the data.
+    </span><span class="attr">#[prost(oneof = <span class="string">"dataset::Dataset"</span>, tags = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>dataset: ::core::option::Option&lt;dataset::Dataset&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Dataset`.
+</span><span class="kw">pub mod </span>dataset {
+    <span class="doccomment">/// Inline data or a reference to the data.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Dataset {
+        <span class="doccomment">/// Optional. Inline examples.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>Examples(<span class="kw">super</span>::TuningExamples),
+    }
+}
+<span class="doccomment">/// A set of tuning examples. Can be training or validatation data.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TuningExamples {
+    <span class="doccomment">/// Required. The examples. Example input can be for text or discuss, but all
+    /// examples in a set must be of the same type.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>examples: ::prost::alloc::vec::Vec&lt;TuningExample&gt;,
+}
+<span class="doccomment">/// A single example for tuning.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TuningExample {
+    <span class="doccomment">/// Required. The expected model output.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>output: ::prost::alloc::string::String,
+    <span class="doccomment">/// The input to the model for this example.
+    </span><span class="attr">#[prost(oneof = <span class="string">"tuning_example::ModelInput"</span>, tags = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>model_input: ::core::option::Option&lt;tuning_example::ModelInput&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `TuningExample`.
+</span><span class="kw">pub mod </span>tuning_example {
+    <span class="doccomment">/// The input to the model for this example.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>ModelInput {
+        <span class="doccomment">/// Optional. Text model input.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span>TextInput(::prost::alloc::string::String),
+    }
+}
+<span class="doccomment">/// Record for a single tuning step.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TuningSnapshot {
+    <span class="doccomment">/// Output only. The tuning step.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>step: i32,
+    <span class="doccomment">/// Output only. The epoch this step was part of.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>epoch: i32,
+    <span class="doccomment">/// Output only. The mean loss of the training examples for this step.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>mean_loss: f32,
+    <span class="doccomment">/// Output only. The timestamp when this metric was computed.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>compute_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Information about a Generative Language Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Model {
+    <span class="doccomment">/// Required. The resource name of the `Model`.
+    ///
+    /// Format: `models/{model}` with a `{model}` naming convention of:
+    ///
+    /// * "{base_model_id}-{version}"
+    ///
+    /// Examples:
+    ///
+    /// * `models/chat-bison-001`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The name of the base model, pass this to the generation request.
+    ///
+    /// Examples:
+    ///
+    /// * `chat-bison`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>base_model_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The version number of the model.
+    ///
+    /// This represents the major version
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
+    <span class="doccomment">/// The human-readable name of the model. E.g. "Chat Bison".
+    ///
+    /// The name can be up to 128 characters long and can consist of any UTF-8
+    /// characters.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// A short description of the model.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Maximum number of input tokens allowed for this model.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>input_token_limit: i32,
+    <span class="doccomment">/// Maximum number of output tokens available for this model.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>output_token_limit: i32,
+    <span class="doccomment">/// The model's supported generation methods.
+    ///
+    /// The method names are defined as Pascal case
+    /// strings, such as `generateMessage` which correspond to API methods.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>supported_generation_methods: ::prost::alloc::vec::Vec&lt;
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Controls the randomness of the output.
+    ///
+    /// Values can range over `\[0.0,1.0\]`, inclusive. A value closer to `1.0` will
+    /// produce responses that are more varied, while a value closer to `0.0` will
+    /// typically result in less surprising responses from the model.
+    /// This value specifies default to be used by the backend while making the
+    /// call to the model.
+    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>temperature: ::core::option::Option&lt;f32&gt;,
+    <span class="doccomment">/// For Nucleus sampling.
+    ///
+    /// Nucleus sampling considers the smallest set of tokens whose probability
+    /// sum is at least `top_p`.
+    /// This value specifies default to be used by the backend while making the
+    /// call to the model.
+    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>top_p: ::core::option::Option&lt;f32&gt;,
+    <span class="doccomment">/// For Top-k sampling.
+    ///
+    /// Top-k sampling considers the set of `top_k` most probable tokens.
+    /// This value specifies default to be used by the backend while making the
+    /// call to the model.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>top_k: ::core::option::Option&lt;i32&gt;,
+}
+<span class="doccomment">/// Request for getting information about a specific Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetModelRequest {
+    <span class="doccomment">/// Required. The resource name of the model.
+    ///
+    /// This name should match a model name returned by the `ListModels` method.
+    ///
+    /// Format: `models/{model}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request for listing all Models.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListModelsRequest {
+    <span class="doccomment">/// The maximum number of `Models` to return (per page).
+    ///
+    /// The service may return fewer models.
+    /// If unspecified, at most 50 models will be returned per page.
+    /// This method returns at most 1000 models per page, even if you pass a larger
+    /// page_size.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A page token, received from a previous `ListModels` call.
+    ///
+    /// Provide the `page_token` returned by one request as an argument to the next
+    /// request to retrieve the next page.
+    ///
+    /// When paginating, all other parameters provided to `ListModels` must match
+    /// the call that provided the page token.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response from `ListModel` containing a paginated list of Models.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListModelsResponse {
+    <span class="doccomment">/// The returned Models.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>models: ::prost::alloc::vec::Vec&lt;Model&gt;,
+    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
+    ///
+    /// If this field is omitted, there are no more pages.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request for getting information about a specific Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetTunedModelRequest {
+    <span class="doccomment">/// Required. The resource name of the model.
+    ///
+    /// Format: `tunedModels/my-model-id`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request for listing TunedModels.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListTunedModelsRequest {
+    <span class="doccomment">/// Optional. The maximum number of `TunedModels` to return (per page).
+    /// The service may return fewer tuned models.
+    ///
+    /// If unspecified, at most 10 tuned models will be returned.
+    /// This method returns at most 1000 models per page, even if you pass a larger
+    /// page_size.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// Optional. A page token, received from a previous `ListTunedModels` call.
+    ///
+    /// Provide the `page_token` returned by one request as an argument to the next
+    /// request to retrieve the next page.
+    ///
+    /// When paginating, all other parameters provided to `ListTunedModels`
+    /// must match the call that provided the page token.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response from `ListTunedModels` containing a paginated list of Models.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListTunedModelsResponse {
+    <span class="doccomment">/// The returned Models.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>tuned_models: ::prost::alloc::vec::Vec&lt;TunedModel&gt;,
+    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
+    ///
+    /// If this field is omitted, there are no more pages.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request to create a TunedModel.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateTunedModelRequest {
+    <span class="doccomment">/// Optional. The unique id for the tuned model if specified.
+    /// This value should be up to 40 characters, the first character must be a
+    /// letter, the last could be a letter or a number. The id must match the
+    /// regular expression: [a-z](\[a-z0-9-\]{0,38}\[a-z0-9\])?.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>tuned_model_id: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Required. The tuned model to create.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>tuned_model: ::core::option::Option&lt;TunedModel&gt;,
+}
+<span class="doccomment">/// Metadata about the state and progress of creating a tuned model returned from
+/// the long-running operation
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateTunedModelMetadata {
+    <span class="doccomment">/// Name of the tuned model associated with the tuning operation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>tuned_model: ::prost::alloc::string::String,
+    <span class="doccomment">/// The total number of tuning steps.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>total_steps: i32,
+    <span class="doccomment">/// The number of steps completed.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>completed_steps: i32,
+    <span class="doccomment">/// The completed percentage for the tuning operation.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>completed_percent: f32,
+    <span class="doccomment">/// Metrics collected during tuning.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>snapshots: ::prost::alloc::vec::Vec&lt;TuningSnapshot&gt;,
+}
+<span class="doccomment">/// Request to update a TunedModel.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateTunedModelRequest {
+    <span class="doccomment">/// Required. The tuned model to update.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>tuned_model: ::core::option::Option&lt;TunedModel&gt;,
+    <span class="doccomment">/// Required. The list of fields to update.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+}
+<span class="doccomment">/// Request to delete a TunedModel.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteTunedModelRequest {
+    <span class="doccomment">/// Required. The resource name of the model.
+    /// Format: `tunedModels/my-model-id`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>model_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Provides methods for getting metadata information about Generative Models.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>ModelServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; ModelServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; ModelServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            ModelServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Gets information about a specific Model.
+        </span><span class="kw">pub async fn </span>get_model(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetModelRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Model&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta3.ModelService/GetModel"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta3.ModelService"</span>,
+                        <span class="string">"GetModel"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Lists models available through the API.
+        </span><span class="kw">pub async fn </span>list_models(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListModelsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListModelsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta3.ModelService/ListModels"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta3.ModelService"</span>,
+                        <span class="string">"ListModels"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Gets information about a specific TunedModel.
+        </span><span class="kw">pub async fn </span>get_tuned_model(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetTunedModelRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::TunedModel&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta3.ModelService/GetTunedModel"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta3.ModelService"</span>,
+                        <span class="string">"GetTunedModel"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Lists tuned models owned by the user.
+        </span><span class="kw">pub async fn </span>list_tuned_models(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListTunedModelsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListTunedModelsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta3.ModelService/ListTunedModels"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta3.ModelService"</span>,
+                        <span class="string">"ListTunedModels"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Creates a tuned model.
+        /// Intermediate tuning progress (if any) is accessed through the
+        /// [google.longrunning.Operations] service.
+        ///
+        /// Status and results can be accessed through the Operations service.
+        /// Example:
+        ///   GET /v1/tunedModels/az2mb0bpw6i/operations/000-111-222
+        </span><span class="kw">pub async fn </span>create_tuned_model(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateTunedModelRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta3.ModelService/CreateTunedModel"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta3.ModelService"</span>,
+                        <span class="string">"CreateTunedModel"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Updates a tuned model.
+        </span><span class="kw">pub async fn </span>update_tuned_model(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateTunedModelRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::TunedModel&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta3.ModelService/UpdateTunedModel"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta3.ModelService"</span>,
+                        <span class="string">"UpdateTunedModel"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Deletes a tuned model.
+        </span><span class="kw">pub async fn </span>delete_tuned_model(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeleteTunedModelRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;()&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta3.ModelService/DeleteTunedModel"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta3.ModelService"</span>,
+                        <span class="string">"DeleteTunedModel"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Permission resource grants user, group or the rest of the world access to the
+/// PaLM API resource (e.g. a tuned model, file).
+///
+/// A role is a collection of permitted operations that allows users to perform
+/// specific actions on PaLM API resources. To make them available to users,
+/// groups, or service accounts, you assign roles. When you assign a role, you
+/// grant permissions that the role contains.
+///
+/// There are three concentric roles. Each role is a superset of the previous
+/// role's permitted operations:
+///   - reader can use the resource (e.g. tuned model) for inference
+///   - writer has reader's permissions and additionally can edit and share
+///   - owner has writer's permissions and additionally can delete
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Permission {
+    <span class="doccomment">/// Output only. The permission name. A unique name will be generated on
+    /// create. Example: tunedModels/{tuned_model}permssions/{permission} Output
+    /// only.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Immutable. The type of the grantee.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"permission::GranteeType"</span>, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>grantee_type: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Optional. Immutable. The email address of the user of group which this
+    /// permission refers. Field is not set when permission's grantee type is
+    /// EVERYONE.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>email_address: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Required. The role granted by this permission.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"permission::Role"</span>, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>role: ::core::option::Option&lt;i32&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Permission`.
+</span><span class="kw">pub mod </span>permission {
+    <span class="doccomment">/// Defines types of the grantee of this permission.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>GranteeType {
+        <span class="doccomment">/// The default value. This value is unused.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Represents a user. When set, you must provide email_address for the user.
+        </span>User = <span class="number">1</span>,
+        <span class="doccomment">/// Represents a group. When set, you must provide email_address for the
+        /// group.
+        </span>Group = <span class="number">2</span>,
+        <span class="doccomment">/// Represents access to everyone. No extra information is required.
+        </span>Everyone = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>GranteeType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                GranteeType::Unspecified =&gt; <span class="string">"GRANTEE_TYPE_UNSPECIFIED"</span>,
+                GranteeType::User =&gt; <span class="string">"USER"</span>,
+                GranteeType::Group =&gt; <span class="string">"GROUP"</span>,
+                GranteeType::Everyone =&gt; <span class="string">"EVERYONE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"GRANTEE_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"USER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::User),
+                <span class="string">"GROUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Group),
+                <span class="string">"EVERYONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Everyone),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Defines the role granted by this permission.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Role {
+        <span class="doccomment">/// The default value. This value is unused.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Owner can use, update, share and delete the resource.
+        </span>Owner = <span class="number">1</span>,
+        <span class="doccomment">/// Writer can use, update and share the resource.
+        </span>Writer = <span class="number">2</span>,
+        <span class="doccomment">/// Reader can use the resource.
+        </span>Reader = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>Role {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Role::Unspecified =&gt; <span class="string">"ROLE_UNSPECIFIED"</span>,
+                Role::Owner =&gt; <span class="string">"OWNER"</span>,
+                Role::Writer =&gt; <span class="string">"WRITER"</span>,
+                Role::Reader =&gt; <span class="string">"READER"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"ROLE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"OWNER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Owner),
+                <span class="string">"WRITER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Writer),
+                <span class="string">"READER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Reader),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A collection of source attributions for a piece of content.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CitationMetadata {
@@ -2940,742 +3830,6 @@
         </span>}
     }
 }
-<span class="doccomment">/// A fine-tuned model created using ModelService.CreateTunedModel.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TunedModel {
-    <span class="doccomment">/// Output only. The tuned model name. A unique name will be generated on
-    /// create. Example: `tunedModels/az2mb0bpw6i` If display_name is set on
-    /// create, the id portion of the name will be set by concatenating the words
-    /// of the display_name with hyphens and adding a random portion for
-    /// uniqueness. Example:
-    ///      display_name = "Sentence Translator"
-    ///      name = "tunedModels/sentence-translator-u3b7m"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The name to display for this model in user interfaces.
-    /// The display name must be up to 40 characters including spaces.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. A short description of this model.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Controls the randomness of the output.
-    ///
-    /// Values can range over `\[0.0,1.0\]`, inclusive. A value closer to `1.0` will
-    /// produce responses that are more varied, while a value closer to `0.0` will
-    /// typically result in less surprising responses from the model.
-    ///
-    /// This value specifies default to be the one used by the base model while
-    /// creating the model.
-    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>temperature: ::core::option::Option&lt;f32&gt;,
-    <span class="doccomment">/// Optional. For Nucleus sampling.
-    ///
-    /// Nucleus sampling considers the smallest set of tokens whose probability
-    /// sum is at least `top_p`.
-    ///
-    /// This value specifies default to be the one used by the base model while
-    /// creating the model.
-    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>top_p: ::core::option::Option&lt;f32&gt;,
-    <span class="doccomment">/// Optional. For Top-k sampling.
-    ///
-    /// Top-k sampling considers the set of `top_k` most probable tokens.
-    /// This value specifies default to be used by the backend while making the
-    /// call to the model.
-    ///
-    /// This value specifies default to be the one used by the base model while
-    /// creating the model.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>top_k: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Output only. The state of the tuned model.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"tuned_model::State"</span>, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Output only. The timestamp when this model was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp when this model was updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Required. The tuning task that creates the tuned model.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>tuning_task: ::core::option::Option&lt;TuningTask&gt;,
-    <span class="doccomment">/// The model used as the starting point for tuning.
-    </span><span class="attr">#[prost(oneof = <span class="string">"tuned_model::SourceModel"</span>, tags = <span class="string">"3, 4"</span>)]
-    </span><span class="kw">pub </span>source_model: ::core::option::Option&lt;tuned_model::SourceModel&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `TunedModel`.
-</span><span class="kw">pub mod </span>tuned_model {
-    <span class="doccomment">/// The state of the tuned model.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// The default value. This value is unused.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The model is being created.
-        </span>Creating = <span class="number">1</span>,
-        <span class="doccomment">/// The model is ready to be used.
-        </span>Active = <span class="number">2</span>,
-        <span class="doccomment">/// The model failed to be created.
-        </span>Failed = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Creating =&gt; <span class="string">"CREATING"</span>,
-                State::Active =&gt; <span class="string">"ACTIVE"</span>,
-                State::Failed =&gt; <span class="string">"FAILED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
-                <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
-                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// The model used as the starting point for tuning.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>SourceModel {
-        <span class="doccomment">/// Optional. TunedModel to use as the starting point for training the new
-        /// model.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>TunedModelSource(<span class="kw">super</span>::TunedModelSource),
-        <span class="doccomment">/// Immutable. The name of the `Model` to tune.
-        /// Example: `models/text-bison-001`
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span>BaseModel(::prost::alloc::string::String),
-    }
-}
-<span class="doccomment">/// Tuned model as a source for training a new model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TunedModelSource {
-    <span class="doccomment">/// Immutable. The name of the `TunedModel` to use as the starting point for
-    /// training the new model.
-    /// Example: `tunedModels/my-tuned-model`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>tuned_model: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The name of the base `Model` this `TunedModel` was tuned from.
-    /// Example: `models/text-bison-001`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>base_model: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Tuning tasks that create tuned models.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TuningTask {
-    <span class="doccomment">/// Output only. The timestamp when tuning this model started.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp when tuning this model completed.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>complete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Metrics collected during tuning.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>snapshots: ::prost::alloc::vec::Vec&lt;TuningSnapshot&gt;,
-    <span class="doccomment">/// Required. Input only. Immutable. The model training data.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>training_data: ::core::option::Option&lt;Dataset&gt;,
-    <span class="doccomment">/// Immutable. Hyperparameters controlling the tuning process. If not provided,
-    /// default values will be used.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>hyperparameters: ::core::option::Option&lt;Hyperparameters&gt;,
-}
-<span class="doccomment">/// Hyperparameters controlling the tuning process.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Hyperparameters {
-    <span class="doccomment">/// Immutable. The number of training epochs. An epoch is one pass through the
-    /// training data. If not set, a default of 10 will be used.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>epoch_count: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Immutable. The batch size hyperparameter for tuning.
-    /// If not set, a default of 16 or 64 will be used based on the number of
-    /// training examples.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>batch_size: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Immutable. The learning rate hyperparameter for tuning.
-    /// If not set, a default of 0.0002 or 0.002 will be calculated based on the
-    /// number of training examples.
-    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"16"</span>)]
-    </span><span class="kw">pub </span>learning_rate: ::core::option::Option&lt;f32&gt;,
-}
-<span class="doccomment">/// Dataset for training or validation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Dataset {
-    <span class="doccomment">/// Inline data or a reference to the data.
-    </span><span class="attr">#[prost(oneof = <span class="string">"dataset::Dataset"</span>, tags = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>dataset: ::core::option::Option&lt;dataset::Dataset&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Dataset`.
-</span><span class="kw">pub mod </span>dataset {
-    <span class="doccomment">/// Inline data or a reference to the data.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Dataset {
-        <span class="doccomment">/// Optional. Inline examples.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>Examples(<span class="kw">super</span>::TuningExamples),
-    }
-}
-<span class="doccomment">/// A set of tuning examples. Can be training or validatation data.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TuningExamples {
-    <span class="doccomment">/// Required. The examples. Example input can be for text or discuss, but all
-    /// examples in a set must be of the same type.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>examples: ::prost::alloc::vec::Vec&lt;TuningExample&gt;,
-}
-<span class="doccomment">/// A single example for tuning.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TuningExample {
-    <span class="doccomment">/// Required. The expected model output.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>output: ::prost::alloc::string::String,
-    <span class="doccomment">/// The input to the model for this example.
-    </span><span class="attr">#[prost(oneof = <span class="string">"tuning_example::ModelInput"</span>, tags = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>model_input: ::core::option::Option&lt;tuning_example::ModelInput&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `TuningExample`.
-</span><span class="kw">pub mod </span>tuning_example {
-    <span class="doccomment">/// The input to the model for this example.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>ModelInput {
-        <span class="doccomment">/// Optional. Text model input.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span>TextInput(::prost::alloc::string::String),
-    }
-}
-<span class="doccomment">/// Record for a single tuning step.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TuningSnapshot {
-    <span class="doccomment">/// Output only. The tuning step.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>step: i32,
-    <span class="doccomment">/// Output only. The epoch this step was part of.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>epoch: i32,
-    <span class="doccomment">/// Output only. The mean loss of the training examples for this step.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>mean_loss: f32,
-    <span class="doccomment">/// Output only. The timestamp when this metric was computed.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>compute_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Permission resource grants user, group or the rest of the world access to the
-/// PaLM API resource (e.g. a tuned model, file).
-///
-/// A role is a collection of permitted operations that allows users to perform
-/// specific actions on PaLM API resources. To make them available to users,
-/// groups, or service accounts, you assign roles. When you assign a role, you
-/// grant permissions that the role contains.
-///
-/// There are three concentric roles. Each role is a superset of the previous
-/// role's permitted operations:
-///   - reader can use the resource (e.g. tuned model) for inference
-///   - writer has reader's permissions and additionally can edit and share
-///   - owner has writer's permissions and additionally can delete
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Permission {
-    <span class="doccomment">/// Output only. The permission name. A unique name will be generated on
-    /// create. Example: tunedModels/{tuned_model}permssions/{permission} Output
-    /// only.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Immutable. The type of the grantee.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"permission::GranteeType"</span>, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>grantee_type: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Optional. Immutable. The email address of the user of group which this
-    /// permission refers. Field is not set when permission's grantee type is
-    /// EVERYONE.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>email_address: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Required. The role granted by this permission.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"permission::Role"</span>, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>role: ::core::option::Option&lt;i32&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Permission`.
-</span><span class="kw">pub mod </span>permission {
-    <span class="doccomment">/// Defines types of the grantee of this permission.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>GranteeType {
-        <span class="doccomment">/// The default value. This value is unused.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Represents a user. When set, you must provide email_address for the user.
-        </span>User = <span class="number">1</span>,
-        <span class="doccomment">/// Represents a group. When set, you must provide email_address for the
-        /// group.
-        </span>Group = <span class="number">2</span>,
-        <span class="doccomment">/// Represents access to everyone. No extra information is required.
-        </span>Everyone = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>GranteeType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                GranteeType::Unspecified =&gt; <span class="string">"GRANTEE_TYPE_UNSPECIFIED"</span>,
-                GranteeType::User =&gt; <span class="string">"USER"</span>,
-                GranteeType::Group =&gt; <span class="string">"GROUP"</span>,
-                GranteeType::Everyone =&gt; <span class="string">"EVERYONE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"GRANTEE_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"USER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::User),
-                <span class="string">"GROUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Group),
-                <span class="string">"EVERYONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Everyone),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Defines the role granted by this permission.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Role {
-        <span class="doccomment">/// The default value. This value is unused.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Owner can use, update, share and delete the resource.
-        </span>Owner = <span class="number">1</span>,
-        <span class="doccomment">/// Writer can use, update and share the resource.
-        </span>Writer = <span class="number">2</span>,
-        <span class="doccomment">/// Reader can use the resource.
-        </span>Reader = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>Role {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Role::Unspecified =&gt; <span class="string">"ROLE_UNSPECIFIED"</span>,
-                Role::Owner =&gt; <span class="string">"OWNER"</span>,
-                Role::Writer =&gt; <span class="string">"WRITER"</span>,
-                Role::Reader =&gt; <span class="string">"READER"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"ROLE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"OWNER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Owner),
-                <span class="string">"WRITER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Writer),
-                <span class="string">"READER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Reader),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Request to create a `Permission`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreatePermissionRequest {
-    <span class="doccomment">/// Required. The parent resource of the `Permission`.
-    /// Format: tunedModels/{tuned_model}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The permission to create.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>permission: ::core::option::Option&lt;Permission&gt;,
-}
-<span class="doccomment">/// Request for getting information about a specific `Permission`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetPermissionRequest {
-    <span class="doccomment">/// Required. The resource name of the permission.
-    ///
-    /// Format: `tunedModels/{tuned_model}permissions/{permission}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request for listing permissions.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListPermissionsRequest {
-    <span class="doccomment">/// Required. The parent resource of the permissions.
-    /// Format: tunedModels/{tuned_model}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The maximum number of `Permission`s to return (per page).
-    /// The service may return fewer permissions.
-    ///
-    /// If unspecified, at most 10 permissions will be returned.
-    /// This method returns at most 1000 permissions per page, even if you pass
-    /// larger page_size.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// Optional. A page token, received from a previous `ListPermissions` call.
-    ///
-    /// Provide the `page_token` returned by one request as an argument to the
-    /// next request to retrieve the next page.
-    ///
-    /// When paginating, all other parameters provided to `ListPermissions`
-    /// must match the call that provided the page token.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response from `ListPermissions` containing a paginated list of
-/// permissions.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListPermissionsResponse {
-    <span class="doccomment">/// Returned permissions.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>permissions: ::prost::alloc::vec::Vec&lt;Permission&gt;,
-    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
-    ///
-    /// If this field is omitted, there are no more pages.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request to update the `Permission`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdatePermissionRequest {
-    <span class="doccomment">/// Required. The permission to update.
-    ///
-    /// The permission's `name` field is used to identify the permission to update.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>permission: ::core::option::Option&lt;Permission&gt;,
-    <span class="doccomment">/// Required. The list of fields to update. Accepted ones:
-    ///   - role (`Permission.role` field)
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-}
-<span class="doccomment">/// Request to delete the `Permission`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeletePermissionRequest {
-    <span class="doccomment">/// Required. The resource name of the permission.
-    /// Format: `tunedModels/{tuned_model}/permissions/{permission}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request to transfer the ownership of the tuned model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TransferOwnershipRequest {
-    <span class="doccomment">/// Required. The resource name of the tuned model to transfer ownership .
-    ///
-    /// Format: `tunedModels/my-model-id`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The email address of the user to whom the tuned model is being
-    /// transferred to.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>email_address: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response from `TransferOwnership`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TransferOwnershipResponse {}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>permission_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Provides methods for managing permissions to PaLM API resources.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>PermissionServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; PermissionServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; PermissionServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            PermissionServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Create a permission to a specific resource.
-        </span><span class="kw">pub async fn </span>create_permission(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreatePermissionRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Permission&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.PermissionService/CreatePermission"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.PermissionService"</span>,
-                        <span class="string">"CreatePermission"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Gets information about a specific Permission.
-        </span><span class="kw">pub async fn </span>get_permission(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetPermissionRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Permission&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.PermissionService/GetPermission"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.PermissionService"</span>,
-                        <span class="string">"GetPermission"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Lists permissions for the specific resource.
-        </span><span class="kw">pub async fn </span>list_permissions(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListPermissionsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListPermissionsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.PermissionService/ListPermissions"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.PermissionService"</span>,
-                        <span class="string">"ListPermissions"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Updates the permission.
-        </span><span class="kw">pub async fn </span>update_permission(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdatePermissionRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Permission&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.PermissionService/UpdatePermission"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.PermissionService"</span>,
-                        <span class="string">"UpdatePermission"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Deletes the permission.
-        </span><span class="kw">pub async fn </span>delete_permission(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeletePermissionRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;()&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.PermissionService/DeletePermission"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.PermissionService"</span>,
-                        <span class="string">"DeletePermission"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Transfers ownership of the tuned model.
-        /// This is the only way to change ownership of the tuned model.
-        /// The current owner will be downgraded to writer role.
-        </span><span class="kw">pub async fn </span>transfer_ownership(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::TransferOwnershipRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::TransferOwnershipResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.PermissionService/TransferOwnership"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.PermissionService"</span>,
-                        <span class="string">"TransferOwnership"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
 <span class="doccomment">/// Request to generate a text completion response from the model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4099,239 +4253,120 @@
         </span>}
     }
 }
-<span class="doccomment">/// Information about a Generative Language Model.
+<span class="doccomment">/// Request to create a `Permission`.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Model {
-    <span class="doccomment">/// Required. The resource name of the `Model`.
-    ///
-    /// Format: `models/{model}` with a `{model}` naming convention of:
-    ///
-    /// * "{base_model_id}-{version}"
-    ///
-    /// Examples:
-    ///
-    /// * `models/chat-bison-001`
+</span><span class="kw">pub struct </span>CreatePermissionRequest {
+    <span class="doccomment">/// Required. The parent resource of the `Permission`.
+    /// Format: tunedModels/{tuned_model}
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The name of the base model, pass this to the generation request.
-    ///
-    /// Examples:
-    ///
-    /// * `chat-bison`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>base_model_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The version number of the model.
-    ///
-    /// This represents the major version
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
-    <span class="doccomment">/// The human-readable name of the model. E.g. "Chat Bison".
-    ///
-    /// The name can be up to 128 characters long and can consist of any UTF-8
-    /// characters.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// A short description of the model.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Maximum number of input tokens allowed for this model.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>input_token_limit: i32,
-    <span class="doccomment">/// Maximum number of output tokens available for this model.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>output_token_limit: i32,
-    <span class="doccomment">/// The model's supported generation methods.
-    ///
-    /// The method names are defined as Pascal case
-    /// strings, such as `generateMessage` which correspond to API methods.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>supported_generation_methods: ::prost::alloc::vec::Vec&lt;
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Controls the randomness of the output.
-    ///
-    /// Values can range over `\[0.0,1.0\]`, inclusive. A value closer to `1.0` will
-    /// produce responses that are more varied, while a value closer to `0.0` will
-    /// typically result in less surprising responses from the model.
-    /// This value specifies default to be used by the backend while making the
-    /// call to the model.
-    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>temperature: ::core::option::Option&lt;f32&gt;,
-    <span class="doccomment">/// For Nucleus sampling.
-    ///
-    /// Nucleus sampling considers the smallest set of tokens whose probability
-    /// sum is at least `top_p`.
-    /// This value specifies default to be used by the backend while making the
-    /// call to the model.
-    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>top_p: ::core::option::Option&lt;f32&gt;,
-    <span class="doccomment">/// For Top-k sampling.
-    ///
-    /// Top-k sampling considers the set of `top_k` most probable tokens.
-    /// This value specifies default to be used by the backend while making the
-    /// call to the model.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>top_k: ::core::option::Option&lt;i32&gt;,
-}
-<span class="doccomment">/// Request for getting information about a specific Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetModelRequest {
-    <span class="doccomment">/// Required. The resource name of the model.
-    ///
-    /// This name should match a model name returned by the `ListModels` method.
-    ///
-    /// Format: `models/{model}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request for listing all Models.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListModelsRequest {
-    <span class="doccomment">/// The maximum number of `Models` to return (per page).
-    ///
-    /// The service may return fewer models.
-    /// If unspecified, at most 50 models will be returned per page.
-    /// This method returns at most 1000 models per page, even if you pass a larger
-    /// page_size.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A page token, received from a previous `ListModels` call.
-    ///
-    /// Provide the `page_token` returned by one request as an argument to the next
-    /// request to retrieve the next page.
-    ///
-    /// When paginating, all other parameters provided to `ListModels` must match
-    /// the call that provided the page token.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response from `ListModel` containing a paginated list of Models.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListModelsResponse {
-    <span class="doccomment">/// The returned Models.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>models: ::prost::alloc::vec::Vec&lt;Model&gt;,
-    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
-    ///
-    /// If this field is omitted, there are no more pages.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request for getting information about a specific Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetTunedModelRequest {
-    <span class="doccomment">/// Required. The resource name of the model.
-    ///
-    /// Format: `tunedModels/my-model-id`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request for listing TunedModels.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListTunedModelsRequest {
-    <span class="doccomment">/// Optional. The maximum number of `TunedModels` to return (per page).
-    /// The service may return fewer tuned models.
-    ///
-    /// If unspecified, at most 10 tuned models will be returned.
-    /// This method returns at most 1000 models per page, even if you pass a larger
-    /// page_size.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// Optional. A page token, received from a previous `ListTunedModels` call.
-    ///
-    /// Provide the `page_token` returned by one request as an argument to the next
-    /// request to retrieve the next page.
-    ///
-    /// When paginating, all other parameters provided to `ListTunedModels`
-    /// must match the call that provided the page token.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response from `ListTunedModels` containing a paginated list of Models.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListTunedModelsResponse {
-    <span class="doccomment">/// The returned Models.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>tuned_models: ::prost::alloc::vec::Vec&lt;TunedModel&gt;,
-    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
-    ///
-    /// If this field is omitted, there are no more pages.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request to create a TunedModel.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateTunedModelRequest {
-    <span class="doccomment">/// Optional. The unique id for the tuned model if specified.
-    /// This value should be up to 40 characters, the first character must be a
-    /// letter, the last could be a letter or a number. The id must match the
-    /// regular expression: [a-z](\[a-z0-9-\]{0,38}\[a-z0-9\])?.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>tuned_model_id: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Required. The tuned model to create.
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The permission to create.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>tuned_model: ::core::option::Option&lt;TunedModel&gt;,
+    </span><span class="kw">pub </span>permission: ::core::option::Option&lt;Permission&gt;,
 }
-<span class="doccomment">/// Metadata about the state and progress of creating a tuned model returned from
-/// the long-running operation
+<span class="doccomment">/// Request for getting information about a specific `Permission`.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateTunedModelMetadata {
-    <span class="doccomment">/// Name of the tuned model associated with the tuning operation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>tuned_model: ::prost::alloc::string::String,
-    <span class="doccomment">/// The total number of tuning steps.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>total_steps: i32,
-    <span class="doccomment">/// The number of steps completed.
+</span><span class="kw">pub struct </span>GetPermissionRequest {
+    <span class="doccomment">/// Required. The resource name of the permission.
+    ///
+    /// Format: `tunedModels/{tuned_model}permissions/{permission}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request for listing permissions.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListPermissionsRequest {
+    <span class="doccomment">/// Required. The parent resource of the permissions.
+    /// Format: tunedModels/{tuned_model}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The maximum number of `Permission`s to return (per page).
+    /// The service may return fewer permissions.
+    ///
+    /// If unspecified, at most 10 permissions will be returned.
+    /// This method returns at most 1000 permissions per page, even if you pass
+    /// larger page_size.
     </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>completed_steps: i32,
-    <span class="doccomment">/// The completed percentage for the tuning operation.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>completed_percent: f32,
-    <span class="doccomment">/// Metrics collected during tuning.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>snapshots: ::prost::alloc::vec::Vec&lt;TuningSnapshot&gt;,
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// Optional. A page token, received from a previous `ListPermissions` call.
+    ///
+    /// Provide the `page_token` returned by one request as an argument to the
+    /// next request to retrieve the next page.
+    ///
+    /// When paginating, all other parameters provided to `ListPermissions`
+    /// must match the call that provided the page token.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Request to update a TunedModel.
+<span class="doccomment">/// Response from `ListPermissions` containing a paginated list of
+/// permissions.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateTunedModelRequest {
-    <span class="doccomment">/// Required. The tuned model to update.
+</span><span class="kw">pub struct </span>ListPermissionsResponse {
+    <span class="doccomment">/// Returned permissions.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>permissions: ::prost::alloc::vec::Vec&lt;Permission&gt;,
+    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
+    ///
+    /// If this field is omitted, there are no more pages.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request to update the `Permission`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdatePermissionRequest {
+    <span class="doccomment">/// Required. The permission to update.
+    ///
+    /// The permission's `name` field is used to identify the permission to update.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>tuned_model: ::core::option::Option&lt;TunedModel&gt;,
-    <span class="doccomment">/// Required. The list of fields to update.
+    </span><span class="kw">pub </span>permission: ::core::option::Option&lt;Permission&gt;,
+    <span class="doccomment">/// Required. The list of fields to update. Accepted ones:
+    ///   - role (`Permission.role` field)
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
 }
-<span class="doccomment">/// Request to delete a TunedModel.
+<span class="doccomment">/// Request to delete the `Permission`.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteTunedModelRequest {
-    <span class="doccomment">/// Required. The resource name of the model.
-    /// Format: `tunedModels/my-model-id`
+</span><span class="kw">pub struct </span>DeletePermissionRequest {
+    <span class="doccomment">/// Required. The resource name of the permission.
+    /// Format: `tunedModels/{tuned_model}/permissions/{permission}`
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
+<span class="doccomment">/// Request to transfer the ownership of the tuned model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TransferOwnershipRequest {
+    <span class="doccomment">/// Required. The resource name of the tuned model to transfer ownership .
+    ///
+    /// Format: `tunedModels/my-model-id`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The email address of the user to whom the tuned model is being
+    /// transferred to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>email_address: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response from `TransferOwnership`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TransferOwnershipResponse {}
 <span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>model_service_client {
+</span><span class="kw">pub mod </span>permission_service_client {
     <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
     <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Provides methods for getting metadata information about Generative Models.
+    <span class="doccomment">/// Provides methods for managing permissions to PaLM API resources.
     </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>ModelServiceClient&lt;T&gt; {
+    </span><span class="kw">pub struct </span>PermissionServiceClient&lt;T&gt; {
         inner: tonic::client::Grpc&lt;T&gt;,
     }
-    <span class="kw">impl</span>&lt;T&gt; ModelServiceClient&lt;T&gt;
+    <span class="kw">impl</span>&lt;T&gt; PermissionServiceClient&lt;T&gt;
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
@@ -4349,7 +4384,7 @@
         <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
             inner: T,
             interceptor: F,
-        ) -&gt; ModelServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        ) -&gt; PermissionServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
         <span class="kw">where
             </span>F: tonic::service::Interceptor,
             T::ResponseBody: Default,
@@ -4363,7 +4398,7 @@
                 http::Request&lt;tonic::body::BoxBody&gt;,
             &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
         {
-            ModelServiceClient::new(InterceptedService::new(inner, interceptor))
+            PermissionServiceClient::new(InterceptedService::new(inner, interceptor))
         }
         <span class="doccomment">/// Compress requests with the given encoding.
         ///
@@ -4396,11 +4431,11 @@
             <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
             <span class="self">self
         </span>}
-        <span class="doccomment">/// Gets information about a specific Model.
-        </span><span class="kw">pub async fn </span>get_model(
+        <span class="doccomment">/// Create a permission to a specific resource.
+        </span><span class="kw">pub async fn </span>create_permission(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetModelRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Model&gt;, tonic::Status&gt; {
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreatePermissionRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Permission&gt;, tonic::Status&gt; {
             <span class="self">self</span>.inner
                 .ready()
                 .<span class="kw">await
@@ -4412,24 +4447,52 @@
                 })<span class="question-mark">?</span>;
             <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
             <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.ModelService/GetModel"</span>,
+                <span class="string">"/google.ai.generativelanguage.v1beta3.PermissionService/CreatePermission"</span>,
             );
             <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
             req.extensions_mut()
                 .insert(
                     GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.ModelService"</span>,
-                        <span class="string">"GetModel"</span>,
+                        <span class="string">"google.ai.generativelanguage.v1beta3.PermissionService"</span>,
+                        <span class="string">"CreatePermission"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Lists models available through the API.
-        </span><span class="kw">pub async fn </span>list_models(
+        <span class="doccomment">/// Gets information about a specific Permission.
+        </span><span class="kw">pub async fn </span>get_permission(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListModelsRequest&gt;,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetPermissionRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Permission&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta3.PermissionService/GetPermission"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta3.PermissionService"</span>,
+                        <span class="string">"GetPermission"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Lists permissions for the specific resource.
+        </span><span class="kw">pub async fn </span>list_permissions(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListPermissionsRequest&gt;,
         ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListModelsResponse&gt;,
+            tonic::Response&lt;<span class="kw">super</span>::ListPermissionsResponse&gt;,
             tonic::Status,
         &gt; {
             <span class="self">self</span>.inner
@@ -4443,23 +4506,23 @@
                 })<span class="question-mark">?</span>;
             <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
             <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.ModelService/ListModels"</span>,
+                <span class="string">"/google.ai.generativelanguage.v1beta3.PermissionService/ListPermissions"</span>,
             );
             <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
             req.extensions_mut()
                 .insert(
                     GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.ModelService"</span>,
-                        <span class="string">"ListModels"</span>,
+                        <span class="string">"google.ai.generativelanguage.v1beta3.PermissionService"</span>,
+                        <span class="string">"ListPermissions"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Gets information about a specific TunedModel.
-        </span><span class="kw">pub async fn </span>get_tuned_model(
+        <span class="doccomment">/// Updates the permission.
+        </span><span class="kw">pub async fn </span>update_permission(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetTunedModelRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::TunedModel&gt;, tonic::Status&gt; {
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdatePermissionRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Permission&gt;, tonic::Status&gt; {
             <span class="self">self</span>.inner
                 .ready()
                 .<span class="kw">await
@@ -4471,118 +4534,22 @@
                 })<span class="question-mark">?</span>;
             <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
             <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.ModelService/GetTunedModel"</span>,
+                <span class="string">"/google.ai.generativelanguage.v1beta3.PermissionService/UpdatePermission"</span>,
             );
             <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
             req.extensions_mut()
                 .insert(
                     GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.ModelService"</span>,
-                        <span class="string">"GetTunedModel"</span>,
+                        <span class="string">"google.ai.generativelanguage.v1beta3.PermissionService"</span>,
+                        <span class="string">"UpdatePermission"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Lists tuned models owned by the user.
-        </span><span class="kw">pub async fn </span>list_tuned_models(
+        <span class="doccomment">/// Deletes the permission.
+        </span><span class="kw">pub async fn </span>delete_permission(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListTunedModelsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListTunedModelsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.ModelService/ListTunedModels"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.ModelService"</span>,
-                        <span class="string">"ListTunedModels"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Creates a tuned model.
-        /// Intermediate tuning progress (if any) is accessed through the
-        /// [google.longrunning.Operations] service.
-        ///
-        /// Status and results can be accessed through the Operations service.
-        /// Example:
-        ///   GET /v1/tunedModels/az2mb0bpw6i/operations/000-111-222
-        </span><span class="kw">pub async fn </span>create_tuned_model(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateTunedModelRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.ModelService/CreateTunedModel"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.ModelService"</span>,
-                        <span class="string">"CreateTunedModel"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Updates a tuned model.
-        </span><span class="kw">pub async fn </span>update_tuned_model(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateTunedModelRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::TunedModel&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.ModelService/UpdateTunedModel"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.ModelService"</span>,
-                        <span class="string">"UpdateTunedModel"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Deletes a tuned model.
-        </span><span class="kw">pub async fn </span>delete_tuned_model(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeleteTunedModelRequest&gt;,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeletePermissionRequest&gt;,
         ) -&gt; std::result::Result&lt;tonic::Response&lt;()&gt;, tonic::Status&gt; {
             <span class="self">self</span>.inner
                 .ready()
@@ -4595,14 +4562,47 @@
                 })<span class="question-mark">?</span>;
             <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
             <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.ModelService/DeleteTunedModel"</span>,
+                <span class="string">"/google.ai.generativelanguage.v1beta3.PermissionService/DeletePermission"</span>,
             );
             <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
             req.extensions_mut()
                 .insert(
                     GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.ModelService"</span>,
-                        <span class="string">"DeleteTunedModel"</span>,
+                        <span class="string">"google.ai.generativelanguage.v1beta3.PermissionService"</span>,
+                        <span class="string">"DeletePermission"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Transfers ownership of the tuned model.
+        /// This is the only way to change ownership of the tuned model.
+        /// The current owner will be downgraded to writer role.
+        </span><span class="kw">pub async fn </span>transfer_ownership(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::TransferOwnershipRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::TransferOwnershipResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta3.PermissionService/TransferOwnership"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta3.PermissionService"</span>,
+                        <span class="string">"TransferOwnership"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

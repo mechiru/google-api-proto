@@ -1889,28 +1889,6 @@
         }
     }
 }
-<span class="doccomment">/// Message for Org Policy Canned Constraint.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OrgPolicyConstraint {
-    <span class="doccomment">/// Required. Org Policy Canned Constraint id.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>canned_constraint_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Org PolicySpec rules.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>policy_rules: ::prost::alloc::vec::Vec&lt;PolicyRule&gt;,
-}
-<span class="doccomment">/// Message for Org Policy Custom Constraint.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OrgPolicyConstraintCustom {
-    <span class="doccomment">/// Required. Org Policy Custom Constraint.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>custom_constraint: ::core::option::Option&lt;CustomConstraint&gt;,
-    <span class="doccomment">/// Required. Org Policyspec rules.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>policy_rules: ::prost::alloc::vec::Vec&lt;PolicyRule&gt;,
-}
 <span class="doccomment">/// Defines the properties in a custom module configuration for Security
 /// Health Analytics. Use the custom module configuration to create custom
 /// detectors that generate custom findings for resources that you specify.
@@ -2034,6 +2012,28 @@
             }
         }
     }
+}
+<span class="doccomment">/// Message for Org Policy Canned Constraint.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>OrgPolicyConstraint {
+    <span class="doccomment">/// Required. Org Policy Canned Constraint id.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>canned_constraint_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Org PolicySpec rules.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>policy_rules: ::prost::alloc::vec::Vec&lt;PolicyRule&gt;,
+}
+<span class="doccomment">/// Message for Org Policy Custom Constraint.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>OrgPolicyConstraintCustom {
+    <span class="doccomment">/// Required. Org Policy Custom Constraint.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>custom_constraint: ::core::option::Option&lt;CustomConstraint&gt;,
+    <span class="doccomment">/// Required. Org Policyspec rules.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>policy_rules: ::prost::alloc::vec::Vec&lt;PolicyRule&gt;,
 }
 <span class="doccomment">/// Message for Security Health Analytics built-in detector.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
