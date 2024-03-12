@@ -2593,592 +2593,6 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
     </span><span class="kw">pub </span>api_version: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Policy Based Routes (PBR) are more powerful routes that allows GCP customers
-/// to route their L4 network traffic based on not just destination IP, but also
-/// source IP, protocol and more. A PBR always take precedence when it conflicts
-/// with other types of routes.
-/// Next id: 22
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PolicyBasedRoute {
-    <span class="doccomment">/// Immutable. A unique name of the resource in the form of
-    /// `projects/{project_number}/locations/global/PolicyBasedRoutes/{policy_based_route_id}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Time when the PolicyBasedRoute was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Time when the PolicyBasedRoute was updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// User-defined labels.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Optional. An optional description of this resource. Provide this field when
-    /// you create the resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Fully-qualified URL of the network that this route applies to.
-    /// e.g. projects/my-project/global/networks/my-network.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>network: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The filter to match L4 traffic.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>filter: ::core::option::Option&lt;policy_based_route::Filter&gt;,
-    <span class="doccomment">/// Optional. The priority of this policy based route. Priority is used to
-    /// break ties in cases where there are more than one matching policy based
-    /// routes found. In cases where multiple policy based routes are matched, the
-    /// one with the lowest-numbered priority value wins. The default value is
-    /// 1000. The priority value must be from 1 to 65535, inclusive.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>priority: i32,
-    <span class="doccomment">/// Output only. If potential misconfigurations are detected for this route,
-    /// this field will be populated with warning messages.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>warnings: ::prost::alloc::vec::Vec&lt;policy_based_route::Warnings&gt;,
-    <span class="doccomment">/// Output only. Server-defined fully-qualified URL for this resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>self_link: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Type of this resource. Always
-    /// networkconnectivity#policyBasedRoute for Policy Based Route resources.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"16"</span>)]
-    </span><span class="kw">pub </span>kind: ::prost::alloc::string::String,
-    <span class="doccomment">/// Target specifies network endpoints to which this policy based route applies
-    /// to. If none of the target is specified, the PBR will be installed on all
-    /// network endpoints (e.g. VMs, VPNs, and Interconnects) in the VPC.
-    </span><span class="attr">#[prost(oneof = <span class="string">"policy_based_route::Target"</span>, tags = <span class="string">"18, 9"</span>)]
-    </span><span class="kw">pub </span>target: ::core::option::Option&lt;policy_based_route::Target&gt;,
-    <span class="attr">#[prost(oneof = <span class="string">"policy_based_route::NextHop"</span>, tags = <span class="string">"12, 21"</span>)]
-    </span><span class="kw">pub </span>next_hop: ::core::option::Option&lt;policy_based_route::NextHop&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `PolicyBasedRoute`.
-</span><span class="kw">pub mod </span>policy_based_route {
-    <span class="doccomment">/// VM instances to which this policy based route applies to.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>VirtualMachine {
-        <span class="doccomment">/// Optional. A list of VM instance tags to which this policy based route
-        /// applies to. VM instances that have ANY of tags specified here will
-        /// install this PBR.
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    }
-    <span class="doccomment">/// InterconnectAttachment to which this route applies to.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>InterconnectAttachment {
-        <span class="doccomment">/// Optional. Cloud region to install this policy based route on interconnect
-        /// attachment. Use `all` to install it on all interconnect attachments.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>region: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Filter matches L4 traffic.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Filter {
-        <span class="doccomment">/// Optional. The IP protocol that this policy based route applies to. Valid
-        /// values are 'TCP', 'UDP', and 'ALL'. Default is 'ALL'.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>ip_protocol: ::prost::alloc::string::String,
-        <span class="doccomment">/// Optional. The source IP range of outgoing packets that this policy based
-        /// route applies to. Default is "0.0.0.0/0" if protocol version is IPv4.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>src_range: ::prost::alloc::string::String,
-        <span class="doccomment">/// Optional. The destination IP range of outgoing packets that this policy
-        /// based route applies to. Default is "0.0.0.0/0" if protocol version is
-        /// IPv4.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>dest_range: ::prost::alloc::string::String,
-        <span class="doccomment">/// Required. Internet protocol versions this policy based route applies to.
-        /// For this version, only IPV4 is supported.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"filter::ProtocolVersion"</span>, tag = <span class="string">"6"</span>)]
-        </span><span class="kw">pub </span>protocol_version: i32,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Filter`.
-    </span><span class="kw">pub mod </span>filter {
-        <span class="doccomment">/// The internet protocol version.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>ProtocolVersion {
-            <span class="doccomment">/// Default value.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// The PBR is for IPv4 internet protocol traffic.
-            </span>Ipv4 = <span class="number">1</span>,
-        }
-        <span class="kw">impl </span>ProtocolVersion {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    ProtocolVersion::Unspecified =&gt; <span class="string">"PROTOCOL_VERSION_UNSPECIFIED"</span>,
-                    ProtocolVersion::Ipv4 =&gt; <span class="string">"IPV4"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"PROTOCOL_VERSION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"IPV4" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ipv4),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-    <span class="doccomment">/// Informational warning message.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Warnings {
-        <span class="doccomment">/// Output only. A warning code, if applicable.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"warnings::Code"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>code: i32,
-        <span class="doccomment">/// Output only. Metadata about this warning in key: value format. The key
-        /// should provides more detail on the warning being returned. For example,
-        /// for warnings where there are no results in a list request for a
-        /// particular zone, this key might be scope and the key value might be the
-        /// zone name. Other examples might be a key indicating a deprecated resource
-        /// and a suggested replacement.
-        </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>data: ::prost::alloc::collections::BTreeMap&lt;
-            ::prost::alloc::string::String,
-            ::prost::alloc::string::String,
-        &gt;,
-        <span class="doccomment">/// Output only. A human-readable description of the warning code.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>warning_message: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Warnings`.
-    </span><span class="kw">pub mod </span>warnings {
-        <span class="doccomment">/// Warning code for Policy Based Routing. Expect to add values in the
-        /// future.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>Code {
-            <span class="doccomment">/// Default value.
-            </span>WarningUnspecified = <span class="number">0</span>,
-            <span class="doccomment">/// The policy based route is not active and functioning. Common causes are
-            /// the dependent network was deleted or the resource project was turned
-            /// off.
-            </span>ResourceNotActive = <span class="number">1</span>,
-            <span class="doccomment">/// The policy based route is being modified (e.g. created/deleted) at this
-            /// time.
-            </span>ResourceBeingModified = <span class="number">2</span>,
-        }
-        <span class="kw">impl </span>Code {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    Code::WarningUnspecified =&gt; <span class="string">"WARNING_UNSPECIFIED"</span>,
-                    Code::ResourceNotActive =&gt; <span class="string">"RESOURCE_NOT_ACTIVE"</span>,
-                    Code::ResourceBeingModified =&gt; <span class="string">"RESOURCE_BEING_MODIFIED"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"WARNING_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::WarningUnspecified),
-                    <span class="string">"RESOURCE_NOT_ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceNotActive),
-                    <span class="string">"RESOURCE_BEING_MODIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceBeingModified),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-    <span class="doccomment">/// The other routing cases.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>OtherRoutes {
-        <span class="doccomment">/// Default value.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Use the routes from the default routing tables (system-generated routes,
-        /// custom routes, peering route) to determine the next hop. This will
-        /// effectively exclude matching packets being applied on other PBRs with a
-        /// lower priority.
-        </span>DefaultRouting = <span class="number">1</span>,
-    }
-    <span class="kw">impl </span>OtherRoutes {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                OtherRoutes::Unspecified =&gt; <span class="string">"OTHER_ROUTES_UNSPECIFIED"</span>,
-                OtherRoutes::DefaultRouting =&gt; <span class="string">"DEFAULT_ROUTING"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"OTHER_ROUTES_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"DEFAULT_ROUTING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DefaultRouting),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Target specifies network endpoints to which this policy based route applies
-    /// to. If none of the target is specified, the PBR will be installed on all
-    /// network endpoints (e.g. VMs, VPNs, and Interconnects) in the VPC.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Target {
-        <span class="doccomment">/// Optional. VM instances to which this policy based route applies to.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"18"</span>)]
-        </span>VirtualMachine(VirtualMachine),
-        <span class="doccomment">/// Optional. The interconnect attachments to which this route applies to.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"9"</span>)]
-        </span>InterconnectAttachment(InterconnectAttachment),
-    }
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>NextHop {
-        <span class="doccomment">/// Optional. The IP of a global access enabled L4 ILB that should be the
-        /// next hop to handle matching packets. For this version, only
-        /// next_hop_ilb_ip is supported.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
-        </span>NextHopIlbIp(::prost::alloc::string::String),
-        <span class="doccomment">/// Optional. Other routes that will be referenced to determine the next hop
-        /// of the packet.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"OtherRoutes"</span>, tag = <span class="string">"21"</span>)]
-        </span>NextHopOtherRoutes(i32),
-    }
-}
-<span class="doccomment">/// Request for [PolicyBasedRouting.ListPolicyBasedRoutes][] method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListPolicyBasedRoutesRequest {
-    <span class="doccomment">/// Required. The parent resource's name.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of results per page that should be returned.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// The page token.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// A filter expression that filters the results listed in the response.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-    <span class="doccomment">/// Sort the results by a certain order.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response for [PolicyBasedRouting.ListPolicyBasedRoutes][] method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListPolicyBasedRoutesResponse {
-    <span class="doccomment">/// Policy based routes to be returned.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>policy_based_routes: ::prost::alloc::vec::Vec&lt;PolicyBasedRoute&gt;,
-    <span class="doccomment">/// The next pagination token in the List response. It should be used as
-    /// page_token for the following request. An empty value means no more result.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Locations that could not be reached.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Request for [PolicyBasedRouting.GetPolicyBasedRoute][] method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetPolicyBasedRouteRequest {
-    <span class="doccomment">/// Required. Name of the PolicyBasedRoute resource to get.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request for [PolicyBasedRouting.CreatePolicyBasedRoute][] method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreatePolicyBasedRouteRequest {
-    <span class="doccomment">/// Required. The parent resource's name of the PolicyBasedRoute.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Unique id for the Policy Based Route to create.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>policy_based_route_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Initial values for a new Policy Based Route.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>policy_based_route: ::core::option::Option&lt;PolicyBasedRoute&gt;,
-    <span class="doccomment">/// Optional. An optional request ID to identify requests. Specify a unique
-    /// request ID so that if you must retry your request, the server will know to
-    /// ignore the request if it has already been completed. The server will
-    /// guarantee that for at least 60 minutes since the first request.
-    ///
-    /// For example, consider a situation where you make an initial request and
-    /// the request times out. If you make the request again with the same request
-    /// ID, the server can check if original operation with the same request ID
-    /// was received, and if so, will ignore the second request. This prevents
-    /// clients from accidentally creating duplicate commitments.
-    ///
-    /// The request ID must be a valid UUID with the exception that zero UUID is
-    /// not supported (00000000-0000-0000-0000-000000000000).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>request_id: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request for [PolicyBasedRouting.DeletePolicyBasedRoute][] method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeletePolicyBasedRouteRequest {
-    <span class="doccomment">/// Required. Name of the PolicyBasedRoute resource to delete.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. An optional request ID to identify requests. Specify a unique
-    /// request ID so that if you must retry your request, the server will know to
-    /// ignore the request if it has already been completed. The server will
-    /// guarantee that for at least 60 minutes after the first request.
-    ///
-    /// For example, consider a situation where you make an initial request and
-    /// the request times out. If you make the request again with the same request
-    /// ID, the server can check if original operation with the same request ID
-    /// was received, and if so, will ignore the second request. This prevents
-    /// clients from accidentally creating duplicate commitments.
-    ///
-    /// The request ID must be a valid UUID with the exception that zero UUID is
-    /// not supported (00000000-0000-0000-0000-000000000000).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>request_id: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>policy_based_routing_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Policy-Based Routing allows GCP customers to specify flexibile routing
-    /// policies for Layer 4 traffic traversing through the connected service.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>PolicyBasedRoutingServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; PolicyBasedRoutingServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; PolicyBasedRoutingServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            PolicyBasedRoutingServiceClient::new(
-                InterceptedService::new(inner, interceptor),
-            )
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Lists PolicyBasedRoutes in a given project and location.
-        </span><span class="kw">pub async fn </span>list_policy_based_routes(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListPolicyBasedRoutesRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListPolicyBasedRoutesResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.networkconnectivity.v1.PolicyBasedRoutingService/ListPolicyBasedRoutes"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.networkconnectivity.v1.PolicyBasedRoutingService"</span>,
-                        <span class="string">"ListPolicyBasedRoutes"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Gets details of a single PolicyBasedRoute.
-        </span><span class="kw">pub async fn </span>get_policy_based_route(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetPolicyBasedRouteRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::PolicyBasedRoute&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.networkconnectivity.v1.PolicyBasedRoutingService/GetPolicyBasedRoute"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.networkconnectivity.v1.PolicyBasedRoutingService"</span>,
-                        <span class="string">"GetPolicyBasedRoute"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Creates a new PolicyBasedRoute in a given project and location.
-        </span><span class="kw">pub async fn </span>create_policy_based_route(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreatePolicyBasedRouteRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.networkconnectivity.v1.PolicyBasedRoutingService/CreatePolicyBasedRoute"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.networkconnectivity.v1.PolicyBasedRoutingService"</span>,
-                        <span class="string">"CreatePolicyBasedRoute"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Deletes a single PolicyBasedRoute.
-        </span><span class="kw">pub async fn </span>delete_policy_based_route(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeletePolicyBasedRouteRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.networkconnectivity.v1.PolicyBasedRoutingService/DeletePolicyBasedRoute"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.networkconnectivity.v1.PolicyBasedRoutingService"</span>,
-                        <span class="string">"DeletePolicyBasedRoute"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
 <span class="doccomment">/// A Network Connectivity Center hub is a global management resource to which
 /// you attach spokes. A single hub can contain spokes from multiple regions.
 /// However, if any of a hub's spokes use the site-to-site data transfer feature,
@@ -5121,6 +4535,592 @@
                     GrpcMethod::new(
                         <span class="string">"google.cloud.networkconnectivity.v1.HubService"</span>,
                         <span class="string">"ListGroups"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Policy Based Routes (PBR) are more powerful routes that allows GCP customers
+/// to route their L4 network traffic based on not just destination IP, but also
+/// source IP, protocol and more. A PBR always take precedence when it conflicts
+/// with other types of routes.
+/// Next id: 22
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PolicyBasedRoute {
+    <span class="doccomment">/// Immutable. A unique name of the resource in the form of
+    /// `projects/{project_number}/locations/global/PolicyBasedRoutes/{policy_based_route_id}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Time when the PolicyBasedRoute was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Time when the PolicyBasedRoute was updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// User-defined labels.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Optional. An optional description of this resource. Provide this field when
+    /// you create the resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Fully-qualified URL of the network that this route applies to.
+    /// e.g. projects/my-project/global/networks/my-network.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>network: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The filter to match L4 traffic.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>filter: ::core::option::Option&lt;policy_based_route::Filter&gt;,
+    <span class="doccomment">/// Optional. The priority of this policy based route. Priority is used to
+    /// break ties in cases where there are more than one matching policy based
+    /// routes found. In cases where multiple policy based routes are matched, the
+    /// one with the lowest-numbered priority value wins. The default value is
+    /// 1000. The priority value must be from 1 to 65535, inclusive.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>priority: i32,
+    <span class="doccomment">/// Output only. If potential misconfigurations are detected for this route,
+    /// this field will be populated with warning messages.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>warnings: ::prost::alloc::vec::Vec&lt;policy_based_route::Warnings&gt;,
+    <span class="doccomment">/// Output only. Server-defined fully-qualified URL for this resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>self_link: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Type of this resource. Always
+    /// networkconnectivity#policyBasedRoute for Policy Based Route resources.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"16"</span>)]
+    </span><span class="kw">pub </span>kind: ::prost::alloc::string::String,
+    <span class="doccomment">/// Target specifies network endpoints to which this policy based route applies
+    /// to. If none of the target is specified, the PBR will be installed on all
+    /// network endpoints (e.g. VMs, VPNs, and Interconnects) in the VPC.
+    </span><span class="attr">#[prost(oneof = <span class="string">"policy_based_route::Target"</span>, tags = <span class="string">"18, 9"</span>)]
+    </span><span class="kw">pub </span>target: ::core::option::Option&lt;policy_based_route::Target&gt;,
+    <span class="attr">#[prost(oneof = <span class="string">"policy_based_route::NextHop"</span>, tags = <span class="string">"12, 21"</span>)]
+    </span><span class="kw">pub </span>next_hop: ::core::option::Option&lt;policy_based_route::NextHop&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `PolicyBasedRoute`.
+</span><span class="kw">pub mod </span>policy_based_route {
+    <span class="doccomment">/// VM instances to which this policy based route applies to.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>VirtualMachine {
+        <span class="doccomment">/// Optional. A list of VM instance tags to which this policy based route
+        /// applies to. VM instances that have ANY of tags specified here will
+        /// install this PBR.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>tags: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    }
+    <span class="doccomment">/// InterconnectAttachment to which this route applies to.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>InterconnectAttachment {
+        <span class="doccomment">/// Optional. Cloud region to install this policy based route on interconnect
+        /// attachment. Use `all` to install it on all interconnect attachments.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>region: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Filter matches L4 traffic.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Filter {
+        <span class="doccomment">/// Optional. The IP protocol that this policy based route applies to. Valid
+        /// values are 'TCP', 'UDP', and 'ALL'. Default is 'ALL'.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>ip_protocol: ::prost::alloc::string::String,
+        <span class="doccomment">/// Optional. The source IP range of outgoing packets that this policy based
+        /// route applies to. Default is "0.0.0.0/0" if protocol version is IPv4.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>src_range: ::prost::alloc::string::String,
+        <span class="doccomment">/// Optional. The destination IP range of outgoing packets that this policy
+        /// based route applies to. Default is "0.0.0.0/0" if protocol version is
+        /// IPv4.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>dest_range: ::prost::alloc::string::String,
+        <span class="doccomment">/// Required. Internet protocol versions this policy based route applies to.
+        /// For this version, only IPV4 is supported.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"filter::ProtocolVersion"</span>, tag = <span class="string">"6"</span>)]
+        </span><span class="kw">pub </span>protocol_version: i32,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Filter`.
+    </span><span class="kw">pub mod </span>filter {
+        <span class="doccomment">/// The internet protocol version.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>ProtocolVersion {
+            <span class="doccomment">/// Default value.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// The PBR is for IPv4 internet protocol traffic.
+            </span>Ipv4 = <span class="number">1</span>,
+        }
+        <span class="kw">impl </span>ProtocolVersion {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    ProtocolVersion::Unspecified =&gt; <span class="string">"PROTOCOL_VERSION_UNSPECIFIED"</span>,
+                    ProtocolVersion::Ipv4 =&gt; <span class="string">"IPV4"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"PROTOCOL_VERSION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"IPV4" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ipv4),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+    <span class="doccomment">/// Informational warning message.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Warnings {
+        <span class="doccomment">/// Output only. A warning code, if applicable.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"warnings::Code"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>code: i32,
+        <span class="doccomment">/// Output only. Metadata about this warning in key: value format. The key
+        /// should provides more detail on the warning being returned. For example,
+        /// for warnings where there are no results in a list request for a
+        /// particular zone, this key might be scope and the key value might be the
+        /// zone name. Other examples might be a key indicating a deprecated resource
+        /// and a suggested replacement.
+        </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>data: ::prost::alloc::collections::BTreeMap&lt;
+            ::prost::alloc::string::String,
+            ::prost::alloc::string::String,
+        &gt;,
+        <span class="doccomment">/// Output only. A human-readable description of the warning code.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>warning_message: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Warnings`.
+    </span><span class="kw">pub mod </span>warnings {
+        <span class="doccomment">/// Warning code for Policy Based Routing. Expect to add values in the
+        /// future.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>Code {
+            <span class="doccomment">/// Default value.
+            </span>WarningUnspecified = <span class="number">0</span>,
+            <span class="doccomment">/// The policy based route is not active and functioning. Common causes are
+            /// the dependent network was deleted or the resource project was turned
+            /// off.
+            </span>ResourceNotActive = <span class="number">1</span>,
+            <span class="doccomment">/// The policy based route is being modified (e.g. created/deleted) at this
+            /// time.
+            </span>ResourceBeingModified = <span class="number">2</span>,
+        }
+        <span class="kw">impl </span>Code {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    Code::WarningUnspecified =&gt; <span class="string">"WARNING_UNSPECIFIED"</span>,
+                    Code::ResourceNotActive =&gt; <span class="string">"RESOURCE_NOT_ACTIVE"</span>,
+                    Code::ResourceBeingModified =&gt; <span class="string">"RESOURCE_BEING_MODIFIED"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"WARNING_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::WarningUnspecified),
+                    <span class="string">"RESOURCE_NOT_ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceNotActive),
+                    <span class="string">"RESOURCE_BEING_MODIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceBeingModified),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+    <span class="doccomment">/// The other routing cases.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>OtherRoutes {
+        <span class="doccomment">/// Default value.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Use the routes from the default routing tables (system-generated routes,
+        /// custom routes, peering route) to determine the next hop. This will
+        /// effectively exclude matching packets being applied on other PBRs with a
+        /// lower priority.
+        </span>DefaultRouting = <span class="number">1</span>,
+    }
+    <span class="kw">impl </span>OtherRoutes {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                OtherRoutes::Unspecified =&gt; <span class="string">"OTHER_ROUTES_UNSPECIFIED"</span>,
+                OtherRoutes::DefaultRouting =&gt; <span class="string">"DEFAULT_ROUTING"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"OTHER_ROUTES_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"DEFAULT_ROUTING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DefaultRouting),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Target specifies network endpoints to which this policy based route applies
+    /// to. If none of the target is specified, the PBR will be installed on all
+    /// network endpoints (e.g. VMs, VPNs, and Interconnects) in the VPC.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Target {
+        <span class="doccomment">/// Optional. VM instances to which this policy based route applies to.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"18"</span>)]
+        </span>VirtualMachine(VirtualMachine),
+        <span class="doccomment">/// Optional. The interconnect attachments to which this route applies to.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"9"</span>)]
+        </span>InterconnectAttachment(InterconnectAttachment),
+    }
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>NextHop {
+        <span class="doccomment">/// Optional. The IP of a global access enabled L4 ILB that should be the
+        /// next hop to handle matching packets. For this version, only
+        /// next_hop_ilb_ip is supported.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+        </span>NextHopIlbIp(::prost::alloc::string::String),
+        <span class="doccomment">/// Optional. Other routes that will be referenced to determine the next hop
+        /// of the packet.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"OtherRoutes"</span>, tag = <span class="string">"21"</span>)]
+        </span>NextHopOtherRoutes(i32),
+    }
+}
+<span class="doccomment">/// Request for [PolicyBasedRouting.ListPolicyBasedRoutes][] method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListPolicyBasedRoutesRequest {
+    <span class="doccomment">/// Required. The parent resource's name.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of results per page that should be returned.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// The page token.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// A filter expression that filters the results listed in the response.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+    <span class="doccomment">/// Sort the results by a certain order.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response for [PolicyBasedRouting.ListPolicyBasedRoutes][] method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListPolicyBasedRoutesResponse {
+    <span class="doccomment">/// Policy based routes to be returned.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>policy_based_routes: ::prost::alloc::vec::Vec&lt;PolicyBasedRoute&gt;,
+    <span class="doccomment">/// The next pagination token in the List response. It should be used as
+    /// page_token for the following request. An empty value means no more result.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Locations that could not be reached.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Request for [PolicyBasedRouting.GetPolicyBasedRoute][] method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetPolicyBasedRouteRequest {
+    <span class="doccomment">/// Required. Name of the PolicyBasedRoute resource to get.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request for [PolicyBasedRouting.CreatePolicyBasedRoute][] method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreatePolicyBasedRouteRequest {
+    <span class="doccomment">/// Required. The parent resource's name of the PolicyBasedRoute.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Unique id for the Policy Based Route to create.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>policy_based_route_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Initial values for a new Policy Based Route.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>policy_based_route: ::core::option::Option&lt;PolicyBasedRoute&gt;,
+    <span class="doccomment">/// Optional. An optional request ID to identify requests. Specify a unique
+    /// request ID so that if you must retry your request, the server will know to
+    /// ignore the request if it has already been completed. The server will
+    /// guarantee that for at least 60 minutes since the first request.
+    ///
+    /// For example, consider a situation where you make an initial request and
+    /// the request times out. If you make the request again with the same request
+    /// ID, the server can check if original operation with the same request ID
+    /// was received, and if so, will ignore the second request. This prevents
+    /// clients from accidentally creating duplicate commitments.
+    ///
+    /// The request ID must be a valid UUID with the exception that zero UUID is
+    /// not supported (00000000-0000-0000-0000-000000000000).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>request_id: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request for [PolicyBasedRouting.DeletePolicyBasedRoute][] method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeletePolicyBasedRouteRequest {
+    <span class="doccomment">/// Required. Name of the PolicyBasedRoute resource to delete.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. An optional request ID to identify requests. Specify a unique
+    /// request ID so that if you must retry your request, the server will know to
+    /// ignore the request if it has already been completed. The server will
+    /// guarantee that for at least 60 minutes after the first request.
+    ///
+    /// For example, consider a situation where you make an initial request and
+    /// the request times out. If you make the request again with the same request
+    /// ID, the server can check if original operation with the same request ID
+    /// was received, and if so, will ignore the second request. This prevents
+    /// clients from accidentally creating duplicate commitments.
+    ///
+    /// The request ID must be a valid UUID with the exception that zero UUID is
+    /// not supported (00000000-0000-0000-0000-000000000000).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>request_id: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>policy_based_routing_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Policy-Based Routing allows GCP customers to specify flexibile routing
+    /// policies for Layer 4 traffic traversing through the connected service.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>PolicyBasedRoutingServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; PolicyBasedRoutingServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; PolicyBasedRoutingServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            PolicyBasedRoutingServiceClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Lists PolicyBasedRoutes in a given project and location.
+        </span><span class="kw">pub async fn </span>list_policy_based_routes(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListPolicyBasedRoutesRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListPolicyBasedRoutesResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.networkconnectivity.v1.PolicyBasedRoutingService/ListPolicyBasedRoutes"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.networkconnectivity.v1.PolicyBasedRoutingService"</span>,
+                        <span class="string">"ListPolicyBasedRoutes"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Gets details of a single PolicyBasedRoute.
+        </span><span class="kw">pub async fn </span>get_policy_based_route(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetPolicyBasedRouteRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::PolicyBasedRoute&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.networkconnectivity.v1.PolicyBasedRoutingService/GetPolicyBasedRoute"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.networkconnectivity.v1.PolicyBasedRoutingService"</span>,
+                        <span class="string">"GetPolicyBasedRoute"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Creates a new PolicyBasedRoute in a given project and location.
+        </span><span class="kw">pub async fn </span>create_policy_based_route(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreatePolicyBasedRouteRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.networkconnectivity.v1.PolicyBasedRoutingService/CreatePolicyBasedRoute"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.networkconnectivity.v1.PolicyBasedRoutingService"</span>,
+                        <span class="string">"CreatePolicyBasedRoute"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Deletes a single PolicyBasedRoute.
+        </span><span class="kw">pub async fn </span>delete_policy_based_route(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeletePolicyBasedRouteRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.networkconnectivity.v1.PolicyBasedRoutingService/DeletePolicyBasedRoute"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.networkconnectivity.v1.PolicyBasedRoutingService"</span>,
+                        <span class="string">"DeletePolicyBasedRoute"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

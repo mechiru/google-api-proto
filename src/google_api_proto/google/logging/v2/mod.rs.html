@@ -4010,256 +4010,7 @@
 <a href="#4009" id="4009">4009</a>
 <a href="#4010" id="4010">4010</a>
 <a href="#4011" id="4011">4011</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// An individual entry in a log.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LogEntry {
-    <span class="doccomment">/// Required. The resource name of the log to which this log entry belongs:
-    ///
-    ///      "projects/\[PROJECT_ID\]/logs/\[LOG_ID\]"
-    ///      "organizations/\[ORGANIZATION_ID\]/logs/\[LOG_ID\]"
-    ///      "billingAccounts/\[BILLING_ACCOUNT_ID\]/logs/\[LOG_ID\]"
-    ///      "folders/\[FOLDER_ID\]/logs/\[LOG_ID\]"
-    ///
-    /// A project number may be used in place of PROJECT_ID. The project number is
-    /// translated to its corresponding PROJECT_ID internally and the `log_name`
-    /// field will contain PROJECT_ID in queries and exports.
-    ///
-    /// `\[LOG_ID\]` must be URL-encoded within `log_name`. Example:
-    /// `"organizations/1234567890/logs/cloudresourcemanager.googleapis.com%2Factivity"`.
-    ///
-    /// `\[LOG_ID\]` must be less than 512 characters long and can only include the
-    /// following characters: upper and lower case alphanumeric characters,
-    /// forward-slash, underscore, hyphen, and period.
-    ///
-    /// For backward compatibility, if `log_name` begins with a forward-slash, such
-    /// as `/projects/...`, then the log entry is ingested as usual, but the
-    /// forward-slash is removed. Listing the log entry will not show the leading
-    /// slash and filtering for a log name with a leading slash will never return
-    /// any results.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>log_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The monitored resource that produced this log entry.
-    ///
-    /// Example: a log entry that reports a database error would be associated with
-    /// the monitored resource designating the particular database that reported
-    /// the error.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>resource: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::api::MonitoredResource&gt;,
-    <span class="doccomment">/// Optional. The time the event described by the log entry occurred. This time
-    /// is used to compute the log entry's age and to enforce the logs retention
-    /// period. If this field is omitted in a new log entry, then Logging assigns
-    /// it the current time. Timestamps have nanosecond accuracy, but trailing
-    /// zeros in the fractional seconds might be omitted when the timestamp is
-    /// displayed.
-    ///
-    /// Incoming log entries must have timestamps that don't exceed the
-    /// [logs retention
-    /// period](&lt;https://cloud.google.com/logging/quotas#logs_retention_periods&gt;) in
-    /// the past, and that don't exceed 24 hours in the future. Log entries outside
-    /// those time boundaries aren't ingested by Logging.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>timestamp: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The time the log entry was received by Logging.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"24"</span>)]
-    </span><span class="kw">pub </span>receive_timestamp: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Optional. The severity of the log entry. The default value is
-    /// `LogSeverity.DEFAULT`.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"super::r#type::LogSeverity"</span>, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>severity: i32,
-    <span class="doccomment">/// Optional. A unique identifier for the log entry. If you provide a value,
-    /// then Logging considers other log entries in the same project, with the same
-    /// `timestamp`, and with the same `insert_id` to be duplicates which are
-    /// removed in a single query result. However, there are no guarantees of
-    /// de-duplication in the export of logs.
-    ///
-    /// If the `insert_id` is omitted when writing a log entry, the Logging API
-    /// assigns its own unique identifier in this field.
-    ///
-    /// In queries, the `insert_id` is also used to order log entries that have
-    /// the same `log_name` and `timestamp` values.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>insert_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Information about the HTTP request associated with this log
-    /// entry, if applicable.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>http_request: ::core::option::Option&lt;<span class="kw">super</span>::r#type::HttpRequest&gt;,
-    <span class="doccomment">/// Optional. A map of key, value pairs that provides additional information
-    /// about the log entry. The labels can be user-defined or system-defined.
-    ///
-    /// User-defined labels are arbitrary key, value pairs that you can use to
-    /// classify logs.
-    ///
-    /// System-defined labels are defined by GCP services for platform logs.
-    /// They have two components - a service namespace component and the
-    /// attribute name. For example: `compute.googleapis.com/resource_name`.
-    ///
-    /// Cloud Logging truncates label keys that exceed 512 B and label
-    /// values that exceed 64 KB upon their associated log entry being
-    /// written. The truncation is indicated by an ellipsis at the
-    /// end of the character string.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Optional. Information about an operation associated with the log entry, if
-    /// applicable.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>operation: ::core::option::Option&lt;LogEntryOperation&gt;,
-    <span class="doccomment">/// Optional. The REST resource name of the trace being written to
-    /// [Cloud Trace](&lt;https://cloud.google.com/trace&gt;) in
-    /// association with this log entry. For example, if your trace data is stored
-    /// in the Cloud project "my-trace-project" and if the service that is creating
-    /// the log entry receives a trace header that includes the trace ID "12345",
-    /// then the service should use "projects/my-tracing-project/traces/12345".
-    ///
-    /// The `trace` field provides the link between logs and traces. By using
-    /// this field, you can navigate from a log entry to a trace.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"22"</span>)]
-    </span><span class="kw">pub </span>trace: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The ID of the [Cloud Trace](&lt;https://cloud.google.com/trace&gt;) span
-    /// associated with the current operation in which the log is being written.
-    /// For example, if a span has the REST resource name of
-    /// "projects/some-project/traces/some-trace/spans/some-span-id", then the
-    /// `span_id` field is "some-span-id".
-    ///
-    /// A
-    /// [Span](&lt;https://cloud.google.com/trace/docs/reference/v2/rest/v2/projects.traces/batchWrite#Span&gt;)
-    /// represents a single operation within a trace. Whereas a trace may involve
-    /// multiple different microservices running on multiple different machines,
-    /// a span generally corresponds to a single logical operation being performed
-    /// in a single instance of a microservice on one specific machine. Spans
-    /// are the nodes within the tree that is a trace.
-    ///
-    /// Applications that are [instrumented for
-    /// tracing](&lt;https://cloud.google.com/trace/docs/setup&gt;) will generally assign a
-    /// new, unique span ID on each incoming request. It is also common to create
-    /// and record additional spans corresponding to internal processing elements
-    /// as well as issuing requests to dependencies.
-    ///
-    /// The span ID is expected to be a 16-character, hexadecimal encoding of an
-    /// 8-byte array and should not be zero. It should be unique within the trace
-    /// and should, ideally, be generated in a manner that is uniformly random.
-    ///
-    /// Example values:
-    ///
-    ///    - `000000000000004a`
-    ///    - `7a2190356c3fc94b`
-    ///    - `0000f00300090021`
-    ///    - `d39223e101960076`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"27"</span>)]
-    </span><span class="kw">pub </span>span_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The sampling decision of the trace associated with the log entry.
-    ///
-    /// True means that the trace resource name in the `trace` field was sampled
-    /// for storage in a trace backend. False means that the trace was not sampled
-    /// for storage when this log entry was written, or the sampling decision was
-    /// unknown at the time. A non-sampled `trace` value is still useful as a
-    /// request correlation identifier. The default is False.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"30"</span>)]
-    </span><span class="kw">pub </span>trace_sampled: bool,
-    <span class="doccomment">/// Optional. Source code location information associated with the log entry,
-    /// if any.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"23"</span>)]
-    </span><span class="kw">pub </span>source_location: ::core::option::Option&lt;LogEntrySourceLocation&gt;,
-    <span class="doccomment">/// Optional. Information indicating this LogEntry is part of a sequence of
-    /// multiple log entries split from a single LogEntry.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"35"</span>)]
-    </span><span class="kw">pub </span>split: ::core::option::Option&lt;LogSplit&gt;,
-    <span class="doccomment">/// The log entry payload, which can be one of multiple types.
-    </span><span class="attr">#[prost(oneof = <span class="string">"log_entry::Payload"</span>, tags = <span class="string">"2, 3, 6"</span>)]
-    </span><span class="kw">pub </span>payload: ::core::option::Option&lt;log_entry::Payload&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `LogEntry`.
-</span><span class="kw">pub mod </span>log_entry {
-    <span class="doccomment">/// The log entry payload, which can be one of multiple types.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Payload {
-        <span class="doccomment">/// The log entry payload, represented as a protocol buffer. Some Google
-        /// Cloud Platform services use this field for their log entry payloads.
-        ///
-        /// The following protocol buffer types are supported; user-defined types
-        /// are not supported:
-        ///
-        ///    "type.googleapis.com/google.cloud.audit.AuditLog"
-        ///    "type.googleapis.com/google.appengine.logging.v1.RequestLog"
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>ProtoPayload(::prost_types::Any),
-        <span class="doccomment">/// The log entry payload, represented as a Unicode string (UTF-8).
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span>TextPayload(::prost::alloc::string::String),
-        <span class="doccomment">/// The log entry payload, represented as a structure that is
-        /// expressed as a JSON object.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>JsonPayload(::prost_types::Struct),
-    }
-}
-<span class="doccomment">/// Additional information about a potentially long-running operation with which
-/// a log entry is associated.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LogEntryOperation {
-    <span class="doccomment">/// Optional. An arbitrary operation identifier. Log entries with the same
-    /// identifier are assumed to be part of the same operation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. An arbitrary producer identifier. The combination of `id` and
-    /// `producer` must be globally unique. Examples for `producer`:
-    /// `"MyDivision.MyBigCompany.com"`, `"github.com/MyProject/MyApplication"`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>producer: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Set this to True if this is the first log entry in the operation.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>first: bool,
-    <span class="doccomment">/// Optional. Set this to True if this is the last log entry in the operation.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>last: bool,
-}
-<span class="doccomment">/// Additional information about the source code location that produced the log
-/// entry.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LogEntrySourceLocation {
-    <span class="doccomment">/// Optional. Source file name. Depending on the runtime environment, this
-    /// might be a simple name or a fully-qualified name.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>file: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Line within the source file. 1-based; 0 indicates no line number
-    /// available.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>line: i64,
-    <span class="doccomment">/// Optional. Human-readable name of the function or method being invoked, with
-    /// optional context such as the class or package name. This information may be
-    /// used in contexts such as the logs viewer, where a file and line number are
-    /// less meaningful. The format can vary by language. For example:
-    /// `qual.if.ied.Class.method` (Java), `dir/package.func` (Go), `function`
-    /// (Python).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>function: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Additional information used to correlate multiple log entries. Used when a
-/// single LogEntry would exceed the Google Cloud Logging size limit and is
-/// split across multiple log entries.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LogSplit {
-    <span class="doccomment">/// A globally unique identifier for all log entries in a sequence of split log
-    /// entries. All log entries with the same |LogSplit.uid| are assumed to be
-    /// part of the same sequence of split log entries.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// The index of this LogEntry in the sequence of split log entries. Log
-    /// entries are given |index| values 0, 1, ..., n-1 for a sequence of n log
-    /// entries.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>index: i32,
-    <span class="doccomment">/// The total number of log entries that the original LogEntry was split into.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>total_splits: i32,
-}
-<span class="doccomment">/// Describes a logs-based metric. The value of the metric is the number of log
+</pre></div><pre class="rust"><code><span class="doccomment">/// Describes a logs-based metric. The value of the metric is the number of log
 /// entries that match a logs filter in a given time interval.
 ///
 /// Logs-based metrics can also be used to extract values from logs and create a
@@ -7349,6 +7100,255 @@
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
     }
+}
+<span class="doccomment">/// An individual entry in a log.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LogEntry {
+    <span class="doccomment">/// Required. The resource name of the log to which this log entry belongs:
+    ///
+    ///      "projects/\[PROJECT_ID\]/logs/\[LOG_ID\]"
+    ///      "organizations/\[ORGANIZATION_ID\]/logs/\[LOG_ID\]"
+    ///      "billingAccounts/\[BILLING_ACCOUNT_ID\]/logs/\[LOG_ID\]"
+    ///      "folders/\[FOLDER_ID\]/logs/\[LOG_ID\]"
+    ///
+    /// A project number may be used in place of PROJECT_ID. The project number is
+    /// translated to its corresponding PROJECT_ID internally and the `log_name`
+    /// field will contain PROJECT_ID in queries and exports.
+    ///
+    /// `\[LOG_ID\]` must be URL-encoded within `log_name`. Example:
+    /// `"organizations/1234567890/logs/cloudresourcemanager.googleapis.com%2Factivity"`.
+    ///
+    /// `\[LOG_ID\]` must be less than 512 characters long and can only include the
+    /// following characters: upper and lower case alphanumeric characters,
+    /// forward-slash, underscore, hyphen, and period.
+    ///
+    /// For backward compatibility, if `log_name` begins with a forward-slash, such
+    /// as `/projects/...`, then the log entry is ingested as usual, but the
+    /// forward-slash is removed. Listing the log entry will not show the leading
+    /// slash and filtering for a log name with a leading slash will never return
+    /// any results.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>log_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The monitored resource that produced this log entry.
+    ///
+    /// Example: a log entry that reports a database error would be associated with
+    /// the monitored resource designating the particular database that reported
+    /// the error.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>resource: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::api::MonitoredResource&gt;,
+    <span class="doccomment">/// Optional. The time the event described by the log entry occurred. This time
+    /// is used to compute the log entry's age and to enforce the logs retention
+    /// period. If this field is omitted in a new log entry, then Logging assigns
+    /// it the current time. Timestamps have nanosecond accuracy, but trailing
+    /// zeros in the fractional seconds might be omitted when the timestamp is
+    /// displayed.
+    ///
+    /// Incoming log entries must have timestamps that don't exceed the
+    /// [logs retention
+    /// period](&lt;https://cloud.google.com/logging/quotas#logs_retention_periods&gt;) in
+    /// the past, and that don't exceed 24 hours in the future. Log entries outside
+    /// those time boundaries aren't ingested by Logging.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>timestamp: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The time the log entry was received by Logging.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"24"</span>)]
+    </span><span class="kw">pub </span>receive_timestamp: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Optional. The severity of the log entry. The default value is
+    /// `LogSeverity.DEFAULT`.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"super::r#type::LogSeverity"</span>, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>severity: i32,
+    <span class="doccomment">/// Optional. A unique identifier for the log entry. If you provide a value,
+    /// then Logging considers other log entries in the same project, with the same
+    /// `timestamp`, and with the same `insert_id` to be duplicates which are
+    /// removed in a single query result. However, there are no guarantees of
+    /// de-duplication in the export of logs.
+    ///
+    /// If the `insert_id` is omitted when writing a log entry, the Logging API
+    /// assigns its own unique identifier in this field.
+    ///
+    /// In queries, the `insert_id` is also used to order log entries that have
+    /// the same `log_name` and `timestamp` values.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>insert_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Information about the HTTP request associated with this log
+    /// entry, if applicable.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>http_request: ::core::option::Option&lt;<span class="kw">super</span>::r#type::HttpRequest&gt;,
+    <span class="doccomment">/// Optional. A map of key, value pairs that provides additional information
+    /// about the log entry. The labels can be user-defined or system-defined.
+    ///
+    /// User-defined labels are arbitrary key, value pairs that you can use to
+    /// classify logs.
+    ///
+    /// System-defined labels are defined by GCP services for platform logs.
+    /// They have two components - a service namespace component and the
+    /// attribute name. For example: `compute.googleapis.com/resource_name`.
+    ///
+    /// Cloud Logging truncates label keys that exceed 512 B and label
+    /// values that exceed 64 KB upon their associated log entry being
+    /// written. The truncation is indicated by an ellipsis at the
+    /// end of the character string.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Optional. Information about an operation associated with the log entry, if
+    /// applicable.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>operation: ::core::option::Option&lt;LogEntryOperation&gt;,
+    <span class="doccomment">/// Optional. The REST resource name of the trace being written to
+    /// [Cloud Trace](&lt;https://cloud.google.com/trace&gt;) in
+    /// association with this log entry. For example, if your trace data is stored
+    /// in the Cloud project "my-trace-project" and if the service that is creating
+    /// the log entry receives a trace header that includes the trace ID "12345",
+    /// then the service should use "projects/my-tracing-project/traces/12345".
+    ///
+    /// The `trace` field provides the link between logs and traces. By using
+    /// this field, you can navigate from a log entry to a trace.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"22"</span>)]
+    </span><span class="kw">pub </span>trace: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The ID of the [Cloud Trace](&lt;https://cloud.google.com/trace&gt;) span
+    /// associated with the current operation in which the log is being written.
+    /// For example, if a span has the REST resource name of
+    /// "projects/some-project/traces/some-trace/spans/some-span-id", then the
+    /// `span_id` field is "some-span-id".
+    ///
+    /// A
+    /// [Span](&lt;https://cloud.google.com/trace/docs/reference/v2/rest/v2/projects.traces/batchWrite#Span&gt;)
+    /// represents a single operation within a trace. Whereas a trace may involve
+    /// multiple different microservices running on multiple different machines,
+    /// a span generally corresponds to a single logical operation being performed
+    /// in a single instance of a microservice on one specific machine. Spans
+    /// are the nodes within the tree that is a trace.
+    ///
+    /// Applications that are [instrumented for
+    /// tracing](&lt;https://cloud.google.com/trace/docs/setup&gt;) will generally assign a
+    /// new, unique span ID on each incoming request. It is also common to create
+    /// and record additional spans corresponding to internal processing elements
+    /// as well as issuing requests to dependencies.
+    ///
+    /// The span ID is expected to be a 16-character, hexadecimal encoding of an
+    /// 8-byte array and should not be zero. It should be unique within the trace
+    /// and should, ideally, be generated in a manner that is uniformly random.
+    ///
+    /// Example values:
+    ///
+    ///    - `000000000000004a`
+    ///    - `7a2190356c3fc94b`
+    ///    - `0000f00300090021`
+    ///    - `d39223e101960076`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"27"</span>)]
+    </span><span class="kw">pub </span>span_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The sampling decision of the trace associated with the log entry.
+    ///
+    /// True means that the trace resource name in the `trace` field was sampled
+    /// for storage in a trace backend. False means that the trace was not sampled
+    /// for storage when this log entry was written, or the sampling decision was
+    /// unknown at the time. A non-sampled `trace` value is still useful as a
+    /// request correlation identifier. The default is False.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"30"</span>)]
+    </span><span class="kw">pub </span>trace_sampled: bool,
+    <span class="doccomment">/// Optional. Source code location information associated with the log entry,
+    /// if any.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"23"</span>)]
+    </span><span class="kw">pub </span>source_location: ::core::option::Option&lt;LogEntrySourceLocation&gt;,
+    <span class="doccomment">/// Optional. Information indicating this LogEntry is part of a sequence of
+    /// multiple log entries split from a single LogEntry.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"35"</span>)]
+    </span><span class="kw">pub </span>split: ::core::option::Option&lt;LogSplit&gt;,
+    <span class="doccomment">/// The log entry payload, which can be one of multiple types.
+    </span><span class="attr">#[prost(oneof = <span class="string">"log_entry::Payload"</span>, tags = <span class="string">"2, 3, 6"</span>)]
+    </span><span class="kw">pub </span>payload: ::core::option::Option&lt;log_entry::Payload&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `LogEntry`.
+</span><span class="kw">pub mod </span>log_entry {
+    <span class="doccomment">/// The log entry payload, which can be one of multiple types.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Payload {
+        <span class="doccomment">/// The log entry payload, represented as a protocol buffer. Some Google
+        /// Cloud Platform services use this field for their log entry payloads.
+        ///
+        /// The following protocol buffer types are supported; user-defined types
+        /// are not supported:
+        ///
+        ///    "type.googleapis.com/google.cloud.audit.AuditLog"
+        ///    "type.googleapis.com/google.appengine.logging.v1.RequestLog"
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>ProtoPayload(::prost_types::Any),
+        <span class="doccomment">/// The log entry payload, represented as a Unicode string (UTF-8).
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span>TextPayload(::prost::alloc::string::String),
+        <span class="doccomment">/// The log entry payload, represented as a structure that is
+        /// expressed as a JSON object.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>JsonPayload(::prost_types::Struct),
+    }
+}
+<span class="doccomment">/// Additional information about a potentially long-running operation with which
+/// a log entry is associated.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LogEntryOperation {
+    <span class="doccomment">/// Optional. An arbitrary operation identifier. Log entries with the same
+    /// identifier are assumed to be part of the same operation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. An arbitrary producer identifier. The combination of `id` and
+    /// `producer` must be globally unique. Examples for `producer`:
+    /// `"MyDivision.MyBigCompany.com"`, `"github.com/MyProject/MyApplication"`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>producer: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Set this to True if this is the first log entry in the operation.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>first: bool,
+    <span class="doccomment">/// Optional. Set this to True if this is the last log entry in the operation.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>last: bool,
+}
+<span class="doccomment">/// Additional information about the source code location that produced the log
+/// entry.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LogEntrySourceLocation {
+    <span class="doccomment">/// Optional. Source file name. Depending on the runtime environment, this
+    /// might be a simple name or a fully-qualified name.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>file: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Line within the source file. 1-based; 0 indicates no line number
+    /// available.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>line: i64,
+    <span class="doccomment">/// Optional. Human-readable name of the function or method being invoked, with
+    /// optional context such as the class or package name. This information may be
+    /// used in contexts such as the logs viewer, where a file and line number are
+    /// less meaningful. The format can vary by language. For example:
+    /// `qual.if.ied.Class.method` (Java), `dir/package.func` (Go), `function`
+    /// (Python).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>function: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Additional information used to correlate multiple log entries. Used when a
+/// single LogEntry would exceed the Google Cloud Logging size limit and is
+/// split across multiple log entries.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LogSplit {
+    <span class="doccomment">/// A globally unique identifier for all log entries in a sequence of split log
+    /// entries. All log entries with the same |LogSplit.uid| are assumed to be
+    /// part of the same sequence of split log entries.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// The index of this LogEntry in the sequence of split log entries. Log
+    /// entries are given |index| values 0, 1, ..., n-1 for a sequence of n log
+    /// entries.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>index: i32,
+    <span class="doccomment">/// The total number of log entries that the original LogEntry was split into.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>total_splits: i32,
 }
 <span class="doccomment">/// The parameters to DeleteLog.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

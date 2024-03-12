@@ -1908,33 +1908,6 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Assessment task config.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AssessmentTaskDetails {
-    <span class="doccomment">/// Required. The Cloud Storage path for assessment input files.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>input_path: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The BigQuery dataset for output.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>output_dataset: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. An optional Cloud Storage path to write the query logs (which is
-    /// then used as an input path on the translation task)
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>querylogs_path: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The data source or data warehouse type (eg: TERADATA/REDSHIFT)
-    /// from which the input data is extracted.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>data_source: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Details for an assessment task orchestration result.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AssessmentOrchestrationResultDetails {
-    <span class="doccomment">/// Optional. The version used for the output table schemas.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>output_tables_schema_version: ::prost::alloc::string::String,
-}
 <span class="doccomment">/// Provides details for errors and the corresponding resources.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2081,6 +2054,310 @@
         </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
         </span>DistributionValue(<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::api::Distribution),
     }
+}
+<span class="doccomment">/// The request of translating a SQL query to Standard SQL.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TranslateQueryRequest {
+    <span class="doccomment">/// Required. The name of the project to which this translation request belongs.
+    /// Example: `projects/foo/locations/bar`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The source SQL dialect of `queries`.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"translate_query_request::SqlTranslationSourceDialect"</span>,
+        tag = <span class="string">"2"
+    </span>)]
+    </span><span class="kw">pub </span>source_dialect: i32,
+    <span class="doccomment">/// Required. The query to be translated.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>query: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `TranslateQueryRequest`.
+</span><span class="kw">pub mod </span>translate_query_request {
+    <span class="doccomment">/// Supported SQL translation source dialects.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>SqlTranslationSourceDialect {
+        <span class="doccomment">/// SqlTranslationSourceDialect not specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Teradata SQL.
+        </span>Teradata = <span class="number">1</span>,
+    }
+    <span class="kw">impl </span>SqlTranslationSourceDialect {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                SqlTranslationSourceDialect::Unspecified =&gt; {
+                    <span class="string">"SQL_TRANSLATION_SOURCE_DIALECT_UNSPECIFIED"
+                </span>}
+                SqlTranslationSourceDialect::Teradata =&gt; <span class="string">"TERADATA"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"SQL_TRANSLATION_SOURCE_DIALECT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"TERADATA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Teradata),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// The response of translating a SQL query to Standard SQL.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TranslateQueryResponse {
+    <span class="doccomment">/// Output only. Immutable. The unique identifier for the SQL translation job.
+    /// Example: `projects/123/locations/us/translation/1234`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>translation_job: ::prost::alloc::string::String,
+    <span class="doccomment">/// The translated result. This will be empty if the translation fails.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>translated_query: ::prost::alloc::string::String,
+    <span class="doccomment">/// The list of errors encountered during the translation, if present.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>errors: ::prost::alloc::vec::Vec&lt;SqlTranslationError&gt;,
+    <span class="doccomment">/// The list of warnings encountered during the translation, if present,
+    /// indicates non-semantically correct translation.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>warnings: ::prost::alloc::vec::Vec&lt;SqlTranslationWarning&gt;,
+}
+<span class="doccomment">/// Structured error object capturing the error message and the location in the
+/// source text where the error occurs.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SqlTranslationErrorDetail {
+    <span class="doccomment">/// Specifies the row from the source text where the error occurred.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>row: i64,
+    <span class="doccomment">/// Specifie the column from the source texts where the error occurred.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>column: i64,
+    <span class="doccomment">/// A human-readable description of the error.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The detailed error object if the SQL translation job fails.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SqlTranslationError {
+    <span class="doccomment">/// The type of SQL translation error.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"sql_translation_error::SqlTranslationErrorType"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>error_type: i32,
+    <span class="doccomment">/// Specifies the details of the error, including the error message and
+    /// location from the source text.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>error_detail: ::core::option::Option&lt;SqlTranslationErrorDetail&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `SqlTranslationError`.
+</span><span class="kw">pub mod </span>sql_translation_error {
+    <span class="doccomment">/// The error type of the SQL translation job.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>SqlTranslationErrorType {
+        <span class="doccomment">/// SqlTranslationErrorType not specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Failed to parse the input text as a SQL query.
+        </span>SqlParseError = <span class="number">1</span>,
+        <span class="doccomment">/// Found unsupported functions in the input SQL query that are not able to
+        /// translate.
+        </span>UnsupportedSqlFunction = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>SqlTranslationErrorType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                SqlTranslationErrorType::Unspecified =&gt; {
+                    <span class="string">"SQL_TRANSLATION_ERROR_TYPE_UNSPECIFIED"
+                </span>}
+                SqlTranslationErrorType::SqlParseError =&gt; <span class="string">"SQL_PARSE_ERROR"</span>,
+                SqlTranslationErrorType::UnsupportedSqlFunction =&gt; {
+                    <span class="string">"UNSUPPORTED_SQL_FUNCTION"
+                </span>}
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"SQL_TRANSLATION_ERROR_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"SQL_PARSE_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SqlParseError),
+                <span class="string">"UNSUPPORTED_SQL_FUNCTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnsupportedSqlFunction),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// The detailed warning object if the SQL translation job is completed but not
+/// semantically correct.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SqlTranslationWarning {
+    <span class="doccomment">/// Specifies the details of the warning, including the warning message and
+    /// location from the source text.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>warning_detail: ::core::option::Option&lt;SqlTranslationErrorDetail&gt;,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>sql_translation_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Provides other SQL dialects to GoogleSQL translation operations.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>SqlTranslationServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; SqlTranslationServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; SqlTranslationServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            SqlTranslationServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Translates input queries from source dialects to GoogleSQL.
+        </span><span class="kw">pub async fn </span>translate_query(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::TranslateQueryRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::TranslateQueryResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.bigquery.migration.v2alpha.SqlTranslationService/TranslateQuery"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.bigquery.migration.v2alpha.SqlTranslationService"</span>,
+                        <span class="string">"TranslateQuery"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Assessment task config.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AssessmentTaskDetails {
+    <span class="doccomment">/// Required. The Cloud Storage path for assessment input files.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>input_path: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The BigQuery dataset for output.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>output_dataset: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. An optional Cloud Storage path to write the query logs (which is
+    /// then used as an input path on the translation task)
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>querylogs_path: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The data source or data warehouse type (eg: TERADATA/REDSHIFT)
+    /// from which the input data is extracted.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>data_source: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Details for an assessment task orchestration result.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AssessmentOrchestrationResultDetails {
+    <span class="doccomment">/// Optional. The version used for the output table schemas.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>output_tables_schema_version: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// A migration workflow which specifies what needs to be done for an EDW
 /// migration.
@@ -2410,283 +2687,6 @@
         <span class="doccomment">/// Details specific to assessment task types.
         </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
         </span>AssessmentDetails(<span class="kw">super</span>::AssessmentOrchestrationResultDetails),
-    }
-}
-<span class="doccomment">/// The request of translating a SQL query to Standard SQL.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TranslateQueryRequest {
-    <span class="doccomment">/// Required. The name of the project to which this translation request belongs.
-    /// Example: `projects/foo/locations/bar`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The source SQL dialect of `queries`.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"translate_query_request::SqlTranslationSourceDialect"</span>,
-        tag = <span class="string">"2"
-    </span>)]
-    </span><span class="kw">pub </span>source_dialect: i32,
-    <span class="doccomment">/// Required. The query to be translated.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>query: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `TranslateQueryRequest`.
-</span><span class="kw">pub mod </span>translate_query_request {
-    <span class="doccomment">/// Supported SQL translation source dialects.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>SqlTranslationSourceDialect {
-        <span class="doccomment">/// SqlTranslationSourceDialect not specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Teradata SQL.
-        </span>Teradata = <span class="number">1</span>,
-    }
-    <span class="kw">impl </span>SqlTranslationSourceDialect {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                SqlTranslationSourceDialect::Unspecified =&gt; {
-                    <span class="string">"SQL_TRANSLATION_SOURCE_DIALECT_UNSPECIFIED"
-                </span>}
-                SqlTranslationSourceDialect::Teradata =&gt; <span class="string">"TERADATA"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"SQL_TRANSLATION_SOURCE_DIALECT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"TERADATA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Teradata),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// The response of translating a SQL query to Standard SQL.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TranslateQueryResponse {
-    <span class="doccomment">/// Output only. Immutable. The unique identifier for the SQL translation job.
-    /// Example: `projects/123/locations/us/translation/1234`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>translation_job: ::prost::alloc::string::String,
-    <span class="doccomment">/// The translated result. This will be empty if the translation fails.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>translated_query: ::prost::alloc::string::String,
-    <span class="doccomment">/// The list of errors encountered during the translation, if present.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>errors: ::prost::alloc::vec::Vec&lt;SqlTranslationError&gt;,
-    <span class="doccomment">/// The list of warnings encountered during the translation, if present,
-    /// indicates non-semantically correct translation.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>warnings: ::prost::alloc::vec::Vec&lt;SqlTranslationWarning&gt;,
-}
-<span class="doccomment">/// Structured error object capturing the error message and the location in the
-/// source text where the error occurs.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SqlTranslationErrorDetail {
-    <span class="doccomment">/// Specifies the row from the source text where the error occurred.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>row: i64,
-    <span class="doccomment">/// Specifie the column from the source texts where the error occurred.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>column: i64,
-    <span class="doccomment">/// A human-readable description of the error.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The detailed error object if the SQL translation job fails.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SqlTranslationError {
-    <span class="doccomment">/// The type of SQL translation error.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"sql_translation_error::SqlTranslationErrorType"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>error_type: i32,
-    <span class="doccomment">/// Specifies the details of the error, including the error message and
-    /// location from the source text.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>error_detail: ::core::option::Option&lt;SqlTranslationErrorDetail&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `SqlTranslationError`.
-</span><span class="kw">pub mod </span>sql_translation_error {
-    <span class="doccomment">/// The error type of the SQL translation job.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>SqlTranslationErrorType {
-        <span class="doccomment">/// SqlTranslationErrorType not specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Failed to parse the input text as a SQL query.
-        </span>SqlParseError = <span class="number">1</span>,
-        <span class="doccomment">/// Found unsupported functions in the input SQL query that are not able to
-        /// translate.
-        </span>UnsupportedSqlFunction = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>SqlTranslationErrorType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                SqlTranslationErrorType::Unspecified =&gt; {
-                    <span class="string">"SQL_TRANSLATION_ERROR_TYPE_UNSPECIFIED"
-                </span>}
-                SqlTranslationErrorType::SqlParseError =&gt; <span class="string">"SQL_PARSE_ERROR"</span>,
-                SqlTranslationErrorType::UnsupportedSqlFunction =&gt; {
-                    <span class="string">"UNSUPPORTED_SQL_FUNCTION"
-                </span>}
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"SQL_TRANSLATION_ERROR_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"SQL_PARSE_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SqlParseError),
-                <span class="string">"UNSUPPORTED_SQL_FUNCTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnsupportedSqlFunction),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// The detailed warning object if the SQL translation job is completed but not
-/// semantically correct.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SqlTranslationWarning {
-    <span class="doccomment">/// Specifies the details of the warning, including the warning message and
-    /// location from the source text.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>warning_detail: ::core::option::Option&lt;SqlTranslationErrorDetail&gt;,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>sql_translation_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Provides other SQL dialects to GoogleSQL translation operations.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>SqlTranslationServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; SqlTranslationServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; SqlTranslationServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            SqlTranslationServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Translates input queries from source dialects to GoogleSQL.
-        </span><span class="kw">pub async fn </span>translate_query(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::TranslateQueryRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::TranslateQueryResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.bigquery.migration.v2alpha.SqlTranslationService/TranslateQuery"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.bigquery.migration.v2alpha.SqlTranslationService"</span>,
-                        <span class="string">"TranslateQuery"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
     }
 }
 <span class="doccomment">/// Request to create a migration workflow resource.

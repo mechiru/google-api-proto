@@ -2605,124 +2605,6 @@
         </span>ReadWrite(ReadWrite),
     }
 }
-<span class="doccomment">/// A message signifying an event that cannot be delivered to Cloud Functions
-/// from Firestore using [Cloud Firestore triggers 1st
-/// gen](&lt;https://cloud.google.com/functions/docs/calling/cloud-firestore&gt;)
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UndeliverableFirstGenEvent {
-    <span class="doccomment">/// Error message for events being undeliverable.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
-    <span class="doccomment">/// Reason for events being undeliverable.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"undeliverable_first_gen_event::Reason"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>reason: i32,
-    <span class="doccomment">/// The resource name of the changed document, in the format of
-    /// `projects/{projectId}/databases/{databaseId}/documents/{document_path}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>document_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The type of the document change.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"undeliverable_first_gen_event::DocumentChangeType"</span>,
-        tag = <span class="string">"4"
-    </span>)]
-    </span><span class="kw">pub </span>document_change_type: i32,
-    <span class="doccomment">/// The names of the functions that were supposed to be triggered.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>function_name: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The commit time of triggered write operation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>triggered_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `UndeliverableFirstGenEvent`.
-</span><span class="kw">pub mod </span>undeliverable_first_gen_event {
-    <span class="doccomment">/// Reason for events being undeliverable.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Reason {
-        <span class="doccomment">/// Unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Exceeding maximum event size limit
-        </span>ExceedingSizeLimit = <span class="number">1</span>,
-    }
-    <span class="kw">impl </span>Reason {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Reason::Unspecified =&gt; <span class="string">"REASON_UNSPECIFIED"</span>,
-                Reason::ExceedingSizeLimit =&gt; <span class="string">"EXCEEDING_SIZE_LIMIT"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"EXCEEDING_SIZE_LIMIT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ExceedingSizeLimit),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Document change type.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>DocumentChangeType {
-        <span class="doccomment">/// Unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Represent creation operation.
-        </span>Create = <span class="number">1</span>,
-        <span class="doccomment">/// Represent delete operation.
-        </span>Delete = <span class="number">2</span>,
-        <span class="doccomment">/// Represent update operation.
-        </span>Update = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>DocumentChangeType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                DocumentChangeType::Unspecified =&gt; <span class="string">"DOCUMENT_CHANGE_TYPE_UNSPECIFIED"</span>,
-                DocumentChangeType::Create =&gt; <span class="string">"CREATE"</span>,
-                DocumentChangeType::Delete =&gt; <span class="string">"DELETE"</span>,
-                DocumentChangeType::Update =&gt; <span class="string">"UPDATE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"DOCUMENT_CHANGE_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CREATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Create),
-                <span class="string">"DELETE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Delete),
-                <span class="string">"UPDATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Update),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
 <span class="doccomment">/// A Firestore document.
 ///
 /// Must not exceed 1 MiB - 4 bytes.
@@ -3605,6 +3487,124 @@
     /// to the sort order defined by the query.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>before: bool,
+}
+<span class="doccomment">/// A message signifying an event that cannot be delivered to Cloud Functions
+/// from Firestore using [Cloud Firestore triggers 1st
+/// gen](&lt;https://cloud.google.com/functions/docs/calling/cloud-firestore&gt;)
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UndeliverableFirstGenEvent {
+    <span class="doccomment">/// Error message for events being undeliverable.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+    <span class="doccomment">/// Reason for events being undeliverable.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"undeliverable_first_gen_event::Reason"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>reason: i32,
+    <span class="doccomment">/// The resource name of the changed document, in the format of
+    /// `projects/{projectId}/databases/{databaseId}/documents/{document_path}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>document_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The type of the document change.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"undeliverable_first_gen_event::DocumentChangeType"</span>,
+        tag = <span class="string">"4"
+    </span>)]
+    </span><span class="kw">pub </span>document_change_type: i32,
+    <span class="doccomment">/// The names of the functions that were supposed to be triggered.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>function_name: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The commit time of triggered write operation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>triggered_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `UndeliverableFirstGenEvent`.
+</span><span class="kw">pub mod </span>undeliverable_first_gen_event {
+    <span class="doccomment">/// Reason for events being undeliverable.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Reason {
+        <span class="doccomment">/// Unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Exceeding maximum event size limit
+        </span>ExceedingSizeLimit = <span class="number">1</span>,
+    }
+    <span class="kw">impl </span>Reason {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Reason::Unspecified =&gt; <span class="string">"REASON_UNSPECIFIED"</span>,
+                Reason::ExceedingSizeLimit =&gt; <span class="string">"EXCEEDING_SIZE_LIMIT"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"EXCEEDING_SIZE_LIMIT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ExceedingSizeLimit),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Document change type.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>DocumentChangeType {
+        <span class="doccomment">/// Unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Represent creation operation.
+        </span>Create = <span class="number">1</span>,
+        <span class="doccomment">/// Represent delete operation.
+        </span>Delete = <span class="number">2</span>,
+        <span class="doccomment">/// Represent update operation.
+        </span>Update = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>DocumentChangeType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                DocumentChangeType::Unspecified =&gt; <span class="string">"DOCUMENT_CHANGE_TYPE_UNSPECIFIED"</span>,
+                DocumentChangeType::Create =&gt; <span class="string">"CREATE"</span>,
+                DocumentChangeType::Delete =&gt; <span class="string">"DELETE"</span>,
+                DocumentChangeType::Update =&gt; <span class="string">"UPDATE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"DOCUMENT_CHANGE_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CREATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Create),
+                <span class="string">"DELETE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Delete),
+                <span class="string">"UPDATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Update),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
 }
 <span class="doccomment">/// The request for [Firestore.GetDocument][google.firestore.v1beta1.Firestore.GetDocument].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
