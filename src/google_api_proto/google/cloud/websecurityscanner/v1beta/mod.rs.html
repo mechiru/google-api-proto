@@ -1766,7 +1766,19 @@
 <a href="#1765" id="1765">1765</a>
 <a href="#1766" id="1766">1766</a>
 <a href="#1767" id="1767">1767</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web
+</pre></div><pre class="rust"><code><span class="doccomment">/// A FindingTypeStats resource represents stats regarding a specific FindingType
+/// of Findings under a given ScanRun.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FindingTypeStats {
+    <span class="doccomment">/// The finding type associated with the stats.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>finding_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// The count of findings belonging to this finding type.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>finding_count: i32,
+}
+<span class="doccomment">/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web
 /// Security Scanner Service crawls the web applications, following all links
 /// within the scope of sites, to find the URLs to test against.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -1929,18 +1941,6 @@
     <span class="doccomment">/// An addon containing information reported for an XSS, if any.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"14"</span>)]
     </span><span class="kw">pub </span>xss: ::core::option::Option&lt;Xss&gt;,
-}
-<span class="doccomment">/// A FindingTypeStats resource represents stats regarding a specific FindingType
-/// of Findings under a given ScanRun.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FindingTypeStats {
-    <span class="doccomment">/// The finding type associated with the stats.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>finding_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// The count of findings belonging to this finding type.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>finding_count: i32,
 }
 <span class="doccomment">/// Defines a custom error message used by CreateScanConfig and UpdateScanConfig
 /// APIs when scan configuration validation fails. It is also reported as part of
