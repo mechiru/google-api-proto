@@ -1705,81 +1705,21 @@
         }
     }
 }
-<span class="doccomment">/// Details about the Access request.
+<span class="doccomment">/// The permissions granted to the partner for a workload
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessApprovalRequest {
+</span><span class="kw">pub struct </span>PartnerPermissions {
     <span class="doccomment">/// Identifier. Format:
-    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/accessApprovalRequests/{access_approval_request}`
+    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/partnerPermissions`
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The time at which approval was requested.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>request_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The justification for which approval is being requested.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>requested_reason: ::core::option::Option&lt;AccessReason&gt;,
-    <span class="doccomment">/// The requested expiration for the approval. If the request is approved,
-    /// access will be granted from the time of approval until the expiration time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>requested_expiration_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The partner permissions granted for the workload
+    </span><span class="attr">#[prost(enumeration = <span class="string">"partner_permissions::Permission"</span>, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>partner_permissions: ::prost::alloc::vec::Vec&lt;i32&gt;,
 }
-<span class="doccomment">/// Request for getting the access requests associated with a workload.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListAccessApprovalRequestsRequest {
-    <span class="doccomment">/// Required. Parent resource
-    /// Format:
-    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The maximum number of access requests to return. The service may
-    /// return fewer than this value. If unspecified, at most 500 access requests
-    /// will be returned.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// Optional. A page token, received from a previous
-    /// `ListAccessApprovalRequests` call. Provide this to retrieve the subsequent
-    /// page.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Filtering results.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Hint for how to order the results.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response message for list access requests.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListAccessApprovalRequestsResponse {
-    <span class="doccomment">/// List of access approval requests
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>access_approval_requests: ::prost::alloc::vec::Vec&lt;AccessApprovalRequest&gt;,
-    <span class="doccomment">/// A token that can be sent as `page_token` to retrieve the next page.
-    /// If this field is omitted, there are no subsequent pages.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Locations that could not be reached.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Reason for the access.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessReason {
-    <span class="doccomment">/// Type of access justification.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"access_reason::Type"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-    <span class="doccomment">/// More detail about certain reason types. See comments for each type above.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>detail: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `AccessReason`.
-</span><span class="kw">pub mod </span>access_reason {
-    <span class="doccomment">/// Type of access justification.
-    </span><span class="attr">#[derive(
+<span class="doccomment">/// Nested message and enum types in `PartnerPermissions`.
+</span><span class="kw">pub mod </span>partner_permissions {
+    <span class="attr">#[derive(
         Clone,
         Copy,
         Debug,
@@ -1791,74 +1731,61 @@
         ::prost::Enumeration
     )]
     #[repr(i32)]
-    </span><span class="kw">pub enum </span>Type {
-        <span class="doccomment">/// Default value for proto, shouldn't be used.
+    </span><span class="kw">pub enum </span>Permission {
+        <span class="doccomment">/// Unspecified partner permission
         </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Customer made a request or raised an issue that required the principal to
-        /// access customer data. `detail` is of the form ("#####" is the issue ID):
-        ///
-        /// - "Feedback Report: #####"
-        /// - "Case Number: #####"
-        /// - "Case ID: #####"
-        /// - "E-PIN Reference: #####"
-        /// - "Google-#####"
-        /// - "T-#####"
-        </span>CustomerInitiatedSupport = <span class="number">1</span>,
-        <span class="doccomment">/// The principal accessed customer data in order to diagnose or resolve a
-        /// suspected issue in services. Often this access is used to confirm that
-        /// customers are not affected by a suspected service issue or to remediate a
-        /// reversible system issue.
-        </span>GoogleInitiatedService = <span class="number">2</span>,
-        <span class="doccomment">/// Google initiated service for security, fraud, abuse, or compliance
-        /// purposes.
-        </span>GoogleInitiatedReview = <span class="number">3</span>,
-        <span class="doccomment">/// The principal was compelled to access customer data in order to respond
-        /// to a legal third party data request or process, including legal processes
-        /// from customers themselves.
-        </span>ThirdPartyDataRequest = <span class="number">4</span>,
-        <span class="doccomment">/// The principal accessed customer data in order to diagnose or resolve a
-        /// suspected issue in services or a known outage.
-        </span>GoogleResponseToProductionAlert = <span class="number">5</span>,
-        <span class="doccomment">/// Similar to 'GOOGLE_INITIATED_SERVICE' or 'GOOGLE_INITIATED_REVIEW', but
-        /// with universe agnostic naming. The principal accessed customer data in
-        /// order to diagnose or resolve a suspected issue in services or a known
-        /// outage, or for security, fraud, abuse, or compliance review purposes.
-        </span>CloudInitiatedAccess = <span class="number">6</span>,
+        <span class="doccomment">/// Permission for Access Transparency and emergency logs
+        </span>AccessTransparencyAndEmergencyAccessLogs = <span class="number">1</span>,
+        <span class="doccomment">/// Permission for Assured Workloads monitoring violations
+        </span>AssuredWorkloadsMonitoring = <span class="number">2</span>,
+        <span class="doccomment">/// Permission for Access Approval requests
+        </span>AccessApprovalRequests = <span class="number">3</span>,
+        <span class="doccomment">/// Permission for External Key Manager connection status
+        </span>AssuredWorkloadsEkmConnectionStatus = <span class="number">4</span>,
     }
-    <span class="kw">impl </span>Type {
+    <span class="kw">impl </span>Permission {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
         ///
         /// The values are not transformed in any way and thus are considered stable
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
             <span class="kw">match </span><span class="self">self </span>{
-                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
-                Type::CustomerInitiatedSupport =&gt; <span class="string">"CUSTOMER_INITIATED_SUPPORT"</span>,
-                Type::GoogleInitiatedService =&gt; <span class="string">"GOOGLE_INITIATED_SERVICE"</span>,
-                Type::GoogleInitiatedReview =&gt; <span class="string">"GOOGLE_INITIATED_REVIEW"</span>,
-                Type::ThirdPartyDataRequest =&gt; <span class="string">"THIRD_PARTY_DATA_REQUEST"</span>,
-                Type::GoogleResponseToProductionAlert =&gt; {
-                    <span class="string">"GOOGLE_RESPONSE_TO_PRODUCTION_ALERT"
+                Permission::Unspecified =&gt; <span class="string">"PERMISSION_UNSPECIFIED"</span>,
+                Permission::AccessTransparencyAndEmergencyAccessLogs =&gt; {
+                    <span class="string">"ACCESS_TRANSPARENCY_AND_EMERGENCY_ACCESS_LOGS"
                 </span>}
-                Type::CloudInitiatedAccess =&gt; <span class="string">"CLOUD_INITIATED_ACCESS"</span>,
+                Permission::AssuredWorkloadsMonitoring =&gt; <span class="string">"ASSURED_WORKLOADS_MONITORING"</span>,
+                Permission::AccessApprovalRequests =&gt; <span class="string">"ACCESS_APPROVAL_REQUESTS"</span>,
+                Permission::AssuredWorkloadsEkmConnectionStatus =&gt; {
+                    <span class="string">"ASSURED_WORKLOADS_EKM_CONNECTION_STATUS"
+                </span>}
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
         </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
             <span class="kw">match </span>value {
-                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CUSTOMER_INITIATED_SUPPORT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomerInitiatedSupport),
-                <span class="string">"GOOGLE_INITIATED_SERVICE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleInitiatedService),
-                <span class="string">"GOOGLE_INITIATED_REVIEW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleInitiatedReview),
-                <span class="string">"THIRD_PARTY_DATA_REQUEST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ThirdPartyDataRequest),
-                <span class="string">"GOOGLE_RESPONSE_TO_PRODUCTION_ALERT" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleResponseToProductionAlert)
+                <span class="string">"PERMISSION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"ACCESS_TRANSPARENCY_AND_EMERGENCY_ACCESS_LOGS" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::AccessTransparencyAndEmergencyAccessLogs)
                 }
-                <span class="string">"CLOUD_INITIATED_ACCESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudInitiatedAccess),
+                <span class="string">"ASSURED_WORKLOADS_MONITORING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AssuredWorkloadsMonitoring),
+                <span class="string">"ACCESS_APPROVAL_REQUESTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AccessApprovalRequests),
+                <span class="string">"ASSURED_WORKLOADS_EKM_CONNECTION_STATUS" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::AssuredWorkloadsEkmConnectionStatus)
+                }
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
     }
+}
+<span class="doccomment">/// Request for getting the partner permissions granted for a workload
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetPartnerPermissionsRequest {
+    <span class="doccomment">/// Required. Name of the resource to get in the format:
+    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/partnerPermissions`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Contains metadata around the [Workload
 /// resource](&lt;https://cloud.google.com/assured-workloads/docs/reference/rest/Shared.Types/Workload&gt;)
@@ -2095,794 +2022,6 @@
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
-    }
-}
-<span class="doccomment">/// Contains metadata around a Cloud Controls Partner Customer
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Customer {
-    <span class="doccomment">/// Identifier. Format:
-    /// `organizations/{organization}/locations/{location}/customers/{customer}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The customer organization's display name. E.g. "google.com".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Container for customer onboarding steps
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>customer_onboarding_state: ::core::option::Option&lt;CustomerOnboardingState&gt;,
-    <span class="doccomment">/// Indicates whether a customer is fully onboarded
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>is_onboarded: bool,
-}
-<span class="doccomment">/// Request to list customers
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListCustomersRequest {
-    <span class="doccomment">/// Required. Parent resource
-    /// Format: `organizations/{organization}/locations/{location}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of Customers to return. The service may return fewer
-    /// than this value. If unspecified, at most 500 Customers will be returned.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A page token, received from a previous `ListCustomers` call.
-    /// Provide this to retrieve the subsequent page.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Filtering results
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Hint for how to order the results
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response message for list customer Customers requests
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListCustomersResponse {
-    <span class="doccomment">/// List of customers
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>customers: ::prost::alloc::vec::Vec&lt;Customer&gt;,
-    <span class="doccomment">/// A token that can be sent as `page_token` to retrieve the next page.
-    /// If this field is omitted, there are no subsequent pages.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Locations that could not be reached.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Message for getting a customer
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetCustomerRequest {
-    <span class="doccomment">/// Required. Format:
-    /// `organizations/{organization}/locations/{location}/customers/{customer}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Container for customer onboarding steps
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CustomerOnboardingState {
-    <span class="doccomment">/// List of customer onboarding steps
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>onboarding_steps: ::prost::alloc::vec::Vec&lt;CustomerOnboardingStep&gt;,
-}
-<span class="doccomment">/// Container for customer onboarding information
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CustomerOnboardingStep {
-    <span class="doccomment">/// The onboarding step
-    </span><span class="attr">#[prost(enumeration = <span class="string">"customer_onboarding_step::Step"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>step: i32,
-    <span class="doccomment">/// The starting time of the onboarding step
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The completion time of the onboarding step
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>completion_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Current state of the step
-    </span><span class="attr">#[prost(enumeration = <span class="string">"CompletionState"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>completion_state: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `CustomerOnboardingStep`.
-</span><span class="kw">pub mod </span>customer_onboarding_step {
-    <span class="doccomment">/// Enum for possible onboarding steps
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Step {
-        <span class="doccomment">/// Unspecified step
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// KAJ Enrollment
-        </span>KajEnrollment = <span class="number">1</span>,
-        <span class="doccomment">/// Customer Environment
-        </span>CustomerEnvironment = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Step {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Step::Unspecified =&gt; <span class="string">"STEP_UNSPECIFIED"</span>,
-                Step::KajEnrollment =&gt; <span class="string">"KAJ_ENROLLMENT"</span>,
-                Step::CustomerEnvironment =&gt; <span class="string">"CUSTOMER_ENVIRONMENT"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STEP_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"KAJ_ENROLLMENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::KajEnrollment),
-                <span class="string">"CUSTOMER_ENVIRONMENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomerEnvironment),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// The EKM connections associated with a workload
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EkmConnections {
-    <span class="doccomment">/// Identifier. Format:
-    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/ekmConnections`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The EKM connections associated with the workload
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>ekm_connections: ::prost::alloc::vec::Vec&lt;EkmConnection&gt;,
-}
-<span class="doccomment">/// Request for getting the EKM connections associated with a workload
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetEkmConnectionsRequest {
-    <span class="doccomment">/// Required. Format:
-    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/ekmConnections`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Details about the EKM connection
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EkmConnection {
-    <span class="doccomment">/// Resource name of the EKM connection in the format:
-    /// projects/{project}/locations/{location}/ekmConnections/{ekm_connection}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>connection_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The connection state
-    </span><span class="attr">#[prost(enumeration = <span class="string">"ekm_connection::ConnectionState"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>connection_state: i32,
-    <span class="doccomment">/// The connection error that occurred if any
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>connection_error: ::core::option::Option&lt;ekm_connection::ConnectionError&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `EkmConnection`.
-</span><span class="kw">pub mod </span>ekm_connection {
-    <span class="doccomment">/// Information around the error that occurred if the connection state is
-    /// anything other than available or unspecified
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ConnectionError {
-        <span class="doccomment">/// The error domain for the error
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>error_domain: ::prost::alloc::string::String,
-        <span class="doccomment">/// The error message for the error
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>error_message: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// The EKM connection state.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ConnectionState {
-        <span class="doccomment">/// Unspecified EKM connection state
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Available EKM connection state
-        </span>Available = <span class="number">1</span>,
-        <span class="doccomment">/// Not available EKM connection state
-        </span>NotAvailable = <span class="number">2</span>,
-        <span class="doccomment">/// Error EKM connection state
-        </span>Error = <span class="number">3</span>,
-        <span class="doccomment">/// Permission denied EKM connection state
-        </span>PermissionDenied = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>ConnectionState {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ConnectionState::Unspecified =&gt; <span class="string">"CONNECTION_STATE_UNSPECIFIED"</span>,
-                ConnectionState::Available =&gt; <span class="string">"AVAILABLE"</span>,
-                ConnectionState::NotAvailable =&gt; <span class="string">"NOT_AVAILABLE"</span>,
-                ConnectionState::Error =&gt; <span class="string">"ERROR"</span>,
-                ConnectionState::PermissionDenied =&gt; <span class="string">"PERMISSION_DENIED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"CONNECTION_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"AVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Available),
-                <span class="string">"NOT_AVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotAvailable),
-                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
-                <span class="string">"PERMISSION_DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PermissionDenied),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// The permissions granted to the partner for a workload
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PartnerPermissions {
-    <span class="doccomment">/// Identifier. Format:
-    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/partnerPermissions`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The partner permissions granted for the workload
-    </span><span class="attr">#[prost(enumeration = <span class="string">"partner_permissions::Permission"</span>, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>partner_permissions: ::prost::alloc::vec::Vec&lt;i32&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `PartnerPermissions`.
-</span><span class="kw">pub mod </span>partner_permissions {
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Permission {
-        <span class="doccomment">/// Unspecified partner permission
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Permission for Access Transparency and emergency logs
-        </span>AccessTransparencyAndEmergencyAccessLogs = <span class="number">1</span>,
-        <span class="doccomment">/// Permission for Assured Workloads monitoring violations
-        </span>AssuredWorkloadsMonitoring = <span class="number">2</span>,
-        <span class="doccomment">/// Permission for Access Approval requests
-        </span>AccessApprovalRequests = <span class="number">3</span>,
-        <span class="doccomment">/// Permission for External Key Manager connection status
-        </span>AssuredWorkloadsEkmConnectionStatus = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>Permission {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Permission::Unspecified =&gt; <span class="string">"PERMISSION_UNSPECIFIED"</span>,
-                Permission::AccessTransparencyAndEmergencyAccessLogs =&gt; {
-                    <span class="string">"ACCESS_TRANSPARENCY_AND_EMERGENCY_ACCESS_LOGS"
-                </span>}
-                Permission::AssuredWorkloadsMonitoring =&gt; <span class="string">"ASSURED_WORKLOADS_MONITORING"</span>,
-                Permission::AccessApprovalRequests =&gt; <span class="string">"ACCESS_APPROVAL_REQUESTS"</span>,
-                Permission::AssuredWorkloadsEkmConnectionStatus =&gt; {
-                    <span class="string">"ASSURED_WORKLOADS_EKM_CONNECTION_STATUS"
-                </span>}
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"PERMISSION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"ACCESS_TRANSPARENCY_AND_EMERGENCY_ACCESS_LOGS" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::AccessTransparencyAndEmergencyAccessLogs)
-                }
-                <span class="string">"ASSURED_WORKLOADS_MONITORING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AssuredWorkloadsMonitoring),
-                <span class="string">"ACCESS_APPROVAL_REQUESTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AccessApprovalRequests),
-                <span class="string">"ASSURED_WORKLOADS_EKM_CONNECTION_STATUS" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::AssuredWorkloadsEkmConnectionStatus)
-                }
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Request for getting the partner permissions granted for a workload
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetPartnerPermissionsRequest {
-    <span class="doccomment">/// Required. Name of the resource to get in the format:
-    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/partnerPermissions`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Message describing Partner resource
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Partner {
-    <span class="doccomment">/// Identifier. The resource name of the partner.
-    /// Format: `organizations/{organization}/locations/{location}/partner`
-    /// Example: "organizations/123456/locations/us-central1/partner"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// List of SKUs the partner is offering
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>skus: ::prost::alloc::vec::Vec&lt;Sku&gt;,
-    <span class="doccomment">/// List of Google Cloud supported EKM partners supported by the partner
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>ekm_solutions: ::prost::alloc::vec::Vec&lt;EkmMetadata&gt;,
-    <span class="doccomment">/// List of Google Cloud regions that the partner sells services to customers.
-    /// Valid Google Cloud regions found here:
-    /// &lt;https://cloud.google.com/compute/docs/regions-zones&gt;
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>operated_cloud_regions: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Google Cloud project ID in the partner's Google Cloud organization for
-    /// receiving enhanced Logs for Partners.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>partner_project_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Time the resource was created
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The last time the resource was updated
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Message for getting a Partner
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetPartnerRequest {
-    <span class="doccomment">/// Required. Format:
-    /// `organizations/{organization}/locations/{location}/partner`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Represents the SKU a partner owns inside Google Cloud to sell to customers.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Sku {
-    <span class="doccomment">/// Argentum product SKU, that is associated with the partner offerings to
-    /// customers used by Syntro for billing purposes. SKUs can represent resold
-    /// Google products or support services.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Display name of the product identified by the SKU. A partner may want to
-    /// show partner branded names for their offerings such as local sovereign
-    /// cloud solutions.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Holds information needed by Mudbray to use partner EKMs for workloads.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EkmMetadata {
-    <span class="doccomment">/// The Cloud EKM partner.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"ekm_metadata::EkmSolution"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>ekm_solution: i32,
-    <span class="doccomment">/// Endpoint for sending requests to the EKM for key provisioning during
-    /// Assured Workload creation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>ekm_endpoint_uri: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `EkmMetadata`.
-</span><span class="kw">pub mod </span>ekm_metadata {
-    <span class="doccomment">/// Represents Google Cloud supported external key management partners
-    /// [Google Cloud EKM partners
-    /// docs](&lt;https://cloud.google.com/kms/docs/ekm#supported_partners&gt;).
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>EkmSolution {
-        <span class="doccomment">/// Unspecified EKM solution
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// EKM Partner Fortanix
-        </span>Fortanix = <span class="number">1</span>,
-        <span class="doccomment">/// EKM Partner FutureX
-        </span>Futurex = <span class="number">2</span>,
-        <span class="doccomment">/// EKM Partner Thales
-        </span>Thales = <span class="number">3</span>,
-        <span class="doccomment">/// EKM Partner Virtu
-        </span>Virtru = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>EkmSolution {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                EkmSolution::Unspecified =&gt; <span class="string">"EKM_SOLUTION_UNSPECIFIED"</span>,
-                EkmSolution::Fortanix =&gt; <span class="string">"FORTANIX"</span>,
-                EkmSolution::Futurex =&gt; <span class="string">"FUTUREX"</span>,
-                EkmSolution::Thales =&gt; <span class="string">"THALES"</span>,
-                EkmSolution::Virtru =&gt; <span class="string">"VIRTRU"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"EKM_SOLUTION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"FORTANIX" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Fortanix),
-                <span class="string">"FUTUREX" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Futurex),
-                <span class="string">"THALES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Thales),
-                <span class="string">"VIRTRU" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Virtru),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Represents the metadata of the long-running operation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OperationMetadata {
-    <span class="doccomment">/// Output only. The time the operation was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The time the operation finished running.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Server-defined resource path for the target of the operation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>target: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Name of the verb executed by the operation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>verb: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Human-readable status of the operation, if any.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>status_message: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Identifies whether the user has requested cancellation
-    /// of the operation. Operations that have been cancelled successfully
-    /// have [Operation.error][] value with a
-    /// [google.rpc.Status.code][google.rpc.Status.code] of 1, corresponding to
-    /// `Code.CANCELLED`.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>requested_cancellation: bool,
-    <span class="doccomment">/// Output only. API version used to start the operation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>api_version: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>cloud_controls_partner_core_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Service describing handlers for resources
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>CloudControlsPartnerCoreClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; CloudControlsPartnerCoreClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; CloudControlsPartnerCoreClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            CloudControlsPartnerCoreClient::new(
-                InterceptedService::new(inner, interceptor),
-            )
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Gets details of a single workload
-        </span><span class="kw">pub async fn </span>get_workload(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetWorkloadRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Workload&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/GetWorkload"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
-                        <span class="string">"GetWorkload"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Lists customer workloads for a given customer org id
-        </span><span class="kw">pub async fn </span>list_workloads(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListWorkloadsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListWorkloadsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/ListWorkloads"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
-                        <span class="string">"ListWorkloads"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Gets details of a single customer
-        </span><span class="kw">pub async fn </span>get_customer(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetCustomerRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Customer&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/GetCustomer"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
-                        <span class="string">"GetCustomer"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Lists customers of a partner identified by its Google Cloud organization ID
-        </span><span class="kw">pub async fn </span>list_customers(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListCustomersRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListCustomersResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/ListCustomers"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
-                        <span class="string">"ListCustomers"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Gets the EKM connections associated with a workload
-        </span><span class="kw">pub async fn </span>get_ekm_connections(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetEkmConnectionsRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::EkmConnections&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/GetEkmConnections"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
-                        <span class="string">"GetEkmConnections"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Gets the partner permissions granted for a workload
-        </span><span class="kw">pub async fn </span>get_partner_permissions(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetPartnerPermissionsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::PartnerPermissions&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/GetPartnerPermissions"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
-                        <span class="string">"GetPartnerPermissions"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Lists access requests associated with a workload
-        </span><span class="kw">pub async fn </span>list_access_approval_requests(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListAccessApprovalRequestsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListAccessApprovalRequestsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/ListAccessApprovalRequests"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
-                        <span class="string">"ListAccessApprovalRequests"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Get details of a Partner.
-        </span><span class="kw">pub async fn </span>get_partner(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetPartnerRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Partner&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/GetPartner"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
-                        <span class="string">"GetPartner"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
     }
 }
 <span class="doccomment">/// Details of resource Violation
@@ -3323,6 +2462,867 @@
                     GrpcMethod::new(
                         <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerMonitoring"</span>,
                         <span class="string">"GetViolation"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Message describing Partner resource
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Partner {
+    <span class="doccomment">/// Identifier. The resource name of the partner.
+    /// Format: `organizations/{organization}/locations/{location}/partner`
+    /// Example: "organizations/123456/locations/us-central1/partner"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// List of SKUs the partner is offering
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>skus: ::prost::alloc::vec::Vec&lt;Sku&gt;,
+    <span class="doccomment">/// List of Google Cloud supported EKM partners supported by the partner
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>ekm_solutions: ::prost::alloc::vec::Vec&lt;EkmMetadata&gt;,
+    <span class="doccomment">/// List of Google Cloud regions that the partner sells services to customers.
+    /// Valid Google Cloud regions found here:
+    /// &lt;https://cloud.google.com/compute/docs/regions-zones&gt;
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>operated_cloud_regions: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Google Cloud project ID in the partner's Google Cloud organization for
+    /// receiving enhanced Logs for Partners.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>partner_project_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Time the resource was created
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The last time the resource was updated
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Message for getting a Partner
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetPartnerRequest {
+    <span class="doccomment">/// Required. Format:
+    /// `organizations/{organization}/locations/{location}/partner`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Represents the SKU a partner owns inside Google Cloud to sell to customers.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Sku {
+    <span class="doccomment">/// Argentum product SKU, that is associated with the partner offerings to
+    /// customers used by Syntro for billing purposes. SKUs can represent resold
+    /// Google products or support services.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Display name of the product identified by the SKU. A partner may want to
+    /// show partner branded names for their offerings such as local sovereign
+    /// cloud solutions.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Holds information needed by Mudbray to use partner EKMs for workloads.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>EkmMetadata {
+    <span class="doccomment">/// The Cloud EKM partner.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"ekm_metadata::EkmSolution"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>ekm_solution: i32,
+    <span class="doccomment">/// Endpoint for sending requests to the EKM for key provisioning during
+    /// Assured Workload creation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>ekm_endpoint_uri: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `EkmMetadata`.
+</span><span class="kw">pub mod </span>ekm_metadata {
+    <span class="doccomment">/// Represents Google Cloud supported external key management partners
+    /// [Google Cloud EKM partners
+    /// docs](&lt;https://cloud.google.com/kms/docs/ekm#supported_partners&gt;).
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>EkmSolution {
+        <span class="doccomment">/// Unspecified EKM solution
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// EKM Partner Fortanix
+        </span>Fortanix = <span class="number">1</span>,
+        <span class="doccomment">/// EKM Partner FutureX
+        </span>Futurex = <span class="number">2</span>,
+        <span class="doccomment">/// EKM Partner Thales
+        </span>Thales = <span class="number">3</span>,
+        <span class="doccomment">/// EKM Partner Virtu
+        </span>Virtru = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>EkmSolution {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                EkmSolution::Unspecified =&gt; <span class="string">"EKM_SOLUTION_UNSPECIFIED"</span>,
+                EkmSolution::Fortanix =&gt; <span class="string">"FORTANIX"</span>,
+                EkmSolution::Futurex =&gt; <span class="string">"FUTUREX"</span>,
+                EkmSolution::Thales =&gt; <span class="string">"THALES"</span>,
+                EkmSolution::Virtru =&gt; <span class="string">"VIRTRU"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"EKM_SOLUTION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"FORTANIX" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Fortanix),
+                <span class="string">"FUTUREX" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Futurex),
+                <span class="string">"THALES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Thales),
+                <span class="string">"VIRTRU" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Virtru),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Details about the Access request.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessApprovalRequest {
+    <span class="doccomment">/// Identifier. Format:
+    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/accessApprovalRequests/{access_approval_request}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The time at which approval was requested.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>request_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The justification for which approval is being requested.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>requested_reason: ::core::option::Option&lt;AccessReason&gt;,
+    <span class="doccomment">/// The requested expiration for the approval. If the request is approved,
+    /// access will be granted from the time of approval until the expiration time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>requested_expiration_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Request for getting the access requests associated with a workload.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListAccessApprovalRequestsRequest {
+    <span class="doccomment">/// Required. Parent resource
+    /// Format:
+    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The maximum number of access requests to return. The service may
+    /// return fewer than this value. If unspecified, at most 500 access requests
+    /// will be returned.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// Optional. A page token, received from a previous
+    /// `ListAccessApprovalRequests` call. Provide this to retrieve the subsequent
+    /// page.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Filtering results.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Hint for how to order the results.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response message for list access requests.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListAccessApprovalRequestsResponse {
+    <span class="doccomment">/// List of access approval requests
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>access_approval_requests: ::prost::alloc::vec::Vec&lt;AccessApprovalRequest&gt;,
+    <span class="doccomment">/// A token that can be sent as `page_token` to retrieve the next page.
+    /// If this field is omitted, there are no subsequent pages.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Locations that could not be reached.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Reason for the access.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessReason {
+    <span class="doccomment">/// Type of access justification.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"access_reason::Type"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+    <span class="doccomment">/// More detail about certain reason types. See comments for each type above.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>detail: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `AccessReason`.
+</span><span class="kw">pub mod </span>access_reason {
+    <span class="doccomment">/// Type of access justification.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Type {
+        <span class="doccomment">/// Default value for proto, shouldn't be used.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Customer made a request or raised an issue that required the principal to
+        /// access customer data. `detail` is of the form ("#####" is the issue ID):
+        ///
+        /// - "Feedback Report: #####"
+        /// - "Case Number: #####"
+        /// - "Case ID: #####"
+        /// - "E-PIN Reference: #####"
+        /// - "Google-#####"
+        /// - "T-#####"
+        </span>CustomerInitiatedSupport = <span class="number">1</span>,
+        <span class="doccomment">/// The principal accessed customer data in order to diagnose or resolve a
+        /// suspected issue in services. Often this access is used to confirm that
+        /// customers are not affected by a suspected service issue or to remediate a
+        /// reversible system issue.
+        </span>GoogleInitiatedService = <span class="number">2</span>,
+        <span class="doccomment">/// Google initiated service for security, fraud, abuse, or compliance
+        /// purposes.
+        </span>GoogleInitiatedReview = <span class="number">3</span>,
+        <span class="doccomment">/// The principal was compelled to access customer data in order to respond
+        /// to a legal third party data request or process, including legal processes
+        /// from customers themselves.
+        </span>ThirdPartyDataRequest = <span class="number">4</span>,
+        <span class="doccomment">/// The principal accessed customer data in order to diagnose or resolve a
+        /// suspected issue in services or a known outage.
+        </span>GoogleResponseToProductionAlert = <span class="number">5</span>,
+        <span class="doccomment">/// Similar to 'GOOGLE_INITIATED_SERVICE' or 'GOOGLE_INITIATED_REVIEW', but
+        /// with universe agnostic naming. The principal accessed customer data in
+        /// order to diagnose or resolve a suspected issue in services or a known
+        /// outage, or for security, fraud, abuse, or compliance review purposes.
+        </span>CloudInitiatedAccess = <span class="number">6</span>,
+    }
+    <span class="kw">impl </span>Type {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
+                Type::CustomerInitiatedSupport =&gt; <span class="string">"CUSTOMER_INITIATED_SUPPORT"</span>,
+                Type::GoogleInitiatedService =&gt; <span class="string">"GOOGLE_INITIATED_SERVICE"</span>,
+                Type::GoogleInitiatedReview =&gt; <span class="string">"GOOGLE_INITIATED_REVIEW"</span>,
+                Type::ThirdPartyDataRequest =&gt; <span class="string">"THIRD_PARTY_DATA_REQUEST"</span>,
+                Type::GoogleResponseToProductionAlert =&gt; {
+                    <span class="string">"GOOGLE_RESPONSE_TO_PRODUCTION_ALERT"
+                </span>}
+                Type::CloudInitiatedAccess =&gt; <span class="string">"CLOUD_INITIATED_ACCESS"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CUSTOMER_INITIATED_SUPPORT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomerInitiatedSupport),
+                <span class="string">"GOOGLE_INITIATED_SERVICE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleInitiatedService),
+                <span class="string">"GOOGLE_INITIATED_REVIEW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleInitiatedReview),
+                <span class="string">"THIRD_PARTY_DATA_REQUEST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ThirdPartyDataRequest),
+                <span class="string">"GOOGLE_RESPONSE_TO_PRODUCTION_ALERT" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleResponseToProductionAlert)
+                }
+                <span class="string">"CLOUD_INITIATED_ACCESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudInitiatedAccess),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Contains metadata around a Cloud Controls Partner Customer
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Customer {
+    <span class="doccomment">/// Identifier. Format:
+    /// `organizations/{organization}/locations/{location}/customers/{customer}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The customer organization's display name. E.g. "google.com".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Container for customer onboarding steps
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>customer_onboarding_state: ::core::option::Option&lt;CustomerOnboardingState&gt;,
+    <span class="doccomment">/// Indicates whether a customer is fully onboarded
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>is_onboarded: bool,
+}
+<span class="doccomment">/// Request to list customers
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListCustomersRequest {
+    <span class="doccomment">/// Required. Parent resource
+    /// Format: `organizations/{organization}/locations/{location}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of Customers to return. The service may return fewer
+    /// than this value. If unspecified, at most 500 Customers will be returned.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A page token, received from a previous `ListCustomers` call.
+    /// Provide this to retrieve the subsequent page.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Filtering results
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Hint for how to order the results
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response message for list customer Customers requests
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListCustomersResponse {
+    <span class="doccomment">/// List of customers
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>customers: ::prost::alloc::vec::Vec&lt;Customer&gt;,
+    <span class="doccomment">/// A token that can be sent as `page_token` to retrieve the next page.
+    /// If this field is omitted, there are no subsequent pages.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Locations that could not be reached.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Message for getting a customer
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetCustomerRequest {
+    <span class="doccomment">/// Required. Format:
+    /// `organizations/{organization}/locations/{location}/customers/{customer}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Container for customer onboarding steps
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CustomerOnboardingState {
+    <span class="doccomment">/// List of customer onboarding steps
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>onboarding_steps: ::prost::alloc::vec::Vec&lt;CustomerOnboardingStep&gt;,
+}
+<span class="doccomment">/// Container for customer onboarding information
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CustomerOnboardingStep {
+    <span class="doccomment">/// The onboarding step
+    </span><span class="attr">#[prost(enumeration = <span class="string">"customer_onboarding_step::Step"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>step: i32,
+    <span class="doccomment">/// The starting time of the onboarding step
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The completion time of the onboarding step
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>completion_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Current state of the step
+    </span><span class="attr">#[prost(enumeration = <span class="string">"CompletionState"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>completion_state: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `CustomerOnboardingStep`.
+</span><span class="kw">pub mod </span>customer_onboarding_step {
+    <span class="doccomment">/// Enum for possible onboarding steps
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Step {
+        <span class="doccomment">/// Unspecified step
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// KAJ Enrollment
+        </span>KajEnrollment = <span class="number">1</span>,
+        <span class="doccomment">/// Customer Environment
+        </span>CustomerEnvironment = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Step {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Step::Unspecified =&gt; <span class="string">"STEP_UNSPECIFIED"</span>,
+                Step::KajEnrollment =&gt; <span class="string">"KAJ_ENROLLMENT"</span>,
+                Step::CustomerEnvironment =&gt; <span class="string">"CUSTOMER_ENVIRONMENT"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STEP_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"KAJ_ENROLLMENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::KajEnrollment),
+                <span class="string">"CUSTOMER_ENVIRONMENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomerEnvironment),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// The EKM connections associated with a workload
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>EkmConnections {
+    <span class="doccomment">/// Identifier. Format:
+    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/ekmConnections`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The EKM connections associated with the workload
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>ekm_connections: ::prost::alloc::vec::Vec&lt;EkmConnection&gt;,
+}
+<span class="doccomment">/// Request for getting the EKM connections associated with a workload
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetEkmConnectionsRequest {
+    <span class="doccomment">/// Required. Format:
+    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/ekmConnections`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Details about the EKM connection
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>EkmConnection {
+    <span class="doccomment">/// Resource name of the EKM connection in the format:
+    /// projects/{project}/locations/{location}/ekmConnections/{ekm_connection}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>connection_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The connection state
+    </span><span class="attr">#[prost(enumeration = <span class="string">"ekm_connection::ConnectionState"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>connection_state: i32,
+    <span class="doccomment">/// The connection error that occurred if any
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>connection_error: ::core::option::Option&lt;ekm_connection::ConnectionError&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `EkmConnection`.
+</span><span class="kw">pub mod </span>ekm_connection {
+    <span class="doccomment">/// Information around the error that occurred if the connection state is
+    /// anything other than available or unspecified
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ConnectionError {
+        <span class="doccomment">/// The error domain for the error
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>error_domain: ::prost::alloc::string::String,
+        <span class="doccomment">/// The error message for the error
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>error_message: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// The EKM connection state.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ConnectionState {
+        <span class="doccomment">/// Unspecified EKM connection state
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Available EKM connection state
+        </span>Available = <span class="number">1</span>,
+        <span class="doccomment">/// Not available EKM connection state
+        </span>NotAvailable = <span class="number">2</span>,
+        <span class="doccomment">/// Error EKM connection state
+        </span>Error = <span class="number">3</span>,
+        <span class="doccomment">/// Permission denied EKM connection state
+        </span>PermissionDenied = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>ConnectionState {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ConnectionState::Unspecified =&gt; <span class="string">"CONNECTION_STATE_UNSPECIFIED"</span>,
+                ConnectionState::Available =&gt; <span class="string">"AVAILABLE"</span>,
+                ConnectionState::NotAvailable =&gt; <span class="string">"NOT_AVAILABLE"</span>,
+                ConnectionState::Error =&gt; <span class="string">"ERROR"</span>,
+                ConnectionState::PermissionDenied =&gt; <span class="string">"PERMISSION_DENIED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"CONNECTION_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"AVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Available),
+                <span class="string">"NOT_AVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotAvailable),
+                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
+                <span class="string">"PERMISSION_DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PermissionDenied),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Represents the metadata of the long-running operation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>OperationMetadata {
+    <span class="doccomment">/// Output only. The time the operation was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The time the operation finished running.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Server-defined resource path for the target of the operation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>target: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Name of the verb executed by the operation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>verb: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Human-readable status of the operation, if any.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>status_message: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Identifies whether the user has requested cancellation
+    /// of the operation. Operations that have been cancelled successfully
+    /// have [Operation.error][] value with a
+    /// [google.rpc.Status.code][google.rpc.Status.code] of 1, corresponding to
+    /// `Code.CANCELLED`.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>requested_cancellation: bool,
+    <span class="doccomment">/// Output only. API version used to start the operation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>api_version: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>cloud_controls_partner_core_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Service describing handlers for resources
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>CloudControlsPartnerCoreClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; CloudControlsPartnerCoreClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; CloudControlsPartnerCoreClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            CloudControlsPartnerCoreClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Gets details of a single workload
+        </span><span class="kw">pub async fn </span>get_workload(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetWorkloadRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Workload&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/GetWorkload"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
+                        <span class="string">"GetWorkload"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Lists customer workloads for a given customer org id
+        </span><span class="kw">pub async fn </span>list_workloads(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListWorkloadsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListWorkloadsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/ListWorkloads"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
+                        <span class="string">"ListWorkloads"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Gets details of a single customer
+        </span><span class="kw">pub async fn </span>get_customer(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetCustomerRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Customer&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/GetCustomer"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
+                        <span class="string">"GetCustomer"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Lists customers of a partner identified by its Google Cloud organization ID
+        </span><span class="kw">pub async fn </span>list_customers(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListCustomersRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListCustomersResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/ListCustomers"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
+                        <span class="string">"ListCustomers"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Gets the EKM connections associated with a workload
+        </span><span class="kw">pub async fn </span>get_ekm_connections(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetEkmConnectionsRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::EkmConnections&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/GetEkmConnections"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
+                        <span class="string">"GetEkmConnections"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Gets the partner permissions granted for a workload
+        </span><span class="kw">pub async fn </span>get_partner_permissions(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetPartnerPermissionsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::PartnerPermissions&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/GetPartnerPermissions"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
+                        <span class="string">"GetPartnerPermissions"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Lists access requests associated with a workload
+        </span><span class="kw">pub async fn </span>list_access_approval_requests(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListAccessApprovalRequestsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListAccessApprovalRequestsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/ListAccessApprovalRequests"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
+                        <span class="string">"ListAccessApprovalRequests"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Get details of a Partner.
+        </span><span class="kw">pub async fn </span>get_partner(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetPartnerRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Partner&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore/GetPartner"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
+                        <span class="string">"GetPartner"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

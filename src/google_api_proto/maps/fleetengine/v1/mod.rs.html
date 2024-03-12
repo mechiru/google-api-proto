@@ -3884,867 +3884,6 @@
         }
     }
 }
-<span class="doccomment">/// Trip metadata.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Trip {
-    <span class="doccomment">/// Output only. In the format "providers/{provider}/trips/{trip}"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// ID of the vehicle making this trip.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>vehicle_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Current status of the trip.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"TripStatus"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>trip_status: i32,
-    <span class="doccomment">/// The type of the trip.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"TripType"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>trip_type: i32,
-    <span class="doccomment">/// Location where customer indicates they will be picked up.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>pickup_point: ::core::option::Option&lt;TerminalLocation&gt;,
-    <span class="doccomment">/// Input only. The actual location when and where customer was picked up.
-    /// This field is for provider to provide feedback on actual pickup
-    /// information.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"22"</span>)]
-    </span><span class="kw">pub </span>actual_pickup_point: ::core::option::Option&lt;StopLocation&gt;,
-    <span class="doccomment">/// Input only. The actual time and location of the driver arrival at
-    /// the pickup point.
-    /// This field is for provider to provide feedback on actual arrival
-    /// information at the pickup point.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"32"</span>)]
-    </span><span class="kw">pub </span>actual_pickup_arrival_point: ::core::option::Option&lt;StopLocation&gt;,
-    <span class="doccomment">/// Output only. Either the estimated future time when the rider(s) will be
-    /// picked up, or the actual time when they were picked up.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>pickup_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Intermediate stops in order that the trip requests (in addition
-    /// to pickup and dropoff). Initially this will not be supported for shared
-    /// trips.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>intermediate_destinations: ::prost::alloc::vec::Vec&lt;TerminalLocation&gt;,
-    <span class="doccomment">/// Indicates the last time the `intermediate_destinations` was modified.
-    /// Your server should cache this value and pass it in `UpdateTripRequest`
-    /// when update `intermediate_destination_index` to ensure the
-    /// `intermediate_destinations` is not changed.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"25"</span>)]
-    </span><span class="kw">pub </span>intermediate_destinations_version: ::core::option::Option&lt;
-        ::prost_types::Timestamp,
-    &gt;,
-    <span class="doccomment">/// When `TripStatus` is `ENROUTE_TO_INTERMEDIATE_DESTINATION`, a number
-    /// between \[0..N-1\] indicating which intermediate destination the vehicle will
-    /// cross next. When `TripStatus` is `ARRIVED_AT_INTERMEDIATE_DESTINATION`, a
-    /// number between \[0..N-1\] indicating which intermediate destination the
-    /// vehicle is at. The provider sets this value. If there are no
-    /// `intermediate_destinations`, this field is ignored.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>intermediate_destination_index: i32,
-    <span class="doccomment">/// Input only. The actual time and location of the driver's arrival at
-    /// an intermediate destination.
-    /// This field is for provider to provide feedback on actual arrival
-    /// information at intermediate destinations.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"33"</span>)]
-    </span><span class="kw">pub </span>actual_intermediate_destination_arrival_points: ::prost::alloc::vec::Vec&lt;
-        StopLocation,
-    &gt;,
-    <span class="doccomment">/// Input only. The actual time and location when and where the customer was
-    /// picked up from an intermediate destination. This field is for provider to
-    /// provide feedback on actual pickup information at intermediate destinations.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"34"</span>)]
-    </span><span class="kw">pub </span>actual_intermediate_destinations: ::prost::alloc::vec::Vec&lt;StopLocation&gt;,
-    <span class="doccomment">/// Location where customer indicates they will be dropped off.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>dropoff_point: ::core::option::Option&lt;TerminalLocation&gt;,
-    <span class="doccomment">/// Input only. The actual time and location when and where customer was
-    /// dropped off. This field is for provider to provide feedback on actual
-    /// dropoff information.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"23"</span>)]
-    </span><span class="kw">pub </span>actual_dropoff_point: ::core::option::Option&lt;StopLocation&gt;,
-    <span class="doccomment">/// Output only. Either the estimated future time when the rider(s) will be
-    /// dropped off at the final destination, or the actual time when they were
-    /// dropped off.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>dropoff_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The full path from the current location to the dropoff point,
-    /// inclusive. This path could include waypoints from other trips.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"16"</span>)]
-    </span><span class="kw">pub </span>remaining_waypoints: ::prost::alloc::vec::Vec&lt;TripWaypoint&gt;,
-    <span class="doccomment">/// This field supports manual ordering of the waypoints for the trip. It
-    /// contains all of the remaining waypoints for the assigned vehicle, as well
-    /// as the pickup and drop-off waypoints for this trip. If the trip hasn't been
-    /// assigned to a vehicle, then Fleet Engine ignores this field. For privacy
-    /// reasons, this field is only populated by the server on `UpdateTrip` and
-    /// `CreateTrip` calls, NOT on `GetTrip` calls.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"20"</span>)]
-    </span><span class="kw">pub </span>vehicle_waypoints: ::prost::alloc::vec::Vec&lt;TripWaypoint&gt;,
-    <span class="doccomment">/// Output only. Anticipated route for this trip to the first entry in
-    /// remaining_waypoints. Note that the first waypoint may belong to a different
-    /// trip.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>route: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::google::r#type::LatLng&gt;,
-    <span class="doccomment">/// Output only. An encoded path to the next waypoint.
-    ///
-    /// Note: This field is intended only for use by the Driver SDK and Consumer
-    /// SDK. Decoding is not yet supported.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"21"</span>)]
-    </span><span class="kw">pub </span>current_route_segment: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Indicates the last time the route was modified.
-    ///
-    /// Note: This field is intended only for use by the Driver SDK and Consumer
-    /// SDK.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"17"</span>)]
-    </span><span class="kw">pub </span>current_route_segment_version: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Indicates the traffic conditions along the
-    /// `current_route_segment` when they're available.
-    ///
-    /// Note: This field is intended only for use by the Driver SDK and Consumer
-    /// SDK.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"28"</span>)]
-    </span><span class="kw">pub </span>current_route_segment_traffic: ::core::option::Option&lt;ConsumableTrafficPolyline&gt;,
-    <span class="doccomment">/// Output only. Indicates the last time the `current_route_segment_traffic`
-    /// was modified.
-    ///
-    /// Note: This field is intended only for use by the Driver SDK and Consumer
-    /// SDK.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"30"</span>)]
-    </span><span class="kw">pub </span>current_route_segment_traffic_version: ::core::option::Option&lt;
-        ::prost_types::Timestamp,
-    &gt;,
-    <span class="doccomment">/// Output only. The waypoint where `current_route_segment` ends.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"24"</span>)]
-    </span><span class="kw">pub </span>current_route_segment_end_point: ::core::option::Option&lt;TripWaypoint&gt;,
-    <span class="doccomment">/// Output only. The remaining driving distance in the `current_route_segment`
-    /// field. The value is unspecified if the trip is not assigned to a vehicle,
-    /// or the trip is completed or cancelled.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>remaining_distance_meters: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Output only. The ETA to the next waypoint (the first entry in the
-    /// `remaining_waypoints` field). The value is unspecified if the trip is not
-    /// assigned to a vehicle, or the trip is inactive (completed or cancelled).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>eta_to_first_waypoint: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The duration from when the Trip data is returned to the time
-    /// in `Trip.eta_to_first_waypoint`. The value is unspecified if the trip is
-    /// not assigned to a vehicle, or the trip is inactive (completed or
-    /// cancelled).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"27"</span>)]
-    </span><span class="kw">pub </span>remaining_time_to_first_waypoint: ::core::option::Option&lt;
-        ::prost_types::Duration,
-    &gt;,
-    <span class="doccomment">/// Output only. Indicates the last time that `remaining_waypoints` was changed
-    /// (a waypoint was added, removed, or changed).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"19"</span>)]
-    </span><span class="kw">pub </span>remaining_waypoints_version: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Indicates the last time the
-    /// `remaining_waypoints.path_to_waypoint` and
-    /// `remaining_waypoints.traffic_to_waypoint` were modified. Your client app
-    /// should cache this value and pass it in `GetTripRequest` to ensure the
-    /// paths and traffic for `remaining_waypoints` are only returned if updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"29"</span>)]
-    </span><span class="kw">pub </span>remaining_waypoints_route_version: ::core::option::Option&lt;
-        ::prost_types::Timestamp,
-    &gt;,
-    <span class="doccomment">/// Immutable. Indicates the number of passengers on this trip and does not
-    /// include the driver. A vehicle must have available capacity to be returned
-    /// in a `SearchVehicles` response.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>number_of_passengers: i32,
-    <span class="doccomment">/// Output only. Indicates the last reported location of the vehicle along the
-    /// route.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>last_location: ::core::option::Option&lt;VehicleLocation&gt;,
-    <span class="doccomment">/// Output only. Indicates whether the vehicle's `last_location` can be snapped
-    /// to the current_route_segment. False if `last_location` or
-    /// `current_route_segment` doesn't exist.
-    /// It is computed by Fleet Engine. Any update from clients will be ignored.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"26"</span>)]
-    </span><span class="kw">pub </span>last_location_snappable: bool,
-    <span class="doccomment">/// The subset of Trip fields that are populated and how they should be
-    /// interpreted.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"TripView"</span>, tag = <span class="string">"31"</span>)]
-    </span><span class="kw">pub </span>view: i32,
-}
-<span class="doccomment">/// The actual location where a stop (pickup/dropoff) happened.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>StopLocation {
-    <span class="doccomment">/// Required. Denotes the actual location.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>point: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::google::r#type::LatLng&gt;,
-    <span class="doccomment">/// Indicates when the stop happened.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>timestamp: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Input only. Deprecated.  Use the timestamp field.
-    </span><span class="attr">#[deprecated]
-    #[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>stop_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// The status of a trip indicating its progression.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>TripStatus {
-    <span class="doccomment">/// Default, used for unspecified or unrecognized trip status.
-    </span>UnknownTripStatus = <span class="number">0</span>,
-    <span class="doccomment">/// Newly created trip.
-    </span>New = <span class="number">1</span>,
-    <span class="doccomment">/// The driver is on their way to the pickup point.
-    </span>EnrouteToPickup = <span class="number">2</span>,
-    <span class="doccomment">/// The driver has arrived at the pickup point.
-    </span>ArrivedAtPickup = <span class="number">3</span>,
-    <span class="doccomment">/// The driver has arrived at an intermediate destination and is waiting for
-    /// the rider.
-    </span>ArrivedAtIntermediateDestination = <span class="number">7</span>,
-    <span class="doccomment">/// The driver is on their way to an intermediate destination
-    /// (not the dropoff point).
-    </span>EnrouteToIntermediateDestination = <span class="number">8</span>,
-    <span class="doccomment">/// The driver has picked up the rider and is on their way to the
-    /// next destination.
-    </span>EnrouteToDropoff = <span class="number">4</span>,
-    <span class="doccomment">/// The rider has been dropped off and the trip is complete.
-    </span>Complete = <span class="number">5</span>,
-    <span class="doccomment">/// The trip was canceled prior to pickup by the driver, rider, or
-    /// rideshare provider.
-    </span>Canceled = <span class="number">6</span>,
-}
-<span class="kw">impl </span>TripStatus {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            TripStatus::UnknownTripStatus =&gt; <span class="string">"UNKNOWN_TRIP_STATUS"</span>,
-            TripStatus::New =&gt; <span class="string">"NEW"</span>,
-            TripStatus::EnrouteToPickup =&gt; <span class="string">"ENROUTE_TO_PICKUP"</span>,
-            TripStatus::ArrivedAtPickup =&gt; <span class="string">"ARRIVED_AT_PICKUP"</span>,
-            TripStatus::ArrivedAtIntermediateDestination =&gt; {
-                <span class="string">"ARRIVED_AT_INTERMEDIATE_DESTINATION"
-            </span>}
-            TripStatus::EnrouteToIntermediateDestination =&gt; {
-                <span class="string">"ENROUTE_TO_INTERMEDIATE_DESTINATION"
-            </span>}
-            TripStatus::EnrouteToDropoff =&gt; <span class="string">"ENROUTE_TO_DROPOFF"</span>,
-            TripStatus::Complete =&gt; <span class="string">"COMPLETE"</span>,
-            TripStatus::Canceled =&gt; <span class="string">"CANCELED"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"UNKNOWN_TRIP_STATUS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnknownTripStatus),
-            <span class="string">"NEW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::New),
-            <span class="string">"ENROUTE_TO_PICKUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EnrouteToPickup),
-            <span class="string">"ARRIVED_AT_PICKUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ArrivedAtPickup),
-            <span class="string">"ARRIVED_AT_INTERMEDIATE_DESTINATION" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::ArrivedAtIntermediateDestination)
-            }
-            <span class="string">"ENROUTE_TO_INTERMEDIATE_DESTINATION" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::EnrouteToIntermediateDestination)
-            }
-            <span class="string">"ENROUTE_TO_DROPOFF" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EnrouteToDropoff),
-            <span class="string">"COMPLETE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Complete),
-            <span class="string">"CANCELED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Canceled),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// A set of values that indicate upon which platform the request was issued.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>BillingPlatformIdentifier {
-    <span class="doccomment">/// Default. Used for unspecified platforms.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// The platform is a client server.
-    </span>Server = <span class="number">1</span>,
-    <span class="doccomment">/// The platform is a web browser.
-    </span>Web = <span class="number">2</span>,
-    <span class="doccomment">/// The platform is an Android mobile device.
-    </span>Android = <span class="number">3</span>,
-    <span class="doccomment">/// The platform is an IOS mobile device.
-    </span>Ios = <span class="number">4</span>,
-    <span class="doccomment">/// Other platforms that are not listed in this enumeration.
-    </span>Others = <span class="number">5</span>,
-}
-<span class="kw">impl </span>BillingPlatformIdentifier {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            BillingPlatformIdentifier::Unspecified =&gt; {
-                <span class="string">"BILLING_PLATFORM_IDENTIFIER_UNSPECIFIED"
-            </span>}
-            BillingPlatformIdentifier::Server =&gt; <span class="string">"SERVER"</span>,
-            BillingPlatformIdentifier::Web =&gt; <span class="string">"WEB"</span>,
-            BillingPlatformIdentifier::Android =&gt; <span class="string">"ANDROID"</span>,
-            BillingPlatformIdentifier::Ios =&gt; <span class="string">"IOS"</span>,
-            BillingPlatformIdentifier::Others =&gt; <span class="string">"OTHERS"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"BILLING_PLATFORM_IDENTIFIER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"SERVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Server),
-            <span class="string">"WEB" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Web),
-            <span class="string">"ANDROID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Android),
-            <span class="string">"IOS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ios),
-            <span class="string">"OTHERS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Others),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Selector for different sets of Trip fields in a `GetTrip` response.  See
-/// [AIP-157](&lt;https://google.aip.dev/157&gt;) for context. Additional views are
-/// likely to be added.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>TripView {
-    <span class="doccomment">/// The default value. For backwards-compatibility, the API will default to an
-    /// SDK view. To ensure stability and support, customers are
-    /// advised to select a `TripView` other than `SDK`.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Includes fields that may not be interpretable or supportable using
-    /// publicly available libraries.
-    </span>Sdk = <span class="number">1</span>,
-    <span class="doccomment">/// Trip fields are populated for the Journey Sharing use case. This view is
-    /// intended for server-to-server communications.
-    </span>JourneySharingV1s = <span class="number">2</span>,
-}
-<span class="kw">impl </span>TripView {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            TripView::Unspecified =&gt; <span class="string">"TRIP_VIEW_UNSPECIFIED"</span>,
-            TripView::Sdk =&gt; <span class="string">"SDK"</span>,
-            TripView::JourneySharingV1s =&gt; <span class="string">"JOURNEY_SHARING_V1S"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"TRIP_VIEW_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"SDK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sdk),
-            <span class="string">"JOURNEY_SHARING_V1S" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JourneySharingV1s),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// CreateTrip request message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateTripRequest {
-    <span class="doccomment">/// The standard Fleet Engine request header.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>header: ::core::option::Option&lt;RequestHeader&gt;,
-    <span class="doccomment">/// Required. Must be in the format `providers/{provider}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Unique Trip ID.
-    /// Subject to the following restrictions:
-    ///
-    /// * Must be a valid Unicode string.
-    /// * Limited to a maximum length of 64 characters.
-    /// * Normalized according to \[Unicode Normalization Form C\]
-    /// (&lt;http://www.unicode.org/reports/tr15/&gt;).
-    /// * May not contain any of the following ASCII characters: '/', ':', '?',
-    /// ',', or '#'.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>trip_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Trip entity to create.
-    ///
-    /// When creating a Trip, the following fields are required:
-    ///
-    /// * `trip_type`
-    /// * `pickup_point`
-    ///
-    /// The following fields are used if you provide them:
-    ///
-    /// * `number_of_passengers`
-    /// * `vehicle_id`
-    /// * `dropoff_point`
-    /// * `intermediate_destinations`
-    /// * `vehicle_waypoints`
-    ///
-    /// All other Trip fields are ignored. For example, all trips start with a
-    /// `trip_status` of `NEW` even if you pass in a `trip_status` of `CANCELED` in
-    /// the creation request.
-    ///
-    /// Only `EXCLUSIVE` trips support `intermediate_destinations`.
-    ///
-    /// When `vehicle_id` is set for a shared trip, you must supply
-    /// the list of `Trip.vehicle_waypoints` to specify the order of the remaining
-    /// waypoints for the vehicle, otherwise the waypoint order will be
-    /// undetermined.
-    ///
-    /// When you specify `Trip.vehicle_waypoints`, the list must contain all
-    /// the remaining waypoints of the vehicle's trips, with no extra waypoints.
-    /// You must order these waypoints such that for a given trip, the pickup
-    /// point is before intermediate destinations, and all intermediate
-    /// destinations come before the drop-off point. An `EXCLUSIVE` trip's
-    /// waypoints must not interleave with any other trips.
-    ///
-    /// The `trip_id`, `waypoint_type` and `location` fields are used, and all
-    /// other TripWaypoint fields in `vehicle_waypoints` are ignored.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>trip: ::core::option::Option&lt;Trip&gt;,
-}
-<span class="doccomment">/// GetTrip request message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetTripRequest {
-    <span class="doccomment">/// The standard Fleet Engine request header.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>header: ::core::option::Option&lt;RequestHeader&gt;,
-    <span class="doccomment">/// Required. Must be in the format `providers/{provider}/trips/{trip}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The subset of Trip fields that should be returned and their interpretation.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"TripView"</span>, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>view: i32,
-    <span class="doccomment">/// Indicates the minimum timestamp (exclusive) for which `Trip.route` or
-    /// `Trip.current_route_segment` data are retrieved. If route data are
-    /// unchanged since this timestamp, the route field is not set in the response.
-    /// If a minimum is unspecified, the route data are always retrieved.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>current_route_segment_version: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Indicates the minimum timestamp (exclusive) for which
-    /// `Trip.remaining_waypoints` are retrieved. If they are unchanged since this
-    /// timestamp, the `remaining_waypoints` are not set in the response. If this
-    /// field is unspecified, `remaining_waypoints` is always retrieved.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>remaining_waypoints_version: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The returned current route format, `LAT_LNG_LIST_TYPE` (in `Trip.route`),
-    /// or `ENCODED_POLYLINE_TYPE` (in `Trip.current_route_segment`). The default
-    /// is `LAT_LNG_LIST_TYPE`.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"PolylineFormatType"</span>, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>route_format_type: i32,
-    <span class="doccomment">/// Indicates the minimum timestamp (exclusive) for which
-    /// `Trip.current_route_segment_traffic` is retrieved. If traffic data are
-    /// unchanged since this timestamp, the `current_route_segment_traffic` field
-    /// is not set in the response. If a minimum is unspecified, the traffic data
-    /// are always retrieved. Note that traffic is only available for On-Demand
-    /// Rides and Deliveries Solution customers.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>current_route_segment_traffic_version: ::core::option::Option&lt;
-        ::prost_types::Timestamp,
-    &gt;,
-    <span class="doccomment">/// Indicates the minimum timestamp (exclusive) for which
-    /// `Trip.remaining_waypoints.traffic_to_waypoint` and
-    /// `Trip.remaining_waypoints.path_to_waypoint` data are retrieved. If data are
-    /// unchanged since this timestamp, the fields above are
-    /// not set in the response. If `remaining_waypoints_route_version` is
-    /// unspecified, traffic and path are always retrieved.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>remaining_waypoints_route_version: ::core::option::Option&lt;
-        ::prost_types::Timestamp,
-    &gt;,
-}
-<span class="doccomment">/// ReportBillableTrip request message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ReportBillableTripRequest {
-    <span class="doccomment">/// Required. Must be in the format
-    /// `providers/{provider}/billableTrips/{billable_trip}`. The
-    /// provider must be the Project ID (for example, `sample-cloud-project`) of
-    /// the Google Cloud Project of which the service account making this call is a
-    /// member.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Two letter country code of the country where the trip takes
-    /// place. Price is defined according to country code.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>country_code: ::prost::alloc::string::String,
-    <span class="doccomment">/// The platform upon which the request was issued.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"BillingPlatformIdentifier"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>platform: i32,
-    <span class="doccomment">/// The identifiers that are directly related to the trip being reported. These
-    /// are usually IDs (for example, session IDs) of pre-booking operations done
-    /// before the trip ID is available. The number of `related_ids` is
-    /// limited to 50.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>related_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The type of GMP product solution (for example,
-    /// `ON_DEMAND_RIDESHARING_AND_DELIVERIES`) used for the reported trip.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"report_billable_trip_request::SolutionType"</span>, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>solution_type: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `ReportBillableTripRequest`.
-</span><span class="kw">pub mod </span>report_billable_trip_request {
-    <span class="doccomment">/// Selector for different solution types of a reported trip.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>SolutionType {
-        <span class="doccomment">/// The default value. For backwards-compatibility, the API will use
-        /// `ON_DEMAND_RIDESHARING_AND_DELIVERIES` by default which is the first
-        /// supported solution type.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The solution is an on-demand ridesharing and deliveries trip.
-        </span>OnDemandRidesharingAndDeliveries = <span class="number">1</span>,
-    }
-    <span class="kw">impl </span>SolutionType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                SolutionType::Unspecified =&gt; <span class="string">"SOLUTION_TYPE_UNSPECIFIED"</span>,
-                SolutionType::OnDemandRidesharingAndDeliveries =&gt; {
-                    <span class="string">"ON_DEMAND_RIDESHARING_AND_DELIVERIES"
-                </span>}
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"SOLUTION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"ON_DEMAND_RIDESHARING_AND_DELIVERIES" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::OnDemandRidesharingAndDeliveries)
-                }
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// UpdateTrip request message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateTripRequest {
-    <span class="doccomment">/// The standard Fleet Engine request header.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>header: ::core::option::Option&lt;RequestHeader&gt;,
-    <span class="doccomment">/// Required. Must be in the format
-    /// `providers/{provider}/trips/{trip}`. The provider must
-    /// be the Project ID (for example, `sample-consumer-project`) of the Google
-    /// Cloud Project of which the service account making this call is a member.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The Trip associated with the update.
-    ///
-    /// The following fields are maintained by the Fleet Engine. Do not update
-    /// them using Trip.update.
-    ///
-    /// * `current_route_segment`
-    /// * `current_route_segment_end_point`
-    /// * `current_route_segment_traffic`
-    /// * `current_route_segment_traffic_version`
-    /// * `current_route_segment_version`
-    /// * `dropoff_time`
-    /// * `eta_to_next_waypoint`
-    /// * `intermediate_destinations_version`
-    /// * `last_location`
-    /// * `name`
-    /// * `number_of_passengers`
-    /// * `pickup_time`
-    /// * `remaining_distance_meters`
-    /// * `remaining_time_to_first_waypoint`
-    /// * `remaining_waypoints`
-    /// * `remaining_waypoints_version`
-    /// * `route`
-    ///
-    /// When you update the `Trip.vehicle_id` for a shared trip, you must supply
-    /// the list of `Trip.vehicle_waypoints` to specify the order of the remaining
-    /// waypoints, otherwise the order will be undetermined.
-    ///
-    /// When you specify `Trip.vehicle_waypoints`, the list must contain all
-    /// the remaining waypoints of the vehicle's trips, with no extra waypoints.
-    /// You must order these waypoints such that for a given trip, the pickup
-    /// point is before intermediate destinations, and all intermediate
-    /// destinations come before the drop-off point. An `EXCLUSIVE` trip's
-    /// waypoints must not interleave with any other trips.
-    /// The `trip_id`, `waypoint_type` and `location` fields are used, and all
-    /// other TripWaypoint fields in `vehicle_waypoints` are ignored.
-    ///
-    /// To avoid a race condition for trips with multiple destinations, you
-    /// should provide `Trip.intermediate_destinations_version` when updating
-    /// the trip status to `ENROUTE_TO_INTERMEDIATE_DESTINATION`. The
-    /// `Trip.intermediate_destinations_version` passed must be consistent with
-    /// Fleet Engine's version. If it isn't, the request fails.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>trip: ::core::option::Option&lt;Trip&gt;,
-    <span class="doccomment">/// Required. The field mask indicating which fields in Trip to update.
-    /// The `update_mask` must contain at least one field.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-}
-<span class="doccomment">/// SearchTrips request message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchTripsRequest {
-    <span class="doccomment">/// The standard Fleet Engine request header.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>header: ::core::option::Option&lt;RequestHeader&gt;,
-    <span class="doccomment">/// Required. Must be in the format `providers/{provider}`.
-    /// The provider must be the Project ID (for example, `sample-cloud-project`)
-    /// of the Google Cloud Project of which the service account making
-    /// this call is a member.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The vehicle associated with the trips in the request. If unspecified, the
-    /// returned trips do not contain:
-    ///
-    /// * `current_route_segment`
-    /// * `remaining_waypoints`
-    /// * `remaining_distance_meters`
-    /// * `eta_to_first_waypoint`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>vehicle_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// If set to true, the response includes Trips that influence a driver's
-    /// route.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>active_trips_only: bool,
-    <span class="doccomment">/// If not set, the server decides the number of results to return.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// Set this to a value previously returned in the `SearchTripsResponse` to
-    /// continue from previous results.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// If specified, returns the trips that have not been updated after the time
-    /// `(current - minimum_staleness)`.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>minimum_staleness: ::core::option::Option&lt;::prost_types::Duration&gt;,
-}
-<span class="doccomment">/// SearchTrips response message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchTripsResponse {
-    <span class="doccomment">/// The list of trips for the requested vehicle.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>trips: ::prost::alloc::vec::Vec&lt;Trip&gt;,
-    <span class="doccomment">/// Pass this token in the SearchTripsRequest to page through list results. The
-    /// API returns a trip list on each call, and when no more results remain the
-    /// trip list is empty.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>trip_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Trip management service.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>TripServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; TripServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; TripServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            TripServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Creates a trip in the Fleet Engine and returns the new trip.
-        </span><span class="kw">pub async fn </span>create_trip(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateTripRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Trip&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/maps.fleetengine.v1.TripService/CreateTrip"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"maps.fleetengine.v1.TripService"</span>, <span class="string">"CreateTrip"</span>),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Get information about a single trip.
-        </span><span class="kw">pub async fn </span>get_trip(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetTripRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Trip&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/maps.fleetengine.v1.TripService/GetTrip"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new(<span class="string">"maps.fleetengine.v1.TripService"</span>, <span class="string">"GetTrip"</span>));
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Report billable trip usage.
-        </span><span class="kw">pub async fn </span>report_billable_trip(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ReportBillableTripRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;()&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/maps.fleetengine.v1.TripService/ReportBillableTrip"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"maps.fleetengine.v1.TripService"</span>,
-                        <span class="string">"ReportBillableTrip"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Get all the trips for a specific vehicle.
-        </span><span class="kw">pub async fn </span>search_trips(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::SearchTripsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::SearchTripsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/maps.fleetengine.v1.TripService/SearchTrips"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"maps.fleetengine.v1.TripService"</span>, <span class="string">"SearchTrips"</span>),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Updates trip data.
-        </span><span class="kw">pub async fn </span>update_trip(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateTripRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Trip&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/maps.fleetengine.v1.TripService/UpdateTrip"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"maps.fleetengine.v1.TripService"</span>, <span class="string">"UpdateTrip"</span>),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
 <span class="doccomment">/// Vehicle metadata.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -6378,6 +5517,867 @@
                         <span class="string">"maps.fleetengine.v1.VehicleService"</span>,
                         <span class="string">"SearchFuzzedVehicles"</span>,
                     ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Trip metadata.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Trip {
+    <span class="doccomment">/// Output only. In the format "providers/{provider}/trips/{trip}"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// ID of the vehicle making this trip.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>vehicle_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Current status of the trip.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"TripStatus"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>trip_status: i32,
+    <span class="doccomment">/// The type of the trip.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"TripType"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>trip_type: i32,
+    <span class="doccomment">/// Location where customer indicates they will be picked up.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>pickup_point: ::core::option::Option&lt;TerminalLocation&gt;,
+    <span class="doccomment">/// Input only. The actual location when and where customer was picked up.
+    /// This field is for provider to provide feedback on actual pickup
+    /// information.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"22"</span>)]
+    </span><span class="kw">pub </span>actual_pickup_point: ::core::option::Option&lt;StopLocation&gt;,
+    <span class="doccomment">/// Input only. The actual time and location of the driver arrival at
+    /// the pickup point.
+    /// This field is for provider to provide feedback on actual arrival
+    /// information at the pickup point.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"32"</span>)]
+    </span><span class="kw">pub </span>actual_pickup_arrival_point: ::core::option::Option&lt;StopLocation&gt;,
+    <span class="doccomment">/// Output only. Either the estimated future time when the rider(s) will be
+    /// picked up, or the actual time when they were picked up.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>pickup_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Intermediate stops in order that the trip requests (in addition
+    /// to pickup and dropoff). Initially this will not be supported for shared
+    /// trips.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>intermediate_destinations: ::prost::alloc::vec::Vec&lt;TerminalLocation&gt;,
+    <span class="doccomment">/// Indicates the last time the `intermediate_destinations` was modified.
+    /// Your server should cache this value and pass it in `UpdateTripRequest`
+    /// when update `intermediate_destination_index` to ensure the
+    /// `intermediate_destinations` is not changed.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"25"</span>)]
+    </span><span class="kw">pub </span>intermediate_destinations_version: ::core::option::Option&lt;
+        ::prost_types::Timestamp,
+    &gt;,
+    <span class="doccomment">/// When `TripStatus` is `ENROUTE_TO_INTERMEDIATE_DESTINATION`, a number
+    /// between \[0..N-1\] indicating which intermediate destination the vehicle will
+    /// cross next. When `TripStatus` is `ARRIVED_AT_INTERMEDIATE_DESTINATION`, a
+    /// number between \[0..N-1\] indicating which intermediate destination the
+    /// vehicle is at. The provider sets this value. If there are no
+    /// `intermediate_destinations`, this field is ignored.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>intermediate_destination_index: i32,
+    <span class="doccomment">/// Input only. The actual time and location of the driver's arrival at
+    /// an intermediate destination.
+    /// This field is for provider to provide feedback on actual arrival
+    /// information at intermediate destinations.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"33"</span>)]
+    </span><span class="kw">pub </span>actual_intermediate_destination_arrival_points: ::prost::alloc::vec::Vec&lt;
+        StopLocation,
+    &gt;,
+    <span class="doccomment">/// Input only. The actual time and location when and where the customer was
+    /// picked up from an intermediate destination. This field is for provider to
+    /// provide feedback on actual pickup information at intermediate destinations.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"34"</span>)]
+    </span><span class="kw">pub </span>actual_intermediate_destinations: ::prost::alloc::vec::Vec&lt;StopLocation&gt;,
+    <span class="doccomment">/// Location where customer indicates they will be dropped off.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>dropoff_point: ::core::option::Option&lt;TerminalLocation&gt;,
+    <span class="doccomment">/// Input only. The actual time and location when and where customer was
+    /// dropped off. This field is for provider to provide feedback on actual
+    /// dropoff information.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"23"</span>)]
+    </span><span class="kw">pub </span>actual_dropoff_point: ::core::option::Option&lt;StopLocation&gt;,
+    <span class="doccomment">/// Output only. Either the estimated future time when the rider(s) will be
+    /// dropped off at the final destination, or the actual time when they were
+    /// dropped off.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>dropoff_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The full path from the current location to the dropoff point,
+    /// inclusive. This path could include waypoints from other trips.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"16"</span>)]
+    </span><span class="kw">pub </span>remaining_waypoints: ::prost::alloc::vec::Vec&lt;TripWaypoint&gt;,
+    <span class="doccomment">/// This field supports manual ordering of the waypoints for the trip. It
+    /// contains all of the remaining waypoints for the assigned vehicle, as well
+    /// as the pickup and drop-off waypoints for this trip. If the trip hasn't been
+    /// assigned to a vehicle, then Fleet Engine ignores this field. For privacy
+    /// reasons, this field is only populated by the server on `UpdateTrip` and
+    /// `CreateTrip` calls, NOT on `GetTrip` calls.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"20"</span>)]
+    </span><span class="kw">pub </span>vehicle_waypoints: ::prost::alloc::vec::Vec&lt;TripWaypoint&gt;,
+    <span class="doccomment">/// Output only. Anticipated route for this trip to the first entry in
+    /// remaining_waypoints. Note that the first waypoint may belong to a different
+    /// trip.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>route: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::google::r#type::LatLng&gt;,
+    <span class="doccomment">/// Output only. An encoded path to the next waypoint.
+    ///
+    /// Note: This field is intended only for use by the Driver SDK and Consumer
+    /// SDK. Decoding is not yet supported.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"21"</span>)]
+    </span><span class="kw">pub </span>current_route_segment: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Indicates the last time the route was modified.
+    ///
+    /// Note: This field is intended only for use by the Driver SDK and Consumer
+    /// SDK.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"17"</span>)]
+    </span><span class="kw">pub </span>current_route_segment_version: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Indicates the traffic conditions along the
+    /// `current_route_segment` when they're available.
+    ///
+    /// Note: This field is intended only for use by the Driver SDK and Consumer
+    /// SDK.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"28"</span>)]
+    </span><span class="kw">pub </span>current_route_segment_traffic: ::core::option::Option&lt;ConsumableTrafficPolyline&gt;,
+    <span class="doccomment">/// Output only. Indicates the last time the `current_route_segment_traffic`
+    /// was modified.
+    ///
+    /// Note: This field is intended only for use by the Driver SDK and Consumer
+    /// SDK.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"30"</span>)]
+    </span><span class="kw">pub </span>current_route_segment_traffic_version: ::core::option::Option&lt;
+        ::prost_types::Timestamp,
+    &gt;,
+    <span class="doccomment">/// Output only. The waypoint where `current_route_segment` ends.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"24"</span>)]
+    </span><span class="kw">pub </span>current_route_segment_end_point: ::core::option::Option&lt;TripWaypoint&gt;,
+    <span class="doccomment">/// Output only. The remaining driving distance in the `current_route_segment`
+    /// field. The value is unspecified if the trip is not assigned to a vehicle,
+    /// or the trip is completed or cancelled.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>remaining_distance_meters: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Output only. The ETA to the next waypoint (the first entry in the
+    /// `remaining_waypoints` field). The value is unspecified if the trip is not
+    /// assigned to a vehicle, or the trip is inactive (completed or cancelled).
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>eta_to_first_waypoint: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The duration from when the Trip data is returned to the time
+    /// in `Trip.eta_to_first_waypoint`. The value is unspecified if the trip is
+    /// not assigned to a vehicle, or the trip is inactive (completed or
+    /// cancelled).
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"27"</span>)]
+    </span><span class="kw">pub </span>remaining_time_to_first_waypoint: ::core::option::Option&lt;
+        ::prost_types::Duration,
+    &gt;,
+    <span class="doccomment">/// Output only. Indicates the last time that `remaining_waypoints` was changed
+    /// (a waypoint was added, removed, or changed).
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"19"</span>)]
+    </span><span class="kw">pub </span>remaining_waypoints_version: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Indicates the last time the
+    /// `remaining_waypoints.path_to_waypoint` and
+    /// `remaining_waypoints.traffic_to_waypoint` were modified. Your client app
+    /// should cache this value and pass it in `GetTripRequest` to ensure the
+    /// paths and traffic for `remaining_waypoints` are only returned if updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"29"</span>)]
+    </span><span class="kw">pub </span>remaining_waypoints_route_version: ::core::option::Option&lt;
+        ::prost_types::Timestamp,
+    &gt;,
+    <span class="doccomment">/// Immutable. Indicates the number of passengers on this trip and does not
+    /// include the driver. A vehicle must have available capacity to be returned
+    /// in a `SearchVehicles` response.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>number_of_passengers: i32,
+    <span class="doccomment">/// Output only. Indicates the last reported location of the vehicle along the
+    /// route.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>last_location: ::core::option::Option&lt;VehicleLocation&gt;,
+    <span class="doccomment">/// Output only. Indicates whether the vehicle's `last_location` can be snapped
+    /// to the current_route_segment. False if `last_location` or
+    /// `current_route_segment` doesn't exist.
+    /// It is computed by Fleet Engine. Any update from clients will be ignored.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"26"</span>)]
+    </span><span class="kw">pub </span>last_location_snappable: bool,
+    <span class="doccomment">/// The subset of Trip fields that are populated and how they should be
+    /// interpreted.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"TripView"</span>, tag = <span class="string">"31"</span>)]
+    </span><span class="kw">pub </span>view: i32,
+}
+<span class="doccomment">/// The actual location where a stop (pickup/dropoff) happened.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>StopLocation {
+    <span class="doccomment">/// Required. Denotes the actual location.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>point: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::google::r#type::LatLng&gt;,
+    <span class="doccomment">/// Indicates when the stop happened.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>timestamp: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Input only. Deprecated.  Use the timestamp field.
+    </span><span class="attr">#[deprecated]
+    #[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>stop_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// The status of a trip indicating its progression.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>TripStatus {
+    <span class="doccomment">/// Default, used for unspecified or unrecognized trip status.
+    </span>UnknownTripStatus = <span class="number">0</span>,
+    <span class="doccomment">/// Newly created trip.
+    </span>New = <span class="number">1</span>,
+    <span class="doccomment">/// The driver is on their way to the pickup point.
+    </span>EnrouteToPickup = <span class="number">2</span>,
+    <span class="doccomment">/// The driver has arrived at the pickup point.
+    </span>ArrivedAtPickup = <span class="number">3</span>,
+    <span class="doccomment">/// The driver has arrived at an intermediate destination and is waiting for
+    /// the rider.
+    </span>ArrivedAtIntermediateDestination = <span class="number">7</span>,
+    <span class="doccomment">/// The driver is on their way to an intermediate destination
+    /// (not the dropoff point).
+    </span>EnrouteToIntermediateDestination = <span class="number">8</span>,
+    <span class="doccomment">/// The driver has picked up the rider and is on their way to the
+    /// next destination.
+    </span>EnrouteToDropoff = <span class="number">4</span>,
+    <span class="doccomment">/// The rider has been dropped off and the trip is complete.
+    </span>Complete = <span class="number">5</span>,
+    <span class="doccomment">/// The trip was canceled prior to pickup by the driver, rider, or
+    /// rideshare provider.
+    </span>Canceled = <span class="number">6</span>,
+}
+<span class="kw">impl </span>TripStatus {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            TripStatus::UnknownTripStatus =&gt; <span class="string">"UNKNOWN_TRIP_STATUS"</span>,
+            TripStatus::New =&gt; <span class="string">"NEW"</span>,
+            TripStatus::EnrouteToPickup =&gt; <span class="string">"ENROUTE_TO_PICKUP"</span>,
+            TripStatus::ArrivedAtPickup =&gt; <span class="string">"ARRIVED_AT_PICKUP"</span>,
+            TripStatus::ArrivedAtIntermediateDestination =&gt; {
+                <span class="string">"ARRIVED_AT_INTERMEDIATE_DESTINATION"
+            </span>}
+            TripStatus::EnrouteToIntermediateDestination =&gt; {
+                <span class="string">"ENROUTE_TO_INTERMEDIATE_DESTINATION"
+            </span>}
+            TripStatus::EnrouteToDropoff =&gt; <span class="string">"ENROUTE_TO_DROPOFF"</span>,
+            TripStatus::Complete =&gt; <span class="string">"COMPLETE"</span>,
+            TripStatus::Canceled =&gt; <span class="string">"CANCELED"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"UNKNOWN_TRIP_STATUS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnknownTripStatus),
+            <span class="string">"NEW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::New),
+            <span class="string">"ENROUTE_TO_PICKUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EnrouteToPickup),
+            <span class="string">"ARRIVED_AT_PICKUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ArrivedAtPickup),
+            <span class="string">"ARRIVED_AT_INTERMEDIATE_DESTINATION" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::ArrivedAtIntermediateDestination)
+            }
+            <span class="string">"ENROUTE_TO_INTERMEDIATE_DESTINATION" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::EnrouteToIntermediateDestination)
+            }
+            <span class="string">"ENROUTE_TO_DROPOFF" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EnrouteToDropoff),
+            <span class="string">"COMPLETE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Complete),
+            <span class="string">"CANCELED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Canceled),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// A set of values that indicate upon which platform the request was issued.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>BillingPlatformIdentifier {
+    <span class="doccomment">/// Default. Used for unspecified platforms.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// The platform is a client server.
+    </span>Server = <span class="number">1</span>,
+    <span class="doccomment">/// The platform is a web browser.
+    </span>Web = <span class="number">2</span>,
+    <span class="doccomment">/// The platform is an Android mobile device.
+    </span>Android = <span class="number">3</span>,
+    <span class="doccomment">/// The platform is an IOS mobile device.
+    </span>Ios = <span class="number">4</span>,
+    <span class="doccomment">/// Other platforms that are not listed in this enumeration.
+    </span>Others = <span class="number">5</span>,
+}
+<span class="kw">impl </span>BillingPlatformIdentifier {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            BillingPlatformIdentifier::Unspecified =&gt; {
+                <span class="string">"BILLING_PLATFORM_IDENTIFIER_UNSPECIFIED"
+            </span>}
+            BillingPlatformIdentifier::Server =&gt; <span class="string">"SERVER"</span>,
+            BillingPlatformIdentifier::Web =&gt; <span class="string">"WEB"</span>,
+            BillingPlatformIdentifier::Android =&gt; <span class="string">"ANDROID"</span>,
+            BillingPlatformIdentifier::Ios =&gt; <span class="string">"IOS"</span>,
+            BillingPlatformIdentifier::Others =&gt; <span class="string">"OTHERS"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"BILLING_PLATFORM_IDENTIFIER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"SERVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Server),
+            <span class="string">"WEB" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Web),
+            <span class="string">"ANDROID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Android),
+            <span class="string">"IOS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ios),
+            <span class="string">"OTHERS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Others),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Selector for different sets of Trip fields in a `GetTrip` response.  See
+/// [AIP-157](&lt;https://google.aip.dev/157&gt;) for context. Additional views are
+/// likely to be added.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>TripView {
+    <span class="doccomment">/// The default value. For backwards-compatibility, the API will default to an
+    /// SDK view. To ensure stability and support, customers are
+    /// advised to select a `TripView` other than `SDK`.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Includes fields that may not be interpretable or supportable using
+    /// publicly available libraries.
+    </span>Sdk = <span class="number">1</span>,
+    <span class="doccomment">/// Trip fields are populated for the Journey Sharing use case. This view is
+    /// intended for server-to-server communications.
+    </span>JourneySharingV1s = <span class="number">2</span>,
+}
+<span class="kw">impl </span>TripView {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            TripView::Unspecified =&gt; <span class="string">"TRIP_VIEW_UNSPECIFIED"</span>,
+            TripView::Sdk =&gt; <span class="string">"SDK"</span>,
+            TripView::JourneySharingV1s =&gt; <span class="string">"JOURNEY_SHARING_V1S"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"TRIP_VIEW_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"SDK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sdk),
+            <span class="string">"JOURNEY_SHARING_V1S" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JourneySharingV1s),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// CreateTrip request message.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateTripRequest {
+    <span class="doccomment">/// The standard Fleet Engine request header.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>header: ::core::option::Option&lt;RequestHeader&gt;,
+    <span class="doccomment">/// Required. Must be in the format `providers/{provider}`.
+    /// The provider must be the Project ID (for example, `sample-cloud-project`)
+    /// of the Google Cloud Project of which the service account making
+    /// this call is a member.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Unique Trip ID.
+    /// Subject to the following restrictions:
+    ///
+    /// * Must be a valid Unicode string.
+    /// * Limited to a maximum length of 64 characters.
+    /// * Normalized according to \[Unicode Normalization Form C\]
+    /// (&lt;http://www.unicode.org/reports/tr15/&gt;).
+    /// * May not contain any of the following ASCII characters: '/', ':', '?',
+    /// ',', or '#'.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>trip_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Trip entity to create.
+    ///
+    /// When creating a Trip, the following fields are required:
+    ///
+    /// * `trip_type`
+    /// * `pickup_point`
+    ///
+    /// The following fields are used if you provide them:
+    ///
+    /// * `number_of_passengers`
+    /// * `vehicle_id`
+    /// * `dropoff_point`
+    /// * `intermediate_destinations`
+    /// * `vehicle_waypoints`
+    ///
+    /// All other Trip fields are ignored. For example, all trips start with a
+    /// `trip_status` of `NEW` even if you pass in a `trip_status` of `CANCELED` in
+    /// the creation request.
+    ///
+    /// Only `EXCLUSIVE` trips support `intermediate_destinations`.
+    ///
+    /// When `vehicle_id` is set for a shared trip, you must supply
+    /// the list of `Trip.vehicle_waypoints` to specify the order of the remaining
+    /// waypoints for the vehicle, otherwise the waypoint order will be
+    /// undetermined.
+    ///
+    /// When you specify `Trip.vehicle_waypoints`, the list must contain all
+    /// the remaining waypoints of the vehicle's trips, with no extra waypoints.
+    /// You must order these waypoints such that for a given trip, the pickup
+    /// point is before intermediate destinations, and all intermediate
+    /// destinations come before the drop-off point. An `EXCLUSIVE` trip's
+    /// waypoints must not interleave with any other trips.
+    ///
+    /// The `trip_id`, `waypoint_type` and `location` fields are used, and all
+    /// other TripWaypoint fields in `vehicle_waypoints` are ignored.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>trip: ::core::option::Option&lt;Trip&gt;,
+}
+<span class="doccomment">/// GetTrip request message.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetTripRequest {
+    <span class="doccomment">/// The standard Fleet Engine request header.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>header: ::core::option::Option&lt;RequestHeader&gt;,
+    <span class="doccomment">/// Required. Must be in the format `providers/{provider}/trips/{trip}`.
+    /// The provider must be the Project ID (for example, `sample-cloud-project`)
+    /// of the Google Cloud Project of which the service account making
+    /// this call is a member.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The subset of Trip fields that should be returned and their interpretation.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"TripView"</span>, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>view: i32,
+    <span class="doccomment">/// Indicates the minimum timestamp (exclusive) for which `Trip.route` or
+    /// `Trip.current_route_segment` data are retrieved. If route data are
+    /// unchanged since this timestamp, the route field is not set in the response.
+    /// If a minimum is unspecified, the route data are always retrieved.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>current_route_segment_version: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Indicates the minimum timestamp (exclusive) for which
+    /// `Trip.remaining_waypoints` are retrieved. If they are unchanged since this
+    /// timestamp, the `remaining_waypoints` are not set in the response. If this
+    /// field is unspecified, `remaining_waypoints` is always retrieved.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>remaining_waypoints_version: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The returned current route format, `LAT_LNG_LIST_TYPE` (in `Trip.route`),
+    /// or `ENCODED_POLYLINE_TYPE` (in `Trip.current_route_segment`). The default
+    /// is `LAT_LNG_LIST_TYPE`.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"PolylineFormatType"</span>, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>route_format_type: i32,
+    <span class="doccomment">/// Indicates the minimum timestamp (exclusive) for which
+    /// `Trip.current_route_segment_traffic` is retrieved. If traffic data are
+    /// unchanged since this timestamp, the `current_route_segment_traffic` field
+    /// is not set in the response. If a minimum is unspecified, the traffic data
+    /// are always retrieved. Note that traffic is only available for On-Demand
+    /// Rides and Deliveries Solution customers.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>current_route_segment_traffic_version: ::core::option::Option&lt;
+        ::prost_types::Timestamp,
+    &gt;,
+    <span class="doccomment">/// Indicates the minimum timestamp (exclusive) for which
+    /// `Trip.remaining_waypoints.traffic_to_waypoint` and
+    /// `Trip.remaining_waypoints.path_to_waypoint` data are retrieved. If data are
+    /// unchanged since this timestamp, the fields above are
+    /// not set in the response. If `remaining_waypoints_route_version` is
+    /// unspecified, traffic and path are always retrieved.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>remaining_waypoints_route_version: ::core::option::Option&lt;
+        ::prost_types::Timestamp,
+    &gt;,
+}
+<span class="doccomment">/// ReportBillableTrip request message.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ReportBillableTripRequest {
+    <span class="doccomment">/// Required. Must be in the format
+    /// `providers/{provider}/billableTrips/{billable_trip}`. The
+    /// provider must be the Project ID (for example, `sample-cloud-project`) of
+    /// the Google Cloud Project of which the service account making this call is a
+    /// member.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Two letter country code of the country where the trip takes
+    /// place. Price is defined according to country code.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>country_code: ::prost::alloc::string::String,
+    <span class="doccomment">/// The platform upon which the request was issued.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"BillingPlatformIdentifier"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>platform: i32,
+    <span class="doccomment">/// The identifiers that are directly related to the trip being reported. These
+    /// are usually IDs (for example, session IDs) of pre-booking operations done
+    /// before the trip ID is available. The number of `related_ids` is
+    /// limited to 50.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>related_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The type of GMP product solution (for example,
+    /// `ON_DEMAND_RIDESHARING_AND_DELIVERIES`) used for the reported trip.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"report_billable_trip_request::SolutionType"</span>, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>solution_type: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `ReportBillableTripRequest`.
+</span><span class="kw">pub mod </span>report_billable_trip_request {
+    <span class="doccomment">/// Selector for different solution types of a reported trip.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>SolutionType {
+        <span class="doccomment">/// The default value. For backwards-compatibility, the API will use
+        /// `ON_DEMAND_RIDESHARING_AND_DELIVERIES` by default which is the first
+        /// supported solution type.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The solution is an on-demand ridesharing and deliveries trip.
+        </span>OnDemandRidesharingAndDeliveries = <span class="number">1</span>,
+    }
+    <span class="kw">impl </span>SolutionType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                SolutionType::Unspecified =&gt; <span class="string">"SOLUTION_TYPE_UNSPECIFIED"</span>,
+                SolutionType::OnDemandRidesharingAndDeliveries =&gt; {
+                    <span class="string">"ON_DEMAND_RIDESHARING_AND_DELIVERIES"
+                </span>}
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"SOLUTION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"ON_DEMAND_RIDESHARING_AND_DELIVERIES" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::OnDemandRidesharingAndDeliveries)
+                }
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// UpdateTrip request message.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateTripRequest {
+    <span class="doccomment">/// The standard Fleet Engine request header.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>header: ::core::option::Option&lt;RequestHeader&gt;,
+    <span class="doccomment">/// Required. Must be in the format
+    /// `providers/{provider}/trips/{trip}`. The provider must
+    /// be the Project ID (for example, `sample-consumer-project`) of the Google
+    /// Cloud Project of which the service account making this call is a member.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The Trip associated with the update.
+    ///
+    /// The following fields are maintained by the Fleet Engine. Do not update
+    /// them using Trip.update.
+    ///
+    /// * `current_route_segment`
+    /// * `current_route_segment_end_point`
+    /// * `current_route_segment_traffic`
+    /// * `current_route_segment_traffic_version`
+    /// * `current_route_segment_version`
+    /// * `dropoff_time`
+    /// * `eta_to_next_waypoint`
+    /// * `intermediate_destinations_version`
+    /// * `last_location`
+    /// * `name`
+    /// * `number_of_passengers`
+    /// * `pickup_time`
+    /// * `remaining_distance_meters`
+    /// * `remaining_time_to_first_waypoint`
+    /// * `remaining_waypoints`
+    /// * `remaining_waypoints_version`
+    /// * `route`
+    ///
+    /// When you update the `Trip.vehicle_id` for a shared trip, you must supply
+    /// the list of `Trip.vehicle_waypoints` to specify the order of the remaining
+    /// waypoints, otherwise the order will be undetermined.
+    ///
+    /// When you specify `Trip.vehicle_waypoints`, the list must contain all
+    /// the remaining waypoints of the vehicle's trips, with no extra waypoints.
+    /// You must order these waypoints such that for a given trip, the pickup
+    /// point is before intermediate destinations, and all intermediate
+    /// destinations come before the drop-off point. An `EXCLUSIVE` trip's
+    /// waypoints must not interleave with any other trips.
+    /// The `trip_id`, `waypoint_type` and `location` fields are used, and all
+    /// other TripWaypoint fields in `vehicle_waypoints` are ignored.
+    ///
+    /// To avoid a race condition for trips with multiple destinations, you
+    /// should provide `Trip.intermediate_destinations_version` when updating
+    /// the trip status to `ENROUTE_TO_INTERMEDIATE_DESTINATION`. The
+    /// `Trip.intermediate_destinations_version` passed must be consistent with
+    /// Fleet Engine's version. If it isn't, the request fails.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>trip: ::core::option::Option&lt;Trip&gt;,
+    <span class="doccomment">/// Required. The field mask indicating which fields in Trip to update.
+    /// The `update_mask` must contain at least one field.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+}
+<span class="doccomment">/// SearchTrips request message.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SearchTripsRequest {
+    <span class="doccomment">/// The standard Fleet Engine request header.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>header: ::core::option::Option&lt;RequestHeader&gt;,
+    <span class="doccomment">/// Required. Must be in the format `providers/{provider}`.
+    /// The provider must be the Project ID (for example, `sample-cloud-project`)
+    /// of the Google Cloud Project of which the service account making
+    /// this call is a member.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The vehicle associated with the trips in the request. If unspecified, the
+    /// returned trips do not contain:
+    ///
+    /// * `current_route_segment`
+    /// * `remaining_waypoints`
+    /// * `remaining_distance_meters`
+    /// * `eta_to_first_waypoint`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>vehicle_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// If set to true, the response includes Trips that influence a driver's
+    /// route.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>active_trips_only: bool,
+    <span class="doccomment">/// If not set, the server decides the number of results to return.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// Set this to a value previously returned in the `SearchTripsResponse` to
+    /// continue from previous results.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// If specified, returns the trips that have not been updated after the time
+    /// `(current - minimum_staleness)`.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>minimum_staleness: ::core::option::Option&lt;::prost_types::Duration&gt;,
+}
+<span class="doccomment">/// SearchTrips response message.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SearchTripsResponse {
+    <span class="doccomment">/// The list of trips for the requested vehicle.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>trips: ::prost::alloc::vec::Vec&lt;Trip&gt;,
+    <span class="doccomment">/// Pass this token in the SearchTripsRequest to page through list results. The
+    /// API returns a trip list on each call, and when no more results remain the
+    /// trip list is empty.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>trip_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Trip management service.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>TripServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; TripServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; TripServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            TripServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Creates a trip in the Fleet Engine and returns the new trip.
+        </span><span class="kw">pub async fn </span>create_trip(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateTripRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Trip&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/maps.fleetengine.v1.TripService/CreateTrip"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"maps.fleetengine.v1.TripService"</span>, <span class="string">"CreateTrip"</span>),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Get information about a single trip.
+        </span><span class="kw">pub async fn </span>get_trip(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetTripRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Trip&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/maps.fleetengine.v1.TripService/GetTrip"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new(<span class="string">"maps.fleetengine.v1.TripService"</span>, <span class="string">"GetTrip"</span>));
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Report billable trip usage.
+        </span><span class="kw">pub async fn </span>report_billable_trip(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ReportBillableTripRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;()&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/maps.fleetengine.v1.TripService/ReportBillableTrip"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"maps.fleetengine.v1.TripService"</span>,
+                        <span class="string">"ReportBillableTrip"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Get all the trips for a specific vehicle.
+        </span><span class="kw">pub async fn </span>search_trips(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::SearchTripsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::SearchTripsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/maps.fleetengine.v1.TripService/SearchTrips"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"maps.fleetengine.v1.TripService"</span>, <span class="string">"SearchTrips"</span>),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Updates trip data.
+        </span><span class="kw">pub async fn </span>update_trip(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateTripRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Trip&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/maps.fleetengine.v1.TripService/UpdateTrip"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"maps.fleetengine.v1.TripService"</span>, <span class="string">"UpdateTrip"</span>),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}

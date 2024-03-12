@@ -1406,35 +1406,6 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
     </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// A container for [services][google.cloud.servicedirectory.v1beta1.Service].
-/// Namespaces allow administrators to group services together and define
-/// permissions for a collection of services.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Namespace {
-    <span class="doccomment">/// Immutable. The resource name for the namespace in the format
-    /// `projects/*/locations/*/namespaces/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Resource labels associated with this namespace.
-    /// No more than 64 user labels can be associated with a given resource. Label
-    /// keys and values can be no longer than 63 characters.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Output only. The timestamp when the namespace was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp when the namespace was last updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. A globally unique identifier (in UUID4 format) for this
-    /// namespace.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
-}
 <span class="doccomment">/// An individual service. A service contains a name and optional metadata.
 /// A service must exist before
 /// [endpoints][google.cloud.servicedirectory.v1beta1.Endpoint] can be
@@ -1488,6 +1459,206 @@
     <span class="doccomment">/// Output only. A globally unique identifier (in UUID4 format) for this
     /// service.
     </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The request message for
+/// [LookupService.ResolveService][google.cloud.servicedirectory.v1beta1.LookupService.ResolveService].
+/// Looks up a service by its name, returns the service and its endpoints.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ResolveServiceRequest {
+    <span class="doccomment">/// Required. The name of the service to resolve.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The maximum number of endpoints to return. Defaults to 25.
+    /// Maximum is 100. If a value less than one is specified, the Default is used.
+    /// If a value greater than the Maximum is specified, the Maximum is used.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_endpoints: i32,
+    <span class="doccomment">/// Optional. The filter applied to the endpoints of the resolved service.
+    ///
+    /// General `filter` string syntax:
+    /// `&lt;field&gt; &lt;operator&gt; &lt;value&gt; (&lt;logical connector&gt;)`
+    ///
+    /// *   `&lt;field&gt;` can be `name`, `address`, `port`, or `metadata.&lt;key&gt;` for
+    ///      map field
+    /// *   `&lt;operator&gt;` can be `&lt;`, `&gt;`, `&lt;=`, `&gt;=`, `!=`, `=`, `:`. Of which `:`
+    ///      means `HAS`, and is roughly the same as `=`
+    /// *   `&lt;value&gt;` must be the same data type as field
+    /// *   `&lt;logical connector&gt;` can be `AND`, `OR`, `NOT`
+    ///
+    /// Examples of valid filters:
+    ///
+    /// *   `metadata.owner` returns endpoints that have a annotation with the key
+    ///      `owner`, this is the same as `metadata:owner`
+    /// *   `metadata.protocol=gRPC` returns endpoints that have key/value
+    ///      `protocol=gRPC`
+    /// *   `address=192.108.1.105` returns endpoints that have this address
+    /// *   `port&gt;8080` returns endpoints that have port number larger than 8080
+    /// *
+    /// `name&gt;projects/my-project/locations/us-east1/namespaces/my-namespace/services/my-service/endpoints/endpoint-c`
+    ///      returns endpoints that have name that is alphabetically later than the
+    ///      string, so "endpoint-e" is returned but "endpoint-a" is not
+    /// *
+    /// `name=projects/my-project/locations/us-central1/namespaces/my-namespace/services/my-service/endpoints/ep-1`
+    ///       returns the endpoint that has an endpoint_id equal to `ep-1`
+    /// *   `metadata.owner!=sd AND metadata.foo=bar` returns endpoints that have
+    ///      `owner` in annotation key but value is not `sd` AND have key/value
+    ///       `foo=bar`
+    /// *   `doesnotexist.foo=bar` returns an empty list. Note that endpoint
+    ///      doesn't have a field called "doesnotexist". Since the filter does not
+    ///      match any endpoint, it returns no results
+    ///
+    /// For more information about filtering, see
+    /// [API Filtering](&lt;https://aip.dev/160&gt;).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>endpoint_filter: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The response message for
+/// [LookupService.ResolveService][google.cloud.servicedirectory.v1beta1.LookupService.ResolveService].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ResolveServiceResponse {
+    <span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>service: ::core::option::Option&lt;Service&gt;,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>lookup_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Service Directory API for looking up service data at runtime.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>LookupServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; LookupServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; LookupServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            LookupServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Returns a [service][google.cloud.servicedirectory.v1beta1.Service] and its
+        /// associated endpoints.
+        /// Resolving a service is not considered an active developer method.
+        </span><span class="kw">pub async fn </span>resolve_service(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ResolveServiceRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ResolveServiceResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.servicedirectory.v1beta1.LookupService/ResolveService"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.servicedirectory.v1beta1.LookupService"</span>,
+                        <span class="string">"ResolveService"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// A container for [services][google.cloud.servicedirectory.v1beta1.Service].
+/// Namespaces allow administrators to group services together and define
+/// permissions for a collection of services.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Namespace {
+    <span class="doccomment">/// Immutable. The resource name for the namespace in the format
+    /// `projects/*/locations/*/namespaces/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Resource labels associated with this namespace.
+    /// No more than 64 user labels can be associated with a given resource. Label
+    /// keys and values can be no longer than 63 characters.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Output only. The timestamp when the namespace was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp when the namespace was last updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. A globally unique identifier (in UUID4 format) for this
+    /// namespace.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// The request message for
@@ -2496,177 +2667,6 @@
                     GrpcMethod::new(
                         <span class="string">"google.cloud.servicedirectory.v1beta1.RegistrationService"</span>,
                         <span class="string">"TestIamPermissions"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// The request message for
-/// [LookupService.ResolveService][google.cloud.servicedirectory.v1beta1.LookupService.ResolveService].
-/// Looks up a service by its name, returns the service and its endpoints.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ResolveServiceRequest {
-    <span class="doccomment">/// Required. The name of the service to resolve.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The maximum number of endpoints to return. Defaults to 25.
-    /// Maximum is 100. If a value less than one is specified, the Default is used.
-    /// If a value greater than the Maximum is specified, the Maximum is used.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_endpoints: i32,
-    <span class="doccomment">/// Optional. The filter applied to the endpoints of the resolved service.
-    ///
-    /// General `filter` string syntax:
-    /// `&lt;field&gt; &lt;operator&gt; &lt;value&gt; (&lt;logical connector&gt;)`
-    ///
-    /// *   `&lt;field&gt;` can be `name`, `address`, `port`, or `metadata.&lt;key&gt;` for
-    ///      map field
-    /// *   `&lt;operator&gt;` can be `&lt;`, `&gt;`, `&lt;=`, `&gt;=`, `!=`, `=`, `:`. Of which `:`
-    ///      means `HAS`, and is roughly the same as `=`
-    /// *   `&lt;value&gt;` must be the same data type as field
-    /// *   `&lt;logical connector&gt;` can be `AND`, `OR`, `NOT`
-    ///
-    /// Examples of valid filters:
-    ///
-    /// *   `metadata.owner` returns endpoints that have a annotation with the key
-    ///      `owner`, this is the same as `metadata:owner`
-    /// *   `metadata.protocol=gRPC` returns endpoints that have key/value
-    ///      `protocol=gRPC`
-    /// *   `address=192.108.1.105` returns endpoints that have this address
-    /// *   `port&gt;8080` returns endpoints that have port number larger than 8080
-    /// *
-    /// `name&gt;projects/my-project/locations/us-east1/namespaces/my-namespace/services/my-service/endpoints/endpoint-c`
-    ///      returns endpoints that have name that is alphabetically later than the
-    ///      string, so "endpoint-e" is returned but "endpoint-a" is not
-    /// *
-    /// `name=projects/my-project/locations/us-central1/namespaces/my-namespace/services/my-service/endpoints/ep-1`
-    ///       returns the endpoint that has an endpoint_id equal to `ep-1`
-    /// *   `metadata.owner!=sd AND metadata.foo=bar` returns endpoints that have
-    ///      `owner` in annotation key but value is not `sd` AND have key/value
-    ///       `foo=bar`
-    /// *   `doesnotexist.foo=bar` returns an empty list. Note that endpoint
-    ///      doesn't have a field called "doesnotexist". Since the filter does not
-    ///      match any endpoint, it returns no results
-    ///
-    /// For more information about filtering, see
-    /// [API Filtering](&lt;https://aip.dev/160&gt;).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>endpoint_filter: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The response message for
-/// [LookupService.ResolveService][google.cloud.servicedirectory.v1beta1.LookupService.ResolveService].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ResolveServiceResponse {
-    <span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>service: ::core::option::Option&lt;Service&gt;,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>lookup_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Service Directory API for looking up service data at runtime.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>LookupServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; LookupServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; LookupServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            LookupServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Returns a [service][google.cloud.servicedirectory.v1beta1.Service] and its
-        /// associated endpoints.
-        /// Resolving a service is not considered an active developer method.
-        </span><span class="kw">pub async fn </span>resolve_service(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ResolveServiceRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ResolveServiceResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.servicedirectory.v1beta1.LookupService/ResolveService"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.servicedirectory.v1beta1.LookupService"</span>,
-                        <span class="string">"ResolveService"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
