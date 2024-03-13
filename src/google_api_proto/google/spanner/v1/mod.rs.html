@@ -3113,7 +3113,37 @@
 <a href="#3112" id="3112">3112</a>
 <a href="#3113" id="3113">3113</a>
 <a href="#3114" id="3114">3114</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// KeyRange represents a range of rows in a table or index.
+</pre></div><pre class="rust"><code><span class="doccomment">/// The response for [Commit][google.spanner.v1.Spanner.Commit].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CommitResponse {
+    <span class="doccomment">/// The Cloud Spanner timestamp at which the transaction committed.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>commit_timestamp: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The statistics about this Commit. Not returned by default.
+    /// For more information, see
+    /// [CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats].
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>commit_stats: ::core::option::Option&lt;commit_response::CommitStats&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `CommitResponse`.
+</span><span class="kw">pub mod </span>commit_response {
+    <span class="doccomment">/// Additional statistics about a commit.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>CommitStats {
+        <span class="doccomment">/// The total number of mutations for the transaction. Knowing the
+        /// `mutation_count` value can help you maximize the number of mutations
+        /// in a transaction and minimize the number of API round trips. You can
+        /// also monitor this value to prevent transactions from exceeding the system
+        /// [limit](&lt;https://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data&gt;).
+        /// If the number of mutations exceeds the limit, the server returns
+        /// [INVALID_ARGUMENT](&lt;https://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT&gt;).
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>mutation_count: i64,
+    }
+}
+<span class="doccomment">/// KeyRange represents a range of rows in a table or index.
 ///
 /// A range has a start key and an end key. These keys can be open or
 /// closed, indicating if the range includes rows with that key.
@@ -3265,6 +3295,98 @@
     /// specified in `keys` or `ranges` are only yielded once.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>all: bool,
+}
+<span class="doccomment">/// A modification to one or more Cloud Spanner rows.  Mutations can be
+/// applied to a Cloud Spanner database by sending them in a
+/// [Commit][google.spanner.v1.Spanner.Commit] call.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Mutation {
+    <span class="doccomment">/// Required. The operation to perform.
+    </span><span class="attr">#[prost(oneof = <span class="string">"mutation::Operation"</span>, tags = <span class="string">"1, 2, 3, 4, 5"</span>)]
+    </span><span class="kw">pub </span>operation: ::core::option::Option&lt;mutation::Operation&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Mutation`.
+</span><span class="kw">pub mod </span>mutation {
+    <span class="doccomment">/// Arguments to [insert][google.spanner.v1.Mutation.insert], [update][google.spanner.v1.Mutation.update], [insert_or_update][google.spanner.v1.Mutation.insert_or_update], and
+    /// [replace][google.spanner.v1.Mutation.replace] operations.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Write {
+        <span class="doccomment">/// Required. The table whose rows will be written.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>table: ::prost::alloc::string::String,
+        <span class="doccomment">/// The names of the columns in [table][google.spanner.v1.Mutation.Write.table] to be written.
+        ///
+        /// The list of columns must contain enough columns to allow
+        /// Cloud Spanner to derive values for all primary key columns in the
+        /// row(s) to be modified.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>columns: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+        <span class="doccomment">/// The values to be written. `values` can contain more than one
+        /// list of values. If it does, then multiple rows are written, one
+        /// for each entry in `values`. Each list in `values` must have
+        /// exactly as many entries as there are entries in [columns][google.spanner.v1.Mutation.Write.columns]
+        /// above. Sending multiple lists is equivalent to sending multiple
+        /// `Mutation`s, each containing one `values` entry and repeating
+        /// [table][google.spanner.v1.Mutation.Write.table] and [columns][google.spanner.v1.Mutation.Write.columns]. Individual values in each list are
+        /// encoded as described [here][google.spanner.v1.TypeCode].
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>values: ::prost::alloc::vec::Vec&lt;::prost_types::ListValue&gt;,
+    }
+    <span class="doccomment">/// Arguments to [delete][google.spanner.v1.Mutation.delete] operations.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Delete {
+        <span class="doccomment">/// Required. The table whose rows will be deleted.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>table: ::prost::alloc::string::String,
+        <span class="doccomment">/// Required. The primary keys of the rows within [table][google.spanner.v1.Mutation.Delete.table] to delete.  The
+        /// primary keys must be specified in the order in which they appear in the
+        /// `PRIMARY KEY()` clause of the table's equivalent DDL statement (the DDL
+        /// statement used to create the table).
+        /// Delete is idempotent. The transaction will succeed even if some or all
+        /// rows do not exist.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>key_set: ::core::option::Option&lt;<span class="kw">super</span>::KeySet&gt;,
+    }
+    <span class="doccomment">/// Required. The operation to perform.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Operation {
+        <span class="doccomment">/// Insert new rows in a table. If any of the rows already exist,
+        /// the write or transaction fails with error `ALREADY_EXISTS`.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>Insert(Write),
+        <span class="doccomment">/// Update existing rows in a table. If any of the rows does not
+        /// already exist, the transaction fails with error `NOT_FOUND`.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>Update(Write),
+        <span class="doccomment">/// Like [insert][google.spanner.v1.Mutation.insert], except that if the row already exists, then
+        /// its column values are overwritten with the ones provided. Any
+        /// column values not explicitly written are preserved.
+        ///
+        /// When using [insert_or_update][google.spanner.v1.Mutation.insert_or_update], just as when using [insert][google.spanner.v1.Mutation.insert], all `NOT
+        /// NULL` columns in the table must be given a value. This holds true
+        /// even when the row already exists and will therefore actually be updated.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>InsertOrUpdate(Write),
+        <span class="doccomment">/// Like [insert][google.spanner.v1.Mutation.insert], except that if the row already exists, it is
+        /// deleted, and the column values provided are inserted
+        /// instead. Unlike [insert_or_update][google.spanner.v1.Mutation.insert_or_update], this means any values not
+        /// explicitly written become `NULL`.
+        ///
+        /// In an interleaved table, if you create the child table with the
+        /// `ON DELETE CASCADE` annotation, then replacing a parent row
+        /// also deletes the child rows. Otherwise, you must delete the
+        /// child rows before you replace the parent row.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>Replace(Write),
+        <span class="doccomment">/// Delete rows from a table. Succeeds whether or not the named
+        /// rows were present.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>Delete(Delete),
+    }
 }
 <span class="doccomment">/// Node information for nodes appearing in a [QueryPlan.plan_nodes][google.spanner.v1.QueryPlan.plan_nodes].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4428,128 +4550,6 @@
         /// returns a lower bound of the rows modified.
         </span><span class="attr">#[prost(int64, tag = <span class="string">"4"</span>)]
         </span>RowCountLowerBound(i64),
-    }
-}
-<span class="doccomment">/// The response for [Commit][google.spanner.v1.Spanner.Commit].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CommitResponse {
-    <span class="doccomment">/// The Cloud Spanner timestamp at which the transaction committed.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>commit_timestamp: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The statistics about this Commit. Not returned by default.
-    /// For more information, see
-    /// [CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats].
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>commit_stats: ::core::option::Option&lt;commit_response::CommitStats&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `CommitResponse`.
-</span><span class="kw">pub mod </span>commit_response {
-    <span class="doccomment">/// Additional statistics about a commit.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>CommitStats {
-        <span class="doccomment">/// The total number of mutations for the transaction. Knowing the
-        /// `mutation_count` value can help you maximize the number of mutations
-        /// in a transaction and minimize the number of API round trips. You can
-        /// also monitor this value to prevent transactions from exceeding the system
-        /// [limit](&lt;https://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data&gt;).
-        /// If the number of mutations exceeds the limit, the server returns
-        /// [INVALID_ARGUMENT](&lt;https://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT&gt;).
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>mutation_count: i64,
-    }
-}
-<span class="doccomment">/// A modification to one or more Cloud Spanner rows.  Mutations can be
-/// applied to a Cloud Spanner database by sending them in a
-/// [Commit][google.spanner.v1.Spanner.Commit] call.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Mutation {
-    <span class="doccomment">/// Required. The operation to perform.
-    </span><span class="attr">#[prost(oneof = <span class="string">"mutation::Operation"</span>, tags = <span class="string">"1, 2, 3, 4, 5"</span>)]
-    </span><span class="kw">pub </span>operation: ::core::option::Option&lt;mutation::Operation&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Mutation`.
-</span><span class="kw">pub mod </span>mutation {
-    <span class="doccomment">/// Arguments to [insert][google.spanner.v1.Mutation.insert], [update][google.spanner.v1.Mutation.update], [insert_or_update][google.spanner.v1.Mutation.insert_or_update], and
-    /// [replace][google.spanner.v1.Mutation.replace] operations.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Write {
-        <span class="doccomment">/// Required. The table whose rows will be written.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>table: ::prost::alloc::string::String,
-        <span class="doccomment">/// The names of the columns in [table][google.spanner.v1.Mutation.Write.table] to be written.
-        ///
-        /// The list of columns must contain enough columns to allow
-        /// Cloud Spanner to derive values for all primary key columns in the
-        /// row(s) to be modified.
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>columns: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        <span class="doccomment">/// The values to be written. `values` can contain more than one
-        /// list of values. If it does, then multiple rows are written, one
-        /// for each entry in `values`. Each list in `values` must have
-        /// exactly as many entries as there are entries in [columns][google.spanner.v1.Mutation.Write.columns]
-        /// above. Sending multiple lists is equivalent to sending multiple
-        /// `Mutation`s, each containing one `values` entry and repeating
-        /// [table][google.spanner.v1.Mutation.Write.table] and [columns][google.spanner.v1.Mutation.Write.columns]. Individual values in each list are
-        /// encoded as described [here][google.spanner.v1.TypeCode].
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>values: ::prost::alloc::vec::Vec&lt;::prost_types::ListValue&gt;,
-    }
-    <span class="doccomment">/// Arguments to [delete][google.spanner.v1.Mutation.delete] operations.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Delete {
-        <span class="doccomment">/// Required. The table whose rows will be deleted.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>table: ::prost::alloc::string::String,
-        <span class="doccomment">/// Required. The primary keys of the rows within [table][google.spanner.v1.Mutation.Delete.table] to delete.  The
-        /// primary keys must be specified in the order in which they appear in the
-        /// `PRIMARY KEY()` clause of the table's equivalent DDL statement (the DDL
-        /// statement used to create the table).
-        /// Delete is idempotent. The transaction will succeed even if some or all
-        /// rows do not exist.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>key_set: ::core::option::Option&lt;<span class="kw">super</span>::KeySet&gt;,
-    }
-    <span class="doccomment">/// Required. The operation to perform.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Operation {
-        <span class="doccomment">/// Insert new rows in a table. If any of the rows already exist,
-        /// the write or transaction fails with error `ALREADY_EXISTS`.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>Insert(Write),
-        <span class="doccomment">/// Update existing rows in a table. If any of the rows does not
-        /// already exist, the transaction fails with error `NOT_FOUND`.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>Update(Write),
-        <span class="doccomment">/// Like [insert][google.spanner.v1.Mutation.insert], except that if the row already exists, then
-        /// its column values are overwritten with the ones provided. Any
-        /// column values not explicitly written are preserved.
-        ///
-        /// When using [insert_or_update][google.spanner.v1.Mutation.insert_or_update], just as when using [insert][google.spanner.v1.Mutation.insert], all `NOT
-        /// NULL` columns in the table must be given a value. This holds true
-        /// even when the row already exists and will therefore actually be updated.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>InsertOrUpdate(Write),
-        <span class="doccomment">/// Like [insert][google.spanner.v1.Mutation.insert], except that if the row already exists, it is
-        /// deleted, and the column values provided are inserted
-        /// instead. Unlike [insert_or_update][google.spanner.v1.Mutation.insert_or_update], this means any values not
-        /// explicitly written become `NULL`.
-        ///
-        /// In an interleaved table, if you create the child table with the
-        /// `ON DELETE CASCADE` annotation, then replacing a parent row
-        /// also deletes the child rows. Otherwise, you must delete the
-        /// child rows before you replace the parent row.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>Replace(Write),
-        <span class="doccomment">/// Delete rows from a table. Succeeds whether or not the named
-        /// rows were present.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>Delete(Delete),
     }
 }
 <span class="doccomment">/// The request for [CreateSession][google.spanner.v1.Spanner.CreateSession].

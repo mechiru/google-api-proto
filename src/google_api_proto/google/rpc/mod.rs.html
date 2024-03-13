@@ -601,204 +601,6 @@
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>details: ::prost::alloc::vec::Vec&lt;::prost_types::Any&gt;,
 }
-<span class="doccomment">/// The canonical error codes for gRPC APIs.
-///
-///
-/// Sometimes multiple error codes may apply.  Services should return
-/// the most specific error code that applies.  For example, prefer
-/// `OUT_OF_RANGE` over `FAILED_PRECONDITION` if both codes apply.
-/// Similarly prefer `NOT_FOUND` or `ALREADY_EXISTS` over `FAILED_PRECONDITION`.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>Code {
-    <span class="doccomment">/// Not an error; returned on success.
-    ///
-    /// HTTP Mapping: 200 OK
-    </span><span class="prelude-val">Ok </span>= <span class="number">0</span>,
-    <span class="doccomment">/// The operation was cancelled, typically by the caller.
-    ///
-    /// HTTP Mapping: 499 Client Closed Request
-    </span>Cancelled = <span class="number">1</span>,
-    <span class="doccomment">/// Unknown error.  For example, this error may be returned when
-    /// a `Status` value received from another address space belongs to
-    /// an error space that is not known in this address space.  Also
-    /// errors raised by APIs that do not return enough error information
-    /// may be converted to this error.
-    ///
-    /// HTTP Mapping: 500 Internal Server Error
-    </span>Unknown = <span class="number">2</span>,
-    <span class="doccomment">/// The client specified an invalid argument.  Note that this differs
-    /// from `FAILED_PRECONDITION`.  `INVALID_ARGUMENT` indicates arguments
-    /// that are problematic regardless of the state of the system
-    /// (e.g., a malformed file name).
-    ///
-    /// HTTP Mapping: 400 Bad Request
-    </span>InvalidArgument = <span class="number">3</span>,
-    <span class="doccomment">/// The deadline expired before the operation could complete. For operations
-    /// that change the state of the system, this error may be returned
-    /// even if the operation has completed successfully.  For example, a
-    /// successful response from a server could have been delayed long
-    /// enough for the deadline to expire.
-    ///
-    /// HTTP Mapping: 504 Gateway Timeout
-    </span>DeadlineExceeded = <span class="number">4</span>,
-    <span class="doccomment">/// Some requested entity (e.g., file or directory) was not found.
-    ///
-    /// Note to server developers: if a request is denied for an entire class
-    /// of users, such as gradual feature rollout or undocumented allowlist,
-    /// `NOT_FOUND` may be used. If a request is denied for some users within
-    /// a class of users, such as user-based access control, `PERMISSION_DENIED`
-    /// must be used.
-    ///
-    /// HTTP Mapping: 404 Not Found
-    </span>NotFound = <span class="number">5</span>,
-    <span class="doccomment">/// The entity that a client attempted to create (e.g., file or directory)
-    /// already exists.
-    ///
-    /// HTTP Mapping: 409 Conflict
-    </span>AlreadyExists = <span class="number">6</span>,
-    <span class="doccomment">/// The caller does not have permission to execute the specified
-    /// operation. `PERMISSION_DENIED` must not be used for rejections
-    /// caused by exhausting some resource (use `RESOURCE_EXHAUSTED`
-    /// instead for those errors). `PERMISSION_DENIED` must not be
-    /// used if the caller can not be identified (use `UNAUTHENTICATED`
-    /// instead for those errors). This error code does not imply the
-    /// request is valid or the requested entity exists or satisfies
-    /// other pre-conditions.
-    ///
-    /// HTTP Mapping: 403 Forbidden
-    </span>PermissionDenied = <span class="number">7</span>,
-    <span class="doccomment">/// The request does not have valid authentication credentials for the
-    /// operation.
-    ///
-    /// HTTP Mapping: 401 Unauthorized
-    </span>Unauthenticated = <span class="number">16</span>,
-    <span class="doccomment">/// Some resource has been exhausted, perhaps a per-user quota, or
-    /// perhaps the entire file system is out of space.
-    ///
-    /// HTTP Mapping: 429 Too Many Requests
-    </span>ResourceExhausted = <span class="number">8</span>,
-    <span class="doccomment">/// The operation was rejected because the system is not in a state
-    /// required for the operation's execution.  For example, the directory
-    /// to be deleted is non-empty, an rmdir operation is applied to
-    /// a non-directory, etc.
-    ///
-    /// Service implementors can use the following guidelines to decide
-    /// between `FAILED_PRECONDITION`, `ABORTED`, and `UNAVAILABLE`:
-    ///   (a) Use `UNAVAILABLE` if the client can retry just the failing call.
-    ///   (b) Use `ABORTED` if the client should retry at a higher level. For
-    ///       example, when a client-specified test-and-set fails, indicating the
-    ///       client should restart a read-modify-write sequence.
-    ///   (c) Use `FAILED_PRECONDITION` if the client should not retry until
-    ///       the system state has been explicitly fixed. For example, if an "rmdir"
-    ///       fails because the directory is non-empty, `FAILED_PRECONDITION`
-    ///       should be returned since the client should not retry unless
-    ///       the files are deleted from the directory.
-    ///
-    /// HTTP Mapping: 400 Bad Request
-    </span>FailedPrecondition = <span class="number">9</span>,
-    <span class="doccomment">/// The operation was aborted, typically due to a concurrency issue such as
-    /// a sequencer check failure or transaction abort.
-    ///
-    /// See the guidelines above for deciding between `FAILED_PRECONDITION`,
-    /// `ABORTED`, and `UNAVAILABLE`.
-    ///
-    /// HTTP Mapping: 409 Conflict
-    </span>Aborted = <span class="number">10</span>,
-    <span class="doccomment">/// The operation was attempted past the valid range.  E.g., seeking or
-    /// reading past end-of-file.
-    ///
-    /// Unlike `INVALID_ARGUMENT`, this error indicates a problem that may
-    /// be fixed if the system state changes. For example, a 32-bit file
-    /// system will generate `INVALID_ARGUMENT` if asked to read at an
-    /// offset that is not in the range \[0,2^32-1\], but it will generate
-    /// `OUT_OF_RANGE` if asked to read from an offset past the current
-    /// file size.
-    ///
-    /// There is a fair bit of overlap between `FAILED_PRECONDITION` and
-    /// `OUT_OF_RANGE`.  We recommend using `OUT_OF_RANGE` (the more specific
-    /// error) when it applies so that callers who are iterating through
-    /// a space can easily look for an `OUT_OF_RANGE` error to detect when
-    /// they are done.
-    ///
-    /// HTTP Mapping: 400 Bad Request
-    </span>OutOfRange = <span class="number">11</span>,
-    <span class="doccomment">/// The operation is not implemented or is not supported/enabled in this
-    /// service.
-    ///
-    /// HTTP Mapping: 501 Not Implemented
-    </span>Unimplemented = <span class="number">12</span>,
-    <span class="doccomment">/// Internal errors.  This means that some invariants expected by the
-    /// underlying system have been broken.  This error code is reserved
-    /// for serious errors.
-    ///
-    /// HTTP Mapping: 500 Internal Server Error
-    </span>Internal = <span class="number">13</span>,
-    <span class="doccomment">/// The service is currently unavailable.  This is most likely a
-    /// transient condition, which can be corrected by retrying with
-    /// a backoff. Note that it is not always safe to retry
-    /// non-idempotent operations.
-    ///
-    /// See the guidelines above for deciding between `FAILED_PRECONDITION`,
-    /// `ABORTED`, and `UNAVAILABLE`.
-    ///
-    /// HTTP Mapping: 503 Service Unavailable
-    </span>Unavailable = <span class="number">14</span>,
-    <span class="doccomment">/// Unrecoverable data loss or corruption.
-    ///
-    /// HTTP Mapping: 500 Internal Server Error
-    </span>DataLoss = <span class="number">15</span>,
-}
-<span class="kw">impl </span>Code {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            Code::Ok =&gt; <span class="string">"OK"</span>,
-            Code::Cancelled =&gt; <span class="string">"CANCELLED"</span>,
-            Code::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
-            Code::InvalidArgument =&gt; <span class="string">"INVALID_ARGUMENT"</span>,
-            Code::DeadlineExceeded =&gt; <span class="string">"DEADLINE_EXCEEDED"</span>,
-            Code::NotFound =&gt; <span class="string">"NOT_FOUND"</span>,
-            Code::AlreadyExists =&gt; <span class="string">"ALREADY_EXISTS"</span>,
-            Code::PermissionDenied =&gt; <span class="string">"PERMISSION_DENIED"</span>,
-            Code::Unauthenticated =&gt; <span class="string">"UNAUTHENTICATED"</span>,
-            Code::ResourceExhausted =&gt; <span class="string">"RESOURCE_EXHAUSTED"</span>,
-            Code::FailedPrecondition =&gt; <span class="string">"FAILED_PRECONDITION"</span>,
-            Code::Aborted =&gt; <span class="string">"ABORTED"</span>,
-            Code::OutOfRange =&gt; <span class="string">"OUT_OF_RANGE"</span>,
-            Code::Unimplemented =&gt; <span class="string">"UNIMPLEMENTED"</span>,
-            Code::Internal =&gt; <span class="string">"INTERNAL"</span>,
-            Code::Unavailable =&gt; <span class="string">"UNAVAILABLE"</span>,
-            Code::DataLoss =&gt; <span class="string">"DATA_LOSS"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"OK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ok),
-            <span class="string">"CANCELLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelled),
-            <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
-            <span class="string">"INVALID_ARGUMENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidArgument),
-            <span class="string">"DEADLINE_EXCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DeadlineExceeded),
-            <span class="string">"NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotFound),
-            <span class="string">"ALREADY_EXISTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AlreadyExists),
-            <span class="string">"PERMISSION_DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PermissionDenied),
-            <span class="string">"UNAUTHENTICATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unauthenticated),
-            <span class="string">"RESOURCE_EXHAUSTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceExhausted),
-            <span class="string">"FAILED_PRECONDITION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FailedPrecondition),
-            <span class="string">"ABORTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Aborted),
-            <span class="string">"OUT_OF_RANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OutOfRange),
-            <span class="string">"UNIMPLEMENTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unimplemented),
-            <span class="string">"INTERNAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Internal),
-            <span class="string">"UNAVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unavailable),
-            <span class="string">"DATA_LOSS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DataLoss),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
 <span class="doccomment">/// Describes the cause of the error with structured details.
 ///
 /// Example of an error when contacting the "pubsub.googleapis.com" API when it
@@ -1101,6 +903,204 @@
     <span class="doccomment">/// The localized error message in the above locale.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The canonical error codes for gRPC APIs.
+///
+///
+/// Sometimes multiple error codes may apply.  Services should return
+/// the most specific error code that applies.  For example, prefer
+/// `OUT_OF_RANGE` over `FAILED_PRECONDITION` if both codes apply.
+/// Similarly prefer `NOT_FOUND` or `ALREADY_EXISTS` over `FAILED_PRECONDITION`.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>Code {
+    <span class="doccomment">/// Not an error; returned on success.
+    ///
+    /// HTTP Mapping: 200 OK
+    </span><span class="prelude-val">Ok </span>= <span class="number">0</span>,
+    <span class="doccomment">/// The operation was cancelled, typically by the caller.
+    ///
+    /// HTTP Mapping: 499 Client Closed Request
+    </span>Cancelled = <span class="number">1</span>,
+    <span class="doccomment">/// Unknown error.  For example, this error may be returned when
+    /// a `Status` value received from another address space belongs to
+    /// an error space that is not known in this address space.  Also
+    /// errors raised by APIs that do not return enough error information
+    /// may be converted to this error.
+    ///
+    /// HTTP Mapping: 500 Internal Server Error
+    </span>Unknown = <span class="number">2</span>,
+    <span class="doccomment">/// The client specified an invalid argument.  Note that this differs
+    /// from `FAILED_PRECONDITION`.  `INVALID_ARGUMENT` indicates arguments
+    /// that are problematic regardless of the state of the system
+    /// (e.g., a malformed file name).
+    ///
+    /// HTTP Mapping: 400 Bad Request
+    </span>InvalidArgument = <span class="number">3</span>,
+    <span class="doccomment">/// The deadline expired before the operation could complete. For operations
+    /// that change the state of the system, this error may be returned
+    /// even if the operation has completed successfully.  For example, a
+    /// successful response from a server could have been delayed long
+    /// enough for the deadline to expire.
+    ///
+    /// HTTP Mapping: 504 Gateway Timeout
+    </span>DeadlineExceeded = <span class="number">4</span>,
+    <span class="doccomment">/// Some requested entity (e.g., file or directory) was not found.
+    ///
+    /// Note to server developers: if a request is denied for an entire class
+    /// of users, such as gradual feature rollout or undocumented allowlist,
+    /// `NOT_FOUND` may be used. If a request is denied for some users within
+    /// a class of users, such as user-based access control, `PERMISSION_DENIED`
+    /// must be used.
+    ///
+    /// HTTP Mapping: 404 Not Found
+    </span>NotFound = <span class="number">5</span>,
+    <span class="doccomment">/// The entity that a client attempted to create (e.g., file or directory)
+    /// already exists.
+    ///
+    /// HTTP Mapping: 409 Conflict
+    </span>AlreadyExists = <span class="number">6</span>,
+    <span class="doccomment">/// The caller does not have permission to execute the specified
+    /// operation. `PERMISSION_DENIED` must not be used for rejections
+    /// caused by exhausting some resource (use `RESOURCE_EXHAUSTED`
+    /// instead for those errors). `PERMISSION_DENIED` must not be
+    /// used if the caller can not be identified (use `UNAUTHENTICATED`
+    /// instead for those errors). This error code does not imply the
+    /// request is valid or the requested entity exists or satisfies
+    /// other pre-conditions.
+    ///
+    /// HTTP Mapping: 403 Forbidden
+    </span>PermissionDenied = <span class="number">7</span>,
+    <span class="doccomment">/// The request does not have valid authentication credentials for the
+    /// operation.
+    ///
+    /// HTTP Mapping: 401 Unauthorized
+    </span>Unauthenticated = <span class="number">16</span>,
+    <span class="doccomment">/// Some resource has been exhausted, perhaps a per-user quota, or
+    /// perhaps the entire file system is out of space.
+    ///
+    /// HTTP Mapping: 429 Too Many Requests
+    </span>ResourceExhausted = <span class="number">8</span>,
+    <span class="doccomment">/// The operation was rejected because the system is not in a state
+    /// required for the operation's execution.  For example, the directory
+    /// to be deleted is non-empty, an rmdir operation is applied to
+    /// a non-directory, etc.
+    ///
+    /// Service implementors can use the following guidelines to decide
+    /// between `FAILED_PRECONDITION`, `ABORTED`, and `UNAVAILABLE`:
+    ///   (a) Use `UNAVAILABLE` if the client can retry just the failing call.
+    ///   (b) Use `ABORTED` if the client should retry at a higher level. For
+    ///       example, when a client-specified test-and-set fails, indicating the
+    ///       client should restart a read-modify-write sequence.
+    ///   (c) Use `FAILED_PRECONDITION` if the client should not retry until
+    ///       the system state has been explicitly fixed. For example, if an "rmdir"
+    ///       fails because the directory is non-empty, `FAILED_PRECONDITION`
+    ///       should be returned since the client should not retry unless
+    ///       the files are deleted from the directory.
+    ///
+    /// HTTP Mapping: 400 Bad Request
+    </span>FailedPrecondition = <span class="number">9</span>,
+    <span class="doccomment">/// The operation was aborted, typically due to a concurrency issue such as
+    /// a sequencer check failure or transaction abort.
+    ///
+    /// See the guidelines above for deciding between `FAILED_PRECONDITION`,
+    /// `ABORTED`, and `UNAVAILABLE`.
+    ///
+    /// HTTP Mapping: 409 Conflict
+    </span>Aborted = <span class="number">10</span>,
+    <span class="doccomment">/// The operation was attempted past the valid range.  E.g., seeking or
+    /// reading past end-of-file.
+    ///
+    /// Unlike `INVALID_ARGUMENT`, this error indicates a problem that may
+    /// be fixed if the system state changes. For example, a 32-bit file
+    /// system will generate `INVALID_ARGUMENT` if asked to read at an
+    /// offset that is not in the range \[0,2^32-1\], but it will generate
+    /// `OUT_OF_RANGE` if asked to read from an offset past the current
+    /// file size.
+    ///
+    /// There is a fair bit of overlap between `FAILED_PRECONDITION` and
+    /// `OUT_OF_RANGE`.  We recommend using `OUT_OF_RANGE` (the more specific
+    /// error) when it applies so that callers who are iterating through
+    /// a space can easily look for an `OUT_OF_RANGE` error to detect when
+    /// they are done.
+    ///
+    /// HTTP Mapping: 400 Bad Request
+    </span>OutOfRange = <span class="number">11</span>,
+    <span class="doccomment">/// The operation is not implemented or is not supported/enabled in this
+    /// service.
+    ///
+    /// HTTP Mapping: 501 Not Implemented
+    </span>Unimplemented = <span class="number">12</span>,
+    <span class="doccomment">/// Internal errors.  This means that some invariants expected by the
+    /// underlying system have been broken.  This error code is reserved
+    /// for serious errors.
+    ///
+    /// HTTP Mapping: 500 Internal Server Error
+    </span>Internal = <span class="number">13</span>,
+    <span class="doccomment">/// The service is currently unavailable.  This is most likely a
+    /// transient condition, which can be corrected by retrying with
+    /// a backoff. Note that it is not always safe to retry
+    /// non-idempotent operations.
+    ///
+    /// See the guidelines above for deciding between `FAILED_PRECONDITION`,
+    /// `ABORTED`, and `UNAVAILABLE`.
+    ///
+    /// HTTP Mapping: 503 Service Unavailable
+    </span>Unavailable = <span class="number">14</span>,
+    <span class="doccomment">/// Unrecoverable data loss or corruption.
+    ///
+    /// HTTP Mapping: 500 Internal Server Error
+    </span>DataLoss = <span class="number">15</span>,
+}
+<span class="kw">impl </span>Code {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            Code::Ok =&gt; <span class="string">"OK"</span>,
+            Code::Cancelled =&gt; <span class="string">"CANCELLED"</span>,
+            Code::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
+            Code::InvalidArgument =&gt; <span class="string">"INVALID_ARGUMENT"</span>,
+            Code::DeadlineExceeded =&gt; <span class="string">"DEADLINE_EXCEEDED"</span>,
+            Code::NotFound =&gt; <span class="string">"NOT_FOUND"</span>,
+            Code::AlreadyExists =&gt; <span class="string">"ALREADY_EXISTS"</span>,
+            Code::PermissionDenied =&gt; <span class="string">"PERMISSION_DENIED"</span>,
+            Code::Unauthenticated =&gt; <span class="string">"UNAUTHENTICATED"</span>,
+            Code::ResourceExhausted =&gt; <span class="string">"RESOURCE_EXHAUSTED"</span>,
+            Code::FailedPrecondition =&gt; <span class="string">"FAILED_PRECONDITION"</span>,
+            Code::Aborted =&gt; <span class="string">"ABORTED"</span>,
+            Code::OutOfRange =&gt; <span class="string">"OUT_OF_RANGE"</span>,
+            Code::Unimplemented =&gt; <span class="string">"UNIMPLEMENTED"</span>,
+            Code::Internal =&gt; <span class="string">"INTERNAL"</span>,
+            Code::Unavailable =&gt; <span class="string">"UNAVAILABLE"</span>,
+            Code::DataLoss =&gt; <span class="string">"DATA_LOSS"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"OK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ok),
+            <span class="string">"CANCELLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelled),
+            <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
+            <span class="string">"INVALID_ARGUMENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidArgument),
+            <span class="string">"DEADLINE_EXCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DeadlineExceeded),
+            <span class="string">"NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotFound),
+            <span class="string">"ALREADY_EXISTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AlreadyExists),
+            <span class="string">"PERMISSION_DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PermissionDenied),
+            <span class="string">"UNAUTHENTICATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unauthenticated),
+            <span class="string">"RESOURCE_EXHAUSTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceExhausted),
+            <span class="string">"FAILED_PRECONDITION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FailedPrecondition),
+            <span class="string">"ABORTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Aborted),
+            <span class="string">"OUT_OF_RANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OutOfRange),
+            <span class="string">"UNIMPLEMENTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unimplemented),
+            <span class="string">"INTERNAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Internal),
+            <span class="string">"UNAVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unavailable),
+            <span class="string">"DATA_LOSS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DataLoss),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
 }
 <span class="doccomment">/// Represents an HTTP request.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

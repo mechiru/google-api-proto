@@ -3029,6 +3029,46 @@
         }
     }
 }
+<span class="doccomment">/// The result of a single bucket from a Datastore aggregation query.
+///
+/// The keys of `aggregate_properties` are the same for all results in an
+/// aggregation query, unlike entity queries which can have different fields
+/// present for each result.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AggregationResult {
+    <span class="doccomment">/// The result of the aggregation functions, ex: `COUNT(*) AS total_entities`.
+    ///
+    /// The key is the
+    /// [alias][google.datastore.v1.AggregationQuery.Aggregation.alias] assigned to
+    /// the aggregation function on input and the size of this map equals the
+    /// number of aggregation functions in the query.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>aggregate_properties: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        Value,
+    &gt;,
+}
+<span class="doccomment">/// A batch of aggregation results produced by an aggregation query.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AggregationResultBatch {
+    <span class="doccomment">/// The aggregation results for this batch.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>aggregation_results: ::prost::alloc::vec::Vec&lt;AggregationResult&gt;,
+    <span class="doccomment">/// The state of the query after the current batch.
+    /// Only COUNT(*) aggregations are supported in the initial launch. Therefore,
+    /// expected result type is limited to `NO_MORE_RESULTS`.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"query_result_batch::MoreResultsType"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>more_results: i32,
+    <span class="doccomment">/// Read timestamp this batch was returned from.
+    ///
+    /// In a single transaction, subsequent query result batches for the same query
+    /// can have a greater timestamp. Each batch's read timestamp
+    /// is valid for all preceding batches.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>read_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
 <span class="doccomment">/// Explain options for the query.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3096,46 +3136,6 @@
     ///   }
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>debug_stats: ::core::option::Option&lt;::prost_types::Struct&gt;,
-}
-<span class="doccomment">/// The result of a single bucket from a Datastore aggregation query.
-///
-/// The keys of `aggregate_properties` are the same for all results in an
-/// aggregation query, unlike entity queries which can have different fields
-/// present for each result.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AggregationResult {
-    <span class="doccomment">/// The result of the aggregation functions, ex: `COUNT(*) AS total_entities`.
-    ///
-    /// The key is the
-    /// [alias][google.datastore.v1.AggregationQuery.Aggregation.alias] assigned to
-    /// the aggregation function on input and the size of this map equals the
-    /// number of aggregation functions in the query.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>aggregate_properties: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        Value,
-    &gt;,
-}
-<span class="doccomment">/// A batch of aggregation results produced by an aggregation query.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AggregationResultBatch {
-    <span class="doccomment">/// The aggregation results for this batch.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>aggregation_results: ::prost::alloc::vec::Vec&lt;AggregationResult&gt;,
-    <span class="doccomment">/// The state of the query after the current batch.
-    /// Only COUNT(*) aggregations are supported in the initial launch. Therefore,
-    /// expected result type is limited to `NO_MORE_RESULTS`.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"query_result_batch::MoreResultsType"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>more_results: i32,
-    <span class="doccomment">/// Read timestamp this batch was returned from.
-    ///
-    /// In a single transaction, subsequent query result batches for the same query
-    /// can have a greater timestamp. Each batch's read timestamp
-    /// is valid for all preceding batches.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>read_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
 }
 <span class="doccomment">/// The request for [Datastore.Lookup][google.datastore.v1.Datastore.Lookup].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

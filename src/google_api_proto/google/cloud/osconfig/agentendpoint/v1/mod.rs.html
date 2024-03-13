@@ -2579,248 +2579,7 @@
 <a href="#2578" id="2578">2578</a>
 <a href="#2579" id="2579">2579</a>
 <a href="#2580" id="2580">2580</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// The inventory details of a VM.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Inventory {
-    <span class="doccomment">/// Base level operating system information for the VM.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>os_info: ::core::option::Option&lt;inventory::OsInfo&gt;,
-    <span class="doccomment">/// A list of installed packages currently on the VM.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>installed_packages: ::prost::alloc::vec::Vec&lt;inventory::SoftwarePackage&gt;,
-    <span class="doccomment">/// A list of software updates available for the VM as reported by the update
-    /// managers.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>available_packages: ::prost::alloc::vec::Vec&lt;inventory::SoftwarePackage&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Inventory`.
-</span><span class="kw">pub mod </span>inventory {
-    <span class="doccomment">/// Operating system information for the VM.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>OsInfo {
-        <span class="doccomment">/// The VM hostname.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>hostname: ::prost::alloc::string::String,
-        <span class="doccomment">/// The operating system long name.
-        /// For example 'Debian GNU/Linux 9' or 'Microsoft Window Server 2019
-        /// Datacenter'.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>long_name: ::prost::alloc::string::String,
-        <span class="doccomment">/// The operating system short name.
-        /// For example, 'windows' or 'debian'.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>short_name: ::prost::alloc::string::String,
-        <span class="doccomment">/// The version of the operating system.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
-        <span class="doccomment">/// The system architecture of the operating system.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-        </span><span class="kw">pub </span>architecture: ::prost::alloc::string::String,
-        <span class="doccomment">/// The kernel version of the operating system.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-        </span><span class="kw">pub </span>kernel_version: ::prost::alloc::string::String,
-        <span class="doccomment">/// The kernel release of the operating system.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-        </span><span class="kw">pub </span>kernel_release: ::prost::alloc::string::String,
-        <span class="doccomment">/// The current version of the OS Config agent running on the VM.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-        </span><span class="kw">pub </span>osconfig_agent_version: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Software package information of the operating system.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>SoftwarePackage {
-        <span class="doccomment">/// Information about the different types of software packages.
-        </span><span class="attr">#[prost(oneof = <span class="string">"software_package::Details"</span>, tags = <span class="string">"1, 2, 3, 4, 5, 6, 7, 8, 9"</span>)]
-        </span><span class="kw">pub </span>details: ::core::option::Option&lt;software_package::Details&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `SoftwarePackage`.
-    </span><span class="kw">pub mod </span>software_package {
-        <span class="doccomment">/// Information about the different types of software packages.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        </span><span class="kw">pub enum </span>Details {
-            <span class="doccomment">/// Yum package info.
-            /// For details about the yum package manager, see
-            /// &lt;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-yum.&gt;
-            </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-            </span>YumPackage(<span class="kw">super</span>::VersionedPackage),
-            <span class="doccomment">/// Details of an APT package.
-            /// For details about the apt package manager, see
-            /// &lt;https://wiki.debian.org/Apt.&gt;
-            </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-            </span>AptPackage(<span class="kw">super</span>::VersionedPackage),
-            <span class="doccomment">/// Details of a Zypper package.
-            /// For details about the Zypper package manager, see
-            /// &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;
-            </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-            </span>ZypperPackage(<span class="kw">super</span>::VersionedPackage),
-            <span class="doccomment">/// Details of a Googet package.
-            ///   For details about the googet package manager, see
-            ///   &lt;https://github.com/google/googet.&gt;
-            </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-            </span>GoogetPackage(<span class="kw">super</span>::VersionedPackage),
-            <span class="doccomment">/// Details of a Zypper patch.
-            /// For details about the Zypper package manager, see
-            /// &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;
-            </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-            </span>ZypperPatch(<span class="kw">super</span>::ZypperPatch),
-            <span class="doccomment">/// Details of a Windows Update package.
-            /// See &lt;https://docs.microsoft.com/en-us/windows/win32/api/_wua/&gt; for
-            /// information about Windows Update.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-            </span>WuaPackage(<span class="kw">super</span>::WindowsUpdatePackage),
-            <span class="doccomment">/// Details of a Windows Quick Fix engineering package.
-            /// See
-            /// &lt;https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering&gt;
-            /// for info in Windows Quick Fix Engineering.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
-            </span>QfePackage(<span class="kw">super</span>::WindowsQuickFixEngineeringPackage),
-            <span class="doccomment">/// Details of a COS package.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
-            </span>CosPackage(<span class="kw">super</span>::VersionedPackage),
-            <span class="doccomment">/// Details of Windows Application.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"9"</span>)]
-            </span>WindowsApplication(<span class="kw">super</span>::WindowsApplication),
-        }
-    }
-    <span class="doccomment">/// Information related to the a standard versioned package.  This includes
-    /// package info for APT, Yum, Zypper, and Googet package managers.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>VersionedPackage {
-        <span class="doccomment">/// The name of the package.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>package_name: ::prost::alloc::string::String,
-        <span class="doccomment">/// The system architecture this package is intended for.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>architecture: ::prost::alloc::string::String,
-        <span class="doccomment">/// The version of the package.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Details related to a Zypper Patch.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ZypperPatch {
-        <span class="doccomment">/// The name of the patch.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>patch_name: ::prost::alloc::string::String,
-        <span class="doccomment">/// The category of the patch.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>category: ::prost::alloc::string::String,
-        <span class="doccomment">/// The severity specified for this patch
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>severity: ::prost::alloc::string::String,
-        <span class="doccomment">/// Any summary information provided about this patch.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>summary: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Details related to a Windows Update package.
-    /// Field data and names are taken from Windows Update API IUpdate Interface:
-    /// &lt;https://docs.microsoft.com/en-us/windows/win32/api/_wua/&gt;
-    /// Descriptive fields like title, and description are localized based on
-    /// the locale of the VM being updated.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>WindowsUpdatePackage {
-        <span class="doccomment">/// The localized title of the update package.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
-        <span class="doccomment">/// The localized description of the update package.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-        <span class="doccomment">/// The categories that are associated with this update package.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>categories: ::prost::alloc::vec::Vec&lt;
-            windows_update_package::WindowsUpdateCategory,
-        &gt;,
-        <span class="doccomment">/// A collection of Microsoft Knowledge Base article IDs that are associated
-        /// with the update package.
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>kb_article_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        <span class="doccomment">/// A hyperlink to the language-specific support information for the update.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-        </span><span class="kw">pub </span>support_url: ::prost::alloc::string::String,
-        <span class="doccomment">/// A collection of URLs that provide more information about the update
-        /// package.
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
-        </span><span class="kw">pub </span>more_info_urls: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        <span class="doccomment">/// Gets the identifier of an update package.  Stays the same across
-        /// revisions.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-        </span><span class="kw">pub </span>update_id: ::prost::alloc::string::String,
-        <span class="doccomment">/// The revision number of this update package.
-        </span><span class="attr">#[prost(int32, tag = <span class="string">"8"</span>)]
-        </span><span class="kw">pub </span>revision_number: i32,
-        <span class="doccomment">/// The last published date of the update, in (UTC) date and time.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-        </span><span class="kw">pub </span>last_deployment_change_time: ::core::option::Option&lt;
-            ::prost_types::Timestamp,
-        &gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `WindowsUpdatePackage`.
-    </span><span class="kw">pub mod </span>windows_update_package {
-        <span class="doccomment">/// Categories specified by the Windows Update.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>WindowsUpdateCategory {
-            <span class="doccomment">/// The identifier of the windows update category.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-            <span class="doccomment">/// The name of the windows update category.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-        }
-    }
-    <span class="doccomment">/// Information related to a Quick Fix Engineering package.
-    /// Fields are taken from Windows QuickFixEngineering Interface and match
-    /// the source names:
-    /// &lt;https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering&gt;
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>WindowsQuickFixEngineeringPackage {
-        <span class="doccomment">/// A short textual description of the QFE update.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>caption: ::prost::alloc::string::String,
-        <span class="doccomment">/// A textual description of the QFE update.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-        <span class="doccomment">/// Unique identifier associated with a particular QFE update.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>hot_fix_id: ::prost::alloc::string::String,
-        <span class="doccomment">/// Date that the QFE update was installed.  Mapped from installed_on field.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>install_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    }
-    <span class="doccomment">/// Details about Windows Application - based on Windows Registry.
-    /// All fields in this message are taken from:
-    /// &lt;https://docs.microsoft.com/en-us/windows/win32/msi/uninstall-registry-key&gt;
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>WindowsApplication {
-        <span class="doccomment">/// DisplayName field from Windows Registry.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-        <span class="doccomment">/// DisplayVersion field from Windows Registry.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>display_version: ::prost::alloc::string::String,
-        <span class="doccomment">/// Publisher field from Windows Registry.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>publisher: ::prost::alloc::string::String,
-        <span class="doccomment">/// Installation date field from Windows Registry.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>install_date: ::core::option::Option&lt;
-            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date,
-        &gt;,
-        <span class="doccomment">/// HelpLink field from Windows Registry.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-        </span><span class="kw">pub </span>help_link: ::prost::alloc::string::String,
-    }
-}
-<span class="doccomment">/// Step performed by the OS Config agent for configuring an `OSPolicyResource`
+</pre></div><pre class="rust"><code><span class="doccomment">/// Step performed by the OS Config agent for configuring an `OSPolicyResource`
 /// to its desired state.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4689,6 +4448,247 @@
             <span class="string">"APPLY_CONFIG_TASK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApplyConfigTask),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
+    }
+}
+<span class="doccomment">/// The inventory details of a VM.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Inventory {
+    <span class="doccomment">/// Base level operating system information for the VM.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>os_info: ::core::option::Option&lt;inventory::OsInfo&gt;,
+    <span class="doccomment">/// A list of installed packages currently on the VM.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>installed_packages: ::prost::alloc::vec::Vec&lt;inventory::SoftwarePackage&gt;,
+    <span class="doccomment">/// A list of software updates available for the VM as reported by the update
+    /// managers.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>available_packages: ::prost::alloc::vec::Vec&lt;inventory::SoftwarePackage&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Inventory`.
+</span><span class="kw">pub mod </span>inventory {
+    <span class="doccomment">/// Operating system information for the VM.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>OsInfo {
+        <span class="doccomment">/// The VM hostname.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>hostname: ::prost::alloc::string::String,
+        <span class="doccomment">/// The operating system long name.
+        /// For example 'Debian GNU/Linux 9' or 'Microsoft Window Server 2019
+        /// Datacenter'.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>long_name: ::prost::alloc::string::String,
+        <span class="doccomment">/// The operating system short name.
+        /// For example, 'windows' or 'debian'.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>short_name: ::prost::alloc::string::String,
+        <span class="doccomment">/// The version of the operating system.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
+        <span class="doccomment">/// The system architecture of the operating system.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>architecture: ::prost::alloc::string::String,
+        <span class="doccomment">/// The kernel version of the operating system.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+        </span><span class="kw">pub </span>kernel_version: ::prost::alloc::string::String,
+        <span class="doccomment">/// The kernel release of the operating system.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+        </span><span class="kw">pub </span>kernel_release: ::prost::alloc::string::String,
+        <span class="doccomment">/// The current version of the OS Config agent running on the VM.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+        </span><span class="kw">pub </span>osconfig_agent_version: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Software package information of the operating system.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>SoftwarePackage {
+        <span class="doccomment">/// Information about the different types of software packages.
+        </span><span class="attr">#[prost(oneof = <span class="string">"software_package::Details"</span>, tags = <span class="string">"1, 2, 3, 4, 5, 6, 7, 8, 9"</span>)]
+        </span><span class="kw">pub </span>details: ::core::option::Option&lt;software_package::Details&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `SoftwarePackage`.
+    </span><span class="kw">pub mod </span>software_package {
+        <span class="doccomment">/// Information about the different types of software packages.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        </span><span class="kw">pub enum </span>Details {
+            <span class="doccomment">/// Yum package info.
+            /// For details about the yum package manager, see
+            /// &lt;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-yum.&gt;
+            </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+            </span>YumPackage(<span class="kw">super</span>::VersionedPackage),
+            <span class="doccomment">/// Details of an APT package.
+            /// For details about the apt package manager, see
+            /// &lt;https://wiki.debian.org/Apt.&gt;
+            </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+            </span>AptPackage(<span class="kw">super</span>::VersionedPackage),
+            <span class="doccomment">/// Details of a Zypper package.
+            /// For details about the Zypper package manager, see
+            /// &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;
+            </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+            </span>ZypperPackage(<span class="kw">super</span>::VersionedPackage),
+            <span class="doccomment">/// Details of a Googet package.
+            ///   For details about the googet package manager, see
+            ///   &lt;https://github.com/google/googet.&gt;
+            </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+            </span>GoogetPackage(<span class="kw">super</span>::VersionedPackage),
+            <span class="doccomment">/// Details of a Zypper patch.
+            /// For details about the Zypper package manager, see
+            /// &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;
+            </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+            </span>ZypperPatch(<span class="kw">super</span>::ZypperPatch),
+            <span class="doccomment">/// Details of a Windows Update package.
+            /// See &lt;https://docs.microsoft.com/en-us/windows/win32/api/_wua/&gt; for
+            /// information about Windows Update.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+            </span>WuaPackage(<span class="kw">super</span>::WindowsUpdatePackage),
+            <span class="doccomment">/// Details of a Windows Quick Fix engineering package.
+            /// See
+            /// &lt;https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering&gt;
+            /// for info in Windows Quick Fix Engineering.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
+            </span>QfePackage(<span class="kw">super</span>::WindowsQuickFixEngineeringPackage),
+            <span class="doccomment">/// Details of a COS package.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
+            </span>CosPackage(<span class="kw">super</span>::VersionedPackage),
+            <span class="doccomment">/// Details of Windows Application.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"9"</span>)]
+            </span>WindowsApplication(<span class="kw">super</span>::WindowsApplication),
+        }
+    }
+    <span class="doccomment">/// Information related to the a standard versioned package.  This includes
+    /// package info for APT, Yum, Zypper, and Googet package managers.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>VersionedPackage {
+        <span class="doccomment">/// The name of the package.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>package_name: ::prost::alloc::string::String,
+        <span class="doccomment">/// The system architecture this package is intended for.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>architecture: ::prost::alloc::string::String,
+        <span class="doccomment">/// The version of the package.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Details related to a Zypper Patch.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ZypperPatch {
+        <span class="doccomment">/// The name of the patch.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>patch_name: ::prost::alloc::string::String,
+        <span class="doccomment">/// The category of the patch.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>category: ::prost::alloc::string::String,
+        <span class="doccomment">/// The severity specified for this patch
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>severity: ::prost::alloc::string::String,
+        <span class="doccomment">/// Any summary information provided about this patch.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>summary: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Details related to a Windows Update package.
+    /// Field data and names are taken from Windows Update API IUpdate Interface:
+    /// &lt;https://docs.microsoft.com/en-us/windows/win32/api/_wua/&gt;
+    /// Descriptive fields like title, and description are localized based on
+    /// the locale of the VM being updated.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>WindowsUpdatePackage {
+        <span class="doccomment">/// The localized title of the update package.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
+        <span class="doccomment">/// The localized description of the update package.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+        <span class="doccomment">/// The categories that are associated with this update package.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>categories: ::prost::alloc::vec::Vec&lt;
+            windows_update_package::WindowsUpdateCategory,
+        &gt;,
+        <span class="doccomment">/// A collection of Microsoft Knowledge Base article IDs that are associated
+        /// with the update package.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>kb_article_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+        <span class="doccomment">/// A hyperlink to the language-specific support information for the update.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>support_url: ::prost::alloc::string::String,
+        <span class="doccomment">/// A collection of URLs that provide more information about the update
+        /// package.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
+        </span><span class="kw">pub </span>more_info_urls: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+        <span class="doccomment">/// Gets the identifier of an update package.  Stays the same across
+        /// revisions.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+        </span><span class="kw">pub </span>update_id: ::prost::alloc::string::String,
+        <span class="doccomment">/// The revision number of this update package.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"8"</span>)]
+        </span><span class="kw">pub </span>revision_number: i32,
+        <span class="doccomment">/// The last published date of the update, in (UTC) date and time.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+        </span><span class="kw">pub </span>last_deployment_change_time: ::core::option::Option&lt;
+            ::prost_types::Timestamp,
+        &gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `WindowsUpdatePackage`.
+    </span><span class="kw">pub mod </span>windows_update_package {
+        <span class="doccomment">/// Categories specified by the Windows Update.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>WindowsUpdateCategory {
+            <span class="doccomment">/// The identifier of the windows update category.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+            <span class="doccomment">/// The name of the windows update category.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+        }
+    }
+    <span class="doccomment">/// Information related to a Quick Fix Engineering package.
+    /// Fields are taken from Windows QuickFixEngineering Interface and match
+    /// the source names:
+    /// &lt;https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering&gt;
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>WindowsQuickFixEngineeringPackage {
+        <span class="doccomment">/// A short textual description of the QFE update.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>caption: ::prost::alloc::string::String,
+        <span class="doccomment">/// A textual description of the QFE update.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+        <span class="doccomment">/// Unique identifier associated with a particular QFE update.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>hot_fix_id: ::prost::alloc::string::String,
+        <span class="doccomment">/// Date that the QFE update was installed.  Mapped from installed_on field.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>install_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    }
+    <span class="doccomment">/// Details about Windows Application - based on Windows Registry.
+    /// All fields in this message are taken from:
+    /// &lt;https://docs.microsoft.com/en-us/windows/win32/msi/uninstall-registry-key&gt;
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>WindowsApplication {
+        <span class="doccomment">/// DisplayName field from Windows Registry.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+        <span class="doccomment">/// DisplayVersion field from Windows Registry.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>display_version: ::prost::alloc::string::String,
+        <span class="doccomment">/// Publisher field from Windows Registry.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>publisher: ::prost::alloc::string::String,
+        <span class="doccomment">/// Installation date field from Windows Registry.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>install_date: ::core::option::Option&lt;
+            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date,
+        &gt;,
+        <span class="doccomment">/// HelpLink field from Windows Registry.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>help_link: ::prost::alloc::string::String,
     }
 }
 <span class="doccomment">/// A request message to receive task notifications.

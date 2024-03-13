@@ -793,6 +793,26 @@
     </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>row_count: i64,
 }
+<span class="doccomment">/// Avro schema.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AvroSchema {
+    <span class="doccomment">/// Json serialized schema, as described at
+    /// &lt;https://avro.apache.org/docs/1.8.1/spec.html&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>schema: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Avro rows.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AvroRows {
+    <span class="doccomment">/// Binary serialized rows in a block.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>serialized_binary_rows: ::prost::bytes::Bytes,
+    <span class="doccomment">/// The count of rows in the returning block.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>row_count: i64,
+}
 <span class="doccomment">/// Options dictating how we read a table.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -858,26 +878,6 @@
     /// Restricted to a maximum length for 1 MB.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>row_restriction: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Avro schema.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AvroSchema {
-    <span class="doccomment">/// Json serialized schema, as described at
-    /// &lt;https://avro.apache.org/docs/1.8.1/spec.html&gt;
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>schema: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Avro rows.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AvroRows {
-    <span class="doccomment">/// Binary serialized rows in a block.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>serialized_binary_rows: ::prost::bytes::Bytes,
-    <span class="doccomment">/// The count of rows in the returning block.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>row_count: i64,
 }
 <span class="doccomment">/// Table reference that includes just the 3 strings needed to identify a table.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

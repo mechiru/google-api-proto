@@ -3348,227 +3348,6 @@
         }
     }
 }
-<span class="doccomment">/// A unit of scheduled work.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Task {
-    <span class="doccomment">/// Optionally caller-specified in
-    /// [CreateTask][google.cloud.tasks.v2beta3.CloudTasks.CreateTask].
-    ///
-    /// The task name.
-    ///
-    /// The task name must have the following format:
-    /// `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID`
-    ///
-    /// * `PROJECT_ID` can contain letters (\[A-Za-z\]), numbers (\[0-9\]),
-    ///     hyphens (-), colons (:), or periods (.).
-    ///     For more information, see
-    ///     [Identifying
-    ///     projects](&lt;https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects&gt;)
-    /// * `LOCATION_ID` is the canonical ID for the task's location.
-    ///     The list of available locations can be obtained by calling
-    ///     [ListLocations][google.cloud.location.Locations.ListLocations].
-    ///     For more information, see &lt;https://cloud.google.com/about/locations/.&gt;
-    /// * `QUEUE_ID` can contain letters (\[A-Za-z\]), numbers (\[0-9\]), or
-    ///    hyphens (-). The maximum length is 100 characters.
-    /// * `TASK_ID` can contain only letters (\[A-Za-z\]), numbers (\[0-9\]),
-    ///    hyphens (-), or underscores (_). The maximum length is 500 characters.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The time when the task is scheduled to be attempted.
-    ///
-    /// For App Engine queues, this is when the task will be attempted or retried.
-    ///
-    /// `schedule_time` will be truncated to the nearest microsecond.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>schedule_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The time that the task was created.
-    ///
-    /// `create_time` will be truncated to the nearest second.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The deadline for requests sent to the worker. If the worker does not
-    /// respond by this deadline then the request is cancelled and the attempt
-    /// is marked as a `DEADLINE_EXCEEDED` failure. Cloud Tasks will retry the
-    /// task according to the
-    /// [RetryConfig][google.cloud.tasks.v2beta3.RetryConfig].
-    ///
-    /// Note that when the request is cancelled, Cloud Tasks will stop listening
-    /// for the response, but whether the worker stops processing depends on the
-    /// worker. For example, if the worker is stuck, it may not react to cancelled
-    /// requests.
-    ///
-    /// The default and maximum values depend on the type of request:
-    ///
-    /// * For [HTTP tasks][google.cloud.tasks.v2beta3.HttpRequest], the default is
-    /// 10 minutes. The deadline
-    ///    must be in the interval \[15 seconds, 30 minutes\].
-    ///
-    /// * For [App Engine tasks][google.cloud.tasks.v2beta3.AppEngineHttpRequest],
-    /// 0 indicates that the
-    ///    request has the default deadline. The default deadline depends on the
-    ///    [scaling
-    ///    type](&lt;https://cloud.google.com/appengine/docs/standard/go/how-instances-are-managed#instance_scaling&gt;)
-    ///    of the service: 10 minutes for standard apps with automatic scaling, 24
-    ///    hours for standard apps with manual and basic scaling, and 60 minutes for
-    ///    flex apps. If the request deadline is set, it must be in the interval [15
-    ///    seconds, 24 hours 15 seconds]. Regardless of the task's
-    ///    `dispatch_deadline`, the app handler will not run for longer than than
-    ///    the service's timeout. We recommend setting the `dispatch_deadline` to
-    ///    at most a few seconds more than the app handler's timeout. For more
-    ///    information see
-    ///    [Timeouts](&lt;https://cloud.google.com/tasks/docs/creating-appengine-handlers#timeouts&gt;).
-    ///
-    /// `dispatch_deadline` will be truncated to the nearest millisecond. The
-    /// deadline is an approximate deadline.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>dispatch_deadline: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// Output only. The number of attempts dispatched.
-    ///
-    /// This count includes attempts which have been dispatched but haven't
-    /// received a response.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>dispatch_count: i32,
-    <span class="doccomment">/// Output only. The number of attempts which have received a response.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>response_count: i32,
-    <span class="doccomment">/// Output only. The status of the task's first attempt.
-    ///
-    /// Only [dispatch_time][google.cloud.tasks.v2beta3.Attempt.dispatch_time] will
-    /// be set. The other [Attempt][google.cloud.tasks.v2beta3.Attempt] information
-    /// is not retained by Cloud Tasks.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>first_attempt: ::core::option::Option&lt;Attempt&gt;,
-    <span class="doccomment">/// Output only. The status of the task's last attempt.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>last_attempt: ::core::option::Option&lt;Attempt&gt;,
-    <span class="doccomment">/// Output only. The view specifies which subset of the
-    /// [Task][google.cloud.tasks.v2beta3.Task] has been returned.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"task::View"</span>, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>view: i32,
-    <span class="doccomment">/// Required. The message to send to the worker.
-    </span><span class="attr">#[prost(oneof = <span class="string">"task::PayloadType"</span>, tags = <span class="string">"3, 11, 13"</span>)]
-    </span><span class="kw">pub </span>payload_type: ::core::option::Option&lt;task::PayloadType&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Task`.
-</span><span class="kw">pub mod </span>task {
-    <span class="doccomment">/// The view specifies a subset of [Task][google.cloud.tasks.v2beta3.Task]
-    /// data.
-    ///
-    /// When a task is returned in a response, not all
-    /// information is retrieved by default because some data, such as
-    /// payloads, might be desirable to return only when needed because
-    /// of its large size or because of the sensitivity of data that it
-    /// contains.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>View {
-        <span class="doccomment">/// Unspecified. Defaults to BASIC.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The basic view omits fields which can be large or can contain
-        /// sensitive data.
-        ///
-        /// This view does not include the
-        /// [body in
-        /// AppEngineHttpRequest][google.cloud.tasks.v2beta3.AppEngineHttpRequest.body].
-        /// Bodies are desirable to return only when needed, because they
-        /// can be large and because of the sensitivity of the data that you
-        /// choose to store in it.
-        </span>Basic = <span class="number">1</span>,
-        <span class="doccomment">/// All information is returned.
-        ///
-        /// Authorization for [FULL][google.cloud.tasks.v2beta3.Task.View.FULL]
-        /// requires `cloudtasks.tasks.fullView` [Google
-        /// IAM](&lt;https://cloud.google.com/iam/&gt;) permission on the
-        /// [Queue][google.cloud.tasks.v2beta3.Queue] resource.
-        </span>Full = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>View {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                View::Unspecified =&gt; <span class="string">"VIEW_UNSPECIFIED"</span>,
-                View::Basic =&gt; <span class="string">"BASIC"</span>,
-                View::Full =&gt; <span class="string">"FULL"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"VIEW_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"BASIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Basic),
-                <span class="string">"FULL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Full),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Required. The message to send to the worker.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>PayloadType {
-        <span class="doccomment">/// HTTP request that is sent to the App Engine app handler.
-        ///
-        /// An App Engine task is a task that has
-        /// [AppEngineHttpRequest][google.cloud.tasks.v2beta3.AppEngineHttpRequest]
-        /// set.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>AppEngineHttpRequest(<span class="kw">super</span>::AppEngineHttpRequest),
-        <span class="doccomment">/// HTTP request that is sent to the task's target.
-        ///
-        /// An HTTP task is a task that has
-        /// [HttpRequest][google.cloud.tasks.v2beta3.HttpRequest] set.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"11"</span>)]
-        </span>HttpRequest(<span class="kw">super</span>::HttpRequest),
-        <span class="doccomment">/// Pull Message contained in a task in a
-        /// [PULL][google.cloud.tasks.v2beta3.Queue.type] queue type. This payload
-        /// type cannot be explicitly set through Cloud Tasks API. Its purpose,
-        /// currently is to provide backward compatibility with App Engine Task Queue
-        /// [pull](&lt;https://cloud.google.com/appengine/docs/standard/java/taskqueue/pull/&gt;)
-        /// queues to provide a way to inspect contents of pull tasks through the
-        /// [CloudTasks.GetTask][google.cloud.tasks.v2beta3.CloudTasks.GetTask].
-        </span><span class="attr">#[prost(message, tag = <span class="string">"13"</span>)]
-        </span>PullMessage(<span class="kw">super</span>::PullMessage),
-    }
-}
-<span class="doccomment">/// The status of a task attempt.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Attempt {
-    <span class="doccomment">/// Output only. The time that this attempt was scheduled.
-    ///
-    /// `schedule_time` will be truncated to the nearest microsecond.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>schedule_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The time that this attempt was dispatched.
-    ///
-    /// `dispatch_time` will be truncated to the nearest microsecond.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>dispatch_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The time that this attempt response was received.
-    ///
-    /// `response_time` will be truncated to the nearest microsecond.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>response_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The response from the worker for this attempt.
-    ///
-    /// If `response_time` is unset, then the task has not been attempted or is
-    /// currently running and the `response_status` field is meaningless.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>response_status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
-}
 <span class="doccomment">/// A queue is a container of related tasks. Queues are configured to manage
 /// how those tasks are dispatched. Configurable properties include rate limits,
 /// retry options, queue types, and others.
@@ -4072,6 +3851,227 @@
     /// endpoints tasks in the queue are targeting.
     </span><span class="attr">#[prost(double, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>effective_execution_rate: f64,
+}
+<span class="doccomment">/// A unit of scheduled work.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Task {
+    <span class="doccomment">/// Optionally caller-specified in
+    /// [CreateTask][google.cloud.tasks.v2beta3.CloudTasks.CreateTask].
+    ///
+    /// The task name.
+    ///
+    /// The task name must have the following format:
+    /// `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID`
+    ///
+    /// * `PROJECT_ID` can contain letters (\[A-Za-z\]), numbers (\[0-9\]),
+    ///     hyphens (-), colons (:), or periods (.).
+    ///     For more information, see
+    ///     [Identifying
+    ///     projects](&lt;https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects&gt;)
+    /// * `LOCATION_ID` is the canonical ID for the task's location.
+    ///     The list of available locations can be obtained by calling
+    ///     [ListLocations][google.cloud.location.Locations.ListLocations].
+    ///     For more information, see &lt;https://cloud.google.com/about/locations/.&gt;
+    /// * `QUEUE_ID` can contain letters (\[A-Za-z\]), numbers (\[0-9\]), or
+    ///    hyphens (-). The maximum length is 100 characters.
+    /// * `TASK_ID` can contain only letters (\[A-Za-z\]), numbers (\[0-9\]),
+    ///    hyphens (-), or underscores (_). The maximum length is 500 characters.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The time when the task is scheduled to be attempted.
+    ///
+    /// For App Engine queues, this is when the task will be attempted or retried.
+    ///
+    /// `schedule_time` will be truncated to the nearest microsecond.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>schedule_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The time that the task was created.
+    ///
+    /// `create_time` will be truncated to the nearest second.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The deadline for requests sent to the worker. If the worker does not
+    /// respond by this deadline then the request is cancelled and the attempt
+    /// is marked as a `DEADLINE_EXCEEDED` failure. Cloud Tasks will retry the
+    /// task according to the
+    /// [RetryConfig][google.cloud.tasks.v2beta3.RetryConfig].
+    ///
+    /// Note that when the request is cancelled, Cloud Tasks will stop listening
+    /// for the response, but whether the worker stops processing depends on the
+    /// worker. For example, if the worker is stuck, it may not react to cancelled
+    /// requests.
+    ///
+    /// The default and maximum values depend on the type of request:
+    ///
+    /// * For [HTTP tasks][google.cloud.tasks.v2beta3.HttpRequest], the default is
+    /// 10 minutes. The deadline
+    ///    must be in the interval \[15 seconds, 30 minutes\].
+    ///
+    /// * For [App Engine tasks][google.cloud.tasks.v2beta3.AppEngineHttpRequest],
+    /// 0 indicates that the
+    ///    request has the default deadline. The default deadline depends on the
+    ///    [scaling
+    ///    type](&lt;https://cloud.google.com/appengine/docs/standard/go/how-instances-are-managed#instance_scaling&gt;)
+    ///    of the service: 10 minutes for standard apps with automatic scaling, 24
+    ///    hours for standard apps with manual and basic scaling, and 60 minutes for
+    ///    flex apps. If the request deadline is set, it must be in the interval [15
+    ///    seconds, 24 hours 15 seconds]. Regardless of the task's
+    ///    `dispatch_deadline`, the app handler will not run for longer than than
+    ///    the service's timeout. We recommend setting the `dispatch_deadline` to
+    ///    at most a few seconds more than the app handler's timeout. For more
+    ///    information see
+    ///    [Timeouts](&lt;https://cloud.google.com/tasks/docs/creating-appengine-handlers#timeouts&gt;).
+    ///
+    /// `dispatch_deadline` will be truncated to the nearest millisecond. The
+    /// deadline is an approximate deadline.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>dispatch_deadline: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// Output only. The number of attempts dispatched.
+    ///
+    /// This count includes attempts which have been dispatched but haven't
+    /// received a response.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>dispatch_count: i32,
+    <span class="doccomment">/// Output only. The number of attempts which have received a response.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>response_count: i32,
+    <span class="doccomment">/// Output only. The status of the task's first attempt.
+    ///
+    /// Only [dispatch_time][google.cloud.tasks.v2beta3.Attempt.dispatch_time] will
+    /// be set. The other [Attempt][google.cloud.tasks.v2beta3.Attempt] information
+    /// is not retained by Cloud Tasks.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>first_attempt: ::core::option::Option&lt;Attempt&gt;,
+    <span class="doccomment">/// Output only. The status of the task's last attempt.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>last_attempt: ::core::option::Option&lt;Attempt&gt;,
+    <span class="doccomment">/// Output only. The view specifies which subset of the
+    /// [Task][google.cloud.tasks.v2beta3.Task] has been returned.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"task::View"</span>, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>view: i32,
+    <span class="doccomment">/// Required. The message to send to the worker.
+    </span><span class="attr">#[prost(oneof = <span class="string">"task::PayloadType"</span>, tags = <span class="string">"3, 11, 13"</span>)]
+    </span><span class="kw">pub </span>payload_type: ::core::option::Option&lt;task::PayloadType&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Task`.
+</span><span class="kw">pub mod </span>task {
+    <span class="doccomment">/// The view specifies a subset of [Task][google.cloud.tasks.v2beta3.Task]
+    /// data.
+    ///
+    /// When a task is returned in a response, not all
+    /// information is retrieved by default because some data, such as
+    /// payloads, might be desirable to return only when needed because
+    /// of its large size or because of the sensitivity of data that it
+    /// contains.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>View {
+        <span class="doccomment">/// Unspecified. Defaults to BASIC.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The basic view omits fields which can be large or can contain
+        /// sensitive data.
+        ///
+        /// This view does not include the
+        /// [body in
+        /// AppEngineHttpRequest][google.cloud.tasks.v2beta3.AppEngineHttpRequest.body].
+        /// Bodies are desirable to return only when needed, because they
+        /// can be large and because of the sensitivity of the data that you
+        /// choose to store in it.
+        </span>Basic = <span class="number">1</span>,
+        <span class="doccomment">/// All information is returned.
+        ///
+        /// Authorization for [FULL][google.cloud.tasks.v2beta3.Task.View.FULL]
+        /// requires `cloudtasks.tasks.fullView` [Google
+        /// IAM](&lt;https://cloud.google.com/iam/&gt;) permission on the
+        /// [Queue][google.cloud.tasks.v2beta3.Queue] resource.
+        </span>Full = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>View {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                View::Unspecified =&gt; <span class="string">"VIEW_UNSPECIFIED"</span>,
+                View::Basic =&gt; <span class="string">"BASIC"</span>,
+                View::Full =&gt; <span class="string">"FULL"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"VIEW_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"BASIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Basic),
+                <span class="string">"FULL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Full),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Required. The message to send to the worker.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>PayloadType {
+        <span class="doccomment">/// HTTP request that is sent to the App Engine app handler.
+        ///
+        /// An App Engine task is a task that has
+        /// [AppEngineHttpRequest][google.cloud.tasks.v2beta3.AppEngineHttpRequest]
+        /// set.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>AppEngineHttpRequest(<span class="kw">super</span>::AppEngineHttpRequest),
+        <span class="doccomment">/// HTTP request that is sent to the task's target.
+        ///
+        /// An HTTP task is a task that has
+        /// [HttpRequest][google.cloud.tasks.v2beta3.HttpRequest] set.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"11"</span>)]
+        </span>HttpRequest(<span class="kw">super</span>::HttpRequest),
+        <span class="doccomment">/// Pull Message contained in a task in a
+        /// [PULL][google.cloud.tasks.v2beta3.Queue.type] queue type. This payload
+        /// type cannot be explicitly set through Cloud Tasks API. Its purpose,
+        /// currently is to provide backward compatibility with App Engine Task Queue
+        /// [pull](&lt;https://cloud.google.com/appengine/docs/standard/java/taskqueue/pull/&gt;)
+        /// queues to provide a way to inspect contents of pull tasks through the
+        /// [CloudTasks.GetTask][google.cloud.tasks.v2beta3.CloudTasks.GetTask].
+        </span><span class="attr">#[prost(message, tag = <span class="string">"13"</span>)]
+        </span>PullMessage(<span class="kw">super</span>::PullMessage),
+    }
+}
+<span class="doccomment">/// The status of a task attempt.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Attempt {
+    <span class="doccomment">/// Output only. The time that this attempt was scheduled.
+    ///
+    /// `schedule_time` will be truncated to the nearest microsecond.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>schedule_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The time that this attempt was dispatched.
+    ///
+    /// `dispatch_time` will be truncated to the nearest microsecond.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>dispatch_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The time that this attempt response was received.
+    ///
+    /// `response_time` will be truncated to the nearest microsecond.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>response_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The response from the worker for this attempt.
+    ///
+    /// If `response_time` is unset, then the task has not been attempted or is
+    /// currently running and the `response_status` field is meaningless.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>response_status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
 }
 <span class="doccomment">/// Request message for
 /// [ListQueues][google.cloud.tasks.v2beta3.CloudTasks.ListQueues].
