@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["SubjectConfig"]};
+window.SIDEBAR_ITEMS = {"struct":["KeyId","SubjectConfig"]};

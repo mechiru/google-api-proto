@@ -2991,6 +2991,92 @@
 <a href="#2990" id="2990">2990</a>
 <a href="#2991" id="2991">2991</a>
 <a href="#2992" id="2992">2992</a>
+<a href="#2993" id="2993">2993</a>
+<a href="#2994" id="2994">2994</a>
+<a href="#2995" id="2995">2995</a>
+<a href="#2996" id="2996">2996</a>
+<a href="#2997" id="2997">2997</a>
+<a href="#2998" id="2998">2998</a>
+<a href="#2999" id="2999">2999</a>
+<a href="#3000" id="3000">3000</a>
+<a href="#3001" id="3001">3001</a>
+<a href="#3002" id="3002">3002</a>
+<a href="#3003" id="3003">3003</a>
+<a href="#3004" id="3004">3004</a>
+<a href="#3005" id="3005">3005</a>
+<a href="#3006" id="3006">3006</a>
+<a href="#3007" id="3007">3007</a>
+<a href="#3008" id="3008">3008</a>
+<a href="#3009" id="3009">3009</a>
+<a href="#3010" id="3010">3010</a>
+<a href="#3011" id="3011">3011</a>
+<a href="#3012" id="3012">3012</a>
+<a href="#3013" id="3013">3013</a>
+<a href="#3014" id="3014">3014</a>
+<a href="#3015" id="3015">3015</a>
+<a href="#3016" id="3016">3016</a>
+<a href="#3017" id="3017">3017</a>
+<a href="#3018" id="3018">3018</a>
+<a href="#3019" id="3019">3019</a>
+<a href="#3020" id="3020">3020</a>
+<a href="#3021" id="3021">3021</a>
+<a href="#3022" id="3022">3022</a>
+<a href="#3023" id="3023">3023</a>
+<a href="#3024" id="3024">3024</a>
+<a href="#3025" id="3025">3025</a>
+<a href="#3026" id="3026">3026</a>
+<a href="#3027" id="3027">3027</a>
+<a href="#3028" id="3028">3028</a>
+<a href="#3029" id="3029">3029</a>
+<a href="#3030" id="3030">3030</a>
+<a href="#3031" id="3031">3031</a>
+<a href="#3032" id="3032">3032</a>
+<a href="#3033" id="3033">3033</a>
+<a href="#3034" id="3034">3034</a>
+<a href="#3035" id="3035">3035</a>
+<a href="#3036" id="3036">3036</a>
+<a href="#3037" id="3037">3037</a>
+<a href="#3038" id="3038">3038</a>
+<a href="#3039" id="3039">3039</a>
+<a href="#3040" id="3040">3040</a>
+<a href="#3041" id="3041">3041</a>
+<a href="#3042" id="3042">3042</a>
+<a href="#3043" id="3043">3043</a>
+<a href="#3044" id="3044">3044</a>
+<a href="#3045" id="3045">3045</a>
+<a href="#3046" id="3046">3046</a>
+<a href="#3047" id="3047">3047</a>
+<a href="#3048" id="3048">3048</a>
+<a href="#3049" id="3049">3049</a>
+<a href="#3050" id="3050">3050</a>
+<a href="#3051" id="3051">3051</a>
+<a href="#3052" id="3052">3052</a>
+<a href="#3053" id="3053">3053</a>
+<a href="#3054" id="3054">3054</a>
+<a href="#3055" id="3055">3055</a>
+<a href="#3056" id="3056">3056</a>
+<a href="#3057" id="3057">3057</a>
+<a href="#3058" id="3058">3058</a>
+<a href="#3059" id="3059">3059</a>
+<a href="#3060" id="3060">3060</a>
+<a href="#3061" id="3061">3061</a>
+<a href="#3062" id="3062">3062</a>
+<a href="#3063" id="3063">3063</a>
+<a href="#3064" id="3064">3064</a>
+<a href="#3065" id="3065">3065</a>
+<a href="#3066" id="3066">3066</a>
+<a href="#3067" id="3067">3067</a>
+<a href="#3068" id="3068">3068</a>
+<a href="#3069" id="3069">3069</a>
+<a href="#3070" id="3070">3070</a>
+<a href="#3071" id="3071">3071</a>
+<a href="#3072" id="3072">3072</a>
+<a href="#3073" id="3073">3073</a>
+<a href="#3074" id="3074">3074</a>
+<a href="#3075" id="3075">3075</a>
+<a href="#3076" id="3076">3076</a>
+<a href="#3077" id="3077">3077</a>
+<a href="#3078" id="3078">3078</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// A Firestore document.
 ///
 /// Must not exceed 1 MiB - 4 bytes.
@@ -4314,6 +4400,74 @@
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>unchanged_names: ::core::option::Option&lt;BloomFilter&gt;,
 }
+<span class="doccomment">/// Explain options for the query.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExplainOptions {
+    <span class="doccomment">/// Optional. Whether to execute this query.
+    ///
+    /// When false (the default), the query will be planned, returning only
+    /// metrics from the planning stages.
+    ///
+    /// When true, the query will be planned and executed, returning the full
+    /// query results along with both planning and execution stage metrics.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>analyze: bool,
+}
+<span class="doccomment">/// Explain metrics for the query.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExplainMetrics {
+    <span class="doccomment">/// Planning phase information for the query.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>plan_summary: ::core::option::Option&lt;PlanSummary&gt;,
+    <span class="doccomment">/// Aggregated stats from the execution of the query. Only present when
+    /// [ExplainOptions.analyze][google.firestore.v1.ExplainOptions.analyze] is set
+    /// to true.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>execution_stats: ::core::option::Option&lt;ExecutionStats&gt;,
+}
+<span class="doccomment">/// Planning phase information for the query.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PlanSummary {
+    <span class="doccomment">/// The indexes selected for the query. For example:
+    ///   [
+    ///     {"query_scope": "Collection", "properties": "(foo ASC, __name__ ASC)"},
+    ///     {"query_scope": "Collection", "properties": "(bar ASC, __name__ ASC)"}
+    ///   ]
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>indexes_used: ::prost::alloc::vec::Vec&lt;::prost_types::Struct&gt;,
+}
+<span class="doccomment">/// Execution statistics for the query.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExecutionStats {
+    <span class="doccomment">/// Total number of results returned, including documents, projections,
+    /// aggregation results, keys.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>results_returned: i64,
+    <span class="doccomment">/// Total time to execute the query in the backend.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>execution_duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// Total billable read operations.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>read_operations: i64,
+    <span class="doccomment">/// Debugging statistics from the execution of the query. Note that the
+    /// debugging stats are subject to change as Firestore evolves. It could
+    /// include:
+    ///   {
+    ///     "indexes_entries_scanned": "1000",
+    ///     "documents_scanned": "20",
+    ///     "billing_details" : {
+    ///        "documents_billable": "20",
+    ///        "index_entries_billable": "1000",
+    ///        "min_query_cost": "0"
+    ///     }
+    ///   }
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>debug_stats: ::core::option::Option&lt;::prost_types::Struct&gt;,
+}
 <span class="doccomment">/// The request for
 /// [Firestore.GetDocument][google.firestore.v1.Firestore.GetDocument].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4700,6 +4854,10 @@
     /// `projects/my-project/databases/my-database/documents/chatrooms/my-chatroom`
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Explain options for the query. If set, additional query
+    /// statistics will be returned. If not, only query results will be returned.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>explain_options: ::core::option::Option&lt;ExplainOptions&gt;,
     <span class="doccomment">/// The query to run.
     </span><span class="attr">#[prost(oneof = <span class="string">"run_query_request::QueryType"</span>, tags = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>query_type: ::core::option::Option&lt;run_query_request::QueryType&gt;,
@@ -4773,6 +4931,11 @@
     /// the last response and the current response.
     </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>skipped_results: i32,
+    <span class="doccomment">/// Query explain metrics. This is only present when the
+    /// [RunQueryRequest.explain_options][google.firestore.v1.RunQueryRequest.explain_options]
+    /// is provided, and it is sent only once with the last response in the stream.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>explain_metrics: ::core::option::Option&lt;ExplainMetrics&gt;,
     <span class="doccomment">/// The continuation mode for the query. If present, it indicates the current
     /// query response stream has finished. This can be set with or without a
     /// `document` present, but when set, no more results are returned.
@@ -4808,6 +4971,10 @@
     /// `projects/my-project/databases/my-database/documents/chatrooms/my-chatroom`
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Explain options for the query. If set, additional query
+    /// statistics will be returned. If not, only query results will be returned.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>explain_options: ::core::option::Option&lt;ExplainOptions&gt;,
     <span class="doccomment">/// The query to run.
     </span><span class="attr">#[prost(oneof = <span class="string">"run_aggregation_query_request::QueryType"</span>, tags = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>query_type: ::core::option::Option&lt;run_aggregation_query_request::QueryType&gt;,
@@ -4880,6 +5047,11 @@
     /// was run.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>read_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Query explain metrics. This is only present when the
+    /// [RunAggregationQueryRequest.explain_options][google.firestore.v1.RunAggregationQueryRequest.explain_options]
+    /// is provided, and it is sent only once with the last response in the stream.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>explain_metrics: ::core::option::Option&lt;ExplainMetrics&gt;,
 }
 <span class="doccomment">/// The request for
 /// [Firestore.PartitionQuery][google.firestore.v1.Firestore.PartitionQuery].
