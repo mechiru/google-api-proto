@@ -2205,73 +2205,141 @@
 <a href="#2204" id="2204">2204</a>
 <a href="#2205" id="2205">2205</a>
 <a href="#2206" id="2206">2206</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Detailed information related to the interstitial of a VOD session. This
-/// resource is only available for VOD sessions that do not implement Google Ad
-/// Manager ad insertion.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Container for a live session's ad tag detail.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VodStitchDetail {
-    <span class="doccomment">/// The name of the stitch detail in the specified VOD session, in the form of
-    /// `projects/{project}/locations/{location}/vodSessions/{vod_session_id}/vodStitchDetails/{id}`.
+</span><span class="kw">pub struct </span>LiveAdTagDetail {
+    <span class="doccomment">/// The resource name in the form of
+    /// `projects/{project}/locations/{location}/liveSessions/{live_session}/liveAdTagDetails/{id}`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// A list of ad processing details for the fetched ad playlist.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>ad_stitch_details: ::prost::alloc::vec::Vec&lt;AdStitchDetail&gt;,
+    <span class="doccomment">/// A list of ad requests.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>ad_requests: ::prost::alloc::vec::Vec&lt;AdRequest&gt;,
 }
-<span class="doccomment">/// Metadata for a stitched ad.
+<span class="doccomment">/// Information related to the details for one ad tag. This resource is only
+/// available for VOD sessions that do not implement Google Ad Manager ad
+/// insertion.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AdStitchDetail {
-    <span class="doccomment">/// Required. The ad break ID of the processed ad.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>ad_break_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The ad ID of the processed ad.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>ad_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The time offset of the processed ad.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>ad_time_offset: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// Optional. Indicates the reason why the ad has been skipped.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>skip_reason: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The metadata of the chosen media file for the ad.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>media: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost_types::Value,
-    &gt;,
-}
-<span class="doccomment">/// Slate object
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Slate {
-    <span class="doccomment">/// Output only. The name of the slate, in the form of
-    /// `projects/{project_number}/locations/{location}/slates/{id}`.
+</span><span class="kw">pub struct </span>VodAdTagDetail {
+    <span class="doccomment">/// The name of the ad tag detail for the specified VOD session, in the form of
+    /// `projects/{project}/locations/{location}/vodSessions/{vod_session_id}/vodAdTagDetails/{id}`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The URI to fetch the source content for the slate. This URI must return an
-    /// MP4 video with at least one audio track.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    <span class="doccomment">/// A list of ad requests for one ad tag.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>ad_requests: ::prost::alloc::vec::Vec&lt;AdRequest&gt;,
+}
+<span class="doccomment">/// Details of an ad request to an ad server.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AdRequest {
+    <span class="doccomment">/// The ad tag URI processed with integrated macros.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// gam_slate has all the GAM-related attributes of slates.
+    <span class="doccomment">/// The request metadata used to make the ad request.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>request_metadata: ::core::option::Option&lt;RequestMetadata&gt;,
+    <span class="doccomment">/// The response metadata received from the ad request.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>gam_slate: ::core::option::Option&lt;slate::GamSlate&gt;,
+    </span><span class="kw">pub </span>response_metadata: ::core::option::Option&lt;ResponseMetadata&gt;,
 }
-<span class="doccomment">/// Nested message and enum types in `Slate`.
-</span><span class="kw">pub mod </span>slate {
-    <span class="doccomment">/// GamSlate object has Google Ad Manager (GAM) related properties for the
-    /// slate.
+<span class="doccomment">/// Metadata for an ad request.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RequestMetadata {
+    <span class="doccomment">/// The HTTP headers of the ad request.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>headers: ::core::option::Option&lt;::prost_types::Struct&gt;,
+}
+<span class="doccomment">/// Metadata for the response of an ad request.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ResponseMetadata {
+    <span class="doccomment">/// Error message received when making the ad request.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>error: ::prost::alloc::string::String,
+    <span class="doccomment">/// Headers from the response.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>headers: ::core::option::Option&lt;::prost_types::Struct&gt;,
+    <span class="doccomment">/// Status code for the response.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>status_code: ::prost::alloc::string::String,
+    <span class="doccomment">/// Size in bytes of the response.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>size_bytes: i32,
+    <span class="doccomment">/// Total time elapsed for the response.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// The body of the response.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>body: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Configuration for a CDN key. Used by the Video Stitcher
+/// to sign URIs for fetching video manifests and signing
+/// media segments for playback.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CdnKey {
+    <span class="doccomment">/// The resource name of the CDN key, in the form of
+    /// `projects/{project}/locations/{location}/cdnKeys/{id}`.
+    /// The name is ignored when creating a CDN key.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The hostname this key applies to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>hostname: ::prost::alloc::string::String,
+    <span class="doccomment">/// Configuration associated with the CDN key.
+    </span><span class="attr">#[prost(oneof = <span class="string">"cdn_key::CdnKeyConfig"</span>, tags = <span class="string">"5, 6, 8"</span>)]
+    </span><span class="kw">pub </span>cdn_key_config: ::core::option::Option&lt;cdn_key::CdnKeyConfig&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `CdnKey`.
+</span><span class="kw">pub mod </span>cdn_key {
+    <span class="doccomment">/// Configuration associated with the CDN key.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>GamSlate {
-        <span class="doccomment">/// Required. Ad Manager network code to associate with the live config.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>network_code: ::prost::alloc::string::String,
-        <span class="doccomment">/// Output only. The identifier generated for the slate by GAM.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>gam_slate_id: i64,
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>CdnKeyConfig {
+        <span class="doccomment">/// The configuration for a Google Cloud CDN key.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>GoogleCdnKey(<span class="kw">super</span>::GoogleCdnKey),
+        <span class="doccomment">/// The configuration for an Akamai CDN key.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>AkamaiCdnKey(<span class="kw">super</span>::AkamaiCdnKey),
+        <span class="doccomment">/// The configuration for a Media CDN key.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
+        </span>MediaCdnKey(<span class="kw">super</span>::MediaCdnKey),
     }
+}
+<span class="doccomment">/// Configuration for a Google Cloud CDN key.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GoogleCdnKey {
+    <span class="doccomment">/// Input only. Secret for this Google Cloud CDN key.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>private_key: ::prost::bytes::Bytes,
+    <span class="doccomment">/// The public name of the Google Cloud CDN key.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>key_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Configuration for an Akamai CDN key.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AkamaiCdnKey {
+    <span class="doccomment">/// Input only. Token key for the Akamai CDN edge configuration.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>token_key: ::prost::bytes::Bytes,
+}
+<span class="doccomment">/// Configuration for a Media CDN key.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>MediaCdnKey {
+    <span class="doccomment">/// Input only. 64-byte ed25519 private key for this Media CDN key.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>private_key: ::prost::bytes::Bytes,
+    <span class="doccomment">/// The keyset name of the Media CDN key.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>key_name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Metadata for used to register live configs.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2472,142 +2540,6 @@
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
-}
-<span class="doccomment">/// Container for a live session's ad tag detail.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LiveAdTagDetail {
-    <span class="doccomment">/// The resource name in the form of
-    /// `projects/{project}/locations/{location}/liveSessions/{live_session}/liveAdTagDetails/{id}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// A list of ad requests.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>ad_requests: ::prost::alloc::vec::Vec&lt;AdRequest&gt;,
-}
-<span class="doccomment">/// Information related to the details for one ad tag. This resource is only
-/// available for VOD sessions that do not implement Google Ad Manager ad
-/// insertion.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VodAdTagDetail {
-    <span class="doccomment">/// The name of the ad tag detail for the specified VOD session, in the form of
-    /// `projects/{project}/locations/{location}/vodSessions/{vod_session_id}/vodAdTagDetails/{id}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// A list of ad requests for one ad tag.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>ad_requests: ::prost::alloc::vec::Vec&lt;AdRequest&gt;,
-}
-<span class="doccomment">/// Details of an ad request to an ad server.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AdRequest {
-    <span class="doccomment">/// The ad tag URI processed with integrated macros.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// The request metadata used to make the ad request.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>request_metadata: ::core::option::Option&lt;RequestMetadata&gt;,
-    <span class="doccomment">/// The response metadata received from the ad request.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>response_metadata: ::core::option::Option&lt;ResponseMetadata&gt;,
-}
-<span class="doccomment">/// Metadata for an ad request.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RequestMetadata {
-    <span class="doccomment">/// The HTTP headers of the ad request.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>headers: ::core::option::Option&lt;::prost_types::Struct&gt;,
-}
-<span class="doccomment">/// Metadata for the response of an ad request.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ResponseMetadata {
-    <span class="doccomment">/// Error message received when making the ad request.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>error: ::prost::alloc::string::String,
-    <span class="doccomment">/// Headers from the response.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>headers: ::core::option::Option&lt;::prost_types::Struct&gt;,
-    <span class="doccomment">/// Status code for the response.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>status_code: ::prost::alloc::string::String,
-    <span class="doccomment">/// Size in bytes of the response.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>size_bytes: i32,
-    <span class="doccomment">/// Total time elapsed for the response.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// The body of the response.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>body: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Configuration for a CDN key. Used by the Video Stitcher
-/// to sign URIs for fetching video manifests and signing
-/// media segments for playback.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CdnKey {
-    <span class="doccomment">/// The resource name of the CDN key, in the form of
-    /// `projects/{project}/locations/{location}/cdnKeys/{id}`.
-    /// The name is ignored when creating a CDN key.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The hostname this key applies to.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>hostname: ::prost::alloc::string::String,
-    <span class="doccomment">/// Configuration associated with the CDN key.
-    </span><span class="attr">#[prost(oneof = <span class="string">"cdn_key::CdnKeyConfig"</span>, tags = <span class="string">"5, 6, 8"</span>)]
-    </span><span class="kw">pub </span>cdn_key_config: ::core::option::Option&lt;cdn_key::CdnKeyConfig&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `CdnKey`.
-</span><span class="kw">pub mod </span>cdn_key {
-    <span class="doccomment">/// Configuration associated with the CDN key.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>CdnKeyConfig {
-        <span class="doccomment">/// The configuration for a Google Cloud CDN key.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>GoogleCdnKey(<span class="kw">super</span>::GoogleCdnKey),
-        <span class="doccomment">/// The configuration for an Akamai CDN key.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>AkamaiCdnKey(<span class="kw">super</span>::AkamaiCdnKey),
-        <span class="doccomment">/// The configuration for a Media CDN key.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
-        </span>MediaCdnKey(<span class="kw">super</span>::MediaCdnKey),
-    }
-}
-<span class="doccomment">/// Configuration for a Google Cloud CDN key.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GoogleCdnKey {
-    <span class="doccomment">/// Input only. Secret for this Google Cloud CDN key.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>private_key: ::prost::bytes::Bytes,
-    <span class="doccomment">/// The public name of the Google Cloud CDN key.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>key_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Configuration for an Akamai CDN key.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AkamaiCdnKey {
-    <span class="doccomment">/// Input only. Token key for the Akamai CDN edge configuration.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>token_key: ::prost::bytes::Bytes,
-}
-<span class="doccomment">/// Configuration for a Media CDN key.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>MediaCdnKey {
-    <span class="doccomment">/// Input only. 64-byte ed25519 private key for this Media CDN key.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>private_key: ::prost::bytes::Bytes,
-    <span class="doccomment">/// The keyset name of the Media CDN key.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>key_name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Describes an event and a trigger URI.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3164,6 +3096,74 @@
     /// will match.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>codecs: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Slate object
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Slate {
+    <span class="doccomment">/// Output only. The name of the slate, in the form of
+    /// `projects/{project_number}/locations/{location}/slates/{id}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The URI to fetch the source content for the slate. This URI must return an
+    /// MP4 video with at least one audio track.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// gam_slate has all the GAM-related attributes of slates.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>gam_slate: ::core::option::Option&lt;slate::GamSlate&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Slate`.
+</span><span class="kw">pub mod </span>slate {
+    <span class="doccomment">/// GamSlate object has Google Ad Manager (GAM) related properties for the
+    /// slate.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>GamSlate {
+        <span class="doccomment">/// Required. Ad Manager network code to associate with the live config.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>network_code: ::prost::alloc::string::String,
+        <span class="doccomment">/// Output only. The identifier generated for the slate by GAM.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>gam_slate_id: i64,
+    }
+}
+<span class="doccomment">/// Detailed information related to the interstitial of a VOD session. This
+/// resource is only available for VOD sessions that do not implement Google Ad
+/// Manager ad insertion.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>VodStitchDetail {
+    <span class="doccomment">/// The name of the stitch detail in the specified VOD session, in the form of
+    /// `projects/{project}/locations/{location}/vodSessions/{vod_session_id}/vodStitchDetails/{id}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// A list of ad processing details for the fetched ad playlist.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>ad_stitch_details: ::prost::alloc::vec::Vec&lt;AdStitchDetail&gt;,
+}
+<span class="doccomment">/// Metadata for a stitched ad.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AdStitchDetail {
+    <span class="doccomment">/// Required. The ad break ID of the processed ad.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>ad_break_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The ad ID of the processed ad.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>ad_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The time offset of the processed ad.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>ad_time_offset: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// Optional. Indicates the reason why the ad has been skipped.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>skip_reason: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The metadata of the chosen media file for the ad.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>media: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost_types::Value,
+    &gt;,
 }
 <span class="doccomment">/// Request message for VideoStitcherService.createCdnKey.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
