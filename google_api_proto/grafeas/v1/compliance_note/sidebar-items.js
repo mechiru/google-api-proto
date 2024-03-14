@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["ComplianceType"],"struct":["CisBenchmark"]};
+window.SIDEBAR_ITEMS = {"enum":["ComplianceType","PotentialImpact"],"struct":["CisBenchmark"]};

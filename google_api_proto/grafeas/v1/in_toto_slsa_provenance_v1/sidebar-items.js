@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["BuildDefinition","BuildMetadata","ProvenanceBuilder","ResourceDescriptor","RunDetails","SlsaProvenanceV1"]};

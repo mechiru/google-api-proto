@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["IndexingType","SystemSpec"],"mod":["looker_column_spec"],"struct":["LookerColumnSpec"]};
+window.SIDEBAR_ITEMS = {"enum":["IndexingType","SystemSpec"],"mod":["looker_column_spec"],"struct":["FieldElementType","LookerColumnSpec"]};
