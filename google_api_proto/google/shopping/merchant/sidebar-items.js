@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["inventories","reports"]};
+window.SIDEBAR_ITEMS = {"mod":["inventories","quota","reports"]};

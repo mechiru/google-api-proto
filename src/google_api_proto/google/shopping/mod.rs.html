@@ -10,11 +10,13 @@
 <a href="#9" id="9">9</a>
 <a href="#10" id="10">10</a>
 <a href="#11" id="11">11</a>
+<a href="#12" id="12">12</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(any(feature = <span class="string">"google-shopping-css-v1"</span>))]
 </span><span class="kw">pub mod </span>css;
 <span class="attr">#[cfg(
     any(
         feature = <span class="string">"google-shopping-merchant-inventories-v1beta"</span>,
+        feature = <span class="string">"google-shopping-merchant-quota-v1beta"</span>,
         feature = <span class="string">"google-shopping-merchant-reports-v1beta"</span>,
     )
 )]

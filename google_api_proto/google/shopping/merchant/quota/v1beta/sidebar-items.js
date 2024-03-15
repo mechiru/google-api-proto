@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["quota_service_client"],"struct":["ListQuotaGroupsRequest","ListQuotaGroupsResponse","MethodDetails","QuotaGroup"]};
