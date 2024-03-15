@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["extension"],"struct":["Extension","MatchCondition"]};
+window.SIDEBAR_ITEMS = {"struct":["Extension","MatchCondition"]};

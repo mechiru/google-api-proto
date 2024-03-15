@@ -1072,6 +1072,59 @@
     </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>longitude: f64,
 }
+<span class="doccomment">/// Represents a day of the week.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>DayOfWeek {
+    <span class="doccomment">/// The day of the week is unspecified.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Monday
+    </span>Monday = <span class="number">1</span>,
+    <span class="doccomment">/// Tuesday
+    </span>Tuesday = <span class="number">2</span>,
+    <span class="doccomment">/// Wednesday
+    </span>Wednesday = <span class="number">3</span>,
+    <span class="doccomment">/// Thursday
+    </span>Thursday = <span class="number">4</span>,
+    <span class="doccomment">/// Friday
+    </span>Friday = <span class="number">5</span>,
+    <span class="doccomment">/// Saturday
+    </span>Saturday = <span class="number">6</span>,
+    <span class="doccomment">/// Sunday
+    </span>Sunday = <span class="number">7</span>,
+}
+<span class="kw">impl </span>DayOfWeek {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            DayOfWeek::Unspecified =&gt; <span class="string">"DAY_OF_WEEK_UNSPECIFIED"</span>,
+            DayOfWeek::Monday =&gt; <span class="string">"MONDAY"</span>,
+            DayOfWeek::Tuesday =&gt; <span class="string">"TUESDAY"</span>,
+            DayOfWeek::Wednesday =&gt; <span class="string">"WEDNESDAY"</span>,
+            DayOfWeek::Thursday =&gt; <span class="string">"THURSDAY"</span>,
+            DayOfWeek::Friday =&gt; <span class="string">"FRIDAY"</span>,
+            DayOfWeek::Saturday =&gt; <span class="string">"SATURDAY"</span>,
+            DayOfWeek::Sunday =&gt; <span class="string">"SUNDAY"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"DAY_OF_WEEK_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"MONDAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Monday),
+            <span class="string">"TUESDAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Tuesday),
+            <span class="string">"WEDNESDAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Wednesday),
+            <span class="string">"THURSDAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Thursday),
+            <span class="string">"FRIDAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Friday),
+            <span class="string">"SATURDAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Saturday),
+            <span class="string">"SUNDAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sunday),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
 <span class="doccomment">/// Represents a time interval, encoded as a Timestamp start (inclusive) and a
 /// Timestamp end (exclusive).
 ///
@@ -1400,59 +1453,6 @@
     /// gRPC) if the service receives a value outside of the supported range.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Represents a day of the week.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>DayOfWeek {
-    <span class="doccomment">/// The day of the week is unspecified.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Monday
-    </span>Monday = <span class="number">1</span>,
-    <span class="doccomment">/// Tuesday
-    </span>Tuesday = <span class="number">2</span>,
-    <span class="doccomment">/// Wednesday
-    </span>Wednesday = <span class="number">3</span>,
-    <span class="doccomment">/// Thursday
-    </span>Thursday = <span class="number">4</span>,
-    <span class="doccomment">/// Friday
-    </span>Friday = <span class="number">5</span>,
-    <span class="doccomment">/// Saturday
-    </span>Saturday = <span class="number">6</span>,
-    <span class="doccomment">/// Sunday
-    </span>Sunday = <span class="number">7</span>,
-}
-<span class="kw">impl </span>DayOfWeek {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            DayOfWeek::Unspecified =&gt; <span class="string">"DAY_OF_WEEK_UNSPECIFIED"</span>,
-            DayOfWeek::Monday =&gt; <span class="string">"MONDAY"</span>,
-            DayOfWeek::Tuesday =&gt; <span class="string">"TUESDAY"</span>,
-            DayOfWeek::Wednesday =&gt; <span class="string">"WEDNESDAY"</span>,
-            DayOfWeek::Thursday =&gt; <span class="string">"THURSDAY"</span>,
-            DayOfWeek::Friday =&gt; <span class="string">"FRIDAY"</span>,
-            DayOfWeek::Saturday =&gt; <span class="string">"SATURDAY"</span>,
-            DayOfWeek::Sunday =&gt; <span class="string">"SUNDAY"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"DAY_OF_WEEK_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"MONDAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Monday),
-            <span class="string">"TUESDAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Tuesday),
-            <span class="string">"WEDNESDAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Wednesday),
-            <span class="string">"THURSDAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Thursday),
-            <span class="string">"FRIDAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Friday),
-            <span class="string">"SATURDAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Saturday),
-            <span class="string">"SUNDAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sunday),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
 }
 <span class="doccomment">/// Represents a time of day. The date and time zone are either not significant
 /// or are specified elsewhere. An API may choose to allow leap seconds. Related

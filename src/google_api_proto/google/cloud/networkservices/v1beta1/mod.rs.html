@@ -1536,17 +1536,6 @@
 <a href="#1535" id="1535">1535</a>
 <a href="#1536" id="1536">1536</a>
 <a href="#1537" id="1537">1537</a>
-<a href="#1538" id="1538">1538</a>
-<a href="#1539" id="1539">1539</a>
-<a href="#1540" id="1540">1540</a>
-<a href="#1541" id="1541">1541</a>
-<a href="#1542" id="1542">1542</a>
-<a href="#1543" id="1543">1543</a>
-<a href="#1544" id="1544">1544</a>
-<a href="#1545" id="1545">1545</a>
-<a href="#1546" id="1546">1546</a>
-<a href="#1547" id="1547">1547</a>
-<a href="#1548" id="1548">1548</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Represents the metadata of the long-running operation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1750,9 +1739,8 @@
         <span class="doccomment">/// Required. A Common Expression Language (CEL) expression that is used to
         /// match requests for which the extension chain is executed.
         ///
-        /// For more information, see
-        /// [CEL matcher language
-        /// reference](/service-extensions/docs/cel-matcher-language-reference).
+        /// For more information, see [CEL matcher language
+        /// reference](&lt;https://cloud.google.com/service-extensions/docs/cel-matcher-language-reference&gt;).
         </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
         </span><span class="kw">pub </span>cel_expression: ::prost::alloc::string::String,
     }
@@ -1770,6 +1758,7 @@
         </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
         <span class="doccomment">/// Optional. The `:authority` header in the gRPC request sent from Envoy
         /// to the extension service.
+        /// Required for Callout extensions.
         </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
         </span><span class="kw">pub </span>authority: ::prost::alloc::string::String,
         <span class="doccomment">/// Required. The reference to the service that runs the extension.
@@ -1790,15 +1779,11 @@
         /// this extension is called. This field is required for the
         /// `LbTrafficExtension` resource. It's not relevant for the
         /// `LbRouteExtension` resource.
-        </span><span class="attr">#[prost(
-            enumeration = <span class="string">"extension::EventType"</span>,
-            repeated,
-            packed = <span class="string">"false"</span>,
-            tag = <span class="string">"4"
-        </span>)]
+        </span><span class="attr">#[prost(enumeration = <span class="string">"super::EventType"</span>, repeated, packed = <span class="string">"false"</span>, tag = <span class="string">"4"</span>)]
         </span><span class="kw">pub </span>supported_events: ::prost::alloc::vec::Vec&lt;i32&gt;,
-        <span class="doccomment">/// Required. Specifies the timeout for each individual message on the
-        /// stream. The timeout must be between 10-1000 milliseconds.
+        <span class="doccomment">/// Optional. Specifies the timeout for each individual message on the
+        /// stream. The timeout must be between 10-1000 milliseconds. Required for
+        /// Callout extensions.
         </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
         </span><span class="kw">pub </span>timeout: ::core::option::Option&lt;::prost_types::Duration&gt;,
         <span class="doccomment">/// Optional. Determines how the proxy behaves if the call to the extension
@@ -1821,67 +1806,6 @@
         /// Each element is a string indicating the header name.
         </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
         </span><span class="kw">pub </span>forward_headers: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Extension`.
-    </span><span class="kw">pub mod </span>extension {
-        <span class="doccomment">/// The part of the request or response for which this extension
-        /// is called.
-        /// The valid values are:
-        /// `REQUEST_HEADERS`, `REQUEST_BODY`, `RESPONSE_HEADERS`, `RESPONSE_BODY`.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>EventType {
-            <span class="doccomment">/// Unspecified value. Do not use.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// If included in `supported_events`,
-            /// the extension is called when the HTTP request headers arrive.
-            </span>RequestHeaders = <span class="number">1</span>,
-            <span class="doccomment">/// If included in `supported_events`,
-            /// the extension is called when the HTTP request body arrives.
-            </span>RequestBody = <span class="number">2</span>,
-            <span class="doccomment">/// If included in `supported_events`,
-            /// the extension is called when the HTTP response headers arrive.
-            </span>ResponseHeaders = <span class="number">3</span>,
-            <span class="doccomment">/// If included in `supported_events`,
-            /// the extension is called when the HTTP response body arrives.
-            </span>ResponseBody = <span class="number">4</span>,
-        }
-        <span class="kw">impl </span>EventType {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    EventType::Unspecified =&gt; <span class="string">"EVENT_TYPE_UNSPECIFIED"</span>,
-                    EventType::RequestHeaders =&gt; <span class="string">"REQUEST_HEADERS"</span>,
-                    EventType::RequestBody =&gt; <span class="string">"REQUEST_BODY"</span>,
-                    EventType::ResponseHeaders =&gt; <span class="string">"RESPONSE_HEADERS"</span>,
-                    EventType::ResponseBody =&gt; <span class="string">"RESPONSE_BODY"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"EVENT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"REQUEST_HEADERS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RequestHeaders),
-                    <span class="string">"REQUEST_BODY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RequestBody),
-                    <span class="string">"RESPONSE_HEADERS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResponseHeaders),
-                    <span class="string">"RESPONSE_BODY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResponseBody),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
     }
 }
 <span class="doccomment">/// `LbTrafficExtension` is a resource that lets the extension service modify the
@@ -1908,8 +1832,8 @@
     <span class="doccomment">/// Optional. Set of labels associated with the `LbTrafficExtension` resource.
     ///
     /// The format must comply with [the requirements for
-    /// labels](/compute/docs/labeling-resources#requirements) for Google Cloud
-    /// resources.
+    /// labels](&lt;https://cloud.google.com/compute/docs/labeling-resources#requirements&gt;)
+    /// for Google Cloud resources.
     </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
         ::prost::alloc::string::String,
@@ -2091,8 +2015,8 @@
     <span class="doccomment">/// Optional. Set of labels associated with the `LbRouteExtension` resource.
     ///
     /// The format must comply with [the requirements for
-    /// labels](/compute/docs/labeling-resources#requirements) for Google Cloud
-    /// resources.
+    /// labels](&lt;https://cloud.google.com/compute/docs/labeling-resources#requirements&gt;)
+    /// for Google Cloud resources.
     </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
         ::prost::alloc::string::String,
@@ -2252,9 +2176,63 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>request_id: ::prost::alloc::string::String,
 }
+<span class="doccomment">/// The part of the request or response for which the extension is called.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>EventType {
+    <span class="doccomment">/// Unspecified value. Do not use.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// If included in `supported_events`,
+    /// the extension is called when the HTTP request headers arrive.
+    </span>RequestHeaders = <span class="number">1</span>,
+    <span class="doccomment">/// If included in `supported_events`,
+    /// the extension is called when the HTTP request body arrives.
+    </span>RequestBody = <span class="number">2</span>,
+    <span class="doccomment">/// If included in `supported_events`,
+    /// the extension is called when the HTTP response headers arrive.
+    </span>ResponseHeaders = <span class="number">3</span>,
+    <span class="doccomment">/// If included in `supported_events`,
+    /// the extension is called when the HTTP response body arrives.
+    </span>ResponseBody = <span class="number">4</span>,
+    <span class="doccomment">/// If included in `supported_events`,
+    /// the extension is called when the HTTP request trailers arrives.
+    </span>RequestTrailers = <span class="number">5</span>,
+    <span class="doccomment">/// If included in `supported_events`,
+    /// the extension is called when the HTTP response trailers arrives.
+    </span>ResponseTrailers = <span class="number">6</span>,
+}
+<span class="kw">impl </span>EventType {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            EventType::Unspecified =&gt; <span class="string">"EVENT_TYPE_UNSPECIFIED"</span>,
+            EventType::RequestHeaders =&gt; <span class="string">"REQUEST_HEADERS"</span>,
+            EventType::RequestBody =&gt; <span class="string">"REQUEST_BODY"</span>,
+            EventType::ResponseHeaders =&gt; <span class="string">"RESPONSE_HEADERS"</span>,
+            EventType::ResponseBody =&gt; <span class="string">"RESPONSE_BODY"</span>,
+            EventType::RequestTrailers =&gt; <span class="string">"REQUEST_TRAILERS"</span>,
+            EventType::ResponseTrailers =&gt; <span class="string">"RESPONSE_TRAILERS"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"EVENT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"REQUEST_HEADERS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RequestHeaders),
+            <span class="string">"REQUEST_BODY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RequestBody),
+            <span class="string">"RESPONSE_HEADERS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResponseHeaders),
+            <span class="string">"RESPONSE_BODY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResponseBody),
+            <span class="string">"REQUEST_TRAILERS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RequestTrailers),
+            <span class="string">"RESPONSE_TRAILERS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResponseTrailers),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
 <span class="doccomment">/// Load balancing schemes supported by the `LbTrafficExtension` resource and
-/// `LbRouteExtension` resource. The valid values are `INTERNAL_MANAGED` and
-/// `EXTERNAL_MANAGED`.
+/// `LbRouteExtension` resource.
 /// For more information, refer to [Choosing a load
 /// balancer](&lt;https://cloud.google.com/load-balancing/docs/backend-service&gt;).
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
