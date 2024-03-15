@@ -3610,6 +3610,90 @@
 <a href="#3609" id="3609">3609</a>
 <a href="#3610" id="3610">3610</a>
 <a href="#3611" id="3611">3611</a>
+<a href="#3612" id="3612">3612</a>
+<a href="#3613" id="3613">3613</a>
+<a href="#3614" id="3614">3614</a>
+<a href="#3615" id="3615">3615</a>
+<a href="#3616" id="3616">3616</a>
+<a href="#3617" id="3617">3617</a>
+<a href="#3618" id="3618">3618</a>
+<a href="#3619" id="3619">3619</a>
+<a href="#3620" id="3620">3620</a>
+<a href="#3621" id="3621">3621</a>
+<a href="#3622" id="3622">3622</a>
+<a href="#3623" id="3623">3623</a>
+<a href="#3624" id="3624">3624</a>
+<a href="#3625" id="3625">3625</a>
+<a href="#3626" id="3626">3626</a>
+<a href="#3627" id="3627">3627</a>
+<a href="#3628" id="3628">3628</a>
+<a href="#3629" id="3629">3629</a>
+<a href="#3630" id="3630">3630</a>
+<a href="#3631" id="3631">3631</a>
+<a href="#3632" id="3632">3632</a>
+<a href="#3633" id="3633">3633</a>
+<a href="#3634" id="3634">3634</a>
+<a href="#3635" id="3635">3635</a>
+<a href="#3636" id="3636">3636</a>
+<a href="#3637" id="3637">3637</a>
+<a href="#3638" id="3638">3638</a>
+<a href="#3639" id="3639">3639</a>
+<a href="#3640" id="3640">3640</a>
+<a href="#3641" id="3641">3641</a>
+<a href="#3642" id="3642">3642</a>
+<a href="#3643" id="3643">3643</a>
+<a href="#3644" id="3644">3644</a>
+<a href="#3645" id="3645">3645</a>
+<a href="#3646" id="3646">3646</a>
+<a href="#3647" id="3647">3647</a>
+<a href="#3648" id="3648">3648</a>
+<a href="#3649" id="3649">3649</a>
+<a href="#3650" id="3650">3650</a>
+<a href="#3651" id="3651">3651</a>
+<a href="#3652" id="3652">3652</a>
+<a href="#3653" id="3653">3653</a>
+<a href="#3654" id="3654">3654</a>
+<a href="#3655" id="3655">3655</a>
+<a href="#3656" id="3656">3656</a>
+<a href="#3657" id="3657">3657</a>
+<a href="#3658" id="3658">3658</a>
+<a href="#3659" id="3659">3659</a>
+<a href="#3660" id="3660">3660</a>
+<a href="#3661" id="3661">3661</a>
+<a href="#3662" id="3662">3662</a>
+<a href="#3663" id="3663">3663</a>
+<a href="#3664" id="3664">3664</a>
+<a href="#3665" id="3665">3665</a>
+<a href="#3666" id="3666">3666</a>
+<a href="#3667" id="3667">3667</a>
+<a href="#3668" id="3668">3668</a>
+<a href="#3669" id="3669">3669</a>
+<a href="#3670" id="3670">3670</a>
+<a href="#3671" id="3671">3671</a>
+<a href="#3672" id="3672">3672</a>
+<a href="#3673" id="3673">3673</a>
+<a href="#3674" id="3674">3674</a>
+<a href="#3675" id="3675">3675</a>
+<a href="#3676" id="3676">3676</a>
+<a href="#3677" id="3677">3677</a>
+<a href="#3678" id="3678">3678</a>
+<a href="#3679" id="3679">3679</a>
+<a href="#3680" id="3680">3680</a>
+<a href="#3681" id="3681">3681</a>
+<a href="#3682" id="3682">3682</a>
+<a href="#3683" id="3683">3683</a>
+<a href="#3684" id="3684">3684</a>
+<a href="#3685" id="3685">3685</a>
+<a href="#3686" id="3686">3686</a>
+<a href="#3687" id="3687">3687</a>
+<a href="#3688" id="3688">3688</a>
+<a href="#3689" id="3689">3689</a>
+<a href="#3690" id="3690">3690</a>
+<a href="#3691" id="3691">3691</a>
+<a href="#3692" id="3692">3692</a>
+<a href="#3693" id="3693">3693</a>
+<a href="#3694" id="3694">3694</a>
+<a href="#3695" id="3695">3695</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// A widget is a UI element that presents text and images.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -5257,7 +5341,7 @@
     </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>length: i32,
     <span class="doccomment">/// Additional metadata about the annotation.
-    </span><span class="attr">#[prost(oneof = <span class="string">"annotation::Metadata"</span>, tags = <span class="string">"4, 5"</span>)]
+    </span><span class="attr">#[prost(oneof = <span class="string">"annotation::Metadata"</span>, tags = <span class="string">"4, 5, 6"</span>)]
     </span><span class="kw">pub </span>metadata: ::core::option::Option&lt;annotation::Metadata&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `Annotation`.
@@ -5272,6 +5356,9 @@
         <span class="doccomment">/// The metadata for a slash command.
         </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
         </span>SlashCommand(<span class="kw">super</span>::SlashCommandMetadata),
+        <span class="doccomment">/// The metadata for a rich link.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>RichLinkMetadata(<span class="kw">super</span>::RichLinkMetadata),
     }
 }
 <span class="doccomment">/// Annotation metadata for user mentions (@).
@@ -5395,6 +5482,83 @@
         }
     }
 }
+<span class="doccomment">/// A rich link to a resource.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RichLinkMetadata {
+    <span class="doccomment">/// The URI of this link.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// The rich link type.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"rich_link_metadata::RichLinkType"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>rich_link_type: i32,
+    <span class="doccomment">/// Data for the linked resource.
+    </span><span class="attr">#[prost(oneof = <span class="string">"rich_link_metadata::Data"</span>, tags = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>data: ::core::option::Option&lt;rich_link_metadata::Data&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `RichLinkMetadata`.
+</span><span class="kw">pub mod </span>rich_link_metadata {
+    <span class="doccomment">/// The rich link type. More types might be added in the future.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>RichLinkType {
+        <span class="doccomment">/// Default value for the enum. Don't use.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// A Google Drive rich link type.
+        </span>DriveFile = <span class="number">1</span>,
+    }
+    <span class="kw">impl </span>RichLinkType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                RichLinkType::Unspecified =&gt; <span class="string">"RICH_LINK_TYPE_UNSPECIFIED"</span>,
+                RichLinkType::DriveFile =&gt; <span class="string">"DRIVE_FILE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"RICH_LINK_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"DRIVE_FILE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DriveFile),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Data for the linked resource.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Data {
+        <span class="doccomment">/// Data for a drive link.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>DriveLinkData(<span class="kw">super</span>::DriveLinkData),
+    }
+}
+<span class="doccomment">/// Data for Google Drive links.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DriveLinkData {
+    <span class="doccomment">/// A
+    /// [DriveDataRef](&lt;https://developers.google.com/chat/api/reference/rest/v1/spaces.messages.attachments#drivedataref&gt;)
+    /// which references a Google Drive file.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>drive_data_ref: ::core::option::Option&lt;DriveDataRef&gt;,
+    <span class="doccomment">/// The mime type of the linked Google Drive resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// Type of the annotation.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -5405,6 +5569,8 @@
     </span>UserMention = <span class="number">1</span>,
     <span class="doccomment">/// A slash command is invoked.
     </span>SlashCommand = <span class="number">2</span>,
+    <span class="doccomment">/// A rich link annotation.
+    </span>RichLink = <span class="number">3</span>,
 }
 <span class="kw">impl </span>AnnotationType {
     <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -5416,6 +5582,7 @@
             AnnotationType::Unspecified =&gt; <span class="string">"ANNOTATION_TYPE_UNSPECIFIED"</span>,
             AnnotationType::UserMention =&gt; <span class="string">"USER_MENTION"</span>,
             AnnotationType::SlashCommand =&gt; <span class="string">"SLASH_COMMAND"</span>,
+            AnnotationType::RichLink =&gt; <span class="string">"RICH_LINK"</span>,
         }
     }
     <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -5424,6 +5591,7 @@
             <span class="string">"ANNOTATION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
             <span class="string">"USER_MENTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserMention),
             <span class="string">"SLASH_COMMAND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SlashCommand),
+            <span class="string">"RICH_LINK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RichLink),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
