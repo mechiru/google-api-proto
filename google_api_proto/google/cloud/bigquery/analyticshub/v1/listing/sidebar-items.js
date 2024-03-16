@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Category","Source","State"],"struct":["BigQueryDatasetSource","RestrictedExportConfig"]};
+window.SIDEBAR_ITEMS = {"enum":["Category","Source","State"],"mod":["big_query_dataset_source"],"struct":["BigQueryDatasetSource","RestrictedExportConfig"]};
