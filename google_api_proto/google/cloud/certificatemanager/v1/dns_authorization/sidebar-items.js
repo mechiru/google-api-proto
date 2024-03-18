@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["DnsResourceRecord"]};
+window.SIDEBAR_ITEMS = {"enum":["Type"],"struct":["DnsResourceRecord"]};
