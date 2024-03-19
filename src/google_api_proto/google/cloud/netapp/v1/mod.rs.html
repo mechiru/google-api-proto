@@ -6117,8 +6117,8 @@
     <span class="doccomment">/// Optional. Flag indicating if the pool is NFS LDAP enabled or not.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"14"</span>)]
     </span><span class="kw">pub </span>ldap_enabled: bool,
-    <span class="doccomment">/// Optional. This field is currently not implemented. Currently values
-    /// provided in this field will be ignored.
+    <span class="doccomment">/// Optional. This field is not implemented. The values provided in this field
+    /// are ignored.
     </span><span class="attr">#[prost(string, tag = <span class="string">"15"</span>)]
     </span><span class="kw">pub </span>psa_range: ::prost::alloc::string::String,
     <span class="doccomment">/// Output only. Specifies the current pool encryption key source.
@@ -6316,8 +6316,8 @@
     <span class="doccomment">/// Required. Share name of the volume
     </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>share_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. This field is currently not implemented. Currently values
-    /// provided in this field will be ignored.
+    <span class="doccomment">/// Output only. This field is not implemented. The values provided in this
+    /// field are ignored.
     </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>psa_range: ::prost::alloc::string::String,
     <span class="doccomment">/// Required. StoragePool name of the volume
@@ -6826,7 +6826,7 @@
     </span>Unspecified = <span class="number">0</span>,
     <span class="doccomment">/// SecurityStyle uses NTFS
     </span>Ntfs = <span class="number">1</span>,
-    <span class="doccomment">/// SecurityStyle uses NTFS
+    <span class="doccomment">/// SecurityStyle uses UNIX
     </span>Unix = <span class="number">2</span>,
 }
 <span class="kw">impl </span>SecurityStyle {
