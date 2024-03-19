@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["BigQueryExport"]};
+window.SIDEBAR_ITEMS = {"struct":["BigQueryExport","JobEndTrigger","JobFailureTrigger","NotificationReport","Recipients","ScoreThresholdTrigger"]};
