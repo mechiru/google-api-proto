@@ -2255,6 +2255,14 @@
 <a href="#2254" id="2254">2254</a>
 <a href="#2255" id="2255">2255</a>
 <a href="#2256" id="2256">2256</a>
+<a href="#2257" id="2257">2257</a>
+<a href="#2258" id="2258">2258</a>
+<a href="#2259" id="2259">2259</a>
+<a href="#2260" id="2260">2260</a>
+<a href="#2261" id="2261">2261</a>
+<a href="#2262" id="2262">2262</a>
+<a href="#2263" id="2263">2263</a>
+<a href="#2264" id="2264">2264</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// A Google Edge Cloud zone.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2268,14 +2276,17 @@
     <span class="doccomment">/// Output only. The time when the zone was last updated.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Labels as key value pairs
+    <span class="doccomment">/// Deprecated: not implemented.
+    /// Labels as key value pairs.
     </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
         ::prost::alloc::string::String,
         ::prost::alloc::string::String,
     &gt;,
-    <span class="doccomment">/// The deployment layout type.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    <span class="doccomment">/// Deprecated: not implemented.
+    /// The deployment layout type.
+    </span><span class="attr">#[deprecated]
+    #[prost(string, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>layout_name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Message describing Network object
@@ -2947,7 +2958,8 @@
         }
     }
 }
-<span class="doccomment">/// Message for requesting list of Zones
+<span class="doccomment">/// Deprecated: not implemented.
+/// Message for requesting list of Zones
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ListZonesRequest {
@@ -2968,7 +2980,8 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Message for response to listing Zones
+<span class="doccomment">/// Deprecated: not implemented.
+/// Message for response to listing Zones
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ListZonesResponse {
@@ -2982,7 +2995,8 @@
     </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
 }
-<span class="doccomment">/// Message for getting a Zone
+<span class="doccomment">/// Deprecated: not implemented.
+/// Message for getting a Zone
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>GetZoneRequest {
@@ -3752,7 +3766,8 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Lists Zones in a given project and location.
+        <span class="doccomment">/// Deprecated: not implemented.
+        /// Lists Zones in a given project and location.
         </span><span class="kw">pub async fn </span>list_zones(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListZonesRequest&gt;,
@@ -3783,7 +3798,8 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Gets details of a single Zone.
+        <span class="doccomment">/// Deprecated: not implemented.
+        /// Gets details of a single Zone.
         </span><span class="kw">pub async fn </span>get_zone(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetZoneRequest&gt;,
