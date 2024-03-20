@@ -3564,6 +3564,18 @@
 <a href="#3563" id="3563">3563</a>
 <a href="#3564" id="3564">3564</a>
 <a href="#3565" id="3565">3565</a>
+<a href="#3566" id="3566">3566</a>
+<a href="#3567" id="3567">3567</a>
+<a href="#3568" id="3568">3568</a>
+<a href="#3569" id="3569">3569</a>
+<a href="#3570" id="3570">3570</a>
+<a href="#3571" id="3571">3571</a>
+<a href="#3572" id="3572">3572</a>
+<a href="#3573" id="3573">3573</a>
+<a href="#3574" id="3574">3574</a>
+<a href="#3575" id="3575">3575</a>
+<a href="#3576" id="3576">3576</a>
+<a href="#3577" id="3577">3577</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Trace represents one simulated packet forwarding path.
 ///
 ///    * Each trace contains multiple ordered steps.
@@ -3646,10 +3658,8 @@
         <span class="doccomment">/// Initial state: packet originating from the internet.
         /// The endpoint information is populated.
         </span>StartFromInternet = <span class="number">2</span>,
-        <span class="doccomment">/// Initial state: packet originating from a Google service. Some Google
-        /// services, such as health check probers or Identity Aware Proxy use
-        /// special routes, outside VPC routing configuration to reach Compute Engine
-        /// Instances.
+        <span class="doccomment">/// Initial state: packet originating from a Google service.
+        /// The google_service information is populated.
         </span>StartFromGoogleService = <span class="number">27</span>,
         <span class="doccomment">/// Initial state: packet originating from a VPC or on-premises network
         /// with internal source IP.
@@ -4339,7 +4349,7 @@
     )]
     #[repr(i32)]
     </span><span class="kw">pub enum </span>GoogleServiceType {
-        <span class="doccomment">/// Unspecified Google Service. Includes most of Google APIs and services.
+        <span class="doccomment">/// Unspecified Google Service.
         </span>Unspecified = <span class="number">0</span>,
         <span class="doccomment">/// Identity aware proxy.
         /// &lt;https://cloud.google.com/iap/docs/using-tcp-forwarding&gt;
@@ -4354,6 +4364,14 @@
         /// &lt;https://cloud.google.com/dns/docs/zones/forwarding-zones#firewall-rules&gt;
         /// &lt;https://cloud.google.com/dns/docs/policies#firewall-rules&gt;
         </span>CloudDns = <span class="number">3</span>,
+        <span class="doccomment">/// private.googleapis.com and restricted.googleapis.com
+        </span>GoogleApi = <span class="number">4</span>,
+        <span class="doccomment">/// Google API via Private Service Connect.
+        /// &lt;https://cloud.google.com/vpc/docs/configure-private-service-connect-apis&gt;
+        </span>GoogleApiPsc = <span class="number">5</span>,
+        <span class="doccomment">/// Google API via VPC Service Controls.
+        /// &lt;https://cloud.google.com/vpc/docs/configure-private-service-connect-apis&gt;
+        </span>GoogleApiVpcSc = <span class="number">6</span>,
     }
     <span class="kw">impl </span>GoogleServiceType {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -4368,6 +4386,9 @@
                     <span class="string">"GFE_PROXY_OR_HEALTH_CHECK_PROBER"
                 </span>}
                 GoogleServiceType::CloudDns =&gt; <span class="string">"CLOUD_DNS"</span>,
+                GoogleServiceType::GoogleApi =&gt; <span class="string">"GOOGLE_API"</span>,
+                GoogleServiceType::GoogleApiPsc =&gt; <span class="string">"GOOGLE_API_PSC"</span>,
+                GoogleServiceType::GoogleApiVpcSc =&gt; <span class="string">"GOOGLE_API_VPC_SC"</span>,
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -4379,6 +4400,9 @@
                     <span class="prelude-val">Some</span>(<span class="self">Self</span>::GfeProxyOrHealthCheckProber)
                 }
                 <span class="string">"CLOUD_DNS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudDns),
+                <span class="string">"GOOGLE_API" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleApi),
+                <span class="string">"GOOGLE_API_PSC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleApiPsc),
+                <span class="string">"GOOGLE_API_VPC_SC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleApiVpcSc),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
