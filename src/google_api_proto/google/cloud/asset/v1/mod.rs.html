@@ -4906,6 +4906,10 @@
 <a href="#4905" id="4905">4905</a>
 <a href="#4906" id="4906">4906</a>
 <a href="#4907" id="4907">4907</a>
+<a href="#4908" id="4908">4908</a>
+<a href="#4909" id="4909">4909</a>
+<a href="#4910" id="4910">4910</a>
+<a href="#4911" id="4911">4911</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// An asset in Google Cloud and its temporal metadata, including the time window
 /// when it was observed and its status during that window.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -5229,7 +5233,7 @@
     </span><span class="kw">pub </span>relationship_type: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// The key and value for a
-/// [tag](&lt;https://cloud.google.com/resource-manager/docs/tags/tags-overview&gt;),
+/// [tag](&lt;https://cloud.google.com/resource-manager/docs/tags/tags-overview&gt;).
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Tag {
@@ -5827,7 +5831,7 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>cause: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// The Condition evaluation.
+<span class="doccomment">/// The condition evaluation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ConditionEvaluation {
@@ -5859,7 +5863,7 @@
         </span>False = <span class="number">2</span>,
         <span class="doccomment">/// The evaluation result is `conditional` when the condition expression
         /// contains variables that are either missing input values or have not been
-        /// supported by Analyzer yet.
+        /// supported by Policy Analyzer yet.
         </span>Conditional = <span class="number">3</span>,
     }
     <span class="kw">impl </span>EvaluationValue {
@@ -7031,10 +7035,10 @@
     /// folder number (such as "folders/123"), a project ID (such as
     /// "projects/my-project-id"), or a project number (such as "projects/12345").
     ///
-    /// To know how to get organization id, visit [here
+    /// To know how to get organization ID, visit [here
     /// ](&lt;https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id&gt;).
     ///
-    /// To know how to get folder or project id, visit [here
+    /// To know how to get folder or project ID, visit [here
     /// ](&lt;https://cloud.google.com/resource-manager/docs/creating-managing-folders#viewing_or_listing_folders_and_projects&gt;).
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>scope: ::prost::alloc::string::String,
@@ -8046,10 +8050,10 @@
     /// folder number (such as "folders/123"), a project ID (such as
     /// "projects/my-project-id"), or a project number (such as "projects/12345").
     ///
-    /// To know how to get organization id, visit [here
+    /// To know how to get organization ID, visit [here
     /// ](&lt;https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id&gt;).
     ///
-    /// To know how to get folder or project id, visit [here
+    /// To know how to get folder or project ID, visit [here
     /// ](&lt;https://cloud.google.com/resource-manager/docs/creating-managing-folders#viewing_or_listing_folders_and_projects&gt;).
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>scope: ::prost::alloc::string::String,
@@ -8192,14 +8196,18 @@
         </span><span class="kw">pub </span>condition: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Expr&gt;,
         <span class="doccomment">/// The condition evaluation result for this rule.
         /// Only populated if it meets all the following criteria:
-        /// * there is a
+        ///
+        /// * There is a
         /// [condition][google.cloud.asset.v1.AnalyzerOrgPolicy.Rule.condition]
-        /// defined for this rule
-        /// * this rule is within a consolidated_policy
-        /// * the consolidated_policy is within
-        ///    [AnalyzeOrgPolicyGovernedContainersResponse.GovernedContainer][google.cloud.asset.v1.AnalyzeOrgPolicyGovernedContainersResponse.GovernedContainer]
+        /// defined for this rule.
+        /// * This rule is within
+        ///    [AnalyzeOrgPolicyGovernedContainersResponse.GovernedContainer.consolidated_policy][google.cloud.asset.v1.AnalyzeOrgPolicyGovernedContainersResponse.GovernedContainer.consolidated_policy],
         ///    or
-        ///    [AnalyzeOrgPolicyGovernedAssetsResponse.GovernedResource][google.cloud.asset.v1.AnalyzeOrgPolicyGovernedAssetsResponse.GovernedResource]
+        ///    [AnalyzeOrgPolicyGovernedAssetsResponse.GovernedAsset.consolidated_policy][google.cloud.asset.v1.AnalyzeOrgPolicyGovernedAssetsResponse.GovernedAsset.consolidated_policy]
+        ///    when the
+        ///    [AnalyzeOrgPolicyGovernedAssetsResponse.GovernedAsset][google.cloud.asset.v1.AnalyzeOrgPolicyGovernedAssetsResponse.GovernedAsset]
+        ///    has
+        ///    [AnalyzeOrgPolicyGovernedAssetsResponse.GovernedAsset.governed_resource][google.cloud.asset.v1.AnalyzeOrgPolicyGovernedAssetsResponse.GovernedAsset.governed_resource].
         </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
         </span><span class="kw">pub </span>condition_evaluation: ::core::option::Option&lt;<span class="kw">super</span>::ConditionEvaluation&gt;,
         <span class="attr">#[prost(oneof = <span class="string">"rule::Kind"</span>, tags = <span class="string">"3, 4, 5, 6"</span>)]
@@ -8221,8 +8229,8 @@
         <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
         #[derive(Clone, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>Kind {
-            <span class="doccomment">/// List of values to be used for this PolicyRule. This field can be set
-            /// only in Policies for list constraints.
+            <span class="doccomment">/// List of values to be used for this policy rule. This field can be set
+            /// only in policies for list constraints.
             </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
             </span>Values(StringValues),
             <span class="doccomment">/// Setting this to true means that all values are allowed. This field can
