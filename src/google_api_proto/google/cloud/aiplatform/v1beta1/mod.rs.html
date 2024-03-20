@@ -33663,6 +33663,7 @@
 <a href="#33662" id="33662">33662</a>
 <a href="#33663" id="33663">33663</a>
 <a href="#33664" id="33664">33664</a>
+<a href="#33665" id="33665">33665</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(
     any(
         feature = <span class="string">"google-cloud-aiplatform-v1beta1-schema"</span>,
@@ -55020,7 +55021,8 @@
         </span><span class="kw">pub </span>python_version: ::prost::alloc::string::String,
     }
 }
-<span class="doccomment">/// ReasoningEngine provides customized orchestration over extensions and tools.
+<span class="doccomment">/// ReasoningEngine provides a customizable runtime for models to determine
+/// which actions to take and in which order.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ReasoningEngine {
