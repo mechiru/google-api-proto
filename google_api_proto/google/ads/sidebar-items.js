@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["admob","googleads","searchads360"]};
+window.SIDEBAR_ITEMS = {"mod":["admanager","admob","googleads","searchads360"]};

@@ -1,5 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/sql/v1beta4/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../../../../../static.files/src-script-39ed315d46fb705f.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><div class="sidebar-resizer"></div>
-    <main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/sql/v1beta4/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+            <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -7586,6 +7587,21 @@
 <a href="#7585" id="7585">7585</a>
 <a href="#7586" id="7586">7586</a>
 <a href="#7587" id="7587">7587</a>
+<a href="#7588" id="7588">7588</a>
+<a href="#7589" id="7589">7589</a>
+<a href="#7590" id="7590">7590</a>
+<a href="#7591" id="7591">7591</a>
+<a href="#7592" id="7592">7592</a>
+<a href="#7593" id="7593">7593</a>
+<a href="#7594" id="7594">7594</a>
+<a href="#7595" id="7595">7595</a>
+<a href="#7596" id="7596">7596</a>
+<a href="#7597" id="7597">7597</a>
+<a href="#7598" id="7598">7598</a>
+<a href="#7599" id="7599">7599</a>
+<a href="#7600" id="7600">7600</a>
+<a href="#7601" id="7601">7601</a>
+<a href="#7602" id="7602">7602</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// An entry for an Access Control list.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -9117,6 +9133,13 @@
         </span>PgSubscriptionCount = <span class="number">41</span>,
         <span class="doccomment">/// Final parallel level that is used to do migration.
         </span>PgSyncParallelLevel = <span class="number">42</span>,
+        <span class="doccomment">/// The disk size of the replica instance is smaller than the data size of
+        /// the source instance.
+        </span>InsufficientDiskSize = <span class="number">43</span>,
+        <span class="doccomment">/// The data size of the source instance is greater than 1 TB, the number of
+        /// cores of the replica instance is less than 8, and the memory of the
+        /// replica is less than 32 GB.
+        </span>InsufficientMachineTier = <span class="number">44</span>,
     }
     <span class="kw">impl </span>SqlExternalSyncSettingErrorType {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -9244,6 +9267,12 @@
                 SqlExternalSyncSettingErrorType::PgSyncParallelLevel =&gt; {
                     <span class="string">"PG_SYNC_PARALLEL_LEVEL"
                 </span>}
+                SqlExternalSyncSettingErrorType::InsufficientDiskSize =&gt; {
+                    <span class="string">"INSUFFICIENT_DISK_SIZE"
+                </span>}
+                SqlExternalSyncSettingErrorType::InsufficientMachineTier =&gt; {
+                    <span class="string">"INSUFFICIENT_MACHINE_TIER"
+                </span>}
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -9314,6 +9343,8 @@
                 }
                 <span class="string">"PG_SUBSCRIPTION_COUNT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PgSubscriptionCount),
                 <span class="string">"PG_SYNC_PARALLEL_LEVEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PgSyncParallelLevel),
+                <span class="string">"INSUFFICIENT_DISK_SIZE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InsufficientDiskSize),
+                <span class="string">"INSUFFICIENT_MACHINE_TIER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InsufficientMachineTier),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
