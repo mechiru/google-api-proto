@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["LocalDiskEncryption"]};
+window.SIDEBAR_ITEMS = {"struct":["LocalDiskEncryption","NodeConfig"]};

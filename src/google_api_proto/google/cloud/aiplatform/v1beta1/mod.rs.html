@@ -33665,6 +33665,85 @@
 <a href="#33663" id="33663">33663</a>
 <a href="#33664" id="33664">33664</a>
 <a href="#33665" id="33665">33665</a>
+<a href="#33666" id="33666">33666</a>
+<a href="#33667" id="33667">33667</a>
+<a href="#33668" id="33668">33668</a>
+<a href="#33669" id="33669">33669</a>
+<a href="#33670" id="33670">33670</a>
+<a href="#33671" id="33671">33671</a>
+<a href="#33672" id="33672">33672</a>
+<a href="#33673" id="33673">33673</a>
+<a href="#33674" id="33674">33674</a>
+<a href="#33675" id="33675">33675</a>
+<a href="#33676" id="33676">33676</a>
+<a href="#33677" id="33677">33677</a>
+<a href="#33678" id="33678">33678</a>
+<a href="#33679" id="33679">33679</a>
+<a href="#33680" id="33680">33680</a>
+<a href="#33681" id="33681">33681</a>
+<a href="#33682" id="33682">33682</a>
+<a href="#33683" id="33683">33683</a>
+<a href="#33684" id="33684">33684</a>
+<a href="#33685" id="33685">33685</a>
+<a href="#33686" id="33686">33686</a>
+<a href="#33687" id="33687">33687</a>
+<a href="#33688" id="33688">33688</a>
+<a href="#33689" id="33689">33689</a>
+<a href="#33690" id="33690">33690</a>
+<a href="#33691" id="33691">33691</a>
+<a href="#33692" id="33692">33692</a>
+<a href="#33693" id="33693">33693</a>
+<a href="#33694" id="33694">33694</a>
+<a href="#33695" id="33695">33695</a>
+<a href="#33696" id="33696">33696</a>
+<a href="#33697" id="33697">33697</a>
+<a href="#33698" id="33698">33698</a>
+<a href="#33699" id="33699">33699</a>
+<a href="#33700" id="33700">33700</a>
+<a href="#33701" id="33701">33701</a>
+<a href="#33702" id="33702">33702</a>
+<a href="#33703" id="33703">33703</a>
+<a href="#33704" id="33704">33704</a>
+<a href="#33705" id="33705">33705</a>
+<a href="#33706" id="33706">33706</a>
+<a href="#33707" id="33707">33707</a>
+<a href="#33708" id="33708">33708</a>
+<a href="#33709" id="33709">33709</a>
+<a href="#33710" id="33710">33710</a>
+<a href="#33711" id="33711">33711</a>
+<a href="#33712" id="33712">33712</a>
+<a href="#33713" id="33713">33713</a>
+<a href="#33714" id="33714">33714</a>
+<a href="#33715" id="33715">33715</a>
+<a href="#33716" id="33716">33716</a>
+<a href="#33717" id="33717">33717</a>
+<a href="#33718" id="33718">33718</a>
+<a href="#33719" id="33719">33719</a>
+<a href="#33720" id="33720">33720</a>
+<a href="#33721" id="33721">33721</a>
+<a href="#33722" id="33722">33722</a>
+<a href="#33723" id="33723">33723</a>
+<a href="#33724" id="33724">33724</a>
+<a href="#33725" id="33725">33725</a>
+<a href="#33726" id="33726">33726</a>
+<a href="#33727" id="33727">33727</a>
+<a href="#33728" id="33728">33728</a>
+<a href="#33729" id="33729">33729</a>
+<a href="#33730" id="33730">33730</a>
+<a href="#33731" id="33731">33731</a>
+<a href="#33732" id="33732">33732</a>
+<a href="#33733" id="33733">33733</a>
+<a href="#33734" id="33734">33734</a>
+<a href="#33735" id="33735">33735</a>
+<a href="#33736" id="33736">33736</a>
+<a href="#33737" id="33737">33737</a>
+<a href="#33738" id="33738">33738</a>
+<a href="#33739" id="33739">33739</a>
+<a href="#33740" id="33740">33740</a>
+<a href="#33741" id="33741">33741</a>
+<a href="#33742" id="33742">33742</a>
+<a href="#33743" id="33743">33743</a>
+<a href="#33744" id="33744">33744</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(
     any(
         feature = <span class="string">"google-cloud-aiplatform-v1beta1-schema"</span>,
@@ -48155,6 +48234,82 @@
     </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>disable_attribution: bool,
 }
+<span class="doccomment">/// Tool config. This config is shared for all tools provided in the request.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ToolConfig {
+    <span class="doccomment">/// Function calling config.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>function_calling_config: ::core::option::Option&lt;FunctionCallingConfig&gt;,
+}
+<span class="doccomment">/// Function calling config.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FunctionCallingConfig {
+    <span class="doccomment">/// Function calling mode.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"function_calling_config::Mode"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>mode: i32,
+    <span class="doccomment">/// Function names to call. Only set when the Mode is ANY. Function names
+    /// should match \[FunctionDeclaration.name\]. With mode set to ANY, model will
+    /// predict a function call from the set of function names provided.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>allowed_function_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `FunctionCallingConfig`.
+</span><span class="kw">pub mod </span>function_calling_config {
+    <span class="doccomment">/// Function calling mode.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Mode {
+        <span class="doccomment">/// Unspecified function calling mode. This value should not be used.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Default model behavior, model decides to predict either a function call
+        /// or a natural language repspose.
+        </span>Auto = <span class="number">1</span>,
+        <span class="doccomment">/// Model is constrained to always predicting a function call only.
+        /// If "allowed_function_names" are set, the predicted function call will be
+        /// limited to any one of "allowed_function_names", else the predicted
+        /// function call will be any one of the provided "function_declarations".
+        </span>Any = <span class="number">2</span>,
+        <span class="doccomment">/// Model will not predict any function call. Model behavior is same as when
+        /// not passing any function declarations.
+        </span><span class="prelude-val">None </span>= <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>Mode {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Mode::Unspecified =&gt; <span class="string">"MODE_UNSPECIFIED"</span>,
+                Mode::Auto =&gt; <span class="string">"AUTO"</span>,
+                Mode::Any =&gt; <span class="string">"ANY"</span>,
+                Mode::None =&gt; <span class="string">"NONE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"AUTO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Auto),
+                <span class="string">"ANY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Any),
+                <span class="string">"NONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::None),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
 <span class="doccomment">/// The base structured datatype containing multi-part content of a message.
 ///
 /// A `Content` includes a `role` field designating the producer of the `Content`
@@ -49186,6 +49341,9 @@
     /// knowledge and scope of the model.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>tools: ::prost::alloc::vec::Vec&lt;Tool&gt;,
+    <span class="doccomment">/// Tool config. This config is shared for all tools provided in the request.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>tool_config: ::core::option::Option&lt;ToolConfig&gt;,
     <span class="doccomment">/// Optional. Per request settings for blocking unsafe content.
     /// Enforced on GenerateContentResponse.candidates.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]

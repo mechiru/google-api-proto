@@ -8176,6 +8176,19 @@
 <a href="#8174" id="8174">8174</a>
 <a href="#8175" id="8175">8175</a>
 <a href="#8176" id="8176">8176</a>
+<a href="#8177" id="8177">8177</a>
+<a href="#8178" id="8178">8178</a>
+<a href="#8179" id="8179">8179</a>
+<a href="#8180" id="8180">8180</a>
+<a href="#8181" id="8181">8181</a>
+<a href="#8182" id="8182">8182</a>
+<a href="#8183" id="8183">8183</a>
+<a href="#8184" id="8184">8184</a>
+<a href="#8185" id="8185">8185</a>
+<a href="#8186" id="8186">8186</a>
+<a href="#8187" id="8187">8187</a>
+<a href="#8188" id="8188">8188</a>
+<a href="#8189" id="8189">8189</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Parameters that can be configured on Linux nodes.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -8591,6 +8604,11 @@
     <span class="doccomment">/// List of secondary boot disks attached to the nodes.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"48"</span>)]
     </span><span class="kw">pub </span>secondary_boot_disks: ::prost::alloc::vec::Vec&lt;SecondaryBootDisk&gt;,
+    <span class="doccomment">/// Secondary boot disk update strategy.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"50"</span>)]
+    </span><span class="kw">pub </span>secondary_boot_disk_update_strategy: ::core::option::Option&lt;
+        SecondaryBootDiskUpdateStrategy,
+    &gt;,
 }
 <span class="doccomment">/// Specifies options for controlling advanced machine features.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -10574,6 +10592,9 @@
     <span class="doccomment">/// Desired Beta APIs to be enabled for cluster.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"131"</span>)]
     </span><span class="kw">pub </span>desired_k8s_beta_apis: ::core::option::Option&lt;K8sBetaApiConfig&gt;,
+    <span class="doccomment">/// Enable/Disable Multi-Networking for the cluster
+    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"135"</span>)]
+    </span><span class="kw">pub </span>desired_enable_multi_networking: ::core::option::Option&lt;bool&gt;,
     <span class="doccomment">/// The desired resource manager tags that apply to all auto-provisioned node
     /// pools in autopilot clusters and node auto-provisioning enabled clusters.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"136"</span>)]
@@ -15023,6 +15044,11 @@
         }
     }
 }
+<span class="doccomment">/// SecondaryBootDiskUpdateStrategy is a placeholder which will be extended
+/// in the future to define different options for updating secondary boot disks.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SecondaryBootDiskUpdateStrategy {}
 <span class="doccomment">/// PrivateIPv6GoogleAccess controls whether and how the pods can communicate
 /// with Google Services through gRPC over IPv6.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]

@@ -3078,6 +3078,93 @@
 <a href="#3076" id="3076">3076</a>
 <a href="#3077" id="3077">3077</a>
 <a href="#3078" id="3078">3078</a>
+<a href="#3079" id="3079">3079</a>
+<a href="#3080" id="3080">3080</a>
+<a href="#3081" id="3081">3081</a>
+<a href="#3082" id="3082">3082</a>
+<a href="#3083" id="3083">3083</a>
+<a href="#3084" id="3084">3084</a>
+<a href="#3085" id="3085">3085</a>
+<a href="#3086" id="3086">3086</a>
+<a href="#3087" id="3087">3087</a>
+<a href="#3088" id="3088">3088</a>
+<a href="#3089" id="3089">3089</a>
+<a href="#3090" id="3090">3090</a>
+<a href="#3091" id="3091">3091</a>
+<a href="#3092" id="3092">3092</a>
+<a href="#3093" id="3093">3093</a>
+<a href="#3094" id="3094">3094</a>
+<a href="#3095" id="3095">3095</a>
+<a href="#3096" id="3096">3096</a>
+<a href="#3097" id="3097">3097</a>
+<a href="#3098" id="3098">3098</a>
+<a href="#3099" id="3099">3099</a>
+<a href="#3100" id="3100">3100</a>
+<a href="#3101" id="3101">3101</a>
+<a href="#3102" id="3102">3102</a>
+<a href="#3103" id="3103">3103</a>
+<a href="#3104" id="3104">3104</a>
+<a href="#3105" id="3105">3105</a>
+<a href="#3106" id="3106">3106</a>
+<a href="#3107" id="3107">3107</a>
+<a href="#3108" id="3108">3108</a>
+<a href="#3109" id="3109">3109</a>
+<a href="#3110" id="3110">3110</a>
+<a href="#3111" id="3111">3111</a>
+<a href="#3112" id="3112">3112</a>
+<a href="#3113" id="3113">3113</a>
+<a href="#3114" id="3114">3114</a>
+<a href="#3115" id="3115">3115</a>
+<a href="#3116" id="3116">3116</a>
+<a href="#3117" id="3117">3117</a>
+<a href="#3118" id="3118">3118</a>
+<a href="#3119" id="3119">3119</a>
+<a href="#3120" id="3120">3120</a>
+<a href="#3121" id="3121">3121</a>
+<a href="#3122" id="3122">3122</a>
+<a href="#3123" id="3123">3123</a>
+<a href="#3124" id="3124">3124</a>
+<a href="#3125" id="3125">3125</a>
+<a href="#3126" id="3126">3126</a>
+<a href="#3127" id="3127">3127</a>
+<a href="#3128" id="3128">3128</a>
+<a href="#3129" id="3129">3129</a>
+<a href="#3130" id="3130">3130</a>
+<a href="#3131" id="3131">3131</a>
+<a href="#3132" id="3132">3132</a>
+<a href="#3133" id="3133">3133</a>
+<a href="#3134" id="3134">3134</a>
+<a href="#3135" id="3135">3135</a>
+<a href="#3136" id="3136">3136</a>
+<a href="#3137" id="3137">3137</a>
+<a href="#3138" id="3138">3138</a>
+<a href="#3139" id="3139">3139</a>
+<a href="#3140" id="3140">3140</a>
+<a href="#3141" id="3141">3141</a>
+<a href="#3142" id="3142">3142</a>
+<a href="#3143" id="3143">3143</a>
+<a href="#3144" id="3144">3144</a>
+<a href="#3145" id="3145">3145</a>
+<a href="#3146" id="3146">3146</a>
+<a href="#3147" id="3147">3147</a>
+<a href="#3148" id="3148">3148</a>
+<a href="#3149" id="3149">3149</a>
+<a href="#3150" id="3150">3150</a>
+<a href="#3151" id="3151">3151</a>
+<a href="#3152" id="3152">3152</a>
+<a href="#3153" id="3153">3153</a>
+<a href="#3154" id="3154">3154</a>
+<a href="#3155" id="3155">3155</a>
+<a href="#3156" id="3156">3156</a>
+<a href="#3157" id="3157">3157</a>
+<a href="#3158" id="3158">3158</a>
+<a href="#3159" id="3159">3159</a>
+<a href="#3160" id="3160">3160</a>
+<a href="#3161" id="3161">3161</a>
+<a href="#3162" id="3162">3162</a>
+<a href="#3163" id="3163">3163</a>
+<a href="#3164" id="3164">3164</a>
+<a href="#3165" id="3165">3165</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// A Firestore document.
 ///
 /// Must not exceed 1 MiB - 4 bytes.
@@ -3329,6 +3416,13 @@
     /// * The value must be greater than or equal to zero if specified.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>limit: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Optional. A potential Nearest Neighbors Search.
+    ///
+    /// Applies after all other filters and ordering.
+    ///
+    /// Finds the closest vector embeddings to the given query vector.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>find_nearest: ::core::option::Option&lt;structured_query::FindNearest&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `StructuredQuery`.
 </span><span class="kw">pub mod </span>structured_query {
@@ -3684,6 +3778,86 @@
         /// of the document, use `\['__name__'\]`.
         </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
         </span><span class="kw">pub </span>fields: ::prost::alloc::vec::Vec&lt;FieldReference&gt;,
+    }
+    <span class="doccomment">/// Nearest Neighbors search config.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>FindNearest {
+        <span class="doccomment">/// Required. An indexed vector field to search upon. Only documents which
+        /// contain vectors whose dimensionality match the query_vector can be
+        /// returned.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>vector_field: ::core::option::Option&lt;FieldReference&gt;,
+        <span class="doccomment">/// Required. The query vector that we are searching on. Must be a vector of
+        /// no more than 2048 dimensions.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>query_vector: ::core::option::Option&lt;<span class="kw">super</span>::Value&gt;,
+        <span class="doccomment">/// Required. The Distance Measure to use, required.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"find_nearest::DistanceMeasure"</span>, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>distance_measure: i32,
+        <span class="doccomment">/// Required. The number of nearest neighbors to return. Must be a positive
+        /// integer of no more than 1000.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>limit: ::core::option::Option&lt;i32&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `FindNearest`.
+    </span><span class="kw">pub mod </span>find_nearest {
+        <span class="doccomment">/// The distance measure to use when comparing vectors.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>DistanceMeasure {
+            <span class="doccomment">/// Should not be set.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Measures the EUCLIDEAN distance between the vectors. See
+            /// [Euclidean](&lt;https://en.wikipedia.org/wiki/Euclidean_distance&gt;) to learn
+            /// more
+            </span>Euclidean = <span class="number">1</span>,
+            <span class="doccomment">/// Compares vectors based on the angle between them, which allows you to
+            /// measure similarity that isn't based on the vectors magnitude.
+            /// We recommend using DOT_PRODUCT with unit normalized vectors instead of
+            /// COSINE distance, which is mathematically equivalent with better
+            /// performance. See [Cosine
+            /// Similarity](&lt;https://en.wikipedia.org/wiki/Cosine_similarity&gt;) to learn
+            /// more.
+            </span>Cosine = <span class="number">2</span>,
+            <span class="doccomment">/// Similar to cosine but is affected by the magnitude of the vectors. See
+            /// [Dot Product](&lt;https://en.wikipedia.org/wiki/Dot_product&gt;) to learn more.
+            </span>DotProduct = <span class="number">3</span>,
+        }
+        <span class="kw">impl </span>DistanceMeasure {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    DistanceMeasure::Unspecified =&gt; <span class="string">"DISTANCE_MEASURE_UNSPECIFIED"</span>,
+                    DistanceMeasure::Euclidean =&gt; <span class="string">"EUCLIDEAN"</span>,
+                    DistanceMeasure::Cosine =&gt; <span class="string">"COSINE"</span>,
+                    DistanceMeasure::DotProduct =&gt; <span class="string">"DOT_PRODUCT"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"DISTANCE_MEASURE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"EUCLIDEAN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Euclidean),
+                    <span class="string">"COSINE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cosine),
+                    <span class="string">"DOT_PRODUCT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DotProduct),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
     }
     <span class="doccomment">/// A sort direction.
     </span><span class="attr">#[derive(

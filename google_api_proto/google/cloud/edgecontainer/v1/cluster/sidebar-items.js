@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ReleaseChannel","Status"],"mod":["control_plane","maintenance_event","system_addons_config"],"struct":["ControlPlane","ControlPlaneEncryption","MaintenanceEvent","SurvivabilityConfig","SystemAddonsConfig"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Config","SharedDeploymentPolicy"],"struct":["Local","Remote"]};
