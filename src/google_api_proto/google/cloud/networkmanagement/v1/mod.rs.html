@@ -3577,6 +3577,7 @@
 <a href="#3575" id="3575">3575</a>
 <a href="#3576" id="3576">3576</a>
 <a href="#3577" id="3577">3577</a>
+<a href="#3578" id="3578">3578</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Trace represents one simulated packet forwarding path.
 ///
 ///    * Each trace contains multiple ordered steps.
@@ -3853,7 +3854,8 @@
         <span class="doccomment">/// Display information of the final state "drop" and reason.
         </span><span class="attr">#[prost(message, tag = <span class="string">"15"</span>)]
         </span>Drop(<span class="kw">super</span>::DropInfo),
-        <span class="doccomment">/// Display information of the load balancers.
+        <span class="doccomment">/// Display information of the load balancers. Deprecated in favor of the
+        /// `load_balancer_backend_info` field, not used in new tests.
         </span><span class="attr">#[prost(message, tag = <span class="string">"16"</span>)]
         </span>LoadBalancer(<span class="kw">super</span>::LoadBalancerInfo),
         <span class="doccomment">/// Display information of a Google Cloud network.
@@ -4442,8 +4444,11 @@
     <span class="doccomment">/// Type of the load balancer.
     </span><span class="attr">#[prost(enumeration = <span class="string">"load_balancer_info::LoadBalancerType"</span>, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>load_balancer_type: i32,
-    <span class="doccomment">/// URI of the health check for the load balancer.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    <span class="doccomment">/// URI of the health check for the load balancer. Deprecated and no longer
+    /// populated as different load balancer backends might have different health
+    /// checks.
+    </span><span class="attr">#[deprecated]
+    #[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>health_check_uri: ::prost::alloc::string::String,
     <span class="doccomment">/// Information for the loadbalancer backends.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
@@ -6246,9 +6251,6 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Endpoint {
     <span class="doccomment">/// The IP address of the endpoint, which can be an external or internal IP.
-    /// An IPv6 address is only allowed when the test's destination is a
-    /// [global load balancer
-    /// VIP](&lt;https://cloud.google.com/load-balancing/docs/load-balancing-overview&gt;).
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>ip_address: ::prost::alloc::string::String,
     <span class="doccomment">/// The IP protocol port of the endpoint.
