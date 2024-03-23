@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Source"],"mod":["feature_registry_source"],"struct":["BigQuerySource","FeatureRegistrySource","SyncConfig"]};
+window.SIDEBAR_ITEMS = {"enum":["Source"],"mod":["feature_registry_source","index_config"],"struct":["BigQuerySource","FeatureRegistrySource","IndexConfig","SyncConfig"]};

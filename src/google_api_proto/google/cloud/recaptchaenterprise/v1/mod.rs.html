@@ -2922,6 +2922,10 @@
 <a href="#2920" id="2920">2920</a>
 <a href="#2921" id="2921">2921</a>
 <a href="#2922" id="2922">2922</a>
+<a href="#2923" id="2923">2923</a>
+<a href="#2924" id="2924">2924</a>
+<a href="#2925" id="2925">2925</a>
+<a href="#2926" id="2926">2926</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// The create assessment request message.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -5170,6 +5174,8 @@
         </span>Ca = <span class="number">1</span>,
         <span class="doccomment">/// Fastly
         </span>Fastly = <span class="number">3</span>,
+        <span class="doccomment">/// Cloudflare
+        </span>Cloudflare = <span class="number">4</span>,
     }
     <span class="kw">impl </span>WafService {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -5181,6 +5187,7 @@
                 WafService::Unspecified =&gt; <span class="string">"WAF_SERVICE_UNSPECIFIED"</span>,
                 WafService::Ca =&gt; <span class="string">"CA"</span>,
                 WafService::Fastly =&gt; <span class="string">"FASTLY"</span>,
+                WafService::Cloudflare =&gt; <span class="string">"CLOUDFLARE"</span>,
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -5189,6 +5196,7 @@
                 <span class="string">"WAF_SERVICE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
                 <span class="string">"CA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ca),
                 <span class="string">"FASTLY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Fastly),
+                <span class="string">"CLOUDFLARE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cloudflare),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }

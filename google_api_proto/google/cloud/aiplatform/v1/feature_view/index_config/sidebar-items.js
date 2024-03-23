@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["AlgorithmConfig","DistanceMeasureType"],"struct":["BruteForceConfig","TreeAhConfig"]};
