@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["ArrayConfig","Order","ValueMode"]};
+window.SIDEBAR_ITEMS = {"enum":["ArrayConfig","Order","ValueMode"],"mod":["vector_config"],"struct":["VectorConfig"]};

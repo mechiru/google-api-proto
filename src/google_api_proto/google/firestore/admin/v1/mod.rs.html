@@ -2627,6 +2627,40 @@
 <a href="#2625" id="2625">2625</a>
 <a href="#2626" id="2626">2626</a>
 <a href="#2627" id="2627">2627</a>
+<a href="#2628" id="2628">2628</a>
+<a href="#2629" id="2629">2629</a>
+<a href="#2630" id="2630">2630</a>
+<a href="#2631" id="2631">2631</a>
+<a href="#2632" id="2632">2632</a>
+<a href="#2633" id="2633">2633</a>
+<a href="#2634" id="2634">2634</a>
+<a href="#2635" id="2635">2635</a>
+<a href="#2636" id="2636">2636</a>
+<a href="#2637" id="2637">2637</a>
+<a href="#2638" id="2638">2638</a>
+<a href="#2639" id="2639">2639</a>
+<a href="#2640" id="2640">2640</a>
+<a href="#2641" id="2641">2641</a>
+<a href="#2642" id="2642">2642</a>
+<a href="#2643" id="2643">2643</a>
+<a href="#2644" id="2644">2644</a>
+<a href="#2645" id="2645">2645</a>
+<a href="#2646" id="2646">2646</a>
+<a href="#2647" id="2647">2647</a>
+<a href="#2648" id="2648">2648</a>
+<a href="#2649" id="2649">2649</a>
+<a href="#2650" id="2650">2650</a>
+<a href="#2651" id="2651">2651</a>
+<a href="#2652" id="2652">2652</a>
+<a href="#2653" id="2653">2653</a>
+<a href="#2654" id="2654">2654</a>
+<a href="#2655" id="2655">2655</a>
+<a href="#2656" id="2656">2656</a>
+<a href="#2657" id="2657">2657</a>
+<a href="#2658" id="2658">2658</a>
+<a href="#2659" id="2659">2659</a>
+<a href="#2660" id="2660">2660</a>
+<a href="#2661" id="2661">2661</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// A Cloud Firestore Database.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3134,11 +3168,41 @@
         </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
         </span><span class="kw">pub </span>field_path: ::prost::alloc::string::String,
         <span class="doccomment">/// How the field value is indexed.
-        </span><span class="attr">#[prost(oneof = <span class="string">"index_field::ValueMode"</span>, tags = <span class="string">"2, 3"</span>)]
+        </span><span class="attr">#[prost(oneof = <span class="string">"index_field::ValueMode"</span>, tags = <span class="string">"2, 3, 4"</span>)]
         </span><span class="kw">pub </span>value_mode: ::core::option::Option&lt;index_field::ValueMode&gt;,
     }
     <span class="doccomment">/// Nested message and enum types in `IndexField`.
     </span><span class="kw">pub mod </span>index_field {
+        <span class="doccomment">/// The index configuration to support vector search operations
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>VectorConfig {
+            <span class="doccomment">/// Required. The vector dimension this configuration applies to.
+            ///
+            /// The resulting index will only include vectors of this dimension, and
+            /// can be used for vector search with the same dimension.
+            </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>dimension: i32,
+            <span class="doccomment">/// The type of index used.
+            </span><span class="attr">#[prost(oneof = <span class="string">"vector_config::Type"</span>, tags = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;vector_config::Type&gt;,
+        }
+        <span class="doccomment">/// Nested message and enum types in `VectorConfig`.
+        </span><span class="kw">pub mod </span>vector_config {
+            <span class="doccomment">/// An index that stores vectors in a flat data structure, and supports
+            /// exhaustive search.
+            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            </span><span class="kw">pub struct </span>FlatIndex {}
+            <span class="doccomment">/// The type of index used.
+            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+            #[derive(Clone, PartialEq, ::prost::Oneof)]
+            </span><span class="kw">pub enum </span>Type {
+                <span class="doccomment">/// Indicates the vector index is a flat index.
+                </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+                </span>Flat(FlatIndex),
+            }
+        }
         <span class="doccomment">/// The supported orderings.
         </span><span class="attr">#[derive(
             Clone,
@@ -3232,6 +3296,10 @@
             <span class="doccomment">/// Indicates that this field supports operations on `array_value`s.
             </span><span class="attr">#[prost(enumeration = <span class="string">"ArrayConfig"</span>, tag = <span class="string">"3"</span>)]
             </span>ArrayConfig(i32),
+            <span class="doccomment">/// Indicates that this field supports nearest neighbors and distance
+            /// operations on vector.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+            </span>VectorConfig(VectorConfig),
         }
     }
     <span class="doccomment">/// Query Scope defines the scope at which a query is run. This is specified on
