@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Recurrence"],"struct":["DayOfWeekList"]};

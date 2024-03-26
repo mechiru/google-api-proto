@@ -3578,6 +3578,41 @@
 <a href="#3576" id="3576">3576</a>
 <a href="#3577" id="3577">3577</a>
 <a href="#3578" id="3578">3578</a>
+<a href="#3579" id="3579">3579</a>
+<a href="#3580" id="3580">3580</a>
+<a href="#3581" id="3581">3581</a>
+<a href="#3582" id="3582">3582</a>
+<a href="#3583" id="3583">3583</a>
+<a href="#3584" id="3584">3584</a>
+<a href="#3585" id="3585">3585</a>
+<a href="#3586" id="3586">3586</a>
+<a href="#3587" id="3587">3587</a>
+<a href="#3588" id="3588">3588</a>
+<a href="#3589" id="3589">3589</a>
+<a href="#3590" id="3590">3590</a>
+<a href="#3591" id="3591">3591</a>
+<a href="#3592" id="3592">3592</a>
+<a href="#3593" id="3593">3593</a>
+<a href="#3594" id="3594">3594</a>
+<a href="#3595" id="3595">3595</a>
+<a href="#3596" id="3596">3596</a>
+<a href="#3597" id="3597">3597</a>
+<a href="#3598" id="3598">3598</a>
+<a href="#3599" id="3599">3599</a>
+<a href="#3600" id="3600">3600</a>
+<a href="#3601" id="3601">3601</a>
+<a href="#3602" id="3602">3602</a>
+<a href="#3603" id="3603">3603</a>
+<a href="#3604" id="3604">3604</a>
+<a href="#3605" id="3605">3605</a>
+<a href="#3606" id="3606">3606</a>
+<a href="#3607" id="3607">3607</a>
+<a href="#3608" id="3608">3608</a>
+<a href="#3609" id="3609">3609</a>
+<a href="#3610" id="3610">3610</a>
+<a href="#3611" id="3611">3611</a>
+<a href="#3612" id="3612">3612</a>
+<a href="#3613" id="3613">3613</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Trace represents one simulated packet forwarding path.
 ///
 ///    * Each trace contains multiple ordered steps.
@@ -3606,6 +3641,11 @@
     /// and avoid reordering or sorting them.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>steps: ::prost::alloc::vec::Vec&lt;Step&gt;,
+    <span class="doccomment">/// ID of trace. For forward traces, this ID is unique for each trace. For
+    /// return traces, it matches ID of associated forward trace. A single forward
+    /// trace can be associated with none, one or more than one return trace.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>forward_trace_id: i32,
 }
 <span class="doccomment">/// A simulated forwarding path is composed of multiple steps.
 /// Each step has a well-defined state and an associated configuration.
@@ -3683,6 +3723,13 @@
         <span class="doccomment">/// Initial state: packet originating from a Cloud Run revision.
         /// A CloudRunRevisionInfo is populated with starting revision information.
         </span>StartFromCloudRunRevision = <span class="number">26</span>,
+        <span class="doccomment">/// Initial state: packet originating from a Storage Bucket. Used only for
+        /// return traces.
+        /// The storage_bucket information is populated.
+        </span>StartFromStorageBucket = <span class="number">29</span>,
+        <span class="doccomment">/// Initial state: packet originating from a published service that uses
+        /// Private Service Connect. Used only for return traces.
+        </span>StartFromPscPublishedService = <span class="number">30</span>,
         <span class="doccomment">/// Config checking state: verify ingress firewall rule.
         </span>ApplyIngressFirewallRule = <span class="number">4</span>,
         <span class="doccomment">/// Config checking state: verify egress firewall rule.
@@ -3699,8 +3746,12 @@
         <span class="doccomment">/// Forwarding state: arriving at a Compute Engine instance.
         </span>ArriveAtInstance = <span class="number">9</span>,
         <span class="doccomment">/// Forwarding state: arriving at a Compute Engine internal load balancer.
+        /// Deprecated in favor of the `ANALYZE_LOAD_BALANCER_BACKEND` state, not
+        /// used in new tests.
         </span>ArriveAtInternalLoadBalancer = <span class="number">10</span>,
         <span class="doccomment">/// Forwarding state: arriving at a Compute Engine external load balancer.
+        /// Deprecated in favor of the `ANALYZE_LOAD_BALANCER_BACKEND` state, not
+        /// used in new tests.
         </span>ArriveAtExternalLoadBalancer = <span class="number">11</span>,
         <span class="doccomment">/// Forwarding state: arriving at a Cloud VPN gateway.
         </span>ArriveAtVpnGateway = <span class="number">12</span>,
@@ -3743,6 +3794,8 @@
                 State::StartFromCloudFunction =&gt; <span class="string">"START_FROM_CLOUD_FUNCTION"</span>,
                 State::StartFromAppEngineVersion =&gt; <span class="string">"START_FROM_APP_ENGINE_VERSION"</span>,
                 State::StartFromCloudRunRevision =&gt; <span class="string">"START_FROM_CLOUD_RUN_REVISION"</span>,
+                State::StartFromStorageBucket =&gt; <span class="string">"START_FROM_STORAGE_BUCKET"</span>,
+                State::StartFromPscPublishedService =&gt; <span class="string">"START_FROM_PSC_PUBLISHED_SERVICE"</span>,
                 State::ApplyIngressFirewallRule =&gt; <span class="string">"APPLY_INGRESS_FIREWALL_RULE"</span>,
                 State::ApplyEgressFirewallRule =&gt; <span class="string">"APPLY_EGRESS_FIREWALL_RULE"</span>,
                 State::ApplyRoute =&gt; <span class="string">"APPLY_ROUTE"</span>,
@@ -3777,6 +3830,10 @@
                 <span class="string">"START_FROM_CLOUD_FUNCTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StartFromCloudFunction),
                 <span class="string">"START_FROM_APP_ENGINE_VERSION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StartFromAppEngineVersion),
                 <span class="string">"START_FROM_CLOUD_RUN_REVISION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StartFromCloudRunRevision),
+                <span class="string">"START_FROM_STORAGE_BUCKET" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StartFromStorageBucket),
+                <span class="string">"START_FROM_PSC_PUBLISHED_SERVICE" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::StartFromPscPublishedService)
+                }
                 <span class="string">"APPLY_INGRESS_FIREWALL_RULE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApplyIngressFirewallRule),
                 <span class="string">"APPLY_EGRESS_FIREWALL_RULE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApplyEgressFirewallRule),
                 <span class="string">"APPLY_ROUTE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApplyRoute),
@@ -4020,6 +4077,11 @@
         /// For details, see [Regional network firewall
         /// policies](&lt;https://cloud.google.com/firewall/docs/regional-firewall-policies&gt;).
         </span>NetworkRegionalFirewallPolicyRule = <span class="number">6</span>,
+        <span class="doccomment">/// Tracking state for response traffic created when request traffic goes
+        /// through allow firewall rule.
+        /// For details, see [firewall rules
+        /// specifications](&lt;https://cloud.google.com/firewall/docs/firewalls#specifications&gt;)
+        </span>TrackingState = <span class="number">101</span>,
     }
     <span class="kw">impl </span>FirewallRuleType {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -4043,6 +4105,7 @@
                 FirewallRuleType::NetworkRegionalFirewallPolicyRule =&gt; {
                     <span class="string">"NETWORK_REGIONAL_FIREWALL_POLICY_RULE"
                 </span>}
+                FirewallRuleType::TrackingState =&gt; <span class="string">"TRACKING_STATE"</span>,
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -4061,6 +4124,7 @@
                 <span class="string">"NETWORK_REGIONAL_FIREWALL_POLICY_RULE" </span>=&gt; {
                     <span class="prelude-val">Some</span>(<span class="self">Self</span>::NetworkRegionalFirewallPolicyRule)
                 }
+                <span class="string">"TRACKING_STATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrackingState),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
@@ -6245,6 +6309,10 @@
     /// existing test.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"14"</span>)]
     </span><span class="kw">pub </span>probing_details: ::core::option::Option&lt;ProbingDetails&gt;,
+    <span class="doccomment">/// Whether the test should skip firewall checking.
+    /// If not provided, we assume false.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"17"</span>)]
+    </span><span class="kw">pub </span>bypass_firewall_checks: bool,
 }
 <span class="doccomment">/// Source or destination of the Connectivity Test.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6499,7 +6567,9 @@
         <span class="doccomment">/// The source and destination endpoints do not uniquely identify
         /// the test location in the network, and the reachability result contains
         /// multiple traces. For some traces, a packet could be delivered, and for
-        /// others, it would not be.
+        /// others, it would not be. This result is also assigned to
+        /// configuration analysis of return path if on its own it should be
+        /// REACHABLE, but configuration analysis of forward path is AMBIGUOUS.
         </span>Ambiguous = <span class="number">4</span>,
         <span class="doccomment">/// The configuration analysis did not complete. Possible reasons are:
         ///
