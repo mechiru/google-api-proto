@@ -3162,6 +3162,11 @@
 <a href="#3160" id="3160">3160</a>
 <a href="#3161" id="3161">3161</a>
 <a href="#3162" id="3162">3162</a>
+<a href="#3163" id="3163">3163</a>
+<a href="#3164" id="3164">3164</a>
+<a href="#3165" id="3165">3165</a>
+<a href="#3166" id="3166">3166</a>
+<a href="#3167" id="3167">3167</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// A schema resource.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3964,7 +3969,7 @@
             ///      `gcp_service_account`.
             </span>KinesisPermissionDenied = <span class="number">2</span>,
             <span class="doccomment">/// Permission denied encountered while publishing to the topic. This can
-            /// happen due to Pub/Sub SA has not been granted the [appropriate publish
+            /// happen if the Pub/Sub SA has not been granted the [appropriate publish
             /// permissions](&lt;https://cloud.google.com/pubsub/docs/access-control#pubsub.publisher&gt;)
             </span>PublishPermissionDenied = <span class="number">3</span>,
             <span class="doccomment">/// The Kinesis stream does not exist.
@@ -4830,6 +4835,11 @@
     /// Must not end in "/".
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>filename_suffix: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. User-provided format string specifying how to represent datetimes
+    /// in Cloud Storage filenames. See the [datetime format
+    /// guidance](&lt;https://cloud.google.com/pubsub/docs/create-cloudstorage-subscription#file_names&gt;).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>filename_datetime_format: ::prost::alloc::string::String,
     <span class="doccomment">/// Optional. The maximum duration that can elapse before a new Cloud Storage
     /// file is created. Min 1 minute, max 10 minutes, default 5 minutes. May not
     /// exceed the subscription's acknowledgement deadline.
