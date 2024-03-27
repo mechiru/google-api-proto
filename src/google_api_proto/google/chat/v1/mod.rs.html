@@ -3695,6 +3695,88 @@
 <a href="#3693" id="3693">3693</a>
 <a href="#3694" id="3694">3694</a>
 <a href="#3695" id="3695">3695</a>
+<a href="#3696" id="3696">3696</a>
+<a href="#3697" id="3697">3697</a>
+<a href="#3698" id="3698">3698</a>
+<a href="#3699" id="3699">3699</a>
+<a href="#3700" id="3700">3700</a>
+<a href="#3701" id="3701">3701</a>
+<a href="#3702" id="3702">3702</a>
+<a href="#3703" id="3703">3703</a>
+<a href="#3704" id="3704">3704</a>
+<a href="#3705" id="3705">3705</a>
+<a href="#3706" id="3706">3706</a>
+<a href="#3707" id="3707">3707</a>
+<a href="#3708" id="3708">3708</a>
+<a href="#3709" id="3709">3709</a>
+<a href="#3710" id="3710">3710</a>
+<a href="#3711" id="3711">3711</a>
+<a href="#3712" id="3712">3712</a>
+<a href="#3713" id="3713">3713</a>
+<a href="#3714" id="3714">3714</a>
+<a href="#3715" id="3715">3715</a>
+<a href="#3716" id="3716">3716</a>
+<a href="#3717" id="3717">3717</a>
+<a href="#3718" id="3718">3718</a>
+<a href="#3719" id="3719">3719</a>
+<a href="#3720" id="3720">3720</a>
+<a href="#3721" id="3721">3721</a>
+<a href="#3722" id="3722">3722</a>
+<a href="#3723" id="3723">3723</a>
+<a href="#3724" id="3724">3724</a>
+<a href="#3725" id="3725">3725</a>
+<a href="#3726" id="3726">3726</a>
+<a href="#3727" id="3727">3727</a>
+<a href="#3728" id="3728">3728</a>
+<a href="#3729" id="3729">3729</a>
+<a href="#3730" id="3730">3730</a>
+<a href="#3731" id="3731">3731</a>
+<a href="#3732" id="3732">3732</a>
+<a href="#3733" id="3733">3733</a>
+<a href="#3734" id="3734">3734</a>
+<a href="#3735" id="3735">3735</a>
+<a href="#3736" id="3736">3736</a>
+<a href="#3737" id="3737">3737</a>
+<a href="#3738" id="3738">3738</a>
+<a href="#3739" id="3739">3739</a>
+<a href="#3740" id="3740">3740</a>
+<a href="#3741" id="3741">3741</a>
+<a href="#3742" id="3742">3742</a>
+<a href="#3743" id="3743">3743</a>
+<a href="#3744" id="3744">3744</a>
+<a href="#3745" id="3745">3745</a>
+<a href="#3746" id="3746">3746</a>
+<a href="#3747" id="3747">3747</a>
+<a href="#3748" id="3748">3748</a>
+<a href="#3749" id="3749">3749</a>
+<a href="#3750" id="3750">3750</a>
+<a href="#3751" id="3751">3751</a>
+<a href="#3752" id="3752">3752</a>
+<a href="#3753" id="3753">3753</a>
+<a href="#3754" id="3754">3754</a>
+<a href="#3755" id="3755">3755</a>
+<a href="#3756" id="3756">3756</a>
+<a href="#3757" id="3757">3757</a>
+<a href="#3758" id="3758">3758</a>
+<a href="#3759" id="3759">3759</a>
+<a href="#3760" id="3760">3760</a>
+<a href="#3761" id="3761">3761</a>
+<a href="#3762" id="3762">3762</a>
+<a href="#3763" id="3763">3763</a>
+<a href="#3764" id="3764">3764</a>
+<a href="#3765" id="3765">3765</a>
+<a href="#3766" id="3766">3766</a>
+<a href="#3767" id="3767">3767</a>
+<a href="#3768" id="3768">3768</a>
+<a href="#3769" id="3769">3769</a>
+<a href="#3770" id="3770">3770</a>
+<a href="#3771" id="3771">3771</a>
+<a href="#3772" id="3772">3772</a>
+<a href="#3773" id="3773">3773</a>
+<a href="#3774" id="3774">3774</a>
+<a href="#3775" id="3775">3775</a>
+<a href="#3776" id="3776">3776</a>
+<a href="#3777" id="3777">3777</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// A widget is a UI element that presents text and images.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -6031,6 +6113,71 @@
     <span class="doccomment">/// Output only. GIF images that are attached to the message.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"42"</span>)]
     </span><span class="kw">pub </span>attached_gifs: ::prost::alloc::vec::Vec&lt;AttachedGif&gt;,
+    <span class="doccomment">/// One or more interactive widgets that appear at the bottom of a message.
+    /// You can add accessory widgets to messages that contain text, cards, or both
+    /// text and cards. Not supported for messages that contain dialogs.
+    ///
+    /// Creating a message with accessory widgets requires [app
+    /// authentication]
+    /// (&lt;https://developers.google.com/chat/api/guides/auth/service-accounts&gt;).
+    ///
+    /// The following example shows a Chat app that uses accessory widgets (thumbs
+    /// up and thumbs down buttons) in a text message:
+    ///
+    /// ![Example accessory widgets
+    /// message](&lt;https://developers.google.com/chat/images/message-accessory-widgets-reference.png&gt;)
+    ///
+    /// The JSON for this example message is the following:
+    ///
+    /// ```
+    /// {
+    ///    "text": "Rate your experience with this Chat app.",
+    ///    "accessoryWidgets": [
+    ///      {
+    ///        "buttonList": {
+    ///          "buttons": [
+    ///            {
+    ///              "icon": {
+    ///                "material_icon": {
+    ///                  "name": "thumb_up"
+    ///                }
+    ///              },
+    ///              "color": {
+    ///                "red": 0,
+    ///                "blue": 255,
+    ///                "green": 0
+    ///              },
+    ///              "onClick": {
+    ///                "action": {
+    ///                  "function": "doUpvote",
+    ///                }
+    ///              }
+    ///            },
+    ///            {
+    ///              "icon": {
+    ///                "material_icon": {
+    ///                  "name": "thumb_down"
+    ///                }
+    ///              },
+    ///              "color": {
+    ///                "red": 0,
+    ///                "blue": 255,
+    ///                "green": 0
+    ///              },
+    ///              "onClick": {
+    ///                "action": {
+    ///                  "function": "doDownvote",
+    ///                }
+    ///              }
+    ///            }
+    ///          ]
+    ///        }
+    ///      }
+    ///    ]
+    /// }
+    /// ```
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"44"</span>)]
+    </span><span class="kw">pub </span>accessory_widgets: ::prost::alloc::vec::Vec&lt;AccessoryWidget&gt;,
 }
 <span class="doccomment">/// A GIF image that's specified by a URL.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6198,6 +6345,23 @@
         }
     }
 }
+<span class="doccomment">/// A borderless widget attached to the bottom of an app's message.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessoryWidget {
+    <span class="attr">#[prost(oneof = <span class="string">"accessory_widget::Action"</span>, tags = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>action: ::core::option::Option&lt;accessory_widget::Action&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `AccessoryWidget`.
+</span><span class="kw">pub mod </span>accessory_widget {
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Action {
+        <span class="doccomment">/// A list of buttons that are displayed under the message.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>ButtonList(<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::apps::card::v1::ButtonList),
+    }
+}
 <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>GetMessageRequest {
@@ -6256,7 +6420,7 @@
     /// - `cards_v2`  (Requires [app
     /// authentication](/chat/api/guides/auth/service-accounts).)
     ///
-    /// - Developer Preview: `accessory_widgets`  (Requires [app
+    /// - `accessory_widgets`  (Requires [app
     /// authentication](/chat/api/guides/auth/service-accounts).)
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
