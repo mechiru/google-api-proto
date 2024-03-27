@@ -8189,6 +8189,98 @@
 <a href="#8187" id="8187">8187</a>
 <a href="#8188" id="8188">8188</a>
 <a href="#8189" id="8189">8189</a>
+<a href="#8190" id="8190">8190</a>
+<a href="#8191" id="8191">8191</a>
+<a href="#8192" id="8192">8192</a>
+<a href="#8193" id="8193">8193</a>
+<a href="#8194" id="8194">8194</a>
+<a href="#8195" id="8195">8195</a>
+<a href="#8196" id="8196">8196</a>
+<a href="#8197" id="8197">8197</a>
+<a href="#8198" id="8198">8198</a>
+<a href="#8199" id="8199">8199</a>
+<a href="#8200" id="8200">8200</a>
+<a href="#8201" id="8201">8201</a>
+<a href="#8202" id="8202">8202</a>
+<a href="#8203" id="8203">8203</a>
+<a href="#8204" id="8204">8204</a>
+<a href="#8205" id="8205">8205</a>
+<a href="#8206" id="8206">8206</a>
+<a href="#8207" id="8207">8207</a>
+<a href="#8208" id="8208">8208</a>
+<a href="#8209" id="8209">8209</a>
+<a href="#8210" id="8210">8210</a>
+<a href="#8211" id="8211">8211</a>
+<a href="#8212" id="8212">8212</a>
+<a href="#8213" id="8213">8213</a>
+<a href="#8214" id="8214">8214</a>
+<a href="#8215" id="8215">8215</a>
+<a href="#8216" id="8216">8216</a>
+<a href="#8217" id="8217">8217</a>
+<a href="#8218" id="8218">8218</a>
+<a href="#8219" id="8219">8219</a>
+<a href="#8220" id="8220">8220</a>
+<a href="#8221" id="8221">8221</a>
+<a href="#8222" id="8222">8222</a>
+<a href="#8223" id="8223">8223</a>
+<a href="#8224" id="8224">8224</a>
+<a href="#8225" id="8225">8225</a>
+<a href="#8226" id="8226">8226</a>
+<a href="#8227" id="8227">8227</a>
+<a href="#8228" id="8228">8228</a>
+<a href="#8229" id="8229">8229</a>
+<a href="#8230" id="8230">8230</a>
+<a href="#8231" id="8231">8231</a>
+<a href="#8232" id="8232">8232</a>
+<a href="#8233" id="8233">8233</a>
+<a href="#8234" id="8234">8234</a>
+<a href="#8235" id="8235">8235</a>
+<a href="#8236" id="8236">8236</a>
+<a href="#8237" id="8237">8237</a>
+<a href="#8238" id="8238">8238</a>
+<a href="#8239" id="8239">8239</a>
+<a href="#8240" id="8240">8240</a>
+<a href="#8241" id="8241">8241</a>
+<a href="#8242" id="8242">8242</a>
+<a href="#8243" id="8243">8243</a>
+<a href="#8244" id="8244">8244</a>
+<a href="#8245" id="8245">8245</a>
+<a href="#8246" id="8246">8246</a>
+<a href="#8247" id="8247">8247</a>
+<a href="#8248" id="8248">8248</a>
+<a href="#8249" id="8249">8249</a>
+<a href="#8250" id="8250">8250</a>
+<a href="#8251" id="8251">8251</a>
+<a href="#8252" id="8252">8252</a>
+<a href="#8253" id="8253">8253</a>
+<a href="#8254" id="8254">8254</a>
+<a href="#8255" id="8255">8255</a>
+<a href="#8256" id="8256">8256</a>
+<a href="#8257" id="8257">8257</a>
+<a href="#8258" id="8258">8258</a>
+<a href="#8259" id="8259">8259</a>
+<a href="#8260" id="8260">8260</a>
+<a href="#8261" id="8261">8261</a>
+<a href="#8262" id="8262">8262</a>
+<a href="#8263" id="8263">8263</a>
+<a href="#8264" id="8264">8264</a>
+<a href="#8265" id="8265">8265</a>
+<a href="#8266" id="8266">8266</a>
+<a href="#8267" id="8267">8267</a>
+<a href="#8268" id="8268">8268</a>
+<a href="#8269" id="8269">8269</a>
+<a href="#8270" id="8270">8270</a>
+<a href="#8271" id="8271">8271</a>
+<a href="#8272" id="8272">8272</a>
+<a href="#8273" id="8273">8273</a>
+<a href="#8274" id="8274">8274</a>
+<a href="#8275" id="8275">8275</a>
+<a href="#8276" id="8276">8276</a>
+<a href="#8277" id="8277">8277</a>
+<a href="#8278" id="8278">8278</a>
+<a href="#8279" id="8279">8279</a>
+<a href="#8280" id="8280">8280</a>
+<a href="#8281" id="8281">8281</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Parameters that can be configured on Linux nodes.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -14049,9 +14141,39 @@
     <span class="doccomment">/// The desired state of etcd encryption.
     </span><span class="attr">#[prost(enumeration = <span class="string">"database_encryption::State"</span>, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Output only. The current state of etcd encryption.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"database_encryption::CurrentState"</span>, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>current_state: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Output only. Keys in use by the cluster for decrypting
+    /// existing objects, in addition to the key in `key_name`.
+    ///
+    /// Each item is a CloudKMS key resource.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>decryption_keys: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Output only. Records errors seen during DatabaseEncryption update
+    /// operations.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>last_operation_errors: ::prost::alloc::vec::Vec&lt;
+        database_encryption::OperationError,
+    &gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `DatabaseEncryption`.
 </span><span class="kw">pub mod </span>database_encryption {
+    <span class="doccomment">/// OperationError records errors seen from CloudKMS keys
+    /// encountered during updates to DatabaseEncryption configuration.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>OperationError {
+        <span class="doccomment">/// CloudKMS key resource that had the error.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>key_name: ::prost::alloc::string::String,
+        <span class="doccomment">/// Description of the error seen during the operation.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>error_message: ::prost::alloc::string::String,
+        <span class="doccomment">/// Time when the CloudKMS error was seen.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>timestamp: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    }
     <span class="doccomment">/// State of etcd encryption.
     </span><span class="attr">#[derive(
         Clone,
@@ -14092,6 +14214,68 @@
                 <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
                 <span class="string">"ENCRYPTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Encrypted),
                 <span class="string">"DECRYPTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Decrypted),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Current State of etcd encryption.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>CurrentState {
+        <span class="doccomment">/// Should never be set
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Secrets in etcd are encrypted.
+        </span>Encrypted = <span class="number">7</span>,
+        <span class="doccomment">/// Secrets in etcd are stored in plain text (at etcd level) - this is
+        /// unrelated to Compute Engine level full disk encryption.
+        </span>Decrypted = <span class="number">2</span>,
+        <span class="doccomment">/// Encryption (or re-encryption with a different CloudKMS key)
+        /// of Secrets is in progress.
+        </span>EncryptionPending = <span class="number">3</span>,
+        <span class="doccomment">/// Encryption (or re-encryption with a different CloudKMS key) of Secrets in
+        /// etcd encountered an error.
+        </span>EncryptionError = <span class="number">4</span>,
+        <span class="doccomment">/// De-crypting Secrets to plain text in etcd is in progress.
+        </span>DecryptionPending = <span class="number">5</span>,
+        <span class="doccomment">/// De-crypting Secrets to plain text in etcd encountered an error.
+        </span>DecryptionError = <span class="number">6</span>,
+    }
+    <span class="kw">impl </span>CurrentState {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                CurrentState::Unspecified =&gt; <span class="string">"CURRENT_STATE_UNSPECIFIED"</span>,
+                CurrentState::Encrypted =&gt; <span class="string">"CURRENT_STATE_ENCRYPTED"</span>,
+                CurrentState::Decrypted =&gt; <span class="string">"CURRENT_STATE_DECRYPTED"</span>,
+                CurrentState::EncryptionPending =&gt; <span class="string">"CURRENT_STATE_ENCRYPTION_PENDING"</span>,
+                CurrentState::EncryptionError =&gt; <span class="string">"CURRENT_STATE_ENCRYPTION_ERROR"</span>,
+                CurrentState::DecryptionPending =&gt; <span class="string">"CURRENT_STATE_DECRYPTION_PENDING"</span>,
+                CurrentState::DecryptionError =&gt; <span class="string">"CURRENT_STATE_DECRYPTION_ERROR"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"CURRENT_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CURRENT_STATE_ENCRYPTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Encrypted),
+                <span class="string">"CURRENT_STATE_DECRYPTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Decrypted),
+                <span class="string">"CURRENT_STATE_ENCRYPTION_PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EncryptionPending),
+                <span class="string">"CURRENT_STATE_ENCRYPTION_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EncryptionError),
+                <span class="string">"CURRENT_STATE_DECRYPTION_PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DecryptionPending),
+                <span class="string">"CURRENT_STATE_DECRYPTION_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DecryptionError),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }

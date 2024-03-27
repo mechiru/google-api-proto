@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["grounding_signals","safety_signals"],"struct":["AnswerGenerationModelCallSignals","AnswerPart","CitedSnippet","GroundingSignals","RewriterModelCallSignals","SafetySignals","SearchSnippet"]};

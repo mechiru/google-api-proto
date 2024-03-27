@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["HttpMethod","WebhookType"]};
+window.SIDEBAR_ITEMS = {"enum":["HttpMethod","ServiceAgentAuth","WebhookType"],"struct":["OAuthConfig"]};

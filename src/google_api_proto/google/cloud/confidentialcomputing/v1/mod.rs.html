@@ -402,6 +402,14 @@
 <a href="#400" id="400">400</a>
 <a href="#401" id="401">401</a>
 <a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
+<a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// A Challenge from the server used to guarantee freshness of attestations
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -647,6 +655,10 @@
     </span>Unspecified = <span class="number">0</span>,
     <span class="doccomment">/// OpenID Connect (OIDC) token type
     </span>Oidc = <span class="number">1</span>,
+    <span class="doccomment">/// Public Key Infrastructure (PKI) token type
+    </span>Pki = <span class="number">2</span>,
+    <span class="doccomment">/// Limited claim token type for AWS integration
+    </span>LimitedAws = <span class="number">3</span>,
 }
 <span class="kw">impl </span>TokenType {
     <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -657,6 +669,8 @@
         <span class="kw">match </span><span class="self">self </span>{
             TokenType::Unspecified =&gt; <span class="string">"TOKEN_TYPE_UNSPECIFIED"</span>,
             TokenType::Oidc =&gt; <span class="string">"TOKEN_TYPE_OIDC"</span>,
+            TokenType::Pki =&gt; <span class="string">"TOKEN_TYPE_PKI"</span>,
+            TokenType::LimitedAws =&gt; <span class="string">"TOKEN_TYPE_LIMITED_AWS"</span>,
         }
     }
     <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -664,6 +678,8 @@
         <span class="kw">match </span>value {
             <span class="string">"TOKEN_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
             <span class="string">"TOKEN_TYPE_OIDC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Oidc),
+            <span class="string">"TOKEN_TYPE_PKI" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pki),
+            <span class="string">"TOKEN_TYPE_LIMITED_AWS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LimitedAws),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }

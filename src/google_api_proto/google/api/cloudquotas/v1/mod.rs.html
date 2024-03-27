@@ -833,9 +833,6 @@
 <a href="#831" id="831">831</a>
 <a href="#832" id="832">832</a>
 <a href="#833" id="833">833</a>
-<a href="#834" id="834">834</a>
-<a href="#835" id="835">835</a>
-<a href="#836" id="836">836</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// QuotaInfo represents information about a particular quota for a given
 /// project, folder or organization.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -899,15 +896,9 @@
     /// on the total number of concurrent operations in flight at any given time.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"15"</span>)]
     </span><span class="kw">pub </span>is_concurrent: bool,
-    <span class="doccomment">/// URI to the page where the user can request more quotas for the cloud
-    /// service, such as
-    /// &lt;https://docs.google.com/spreadsheet/viewform?formkey=abc123&amp;entry_0={email}&amp;entry_1={id}.&gt;
-    /// Google Developers Console UI replace {email} with the current
-    /// user's e-mail, {id} with the current project number, or organization ID
-    /// with "organizations/" prefix. For example,
-    /// &lt;https://docs.google.com/spreadsheet/viewform?formkey=abc123&amp;entry_0=johndoe@gmail.com&amp;entry_1=25463754,&gt;
-    /// or
-    /// &lt;https://docs.google.com/spreadsheet/viewform?formkey=abc123&amp;entry_0=johndoe@gmail.com&amp;entry_1=organizations/26474422.&gt;
+    <span class="doccomment">/// URI to the page where users can request more quota for the cloud
+    /// service—for example,
+    /// &lt;https://console.cloud.google.com/iam-admin/quotas.&gt;
     </span><span class="attr">#[prost(string, tag = <span class="string">"17"</span>)]
     </span><span class="kw">pub </span>service_request_quota_uri: ::prost::alloc::string::String,
 }
@@ -1082,11 +1073,14 @@
     <span class="doccomment">/// The reason / justification for this quota preference.
     </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
     </span><span class="kw">pub </span>justification: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Input only. An email address that can be used for quota related
+    <span class="doccomment">/// Input only. An email address that can be used for quota related
     /// communication between the Google Cloud and the user in case the Google
     /// Cloud needs further information to make a decision on whether the user
     /// preferred quota can be granted.
     ///
+    /// The email address is optional for decrease quota preferences. In another
+    /// word, QuotaConfig.preferred_value is smaller than the
+    /// QuotaDetails.reset_value. It is required for increase quota preferences.
     /// The Google account for the email address must have quota update permission
     /// for the project, folder or organization this quota preference is for.
     </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
