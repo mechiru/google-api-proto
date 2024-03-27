@@ -263,6 +263,20 @@
 <a href="#261" id="261">261</a>
 <a href="#262" id="262">262</a>
 <a href="#263" id="263">263</a>
+<a href="#264" id="264">264</a>
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// The price represented as a number and currency.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -373,7 +387,7 @@
 /// Reporting contexts are groups of surfaces and formats for product results on
 /// Google. They can represent the entire destination (for example, [Shopping
 /// ads](&lt;https://support.google.com/merchants/answer/6149970&gt;)) or a subset of
-/// formats within a destination (for example, [Discovery
+/// formats within a destination (for example, [Demand Gen
 /// ads](&lt;https://support.google.com/merchants/answer/13389785&gt;)).
 ///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -399,9 +413,15 @@
         </span>Unspecified = <span class="number">0</span>,
         <span class="doccomment">/// [Shopping ads](&lt;https://support.google.com/merchants/answer/6149970&gt;).
         </span>ShoppingAds = <span class="number">1</span>,
-        <span class="doccomment">/// [Discovery and Demand Gen
+        <span class="doccomment">/// Deprecated:  Use `DEMAND_GEN_ADS` instead.
+        /// [Discovery and Demand Gen
         /// ads](&lt;https://support.google.com/merchants/answer/13389785&gt;).
         </span>DiscoveryAds = <span class="number">2</span>,
+        <span class="doccomment">/// [Demand Gen ads](&lt;https://support.google.com/merchants/answer/13389785&gt;).
+        </span>DemandGenAds = <span class="number">13</span>,
+        <span class="doccomment">/// [Demand Gen ads on Discover
+        /// surface](&lt;https://support.google.com/merchants/answer/13389785&gt;).
+        </span>DemandGenAdsDiscoverSurface = <span class="number">14</span>,
         <span class="doccomment">/// [Video ads](&lt;https://support.google.com/google-ads/answer/6340491&gt;).
         </span>VideoAds = <span class="number">3</span>,
         <span class="doccomment">/// [Display ads](&lt;https://support.google.com/merchants/answer/6069387&gt;).
@@ -439,6 +459,10 @@
                 ReportingContextEnum::Unspecified =&gt; <span class="string">"REPORTING_CONTEXT_ENUM_UNSPECIFIED"</span>,
                 ReportingContextEnum::ShoppingAds =&gt; <span class="string">"SHOPPING_ADS"</span>,
                 ReportingContextEnum::DiscoveryAds =&gt; <span class="string">"DISCOVERY_ADS"</span>,
+                ReportingContextEnum::DemandGenAds =&gt; <span class="string">"DEMAND_GEN_ADS"</span>,
+                ReportingContextEnum::DemandGenAdsDiscoverSurface =&gt; {
+                    <span class="string">"DEMAND_GEN_ADS_DISCOVER_SURFACE"
+                </span>}
                 ReportingContextEnum::VideoAds =&gt; <span class="string">"VIDEO_ADS"</span>,
                 ReportingContextEnum::DisplayAds =&gt; <span class="string">"DISPLAY_ADS"</span>,
                 ReportingContextEnum::LocalInventoryAds =&gt; <span class="string">"LOCAL_INVENTORY_ADS"</span>,
@@ -459,6 +483,10 @@
                 <span class="string">"REPORTING_CONTEXT_ENUM_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
                 <span class="string">"SHOPPING_ADS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ShoppingAds),
                 <span class="string">"DISCOVERY_ADS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DiscoveryAds),
+                <span class="string">"DEMAND_GEN_ADS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DemandGenAds),
+                <span class="string">"DEMAND_GEN_ADS_DISCOVER_SURFACE" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::DemandGenAdsDiscoverSurface)
+                }
                 <span class="string">"VIDEO_ADS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::VideoAds),
                 <span class="string">"DISPLAY_ADS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DisplayAds),
                 <span class="string">"LOCAL_INVENTORY_ADS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LocalInventoryAds),

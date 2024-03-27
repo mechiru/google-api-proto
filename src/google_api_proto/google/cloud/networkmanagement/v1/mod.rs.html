@@ -3609,6 +3609,17 @@
 <a href="#3607" id="3607">3607</a>
 <a href="#3608" id="3608">3608</a>
 <a href="#3609" id="3609">3609</a>
+<a href="#3610" id="3610">3610</a>
+<a href="#3611" id="3611">3611</a>
+<a href="#3612" id="3612">3612</a>
+<a href="#3613" id="3613">3613</a>
+<a href="#3614" id="3614">3614</a>
+<a href="#3615" id="3615">3615</a>
+<a href="#3616" id="3616">3616</a>
+<a href="#3617" id="3617">3617</a>
+<a href="#3618" id="3618">3618</a>
+<a href="#3619" id="3619">3619</a>
+<a href="#3620" id="3620">3620</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Trace represents one simulated packet forwarding path.
 ///
 ///    * Each trace contains multiple ordered steps.
@@ -4069,6 +4080,11 @@
         /// For details, see [Regional network firewall
         /// policies](&lt;https://cloud.google.com/firewall/docs/regional-firewall-policies&gt;).
         </span>NetworkRegionalFirewallPolicyRule = <span class="number">6</span>,
+        <span class="doccomment">/// Firewall policy rule containing attributes not yet supported in
+        /// Connectivity tests. Firewall analysis is skipped if such a rule can
+        /// potentially be matched. Please see the [list of unsupported
+        /// configurations](&lt;https://cloud.google.com/network-intelligence-center/docs/connectivity-tests/concepts/overview#unsupported-configs&gt;).
+        </span>UnsupportedFirewallPolicyRule = <span class="number">100</span>,
         <span class="doccomment">/// Tracking state for response traffic created when request traffic goes
         /// through allow firewall rule.
         /// For details, see [firewall rules
@@ -4097,6 +4113,9 @@
                 FirewallRuleType::NetworkRegionalFirewallPolicyRule =&gt; {
                     <span class="string">"NETWORK_REGIONAL_FIREWALL_POLICY_RULE"
                 </span>}
+                FirewallRuleType::UnsupportedFirewallPolicyRule =&gt; {
+                    <span class="string">"UNSUPPORTED_FIREWALL_POLICY_RULE"
+                </span>}
                 FirewallRuleType::TrackingState =&gt; <span class="string">"TRACKING_STATE"</span>,
             }
         }
@@ -4115,6 +4134,9 @@
                 <span class="string">"NETWORK_FIREWALL_POLICY_RULE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NetworkFirewallPolicyRule),
                 <span class="string">"NETWORK_REGIONAL_FIREWALL_POLICY_RULE" </span>=&gt; {
                     <span class="prelude-val">Some</span>(<span class="self">Self</span>::NetworkRegionalFirewallPolicyRule)
+                }
+                <span class="string">"UNSUPPORTED_FIREWALL_POLICY_RULE" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnsupportedFirewallPolicyRule)
                 }
                 <span class="string">"TRACKING_STATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrackingState),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,

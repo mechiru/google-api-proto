@@ -2031,6 +2031,9 @@
 <a href="#2029" id="2029">2029</a>
 <a href="#2030" id="2030">2030</a>
 <a href="#2031" id="2031">2031</a>
+<a href="#2032" id="2032">2032</a>
+<a href="#2033" id="2033">2033</a>
+<a href="#2034" id="2034">2034</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Specifies the complete (requested) contents of a single row of a table.
 /// Rows which exceed 256MiB in size cannot be read in full.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2792,6 +2795,9 @@
     /// durations to retry requests with.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
     </span><span class="kw">pub </span>retry_info: bool,
+    <span class="doccomment">/// Notify the server that the client has client side metrics enabled.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>client_side_metrics_enabled: bool,
 }
 <span class="doccomment">/// ReadIterationStats captures information about the iteration of rows or cells
 /// over the course of a read, e.g. how many results were scanned in a read
