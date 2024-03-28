@@ -6758,6 +6758,28 @@
 <a href="#6756" id="6756">6756</a>
 <a href="#6757" id="6757">6757</a>
 <a href="#6758" id="6758">6758</a>
+<a href="#6759" id="6759">6759</a>
+<a href="#6760" id="6760">6760</a>
+<a href="#6761" id="6761">6761</a>
+<a href="#6762" id="6762">6762</a>
+<a href="#6763" id="6763">6763</a>
+<a href="#6764" id="6764">6764</a>
+<a href="#6765" id="6765">6765</a>
+<a href="#6766" id="6766">6766</a>
+<a href="#6767" id="6767">6767</a>
+<a href="#6768" id="6768">6768</a>
+<a href="#6769" id="6769">6769</a>
+<a href="#6770" id="6770">6770</a>
+<a href="#6771" id="6771">6771</a>
+<a href="#6772" id="6772">6772</a>
+<a href="#6773" id="6773">6773</a>
+<a href="#6774" id="6774">6774</a>
+<a href="#6775" id="6775">6775</a>
+<a href="#6776" id="6776">6776</a>
+<a href="#6777" id="6777">6777</a>
+<a href="#6778" id="6778">6778</a>
+<a href="#6779" id="6779">6779</a>
+<a href="#6780" id="6780">6780</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Defines the properties in a custom module configuration for Security
 /// Health Analytics. Use the custom module configuration to create custom
 /// detectors that generate custom findings for resources that you specify.
@@ -8580,6 +8602,25 @@
         }
     }
 }
+<span class="doccomment">/// Represents a Jupyter notebook IPYNB file, such as a [Colab Enterprise
+/// notebook](&lt;https://cloud.google.com/colab/docs/introduction&gt;) file, that is
+/// associated with a finding.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Notebook {
+    <span class="doccomment">/// The name of the notebook.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The source notebook service, for example, "Colab Enterprise".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>service: ::prost::alloc::string::String,
+    <span class="doccomment">/// The user ID of the latest author to modify the notebook.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>last_author: ::prost::alloc::string::String,
+    <span class="doccomment">/// The most recent time the notebook was updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>notebook_update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
 <span class="doccomment">/// Represents an operating system process.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -9514,6 +9555,9 @@
     <span class="doccomment">/// The load balancers associated with the finding.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"58"</span>)]
     </span><span class="kw">pub </span>load_balancers: ::prost::alloc::vec::Vec&lt;LoadBalancer&gt;,
+    <span class="doccomment">/// Notebook associated with the finding.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"63"</span>)]
+    </span><span class="kw">pub </span>notebook: ::core::option::Option&lt;Notebook&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `Finding`.
 </span><span class="kw">pub mod </span>finding {
