@@ -3852,15 +3852,15 @@
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Recurrence {
-        <span class="doccomment">/// For a schedule that runs daily at a specified time.
+        <span class="doccomment">/// For a schedule that runs daily.
         </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
         </span>DailyRecurrence(<span class="kw">super</span>::DailyRecurrence),
-        <span class="doccomment">/// For a schedule that runs weekly on a specific day and time.
+        <span class="doccomment">/// For a schedule that runs weekly on a specific day.
         </span><span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
         </span>WeeklyRecurrence(<span class="kw">super</span>::WeeklyRecurrence),
     }
 }
-<span class="doccomment">/// Represent a recurring schedule that runs at a specific time every day.
+<span class="doccomment">/// Represents a recurring schedule that runs at a specific time every day.
 ///
 /// The time zone is UTC.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4190,7 +4190,7 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DeleteBackupScheduleRequest {
-    <span class="doccomment">/// Required. The name of backup schedule.
+    <span class="doccomment">/// Required. The name of the backup schedule.
     ///
     /// Format
     /// `projects/{project}/databases/{database}/backupSchedules/{backup_schedule}`
