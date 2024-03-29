@@ -4911,6 +4911,11 @@
 <a href="#4909" id="4909">4909</a>
 <a href="#4910" id="4910">4910</a>
 <a href="#4911" id="4911">4911</a>
+<a href="#4912" id="4912">4912</a>
+<a href="#4913" id="4913">4913</a>
+<a href="#4914" id="4914">4914</a>
+<a href="#4915" id="4915">4915</a>
+<a href="#4916" id="4916">4916</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// An asset in Google Cloud and its temporal metadata, including the time window
 /// when it was observed and its status during that window.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -5241,6 +5246,9 @@
     <span class="doccomment">/// TagKey namespaced name, in the format of {ORG_ID}/{TAG_KEY_SHORT_NAME}.
     </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>tag_key: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// TagKey ID, in the format of tagKeys/{TAG_KEY_ID}.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>tag_key_id: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
     <span class="doccomment">/// TagValue namespaced name, in the format of
     /// {ORG_ID}/{TAG_KEY_SHORT_NAME}/{TAG_VALUE_SHORT_NAME}.
     </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
@@ -5585,6 +5593,7 @@
     ///      - `tagKeys:"123456789/env*"`
     ///      - `tagKeys="123456789/env"`
     ///      - `tagKeys:"env"`
+    ///      - `tagKeyIds="tagKeys/123"`
     ///      - `tagValues:"env"`
     ///      - `tagValues:"env/prod"`
     ///      - `tagValues:"123456789/env/prod*"`
@@ -5606,6 +5615,7 @@
     ///      - `effectiveTagKeys:"123456789/env*"`
     ///      - `effectiveTagKeys="123456789/env"`
     ///      - `effectiveTagKeys:"env"`
+    ///      - `effectiveTagKeyIds="tagKeys/123"`
     ///      - `effectiveTagValues:"env"`
     ///      - `effectiveTagValues:"env/prod"`
     ///      - `effectiveTagValues:"123456789/env/prod*"`
