@@ -4833,6 +4833,29 @@
 <a href="#4831" id="4831">4831</a>
 <a href="#4832" id="4832">4832</a>
 <a href="#4833" id="4833">4833</a>
+<a href="#4834" id="4834">4834</a>
+<a href="#4835" id="4835">4835</a>
+<a href="#4836" id="4836">4836</a>
+<a href="#4837" id="4837">4837</a>
+<a href="#4838" id="4838">4838</a>
+<a href="#4839" id="4839">4839</a>
+<a href="#4840" id="4840">4840</a>
+<a href="#4841" id="4841">4841</a>
+<a href="#4842" id="4842">4842</a>
+<a href="#4843" id="4843">4843</a>
+<a href="#4844" id="4844">4844</a>
+<a href="#4845" id="4845">4845</a>
+<a href="#4846" id="4846">4846</a>
+<a href="#4847" id="4847">4847</a>
+<a href="#4848" id="4848">4848</a>
+<a href="#4849" id="4849">4849</a>
+<a href="#4850" id="4850">4850</a>
+<a href="#4851" id="4851">4851</a>
+<a href="#4852" id="4852">4852</a>
+<a href="#4853" id="4853">4853</a>
+<a href="#4854" id="4854">4854</a>
+<a href="#4855" id="4855">4855</a>
+<a href="#4856" id="4856">4856</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Encapsulates progress related information for a Cloud Bigtable long
 /// running operation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -5709,6 +5732,8 @@
     /// Note one can still delete the data stored in the table through Data APIs.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"9"</span>)]
     </span><span class="kw">pub </span>deletion_protection: bool,
+    <span class="attr">#[prost(oneof = <span class="string">"table::AutomatedBackupConfig"</span>, tags = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>automated_backup_config: ::core::option::Option&lt;table::AutomatedBackupConfig&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `Table`.
 </span><span class="kw">pub mod </span>table {
@@ -5792,6 +5817,19 @@
                 }
             }
         }
+    }
+    <span class="doccomment">/// Defines an automated backup policy for a table
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>AutomatedBackupPolicy {
+        <span class="doccomment">/// Required. How long the automated backups should be retained. The only
+        /// supported value at this time is 3 days.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>retention_period: ::core::option::Option&lt;::prost_types::Duration&gt;,
+        <span class="doccomment">/// Required. How frequently automated backups should occur. The only
+        /// supported value at this time is 24 hours.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>frequency: ::core::option::Option&lt;::prost_types::Duration&gt;,
     }
     <span class="doccomment">/// Possible timestamp granularities to use when keeping multiple versions
     /// of data in a table.
@@ -5889,6 +5927,14 @@
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
+    }
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>AutomatedBackupConfig {
+        <span class="doccomment">/// If specified, automated backups are enabled for this table.
+        /// Otherwise, automated backups are disabled.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"13"</span>)]
+        </span>AutomatedBackupPolicy(AutomatedBackupPolicy),
     }
 }
 <span class="doccomment">/// AuthorizedViews represent subsets of a particular Cloud Bigtable table. Users

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["resource_id"],"struct":["ResourceId"]};

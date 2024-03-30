@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["HarmBlockThreshold"]};
+window.SIDEBAR_ITEMS = {"enum":["HarmBlockMethod","HarmBlockThreshold"]};

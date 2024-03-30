@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["TimestampGranularity","View"],"mod":["cluster_state"],"struct":["ClusterState"]};
+window.SIDEBAR_ITEMS = {"enum":["AutomatedBackupConfig","TimestampGranularity","View"],"mod":["cluster_state"],"struct":["AutomatedBackupPolicy","ClusterState"]};

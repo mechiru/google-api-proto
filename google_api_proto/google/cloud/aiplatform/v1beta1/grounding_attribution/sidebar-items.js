@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Reference"],"struct":["Web"]};
+window.SIDEBAR_ITEMS = {"enum":["Reference"],"struct":["RetrievedContext","Web"]};
