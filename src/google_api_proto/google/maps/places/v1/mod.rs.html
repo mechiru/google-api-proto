@@ -2004,6 +2004,13 @@
 <a href="#2002" id="2002">2002</a>
 <a href="#2003" id="2003">2003</a>
 <a href="#2004" id="2004">2004</a>
+<a href="#2005" id="2005">2005</a>
+<a href="#2006" id="2006">2006</a>
+<a href="#2007" id="2007">2007</a>
+<a href="#2008" id="2008">2008</a>
+<a href="#2009" id="2009">2009</a>
+<a href="#2010" id="2010">2010</a>
+<a href="#2011" id="2011">2011</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// The most recent information about fuel options in a gas station. This
 /// information is updated regularly.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2437,7 +2444,8 @@
     /// chain.
     </span><span class="attr">#[prost(string, tag = <span class="string">"16"</span>)]
     </span><span class="kw">pub </span>website_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// List of reviews about this place, sorted by relevance.
+    <span class="doccomment">/// List of reviews about this place, sorted by relevance. A maximum of 5
+    /// reviews can be returned.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"53"</span>)]
     </span><span class="kw">pub </span>reviews: ::prost::alloc::vec::Vec&lt;Review&gt;,
     <span class="doccomment">/// The regular hours of operation.
@@ -2448,7 +2456,8 @@
     /// fractions of an hour, e.g. X hours and 15 minutes.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"22"</span>)]
     </span><span class="kw">pub </span>utc_offset_minutes: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Information (including references) about photos of this place.
+    <span class="doccomment">/// Information (including references) about photos of this place. A maximum of
+    /// 10 photos can be returned.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"54"</span>)]
     </span><span class="kw">pub </span>photos: ::prost::alloc::vec::Vec&lt;Photo&gt;,
     <span class="doccomment">/// The place's address in adr microformat: &lt;http://microformats.org/wiki/adr.&gt;
@@ -2956,7 +2965,7 @@
     </span>Moderate = <span class="number">3</span>,
     <span class="doccomment">/// Place provides expensive services.
     </span>Expensive = <span class="number">4</span>,
-    <span class="doccomment">/// Place provides very expensive service s.
+    <span class="doccomment">/// Place provides very expensive services.
     </span>VeryExpensive = <span class="number">5</span>,
 }
 <span class="kw">impl </span>PriceLevel {
@@ -3467,21 +3476,23 @@
     /// Note that 3-digit region codes are not currently supported.
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>region_code: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. An arbitrary string which identifies an autocomplete session for
-    /// billing purposes. Must be at most 36 characters in length. Otherwise an
-    /// INVALID_ARGUMENT error is returned.
+    <span class="doccomment">/// Optional. A string which identifies an Autocomplete session for billing
+    /// purposes. Must be a URL and filename safe base64 string with at most 36
+    /// ASCII characters in length. Otherwise an INVALID_ARGUMENT error is
+    /// returned.
     ///
     /// The session begins when the user starts typing a query, and concludes when
     /// they select a place and a call to Place Details or Address Validation is
-    /// made. Each session can have multiple queries, followed by one Place
-    /// selection. The credentials used for each request within a session must
-    /// belong to the same Google Cloud Console project. Once a session has
-    /// concluded, the token is no longer valid; your app must generate a fresh
-    /// token for each session. If the `session_token` parameter is omitted, or if
-    /// you reuse a session token, the session is charged as if no session token
-    /// was provided (each request is billed separately).
+    /// made. Each session can have multiple queries, followed by one Place Details
+    /// or Address Validation request. The credentials used for each request within
+    /// a session must belong to the same Google Cloud Console project. Once a
+    /// session has concluded, the token is no longer valid; your app must generate
+    /// a fresh token for each session. If the `session_token` parameter is
+    /// omitted, or if you reuse a session token, the session is charged as if no
+    /// session token was provided (each request is billed separately).
     ///
     /// We recommend the following guidelines:
+    ///
     /// * Use session tokens for all Place Autocomplete calls.
     /// * Generate a fresh token for each session. Using a version 4 UUID is
     ///    recommended.
@@ -3519,8 +3530,8 @@
     </span><span class="kw">pub </span>location_restriction: ::core::option::Option&lt;
         autocomplete_places_request::LocationRestriction,
     &gt;,
-    <span class="doccomment">/// Optional. Included primary Place type (e.g. "restaurant" or "gas_station")
-    /// from
+    <span class="doccomment">/// Optional. Included primary Place type (for example, "restaurant" or
+    /// "gas_station") from
     /// &lt;https://developers.google.com/maps/documentation/places/web-service/place-types.&gt;
     /// A Place is only returned if its primary type is included in this list. Up
     /// to 5 values can be specified. If no types are specified, all Place types
@@ -3561,21 +3572,23 @@
     /// predictions. Otherwise the response will only return Place predictions.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"10"</span>)]
     </span><span class="kw">pub </span>include_query_predictions: bool,
-    <span class="doccomment">/// Optional. An arbitrary string which identifies an autocomplete session for
-    /// billing purposes. Must be at most 36 characters in length. Otherwise an
-    /// INVALID_ARGUMENT error is returned.
+    <span class="doccomment">/// Optional. A string which identifies an Autocomplete session for billing
+    /// purposes. Must be a URL and filename safe base64 string with at most 36
+    /// ASCII characters in length. Otherwise an INVALID_ARGUMENT error is
+    /// returned.
     ///
     /// The session begins when the user starts typing a query, and concludes when
     /// they select a place and a call to Place Details or Address Validation is
-    /// made. Each session can have multiple queries, followed by one Place
-    /// selection. The credentials used for each request within a session must
-    /// belong to the same Google Cloud Console project. Once a session has
-    /// concluded, the token is no longer valid; your app must generate a fresh
-    /// token for each session. If the `session_token` parameter is omitted, or if
-    /// you reuse a session token, the session is charged as if no session token
-    /// was provided (each request is billed separately).
+    /// made. Each session can have multiple queries, followed by one Place Details
+    /// or Address Validation request. The credentials used for each request within
+    /// a session must belong to the same Google Cloud Console project. Once a
+    /// session has concluded, the token is no longer valid; your app must generate
+    /// a fresh token for each session. If the `session_token` parameter is
+    /// omitted, or if you reuse a session token, the session is charged as if no
+    /// session token was provided (each request is billed separately).
     ///
     /// We recommend the following guidelines:
+    ///
     /// * Use session tokens for all Place Autocomplete calls.
     /// * Generate a fresh token for each session. Using a version 4 UUID is
     ///    recommended.
@@ -3675,7 +3688,7 @@
             <span class="doccomment">/// A list of string ranges identifying where the input request matched in
             /// `text`. The ranges can be used to format specific parts of `text`. The
             /// substrings may not be exact matches of `input` if the matching was
-            /// determined by criteria other than string matching (e.g. spell
+            /// determined by criteria other than string matching (for example, spell
             /// corrections or transliterations).
             ///
             /// These values are Unicode character offsets of `text`. The ranges are
@@ -3760,7 +3773,8 @@
         #[derive(Clone, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>QueryPrediction {
             <span class="doccomment">/// The predicted text. This text does not represent a Place, but rather a
-            /// text query that could be used in a search endpoint (e.g. TextSearch).
+            /// text query that could be used in a search endpoint (for example,
+            /// TextSearch).
             ///
             /// `text` is recommended for developers who wish to show a single UI
             /// element. Developers who wish to show two separate, but related, UI
