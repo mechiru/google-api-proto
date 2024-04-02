@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["document_layout_block"],"struct":["DocumentLayoutBlock"]};

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["PageRange"],"struct":["IndividualPageSelector"]};
+window.SIDEBAR_ITEMS = {"enum":["PageRange"],"mod":["layout_config"],"struct":["IndividualPageSelector","LayoutConfig"]};

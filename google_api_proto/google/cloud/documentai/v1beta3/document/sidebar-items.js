@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Source"],"mod":["entity","page","page_anchor","provenance","revision","style","text_anchor"],"struct":["Entity","EntityRelation","Page","PageAnchor","Provenance","Revision","ShardInfo","Style","TextAnchor","TextChange"]};
+window.SIDEBAR_ITEMS = {"enum":["Source"],"mod":["chunked_document","document_layout","entity","page","page_anchor","provenance","revision","style","text_anchor"],"struct":["ChunkedDocument","DocumentLayout","Entity","EntityRelation","Page","PageAnchor","Provenance","Revision","ShardInfo","Style","TextAnchor","TextChange"]};
