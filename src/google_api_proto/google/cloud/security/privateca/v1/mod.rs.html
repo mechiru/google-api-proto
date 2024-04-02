@@ -3821,6 +3821,62 @@
 <a href="#3819" id="3819">3819</a>
 <a href="#3820" id="3820">3820</a>
 <a href="#3821" id="3821">3821</a>
+<a href="#3822" id="3822">3822</a>
+<a href="#3823" id="3823">3823</a>
+<a href="#3824" id="3824">3824</a>
+<a href="#3825" id="3825">3825</a>
+<a href="#3826" id="3826">3826</a>
+<a href="#3827" id="3827">3827</a>
+<a href="#3828" id="3828">3828</a>
+<a href="#3829" id="3829">3829</a>
+<a href="#3830" id="3830">3830</a>
+<a href="#3831" id="3831">3831</a>
+<a href="#3832" id="3832">3832</a>
+<a href="#3833" id="3833">3833</a>
+<a href="#3834" id="3834">3834</a>
+<a href="#3835" id="3835">3835</a>
+<a href="#3836" id="3836">3836</a>
+<a href="#3837" id="3837">3837</a>
+<a href="#3838" id="3838">3838</a>
+<a href="#3839" id="3839">3839</a>
+<a href="#3840" id="3840">3840</a>
+<a href="#3841" id="3841">3841</a>
+<a href="#3842" id="3842">3842</a>
+<a href="#3843" id="3843">3843</a>
+<a href="#3844" id="3844">3844</a>
+<a href="#3845" id="3845">3845</a>
+<a href="#3846" id="3846">3846</a>
+<a href="#3847" id="3847">3847</a>
+<a href="#3848" id="3848">3848</a>
+<a href="#3849" id="3849">3849</a>
+<a href="#3850" id="3850">3850</a>
+<a href="#3851" id="3851">3851</a>
+<a href="#3852" id="3852">3852</a>
+<a href="#3853" id="3853">3853</a>
+<a href="#3854" id="3854">3854</a>
+<a href="#3855" id="3855">3855</a>
+<a href="#3856" id="3856">3856</a>
+<a href="#3857" id="3857">3857</a>
+<a href="#3858" id="3858">3858</a>
+<a href="#3859" id="3859">3859</a>
+<a href="#3860" id="3860">3860</a>
+<a href="#3861" id="3861">3861</a>
+<a href="#3862" id="3862">3862</a>
+<a href="#3863" id="3863">3863</a>
+<a href="#3864" id="3864">3864</a>
+<a href="#3865" id="3865">3865</a>
+<a href="#3866" id="3866">3866</a>
+<a href="#3867" id="3867">3867</a>
+<a href="#3868" id="3868">3868</a>
+<a href="#3869" id="3869">3869</a>
+<a href="#3870" id="3870">3870</a>
+<a href="#3871" id="3871">3871</a>
+<a href="#3872" id="3872">3872</a>
+<a href="#3873" id="3873">3873</a>
+<a href="#3874" id="3874">3874</a>
+<a href="#3875" id="3875">3875</a>
+<a href="#3876" id="3876">3876</a>
+<a href="#3877" id="3877">3877</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// A
 /// [CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority]
 /// represents an individual Certificate Authority. A
@@ -4265,6 +4321,62 @@
         /// rebuilt shortly after a certificate is revoked.
         </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
         </span><span class="kw">pub </span>publish_crl: bool,
+        <span class="doccomment">/// Optional. Specifies the encoding format of each
+        /// [CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority]
+        /// resource's CA certificate and CRLs. If this is omitted, CA certificates
+        /// and CRLs will be published in PEM.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"publishing_options::EncodingFormat"</span>, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>encoding_format: i32,
+    }
+    <span class="doccomment">/// Nested message and enum types in `PublishingOptions`.
+    </span><span class="kw">pub mod </span>publishing_options {
+        <span class="doccomment">/// Supported encoding formats for publishing.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>EncodingFormat {
+            <span class="doccomment">/// Not specified. By default, PEM format will be used.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// The
+            /// [CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority]'s
+            /// CA certificate and CRLs will be published in PEM format.
+            </span>Pem = <span class="number">1</span>,
+            <span class="doccomment">/// The
+            /// [CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority]'s
+            /// CA certificate and CRLs will be published in DER format.
+            </span>Der = <span class="number">2</span>,
+        }
+        <span class="kw">impl </span>EncodingFormat {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    EncodingFormat::Unspecified =&gt; <span class="string">"ENCODING_FORMAT_UNSPECIFIED"</span>,
+                    EncodingFormat::Pem =&gt; <span class="string">"PEM"</span>,
+                    EncodingFormat::Der =&gt; <span class="string">"DER"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"ENCODING_FORMAT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"PEM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pem),
+                    <span class="string">"DER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Der),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
     }
     <span class="doccomment">/// Defines controls over all certificate issuance within a
     /// [CaPool][google.cloud.security.privateca.v1.CaPool].
@@ -4282,9 +4394,9 @@
         /// if the issuing
         /// [CertificateAuthority][google.cloud.security.privateca.v1.CertificateAuthority]
         /// expires before a
-        /// [Certificate][google.cloud.security.privateca.v1.Certificate]'s requested
-        /// maximum_lifetime, the effective lifetime will be explicitly truncated to
-        /// match it.
+        /// [Certificate][google.cloud.security.privateca.v1.Certificate] resource's
+        /// requested maximum_lifetime, the effective lifetime will be explicitly
+        /// truncated to match it.
         </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
         </span><span class="kw">pub </span>maximum_lifetime: ::core::option::Option&lt;::prost_types::Duration&gt;,
         <span class="doccomment">/// Optional. If specified, then only methods allowed in the
@@ -4761,7 +4873,7 @@
     <span class="doccomment">/// Optional. The maximum lifetime allowed for issued
     /// [Certificates][google.cloud.security.privateca.v1.Certificate] that use
     /// this template. If the issuing
-    /// [CaPool][google.cloud.security.privateca.v1.CaPool]'s
+    /// [CaPool][google.cloud.security.privateca.v1.CaPool] resource's
     /// [IssuancePolicy][google.cloud.security.privateca.v1.CaPool.IssuancePolicy]
     /// specifies a
     /// [maximum_lifetime][google.cloud.security.privateca.v1.CaPool.IssuancePolicy.maximum_lifetime]
@@ -5086,8 +5198,8 @@
     </span><span class="kw">pub </span>public_key: ::core::option::Option&lt;PublicKey&gt;,
     <span class="doccomment">/// Optional. When specified this provides a custom SKI to be used in the
     /// certificate. This should only be used to maintain a SKI of an existing CA
-    /// originally created outside CAS, which was not generated using method (1)
-    /// described in RFC 5280 section 4.2.1.2.
+    /// originally created outside CA service, which was not generated using method
+    /// (1) described in RFC 5280 section 4.2.1.2.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>subject_key_id: ::core::option::Option&lt;certificate_config::KeyId&gt;,
 }
@@ -5947,7 +6059,7 @@
     </span><span class="kw">pub </span>request_id: ::prost::alloc::string::String,
     <span class="doccomment">/// Optional. This field allows this CA to be disabled even if it's being
     /// depended on by another resource. However, doing so may result in unintended
-    /// and unrecoverable effects on any dependent resource(s) since the CA will
+    /// and unrecoverable effects on any dependent resources since the CA will
     /// no longer be able to issue certificates.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>ignore_dependent_resources: bool,
@@ -6120,9 +6232,9 @@
     /// been allowed. If you proceed, there will be no way to recover this CA.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>skip_grace_period: bool,
-    <span class="doccomment">/// Optional. This field allows this ca to be deleted even if it's being
+    <span class="doccomment">/// Optional. This field allows this CA to be deleted even if it's being
     /// depended on by another resource. However, doing so may result in unintended
-    /// and unrecoverable effects on any dependent resource(s) since the CA will
+    /// and unrecoverable effects on any dependent resources since the CA will
     /// no longer be able to issue certificates.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>ignore_dependent_resources: bool,
@@ -6245,7 +6357,7 @@
     </span><span class="kw">pub </span>request_id: ::prost::alloc::string::String,
     <span class="doccomment">/// Optional. This field allows this pool to be deleted even if it's being
     /// depended on by another resource. However, doing so may result in unintended
-    /// and unrecoverable effects on any dependent resource(s) since the pool will
+    /// and unrecoverable effects on any dependent resources since the pool will
     /// no longer be able to issue certificates.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>ignore_dependent_resources: bool,
@@ -6281,7 +6393,7 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>FetchCaCertsResponse {
-    <span class="doccomment">/// The PEM encoded CA certificate chains of all Certificate Authorities in
+    <span class="doccomment">/// The PEM encoded CA certificate chains of all certificate authorities in
     /// this [CaPool][google.cloud.security.privateca.v1.CaPool] in the ENABLED,
     /// DISABLED, or STAGED states.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
@@ -7347,7 +7459,7 @@
         </span>}
         <span class="doccomment">/// FetchCaCerts returns the current trust anchor for the
         /// [CaPool][google.cloud.security.privateca.v1.CaPool]. This will include CA
-        /// certificate chains for all Certificate Authorities in the ENABLED,
+        /// certificate chains for all certificate authorities in the ENABLED,
         /// DISABLED, or STAGED states.
         </span><span class="kw">pub async fn </span>fetch_ca_certs(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,

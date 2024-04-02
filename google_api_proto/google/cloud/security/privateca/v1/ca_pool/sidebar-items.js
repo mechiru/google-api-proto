@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Tier"],"mod":["issuance_policy"],"struct":["IssuancePolicy","PublishingOptions"]};
+window.SIDEBAR_ITEMS = {"enum":["Tier"],"mod":["issuance_policy","publishing_options"],"struct":["IssuancePolicy","PublishingOptions"]};

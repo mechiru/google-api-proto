@@ -38600,6 +38600,67 @@
 <a href="#38598" id="38598">38598</a>
 <a href="#38599" id="38599">38599</a>
 <a href="#38600" id="38600">38600</a>
+<a href="#38601" id="38601">38601</a>
+<a href="#38602" id="38602">38602</a>
+<a href="#38603" id="38603">38603</a>
+<a href="#38604" id="38604">38604</a>
+<a href="#38605" id="38605">38605</a>
+<a href="#38606" id="38606">38606</a>
+<a href="#38607" id="38607">38607</a>
+<a href="#38608" id="38608">38608</a>
+<a href="#38609" id="38609">38609</a>
+<a href="#38610" id="38610">38610</a>
+<a href="#38611" id="38611">38611</a>
+<a href="#38612" id="38612">38612</a>
+<a href="#38613" id="38613">38613</a>
+<a href="#38614" id="38614">38614</a>
+<a href="#38615" id="38615">38615</a>
+<a href="#38616" id="38616">38616</a>
+<a href="#38617" id="38617">38617</a>
+<a href="#38618" id="38618">38618</a>
+<a href="#38619" id="38619">38619</a>
+<a href="#38620" id="38620">38620</a>
+<a href="#38621" id="38621">38621</a>
+<a href="#38622" id="38622">38622</a>
+<a href="#38623" id="38623">38623</a>
+<a href="#38624" id="38624">38624</a>
+<a href="#38625" id="38625">38625</a>
+<a href="#38626" id="38626">38626</a>
+<a href="#38627" id="38627">38627</a>
+<a href="#38628" id="38628">38628</a>
+<a href="#38629" id="38629">38629</a>
+<a href="#38630" id="38630">38630</a>
+<a href="#38631" id="38631">38631</a>
+<a href="#38632" id="38632">38632</a>
+<a href="#38633" id="38633">38633</a>
+<a href="#38634" id="38634">38634</a>
+<a href="#38635" id="38635">38635</a>
+<a href="#38636" id="38636">38636</a>
+<a href="#38637" id="38637">38637</a>
+<a href="#38638" id="38638">38638</a>
+<a href="#38639" id="38639">38639</a>
+<a href="#38640" id="38640">38640</a>
+<a href="#38641" id="38641">38641</a>
+<a href="#38642" id="38642">38642</a>
+<a href="#38643" id="38643">38643</a>
+<a href="#38644" id="38644">38644</a>
+<a href="#38645" id="38645">38645</a>
+<a href="#38646" id="38646">38646</a>
+<a href="#38647" id="38647">38647</a>
+<a href="#38648" id="38648">38648</a>
+<a href="#38649" id="38649">38649</a>
+<a href="#38650" id="38650">38650</a>
+<a href="#38651" id="38651">38651</a>
+<a href="#38652" id="38652">38652</a>
+<a href="#38653" id="38653">38653</a>
+<a href="#38654" id="38654">38654</a>
+<a href="#38655" id="38655">38655</a>
+<a href="#38656" id="38656">38656</a>
+<a href="#38657" id="38657">38657</a>
+<a href="#38658" id="38658">38658</a>
+<a href="#38659" id="38659">38659</a>
+<a href="#38660" id="38660">38660</a>
+<a href="#38661" id="38661">38661</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(
     any(
         feature = <span class="string">"google-cloud-aiplatform-v1beta1-schema"</span>,
@@ -65852,6 +65913,11 @@
         <span class="doccomment">/// The ERROR state indicates the persistent resource may be unusable.
         /// Details can be found in the `error` field.
         </span>Error = <span class="number">5</span>,
+        <span class="doccomment">/// The REBOOTING state indicates the persistent resource is being rebooted
+        /// (PR is not available right now but is expected to be ready again later).
+        </span>Rebooting = <span class="number">6</span>,
+        <span class="doccomment">/// The UPDATING state indicates the persistent resource is being updated.
+        </span>Updating = <span class="number">7</span>,
     }
     <span class="kw">impl </span>State {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -65865,6 +65931,8 @@
                 State::Running =&gt; <span class="string">"RUNNING"</span>,
                 State::Stopping =&gt; <span class="string">"STOPPING"</span>,
                 State::Error =&gt; <span class="string">"ERROR"</span>,
+                State::Rebooting =&gt; <span class="string">"REBOOTING"</span>,
+                State::Updating =&gt; <span class="string">"UPDATING"</span>,
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -65875,6 +65943,8 @@
                 <span class="string">"RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Running),
                 <span class="string">"STOPPING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Stopping),
                 <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
+                <span class="string">"REBOOTING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Rebooting),
+                <span class="string">"UPDATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Updating),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
@@ -66011,18 +66081,17 @@
     /// Agent](&lt;https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents&gt;).
     </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>enable_custom_service_account: bool,
-    <span class="doccomment">/// Optional. Default service account that this PersistentResource's workloads
-    /// run as. The workloads include:
+    <span class="doccomment">/// Optional. Required when all below conditions are met
+    ///   * `enable_custom_service_account` is true;
+    ///   * any runtime is specified via `ResourceRuntimeSpec` on creation time,
+    ///     for example, Ray
     ///
-    ///   * Any runtime specified via `ResourceRuntimeSpec` on creation time,
-    ///     for example, Ray.
-    ///   * Jobs submitted to PersistentResource, if no other service account
-    ///     specified in the job specs.
+    /// The users must have `iam.serviceAccounts.actAs` permission on this service
+    /// account and then the specified runtime containers will run as it.
     ///
-    /// Only works when custom service account is enabled and users have the
-    /// `iam.serviceAccounts.actAs` permission on this service account.
-    ///
-    /// Required if any containers are specified in `ResourceRuntimeSpec`.
+    /// Do not set this field if you want to submit jobs using custom service
+    /// account to this PersistentResource after creation, but only specify the
+    /// `service_account` inside the job.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>service_account: ::prost::alloc::string::String,
 }
@@ -76366,6 +76435,17 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>progress_message: ::prost::alloc::string::String,
 }
+<span class="doccomment">/// Details of operations that perform reboot PersistentResource.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RebootPersistentResourceOperationMetadata {
+    <span class="doccomment">/// Operation metadata for PersistentResource.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>generic_metadata: ::core::option::Option&lt;GenericOperationMetadata&gt;,
+    <span class="doccomment">/// Progress Message for Reboot LRO
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>progress_message: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// Request message for
 /// [PersistentResourceService.GetPersistentResource][google.cloud.aiplatform.v1beta1.PersistentResourceService.GetPersistentResource].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -76435,6 +76515,17 @@
     /// the update method.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+}
+<span class="doccomment">/// Request message for
+/// [PersistentResourceService.RebootPersistentResource][google.cloud.aiplatform.v1beta1.PersistentResourceService.RebootPersistentResource].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RebootPersistentResourceRequest {
+    <span class="doccomment">/// Required. The name of the PersistentResource resource.
+    /// Format:
+    /// `projects/{project_id_or_number}/locations/{location_id}/persistentResources/{persistent_resource_id}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Generated client implementations.
 </span><span class="kw">pub mod </span>persistent_resource_service_client {
@@ -76664,6 +76755,37 @@
                     GrpcMethod::new(
                         <span class="string">"google.cloud.aiplatform.v1beta1.PersistentResourceService"</span>,
                         <span class="string">"UpdatePersistentResource"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Reboots a PersistentResource.
+        </span><span class="kw">pub async fn </span>reboot_persistent_resource(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::RebootPersistentResourceRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.aiplatform.v1beta1.PersistentResourceService/RebootPersistentResource"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.aiplatform.v1beta1.PersistentResourceService"</span>,
+                        <span class="string">"RebootPersistentResource"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

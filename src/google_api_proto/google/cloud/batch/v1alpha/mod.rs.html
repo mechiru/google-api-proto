@@ -2652,6 +2652,13 @@
 <a href="#2650" id="2650">2650</a>
 <a href="#2651" id="2651">2651</a>
 <a href="#2652" id="2652">2652</a>
+<a href="#2653" id="2653">2653</a>
+<a href="#2654" id="2654">2654</a>
+<a href="#2655" id="2655">2655</a>
+<a href="#2656" id="2656">2656</a>
+<a href="#2657" id="2657">2657</a>
+<a href="#2658" id="2658">2658</a>
+<a href="#2659" id="2659">2659</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Volume describes a volume and parameters for it to be mounted to a VM.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3134,6 +3141,8 @@
     </span><span class="kw">pub </span>compute_resource: ::core::option::Option&lt;ComputeResource&gt;,
     <span class="doccomment">/// Maximum duration the task should run.
     /// The task will be killed and marked as FAILED if over this limit.
+    /// The valid value range for max_run_duration in seconds is [0,
+    /// 315576000000.999999999],
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>max_run_duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
     <span class="doccomment">/// Maximum number of retries on failures.
@@ -4325,6 +4334,8 @@
     </span><span class="kw">pub </span>pubsub_topic: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// The Resource Allowance description for Cloud Batch.
+/// Only one Resource Allowance is supported now under a specific location and
+/// project.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ResourceAllowance {
@@ -4408,10 +4419,13 @@
     #[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Limit {
         <span class="doccomment">/// Required. Limit value of a UsageResourceAllowance within its one
-        /// duration. Default is 0. For example, you can set `limit` as 10000.0 with
-        /// duration of the current month by setting `calendar_period` field as
-        /// monthly. That means in your current month, 10000.0 is the cour hour
-        /// limitation that your resources are allowed to consume.
+        /// duration.
+        ///
+        /// Limit cannot be a negative value. Default is 0.
+        /// For example, you can set `limit` as 10000.0 with duration of the current
+        /// month by setting `calendar_period` field as monthly. That means in your
+        /// current month, 10000.0 is the core hour limitation that your resources
+        /// are allowed to consume.
         </span><span class="attr">#[prost(double, optional, tag = <span class="string">"2"</span>)]
         </span><span class="kw">pub </span>limit: ::core::option::Option&lt;f64&gt;,
         <span class="attr">#[prost(oneof = <span class="string">"limit::Duration"</span>, tags = <span class="string">"1"</span>)]
