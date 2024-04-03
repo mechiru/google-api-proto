@@ -4520,7 +4520,324 @@
 <a href="#4518" id="4518">4518</a>
 <a href="#4519" id="4519">4519</a>
 <a href="#4520" id="4520">4520</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Describes the environment in which a Dataflow Job runs.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Represents a Pubsub snapshot.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PubsubSnapshotMetadata {
+    <span class="doccomment">/// The name of the Pubsub topic.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>topic_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The name of the Pubsub snapshot.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>snapshot_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The expire time of the Pubsub snapshot.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Represents a snapshot of a job.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Snapshot {
+    <span class="doccomment">/// The unique ID of this snapshot.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The project this snapshot belongs to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The job this snapshot was created from.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>source_job_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The time this snapshot was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>creation_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The time after which this snapshot will be automatically deleted.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>ttl: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// State of the snapshot.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"SnapshotState"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Pub/Sub snapshot metadata.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>pubsub_metadata: ::prost::alloc::vec::Vec&lt;PubsubSnapshotMetadata&gt;,
+    <span class="doccomment">/// User specified description of the snapshot. Maybe empty.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// The disk byte size of the snapshot. Only available for snapshots in READY
+    /// state.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>disk_size_bytes: i64,
+    <span class="doccomment">/// Cloud region where this snapshot lives in, e.g., "us-central1".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>region: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request to get information about a snapshot
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetSnapshotRequest {
+    <span class="doccomment">/// The ID of the Cloud Platform project that the snapshot belongs to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The ID of the snapshot.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>snapshot_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The location that contains this snapshot.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request to delete a snapshot.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteSnapshotRequest {
+    <span class="doccomment">/// The ID of the Cloud Platform project that the snapshot belongs to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The ID of the snapshot.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>snapshot_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The location that contains this snapshot.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response from deleting a snapshot.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteSnapshotResponse {}
+<span class="doccomment">/// Request to list snapshots.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListSnapshotsRequest {
+    <span class="doccomment">/// The project ID to list snapshots for.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// If specified, list snapshots created from this job.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>job_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The location to list snapshots in.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// List of snapshots.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListSnapshotsResponse {
+    <span class="doccomment">/// Returned snapshots.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>snapshots: ::prost::alloc::vec::Vec&lt;Snapshot&gt;,
+}
+<span class="doccomment">/// Snapshot state.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>SnapshotState {
+    <span class="doccomment">/// Unknown state.
+    </span>UnknownSnapshotState = <span class="number">0</span>,
+    <span class="doccomment">/// Snapshot intent to create has been persisted, snapshotting of state has not
+    /// yet started.
+    </span>Pending = <span class="number">1</span>,
+    <span class="doccomment">/// Snapshotting is being performed.
+    </span>Running = <span class="number">2</span>,
+    <span class="doccomment">/// Snapshot has been created and is ready to be used.
+    </span>Ready = <span class="number">3</span>,
+    <span class="doccomment">/// Snapshot failed to be created.
+    </span>Failed = <span class="number">4</span>,
+    <span class="doccomment">/// Snapshot has been deleted.
+    </span>Deleted = <span class="number">5</span>,
+}
+<span class="kw">impl </span>SnapshotState {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            SnapshotState::UnknownSnapshotState =&gt; <span class="string">"UNKNOWN_SNAPSHOT_STATE"</span>,
+            SnapshotState::Pending =&gt; <span class="string">"PENDING"</span>,
+            SnapshotState::Running =&gt; <span class="string">"RUNNING"</span>,
+            SnapshotState::Ready =&gt; <span class="string">"READY"</span>,
+            SnapshotState::Failed =&gt; <span class="string">"FAILED"</span>,
+            SnapshotState::Deleted =&gt; <span class="string">"DELETED"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"UNKNOWN_SNAPSHOT_STATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnknownSnapshotState),
+            <span class="string">"PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pending),
+            <span class="string">"RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Running),
+            <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
+            <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+            <span class="string">"DELETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleted),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>snapshots_v1_beta3_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Provides methods to manage snapshots of Google Cloud Dataflow jobs.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>SnapshotsV1Beta3Client&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; SnapshotsV1Beta3Client&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; SnapshotsV1Beta3Client&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            SnapshotsV1Beta3Client::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Gets information about a snapshot.
+        </span><span class="kw">pub async fn </span>get_snapshot(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetSnapshotRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Snapshot&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.dataflow.v1beta3.SnapshotsV1Beta3/GetSnapshot"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.dataflow.v1beta3.SnapshotsV1Beta3"</span>,
+                        <span class="string">"GetSnapshot"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Deletes a snapshot.
+        </span><span class="kw">pub async fn </span>delete_snapshot(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeleteSnapshotRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::DeleteSnapshotResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.dataflow.v1beta3.SnapshotsV1Beta3/DeleteSnapshot"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.dataflow.v1beta3.SnapshotsV1Beta3"</span>,
+                        <span class="string">"DeleteSnapshot"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Lists snapshots.
+        </span><span class="kw">pub async fn </span>list_snapshots(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListSnapshotsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListSnapshotsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.dataflow.v1beta3.SnapshotsV1Beta3/ListSnapshots"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.dataflow.v1beta3.SnapshotsV1Beta3"</span>,
+                        <span class="string">"ListSnapshots"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Describes the environment in which a Dataflow Job runs.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Environment {
@@ -5460,323 +5777,6 @@
     <span class="doccomment">/// Indicates which endpoint is used to import appliance state.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>import_state_endpoint: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Represents a Pubsub snapshot.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PubsubSnapshotMetadata {
-    <span class="doccomment">/// The name of the Pubsub topic.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>topic_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The name of the Pubsub snapshot.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>snapshot_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The expire time of the Pubsub snapshot.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Represents a snapshot of a job.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Snapshot {
-    <span class="doccomment">/// The unique ID of this snapshot.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The project this snapshot belongs to.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The job this snapshot was created from.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>source_job_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The time this snapshot was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>creation_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The time after which this snapshot will be automatically deleted.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>ttl: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// State of the snapshot.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"SnapshotState"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Pub/Sub snapshot metadata.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>pubsub_metadata: ::prost::alloc::vec::Vec&lt;PubsubSnapshotMetadata&gt;,
-    <span class="doccomment">/// User specified description of the snapshot. Maybe empty.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// The disk byte size of the snapshot. Only available for snapshots in READY
-    /// state.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>disk_size_bytes: i64,
-    <span class="doccomment">/// Cloud region where this snapshot lives in, e.g., "us-central1".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>region: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request to get information about a snapshot
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetSnapshotRequest {
-    <span class="doccomment">/// The ID of the Cloud Platform project that the snapshot belongs to.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The ID of the snapshot.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>snapshot_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The location that contains this snapshot.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request to delete a snapshot.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteSnapshotRequest {
-    <span class="doccomment">/// The ID of the Cloud Platform project that the snapshot belongs to.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The ID of the snapshot.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>snapshot_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The location that contains this snapshot.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response from deleting a snapshot.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteSnapshotResponse {}
-<span class="doccomment">/// Request to list snapshots.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListSnapshotsRequest {
-    <span class="doccomment">/// The project ID to list snapshots for.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// If specified, list snapshots created from this job.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>job_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The location to list snapshots in.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// List of snapshots.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListSnapshotsResponse {
-    <span class="doccomment">/// Returned snapshots.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>snapshots: ::prost::alloc::vec::Vec&lt;Snapshot&gt;,
-}
-<span class="doccomment">/// Snapshot state.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>SnapshotState {
-    <span class="doccomment">/// Unknown state.
-    </span>UnknownSnapshotState = <span class="number">0</span>,
-    <span class="doccomment">/// Snapshot intent to create has been persisted, snapshotting of state has not
-    /// yet started.
-    </span>Pending = <span class="number">1</span>,
-    <span class="doccomment">/// Snapshotting is being performed.
-    </span>Running = <span class="number">2</span>,
-    <span class="doccomment">/// Snapshot has been created and is ready to be used.
-    </span>Ready = <span class="number">3</span>,
-    <span class="doccomment">/// Snapshot failed to be created.
-    </span>Failed = <span class="number">4</span>,
-    <span class="doccomment">/// Snapshot has been deleted.
-    </span>Deleted = <span class="number">5</span>,
-}
-<span class="kw">impl </span>SnapshotState {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            SnapshotState::UnknownSnapshotState =&gt; <span class="string">"UNKNOWN_SNAPSHOT_STATE"</span>,
-            SnapshotState::Pending =&gt; <span class="string">"PENDING"</span>,
-            SnapshotState::Running =&gt; <span class="string">"RUNNING"</span>,
-            SnapshotState::Ready =&gt; <span class="string">"READY"</span>,
-            SnapshotState::Failed =&gt; <span class="string">"FAILED"</span>,
-            SnapshotState::Deleted =&gt; <span class="string">"DELETED"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"UNKNOWN_SNAPSHOT_STATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnknownSnapshotState),
-            <span class="string">"PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pending),
-            <span class="string">"RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Running),
-            <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
-            <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-            <span class="string">"DELETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleted),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>snapshots_v1_beta3_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Provides methods to manage snapshots of Google Cloud Dataflow jobs.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>SnapshotsV1Beta3Client&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; SnapshotsV1Beta3Client&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; SnapshotsV1Beta3Client&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            SnapshotsV1Beta3Client::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Gets information about a snapshot.
-        </span><span class="kw">pub async fn </span>get_snapshot(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetSnapshotRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Snapshot&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.dataflow.v1beta3.SnapshotsV1Beta3/GetSnapshot"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.dataflow.v1beta3.SnapshotsV1Beta3"</span>,
-                        <span class="string">"GetSnapshot"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Deletes a snapshot.
-        </span><span class="kw">pub async fn </span>delete_snapshot(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeleteSnapshotRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::DeleteSnapshotResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.dataflow.v1beta3.SnapshotsV1Beta3/DeleteSnapshot"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.dataflow.v1beta3.SnapshotsV1Beta3"</span>,
-                        <span class="string">"DeleteSnapshot"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Lists snapshots.
-        </span><span class="kw">pub async fn </span>list_snapshots(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListSnapshotsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListSnapshotsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.dataflow.v1beta3.SnapshotsV1Beta3/ListSnapshots"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.dataflow.v1beta3.SnapshotsV1Beta3"</span>,
-                        <span class="string">"ListSnapshots"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
 }
 <span class="doccomment">/// Defines a job to be run by the Cloud Dataflow service.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -7091,6 +7091,381 @@
             req.extensions_mut()
                 .insert(
                     GrpcMethod::new(<span class="string">"google.dataflow.v1beta3.JobsV1Beta3"</span>, <span class="string">"SnapshotJob"</span>),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// A particular message pertaining to a Dataflow job.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>JobMessage {
+    <span class="doccomment">/// Deprecated.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The timestamp of the message.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The text of the message.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>message_text: ::prost::alloc::string::String,
+    <span class="doccomment">/// Importance level of the message.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"JobMessageImportance"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>message_importance: i32,
+}
+<span class="doccomment">/// A rich message format, including a human readable string, a key for
+/// identifying the message, and structured data associated with the message for
+/// programmatic consumption.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>StructuredMessage {
+    <span class="doccomment">/// Human-readable version of message.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>message_text: ::prost::alloc::string::String,
+    <span class="doccomment">/// Identifier for this message type.  Used by external systems to
+    /// internationalize or personalize message.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>message_key: ::prost::alloc::string::String,
+    <span class="doccomment">/// The structured data associated with this message.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>parameters: ::prost::alloc::vec::Vec&lt;structured_message::Parameter&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `StructuredMessage`.
+</span><span class="kw">pub mod </span>structured_message {
+    <span class="doccomment">/// Structured data associated with this message.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Parameter {
+        <span class="doccomment">/// Key or name for this parameter.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>key: ::prost::alloc::string::String,
+        <span class="doccomment">/// Value for this parameter.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>value: ::core::option::Option&lt;::prost_types::Value&gt;,
+    }
+}
+<span class="doccomment">/// A structured message reporting an autoscaling decision made by the Dataflow
+/// service.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoscalingEvent {
+    <span class="doccomment">/// The current number of workers the job has.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>current_num_workers: i64,
+    <span class="doccomment">/// The target number of workers the worker pool wants to resize to use.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>target_num_workers: i64,
+    <span class="doccomment">/// The type of autoscaling event to report.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"autoscaling_event::AutoscalingEventType"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>event_type: i32,
+    <span class="doccomment">/// A message describing why the system decided to adjust the current
+    /// number of workers, why it failed, or why the system decided to
+    /// not make any changes to the number of workers.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>description: ::core::option::Option&lt;StructuredMessage&gt;,
+    <span class="doccomment">/// The time this event was emitted to indicate a new target or current
+    /// num_workers value.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// A short and friendly name for the worker pool this event refers to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>worker_pool: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoscalingEvent`.
+</span><span class="kw">pub mod </span>autoscaling_event {
+    <span class="doccomment">/// Indicates the type of autoscaling event.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>AutoscalingEventType {
+        <span class="doccomment">/// Default type for the enum.  Value should never be returned.
+        </span>TypeUnknown = <span class="number">0</span>,
+        <span class="doccomment">/// The TARGET_NUM_WORKERS_CHANGED type should be used when the target
+        /// worker pool size has changed at the start of an actuation. An event
+        /// should always be specified as TARGET_NUM_WORKERS_CHANGED if it reflects
+        /// a change in the target_num_workers.
+        </span>TargetNumWorkersChanged = <span class="number">1</span>,
+        <span class="doccomment">/// The CURRENT_NUM_WORKERS_CHANGED type should be used when actual worker
+        /// pool size has been changed, but the target_num_workers has not changed.
+        </span>CurrentNumWorkersChanged = <span class="number">2</span>,
+        <span class="doccomment">/// The ACTUATION_FAILURE type should be used when we want to report
+        /// an error to the user indicating why the current number of workers
+        /// in the pool could not be changed.
+        /// Displayed in the current status and history widgets.
+        </span>ActuationFailure = <span class="number">3</span>,
+        <span class="doccomment">/// Used when we want to report to the user a reason why we are
+        /// not currently adjusting the number of workers.
+        /// Should specify both target_num_workers, current_num_workers and a
+        /// decision_message.
+        </span>NoChange = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>AutoscalingEventType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                AutoscalingEventType::TypeUnknown =&gt; <span class="string">"TYPE_UNKNOWN"</span>,
+                AutoscalingEventType::TargetNumWorkersChanged =&gt; {
+                    <span class="string">"TARGET_NUM_WORKERS_CHANGED"
+                </span>}
+                AutoscalingEventType::CurrentNumWorkersChanged =&gt; {
+                    <span class="string">"CURRENT_NUM_WORKERS_CHANGED"
+                </span>}
+                AutoscalingEventType::ActuationFailure =&gt; <span class="string">"ACTUATION_FAILURE"</span>,
+                AutoscalingEventType::NoChange =&gt; <span class="string">"NO_CHANGE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TYPE_UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TypeUnknown),
+                <span class="string">"TARGET_NUM_WORKERS_CHANGED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TargetNumWorkersChanged),
+                <span class="string">"CURRENT_NUM_WORKERS_CHANGED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CurrentNumWorkersChanged),
+                <span class="string">"ACTUATION_FAILURE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ActuationFailure),
+                <span class="string">"NO_CHANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NoChange),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Request to list job messages.
+/// Up to max_results messages will be returned in the time range specified
+/// starting with the oldest messages first. If no time range is specified
+/// the results with start with the oldest message.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListJobMessagesRequest {
+    <span class="doccomment">/// A project id.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The job to get messages about.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>job_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Filter to only get messages with importance &gt;= level
+    </span><span class="attr">#[prost(enumeration = <span class="string">"JobMessageImportance"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>minimum_importance: i32,
+    <span class="doccomment">/// If specified, determines the maximum number of messages to
+    /// return.  If unspecified, the service may choose an appropriate
+    /// default, or may return an arbitrarily large number of results.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// If supplied, this should be the value of next_page_token returned
+    /// by an earlier call. This will cause the next page of results to
+    /// be returned.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// If specified, return only messages with timestamps &gt;= start_time.
+    /// The default is the job creation time (i.e. beginning of messages).
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Return only messages with timestamps &lt; end_time. The default is now
+    /// (i.e. return up to the latest messages available).
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The \[regional endpoint\]
+    /// (&lt;https://cloud.google.com/dataflow/docs/concepts/regional-endpoints&gt;) that
+    /// contains the job specified by job_id.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response to a request to list job messages.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListJobMessagesResponse {
+    <span class="doccomment">/// Messages in ascending timestamp order.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>job_messages: ::prost::alloc::vec::Vec&lt;JobMessage&gt;,
+    <span class="doccomment">/// The token to obtain the next page of results if there are more.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Autoscaling events in ascending timestamp order.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>autoscaling_events: ::prost::alloc::vec::Vec&lt;AutoscalingEvent&gt;,
+}
+<span class="doccomment">/// Indicates the importance of the message.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>JobMessageImportance {
+    <span class="doccomment">/// The message importance isn't specified, or is unknown.
+    </span>Unknown = <span class="number">0</span>,
+    <span class="doccomment">/// The message is at the 'debug' level: typically only useful for
+    /// software engineers working on the code the job is running.
+    /// Typically, Dataflow pipeline runners do not display log messages
+    /// at this level by default.
+    </span>JobMessageDebug = <span class="number">1</span>,
+    <span class="doccomment">/// The message is at the 'detailed' level: somewhat verbose, but
+    /// potentially useful to users.  Typically, Dataflow pipeline
+    /// runners do not display log messages at this level by default.
+    /// These messages are displayed by default in the Dataflow
+    /// monitoring UI.
+    </span>JobMessageDetailed = <span class="number">2</span>,
+    <span class="doccomment">/// The message is at the 'basic' level: useful for keeping
+    /// track of the execution of a Dataflow pipeline.  Typically,
+    /// Dataflow pipeline runners display log messages at this level by
+    /// default, and these messages are displayed by default in the
+    /// Dataflow monitoring UI.
+    </span>JobMessageBasic = <span class="number">5</span>,
+    <span class="doccomment">/// The message is at the 'warning' level: indicating a condition
+    /// pertaining to a job which may require human intervention.
+    /// Typically, Dataflow pipeline runners display log messages at this
+    /// level by default, and these messages are displayed by default in
+    /// the Dataflow monitoring UI.
+    </span>JobMessageWarning = <span class="number">3</span>,
+    <span class="doccomment">/// The message is at the 'error' level: indicating a condition
+    /// preventing a job from succeeding.  Typically, Dataflow pipeline
+    /// runners display log messages at this level by default, and these
+    /// messages are displayed by default in the Dataflow monitoring UI.
+    </span>JobMessageError = <span class="number">4</span>,
+}
+<span class="kw">impl </span>JobMessageImportance {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            JobMessageImportance::Unknown =&gt; <span class="string">"JOB_MESSAGE_IMPORTANCE_UNKNOWN"</span>,
+            JobMessageImportance::JobMessageDebug =&gt; <span class="string">"JOB_MESSAGE_DEBUG"</span>,
+            JobMessageImportance::JobMessageDetailed =&gt; <span class="string">"JOB_MESSAGE_DETAILED"</span>,
+            JobMessageImportance::JobMessageBasic =&gt; <span class="string">"JOB_MESSAGE_BASIC"</span>,
+            JobMessageImportance::JobMessageWarning =&gt; <span class="string">"JOB_MESSAGE_WARNING"</span>,
+            JobMessageImportance::JobMessageError =&gt; <span class="string">"JOB_MESSAGE_ERROR"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"JOB_MESSAGE_IMPORTANCE_UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
+            <span class="string">"JOB_MESSAGE_DEBUG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageDebug),
+            <span class="string">"JOB_MESSAGE_DETAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageDetailed),
+            <span class="string">"JOB_MESSAGE_BASIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageBasic),
+            <span class="string">"JOB_MESSAGE_WARNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageWarning),
+            <span class="string">"JOB_MESSAGE_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageError),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>messages_v1_beta3_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// The Dataflow Messages API is used for monitoring the progress of
+    /// Dataflow jobs.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>MessagesV1Beta3Client&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; MessagesV1Beta3Client&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; MessagesV1Beta3Client&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            MessagesV1Beta3Client::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Request the job status.
+        ///
+        /// To request the status of a job, we recommend using
+        /// `projects.locations.jobs.messages.list` with a [regional endpoint]
+        /// (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using
+        /// `projects.jobs.messages.list` is not recommended, as you can only request
+        /// the status of jobs that are running in `us-central1`.
+        </span><span class="kw">pub async fn </span>list_job_messages(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListJobMessagesRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListJobMessagesResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.dataflow.v1beta3.MessagesV1Beta3/ListJobMessages"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.dataflow.v1beta3.MessagesV1Beta3"</span>,
+                        <span class="string">"ListJobMessages"</span>,
+                    ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
@@ -8659,381 +9034,6 @@
                     GrpcMethod::new(
                         <span class="string">"google.dataflow.v1beta3.MetricsV1Beta3"</span>,
                         <span class="string">"GetStageExecutionDetails"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// A particular message pertaining to a Dataflow job.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>JobMessage {
-    <span class="doccomment">/// Deprecated.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The timestamp of the message.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The text of the message.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>message_text: ::prost::alloc::string::String,
-    <span class="doccomment">/// Importance level of the message.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"JobMessageImportance"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>message_importance: i32,
-}
-<span class="doccomment">/// A rich message format, including a human readable string, a key for
-/// identifying the message, and structured data associated with the message for
-/// programmatic consumption.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>StructuredMessage {
-    <span class="doccomment">/// Human-readable version of message.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>message_text: ::prost::alloc::string::String,
-    <span class="doccomment">/// Identifier for this message type.  Used by external systems to
-    /// internationalize or personalize message.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>message_key: ::prost::alloc::string::String,
-    <span class="doccomment">/// The structured data associated with this message.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>parameters: ::prost::alloc::vec::Vec&lt;structured_message::Parameter&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `StructuredMessage`.
-</span><span class="kw">pub mod </span>structured_message {
-    <span class="doccomment">/// Structured data associated with this message.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Parameter {
-        <span class="doccomment">/// Key or name for this parameter.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>key: ::prost::alloc::string::String,
-        <span class="doccomment">/// Value for this parameter.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>value: ::core::option::Option&lt;::prost_types::Value&gt;,
-    }
-}
-<span class="doccomment">/// A structured message reporting an autoscaling decision made by the Dataflow
-/// service.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoscalingEvent {
-    <span class="doccomment">/// The current number of workers the job has.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>current_num_workers: i64,
-    <span class="doccomment">/// The target number of workers the worker pool wants to resize to use.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>target_num_workers: i64,
-    <span class="doccomment">/// The type of autoscaling event to report.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"autoscaling_event::AutoscalingEventType"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>event_type: i32,
-    <span class="doccomment">/// A message describing why the system decided to adjust the current
-    /// number of workers, why it failed, or why the system decided to
-    /// not make any changes to the number of workers.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>description: ::core::option::Option&lt;StructuredMessage&gt;,
-    <span class="doccomment">/// The time this event was emitted to indicate a new target or current
-    /// num_workers value.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// A short and friendly name for the worker pool this event refers to.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>worker_pool: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoscalingEvent`.
-</span><span class="kw">pub mod </span>autoscaling_event {
-    <span class="doccomment">/// Indicates the type of autoscaling event.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>AutoscalingEventType {
-        <span class="doccomment">/// Default type for the enum.  Value should never be returned.
-        </span>TypeUnknown = <span class="number">0</span>,
-        <span class="doccomment">/// The TARGET_NUM_WORKERS_CHANGED type should be used when the target
-        /// worker pool size has changed at the start of an actuation. An event
-        /// should always be specified as TARGET_NUM_WORKERS_CHANGED if it reflects
-        /// a change in the target_num_workers.
-        </span>TargetNumWorkersChanged = <span class="number">1</span>,
-        <span class="doccomment">/// The CURRENT_NUM_WORKERS_CHANGED type should be used when actual worker
-        /// pool size has been changed, but the target_num_workers has not changed.
-        </span>CurrentNumWorkersChanged = <span class="number">2</span>,
-        <span class="doccomment">/// The ACTUATION_FAILURE type should be used when we want to report
-        /// an error to the user indicating why the current number of workers
-        /// in the pool could not be changed.
-        /// Displayed in the current status and history widgets.
-        </span>ActuationFailure = <span class="number">3</span>,
-        <span class="doccomment">/// Used when we want to report to the user a reason why we are
-        /// not currently adjusting the number of workers.
-        /// Should specify both target_num_workers, current_num_workers and a
-        /// decision_message.
-        </span>NoChange = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>AutoscalingEventType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                AutoscalingEventType::TypeUnknown =&gt; <span class="string">"TYPE_UNKNOWN"</span>,
-                AutoscalingEventType::TargetNumWorkersChanged =&gt; {
-                    <span class="string">"TARGET_NUM_WORKERS_CHANGED"
-                </span>}
-                AutoscalingEventType::CurrentNumWorkersChanged =&gt; {
-                    <span class="string">"CURRENT_NUM_WORKERS_CHANGED"
-                </span>}
-                AutoscalingEventType::ActuationFailure =&gt; <span class="string">"ACTUATION_FAILURE"</span>,
-                AutoscalingEventType::NoChange =&gt; <span class="string">"NO_CHANGE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"TYPE_UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TypeUnknown),
-                <span class="string">"TARGET_NUM_WORKERS_CHANGED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TargetNumWorkersChanged),
-                <span class="string">"CURRENT_NUM_WORKERS_CHANGED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CurrentNumWorkersChanged),
-                <span class="string">"ACTUATION_FAILURE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ActuationFailure),
-                <span class="string">"NO_CHANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NoChange),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Request to list job messages.
-/// Up to max_results messages will be returned in the time range specified
-/// starting with the oldest messages first. If no time range is specified
-/// the results with start with the oldest message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListJobMessagesRequest {
-    <span class="doccomment">/// A project id.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The job to get messages about.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>job_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Filter to only get messages with importance &gt;= level
-    </span><span class="attr">#[prost(enumeration = <span class="string">"JobMessageImportance"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>minimum_importance: i32,
-    <span class="doccomment">/// If specified, determines the maximum number of messages to
-    /// return.  If unspecified, the service may choose an appropriate
-    /// default, or may return an arbitrarily large number of results.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// If supplied, this should be the value of next_page_token returned
-    /// by an earlier call. This will cause the next page of results to
-    /// be returned.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// If specified, return only messages with timestamps &gt;= start_time.
-    /// The default is the job creation time (i.e. beginning of messages).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Return only messages with timestamps &lt; end_time. The default is now
-    /// (i.e. return up to the latest messages available).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The \[regional endpoint\]
-    /// (&lt;https://cloud.google.com/dataflow/docs/concepts/regional-endpoints&gt;) that
-    /// contains the job specified by job_id.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response to a request to list job messages.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListJobMessagesResponse {
-    <span class="doccomment">/// Messages in ascending timestamp order.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>job_messages: ::prost::alloc::vec::Vec&lt;JobMessage&gt;,
-    <span class="doccomment">/// The token to obtain the next page of results if there are more.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Autoscaling events in ascending timestamp order.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>autoscaling_events: ::prost::alloc::vec::Vec&lt;AutoscalingEvent&gt;,
-}
-<span class="doccomment">/// Indicates the importance of the message.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>JobMessageImportance {
-    <span class="doccomment">/// The message importance isn't specified, or is unknown.
-    </span>Unknown = <span class="number">0</span>,
-    <span class="doccomment">/// The message is at the 'debug' level: typically only useful for
-    /// software engineers working on the code the job is running.
-    /// Typically, Dataflow pipeline runners do not display log messages
-    /// at this level by default.
-    </span>JobMessageDebug = <span class="number">1</span>,
-    <span class="doccomment">/// The message is at the 'detailed' level: somewhat verbose, but
-    /// potentially useful to users.  Typically, Dataflow pipeline
-    /// runners do not display log messages at this level by default.
-    /// These messages are displayed by default in the Dataflow
-    /// monitoring UI.
-    </span>JobMessageDetailed = <span class="number">2</span>,
-    <span class="doccomment">/// The message is at the 'basic' level: useful for keeping
-    /// track of the execution of a Dataflow pipeline.  Typically,
-    /// Dataflow pipeline runners display log messages at this level by
-    /// default, and these messages are displayed by default in the
-    /// Dataflow monitoring UI.
-    </span>JobMessageBasic = <span class="number">5</span>,
-    <span class="doccomment">/// The message is at the 'warning' level: indicating a condition
-    /// pertaining to a job which may require human intervention.
-    /// Typically, Dataflow pipeline runners display log messages at this
-    /// level by default, and these messages are displayed by default in
-    /// the Dataflow monitoring UI.
-    </span>JobMessageWarning = <span class="number">3</span>,
-    <span class="doccomment">/// The message is at the 'error' level: indicating a condition
-    /// preventing a job from succeeding.  Typically, Dataflow pipeline
-    /// runners display log messages at this level by default, and these
-    /// messages are displayed by default in the Dataflow monitoring UI.
-    </span>JobMessageError = <span class="number">4</span>,
-}
-<span class="kw">impl </span>JobMessageImportance {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            JobMessageImportance::Unknown =&gt; <span class="string">"JOB_MESSAGE_IMPORTANCE_UNKNOWN"</span>,
-            JobMessageImportance::JobMessageDebug =&gt; <span class="string">"JOB_MESSAGE_DEBUG"</span>,
-            JobMessageImportance::JobMessageDetailed =&gt; <span class="string">"JOB_MESSAGE_DETAILED"</span>,
-            JobMessageImportance::JobMessageBasic =&gt; <span class="string">"JOB_MESSAGE_BASIC"</span>,
-            JobMessageImportance::JobMessageWarning =&gt; <span class="string">"JOB_MESSAGE_WARNING"</span>,
-            JobMessageImportance::JobMessageError =&gt; <span class="string">"JOB_MESSAGE_ERROR"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"JOB_MESSAGE_IMPORTANCE_UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
-            <span class="string">"JOB_MESSAGE_DEBUG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageDebug),
-            <span class="string">"JOB_MESSAGE_DETAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageDetailed),
-            <span class="string">"JOB_MESSAGE_BASIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageBasic),
-            <span class="string">"JOB_MESSAGE_WARNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageWarning),
-            <span class="string">"JOB_MESSAGE_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageError),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>messages_v1_beta3_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// The Dataflow Messages API is used for monitoring the progress of
-    /// Dataflow jobs.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>MessagesV1Beta3Client&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; MessagesV1Beta3Client&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; MessagesV1Beta3Client&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            MessagesV1Beta3Client::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Request the job status.
-        ///
-        /// To request the status of a job, we recommend using
-        /// `projects.locations.jobs.messages.list` with a [regional endpoint]
-        /// (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using
-        /// `projects.jobs.messages.list` is not recommended, as you can only request
-        /// the status of jobs that are running in `us-central1`.
-        </span><span class="kw">pub async fn </span>list_job_messages(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListJobMessagesRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListJobMessagesResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.dataflow.v1beta3.MessagesV1Beta3/ListJobMessages"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.dataflow.v1beta3.MessagesV1Beta3"</span>,
-                        <span class="string">"ListJobMessages"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

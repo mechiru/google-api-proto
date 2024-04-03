@@ -2016,7 +2016,24 @@
 <a href="#2014" id="2014">2014</a>
 <a href="#2015" id="2015">2015</a>
 <a href="#2016" id="2016">2016</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// ! Information about a vulnerability with an HTML.
+</pre></div><pre class="rust"><code><span class="doccomment">/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web
+/// Security Scanner Service crawls the web applications, following all links
+/// within the scope of sites, to find the URLs to test against.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CrawledUrl {
+    <span class="doccomment">/// Output only. The http method of the request that was used to visit the URL, in
+    /// uppercase.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>http_method: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The URL that was crawled.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>url: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The body of the request that was used to visit the URL.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>body: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// ! Information about a vulnerability with an HTML.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Form {
@@ -2255,23 +2272,6 @@
             }
         }
     }
-}
-<span class="doccomment">/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web
-/// Security Scanner Service crawls the web applications, following all links
-/// within the scope of sites, to find the URLs to test against.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CrawledUrl {
-    <span class="doccomment">/// Output only. The http method of the request that was used to visit the URL, in
-    /// uppercase.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>http_method: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The URL that was crawled.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>url: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The body of the request that was used to visit the URL.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>body: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// A Finding resource represents a vulnerability instance identified during a
 /// ScanRun.

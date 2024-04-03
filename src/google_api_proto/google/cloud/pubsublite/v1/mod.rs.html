@@ -4714,269 +4714,6 @@
         </span>}
     }
 }
-<span class="doccomment">/// Compute statistics about a range of messages in a given topic and partition.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeMessageStatsRequest {
-    <span class="doccomment">/// Required. The topic for which we should compute message stats.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The partition for which we should compute message stats.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>partition: i64,
-    <span class="doccomment">/// The inclusive start of the range.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>start_cursor: ::core::option::Option&lt;Cursor&gt;,
-    <span class="doccomment">/// The exclusive end of the range. The range is empty if end_cursor &lt;=
-    /// start_cursor. Specifying a start_cursor before the first message and an
-    /// end_cursor after the last message will retrieve all messages.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>end_cursor: ::core::option::Option&lt;Cursor&gt;,
-}
-<span class="doccomment">/// Response containing stats for messages in the requested topic and partition.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeMessageStatsResponse {
-    <span class="doccomment">/// The count of messages.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>message_count: i64,
-    <span class="doccomment">/// The number of quota bytes accounted to these messages.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>message_bytes: i64,
-    <span class="doccomment">/// The minimum publish timestamp across these messages. Note that publish
-    /// timestamps within a partition are not guaranteed to be non-decreasing. The
-    /// timestamp will be unset if there are no messages.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>minimum_publish_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The minimum event timestamp across these messages. For the purposes of this
-    /// computation, if a message does not have an event time, we use the publish
-    /// time. The timestamp will be unset if there are no messages.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>minimum_event_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Compute the current head cursor for a partition.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeHeadCursorRequest {
-    <span class="doccomment">/// Required. The topic for which we should compute the head cursor.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The partition for which we should compute the head cursor.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>partition: i64,
-}
-<span class="doccomment">/// Response containing the head cursor for the requested topic and partition.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeHeadCursorResponse {
-    <span class="doccomment">/// The head cursor.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>head_cursor: ::core::option::Option&lt;Cursor&gt;,
-}
-<span class="doccomment">/// Compute the corresponding cursor for a publish or event time in a topic
-/// partition.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeTimeCursorRequest {
-    <span class="doccomment">/// Required. The topic for which we should compute the cursor.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The partition for which we should compute the cursor.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>partition: i64,
-    <span class="doccomment">/// Required. The target publish or event time. Specifying a future time will
-    /// return an unset cursor.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>target: ::core::option::Option&lt;TimeTarget&gt;,
-}
-<span class="doccomment">/// Response containing the cursor corresponding to a publish or event time in a
-/// topic partition.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeTimeCursorResponse {
-    <span class="doccomment">/// If present, the cursor references the first message with time greater than
-    /// or equal to the specified target time. If such a message cannot be found,
-    /// the cursor will be unset (i.e. `cursor` is not present).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>cursor: ::core::option::Option&lt;Cursor&gt;,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>topic_stats_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// This service allows users to get stats about messages in their topic.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>TopicStatsServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; TopicStatsServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; TopicStatsServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            TopicStatsServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Compute statistics about a range of messages in a given topic and
-        /// partition.
-        </span><span class="kw">pub async fn </span>compute_message_stats(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ComputeMessageStatsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ComputeMessageStatsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.pubsublite.v1.TopicStatsService/ComputeMessageStats"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.pubsublite.v1.TopicStatsService"</span>,
-                        <span class="string">"ComputeMessageStats"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Compute the head cursor for the partition.
-        /// The head cursor's offset is guaranteed to be less than or equal to all
-        /// messages which have not yet been acknowledged as published, and
-        /// greater than the offset of any message whose publish has already
-        /// been acknowledged. It is zero if there have never been messages in the
-        /// partition.
-        </span><span class="kw">pub async fn </span>compute_head_cursor(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ComputeHeadCursorRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ComputeHeadCursorResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.pubsublite.v1.TopicStatsService/ComputeHeadCursor"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.pubsublite.v1.TopicStatsService"</span>,
-                        <span class="string">"ComputeHeadCursor"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Compute the corresponding cursor for a publish or event time in a topic
-        /// partition.
-        </span><span class="kw">pub async fn </span>compute_time_cursor(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ComputeTimeCursorRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ComputeTimeCursorResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.pubsublite.v1.TopicStatsService/ComputeTimeCursor"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.pubsublite.v1.TopicStatsService"</span>,
-                        <span class="string">"ComputeTimeCursor"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
 <span class="doccomment">/// The first streaming request that must be sent on a newly-opened stream. The
 /// client must wait for the response before sending subsequent requests on the
 /// stream.
@@ -5292,6 +5029,269 @@
                     GrpcMethod::new(
                         <span class="string">"google.cloud.pubsublite.v1.CursorService"</span>,
                         <span class="string">"ListPartitionCursors"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Compute statistics about a range of messages in a given topic and partition.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ComputeMessageStatsRequest {
+    <span class="doccomment">/// Required. The topic for which we should compute message stats.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The partition for which we should compute message stats.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>partition: i64,
+    <span class="doccomment">/// The inclusive start of the range.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>start_cursor: ::core::option::Option&lt;Cursor&gt;,
+    <span class="doccomment">/// The exclusive end of the range. The range is empty if end_cursor &lt;=
+    /// start_cursor. Specifying a start_cursor before the first message and an
+    /// end_cursor after the last message will retrieve all messages.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>end_cursor: ::core::option::Option&lt;Cursor&gt;,
+}
+<span class="doccomment">/// Response containing stats for messages in the requested topic and partition.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ComputeMessageStatsResponse {
+    <span class="doccomment">/// The count of messages.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>message_count: i64,
+    <span class="doccomment">/// The number of quota bytes accounted to these messages.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>message_bytes: i64,
+    <span class="doccomment">/// The minimum publish timestamp across these messages. Note that publish
+    /// timestamps within a partition are not guaranteed to be non-decreasing. The
+    /// timestamp will be unset if there are no messages.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>minimum_publish_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The minimum event timestamp across these messages. For the purposes of this
+    /// computation, if a message does not have an event time, we use the publish
+    /// time. The timestamp will be unset if there are no messages.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>minimum_event_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Compute the current head cursor for a partition.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ComputeHeadCursorRequest {
+    <span class="doccomment">/// Required. The topic for which we should compute the head cursor.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The partition for which we should compute the head cursor.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>partition: i64,
+}
+<span class="doccomment">/// Response containing the head cursor for the requested topic and partition.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ComputeHeadCursorResponse {
+    <span class="doccomment">/// The head cursor.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>head_cursor: ::core::option::Option&lt;Cursor&gt;,
+}
+<span class="doccomment">/// Compute the corresponding cursor for a publish or event time in a topic
+/// partition.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ComputeTimeCursorRequest {
+    <span class="doccomment">/// Required. The topic for which we should compute the cursor.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The partition for which we should compute the cursor.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>partition: i64,
+    <span class="doccomment">/// Required. The target publish or event time. Specifying a future time will
+    /// return an unset cursor.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>target: ::core::option::Option&lt;TimeTarget&gt;,
+}
+<span class="doccomment">/// Response containing the cursor corresponding to a publish or event time in a
+/// topic partition.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ComputeTimeCursorResponse {
+    <span class="doccomment">/// If present, the cursor references the first message with time greater than
+    /// or equal to the specified target time. If such a message cannot be found,
+    /// the cursor will be unset (i.e. `cursor` is not present).
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>cursor: ::core::option::Option&lt;Cursor&gt;,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>topic_stats_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// This service allows users to get stats about messages in their topic.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>TopicStatsServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; TopicStatsServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; TopicStatsServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            TopicStatsServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Compute statistics about a range of messages in a given topic and
+        /// partition.
+        </span><span class="kw">pub async fn </span>compute_message_stats(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ComputeMessageStatsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ComputeMessageStatsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.pubsublite.v1.TopicStatsService/ComputeMessageStats"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.pubsublite.v1.TopicStatsService"</span>,
+                        <span class="string">"ComputeMessageStats"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Compute the head cursor for the partition.
+        /// The head cursor's offset is guaranteed to be less than or equal to all
+        /// messages which have not yet been acknowledged as published, and
+        /// greater than the offset of any message whose publish has already
+        /// been acknowledged. It is zero if there have never been messages in the
+        /// partition.
+        </span><span class="kw">pub async fn </span>compute_head_cursor(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ComputeHeadCursorRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ComputeHeadCursorResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.pubsublite.v1.TopicStatsService/ComputeHeadCursor"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.pubsublite.v1.TopicStatsService"</span>,
+                        <span class="string">"ComputeHeadCursor"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Compute the corresponding cursor for a publish or event time in a topic
+        /// partition.
+        </span><span class="kw">pub async fn </span>compute_time_cursor(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ComputeTimeCursorRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ComputeTimeCursorResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.pubsublite.v1.TopicStatsService/ComputeTimeCursor"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.pubsublite.v1.TopicStatsService"</span>,
+                        <span class="string">"ComputeTimeCursor"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

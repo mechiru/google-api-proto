@@ -740,127 +740,6 @@
         </span><span class="kw">pub </span>value: ::core::option::Option&lt;<span class="kw">super</span>::Value&gt;,
     }
 }
-<span class="doccomment">/// The state of an evaluation.
-///
-/// Can represent an initial, partial, or completed state of evaluation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EvalState {
-    <span class="doccomment">/// The unique values referenced in this message.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>values: ::prost::alloc::vec::Vec&lt;ExprValue&gt;,
-    <span class="doccomment">/// An ordered list of results.
-    ///
-    /// Tracks the flow of evaluation through the expression.
-    /// May be sparse.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>results: ::prost::alloc::vec::Vec&lt;eval_state::Result&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `EvalState`.
-</span><span class="kw">pub mod </span>eval_state {
-    <span class="doccomment">/// A single evaluation result.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span><span class="prelude-ty">Result </span>{
-        <span class="doccomment">/// The expression this result is for.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>expr: ::core::option::Option&lt;<span class="kw">super</span>::IdRef&gt;,
-        <span class="doccomment">/// The index in `values` of the resulting value.
-        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>value: i32,
-    }
-}
-<span class="doccomment">/// The value of an evaluated expression.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExprValue {
-    <span class="doccomment">/// An expression can resolve to a value, error or unknown.
-    </span><span class="attr">#[prost(oneof = <span class="string">"expr_value::Kind"</span>, tags = <span class="string">"1, 2, 3"</span>)]
-    </span><span class="kw">pub </span>kind: ::core::option::Option&lt;expr_value::Kind&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ExprValue`.
-</span><span class="kw">pub mod </span>expr_value {
-    <span class="doccomment">/// An expression can resolve to a value, error or unknown.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Kind {
-        <span class="doccomment">/// A concrete value.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>Value(<span class="kw">super</span>::Value),
-        <span class="doccomment">/// The set of errors in the critical path of evalution.
-        ///
-        /// Only errors in the critical path are included. For example,
-        /// `(&lt;error1&gt; || true) &amp;&amp; &lt;error2&gt;` will only result in `&lt;error2&gt;`,
-        /// while `&lt;error1&gt; || &lt;error2&gt;` will result in both `&lt;error1&gt;` and
-        /// `&lt;error2&gt;`.
-        ///
-        /// Errors cause by the presence of other errors are not included in the
-        /// set. For example `&lt;error1&gt;.foo`, `foo(&lt;error1&gt;)`, and `&lt;error1&gt; + 1` will
-        /// only result in `&lt;error1&gt;`.
-        ///
-        /// Multiple errors *might* be included when evaluation could result
-        /// in different errors. For example `&lt;error1&gt; + &lt;error2&gt;` and
-        /// `foo(&lt;error1&gt;, &lt;error2&gt;)` may result in `&lt;error1&gt;`, `&lt;error2&gt;` or both.
-        /// The exact subset of errors included for this case is unspecified and
-        /// depends on the implementation details of the evaluator.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>Error(<span class="kw">super</span>::ErrorSet),
-        <span class="doccomment">/// The set of unknowns in the critical path of evaluation.
-        ///
-        /// Unknown behaves identically to Error with regards to propagation.
-        /// Specifically, only unknowns in the critical path are included, unknowns
-        /// caused by the presence of other unknowns are not included, and multiple
-        /// unknowns *might* be included included when evaluation could result in
-        /// different unknowns. For example:
-        ///
-        ///      (&lt;unknown\[1\]&gt; || true) &amp;&amp; &lt;unknown\[2\]&gt; -&gt; &lt;unknown\[2\]&gt;
-        ///      &lt;unknown\[1\]&gt; || &lt;unknown\[2\]&gt; -&gt; &lt;unknown\[1,2\]&gt;
-        ///      &lt;unknown\[1\]&gt;.foo -&gt; &lt;unknown\[1\]&gt;
-        ///      foo(&lt;unknown\[1\]&gt;) -&gt; &lt;unknown\[1\]&gt;
-        ///      &lt;unknown\[1\]&gt; + &lt;unknown\[2\]&gt; -&gt; &lt;unknown\[1\]&gt; or &lt;unknown[2[&gt;
-        ///
-        /// Unknown takes precidence over Error in cases where a `Value` can short
-        /// circuit the result:
-        ///
-        ///      &lt;error&gt; || &lt;unknown&gt; -&gt; &lt;unknown&gt;
-        ///      &lt;error&gt; &amp;&amp; &lt;unknown&gt; -&gt; &lt;unknown&gt;
-        ///
-        /// Errors take precidence in all other cases:
-        ///
-        ///      &lt;unknown&gt; + &lt;error&gt; -&gt; &lt;error&gt;
-        ///      foo(&lt;unknown&gt;, &lt;error&gt;) -&gt; &lt;error&gt;
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>Unknown(<span class="kw">super</span>::UnknownSet),
-    }
-}
-<span class="doccomment">/// A set of errors.
-///
-/// The errors included depend on the context. See `ExprValue.error`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ErrorSet {
-    <span class="doccomment">/// The errors in the set.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>errors: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
-}
-<span class="doccomment">/// A set of expressions for which the value is unknown.
-///
-/// The unknowns included depend on the context. See `ExprValue.unknown`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UnknownSet {
-    <span class="doccomment">/// The ids of the expressions with unknown values.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>exprs: ::prost::alloc::vec::Vec&lt;IdRef&gt;,
-}
-<span class="doccomment">/// A reference to an expression id.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>IdRef {
-    <span class="doccomment">/// The expression id.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: i32,
-}
 <span class="doccomment">/// Source information collected at parse time.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1263,5 +1142,126 @@
     <span class="doccomment">/// If the first argument of the function is the receiver.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>receiver_function: bool,
+}
+<span class="doccomment">/// The state of an evaluation.
+///
+/// Can represent an initial, partial, or completed state of evaluation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>EvalState {
+    <span class="doccomment">/// The unique values referenced in this message.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>values: ::prost::alloc::vec::Vec&lt;ExprValue&gt;,
+    <span class="doccomment">/// An ordered list of results.
+    ///
+    /// Tracks the flow of evaluation through the expression.
+    /// May be sparse.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>results: ::prost::alloc::vec::Vec&lt;eval_state::Result&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `EvalState`.
+</span><span class="kw">pub mod </span>eval_state {
+    <span class="doccomment">/// A single evaluation result.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span><span class="prelude-ty">Result </span>{
+        <span class="doccomment">/// The expression this result is for.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>expr: ::core::option::Option&lt;<span class="kw">super</span>::IdRef&gt;,
+        <span class="doccomment">/// The index in `values` of the resulting value.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>value: i32,
+    }
+}
+<span class="doccomment">/// The value of an evaluated expression.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExprValue {
+    <span class="doccomment">/// An expression can resolve to a value, error or unknown.
+    </span><span class="attr">#[prost(oneof = <span class="string">"expr_value::Kind"</span>, tags = <span class="string">"1, 2, 3"</span>)]
+    </span><span class="kw">pub </span>kind: ::core::option::Option&lt;expr_value::Kind&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ExprValue`.
+</span><span class="kw">pub mod </span>expr_value {
+    <span class="doccomment">/// An expression can resolve to a value, error or unknown.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Kind {
+        <span class="doccomment">/// A concrete value.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>Value(<span class="kw">super</span>::Value),
+        <span class="doccomment">/// The set of errors in the critical path of evalution.
+        ///
+        /// Only errors in the critical path are included. For example,
+        /// `(&lt;error1&gt; || true) &amp;&amp; &lt;error2&gt;` will only result in `&lt;error2&gt;`,
+        /// while `&lt;error1&gt; || &lt;error2&gt;` will result in both `&lt;error1&gt;` and
+        /// `&lt;error2&gt;`.
+        ///
+        /// Errors cause by the presence of other errors are not included in the
+        /// set. For example `&lt;error1&gt;.foo`, `foo(&lt;error1&gt;)`, and `&lt;error1&gt; + 1` will
+        /// only result in `&lt;error1&gt;`.
+        ///
+        /// Multiple errors *might* be included when evaluation could result
+        /// in different errors. For example `&lt;error1&gt; + &lt;error2&gt;` and
+        /// `foo(&lt;error1&gt;, &lt;error2&gt;)` may result in `&lt;error1&gt;`, `&lt;error2&gt;` or both.
+        /// The exact subset of errors included for this case is unspecified and
+        /// depends on the implementation details of the evaluator.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>Error(<span class="kw">super</span>::ErrorSet),
+        <span class="doccomment">/// The set of unknowns in the critical path of evaluation.
+        ///
+        /// Unknown behaves identically to Error with regards to propagation.
+        /// Specifically, only unknowns in the critical path are included, unknowns
+        /// caused by the presence of other unknowns are not included, and multiple
+        /// unknowns *might* be included included when evaluation could result in
+        /// different unknowns. For example:
+        ///
+        ///      (&lt;unknown\[1\]&gt; || true) &amp;&amp; &lt;unknown\[2\]&gt; -&gt; &lt;unknown\[2\]&gt;
+        ///      &lt;unknown\[1\]&gt; || &lt;unknown\[2\]&gt; -&gt; &lt;unknown\[1,2\]&gt;
+        ///      &lt;unknown\[1\]&gt;.foo -&gt; &lt;unknown\[1\]&gt;
+        ///      foo(&lt;unknown\[1\]&gt;) -&gt; &lt;unknown\[1\]&gt;
+        ///      &lt;unknown\[1\]&gt; + &lt;unknown\[2\]&gt; -&gt; &lt;unknown\[1\]&gt; or &lt;unknown[2[&gt;
+        ///
+        /// Unknown takes precidence over Error in cases where a `Value` can short
+        /// circuit the result:
+        ///
+        ///      &lt;error&gt; || &lt;unknown&gt; -&gt; &lt;unknown&gt;
+        ///      &lt;error&gt; &amp;&amp; &lt;unknown&gt; -&gt; &lt;unknown&gt;
+        ///
+        /// Errors take precidence in all other cases:
+        ///
+        ///      &lt;unknown&gt; + &lt;error&gt; -&gt; &lt;error&gt;
+        ///      foo(&lt;unknown&gt;, &lt;error&gt;) -&gt; &lt;error&gt;
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>Unknown(<span class="kw">super</span>::UnknownSet),
+    }
+}
+<span class="doccomment">/// A set of errors.
+///
+/// The errors included depend on the context. See `ExprValue.error`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ErrorSet {
+    <span class="doccomment">/// The errors in the set.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>errors: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
+}
+<span class="doccomment">/// A set of expressions for which the value is unknown.
+///
+/// The unknowns included depend on the context. See `ExprValue.unknown`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UnknownSet {
+    <span class="doccomment">/// The ids of the expressions with unknown values.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>exprs: ::prost::alloc::vec::Vec&lt;IdRef&gt;,
+}
+<span class="doccomment">/// A reference to an expression id.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>IdRef {
+    <span class="doccomment">/// The expression id.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: i32,
 }
 </code></pre></div></section></main></body></html>

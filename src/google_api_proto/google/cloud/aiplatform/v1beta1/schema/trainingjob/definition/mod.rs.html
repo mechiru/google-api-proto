@@ -1418,21 +1418,7 @@
 <a href="#1416" id="1416">1416</a>
 <a href="#1417" id="1417">1417</a>
 <a href="#1418" id="1418">1418</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Classification Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlTextClassification {
-    <span class="doccomment">/// The input parameters of this TrainingJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlTextClassificationInputs&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlTextClassificationInputs {
-    <span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>multi_label: bool,
-}
-<span class="doccomment">/// Configuration for exporting test set predictions to a BigQuery table.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Configuration for exporting test set predictions to a BigQuery table.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ExportEvaluatedDataItemsConfig {
@@ -1449,311 +1435,6 @@
     /// exists, then the export operation fails.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>override_existing_table: bool,
-}
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Forecasting Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlForecasting {
-    <span class="doccomment">/// The input parameters of this TrainingJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlForecastingInputs&gt;,
-    <span class="doccomment">/// The metadata information.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>metadata: ::core::option::Option&lt;AutoMlForecastingMetadata&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlForecastingInputs {
-    <span class="doccomment">/// The name of the column that the model is to predict.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>target_column: ::prost::alloc::string::String,
-    <span class="doccomment">/// The name of the column that identifies the time series.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>time_series_identifier_column: ::prost::alloc::string::String,
-    <span class="doccomment">/// The name of the column that identifies time order in the time series.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>time_column: ::prost::alloc::string::String,
-    <span class="doccomment">/// Each transformation will apply transform function to given input column.
-    /// And the result will be used for training.
-    /// When creating transformation for BigQuery Struct column, the column should
-    /// be flattened using "." as the delimiter.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>transformations: ::prost::alloc::vec::Vec&lt;
-        auto_ml_forecasting_inputs::Transformation,
-    &gt;,
-    <span class="doccomment">/// Objective function the model is optimizing towards. The training process
-    /// creates a model that optimizes the value of the objective
-    /// function over the validation set.
-    ///
-    /// The supported optimization objectives:
-    ///
-    ///    * "minimize-rmse" (default) - Minimize root-mean-squared error (RMSE).
-    ///
-    ///    * "minimize-mae" - Minimize mean-absolute error (MAE).
-    ///
-    ///    * "minimize-rmsle" - Minimize root-mean-squared log error (RMSLE).
-    ///
-    ///    * "minimize-rmspe" - Minimize root-mean-squared percentage error (RMSPE).
-    ///
-    ///    * "minimize-wape-mae" - Minimize the combination of weighted absolute
-    ///      percentage error (WAPE) and mean-absolute-error (MAE).
-    ///
-    ///    * "minimize-quantile-loss" - Minimize the quantile loss at the quantiles
-    ///      defined in `quantiles`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>optimization_objective: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The train budget of creating this model, expressed in milli node
-    /// hours i.e. 1,000 value in this field means 1 node hour.
-    ///
-    /// The training cost of the model will not exceed this budget. The final cost
-    /// will be attempted to be close to the budget, though may end up being (even)
-    /// noticeably smaller - at the backend's discretion. This especially may
-    /// happen when further model training ceases to provide any improvements.
-    ///
-    /// If the budget is set to a value known to be insufficient to train a
-    /// model for the given dataset, the training won't be attempted and
-    /// will error.
-    ///
-    /// The train budget must be between 1,000 and 72,000 milli node hours,
-    /// inclusive.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>train_budget_milli_node_hours: i64,
-    <span class="doccomment">/// Column name that should be used as the weight column.
-    /// Higher values in this column give more importance to the row
-    /// during model training. The column must have numeric values between 0 and
-    /// 10000 inclusively; 0 means the row is ignored for training. If weight
-    /// column field is not set, then all rows are assumed to have equal weight
-    /// of 1.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>weight_column: ::prost::alloc::string::String,
-    <span class="doccomment">/// Column names that should be used as attribute columns.
-    /// The value of these columns does not vary as a function of time.
-    /// For example, store ID or item color.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"19"</span>)]
-    </span><span class="kw">pub </span>time_series_attribute_columns: ::prost::alloc::vec::Vec&lt;
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Names of columns that are unavailable when a forecast is requested.
-    /// This column contains information for the given entity (identified
-    /// by the time_series_identifier_column) that is unknown before the forecast
-    /// For example, actual weather on a given day.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"20"</span>)]
-    </span><span class="kw">pub </span>unavailable_at_forecast_columns: ::prost::alloc::vec::Vec&lt;
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Names of columns that are available and provided when a forecast
-    /// is requested. These columns
-    /// contain information for the given entity (identified by the
-    /// time_series_identifier_column column) that is known at forecast.
-    /// For example, predicted weather for a specific day.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"21"</span>)]
-    </span><span class="kw">pub </span>available_at_forecast_columns: ::prost::alloc::vec::Vec&lt;
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Expected difference in time granularity between rows in the data.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"22"</span>)]
-    </span><span class="kw">pub </span>data_granularity: ::core::option::Option&lt;
-        auto_ml_forecasting_inputs::Granularity,
-    &gt;,
-    <span class="doccomment">/// The amount of time into the future for which forecasted values for the
-    /// target are returned. Expressed in number of units defined by the
-    /// `data_granularity` field.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"23"</span>)]
-    </span><span class="kw">pub </span>forecast_horizon: i64,
-    <span class="doccomment">/// The amount of time into the past training and prediction data is used
-    /// for model training and prediction respectively. Expressed in number of
-    /// units defined by the `data_granularity` field.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"24"</span>)]
-    </span><span class="kw">pub </span>context_window: i64,
-    <span class="doccomment">/// Configuration for exporting test set predictions to a BigQuery table. If
-    /// this configuration is absent, then the export is not performed.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>export_evaluated_data_items_config: ::core::option::Option&lt;
-        ExportEvaluatedDataItemsConfig,
-    &gt;,
-    <span class="doccomment">/// Quantiles to use for minimize-quantile-loss `optimization_objective`. Up to
-    /// 5 quantiles are allowed of values between 0 and 1, exclusive. Required if
-    /// the value of optimization_objective is minimize-quantile-loss. Represents
-    /// the percent quantiles to use for that objective. Quantiles must be unique.
-    </span><span class="attr">#[prost(double, repeated, tag = <span class="string">"16"</span>)]
-    </span><span class="kw">pub </span>quantiles: ::prost::alloc::vec::Vec&lt;f64&gt;,
-    <span class="doccomment">/// Validation options for the data validation component. The available options
-    /// are:
-    ///
-    ///    * "fail-pipeline" - default, will validate against the validation and
-    ///       fail the pipeline if it fails.
-    ///
-    ///    * "ignore-validation" - ignore the results of the validation and continue
-    </span><span class="attr">#[prost(string, tag = <span class="string">"17"</span>)]
-    </span><span class="kw">pub </span>validation_options: ::prost::alloc::string::String,
-    <span class="doccomment">/// Additional experiment flags for the time series forcasting training.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"25"</span>)]
-    </span><span class="kw">pub </span>additional_experiments: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlForecastingInputs`.
-</span><span class="kw">pub mod </span>auto_ml_forecasting_inputs {
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Transformation {
-        <span class="doccomment">/// The transformation that the training pipeline will apply to the input
-        /// columns.
-        </span><span class="attr">#[prost(oneof = <span class="string">"transformation::TransformationDetail"</span>, tags = <span class="string">"1, 2, 3, 4, 5"</span>)]
-        </span><span class="kw">pub </span>transformation_detail: ::core::option::Option&lt;
-            transformation::TransformationDetail,
-        &gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Transformation`.
-    </span><span class="kw">pub mod </span>transformation {
-        <span class="doccomment">/// Training pipeline will infer the proper transformation based on the
-        /// statistic of dataset.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>AutoTransformation {
-            <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>column_name: ::prost::alloc::string::String,
-        }
-        <span class="doccomment">/// Training pipeline will perform following transformation functions.
-        ///
-        /// *  The value converted to float32.
-        ///
-        /// *  The z_score of the value.
-        ///
-        /// *  log(value+1) when the value is greater than or equal to 0. Otherwise,
-        ///     this transformation is not applied and the value is considered a
-        ///     missing value.
-        ///
-        /// *  z_score of log(value+1) when the value is greater than or equal to 0.
-        ///     Otherwise, this transformation is not applied and the value is
-        ///     considered a missing value.
-        ///
-        /// *  A boolean value that indicates whether the value is valid.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>NumericTransformation {
-            <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>column_name: ::prost::alloc::string::String,
-        }
-        <span class="doccomment">/// Training pipeline will perform following transformation functions.
-        ///
-        /// *  The categorical string as is--no change to case, punctuation,
-        ///     spelling, tense, and so on.
-        ///
-        /// *  Convert the category name to a dictionary lookup index and generate an
-        ///     embedding for each index.
-        ///
-        /// *  Categories that appear less than 5 times in the training dataset are
-        ///     treated as the "unknown" category. The "unknown" category gets its own
-        ///     special lookup index and resulting embedding.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>CategoricalTransformation {
-            <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>column_name: ::prost::alloc::string::String,
-        }
-        <span class="doccomment">/// Training pipeline will perform following transformation functions.
-        ///
-        /// *  Apply the transformation functions for Numerical columns.
-        ///
-        /// *  Determine the year, month, day,and weekday. Treat each value from the
-        ///     timestamp as a Categorical column.
-        ///
-        /// *  Invalid numerical values (for example, values that fall outside of a
-        ///     typical timestamp range, or are extreme values) receive no special
-        ///     treatment and are not removed.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>TimestampTransformation {
-            <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>column_name: ::prost::alloc::string::String,
-            <span class="doccomment">/// The format in which that time field is expressed. The time_format must
-            /// either be one of:
-            ///
-            /// * `unix-seconds`
-            ///
-            /// * `unix-milliseconds`
-            ///
-            /// * `unix-microseconds`
-            ///
-            /// * `unix-nanoseconds`
-            ///
-            /// (for respectively number of seconds, milliseconds, microseconds and
-            /// nanoseconds since start of the Unix epoch);
-            ///
-            /// or be written in `strftime` syntax.
-            ///
-            /// If time_format is not set, then the
-            /// default format is RFC 3339 `date-time` format, where
-            /// `time-offset` = `"Z"` (e.g. 1985-04-12T23:20:50.52Z)
-            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>time_format: ::prost::alloc::string::String,
-        }
-        <span class="doccomment">/// Training pipeline will perform following transformation functions.
-        ///
-        /// *  The text as is--no change to case, punctuation, spelling, tense, and
-        ///     so on.
-        ///
-        /// *  Convert the category name to a dictionary lookup index and generate an
-        ///     embedding for each index.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>TextTransformation {
-            <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>column_name: ::prost::alloc::string::String,
-        }
-        <span class="doccomment">/// The transformation that the training pipeline will apply to the input
-        /// columns.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        </span><span class="kw">pub enum </span>TransformationDetail {
-            <span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-            </span>Auto(AutoTransformation),
-            <span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-            </span>Numeric(NumericTransformation),
-            <span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-            </span>Categorical(CategoricalTransformation),
-            <span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-            </span>Timestamp(TimestampTransformation),
-            <span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-            </span>Text(TextTransformation),
-        }
-    }
-    <span class="doccomment">/// A duration of time expressed in time granularity units.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Granularity {
-        <span class="doccomment">/// The time granularity unit of this time period.
-        /// The supported units are:
-        ///
-        ///   * "minute"
-        ///
-        ///   * "hour"
-        ///
-        ///   * "day"
-        ///
-        ///   * "week"
-        ///
-        ///   * "month"
-        ///
-        ///   * "year"
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>unit: ::prost::alloc::string::String,
-        <span class="doccomment">/// The number of granularity_units between data points in the training
-        /// data. If `granularity_unit` is `minute`,
-        /// can be 1, 5, 10, 15, or 30. For all other values of `granularity_unit`,
-        /// must be 1.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>quantity: i64,
-    }
-}
-<span class="doccomment">/// Model metadata specific to AutoML Forecasting.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlForecastingMetadata {
-    <span class="doccomment">/// Output only. The actual training cost of the model, expressed in milli
-    /// node hours, i.e. 1,000 value in this field means 1 node hour. Guaranteed
-    /// to not exceed the train budget.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>train_cost_milli_node_hours: i64,
 }
 <span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Tables Model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2144,6 +1825,428 @@
         }
     }
 }
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Forecasting Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlForecasting {
+    <span class="doccomment">/// The input parameters of this TrainingJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlForecastingInputs&gt;,
+    <span class="doccomment">/// The metadata information.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>metadata: ::core::option::Option&lt;AutoMlForecastingMetadata&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlForecastingInputs {
+    <span class="doccomment">/// The name of the column that the model is to predict.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>target_column: ::prost::alloc::string::String,
+    <span class="doccomment">/// The name of the column that identifies the time series.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>time_series_identifier_column: ::prost::alloc::string::String,
+    <span class="doccomment">/// The name of the column that identifies time order in the time series.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>time_column: ::prost::alloc::string::String,
+    <span class="doccomment">/// Each transformation will apply transform function to given input column.
+    /// And the result will be used for training.
+    /// When creating transformation for BigQuery Struct column, the column should
+    /// be flattened using "." as the delimiter.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>transformations: ::prost::alloc::vec::Vec&lt;
+        auto_ml_forecasting_inputs::Transformation,
+    &gt;,
+    <span class="doccomment">/// Objective function the model is optimizing towards. The training process
+    /// creates a model that optimizes the value of the objective
+    /// function over the validation set.
+    ///
+    /// The supported optimization objectives:
+    ///
+    ///    * "minimize-rmse" (default) - Minimize root-mean-squared error (RMSE).
+    ///
+    ///    * "minimize-mae" - Minimize mean-absolute error (MAE).
+    ///
+    ///    * "minimize-rmsle" - Minimize root-mean-squared log error (RMSLE).
+    ///
+    ///    * "minimize-rmspe" - Minimize root-mean-squared percentage error (RMSPE).
+    ///
+    ///    * "minimize-wape-mae" - Minimize the combination of weighted absolute
+    ///      percentage error (WAPE) and mean-absolute-error (MAE).
+    ///
+    ///    * "minimize-quantile-loss" - Minimize the quantile loss at the quantiles
+    ///      defined in `quantiles`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>optimization_objective: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The train budget of creating this model, expressed in milli node
+    /// hours i.e. 1,000 value in this field means 1 node hour.
+    ///
+    /// The training cost of the model will not exceed this budget. The final cost
+    /// will be attempted to be close to the budget, though may end up being (even)
+    /// noticeably smaller - at the backend's discretion. This especially may
+    /// happen when further model training ceases to provide any improvements.
+    ///
+    /// If the budget is set to a value known to be insufficient to train a
+    /// model for the given dataset, the training won't be attempted and
+    /// will error.
+    ///
+    /// The train budget must be between 1,000 and 72,000 milli node hours,
+    /// inclusive.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>train_budget_milli_node_hours: i64,
+    <span class="doccomment">/// Column name that should be used as the weight column.
+    /// Higher values in this column give more importance to the row
+    /// during model training. The column must have numeric values between 0 and
+    /// 10000 inclusively; 0 means the row is ignored for training. If weight
+    /// column field is not set, then all rows are assumed to have equal weight
+    /// of 1.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>weight_column: ::prost::alloc::string::String,
+    <span class="doccomment">/// Column names that should be used as attribute columns.
+    /// The value of these columns does not vary as a function of time.
+    /// For example, store ID or item color.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"19"</span>)]
+    </span><span class="kw">pub </span>time_series_attribute_columns: ::prost::alloc::vec::Vec&lt;
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Names of columns that are unavailable when a forecast is requested.
+    /// This column contains information for the given entity (identified
+    /// by the time_series_identifier_column) that is unknown before the forecast
+    /// For example, actual weather on a given day.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"20"</span>)]
+    </span><span class="kw">pub </span>unavailable_at_forecast_columns: ::prost::alloc::vec::Vec&lt;
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Names of columns that are available and provided when a forecast
+    /// is requested. These columns
+    /// contain information for the given entity (identified by the
+    /// time_series_identifier_column column) that is known at forecast.
+    /// For example, predicted weather for a specific day.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"21"</span>)]
+    </span><span class="kw">pub </span>available_at_forecast_columns: ::prost::alloc::vec::Vec&lt;
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Expected difference in time granularity between rows in the data.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"22"</span>)]
+    </span><span class="kw">pub </span>data_granularity: ::core::option::Option&lt;
+        auto_ml_forecasting_inputs::Granularity,
+    &gt;,
+    <span class="doccomment">/// The amount of time into the future for which forecasted values for the
+    /// target are returned. Expressed in number of units defined by the
+    /// `data_granularity` field.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"23"</span>)]
+    </span><span class="kw">pub </span>forecast_horizon: i64,
+    <span class="doccomment">/// The amount of time into the past training and prediction data is used
+    /// for model training and prediction respectively. Expressed in number of
+    /// units defined by the `data_granularity` field.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"24"</span>)]
+    </span><span class="kw">pub </span>context_window: i64,
+    <span class="doccomment">/// Configuration for exporting test set predictions to a BigQuery table. If
+    /// this configuration is absent, then the export is not performed.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>export_evaluated_data_items_config: ::core::option::Option&lt;
+        ExportEvaluatedDataItemsConfig,
+    &gt;,
+    <span class="doccomment">/// Quantiles to use for minimize-quantile-loss `optimization_objective`. Up to
+    /// 5 quantiles are allowed of values between 0 and 1, exclusive. Required if
+    /// the value of optimization_objective is minimize-quantile-loss. Represents
+    /// the percent quantiles to use for that objective. Quantiles must be unique.
+    </span><span class="attr">#[prost(double, repeated, tag = <span class="string">"16"</span>)]
+    </span><span class="kw">pub </span>quantiles: ::prost::alloc::vec::Vec&lt;f64&gt;,
+    <span class="doccomment">/// Validation options for the data validation component. The available options
+    /// are:
+    ///
+    ///    * "fail-pipeline" - default, will validate against the validation and
+    ///       fail the pipeline if it fails.
+    ///
+    ///    * "ignore-validation" - ignore the results of the validation and continue
+    </span><span class="attr">#[prost(string, tag = <span class="string">"17"</span>)]
+    </span><span class="kw">pub </span>validation_options: ::prost::alloc::string::String,
+    <span class="doccomment">/// Additional experiment flags for the time series forcasting training.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"25"</span>)]
+    </span><span class="kw">pub </span>additional_experiments: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlForecastingInputs`.
+</span><span class="kw">pub mod </span>auto_ml_forecasting_inputs {
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Transformation {
+        <span class="doccomment">/// The transformation that the training pipeline will apply to the input
+        /// columns.
+        </span><span class="attr">#[prost(oneof = <span class="string">"transformation::TransformationDetail"</span>, tags = <span class="string">"1, 2, 3, 4, 5"</span>)]
+        </span><span class="kw">pub </span>transformation_detail: ::core::option::Option&lt;
+            transformation::TransformationDetail,
+        &gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Transformation`.
+    </span><span class="kw">pub mod </span>transformation {
+        <span class="doccomment">/// Training pipeline will infer the proper transformation based on the
+        /// statistic of dataset.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>AutoTransformation {
+            <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>column_name: ::prost::alloc::string::String,
+        }
+        <span class="doccomment">/// Training pipeline will perform following transformation functions.
+        ///
+        /// *  The value converted to float32.
+        ///
+        /// *  The z_score of the value.
+        ///
+        /// *  log(value+1) when the value is greater than or equal to 0. Otherwise,
+        ///     this transformation is not applied and the value is considered a
+        ///     missing value.
+        ///
+        /// *  z_score of log(value+1) when the value is greater than or equal to 0.
+        ///     Otherwise, this transformation is not applied and the value is
+        ///     considered a missing value.
+        ///
+        /// *  A boolean value that indicates whether the value is valid.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>NumericTransformation {
+            <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>column_name: ::prost::alloc::string::String,
+        }
+        <span class="doccomment">/// Training pipeline will perform following transformation functions.
+        ///
+        /// *  The categorical string as is--no change to case, punctuation,
+        ///     spelling, tense, and so on.
+        ///
+        /// *  Convert the category name to a dictionary lookup index and generate an
+        ///     embedding for each index.
+        ///
+        /// *  Categories that appear less than 5 times in the training dataset are
+        ///     treated as the "unknown" category. The "unknown" category gets its own
+        ///     special lookup index and resulting embedding.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>CategoricalTransformation {
+            <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>column_name: ::prost::alloc::string::String,
+        }
+        <span class="doccomment">/// Training pipeline will perform following transformation functions.
+        ///
+        /// *  Apply the transformation functions for Numerical columns.
+        ///
+        /// *  Determine the year, month, day,and weekday. Treat each value from the
+        ///     timestamp as a Categorical column.
+        ///
+        /// *  Invalid numerical values (for example, values that fall outside of a
+        ///     typical timestamp range, or are extreme values) receive no special
+        ///     treatment and are not removed.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>TimestampTransformation {
+            <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>column_name: ::prost::alloc::string::String,
+            <span class="doccomment">/// The format in which that time field is expressed. The time_format must
+            /// either be one of:
+            ///
+            /// * `unix-seconds`
+            ///
+            /// * `unix-milliseconds`
+            ///
+            /// * `unix-microseconds`
+            ///
+            /// * `unix-nanoseconds`
+            ///
+            /// (for respectively number of seconds, milliseconds, microseconds and
+            /// nanoseconds since start of the Unix epoch);
+            ///
+            /// or be written in `strftime` syntax.
+            ///
+            /// If time_format is not set, then the
+            /// default format is RFC 3339 `date-time` format, where
+            /// `time-offset` = `"Z"` (e.g. 1985-04-12T23:20:50.52Z)
+            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>time_format: ::prost::alloc::string::String,
+        }
+        <span class="doccomment">/// Training pipeline will perform following transformation functions.
+        ///
+        /// *  The text as is--no change to case, punctuation, spelling, tense, and
+        ///     so on.
+        ///
+        /// *  Convert the category name to a dictionary lookup index and generate an
+        ///     embedding for each index.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>TextTransformation {
+            <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>column_name: ::prost::alloc::string::String,
+        }
+        <span class="doccomment">/// The transformation that the training pipeline will apply to the input
+        /// columns.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        </span><span class="kw">pub enum </span>TransformationDetail {
+            <span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+            </span>Auto(AutoTransformation),
+            <span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+            </span>Numeric(NumericTransformation),
+            <span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+            </span>Categorical(CategoricalTransformation),
+            <span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+            </span>Timestamp(TimestampTransformation),
+            <span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+            </span>Text(TextTransformation),
+        }
+    }
+    <span class="doccomment">/// A duration of time expressed in time granularity units.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Granularity {
+        <span class="doccomment">/// The time granularity unit of this time period.
+        /// The supported units are:
+        ///
+        ///   * "minute"
+        ///
+        ///   * "hour"
+        ///
+        ///   * "day"
+        ///
+        ///   * "week"
+        ///
+        ///   * "month"
+        ///
+        ///   * "year"
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>unit: ::prost::alloc::string::String,
+        <span class="doccomment">/// The number of granularity_units between data points in the training
+        /// data. If `granularity_unit` is `minute`,
+        /// can be 1, 5, 10, 15, or 30. For all other values of `granularity_unit`,
+        /// must be 1.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>quantity: i64,
+    }
+}
+<span class="doccomment">/// Model metadata specific to AutoML Forecasting.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlForecastingMetadata {
+    <span class="doccomment">/// Output only. The actual training cost of the model, expressed in milli
+    /// node hours, i.e. 1,000 value in this field means 1 node hour. Guaranteed
+    /// to not exceed the train budget.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>train_cost_milli_node_hours: i64,
+}
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Sentiment Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlTextSentiment {
+    <span class="doccomment">/// The input parameters of this TrainingJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlTextSentimentInputs&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlTextSentimentInputs {
+    <span class="doccomment">/// A sentiment is expressed as an integer ordinal, where higher value
+    /// means a more positive sentiment. The range of sentiments that will be used
+    /// is between 0 and sentimentMax (inclusive on both ends), and all the values
+    /// in the range must be represented in the dataset before a model can be
+    /// created.
+    /// Only the Annotations with this sentimentMax will be used for training.
+    /// sentimentMax value must be between 1 and 10 (inclusive).
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>sentiment_max: i32,
+}
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video ObjectTracking Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlVideoObjectTracking {
+    <span class="doccomment">/// The input parameters of this TrainingJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlVideoObjectTrackingInputs&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlVideoObjectTrackingInputs {
+    <span class="attr">#[prost(enumeration = <span class="string">"auto_ml_video_object_tracking_inputs::ModelType"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>model_type: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlVideoObjectTrackingInputs`.
+</span><span class="kw">pub mod </span>auto_ml_video_object_tracking_inputs {
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ModelType {
+        <span class="doccomment">/// Should not be set.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which c annot
+        /// be exported. Default.
+        </span>Cloud = <span class="number">1</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
+        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
+        </span>MobileVersatile1 = <span class="number">2</span>,
+        <span class="doccomment">/// A versatile model that is meant to be exported (see
+        /// ModelService.ExportModel) and used on a Google Coral device.
+        </span>MobileCoralVersatile1 = <span class="number">3</span>,
+        <span class="doccomment">/// A model that trades off quality for low latency, to be exported (see
+        /// ModelService.ExportModel) and used on a Google Coral device.
+        </span>MobileCoralLowLatency1 = <span class="number">4</span>,
+        <span class="doccomment">/// A versatile model that is meant to be exported (see
+        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
+        </span>MobileJetsonVersatile1 = <span class="number">5</span>,
+        <span class="doccomment">/// A model that trades off quality for low latency, to be exported (see
+        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
+        </span>MobileJetsonLowLatency1 = <span class="number">6</span>,
+    }
+    <span class="kw">impl </span>ModelType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ModelType::Unspecified =&gt; <span class="string">"MODEL_TYPE_UNSPECIFIED"</span>,
+                ModelType::Cloud =&gt; <span class="string">"CLOUD"</span>,
+                ModelType::MobileVersatile1 =&gt; <span class="string">"MOBILE_VERSATILE_1"</span>,
+                ModelType::MobileCoralVersatile1 =&gt; <span class="string">"MOBILE_CORAL_VERSATILE_1"</span>,
+                ModelType::MobileCoralLowLatency1 =&gt; <span class="string">"MOBILE_CORAL_LOW_LATENCY_1"</span>,
+                ModelType::MobileJetsonVersatile1 =&gt; <span class="string">"MOBILE_JETSON_VERSATILE_1"</span>,
+                ModelType::MobileJetsonLowLatency1 =&gt; <span class="string">"MOBILE_JETSON_LOW_LATENCY_1"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"MODEL_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CLOUD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cloud),
+                <span class="string">"MOBILE_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileVersatile1),
+                <span class="string">"MOBILE_CORAL_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileCoralVersatile1),
+                <span class="string">"MOBILE_CORAL_LOW_LATENCY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileCoralLowLatency1),
+                <span class="string">"MOBILE_JETSON_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonVersatile1),
+                <span class="string">"MOBILE_JETSON_LOW_LATENCY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonLowLatency1),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Classification Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlTextClassification {
+    <span class="doccomment">/// The input parameters of this TrainingJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlTextClassificationInputs&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlTextClassificationInputs {
+    <span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>multi_label: bool,
+}
 <span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Image Classification Model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2481,6 +2584,74 @@
         }
     }
 }
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video Classification Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlVideoClassification {
+    <span class="doccomment">/// The input parameters of this TrainingJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlVideoClassificationInputs&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlVideoClassificationInputs {
+    <span class="attr">#[prost(enumeration = <span class="string">"auto_ml_video_classification_inputs::ModelType"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>model_type: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlVideoClassificationInputs`.
+</span><span class="kw">pub mod </span>auto_ml_video_classification_inputs {
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ModelType {
+        <span class="doccomment">/// Should not be set.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which cannot
+        /// be exported. Default.
+        </span>Cloud = <span class="number">1</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
+        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
+        </span>MobileVersatile1 = <span class="number">2</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) to a Jetson device
+        /// afterwards.
+        </span>MobileJetsonVersatile1 = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>ModelType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ModelType::Unspecified =&gt; <span class="string">"MODEL_TYPE_UNSPECIFIED"</span>,
+                ModelType::Cloud =&gt; <span class="string">"CLOUD"</span>,
+                ModelType::MobileVersatile1 =&gt; <span class="string">"MOBILE_VERSATILE_1"</span>,
+                ModelType::MobileJetsonVersatile1 =&gt; <span class="string">"MOBILE_JETSON_VERSATILE_1"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"MODEL_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CLOUD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cloud),
+                <span class="string">"MOBILE_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileVersatile1),
+                <span class="string">"MOBILE_JETSON_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonVersatile1),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
 <span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Image Object Detection Model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2654,95 +2825,6 @@
         }
     }
 }
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Sentiment Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlTextSentiment {
-    <span class="doccomment">/// The input parameters of this TrainingJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlTextSentimentInputs&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlTextSentimentInputs {
-    <span class="doccomment">/// A sentiment is expressed as an integer ordinal, where higher value
-    /// means a more positive sentiment. The range of sentiments that will be used
-    /// is between 0 and sentimentMax (inclusive on both ends), and all the values
-    /// in the range must be represented in the dataset before a model can be
-    /// created.
-    /// Only the Annotations with this sentimentMax will be used for training.
-    /// sentimentMax value must be between 1 and 10 (inclusive).
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>sentiment_max: i32,
-}
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video Classification Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlVideoClassification {
-    <span class="doccomment">/// The input parameters of this TrainingJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlVideoClassificationInputs&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlVideoClassificationInputs {
-    <span class="attr">#[prost(enumeration = <span class="string">"auto_ml_video_classification_inputs::ModelType"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>model_type: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlVideoClassificationInputs`.
-</span><span class="kw">pub mod </span>auto_ml_video_classification_inputs {
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ModelType {
-        <span class="doccomment">/// Should not be set.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which cannot
-        /// be exported. Default.
-        </span>Cloud = <span class="number">1</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
-        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
-        </span>MobileVersatile1 = <span class="number">2</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) to a Jetson device
-        /// afterwards.
-        </span>MobileJetsonVersatile1 = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>ModelType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ModelType::Unspecified =&gt; <span class="string">"MODEL_TYPE_UNSPECIFIED"</span>,
-                ModelType::Cloud =&gt; <span class="string">"CLOUD"</span>,
-                ModelType::MobileVersatile1 =&gt; <span class="string">"MOBILE_VERSATILE_1"</span>,
-                ModelType::MobileJetsonVersatile1 =&gt; <span class="string">"MOBILE_JETSON_VERSATILE_1"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"MODEL_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CLOUD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cloud),
-                <span class="string">"MOBILE_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileVersatile1),
-                <span class="string">"MOBILE_JETSON_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonVersatile1),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
 <span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Extraction Model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2754,86 +2836,4 @@
 <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AutoMlTextExtractionInputs {}
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video ObjectTracking Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlVideoObjectTracking {
-    <span class="doccomment">/// The input parameters of this TrainingJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlVideoObjectTrackingInputs&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlVideoObjectTrackingInputs {
-    <span class="attr">#[prost(enumeration = <span class="string">"auto_ml_video_object_tracking_inputs::ModelType"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>model_type: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlVideoObjectTrackingInputs`.
-</span><span class="kw">pub mod </span>auto_ml_video_object_tracking_inputs {
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ModelType {
-        <span class="doccomment">/// Should not be set.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which c annot
-        /// be exported. Default.
-        </span>Cloud = <span class="number">1</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
-        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
-        </span>MobileVersatile1 = <span class="number">2</span>,
-        <span class="doccomment">/// A versatile model that is meant to be exported (see
-        /// ModelService.ExportModel) and used on a Google Coral device.
-        </span>MobileCoralVersatile1 = <span class="number">3</span>,
-        <span class="doccomment">/// A model that trades off quality for low latency, to be exported (see
-        /// ModelService.ExportModel) and used on a Google Coral device.
-        </span>MobileCoralLowLatency1 = <span class="number">4</span>,
-        <span class="doccomment">/// A versatile model that is meant to be exported (see
-        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
-        </span>MobileJetsonVersatile1 = <span class="number">5</span>,
-        <span class="doccomment">/// A model that trades off quality for low latency, to be exported (see
-        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
-        </span>MobileJetsonLowLatency1 = <span class="number">6</span>,
-    }
-    <span class="kw">impl </span>ModelType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ModelType::Unspecified =&gt; <span class="string">"MODEL_TYPE_UNSPECIFIED"</span>,
-                ModelType::Cloud =&gt; <span class="string">"CLOUD"</span>,
-                ModelType::MobileVersatile1 =&gt; <span class="string">"MOBILE_VERSATILE_1"</span>,
-                ModelType::MobileCoralVersatile1 =&gt; <span class="string">"MOBILE_CORAL_VERSATILE_1"</span>,
-                ModelType::MobileCoralLowLatency1 =&gt; <span class="string">"MOBILE_CORAL_LOW_LATENCY_1"</span>,
-                ModelType::MobileJetsonVersatile1 =&gt; <span class="string">"MOBILE_JETSON_VERSATILE_1"</span>,
-                ModelType::MobileJetsonLowLatency1 =&gt; <span class="string">"MOBILE_JETSON_LOW_LATENCY_1"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"MODEL_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CLOUD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cloud),
-                <span class="string">"MOBILE_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileVersatile1),
-                <span class="string">"MOBILE_CORAL_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileCoralVersatile1),
-                <span class="string">"MOBILE_CORAL_LOW_LATENCY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileCoralLowLatency1),
-                <span class="string">"MOBILE_JETSON_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonVersatile1),
-                <span class="string">"MOBILE_JETSON_LOW_LATENCY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonLowLatency1),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
 </code></pre></div></section></main></body></html>

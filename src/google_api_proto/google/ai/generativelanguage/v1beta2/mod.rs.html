@@ -1265,6 +1265,220 @@
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"11"</span>)]
     </span><span class="kw">pub </span>top_k: ::core::option::Option&lt;i32&gt;,
 }
+<span class="doccomment">/// Request for getting information about a specific Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetModelRequest {
+    <span class="doccomment">/// Required. The resource name of the model.
+    ///
+    /// This name should match a model name returned by the `ListModels` method.
+    ///
+    /// Format: `models/{model}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request for listing all Models.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListModelsRequest {
+    <span class="doccomment">/// The maximum number of `Models` to return (per page).
+    ///
+    /// The service may return fewer models.
+    /// If unspecified, at most 50 models will be returned per page.
+    /// This method returns at most 1000 models per page, even if you pass a larger
+    /// page_size.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A page token, received from a previous `ListModels` call.
+    ///
+    /// Provide the `page_token` returned by one request as an argument to the next
+    /// request to retrieve the next page.
+    ///
+    /// When paginating, all other parameters provided to `ListModels` must match
+    /// the call that provided the page token.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response from `ListModel` containing a paginated list of Models.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListModelsResponse {
+    <span class="doccomment">/// The returned Models.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>models: ::prost::alloc::vec::Vec&lt;Model&gt;,
+    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
+    ///
+    /// If this field is omitted, there are no more pages.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>model_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Provides methods for getting metadata information about Generative Models.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>ModelServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; ModelServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; ModelServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            ModelServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Gets information about a specific Model.
+        </span><span class="kw">pub async fn </span>get_model(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetModelRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Model&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta2.ModelService/GetModel"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta2.ModelService"</span>,
+                        <span class="string">"GetModel"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Lists models available through the API.
+        </span><span class="kw">pub async fn </span>list_models(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListModelsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListModelsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta2.ModelService/ListModels"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta2.ModelService"</span>,
+                        <span class="string">"ListModels"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// A collection of source attributions for a piece of content.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CitationMetadata {
+    <span class="doccomment">/// Citations to sources for a specific response.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>citation_sources: ::prost::alloc::vec::Vec&lt;CitationSource&gt;,
+}
+<span class="doccomment">/// A citation to a source for a portion of a specific response.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CitationSource {
+    <span class="doccomment">/// Optional. Start of segment of the response that is attributed to this
+    /// source.
+    ///
+    /// Index indicates the start of the segment, measured in bytes.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>start_index: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Optional. End of the attributed segment, exclusive.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>end_index: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Optional. URI that is attributed as a source for a portion of the text.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>uri: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Optional. License for the GitHub project that is attributed as a source for
+    /// segment.
+    ///
+    /// License info is required for code citations.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>license: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+}
 <span class="doccomment">/// Content filtering metadata associated with processing a single request.
 ///
 /// ContentFilter contains a reason and an optional supporting string. The reason
@@ -1532,220 +1746,6 @@
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
-}
-<span class="doccomment">/// Request for getting information about a specific Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetModelRequest {
-    <span class="doccomment">/// Required. The resource name of the model.
-    ///
-    /// This name should match a model name returned by the `ListModels` method.
-    ///
-    /// Format: `models/{model}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request for listing all Models.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListModelsRequest {
-    <span class="doccomment">/// The maximum number of `Models` to return (per page).
-    ///
-    /// The service may return fewer models.
-    /// If unspecified, at most 50 models will be returned per page.
-    /// This method returns at most 1000 models per page, even if you pass a larger
-    /// page_size.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A page token, received from a previous `ListModels` call.
-    ///
-    /// Provide the `page_token` returned by one request as an argument to the next
-    /// request to retrieve the next page.
-    ///
-    /// When paginating, all other parameters provided to `ListModels` must match
-    /// the call that provided the page token.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response from `ListModel` containing a paginated list of Models.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListModelsResponse {
-    <span class="doccomment">/// The returned Models.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>models: ::prost::alloc::vec::Vec&lt;Model&gt;,
-    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
-    ///
-    /// If this field is omitted, there are no more pages.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>model_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Provides methods for getting metadata information about Generative Models.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>ModelServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; ModelServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; ModelServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            ModelServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Gets information about a specific Model.
-        </span><span class="kw">pub async fn </span>get_model(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetModelRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Model&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta2.ModelService/GetModel"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta2.ModelService"</span>,
-                        <span class="string">"GetModel"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Lists models available through the API.
-        </span><span class="kw">pub async fn </span>list_models(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListModelsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListModelsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta2.ModelService/ListModels"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta2.ModelService"</span>,
-                        <span class="string">"ListModels"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// A collection of source attributions for a piece of content.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CitationMetadata {
-    <span class="doccomment">/// Citations to sources for a specific response.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>citation_sources: ::prost::alloc::vec::Vec&lt;CitationSource&gt;,
-}
-<span class="doccomment">/// A citation to a source for a portion of a specific response.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CitationSource {
-    <span class="doccomment">/// Optional. Start of segment of the response that is attributed to this
-    /// source.
-    ///
-    /// Index indicates the start of the segment, measured in bytes.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>start_index: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Optional. End of the attributed segment, exclusive.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>end_index: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Optional. URI that is attributed as a source for a portion of the text.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>uri: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Optional. License for the GitHub project that is attributed as a source for
-    /// segment.
-    ///
-    /// License info is required for code citations.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>license: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
 }
 <span class="doccomment">/// Request to generate a message response from the model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

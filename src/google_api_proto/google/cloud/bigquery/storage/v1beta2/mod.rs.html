@@ -1439,44 +1439,7 @@
 <a href="#1437" id="1437">1437</a>
 <a href="#1438" id="1438">1438</a>
 <a href="#1439" id="1439">1439</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// ProtoSchema describes the schema of the serialized protocol buffer data rows.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProtoSchema {
-    <span class="doccomment">/// Descriptor for input message. The descriptor has to be self contained,
-    /// including all the nested types, excepted for proto buffer well known types
-    /// (&lt;https://developers.google.com/protocol-buffers/docs/reference/google.protobuf&gt;).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>proto_descriptor: ::core::option::Option&lt;::prost_types::DescriptorProto&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProtoRows {
-    <span class="doccomment">/// A sequence of rows serialized as a Protocol Buffer.
-    ///
-    /// See &lt;https://developers.google.com/protocol-buffers/docs/overview&gt; for more
-    /// information on deserializing this field.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>serialized_rows: ::prost::alloc::vec::Vec&lt;::prost::bytes::Bytes&gt;,
-}
-<span class="doccomment">/// Avro schema.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AvroSchema {
-    <span class="doccomment">/// Json serialized schema, as described at
-    /// &lt;https://avro.apache.org/docs/1.8.1/spec.html.&gt;
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>schema: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Avro rows.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AvroRows {
-    <span class="doccomment">/// Binary serialized rows in a block.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>serialized_binary_rows: ::prost::bytes::Bytes,
-}
-<span class="doccomment">/// Arrow schema as specified in
+</pre></div><pre class="rust"><code><span class="doccomment">/// Arrow schema as specified in
 /// &lt;https://arrow.apache.org/docs/python/api/datatypes.html&gt;
 /// and serialized to bytes using IPC:
 /// &lt;https://arrow.apache.org/docs/format/Columnar.html#serialization-and-interprocess-communication-ipc&gt;
@@ -1550,6 +1513,23 @@
             }
         }
     }
+}
+<span class="doccomment">/// Avro schema.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AvroSchema {
+    <span class="doccomment">/// Json serialized schema, as described at
+    /// &lt;https://avro.apache.org/docs/1.8.1/spec.html.&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>schema: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Avro rows.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AvroRows {
+    <span class="doccomment">/// Binary serialized rows in a block.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>serialized_binary_rows: ::prost::bytes::Bytes,
 }
 <span class="doccomment">/// Schema of a table
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -1936,6 +1916,26 @@
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
+}
+<span class="doccomment">/// ProtoSchema describes the schema of the serialized protocol buffer data rows.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProtoSchema {
+    <span class="doccomment">/// Descriptor for input message. The descriptor has to be self contained,
+    /// including all the nested types, excepted for proto buffer well known types
+    /// (&lt;https://developers.google.com/protocol-buffers/docs/reference/google.protobuf&gt;).
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>proto_descriptor: ::core::option::Option&lt;::prost_types::DescriptorProto&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProtoRows {
+    <span class="doccomment">/// A sequence of rows serialized as a Protocol Buffer.
+    ///
+    /// See &lt;https://developers.google.com/protocol-buffers/docs/overview&gt; for more
+    /// information on deserializing this field.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>serialized_rows: ::prost::alloc::vec::Vec&lt;::prost::bytes::Bytes&gt;,
 }
 <span class="doccomment">/// Request message for `CreateReadSession`.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

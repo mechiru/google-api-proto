@@ -5763,48 +5763,7 @@
 <a href="#5761" id="5761">5761</a>
 <a href="#5762" id="5762">5762</a>
 <a href="#5763" id="5763">5763</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// A processor type is responsible for performing a certain document
-/// understanding task on a certain type of document.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProcessorType {
-    <span class="doccomment">/// The resource name of the processor type.
-    /// Format: `projects/{project}/processorTypes/{processor_type}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The processor type, such as: `OCR_PROCESSOR`, `INVOICE_PROCESSOR`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>r#type: ::prost::alloc::string::String,
-    <span class="doccomment">/// The processor category, used by UI to group processor types.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>category: ::prost::alloc::string::String,
-    <span class="doccomment">/// The locations in which this processor is available.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>available_locations: ::prost::alloc::vec::Vec&lt;processor_type::LocationInfo&gt;,
-    <span class="doccomment">/// Whether the processor type allows creation. If true, users can create a
-    /// processor of this processor type. Otherwise, users need to request access.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>allow_creation: bool,
-    <span class="doccomment">/// Launch stage of the processor type
-    </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::super::api::LaunchStage"</span>, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>launch_stage: i32,
-    <span class="doccomment">/// A set of Cloud Storage URIs of sample documents for this processor.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>sample_document_uris: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ProcessorType`.
-</span><span class="kw">pub mod </span>processor_type {
-    <span class="doccomment">/// The location information about where the processor is available.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>LocationInfo {
-        <span class="doccomment">/// The location ID. For supported locations, refer to [regional and
-        /// multi-regional support](/document-ai/docs/regions).
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>location_id: ::prost::alloc::string::String,
-    }
-}
-<span class="doccomment">/// Encodes the detailed information of a barcode.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Encodes the detailed information of a barcode.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Barcode {
@@ -8575,6 +8534,47 @@
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
+    }
+}
+<span class="doccomment">/// A processor type is responsible for performing a certain document
+/// understanding task on a certain type of document.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProcessorType {
+    <span class="doccomment">/// The resource name of the processor type.
+    /// Format: `projects/{project}/processorTypes/{processor_type}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The processor type, such as: `OCR_PROCESSOR`, `INVOICE_PROCESSOR`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>r#type: ::prost::alloc::string::String,
+    <span class="doccomment">/// The processor category, used by UI to group processor types.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>category: ::prost::alloc::string::String,
+    <span class="doccomment">/// The locations in which this processor is available.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>available_locations: ::prost::alloc::vec::Vec&lt;processor_type::LocationInfo&gt;,
+    <span class="doccomment">/// Whether the processor type allows creation. If true, users can create a
+    /// processor of this processor type. Otherwise, users need to request access.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>allow_creation: bool,
+    <span class="doccomment">/// Launch stage of the processor type
+    </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::super::api::LaunchStage"</span>, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>launch_stage: i32,
+    <span class="doccomment">/// A set of Cloud Storage URIs of sample documents for this processor.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>sample_document_uris: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ProcessorType`.
+</span><span class="kw">pub mod </span>processor_type {
+    <span class="doccomment">/// The location information about where the processor is available.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>LocationInfo {
+        <span class="doccomment">/// The location ID. For supported locations, refer to [regional and
+        /// multi-regional support](/document-ai/docs/regions).
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>location_id: ::prost::alloc::string::String,
     }
 }
 <span class="doccomment">/// The common metadata for long running operations.

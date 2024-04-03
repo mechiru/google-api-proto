@@ -2661,157 +2661,7 @@
 <a href="#2659" id="2659">2659</a>
 <a href="#2660" id="2660">2660</a>
 <a href="#2661" id="2661">2661</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// A chart that displays alert policy data.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AlertChart {
-    <span class="doccomment">/// Required. The resource name of the alert policy. The format is:
-    ///
-    ///      projects/\[PROJECT_ID_OR_NUMBER\]/alertPolicies/\[ALERT_POLICY_ID\]
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A filter to reduce the amount of data charted in relevant widgets.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DashboardFilter {
-    <span class="doccomment">/// Required. The key for the label
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>label_key: ::prost::alloc::string::String,
-    <span class="doccomment">/// The placeholder text that can be referenced in a filter string or MQL
-    /// query. If omitted, the dashboard filter will be applied to all relevant
-    /// widgets in the dashboard.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>template_variable: ::prost::alloc::string::String,
-    <span class="doccomment">/// The specified filter type
-    </span><span class="attr">#[prost(enumeration = <span class="string">"dashboard_filter::FilterType"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>filter_type: i32,
-    <span class="doccomment">/// The default value used in the filter comparison
-    </span><span class="attr">#[prost(oneof = <span class="string">"dashboard_filter::DefaultValue"</span>, tags = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>default_value: ::core::option::Option&lt;dashboard_filter::DefaultValue&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `DashboardFilter`.
-</span><span class="kw">pub mod </span>dashboard_filter {
-    <span class="doccomment">/// The type for the dashboard filter
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>FilterType {
-        <span class="doccomment">/// Filter type is unspecified. This is not valid in a well-formed request.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Filter on a resource label value
-        </span>ResourceLabel = <span class="number">1</span>,
-        <span class="doccomment">/// Filter on a metrics label value
-        </span>MetricLabel = <span class="number">2</span>,
-        <span class="doccomment">/// Filter on a user metadata label value
-        </span>UserMetadataLabel = <span class="number">3</span>,
-        <span class="doccomment">/// Filter on a system metadata label value
-        </span>SystemMetadataLabel = <span class="number">4</span>,
-        <span class="doccomment">/// Filter on a group id
-        </span>Group = <span class="number">5</span>,
-    }
-    <span class="kw">impl </span>FilterType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                FilterType::Unspecified =&gt; <span class="string">"FILTER_TYPE_UNSPECIFIED"</span>,
-                FilterType::ResourceLabel =&gt; <span class="string">"RESOURCE_LABEL"</span>,
-                FilterType::MetricLabel =&gt; <span class="string">"METRIC_LABEL"</span>,
-                FilterType::UserMetadataLabel =&gt; <span class="string">"USER_METADATA_LABEL"</span>,
-                FilterType::SystemMetadataLabel =&gt; <span class="string">"SYSTEM_METADATA_LABEL"</span>,
-                FilterType::Group =&gt; <span class="string">"GROUP"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"FILTER_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"RESOURCE_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceLabel),
-                <span class="string">"METRIC_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetricLabel),
-                <span class="string">"USER_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserMetadataLabel),
-                <span class="string">"SYSTEM_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SystemMetadataLabel),
-                <span class="string">"GROUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Group),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// The default value used in the filter comparison
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>DefaultValue {
-        <span class="doccomment">/// A variable-length string value.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span>StringValue(::prost::alloc::string::String),
-    }
-}
-<span class="doccomment">/// A widget that groups the other widgets. All widgets that are within
-/// the area spanned by the grouping widget are considered member widgets.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CollapsibleGroup {
-    <span class="doccomment">/// The collapsed state of the widget on first page load.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>collapsed: bool,
-}
-<span class="doccomment">/// A widget that displays a list of error groups.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ErrorReportingPanel {
-    <span class="doccomment">/// The resource name of the Google Cloud Platform project. Written
-    /// as `projects/{projectID}` or `projects/{projectNumber}`, where
-    /// `{projectID}` and `{projectNumber}` can be found in the
-    /// [Google Cloud console](&lt;https://support.google.com/cloud/answer/6158840&gt;).
-    ///
-    /// Examples: `projects/my-project-123`, `projects/5551234`.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>project_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// An identifier of the service, such as the name of the
-    /// executable, job, or Google App Engine service name. This field is expected
-    /// to have a low number of values that are relatively stable over time, as
-    /// opposed to `version`, which can be changed whenever new code is deployed.
-    ///
-    /// Contains the service name for error reports extracted from Google
-    /// App Engine logs or `default` if the App Engine default service is used.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>services: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Represents the source code version that the developer provided,
-    /// which could represent a version label or a Git SHA-1 hash, for example.
-    /// For App Engine standard environment, the version is set to the version of
-    /// the app.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>versions: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// A widget that displays a list of incidents
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>IncidentList {
-    <span class="doccomment">/// Optional. The monitored resource for which incidents are listed.
-    /// The resource doesn't need to be fully specified. That is, you can specify
-    /// the resource type but not the values of the resource labels.
-    /// The resource type and labels are used for filtering.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>monitored_resources: ::prost::alloc::vec::Vec&lt;
-        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::api::MonitoredResource,
-    &gt;,
-    <span class="doccomment">/// Optional. A list of alert policy names to filter the incident list by.
-    /// Don't include the project ID prefix in the policy name. For
-    /// example, use `alertPolicies/utilization`.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>policy_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// A widget that displays a stream of log.
+</pre></div><pre class="rust"><code><span class="doccomment">/// A widget that displays a stream of log.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>LogsPanel {
@@ -3782,6 +3632,263 @@
         }
     }
 }
+<span class="doccomment">/// Table display options that can be reused.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TableDisplayOptions {
+    <span class="doccomment">/// Optional. This field is unused and has been replaced by
+    /// TimeSeriesTable.column_settings
+    </span><span class="attr">#[deprecated]
+    #[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>shown_columns: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// A table that displays time series data.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TimeSeriesTable {
+    <span class="doccomment">/// Required. The data displayed in this table.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>data_sets: ::prost::alloc::vec::Vec&lt;time_series_table::TableDataSet&gt;,
+    <span class="doccomment">/// Optional. Store rendering strategy
+    </span><span class="attr">#[prost(enumeration = <span class="string">"time_series_table::MetricVisualization"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>metric_visualization: i32,
+    <span class="doccomment">/// Optional. The list of the persistent column settings for the table.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>column_settings: ::prost::alloc::vec::Vec&lt;time_series_table::ColumnSettings&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `TimeSeriesTable`.
+</span><span class="kw">pub mod </span>time_series_table {
+    <span class="doccomment">/// Groups a time series query definition with table options.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>TableDataSet {
+        <span class="doccomment">/// Required. Fields for querying time series data from the
+        /// Stackdriver metrics API.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>time_series_query: ::core::option::Option&lt;<span class="kw">super</span>::TimeSeriesQuery&gt;,
+        <span class="doccomment">/// Optional. A template string for naming `TimeSeries` in the resulting data
+        /// set. This should be a string with interpolations of the form
+        /// `${label_name}`, which will resolve to the label's value i.e.
+        /// "${resource.labels.project_id}."
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>table_template: ::prost::alloc::string::String,
+        <span class="doccomment">/// Optional. The lower bound on data point frequency for this data set,
+        /// implemented by specifying the minimum alignment period to use in a time
+        /// series query For example, if the data is published once every 10 minutes,
+        /// the `min_alignment_period` should be at least 10 minutes. It would not
+        /// make sense to fetch and align data at one minute intervals.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>min_alignment_period: ::core::option::Option&lt;::prost_types::Duration&gt;,
+        <span class="doccomment">/// Optional. Table display options for configuring how the table is
+        /// rendered.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>table_display_options: ::core::option::Option&lt;<span class="kw">super</span>::TableDisplayOptions&gt;,
+    }
+    <span class="doccomment">/// The persistent settings for a table's columns.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ColumnSettings {
+        <span class="doccomment">/// Required. The id of the column.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>column: ::prost::alloc::string::String,
+        <span class="doccomment">/// Required. Whether the column should be visible on page load.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>visible: bool,
+    }
+    <span class="doccomment">/// Enum for metric metric_visualization
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>MetricVisualization {
+        <span class="doccomment">/// Unspecified state
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Default text rendering
+        </span>Number = <span class="number">1</span>,
+        <span class="doccomment">/// Horizontal bar rendering
+        </span>Bar = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>MetricVisualization {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                MetricVisualization::Unspecified =&gt; <span class="string">"METRIC_VISUALIZATION_UNSPECIFIED"</span>,
+                MetricVisualization::Number =&gt; <span class="string">"NUMBER"</span>,
+                MetricVisualization::Bar =&gt; <span class="string">"BAR"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"METRIC_VISUALIZATION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"NUMBER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Number),
+                <span class="string">"BAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bar),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A filter to reduce the amount of data charted in relevant widgets.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DashboardFilter {
+    <span class="doccomment">/// Required. The key for the label
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>label_key: ::prost::alloc::string::String,
+    <span class="doccomment">/// The placeholder text that can be referenced in a filter string or MQL
+    /// query. If omitted, the dashboard filter will be applied to all relevant
+    /// widgets in the dashboard.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>template_variable: ::prost::alloc::string::String,
+    <span class="doccomment">/// The specified filter type
+    </span><span class="attr">#[prost(enumeration = <span class="string">"dashboard_filter::FilterType"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>filter_type: i32,
+    <span class="doccomment">/// The default value used in the filter comparison
+    </span><span class="attr">#[prost(oneof = <span class="string">"dashboard_filter::DefaultValue"</span>, tags = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>default_value: ::core::option::Option&lt;dashboard_filter::DefaultValue&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `DashboardFilter`.
+</span><span class="kw">pub mod </span>dashboard_filter {
+    <span class="doccomment">/// The type for the dashboard filter
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>FilterType {
+        <span class="doccomment">/// Filter type is unspecified. This is not valid in a well-formed request.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Filter on a resource label value
+        </span>ResourceLabel = <span class="number">1</span>,
+        <span class="doccomment">/// Filter on a metrics label value
+        </span>MetricLabel = <span class="number">2</span>,
+        <span class="doccomment">/// Filter on a user metadata label value
+        </span>UserMetadataLabel = <span class="number">3</span>,
+        <span class="doccomment">/// Filter on a system metadata label value
+        </span>SystemMetadataLabel = <span class="number">4</span>,
+        <span class="doccomment">/// Filter on a group id
+        </span>Group = <span class="number">5</span>,
+    }
+    <span class="kw">impl </span>FilterType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                FilterType::Unspecified =&gt; <span class="string">"FILTER_TYPE_UNSPECIFIED"</span>,
+                FilterType::ResourceLabel =&gt; <span class="string">"RESOURCE_LABEL"</span>,
+                FilterType::MetricLabel =&gt; <span class="string">"METRIC_LABEL"</span>,
+                FilterType::UserMetadataLabel =&gt; <span class="string">"USER_METADATA_LABEL"</span>,
+                FilterType::SystemMetadataLabel =&gt; <span class="string">"SYSTEM_METADATA_LABEL"</span>,
+                FilterType::Group =&gt; <span class="string">"GROUP"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"FILTER_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"RESOURCE_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceLabel),
+                <span class="string">"METRIC_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetricLabel),
+                <span class="string">"USER_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserMetadataLabel),
+                <span class="string">"SYSTEM_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SystemMetadataLabel),
+                <span class="string">"GROUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Group),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// The default value used in the filter comparison
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>DefaultValue {
+        <span class="doccomment">/// A variable-length string value.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span>StringValue(::prost::alloc::string::String),
+    }
+}
+<span class="doccomment">/// A chart that displays alert policy data.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AlertChart {
+    <span class="doccomment">/// Required. The resource name of the alert policy. The format is:
+    ///
+    ///      projects/\[PROJECT_ID_OR_NUMBER\]/alertPolicies/\[ALERT_POLICY_ID\]
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A widget that groups the other widgets. All widgets that are within
+/// the area spanned by the grouping widget are considered member widgets.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CollapsibleGroup {
+    <span class="doccomment">/// The collapsed state of the widget on first page load.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>collapsed: bool,
+}
+<span class="doccomment">/// A widget that displays a list of error groups.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ErrorReportingPanel {
+    <span class="doccomment">/// The resource name of the Google Cloud Platform project. Written
+    /// as `projects/{projectID}` or `projects/{projectNumber}`, where
+    /// `{projectID}` and `{projectNumber}` can be found in the
+    /// [Google Cloud console](&lt;https://support.google.com/cloud/answer/6158840&gt;).
+    ///
+    /// Examples: `projects/my-project-123`, `projects/5551234`.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>project_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// An identifier of the service, such as the name of the
+    /// executable, job, or Google App Engine service name. This field is expected
+    /// to have a low number of values that are relatively stable over time, as
+    /// opposed to `version`, which can be changed whenever new code is deployed.
+    ///
+    /// Contains the service name for error reports extracted from Google
+    /// App Engine logs or `default` if the App Engine default service is used.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>services: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Represents the source code version that the developer provided,
+    /// which could represent a version label or a Git SHA-1 hash, for example.
+    /// For App Engine standard environment, the version is set to the version of
+    /// the app.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>versions: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// A widget that displays a list of incidents
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>IncidentList {
+    <span class="doccomment">/// Optional. The monitored resource for which incidents are listed.
+    /// The resource doesn't need to be fully specified. That is, you can specify
+    /// the resource type but not the values of the resource labels.
+    /// The resource type and labels are used for filtering.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>monitored_resources: ::prost::alloc::vec::Vec&lt;
+        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::api::MonitoredResource,
+    &gt;,
+    <span class="doccomment">/// Optional. A list of alert policy names to filter the incident list by.
+    /// Don't include the project ID prefix in the policy name. For
+    /// example, use `alertPolicies/utilization`.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>policy_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
 <span class="doccomment">/// A widget that displays timeseries data as a pie or a donut.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3990,113 +4097,6 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SingleViewGroup {}
-<span class="doccomment">/// Table display options that can be reused.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TableDisplayOptions {
-    <span class="doccomment">/// Optional. This field is unused and has been replaced by
-    /// TimeSeriesTable.column_settings
-    </span><span class="attr">#[deprecated]
-    #[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>shown_columns: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// A table that displays time series data.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TimeSeriesTable {
-    <span class="doccomment">/// Required. The data displayed in this table.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>data_sets: ::prost::alloc::vec::Vec&lt;time_series_table::TableDataSet&gt;,
-    <span class="doccomment">/// Optional. Store rendering strategy
-    </span><span class="attr">#[prost(enumeration = <span class="string">"time_series_table::MetricVisualization"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>metric_visualization: i32,
-    <span class="doccomment">/// Optional. The list of the persistent column settings for the table.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>column_settings: ::prost::alloc::vec::Vec&lt;time_series_table::ColumnSettings&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `TimeSeriesTable`.
-</span><span class="kw">pub mod </span>time_series_table {
-    <span class="doccomment">/// Groups a time series query definition with table options.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>TableDataSet {
-        <span class="doccomment">/// Required. Fields for querying time series data from the
-        /// Stackdriver metrics API.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>time_series_query: ::core::option::Option&lt;<span class="kw">super</span>::TimeSeriesQuery&gt;,
-        <span class="doccomment">/// Optional. A template string for naming `TimeSeries` in the resulting data
-        /// set. This should be a string with interpolations of the form
-        /// `${label_name}`, which will resolve to the label's value i.e.
-        /// "${resource.labels.project_id}."
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>table_template: ::prost::alloc::string::String,
-        <span class="doccomment">/// Optional. The lower bound on data point frequency for this data set,
-        /// implemented by specifying the minimum alignment period to use in a time
-        /// series query For example, if the data is published once every 10 minutes,
-        /// the `min_alignment_period` should be at least 10 minutes. It would not
-        /// make sense to fetch and align data at one minute intervals.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>min_alignment_period: ::core::option::Option&lt;::prost_types::Duration&gt;,
-        <span class="doccomment">/// Optional. Table display options for configuring how the table is
-        /// rendered.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>table_display_options: ::core::option::Option&lt;<span class="kw">super</span>::TableDisplayOptions&gt;,
-    }
-    <span class="doccomment">/// The persistent settings for a table's columns.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ColumnSettings {
-        <span class="doccomment">/// Required. The id of the column.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>column: ::prost::alloc::string::String,
-        <span class="doccomment">/// Required. Whether the column should be visible on page load.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>visible: bool,
-    }
-    <span class="doccomment">/// Enum for metric metric_visualization
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>MetricVisualization {
-        <span class="doccomment">/// Unspecified state
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Default text rendering
-        </span>Number = <span class="number">1</span>,
-        <span class="doccomment">/// Horizontal bar rendering
-        </span>Bar = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>MetricVisualization {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                MetricVisualization::Unspecified =&gt; <span class="string">"METRIC_VISUALIZATION_UNSPECIFIED"</span>,
-                MetricVisualization::Number =&gt; <span class="string">"NUMBER"</span>,
-                MetricVisualization::Bar =&gt; <span class="string">"BAR"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"METRIC_VISUALIZATION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"NUMBER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Number),
-                <span class="string">"BAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bar),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
 <span class="doccomment">/// A widget that displays textual content.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]

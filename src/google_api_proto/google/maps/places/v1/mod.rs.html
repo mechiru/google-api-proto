@@ -2011,56 +2011,142 @@
 <a href="#2009" id="2009">2009</a>
 <a href="#2010" id="2010">2010</a>
 <a href="#2011" id="2011">2011</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Information about the author of the UGC data. Used in
-/// [Photo][google.maps.places.v1.Photo], and
-/// [Review][google.maps.places.v1.Review].
+</pre></div><pre class="rust"><code><span class="doccomment">/// The most recent information about fuel options in a gas station. This
+/// information is updated regularly.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AuthorAttribution {
-    <span class="doccomment">/// Name of the author of the [Photo][google.maps.places.v1.Photo] or
-    /// [Review][google.maps.places.v1.Review].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// URI of the author of the [Photo][google.maps.places.v1.Photo] or
-    /// [Review][google.maps.places.v1.Review].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// Profile photo URI of the author of the
-    /// [Photo][google.maps.places.v1.Photo] or
-    /// [Review][google.maps.places.v1.Review].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>photo_uri: ::prost::alloc::string::String,
+</span><span class="kw">pub struct </span>FuelOptions {
+    <span class="doccomment">/// The last known fuel price for each type of fuel this station has. There is
+    /// one entry per fuel type this station has. Order is not important.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>fuel_prices: ::prost::alloc::vec::Vec&lt;fuel_options::FuelPrice&gt;,
 }
-<span class="doccomment">/// Information about a review of a place.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Review {
-    <span class="doccomment">/// A reference representing this place review which may be used to look up
-    /// this place review again (also called the API "resource" name:
-    /// `places/{place_id}/reviews/{review}`).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// A string of formatted recent time, expressing the review time relative
-    /// to the current time in a form appropriate for the language and country.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>relative_publish_time_description: ::prost::alloc::string::String,
-    <span class="doccomment">/// The localized text of the review.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>text: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText&gt;,
-    <span class="doccomment">/// The review text in its original language.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>original_text: ::core::option::Option&lt;
-        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
-    &gt;,
-    <span class="doccomment">/// A number between 1.0 and 5.0, also called the number of stars.
-    </span><span class="attr">#[prost(double, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>rating: f64,
-    <span class="doccomment">/// This review's author.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>author_attribution: ::core::option::Option&lt;AuthorAttribution&gt;,
-    <span class="doccomment">/// Timestamp for the review.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>publish_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+<span class="doccomment">/// Nested message and enum types in `FuelOptions`.
+</span><span class="kw">pub mod </span>fuel_options {
+    <span class="doccomment">/// Fuel price information for a given type.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>FuelPrice {
+        <span class="doccomment">/// The type of fuel.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"fuel_price::FuelType"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>r#type: i32,
+        <span class="doccomment">/// The price of the fuel.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>price: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Money&gt;,
+        <span class="doccomment">/// The time the fuel price was last updated.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `FuelPrice`.
+    </span><span class="kw">pub mod </span>fuel_price {
+        <span class="doccomment">/// Types of fuel.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>FuelType {
+            <span class="doccomment">/// Unspecified fuel type.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Diesel fuel.
+            </span>Diesel = <span class="number">1</span>,
+            <span class="doccomment">/// Regular unleaded.
+            </span>RegularUnleaded = <span class="number">2</span>,
+            <span class="doccomment">/// Midgrade.
+            </span>Midgrade = <span class="number">3</span>,
+            <span class="doccomment">/// Premium.
+            </span>Premium = <span class="number">4</span>,
+            <span class="doccomment">/// SP 91.
+            </span>Sp91 = <span class="number">5</span>,
+            <span class="doccomment">/// SP 91 E10.
+            </span>Sp91E10 = <span class="number">6</span>,
+            <span class="doccomment">/// SP 92.
+            </span>Sp92 = <span class="number">7</span>,
+            <span class="doccomment">/// SP 95.
+            </span>Sp95 = <span class="number">8</span>,
+            <span class="doccomment">/// SP95 E10.
+            </span>Sp95E10 = <span class="number">9</span>,
+            <span class="doccomment">/// SP 98.
+            </span>Sp98 = <span class="number">10</span>,
+            <span class="doccomment">/// SP 99.
+            </span>Sp99 = <span class="number">11</span>,
+            <span class="doccomment">/// SP 100.
+            </span>Sp100 = <span class="number">12</span>,
+            <span class="doccomment">/// LPG.
+            </span>Lpg = <span class="number">13</span>,
+            <span class="doccomment">/// E 80.
+            </span>E80 = <span class="number">14</span>,
+            <span class="doccomment">/// E 85.
+            </span>E85 = <span class="number">15</span>,
+            <span class="doccomment">/// Methane.
+            </span>Methane = <span class="number">16</span>,
+            <span class="doccomment">/// Bio-diesel.
+            </span>BioDiesel = <span class="number">17</span>,
+            <span class="doccomment">/// Truck diesel.
+            </span>TruckDiesel = <span class="number">18</span>,
+        }
+        <span class="kw">impl </span>FuelType {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    FuelType::Unspecified =&gt; <span class="string">"FUEL_TYPE_UNSPECIFIED"</span>,
+                    FuelType::Diesel =&gt; <span class="string">"DIESEL"</span>,
+                    FuelType::RegularUnleaded =&gt; <span class="string">"REGULAR_UNLEADED"</span>,
+                    FuelType::Midgrade =&gt; <span class="string">"MIDGRADE"</span>,
+                    FuelType::Premium =&gt; <span class="string">"PREMIUM"</span>,
+                    FuelType::Sp91 =&gt; <span class="string">"SP91"</span>,
+                    FuelType::Sp91E10 =&gt; <span class="string">"SP91_E10"</span>,
+                    FuelType::Sp92 =&gt; <span class="string">"SP92"</span>,
+                    FuelType::Sp95 =&gt; <span class="string">"SP95"</span>,
+                    FuelType::Sp95E10 =&gt; <span class="string">"SP95_E10"</span>,
+                    FuelType::Sp98 =&gt; <span class="string">"SP98"</span>,
+                    FuelType::Sp99 =&gt; <span class="string">"SP99"</span>,
+                    FuelType::Sp100 =&gt; <span class="string">"SP100"</span>,
+                    FuelType::Lpg =&gt; <span class="string">"LPG"</span>,
+                    FuelType::E80 =&gt; <span class="string">"E80"</span>,
+                    FuelType::E85 =&gt; <span class="string">"E85"</span>,
+                    FuelType::Methane =&gt; <span class="string">"METHANE"</span>,
+                    FuelType::BioDiesel =&gt; <span class="string">"BIO_DIESEL"</span>,
+                    FuelType::TruckDiesel =&gt; <span class="string">"TRUCK_DIESEL"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"FUEL_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"DIESEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Diesel),
+                    <span class="string">"REGULAR_UNLEADED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RegularUnleaded),
+                    <span class="string">"MIDGRADE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Midgrade),
+                    <span class="string">"PREMIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Premium),
+                    <span class="string">"SP91" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp91),
+                    <span class="string">"SP91_E10" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp91E10),
+                    <span class="string">"SP92" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp92),
+                    <span class="string">"SP95" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp95),
+                    <span class="string">"SP95_E10" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp95E10),
+                    <span class="string">"SP98" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp98),
+                    <span class="string">"SP99" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp99),
+                    <span class="string">"SP100" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp100),
+                    <span class="string">"LPG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Lpg),
+                    <span class="string">"E80" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::E80),
+                    <span class="string">"E85" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::E85),
+                    <span class="string">"METHANE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Methane),
+                    <span class="string">"BIO_DIESEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BioDiesel),
+                    <span class="string">"TRUCK_DIESEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TruckDiesel),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
 }
 <span class="doccomment">/// Information about the EV Charge Station hosted in Place.
 /// Terminology follows
@@ -2203,142 +2289,25 @@
     </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>radius: f64,
 }
-<span class="doccomment">/// The most recent information about fuel options in a gas station. This
-/// information is updated regularly.
+<span class="doccomment">/// Information about the author of the UGC data. Used in
+/// [Photo][google.maps.places.v1.Photo], and
+/// [Review][google.maps.places.v1.Review].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FuelOptions {
-    <span class="doccomment">/// The last known fuel price for each type of fuel this station has. There is
-    /// one entry per fuel type this station has. Order is not important.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>fuel_prices: ::prost::alloc::vec::Vec&lt;fuel_options::FuelPrice&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `FuelOptions`.
-</span><span class="kw">pub mod </span>fuel_options {
-    <span class="doccomment">/// Fuel price information for a given type.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>FuelPrice {
-        <span class="doccomment">/// The type of fuel.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"fuel_price::FuelType"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>r#type: i32,
-        <span class="doccomment">/// The price of the fuel.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>price: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Money&gt;,
-        <span class="doccomment">/// The time the fuel price was last updated.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `FuelPrice`.
-    </span><span class="kw">pub mod </span>fuel_price {
-        <span class="doccomment">/// Types of fuel.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>FuelType {
-            <span class="doccomment">/// Unspecified fuel type.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Diesel fuel.
-            </span>Diesel = <span class="number">1</span>,
-            <span class="doccomment">/// Regular unleaded.
-            </span>RegularUnleaded = <span class="number">2</span>,
-            <span class="doccomment">/// Midgrade.
-            </span>Midgrade = <span class="number">3</span>,
-            <span class="doccomment">/// Premium.
-            </span>Premium = <span class="number">4</span>,
-            <span class="doccomment">/// SP 91.
-            </span>Sp91 = <span class="number">5</span>,
-            <span class="doccomment">/// SP 91 E10.
-            </span>Sp91E10 = <span class="number">6</span>,
-            <span class="doccomment">/// SP 92.
-            </span>Sp92 = <span class="number">7</span>,
-            <span class="doccomment">/// SP 95.
-            </span>Sp95 = <span class="number">8</span>,
-            <span class="doccomment">/// SP95 E10.
-            </span>Sp95E10 = <span class="number">9</span>,
-            <span class="doccomment">/// SP 98.
-            </span>Sp98 = <span class="number">10</span>,
-            <span class="doccomment">/// SP 99.
-            </span>Sp99 = <span class="number">11</span>,
-            <span class="doccomment">/// SP 100.
-            </span>Sp100 = <span class="number">12</span>,
-            <span class="doccomment">/// LPG.
-            </span>Lpg = <span class="number">13</span>,
-            <span class="doccomment">/// E 80.
-            </span>E80 = <span class="number">14</span>,
-            <span class="doccomment">/// E 85.
-            </span>E85 = <span class="number">15</span>,
-            <span class="doccomment">/// Methane.
-            </span>Methane = <span class="number">16</span>,
-            <span class="doccomment">/// Bio-diesel.
-            </span>BioDiesel = <span class="number">17</span>,
-            <span class="doccomment">/// Truck diesel.
-            </span>TruckDiesel = <span class="number">18</span>,
-        }
-        <span class="kw">impl </span>FuelType {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    FuelType::Unspecified =&gt; <span class="string">"FUEL_TYPE_UNSPECIFIED"</span>,
-                    FuelType::Diesel =&gt; <span class="string">"DIESEL"</span>,
-                    FuelType::RegularUnleaded =&gt; <span class="string">"REGULAR_UNLEADED"</span>,
-                    FuelType::Midgrade =&gt; <span class="string">"MIDGRADE"</span>,
-                    FuelType::Premium =&gt; <span class="string">"PREMIUM"</span>,
-                    FuelType::Sp91 =&gt; <span class="string">"SP91"</span>,
-                    FuelType::Sp91E10 =&gt; <span class="string">"SP91_E10"</span>,
-                    FuelType::Sp92 =&gt; <span class="string">"SP92"</span>,
-                    FuelType::Sp95 =&gt; <span class="string">"SP95"</span>,
-                    FuelType::Sp95E10 =&gt; <span class="string">"SP95_E10"</span>,
-                    FuelType::Sp98 =&gt; <span class="string">"SP98"</span>,
-                    FuelType::Sp99 =&gt; <span class="string">"SP99"</span>,
-                    FuelType::Sp100 =&gt; <span class="string">"SP100"</span>,
-                    FuelType::Lpg =&gt; <span class="string">"LPG"</span>,
-                    FuelType::E80 =&gt; <span class="string">"E80"</span>,
-                    FuelType::E85 =&gt; <span class="string">"E85"</span>,
-                    FuelType::Methane =&gt; <span class="string">"METHANE"</span>,
-                    FuelType::BioDiesel =&gt; <span class="string">"BIO_DIESEL"</span>,
-                    FuelType::TruckDiesel =&gt; <span class="string">"TRUCK_DIESEL"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"FUEL_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"DIESEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Diesel),
-                    <span class="string">"REGULAR_UNLEADED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RegularUnleaded),
-                    <span class="string">"MIDGRADE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Midgrade),
-                    <span class="string">"PREMIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Premium),
-                    <span class="string">"SP91" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp91),
-                    <span class="string">"SP91_E10" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp91E10),
-                    <span class="string">"SP92" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp92),
-                    <span class="string">"SP95" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp95),
-                    <span class="string">"SP95_E10" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp95E10),
-                    <span class="string">"SP98" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp98),
-                    <span class="string">"SP99" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp99),
-                    <span class="string">"SP100" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sp100),
-                    <span class="string">"LPG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Lpg),
-                    <span class="string">"E80" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::E80),
-                    <span class="string">"E85" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::E85),
-                    <span class="string">"METHANE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Methane),
-                    <span class="string">"BIO_DIESEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BioDiesel),
-                    <span class="string">"TRUCK_DIESEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TruckDiesel),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
+</span><span class="kw">pub struct </span>AuthorAttribution {
+    <span class="doccomment">/// Name of the author of the [Photo][google.maps.places.v1.Photo] or
+    /// [Review][google.maps.places.v1.Review].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// URI of the author of the [Photo][google.maps.places.v1.Photo] or
+    /// [Review][google.maps.places.v1.Review].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// Profile photo URI of the author of the
+    /// [Photo][google.maps.places.v1.Photo] or
+    /// [Review][google.maps.places.v1.Review].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>photo_uri: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Information about a photo of a place.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2358,6 +2327,37 @@
     <span class="doccomment">/// This photo's authors.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>author_attributions: ::prost::alloc::vec::Vec&lt;AuthorAttribution&gt;,
+}
+<span class="doccomment">/// Information about a review of a place.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Review {
+    <span class="doccomment">/// A reference representing this place review which may be used to look up
+    /// this place review again (also called the API "resource" name:
+    /// `places/{place_id}/reviews/{review}`).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// A string of formatted recent time, expressing the review time relative
+    /// to the current time in a form appropriate for the language and country.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>relative_publish_time_description: ::prost::alloc::string::String,
+    <span class="doccomment">/// The localized text of the review.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>text: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText&gt;,
+    <span class="doccomment">/// The review text in its original language.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>original_text: ::core::option::Option&lt;
+        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
+    &gt;,
+    <span class="doccomment">/// A number between 1.0 and 5.0, also called the number of stars.
+    </span><span class="attr">#[prost(double, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>rating: f64,
+    <span class="doccomment">/// This review's author.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>author_attribution: ::core::option::Option&lt;AuthorAttribution&gt;,
+    <span class="doccomment">/// Timestamp for the review.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>publish_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
 }
 <span class="doccomment">/// All the information representing a Place.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

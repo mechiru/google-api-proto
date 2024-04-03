@@ -4577,824 +4577,6 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// An attachment in Google Chat.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Attachment {
-    <span class="doccomment">/// Resource name of the attachment, in the form
-    /// `spaces/*/messages/*/attachments/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The original file name for the content, not the full path.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>content_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The content type (MIME type) of the file.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>content_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The thumbnail URL which should be used to preview the
-    /// attachment to a human user. Chat apps shouldn't use this URL to download
-    /// attachment content.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>thumbnail_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The download URL which should be used to allow a human user to
-    /// download the attachment. Chat apps shouldn't use this URL to download
-    /// attachment content.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>download_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The source of the attachment.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"attachment::Source"</span>, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>source: i32,
-    <span class="attr">#[prost(oneof = <span class="string">"attachment::DataRef"</span>, tags = <span class="string">"4, 7"</span>)]
-    </span><span class="kw">pub </span>data_ref: ::core::option::Option&lt;attachment::DataRef&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Attachment`.
-</span><span class="kw">pub mod </span>attachment {
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Source {
-        Unspecified = <span class="number">0</span>,
-        DriveFile = <span class="number">1</span>,
-        UploadedContent = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Source {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Source::Unspecified =&gt; <span class="string">"SOURCE_UNSPECIFIED"</span>,
-                Source::DriveFile =&gt; <span class="string">"DRIVE_FILE"</span>,
-                Source::UploadedContent =&gt; <span class="string">"UPLOADED_CONTENT"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"SOURCE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"DRIVE_FILE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DriveFile),
-                <span class="string">"UPLOADED_CONTENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UploadedContent),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>DataRef {
-        <span class="doccomment">/// A reference to the attachment data. This field is used with the media API
-        /// to download the attachment data.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>AttachmentDataRef(<span class="kw">super</span>::AttachmentDataRef),
-        <span class="doccomment">/// Output only. A reference to the Google Drive attachment. This field is
-        /// used with the Google Drive API.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
-        </span>DriveDataRef(<span class="kw">super</span>::DriveDataRef),
-    }
-}
-<span class="doccomment">/// A reference to the data of a drive attachment.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DriveDataRef {
-    <span class="doccomment">/// The ID for the drive file. Use with the Drive API.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>drive_file_id: ::prost::alloc::string::String,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AttachmentDataRef {
-    <span class="doccomment">/// The resource name of the attachment data. This field is used with the media
-    /// API to download the attachment data.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>resource_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Opaque token containing a reference to an uploaded attachment. Treated by
-    /// clients as an opaque string and used to create or update Chat messages with
-    /// attachments.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>attachment_upload_token: ::prost::alloc::string::String,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetAttachmentRequest {
-    <span class="doccomment">/// Required. Resource name of the attachment, in the form
-    /// `spaces/*/messages/*/attachments/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UploadAttachmentRequest {
-    <span class="doccomment">/// Required. Resource name of the Chat space in which the attachment is
-    /// uploaded. Format "spaces/{space}".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The filename of the attachment, including the file extension.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>filename: ::prost::alloc::string::String,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UploadAttachmentResponse {
-    <span class="doccomment">/// Reference to the uploaded attachment.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>attachment_data_ref: ::core::option::Option&lt;AttachmentDataRef&gt;,
-}
-<span class="doccomment">/// Output only. Annotations associated with the plain-text body of the message.
-/// To add basic formatting to a text message, see
-/// [Format text
-/// messages](&lt;https://developers.google.com/chat/format-messages&gt;).
-///
-/// Example plain-text message body:
-/// ```
-/// Hello @FooBot how are you!"
-/// ```
-///
-/// The corresponding annotations metadata:
-/// ```
-/// "annotations":[{
-///    "type":"USER_MENTION",
-///    "startIndex":6,
-///    "length":7,
-///    "userMention": {
-///      "user": {
-///        "name":"users/{user}",
-///        "displayName":"FooBot",
-///        "avatarUrl":"&lt;https://goo.gl/aeDtrS",&gt;
-///        "type":"BOT"
-///      },
-///      "type":"MENTION"
-///     }
-/// }]
-/// ```
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Annotation {
-    <span class="doccomment">/// The type of this annotation.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"AnnotationType"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-    <span class="doccomment">/// Start index (0-based, inclusive) in the plain-text message body this
-    /// annotation corresponds to.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>start_index: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Length of the substring in the plain-text message body this annotation
-    /// corresponds to.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>length: i32,
-    <span class="doccomment">/// Additional metadata about the annotation.
-    </span><span class="attr">#[prost(oneof = <span class="string">"annotation::Metadata"</span>, tags = <span class="string">"4, 5, 6"</span>)]
-    </span><span class="kw">pub </span>metadata: ::core::option::Option&lt;annotation::Metadata&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Annotation`.
-</span><span class="kw">pub mod </span>annotation {
-    <span class="doccomment">/// Additional metadata about the annotation.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Metadata {
-        <span class="doccomment">/// The metadata of user mention.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>UserMention(<span class="kw">super</span>::UserMentionMetadata),
-        <span class="doccomment">/// The metadata for a slash command.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>SlashCommand(<span class="kw">super</span>::SlashCommandMetadata),
-        <span class="doccomment">/// The metadata for a rich link.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>RichLinkMetadata(<span class="kw">super</span>::RichLinkMetadata),
-    }
-}
-<span class="doccomment">/// Annotation metadata for user mentions (@).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UserMentionMetadata {
-    <span class="doccomment">/// The user mentioned.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>user: ::core::option::Option&lt;User&gt;,
-    <span class="doccomment">/// The type of user mention.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"user_mention_metadata::Type"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `UserMentionMetadata`.
-</span><span class="kw">pub mod </span>user_mention_metadata {
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Type {
-        <span class="doccomment">/// Default value for the enum. Don't use.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Add user to space.
-        </span>Add = <span class="number">1</span>,
-        <span class="doccomment">/// Mention user in space.
-        </span>Mention = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Type {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
-                Type::Add =&gt; <span class="string">"ADD"</span>,
-                Type::Mention =&gt; <span class="string">"MENTION"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"ADD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Add),
-                <span class="string">"MENTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Mention),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Annotation metadata for slash commands (/).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SlashCommandMetadata {
-    <span class="doccomment">/// The Chat app whose command was invoked.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>bot: ::core::option::Option&lt;User&gt;,
-    <span class="doccomment">/// The type of slash command.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"slash_command_metadata::Type"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-    <span class="doccomment">/// The name of the invoked slash command.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>command_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The command ID of the invoked slash command.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>command_id: i64,
-    <span class="doccomment">/// Indicates whether the slash command is for a dialog.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>triggers_dialog: bool,
-}
-<span class="doccomment">/// Nested message and enum types in `SlashCommandMetadata`.
-</span><span class="kw">pub mod </span>slash_command_metadata {
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Type {
-        <span class="doccomment">/// Default value for the enum. Don't use.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Add Chat app to space.
-        </span>Add = <span class="number">1</span>,
-        <span class="doccomment">/// Invoke slash command in space.
-        </span>Invoke = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Type {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
-                Type::Add =&gt; <span class="string">"ADD"</span>,
-                Type::Invoke =&gt; <span class="string">"INVOKE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"ADD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Add),
-                <span class="string">"INVOKE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Invoke),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A rich link to a resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RichLinkMetadata {
-    <span class="doccomment">/// The URI of this link.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// The rich link type.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"rich_link_metadata::RichLinkType"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>rich_link_type: i32,
-    <span class="doccomment">/// Data for the linked resource.
-    </span><span class="attr">#[prost(oneof = <span class="string">"rich_link_metadata::Data"</span>, tags = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>data: ::core::option::Option&lt;rich_link_metadata::Data&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `RichLinkMetadata`.
-</span><span class="kw">pub mod </span>rich_link_metadata {
-    <span class="doccomment">/// The rich link type. More types might be added in the future.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>RichLinkType {
-        <span class="doccomment">/// Default value for the enum. Don't use.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// A Google Drive rich link type.
-        </span>DriveFile = <span class="number">1</span>,
-    }
-    <span class="kw">impl </span>RichLinkType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                RichLinkType::Unspecified =&gt; <span class="string">"RICH_LINK_TYPE_UNSPECIFIED"</span>,
-                RichLinkType::DriveFile =&gt; <span class="string">"DRIVE_FILE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"RICH_LINK_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"DRIVE_FILE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DriveFile),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Data for the linked resource.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Data {
-        <span class="doccomment">/// Data for a drive link.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>DriveLinkData(<span class="kw">super</span>::DriveLinkData),
-    }
-}
-<span class="doccomment">/// Data for Google Drive links.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DriveLinkData {
-    <span class="doccomment">/// A
-    /// [DriveDataRef](&lt;https://developers.google.com/chat/api/reference/rest/v1/spaces.messages.attachments#drivedataref&gt;)
-    /// which references a Google Drive file.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>drive_data_ref: ::core::option::Option&lt;DriveDataRef&gt;,
-    <span class="doccomment">/// The mime type of the linked Google Drive resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Type of the annotation.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>AnnotationType {
-    <span class="doccomment">/// Default value for the enum. Don't use.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// A user is mentioned.
-    </span>UserMention = <span class="number">1</span>,
-    <span class="doccomment">/// A slash command is invoked.
-    </span>SlashCommand = <span class="number">2</span>,
-    <span class="doccomment">/// A rich link annotation.
-    </span>RichLink = <span class="number">3</span>,
-}
-<span class="kw">impl </span>AnnotationType {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            AnnotationType::Unspecified =&gt; <span class="string">"ANNOTATION_TYPE_UNSPECIFIED"</span>,
-            AnnotationType::UserMention =&gt; <span class="string">"USER_MENTION"</span>,
-            AnnotationType::SlashCommand =&gt; <span class="string">"SLASH_COMMAND"</span>,
-            AnnotationType::RichLink =&gt; <span class="string">"RICH_LINK"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"ANNOTATION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"USER_MENTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserMention),
-            <span class="string">"SLASH_COMMAND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SlashCommand),
-            <span class="string">"RICH_LINK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RichLink),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// A matched URL in a Chat message. Chat apps can preview matched URLs. For more
-/// information, see [Preview
-/// links](&lt;https://developers.google.com/chat/how-tos/preview-links&gt;).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>MatchedUrl {
-    <span class="doccomment">/// Output only. The URL that was matched.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>url: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Represents the status for a request to either invoke or submit a
-/// [dialog](&lt;https://developers.google.com/chat/how-tos/dialogs&gt;).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ActionStatus {
-    <span class="doccomment">/// The status code.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::rpc::Code"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>status_code: i32,
-    <span class="doccomment">/// The message to send users about the status of their request.
-    /// If unset, a generic message based on the `status_code` is sent.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>user_facing_message: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The markup for developers to specify the contents of a contextual AddOn.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ContextualAddOnMarkup {}
-<span class="doccomment">/// Nested message and enum types in `ContextualAddOnMarkup`.
-</span><span class="kw">pub mod </span>contextual_add_on_markup {
-    <span class="doccomment">/// A card is a UI element that can contain UI widgets such as text and
-    /// images.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Card {
-        <span class="doccomment">/// The header of the card. A header usually contains a title and an image.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>header: ::core::option::Option&lt;card::CardHeader&gt;,
-        <span class="doccomment">/// Sections are separated by a line divider.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>sections: ::prost::alloc::vec::Vec&lt;card::Section&gt;,
-        <span class="doccomment">/// The actions of this card.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>card_actions: ::prost::alloc::vec::Vec&lt;card::CardAction&gt;,
-        <span class="doccomment">/// Name of the card.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Card`.
-    </span><span class="kw">pub mod </span>card {
-        <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>CardHeader {
-            <span class="doccomment">/// The title must be specified. The header has a fixed height: if both a
-            /// title and subtitle is specified, each takes up one line. If only the
-            /// title is specified, it takes up both lines.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
-            <span class="doccomment">/// The subtitle of the card header.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>subtitle: ::prost::alloc::string::String,
-            <span class="doccomment">/// The image's type (for example, square border or circular border).
-            </span><span class="attr">#[prost(enumeration = <span class="string">"card_header::ImageStyle"</span>, tag = <span class="string">"3"</span>)]
-            </span><span class="kw">pub </span>image_style: i32,
-            <span class="doccomment">/// The URL of the image in the card header.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-            </span><span class="kw">pub </span>image_url: ::prost::alloc::string::String,
-        }
-        <span class="doccomment">/// Nested message and enum types in `CardHeader`.
-        </span><span class="kw">pub mod </span>card_header {
-            <span class="attr">#[derive(
-                Clone,
-                Copy,
-                Debug,
-                PartialEq,
-                Eq,
-                Hash,
-                PartialOrd,
-                Ord,
-                ::prost::Enumeration
-            )]
-            #[repr(i32)]
-            </span><span class="kw">pub enum </span>ImageStyle {
-                Unspecified = <span class="number">0</span>,
-                <span class="doccomment">/// Square border.
-                </span>Image = <span class="number">1</span>,
-                <span class="doccomment">/// Circular border.
-                </span>Avatar = <span class="number">2</span>,
-            }
-            <span class="kw">impl </span>ImageStyle {
-                <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-                ///
-                /// The values are not transformed in any way and thus are considered stable
-                /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-                </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                    <span class="kw">match </span><span class="self">self </span>{
-                        ImageStyle::Unspecified =&gt; <span class="string">"IMAGE_STYLE_UNSPECIFIED"</span>,
-                        ImageStyle::Image =&gt; <span class="string">"IMAGE"</span>,
-                        ImageStyle::Avatar =&gt; <span class="string">"AVATAR"</span>,
-                    }
-                }
-                <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-                </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                    <span class="kw">match </span>value {
-                        <span class="string">"IMAGE_STYLE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                        <span class="string">"IMAGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Image),
-                        <span class="string">"AVATAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Avatar),
-                        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                    }
-                }
-            }
-        }
-        <span class="doccomment">/// A section contains a collection of widgets that are rendered
-        /// (vertically) in the order that they are specified. Across all platforms,
-        /// cards have a narrow fixed width, so
-        /// there's currently no need for layout properties (for example, float).
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>Section {
-            <span class="doccomment">/// The header of the section. Formatted text is
-            /// supported. For more information
-            /// about formatting text, see
-            /// [Formatting text in Google Chat
-            /// apps](&lt;https://developers.google.com/chat/format-messages#card-formatting&gt;)
-            /// and
-            /// [Formatting
-            /// text in Google Workspace
-            /// Add-ons](&lt;https://developers.google.com/apps-script/add-ons/concepts/widgets#text_formatting&gt;).
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>header: ::prost::alloc::string::String,
-            <span class="doccomment">/// A section must contain at least one widget.
-            </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>widgets: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::<span class="kw">super</span>::WidgetMarkup&gt;,
-        }
-        <span class="doccomment">/// A card action is
-        /// the action associated with the card. For an invoice card, a
-        /// typical action would be: delete invoice, email invoice or open the
-        /// invoice in browser.
-        ///
-        /// Not supported by Google Chat apps.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>CardAction {
-            <span class="doccomment">/// The label used to be displayed in the action menu item.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>action_label: ::prost::alloc::string::String,
-            <span class="doccomment">/// The onclick action for this action item.
-            </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>on_click: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::widget_markup::OnClick&gt;,
-        }
-    }
-}
-<span class="doccomment">/// Information about a deleted message. A message is deleted when `delete_time`
-/// is set.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeletionMetadata {
-    <span class="doccomment">/// Indicates who deleted the message.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"deletion_metadata::DeletionType"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>deletion_type: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `DeletionMetadata`.
-</span><span class="kw">pub mod </span>deletion_metadata {
-    <span class="doccomment">/// Who deleted the message and how it was deleted.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>DeletionType {
-        <span class="doccomment">/// This value is unused.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// User deleted their own message.
-        </span>Creator = <span class="number">1</span>,
-        <span class="doccomment">/// The space owner deleted the message.
-        </span>SpaceOwner = <span class="number">2</span>,
-        <span class="doccomment">/// A Google Workspace admin deleted the message.
-        </span>Admin = <span class="number">3</span>,
-        <span class="doccomment">/// A Chat app deleted its own message when it expired.
-        </span>AppMessageExpiry = <span class="number">4</span>,
-        <span class="doccomment">/// A Chat app deleted the message on behalf of the user.
-        </span>CreatorViaApp = <span class="number">5</span>,
-        <span class="doccomment">/// A Chat app deleted the message on behalf of the space owner.
-        </span>SpaceOwnerViaApp = <span class="number">6</span>,
-    }
-    <span class="kw">impl </span>DeletionType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                DeletionType::Unspecified =&gt; <span class="string">"DELETION_TYPE_UNSPECIFIED"</span>,
-                DeletionType::Creator =&gt; <span class="string">"CREATOR"</span>,
-                DeletionType::SpaceOwner =&gt; <span class="string">"SPACE_OWNER"</span>,
-                DeletionType::Admin =&gt; <span class="string">"ADMIN"</span>,
-                DeletionType::AppMessageExpiry =&gt; <span class="string">"APP_MESSAGE_EXPIRY"</span>,
-                DeletionType::CreatorViaApp =&gt; <span class="string">"CREATOR_VIA_APP"</span>,
-                DeletionType::SpaceOwnerViaApp =&gt; <span class="string">"SPACE_OWNER_VIA_APP"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"DELETION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CREATOR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creator),
-                <span class="string">"SPACE_OWNER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SpaceOwner),
-                <span class="string">"ADMIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Admin),
-                <span class="string">"APP_MESSAGE_EXPIRY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AppMessageExpiry),
-                <span class="string">"CREATOR_VIA_APP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CreatorViaApp),
-                <span class="string">"SPACE_OWNER_VIA_APP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SpaceOwnerViaApp),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A reaction to a message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Reaction {
-    <span class="doccomment">/// The resource name of the reaction.
-    ///
-    /// Format: `spaces/{space}/messages/{message}/reactions/{reaction}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The user who created the reaction.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>user: ::core::option::Option&lt;User&gt;,
-    <span class="doccomment">/// The emoji used in the reaction.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>emoji: ::core::option::Option&lt;Emoji&gt;,
-}
-<span class="doccomment">/// An emoji that is used as a reaction to a message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Emoji {
-    <span class="attr">#[prost(oneof = <span class="string">"emoji::Content"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>content: ::core::option::Option&lt;emoji::Content&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Emoji`.
-</span><span class="kw">pub mod </span>emoji {
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Content {
-        <span class="doccomment">/// A basic emoji represented by a unicode string.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span>Unicode(::prost::alloc::string::String),
-        <span class="doccomment">/// Output only. A custom emoji.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>CustomEmoji(<span class="kw">super</span>::CustomEmoji),
-    }
-}
-<span class="doccomment">/// Represents a custom emoji.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CustomEmoji {
-    <span class="doccomment">/// Unique key for the custom emoji resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The number of people who reacted to a message with a specific emoji.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EmojiReactionSummary {
-    <span class="doccomment">/// Emoji associated with the reactions.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>emoji: ::core::option::Option&lt;Emoji&gt;,
-    <span class="doccomment">/// The total number of reactions using the associated emoji.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>reaction_count: ::core::option::Option&lt;i32&gt;,
-}
-<span class="doccomment">/// Creates a reaction to a message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateReactionRequest {
-    <span class="doccomment">/// Required. The message where the reaction is created.
-    ///
-    /// Format: `spaces/{space}/messages/{message}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The reaction to create.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>reaction: ::core::option::Option&lt;Reaction&gt;,
-}
-<span class="doccomment">/// Lists reactions to a message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListReactionsRequest {
-    <span class="doccomment">/// Required. The message users reacted to.
-    ///
-    /// Format: `spaces/{space}/messages/{message}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The maximum number of reactions returned. The service can return
-    /// fewer reactions than this value. If unspecified, the default value is 25.
-    /// The maximum value is 200; values above 200 are changed to 200.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// Optional. (If resuming from a previous query.)
-    ///
-    /// A page token received from a previous list reactions call. Provide this
-    /// to retrieve the subsequent page.
-    ///
-    /// When paginating, the filter value should match the call that provided the
-    /// page token. Passing a different value might lead to unexpected results.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. A query filter.
-    ///
-    /// You can filter reactions by
-    /// [emoji](&lt;https://developers.google.com/chat/api/reference/rest/v1/Emoji&gt;)
-    /// (either `emoji.unicode` or `emoji.custom_emoji.uid`) and
-    /// [user](&lt;https://developers.google.com/chat/api/reference/rest/v1/User&gt;)
-    /// (`user.name`).
-    ///
-    /// To filter reactions for multiple emojis or users, join similar fields
-    /// with the `OR` operator, such as `emoji.unicode = "🙂" OR emoji.unicode =
-    /// "👍"` and `user.name = "users/AAAAAA" OR user.name = "users/BBBBBB"`.
-    ///
-    /// To filter reactions by emoji and user, use the `AND` operator, such as
-    /// `emoji.unicode = "🙂" AND user.name = "users/AAAAAA"`.
-    ///
-    /// If your query uses both `AND` and `OR`, group them with parentheses.
-    ///
-    /// For example, the following queries are valid:
-    ///
-    /// ```
-    /// user.name = "users/{user}"
-    /// emoji.unicode = "🙂"
-    /// emoji.custom_emoji.uid = "{uid}"
-    /// emoji.unicode = "🙂" OR emoji.unicode = "👍"
-    /// emoji.unicode = "🙂" OR emoji.custom_emoji.uid = "{uid}"
-    /// emoji.unicode = "🙂" AND user.name = "users/{user}"
-    /// (emoji.unicode = "🙂" OR emoji.custom_emoji.uid = "{uid}")
-    /// AND user.name = "users/{user}"
-    /// ```
-    ///
-    /// The following queries are invalid:
-    ///
-    /// ```
-    /// emoji.unicode = "🙂" AND emoji.unicode = "👍"
-    /// emoji.unicode = "🙂" AND emoji.custom_emoji.uid = "{uid}"
-    /// emoji.unicode = "🙂" OR user.name = "users/{user}"
-    /// emoji.unicode = "🙂" OR emoji.custom_emoji.uid = "{uid}" OR
-    /// user.name = "users/{user}"
-    /// emoji.unicode = "🙂" OR emoji.custom_emoji.uid = "{uid}"
-    /// AND user.name = "users/{user}"
-    /// ```
-    ///
-    /// Invalid queries are rejected by the server with an `INVALID_ARGUMENT`
-    /// error.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListReactionsResponse {
-    <span class="doccomment">/// List of reactions in the requested (or first) page.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>reactions: ::prost::alloc::vec::Vec&lt;Reaction&gt;,
-    <span class="doccomment">/// Continuation token to retrieve the next page of results. It's empty
-    /// for the last page of results.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Deletes a reaction to a message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteReactionRequest {
-    <span class="doccomment">/// Required. Name of the reaction to delete.
-    ///
-    /// Format: `spaces/{space}/messages/{message}/reactions/{reaction}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A [slash command](&lt;https://developers.google.com/chat/how-tos/slash-commands&gt;)
-/// in Google Chat.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SlashCommand {
-    <span class="doccomment">/// The ID of the slash command invoked.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>command_id: i64,
-}
 <span class="doccomment">/// The history state for messages and spaces. Specifies how long messages and
 /// conversation threads are kept after creation.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -5863,6 +5045,888 @@
     <span class="doccomment">/// The import mode space.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>space: ::core::option::Option&lt;Space&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SetUpSpaceRequest {
+    <span class="doccomment">/// Required. The `Space.spaceType` field is required.
+    ///
+    /// To create a space, set `Space.spaceType` to `SPACE` and set
+    /// `Space.displayName`. If you receive the error message `ALREADY_EXISTS` when
+    /// setting up a space, try a different `displayName`. An existing space
+    /// within the Google Workspace organization might already use this display
+    /// name.
+    ///
+    /// To create a group chat, set `Space.spaceType` to
+    /// `GROUP_CHAT`. Don't set `Space.displayName`.
+    ///
+    /// To create a 1:1 conversation between humans,
+    /// set `Space.spaceType` to `DIRECT_MESSAGE` and set
+    /// `Space.singleUserBotDm` to `false`. Don't set `Space.displayName` or
+    /// `Space.spaceDetails`.
+    ///
+    /// To create an 1:1 conversation between a human and the calling Chat app, set
+    /// `Space.spaceType` to `DIRECT_MESSAGE` and
+    /// `Space.singleUserBotDm` to `true`. Don't set `Space.displayName` or
+    /// `Space.spaceDetails`.
+    ///
+    /// If a `DIRECT_MESSAGE` space already exists, that space is returned instead
+    /// of creating a new space.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>space: ::core::option::Option&lt;Space&gt;,
+    <span class="doccomment">/// Optional. A unique identifier for this request.
+    /// A random UUID is recommended.
+    /// Specifying an existing request ID returns the space created with that ID
+    /// instead of creating a new space.
+    /// Specifying an existing request ID from the same Chat app with a different
+    /// authenticated user returns an error.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>request_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The Google Chat users to invite to join the space. Omit the
+    /// calling user, as they are added automatically.
+    ///
+    /// The set currently allows up to 20 memberships (in addition to the caller).
+    ///
+    /// The `Membership.member` field must contain a `user` with `name` populated
+    /// (format: `users/{user}`) and `type` set to `User.Type.HUMAN`. You can only
+    /// add human users when setting up a space (adding Chat apps is only supported
+    /// for direct message setup with the calling app). You can also add members
+    /// using the user's email as an alias for {user}. For example, the `user.name`
+    /// can be `users/example@gmail.com`." To invite Gmail users or users from
+    /// external Google Workspace domains, user's email must be used for
+    /// `{user}`.
+    ///
+    /// Optional when setting `Space.spaceType` to `SPACE`.
+    ///
+    /// Required when setting `Space.spaceType` to `GROUP_CHAT`, along with at
+    /// least two memberships.
+    ///
+    /// Required when setting `Space.spaceType` to `DIRECT_MESSAGE` with a human
+    /// user, along with exactly one membership.
+    ///
+    /// Must be empty when creating a 1:1 conversation between a human and the
+    /// calling Chat app (when setting `Space.spaceType` to
+    /// `DIRECT_MESSAGE` and `Space.singleUserBotDm` to `true`).
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>memberships: ::prost::alloc::vec::Vec&lt;Membership&gt;,
+}
+<span class="doccomment">/// The markup for developers to specify the contents of a contextual AddOn.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ContextualAddOnMarkup {}
+<span class="doccomment">/// Nested message and enum types in `ContextualAddOnMarkup`.
+</span><span class="kw">pub mod </span>contextual_add_on_markup {
+    <span class="doccomment">/// A card is a UI element that can contain UI widgets such as text and
+    /// images.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Card {
+        <span class="doccomment">/// The header of the card. A header usually contains a title and an image.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>header: ::core::option::Option&lt;card::CardHeader&gt;,
+        <span class="doccomment">/// Sections are separated by a line divider.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>sections: ::prost::alloc::vec::Vec&lt;card::Section&gt;,
+        <span class="doccomment">/// The actions of this card.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>card_actions: ::prost::alloc::vec::Vec&lt;card::CardAction&gt;,
+        <span class="doccomment">/// Name of the card.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Card`.
+    </span><span class="kw">pub mod </span>card {
+        <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>CardHeader {
+            <span class="doccomment">/// The title must be specified. The header has a fixed height: if both a
+            /// title and subtitle is specified, each takes up one line. If only the
+            /// title is specified, it takes up both lines.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
+            <span class="doccomment">/// The subtitle of the card header.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>subtitle: ::prost::alloc::string::String,
+            <span class="doccomment">/// The image's type (for example, square border or circular border).
+            </span><span class="attr">#[prost(enumeration = <span class="string">"card_header::ImageStyle"</span>, tag = <span class="string">"3"</span>)]
+            </span><span class="kw">pub </span>image_style: i32,
+            <span class="doccomment">/// The URL of the image in the card header.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+            </span><span class="kw">pub </span>image_url: ::prost::alloc::string::String,
+        }
+        <span class="doccomment">/// Nested message and enum types in `CardHeader`.
+        </span><span class="kw">pub mod </span>card_header {
+            <span class="attr">#[derive(
+                Clone,
+                Copy,
+                Debug,
+                PartialEq,
+                Eq,
+                Hash,
+                PartialOrd,
+                Ord,
+                ::prost::Enumeration
+            )]
+            #[repr(i32)]
+            </span><span class="kw">pub enum </span>ImageStyle {
+                Unspecified = <span class="number">0</span>,
+                <span class="doccomment">/// Square border.
+                </span>Image = <span class="number">1</span>,
+                <span class="doccomment">/// Circular border.
+                </span>Avatar = <span class="number">2</span>,
+            }
+            <span class="kw">impl </span>ImageStyle {
+                <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+                ///
+                /// The values are not transformed in any way and thus are considered stable
+                /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+                </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                    <span class="kw">match </span><span class="self">self </span>{
+                        ImageStyle::Unspecified =&gt; <span class="string">"IMAGE_STYLE_UNSPECIFIED"</span>,
+                        ImageStyle::Image =&gt; <span class="string">"IMAGE"</span>,
+                        ImageStyle::Avatar =&gt; <span class="string">"AVATAR"</span>,
+                    }
+                }
+                <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+                </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                    <span class="kw">match </span>value {
+                        <span class="string">"IMAGE_STYLE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                        <span class="string">"IMAGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Image),
+                        <span class="string">"AVATAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Avatar),
+                        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                    }
+                }
+            }
+        }
+        <span class="doccomment">/// A section contains a collection of widgets that are rendered
+        /// (vertically) in the order that they are specified. Across all platforms,
+        /// cards have a narrow fixed width, so
+        /// there's currently no need for layout properties (for example, float).
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>Section {
+            <span class="doccomment">/// The header of the section. Formatted text is
+            /// supported. For more information
+            /// about formatting text, see
+            /// [Formatting text in Google Chat
+            /// apps](&lt;https://developers.google.com/chat/format-messages#card-formatting&gt;)
+            /// and
+            /// [Formatting
+            /// text in Google Workspace
+            /// Add-ons](&lt;https://developers.google.com/apps-script/add-ons/concepts/widgets#text_formatting&gt;).
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>header: ::prost::alloc::string::String,
+            <span class="doccomment">/// A section must contain at least one widget.
+            </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>widgets: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::<span class="kw">super</span>::WidgetMarkup&gt;,
+        }
+        <span class="doccomment">/// A card action is
+        /// the action associated with the card. For an invoice card, a
+        /// typical action would be: delete invoice, email invoice or open the
+        /// invoice in browser.
+        ///
+        /// Not supported by Google Chat apps.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>CardAction {
+            <span class="doccomment">/// The label used to be displayed in the action menu item.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>action_label: ::prost::alloc::string::String,
+            <span class="doccomment">/// The onclick action for this action item.
+            </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>on_click: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::widget_markup::OnClick&gt;,
+        }
+    }
+}
+<span class="doccomment">/// An attachment in Google Chat.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Attachment {
+    <span class="doccomment">/// Resource name of the attachment, in the form
+    /// `spaces/*/messages/*/attachments/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The original file name for the content, not the full path.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>content_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The content type (MIME type) of the file.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>content_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The thumbnail URL which should be used to preview the
+    /// attachment to a human user. Chat apps shouldn't use this URL to download
+    /// attachment content.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>thumbnail_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The download URL which should be used to allow a human user to
+    /// download the attachment. Chat apps shouldn't use this URL to download
+    /// attachment content.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>download_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The source of the attachment.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"attachment::Source"</span>, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>source: i32,
+    <span class="attr">#[prost(oneof = <span class="string">"attachment::DataRef"</span>, tags = <span class="string">"4, 7"</span>)]
+    </span><span class="kw">pub </span>data_ref: ::core::option::Option&lt;attachment::DataRef&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Attachment`.
+</span><span class="kw">pub mod </span>attachment {
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Source {
+        Unspecified = <span class="number">0</span>,
+        DriveFile = <span class="number">1</span>,
+        UploadedContent = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Source {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Source::Unspecified =&gt; <span class="string">"SOURCE_UNSPECIFIED"</span>,
+                Source::DriveFile =&gt; <span class="string">"DRIVE_FILE"</span>,
+                Source::UploadedContent =&gt; <span class="string">"UPLOADED_CONTENT"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"SOURCE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"DRIVE_FILE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DriveFile),
+                <span class="string">"UPLOADED_CONTENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UploadedContent),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>DataRef {
+        <span class="doccomment">/// A reference to the attachment data. This field is used with the media API
+        /// to download the attachment data.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>AttachmentDataRef(<span class="kw">super</span>::AttachmentDataRef),
+        <span class="doccomment">/// Output only. A reference to the Google Drive attachment. This field is
+        /// used with the Google Drive API.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
+        </span>DriveDataRef(<span class="kw">super</span>::DriveDataRef),
+    }
+}
+<span class="doccomment">/// A reference to the data of a drive attachment.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DriveDataRef {
+    <span class="doccomment">/// The ID for the drive file. Use with the Drive API.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>drive_file_id: ::prost::alloc::string::String,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AttachmentDataRef {
+    <span class="doccomment">/// The resource name of the attachment data. This field is used with the media
+    /// API to download the attachment data.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>resource_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Opaque token containing a reference to an uploaded attachment. Treated by
+    /// clients as an opaque string and used to create or update Chat messages with
+    /// attachments.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>attachment_upload_token: ::prost::alloc::string::String,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetAttachmentRequest {
+    <span class="doccomment">/// Required. Resource name of the attachment, in the form
+    /// `spaces/*/messages/*/attachments/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UploadAttachmentRequest {
+    <span class="doccomment">/// Required. Resource name of the Chat space in which the attachment is
+    /// uploaded. Format "spaces/{space}".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The filename of the attachment, including the file extension.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>filename: ::prost::alloc::string::String,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UploadAttachmentResponse {
+    <span class="doccomment">/// Reference to the uploaded attachment.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>attachment_data_ref: ::core::option::Option&lt;AttachmentDataRef&gt;,
+}
+<span class="doccomment">/// Represents the status for a request to either invoke or submit a
+/// [dialog](&lt;https://developers.google.com/chat/how-tos/dialogs&gt;).
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ActionStatus {
+    <span class="doccomment">/// The status code.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::rpc::Code"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>status_code: i32,
+    <span class="doccomment">/// The message to send users about the status of their request.
+    /// If unset, a generic message based on the `status_code` is sent.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>user_facing_message: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Output only. Annotations associated with the plain-text body of the message.
+/// To add basic formatting to a text message, see
+/// [Format text
+/// messages](&lt;https://developers.google.com/chat/format-messages&gt;).
+///
+/// Example plain-text message body:
+/// ```
+/// Hello @FooBot how are you!"
+/// ```
+///
+/// The corresponding annotations metadata:
+/// ```
+/// "annotations":[{
+///    "type":"USER_MENTION",
+///    "startIndex":6,
+///    "length":7,
+///    "userMention": {
+///      "user": {
+///        "name":"users/{user}",
+///        "displayName":"FooBot",
+///        "avatarUrl":"&lt;https://goo.gl/aeDtrS",&gt;
+///        "type":"BOT"
+///      },
+///      "type":"MENTION"
+///     }
+/// }]
+/// ```
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Annotation {
+    <span class="doccomment">/// The type of this annotation.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"AnnotationType"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+    <span class="doccomment">/// Start index (0-based, inclusive) in the plain-text message body this
+    /// annotation corresponds to.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>start_index: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Length of the substring in the plain-text message body this annotation
+    /// corresponds to.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>length: i32,
+    <span class="doccomment">/// Additional metadata about the annotation.
+    </span><span class="attr">#[prost(oneof = <span class="string">"annotation::Metadata"</span>, tags = <span class="string">"4, 5, 6"</span>)]
+    </span><span class="kw">pub </span>metadata: ::core::option::Option&lt;annotation::Metadata&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Annotation`.
+</span><span class="kw">pub mod </span>annotation {
+    <span class="doccomment">/// Additional metadata about the annotation.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Metadata {
+        <span class="doccomment">/// The metadata of user mention.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>UserMention(<span class="kw">super</span>::UserMentionMetadata),
+        <span class="doccomment">/// The metadata for a slash command.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>SlashCommand(<span class="kw">super</span>::SlashCommandMetadata),
+        <span class="doccomment">/// The metadata for a rich link.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>RichLinkMetadata(<span class="kw">super</span>::RichLinkMetadata),
+    }
+}
+<span class="doccomment">/// Annotation metadata for user mentions (@).
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UserMentionMetadata {
+    <span class="doccomment">/// The user mentioned.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>user: ::core::option::Option&lt;User&gt;,
+    <span class="doccomment">/// The type of user mention.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"user_mention_metadata::Type"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `UserMentionMetadata`.
+</span><span class="kw">pub mod </span>user_mention_metadata {
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Type {
+        <span class="doccomment">/// Default value for the enum. Don't use.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Add user to space.
+        </span>Add = <span class="number">1</span>,
+        <span class="doccomment">/// Mention user in space.
+        </span>Mention = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Type {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
+                Type::Add =&gt; <span class="string">"ADD"</span>,
+                Type::Mention =&gt; <span class="string">"MENTION"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"ADD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Add),
+                <span class="string">"MENTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Mention),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Annotation metadata for slash commands (/).
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SlashCommandMetadata {
+    <span class="doccomment">/// The Chat app whose command was invoked.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>bot: ::core::option::Option&lt;User&gt;,
+    <span class="doccomment">/// The type of slash command.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"slash_command_metadata::Type"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+    <span class="doccomment">/// The name of the invoked slash command.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>command_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The command ID of the invoked slash command.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>command_id: i64,
+    <span class="doccomment">/// Indicates whether the slash command is for a dialog.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>triggers_dialog: bool,
+}
+<span class="doccomment">/// Nested message and enum types in `SlashCommandMetadata`.
+</span><span class="kw">pub mod </span>slash_command_metadata {
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Type {
+        <span class="doccomment">/// Default value for the enum. Don't use.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Add Chat app to space.
+        </span>Add = <span class="number">1</span>,
+        <span class="doccomment">/// Invoke slash command in space.
+        </span>Invoke = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Type {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
+                Type::Add =&gt; <span class="string">"ADD"</span>,
+                Type::Invoke =&gt; <span class="string">"INVOKE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"ADD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Add),
+                <span class="string">"INVOKE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Invoke),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A rich link to a resource.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RichLinkMetadata {
+    <span class="doccomment">/// The URI of this link.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// The rich link type.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"rich_link_metadata::RichLinkType"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>rich_link_type: i32,
+    <span class="doccomment">/// Data for the linked resource.
+    </span><span class="attr">#[prost(oneof = <span class="string">"rich_link_metadata::Data"</span>, tags = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>data: ::core::option::Option&lt;rich_link_metadata::Data&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `RichLinkMetadata`.
+</span><span class="kw">pub mod </span>rich_link_metadata {
+    <span class="doccomment">/// The rich link type. More types might be added in the future.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>RichLinkType {
+        <span class="doccomment">/// Default value for the enum. Don't use.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// A Google Drive rich link type.
+        </span>DriveFile = <span class="number">1</span>,
+    }
+    <span class="kw">impl </span>RichLinkType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                RichLinkType::Unspecified =&gt; <span class="string">"RICH_LINK_TYPE_UNSPECIFIED"</span>,
+                RichLinkType::DriveFile =&gt; <span class="string">"DRIVE_FILE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"RICH_LINK_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"DRIVE_FILE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DriveFile),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Data for the linked resource.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Data {
+        <span class="doccomment">/// Data for a drive link.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>DriveLinkData(<span class="kw">super</span>::DriveLinkData),
+    }
+}
+<span class="doccomment">/// Data for Google Drive links.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DriveLinkData {
+    <span class="doccomment">/// A
+    /// [DriveDataRef](&lt;https://developers.google.com/chat/api/reference/rest/v1/spaces.messages.attachments#drivedataref&gt;)
+    /// which references a Google Drive file.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>drive_data_ref: ::core::option::Option&lt;DriveDataRef&gt;,
+    <span class="doccomment">/// The mime type of the linked Google Drive resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Type of the annotation.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>AnnotationType {
+    <span class="doccomment">/// Default value for the enum. Don't use.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// A user is mentioned.
+    </span>UserMention = <span class="number">1</span>,
+    <span class="doccomment">/// A slash command is invoked.
+    </span>SlashCommand = <span class="number">2</span>,
+    <span class="doccomment">/// A rich link annotation.
+    </span>RichLink = <span class="number">3</span>,
+}
+<span class="kw">impl </span>AnnotationType {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            AnnotationType::Unspecified =&gt; <span class="string">"ANNOTATION_TYPE_UNSPECIFIED"</span>,
+            AnnotationType::UserMention =&gt; <span class="string">"USER_MENTION"</span>,
+            AnnotationType::SlashCommand =&gt; <span class="string">"SLASH_COMMAND"</span>,
+            AnnotationType::RichLink =&gt; <span class="string">"RICH_LINK"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"ANNOTATION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"USER_MENTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserMention),
+            <span class="string">"SLASH_COMMAND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SlashCommand),
+            <span class="string">"RICH_LINK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RichLink),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Information about a deleted message. A message is deleted when `delete_time`
+/// is set.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeletionMetadata {
+    <span class="doccomment">/// Indicates who deleted the message.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"deletion_metadata::DeletionType"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>deletion_type: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `DeletionMetadata`.
+</span><span class="kw">pub mod </span>deletion_metadata {
+    <span class="doccomment">/// Who deleted the message and how it was deleted.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>DeletionType {
+        <span class="doccomment">/// This value is unused.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// User deleted their own message.
+        </span>Creator = <span class="number">1</span>,
+        <span class="doccomment">/// The space owner deleted the message.
+        </span>SpaceOwner = <span class="number">2</span>,
+        <span class="doccomment">/// A Google Workspace admin deleted the message.
+        </span>Admin = <span class="number">3</span>,
+        <span class="doccomment">/// A Chat app deleted its own message when it expired.
+        </span>AppMessageExpiry = <span class="number">4</span>,
+        <span class="doccomment">/// A Chat app deleted the message on behalf of the user.
+        </span>CreatorViaApp = <span class="number">5</span>,
+        <span class="doccomment">/// A Chat app deleted the message on behalf of the space owner.
+        </span>SpaceOwnerViaApp = <span class="number">6</span>,
+    }
+    <span class="kw">impl </span>DeletionType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                DeletionType::Unspecified =&gt; <span class="string">"DELETION_TYPE_UNSPECIFIED"</span>,
+                DeletionType::Creator =&gt; <span class="string">"CREATOR"</span>,
+                DeletionType::SpaceOwner =&gt; <span class="string">"SPACE_OWNER"</span>,
+                DeletionType::Admin =&gt; <span class="string">"ADMIN"</span>,
+                DeletionType::AppMessageExpiry =&gt; <span class="string">"APP_MESSAGE_EXPIRY"</span>,
+                DeletionType::CreatorViaApp =&gt; <span class="string">"CREATOR_VIA_APP"</span>,
+                DeletionType::SpaceOwnerViaApp =&gt; <span class="string">"SPACE_OWNER_VIA_APP"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"DELETION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CREATOR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creator),
+                <span class="string">"SPACE_OWNER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SpaceOwner),
+                <span class="string">"ADMIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Admin),
+                <span class="string">"APP_MESSAGE_EXPIRY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AppMessageExpiry),
+                <span class="string">"CREATOR_VIA_APP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CreatorViaApp),
+                <span class="string">"SPACE_OWNER_VIA_APP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SpaceOwnerViaApp),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A matched URL in a Chat message. Chat apps can preview matched URLs. For more
+/// information, see [Preview
+/// links](&lt;https://developers.google.com/chat/how-tos/preview-links&gt;).
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>MatchedUrl {
+    <span class="doccomment">/// Output only. The URL that was matched.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>url: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A reaction to a message.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Reaction {
+    <span class="doccomment">/// The resource name of the reaction.
+    ///
+    /// Format: `spaces/{space}/messages/{message}/reactions/{reaction}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The user who created the reaction.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>user: ::core::option::Option&lt;User&gt;,
+    <span class="doccomment">/// The emoji used in the reaction.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>emoji: ::core::option::Option&lt;Emoji&gt;,
+}
+<span class="doccomment">/// An emoji that is used as a reaction to a message.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Emoji {
+    <span class="attr">#[prost(oneof = <span class="string">"emoji::Content"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>content: ::core::option::Option&lt;emoji::Content&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Emoji`.
+</span><span class="kw">pub mod </span>emoji {
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Content {
+        <span class="doccomment">/// A basic emoji represented by a unicode string.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span>Unicode(::prost::alloc::string::String),
+        <span class="doccomment">/// Output only. A custom emoji.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>CustomEmoji(<span class="kw">super</span>::CustomEmoji),
+    }
+}
+<span class="doccomment">/// Represents a custom emoji.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CustomEmoji {
+    <span class="doccomment">/// Unique key for the custom emoji resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The number of people who reacted to a message with a specific emoji.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>EmojiReactionSummary {
+    <span class="doccomment">/// Emoji associated with the reactions.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>emoji: ::core::option::Option&lt;Emoji&gt;,
+    <span class="doccomment">/// The total number of reactions using the associated emoji.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>reaction_count: ::core::option::Option&lt;i32&gt;,
+}
+<span class="doccomment">/// Creates a reaction to a message.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateReactionRequest {
+    <span class="doccomment">/// Required. The message where the reaction is created.
+    ///
+    /// Format: `spaces/{space}/messages/{message}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The reaction to create.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>reaction: ::core::option::Option&lt;Reaction&gt;,
+}
+<span class="doccomment">/// Lists reactions to a message.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListReactionsRequest {
+    <span class="doccomment">/// Required. The message users reacted to.
+    ///
+    /// Format: `spaces/{space}/messages/{message}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The maximum number of reactions returned. The service can return
+    /// fewer reactions than this value. If unspecified, the default value is 25.
+    /// The maximum value is 200; values above 200 are changed to 200.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// Optional. (If resuming from a previous query.)
+    ///
+    /// A page token received from a previous list reactions call. Provide this
+    /// to retrieve the subsequent page.
+    ///
+    /// When paginating, the filter value should match the call that provided the
+    /// page token. Passing a different value might lead to unexpected results.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. A query filter.
+    ///
+    /// You can filter reactions by
+    /// [emoji](&lt;https://developers.google.com/chat/api/reference/rest/v1/Emoji&gt;)
+    /// (either `emoji.unicode` or `emoji.custom_emoji.uid`) and
+    /// [user](&lt;https://developers.google.com/chat/api/reference/rest/v1/User&gt;)
+    /// (`user.name`).
+    ///
+    /// To filter reactions for multiple emojis or users, join similar fields
+    /// with the `OR` operator, such as `emoji.unicode = "🙂" OR emoji.unicode =
+    /// "👍"` and `user.name = "users/AAAAAA" OR user.name = "users/BBBBBB"`.
+    ///
+    /// To filter reactions by emoji and user, use the `AND` operator, such as
+    /// `emoji.unicode = "🙂" AND user.name = "users/AAAAAA"`.
+    ///
+    /// If your query uses both `AND` and `OR`, group them with parentheses.
+    ///
+    /// For example, the following queries are valid:
+    ///
+    /// ```
+    /// user.name = "users/{user}"
+    /// emoji.unicode = "🙂"
+    /// emoji.custom_emoji.uid = "{uid}"
+    /// emoji.unicode = "🙂" OR emoji.unicode = "👍"
+    /// emoji.unicode = "🙂" OR emoji.custom_emoji.uid = "{uid}"
+    /// emoji.unicode = "🙂" AND user.name = "users/{user}"
+    /// (emoji.unicode = "🙂" OR emoji.custom_emoji.uid = "{uid}")
+    /// AND user.name = "users/{user}"
+    /// ```
+    ///
+    /// The following queries are invalid:
+    ///
+    /// ```
+    /// emoji.unicode = "🙂" AND emoji.unicode = "👍"
+    /// emoji.unicode = "🙂" AND emoji.custom_emoji.uid = "{uid}"
+    /// emoji.unicode = "🙂" OR user.name = "users/{user}"
+    /// emoji.unicode = "🙂" OR emoji.custom_emoji.uid = "{uid}" OR
+    /// user.name = "users/{user}"
+    /// emoji.unicode = "🙂" OR emoji.custom_emoji.uid = "{uid}"
+    /// AND user.name = "users/{user}"
+    /// ```
+    ///
+    /// Invalid queries are rejected by the server with an `INVALID_ARGUMENT`
+    /// error.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListReactionsResponse {
+    <span class="doccomment">/// List of reactions in the requested (or first) page.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>reactions: ::prost::alloc::vec::Vec&lt;Reaction&gt;,
+    <span class="doccomment">/// Continuation token to retrieve the next page of results. It's empty
+    /// for the last page of results.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Deletes a reaction to a message.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteReactionRequest {
+    <span class="doccomment">/// Required. Name of the reaction to delete.
+    ///
+    /// Format: `spaces/{space}/messages/{message}/reactions/{reaction}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A [slash command](&lt;https://developers.google.com/chat/how-tos/slash-commands&gt;)
+/// in Google Chat.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SlashCommand {
+    <span class="doccomment">/// The ID of the slash command invoked.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>command_id: i64,
 }
 <span class="doccomment">/// A message in a Google Chat space.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6627,70 +6691,6 @@
     <span class="doccomment">/// A card. Maximum size is 32 KB.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>card: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::apps::card::v1::Card&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SetUpSpaceRequest {
-    <span class="doccomment">/// Required. The `Space.spaceType` field is required.
-    ///
-    /// To create a space, set `Space.spaceType` to `SPACE` and set
-    /// `Space.displayName`. If you receive the error message `ALREADY_EXISTS` when
-    /// setting up a space, try a different `displayName`. An existing space
-    /// within the Google Workspace organization might already use this display
-    /// name.
-    ///
-    /// To create a group chat, set `Space.spaceType` to
-    /// `GROUP_CHAT`. Don't set `Space.displayName`.
-    ///
-    /// To create a 1:1 conversation between humans,
-    /// set `Space.spaceType` to `DIRECT_MESSAGE` and set
-    /// `Space.singleUserBotDm` to `false`. Don't set `Space.displayName` or
-    /// `Space.spaceDetails`.
-    ///
-    /// To create an 1:1 conversation between a human and the calling Chat app, set
-    /// `Space.spaceType` to `DIRECT_MESSAGE` and
-    /// `Space.singleUserBotDm` to `true`. Don't set `Space.displayName` or
-    /// `Space.spaceDetails`.
-    ///
-    /// If a `DIRECT_MESSAGE` space already exists, that space is returned instead
-    /// of creating a new space.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>space: ::core::option::Option&lt;Space&gt;,
-    <span class="doccomment">/// Optional. A unique identifier for this request.
-    /// A random UUID is recommended.
-    /// Specifying an existing request ID returns the space created with that ID
-    /// instead of creating a new space.
-    /// Specifying an existing request ID from the same Chat app with a different
-    /// authenticated user returns an error.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>request_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The Google Chat users to invite to join the space. Omit the
-    /// calling user, as they are added automatically.
-    ///
-    /// The set currently allows up to 20 memberships (in addition to the caller).
-    ///
-    /// The `Membership.member` field must contain a `user` with `name` populated
-    /// (format: `users/{user}`) and `type` set to `User.Type.HUMAN`. You can only
-    /// add human users when setting up a space (adding Chat apps is only supported
-    /// for direct message setup with the calling app). You can also add members
-    /// using the user's email as an alias for {user}. For example, the `user.name`
-    /// can be `users/example@gmail.com`." To invite Gmail users or users from
-    /// external Google Workspace domains, user's email must be used for
-    /// `{user}`.
-    ///
-    /// Optional when setting `Space.spaceType` to `SPACE`.
-    ///
-    /// Required when setting `Space.spaceType` to `GROUP_CHAT`, along with at
-    /// least two memberships.
-    ///
-    /// Required when setting `Space.spaceType` to `DIRECT_MESSAGE` with a human
-    /// user, along with exactly one membership.
-    ///
-    /// Must be empty when creating a 1:1 conversation between a human and the
-    /// calling Chat app (when setting `Space.spaceType` to
-    /// `DIRECT_MESSAGE` and `Space.singleUserBotDm` to `true`).
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>memberships: ::prost::alloc::vec::Vec&lt;Membership&gt;,
 }
 <span class="doccomment">/// Generated client implementations.
 </span><span class="kw">pub mod </span>chat_service_client {

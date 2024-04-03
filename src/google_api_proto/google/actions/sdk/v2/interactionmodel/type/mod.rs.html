@@ -211,47 +211,6 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>icon_url: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Type that matches any text if surrounding words context is close to provided
-/// training examples.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FreeTextType {
-    <span class="doccomment">/// Optional. Elements that will be displayed on the canvas once an entity is extracted
-    /// from a query. Only relevant for canvas enabled apps.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display: ::core::option::Option&lt;EntityDisplay&gt;,
-}
-<span class="doccomment">/// Type that matches text by regular expressions.
-/// **This message is localizable.**
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RegularExpressionType {
-    <span class="doccomment">/// Required. Named map of entities which each contain Regex strings.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>entities: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        regular_expression_type::Entity,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `RegularExpressionType`.
-</span><span class="kw">pub mod </span>regular_expression_type {
-    <span class="doccomment">/// Represents an entity object that contains the regular expression that is
-    /// used for comparison.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Entity {
-        <span class="doccomment">/// Optional. Elements that will be displayed on the canvas once an entity is
-        /// extracted from a query. Only relevant for canvas enabled apps.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>display: ::core::option::Option&lt;<span class="kw">super</span>::EntityDisplay&gt;,
-        <span class="doccomment">/// Required. Uses RE2 regex syntax (See
-        /// &lt;https://github.com/google/re2/wiki/Syntax&gt; for more details)
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>regular_expressions: ::prost::alloc::vec::Vec&lt;
-            ::prost::alloc::string::String,
-        &gt;,
-    }
-}
 <span class="doccomment">/// Type that matches text by set of synonyms.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -332,6 +291,47 @@
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
+    }
+}
+<span class="doccomment">/// Type that matches any text if surrounding words context is close to provided
+/// training examples.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FreeTextType {
+    <span class="doccomment">/// Optional. Elements that will be displayed on the canvas once an entity is extracted
+    /// from a query. Only relevant for canvas enabled apps.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display: ::core::option::Option&lt;EntityDisplay&gt;,
+}
+<span class="doccomment">/// Type that matches text by regular expressions.
+/// **This message is localizable.**
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RegularExpressionType {
+    <span class="doccomment">/// Required. Named map of entities which each contain Regex strings.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>entities: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        regular_expression_type::Entity,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `RegularExpressionType`.
+</span><span class="kw">pub mod </span>regular_expression_type {
+    <span class="doccomment">/// Represents an entity object that contains the regular expression that is
+    /// used for comparison.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Entity {
+        <span class="doccomment">/// Optional. Elements that will be displayed on the canvas once an entity is
+        /// extracted from a query. Only relevant for canvas enabled apps.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>display: ::core::option::Option&lt;<span class="kw">super</span>::EntityDisplay&gt;,
+        <span class="doccomment">/// Required. Uses RE2 regex syntax (See
+        /// &lt;https://github.com/google/re2/wiki/Syntax&gt; for more details)
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>regular_expressions: ::prost::alloc::vec::Vec&lt;
+            ::prost::alloc::string::String,
+        &gt;,
     }
 }
 <span class="doccomment">/// Declaration of a custom type, as opposed to built-in types. Types can be

@@ -277,122 +277,7 @@
 <a href="#275" id="275">275</a>
 <a href="#276" id="276">276</a>
 <a href="#277" id="277">277</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Logged during the lifetime of Workflow Execution.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExecutionsSystemLog {
-    <span class="doccomment">/// Human readable contents of the log in English. The size limit is 5 kB.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
-    <span class="doccomment">/// The absolute point in time when the activity happened.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>activity_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// State of the execution when the log was created.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"executions_system_log::State"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Detailed log information.
-    </span><span class="attr">#[prost(oneof = <span class="string">"executions_system_log::Details"</span>, tags = <span class="string">"4, 5, 6"</span>)]
-    </span><span class="kw">pub </span>details: ::core::option::Option&lt;executions_system_log::Details&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ExecutionsSystemLog`.
-</span><span class="kw">pub mod </span>executions_system_log {
-    <span class="doccomment">/// Detailed information about the start of the execution.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Start {
-        <span class="doccomment">/// The execution input argument.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>argument: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Detailed information about the successful finish of the execution.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Success {
-        <span class="doccomment">/// The final result of the execution.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>result: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Detailed information about the execution failure.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Failure {
-        <span class="doccomment">/// The exception message, e.g. "division by zero". The size limit is 1 kB.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>exception: ::prost::alloc::string::String,
-        <span class="doccomment">/// The code location of the statement that has created the log. For example,
-        /// a log created in subworkflow 'Foo' in step 'bar' will have its source
-        /// equal to 'Foo.bar'. The size limit is 1 kB.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>source: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Possible states of the execution. There could be more states in the future.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Invalid state.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The Workflow Execution is in progress.
-        </span>Active = <span class="number">1</span>,
-        <span class="doccomment">/// The Workflow Execution has finished successfully.
-        </span>Succeeded = <span class="number">2</span>,
-        <span class="doccomment">/// The Workflow Execution failed with an error.
-        </span>Failed = <span class="number">3</span>,
-        <span class="doccomment">/// The Workflow Execution has been stopped intentionally.
-        </span>Cancelled = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Active =&gt; <span class="string">"ACTIVE"</span>,
-                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
-                State::Failed =&gt; <span class="string">"FAILED"</span>,
-                State::Cancelled =&gt; <span class="string">"CANCELLED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
-                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
-                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-                <span class="string">"CANCELLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelled),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Detailed log information.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Details {
-        <span class="doccomment">/// Appears only in the log created when the execution has started.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>Start(Start),
-        <span class="doccomment">/// Appears only in the log created when the execution has finished
-        /// successfully.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>Success(Success),
-        <span class="doccomment">/// Appears only in the log created when the execution has failed.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>Failure(Failure),
-    }
-}
-<span class="doccomment">/// Logged during a workflow execution if the customer has requested call
+</pre></div><pre class="rust"><code><span class="doccomment">/// Logged during a workflow execution if the customer has requested call
 /// logging.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -552,6 +437,121 @@
         <span class="doccomment">/// Appears when an exception is handled and normal execution resumes.
         </span><span class="attr">#[prost(message, tag = <span class="string">"9"</span>)]
         </span>ExceptionHandled(ExceptionHandled),
+    }
+}
+<span class="doccomment">/// Logged during the lifetime of Workflow Execution.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExecutionsSystemLog {
+    <span class="doccomment">/// Human readable contents of the log in English. The size limit is 5 kB.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+    <span class="doccomment">/// The absolute point in time when the activity happened.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>activity_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// State of the execution when the log was created.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"executions_system_log::State"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Detailed log information.
+    </span><span class="attr">#[prost(oneof = <span class="string">"executions_system_log::Details"</span>, tags = <span class="string">"4, 5, 6"</span>)]
+    </span><span class="kw">pub </span>details: ::core::option::Option&lt;executions_system_log::Details&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ExecutionsSystemLog`.
+</span><span class="kw">pub mod </span>executions_system_log {
+    <span class="doccomment">/// Detailed information about the start of the execution.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Start {
+        <span class="doccomment">/// The execution input argument.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>argument: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Detailed information about the successful finish of the execution.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Success {
+        <span class="doccomment">/// The final result of the execution.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>result: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Detailed information about the execution failure.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Failure {
+        <span class="doccomment">/// The exception message, e.g. "division by zero". The size limit is 1 kB.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>exception: ::prost::alloc::string::String,
+        <span class="doccomment">/// The code location of the statement that has created the log. For example,
+        /// a log created in subworkflow 'Foo' in step 'bar' will have its source
+        /// equal to 'Foo.bar'. The size limit is 1 kB.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>source: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Possible states of the execution. There could be more states in the future.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Invalid state.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The Workflow Execution is in progress.
+        </span>Active = <span class="number">1</span>,
+        <span class="doccomment">/// The Workflow Execution has finished successfully.
+        </span>Succeeded = <span class="number">2</span>,
+        <span class="doccomment">/// The Workflow Execution failed with an error.
+        </span>Failed = <span class="number">3</span>,
+        <span class="doccomment">/// The Workflow Execution has been stopped intentionally.
+        </span>Cancelled = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Active =&gt; <span class="string">"ACTIVE"</span>,
+                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
+                State::Failed =&gt; <span class="string">"FAILED"</span>,
+                State::Cancelled =&gt; <span class="string">"CANCELLED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
+                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
+                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+                <span class="string">"CANCELLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelled),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Detailed log information.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Details {
+        <span class="doccomment">/// Appears only in the log created when the execution has started.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>Start(Start),
+        <span class="doccomment">/// Appears only in the log created when the execution has finished
+        /// successfully.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>Success(Success),
+        <span class="doccomment">/// Appears only in the log created when the execution has failed.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>Failure(Failure),
     }
 }
 </code></pre></div></section></main></body></html>

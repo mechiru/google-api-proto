@@ -2574,108 +2574,6 @@
     )
 )]
 </span><span class="kw">pub mod </span>interactionmodel;
-<span class="doccomment">/// Represents the list of Actions defined in a project.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Actions {
-    <span class="doccomment">/// Map from intents to custom Actions to configure invocation for the project.
-    /// The invocation intents could either be system or custom intents defined
-    /// in the "custom/intents/" package. All intents defined here (system
-    /// intents &amp; custom intents) must have a corresponding intent file in the
-    /// "custom/global/" package.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>custom: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        actions::CustomAction,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Actions`.
-</span><span class="kw">pub mod </span>actions {
-    <span class="doccomment">/// Defines the engagement mechanisms associated with this action. This
-    /// allows end users to subscribe to push notification and daily update.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Engagement {
-        <span class="doccomment">/// The title of the engagement that will be sent to end users asking for
-        /// their permission to receive updates. The prompt sent to end users for
-        /// daily updates will look like "What time would you like me to send your
-        /// daily {title}" and for push notifications will look like
-        /// "Is it ok if I send push notifications for {title}".
-        /// **This field is localizable.**
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
-        <span class="doccomment">/// Push notification settings that this engagement supports.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>push_notification: ::core::option::Option&lt;engagement::PushNotification&gt;,
-        <span class="doccomment">/// Link config for an action which determines whether sharing links is
-        /// enabled for the action and if so, contains the user friendly display name
-        /// for the link.
-        /// ActionLink is deprecated. Use AssistantLink instead.
-        </span><span class="attr">#[deprecated]
-        #[prost(message, optional, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>action_link: ::core::option::Option&lt;engagement::ActionLink&gt;,
-        <span class="doccomment">/// Link config for an action which determines whether sharing links is
-        /// enabled for the action and if so, contains the user friendly display name
-        /// for the link.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-        </span><span class="kw">pub </span>assistant_link: ::core::option::Option&lt;engagement::AssistantLink&gt;,
-        <span class="doccomment">/// Recurring update settings that this engagement supports.
-        </span><span class="attr">#[prost(oneof = <span class="string">"engagement::RecurringUpdate"</span>, tags = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>recurring_update: ::core::option::Option&lt;engagement::RecurringUpdate&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Engagement`.
-    </span><span class="kw">pub mod </span>engagement {
-        <span class="doccomment">/// Defines push notification settings that this engagement supports.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>PushNotification {}
-        <span class="doccomment">/// Defines daily update settings that this engagement supports.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>DailyUpdate {}
-        <span class="doccomment">/// Indicates whether sharing links is enabled for this action and the
-        /// corresponding settings. Action links are used to deep link a user into a
-        /// specific action.
-        /// ActionLink is deprecated. Use AssistantLink instead.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>ActionLink {
-            <span class="doccomment">/// User friendly display title for the link.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
-        }
-        <span class="doccomment">/// Indicates whether sharing links is enabled for this action and the
-        /// corresponding settings. Assistant links are used to deep link a user into
-        /// a specific action.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>AssistantLink {
-            <span class="doccomment">/// User friendly display title for the link.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
-        }
-        <span class="doccomment">/// Recurring update settings that this engagement supports.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        </span><span class="kw">pub enum </span>RecurringUpdate {
-            <span class="doccomment">/// Daily update settings that this engagement supports.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-            </span>DailyUpdate(DailyUpdate),
-        }
-    }
-    <span class="doccomment">/// Details regarding a custom action.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>CustomAction {
-        <span class="doccomment">/// Engagement mechanisms associated with the action to help end users
-        /// subscribe to push notifications and daily updates.
-        /// Note that the intent name specified in daily updates/push notifications
-        /// slot config needs to match the intent corresponding to this action for
-        /// end users to subscribe to these updates.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>engagement: ::core::option::Option&lt;Engagement&gt;,
-    }
-}
 <span class="doccomment">/// Information about the encrypted OAuth client secret used in account linking
 /// flows (for AUTH_CODE grant type).
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2690,16 +2588,6 @@
     /// flows.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>encryption_key_version: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Contains information that's "transportable" i.e. not specific to any given
-/// project and can be moved between projects.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Manifest {
-    <span class="doccomment">/// Version of the file format. The current file format version is 1.0
-    /// Example: "1.0"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// AccountLinking allows Google to guide the user to sign-in to the App's web
 /// services.
@@ -3336,242 +3224,6 @@
         }
     }
 }
-<span class="doccomment">/// Metadata for different types of webhooks. If you're using
-/// `inlineCloudFunction`, your source code must be in a directory with the same
-/// name as the value for the `executeFunction` key.
-/// For example, a value of `my_webhook` for the`executeFunction` key would have
-/// a code structure like this:
-///   - `/webhooks/my_webhook.yaml`
-///   - `/webhooks/my_webhook/index.js`
-///   - `/webhooks/my_webhook/package.json`
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Webhook {
-    <span class="doccomment">/// List of handlers for this webhook.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>handlers: ::prost::alloc::vec::Vec&lt;webhook::Handler&gt;,
-    <span class="doccomment">/// Only one webhook type is supported.
-    </span><span class="attr">#[prost(oneof = <span class="string">"webhook::WebhookType"</span>, tags = <span class="string">"2, 3"</span>)]
-    </span><span class="kw">pub </span>webhook_type: ::core::option::Option&lt;webhook::WebhookType&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Webhook`.
-</span><span class="kw">pub mod </span>webhook {
-    <span class="doccomment">/// Declares the name of the webhoook handler. A webhook can have
-    /// multiple handlers registered. These handlers can be called from multiple
-    /// places in your Actions project.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Handler {
-        <span class="doccomment">/// Required. Name of the handler. Must be unique across all handlers the Actions
-        /// project. You can check the name of this handler to invoke the correct
-        /// function in your fulfillment source code.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// REST endpoint to notify if you're not using the inline editor.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>HttpsEndpoint {
-        <span class="doccomment">/// The HTTPS base URL for your fulfillment endpoint (HTTP is not supported).
-        /// Handler names are appended to the base URL path after a colon
-        /// (following the style guide in
-        /// &lt;https://cloud.google.com/apis/design/custom_methods&gt;).
-        /// For example a base URL of '&lt;https://gactions.service.com/api'&gt; would
-        /// receive requests with URL '&lt;https://gactions.service.com/api:{method}'.&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>base_url: ::prost::alloc::string::String,
-        <span class="doccomment">/// Map of HTTP parameters to be included in the POST request.
-        </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>http_headers: ::prost::alloc::collections::BTreeMap&lt;
-            ::prost::alloc::string::String,
-            ::prost::alloc::string::String,
-        &gt;,
-        <span class="doccomment">/// Version of the protocol used by the endpoint. This is the protocol shared
-        /// by all fulfillment types and not specific to Google fulfillment type.
-        </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>endpoint_api_version: i32,
-    }
-    <span class="doccomment">/// Holds the metadata of an inline Cloud Function deployed from the
-    /// webhooks folder.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>InlineCloudFunction {
-        <span class="doccomment">/// The name of the Cloud Function entry point. The value of this field
-        /// should match the name of the method exported from the source code.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>execute_function: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Only one webhook type is supported.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>WebhookType {
-        <span class="doccomment">/// Custom webhook HTTPS endpoint.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>HttpsEndpoint(HttpsEndpoint),
-        <span class="doccomment">/// Metadata for cloud function deployed from code in the webhooks folder.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>InlineCloudFunction(InlineCloudFunction),
-    }
-}
-<span class="doccomment">/// Wrapper for repeated config files. Repeated fields cannot exist in a oneof.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ConfigFiles {
-    <span class="doccomment">/// Multiple config files.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>config_files: ::prost::alloc::vec::Vec&lt;ConfigFile&gt;,
-}
-<span class="doccomment">/// Represents a single file which contains structured data. Developers can
-/// define most of their project using structured config including Actions,
-/// Settings, Fulfillment.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ConfigFile {
-    <span class="doccomment">/// Relative path of the config file from the project root in the SDK file
-    /// structure. Each file types below have an allowed file path.
-    /// Eg: settings/settings.yaml
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>file_path: ::prost::alloc::string::String,
-    <span class="doccomment">/// Each type of config file should have a corresponding field in the oneof.
-    </span><span class="attr">#[prost(
-        oneof = <span class="string">"config_file::File"</span>,
-        tags = <span class="string">"2, 3, 4, 6, 7, 8, 15, 9, 10, 11, 13, 12"
-    </span>)]
-    </span><span class="kw">pub </span>file: ::core::option::Option&lt;config_file::File&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ConfigFile`.
-</span><span class="kw">pub mod </span>config_file {
-    <span class="doccomment">/// Each type of config file should have a corresponding field in the oneof.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>File {
-        <span class="doccomment">/// Single manifest file.
-        /// Allowed file path: `manifest.yaml`
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>Manifest(<span class="kw">super</span>::Manifest),
-        <span class="doccomment">/// Single actions file with all the actions defined.
-        /// Allowed file paths: `actions/{language}?/actions.yaml`
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>Actions(<span class="kw">super</span>::Actions),
-        <span class="doccomment">/// Single settings config which includes non-localizable settings and
-        /// settings for the project's default locale (if specified).
-        /// For a locale override file, only localized_settings field will be
-        /// populated.
-        /// Allowed file paths: `settings/{language}?/settings.yaml`
-        /// Note that the non-localized settings file `settings/settings.yaml` must
-        /// be present in the write flow requests.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>Settings(<span class="kw">super</span>::Settings),
-        <span class="doccomment">/// Single webhook definition.
-        /// Allowed file path: `webhooks/{WebhookName}.yaml`
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>Webhook(<span class="kw">super</span>::Webhook),
-        <span class="doccomment">/// Single intent definition.
-        /// Allowed file paths: `custom/intents/{language}?/{IntentName}.yaml`
-        </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
-        </span>Intent(<span class="kw">super</span>::interactionmodel::Intent),
-        <span class="doccomment">/// Single type definition.
-        /// Allowed file paths: `custom/types/{language}?/{TypeName}.yaml`
-        </span><span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
-        </span>Type(<span class="kw">super</span>::interactionmodel::r#type::Type),
-        <span class="doccomment">/// Single entity set definition.
-        /// Allowed file paths: `custom/entitySets/{language}?/{EntitySetName}.yaml`
-        </span><span class="attr">#[prost(message, tag = <span class="string">"15"</span>)]
-        </span>EntitySet(<span class="kw">super</span>::interactionmodel::EntitySet),
-        <span class="doccomment">/// Single global intent event definition.
-        /// Allowed file paths: `custom/global/{GlobalIntentEventName}.yaml`
-        /// The file name (GlobalIntentEventName) should be the name of the intent
-        /// that this global intent event corresponds to.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"9"</span>)]
-        </span>GlobalIntentEvent(<span class="kw">super</span>::interactionmodel::GlobalIntentEvent),
-        <span class="doccomment">/// Single scene definition.
-        /// Allowed file paths: `custom/scenes/{SceneName}.yaml`
-        </span><span class="attr">#[prost(message, tag = <span class="string">"10"</span>)]
-        </span>Scene(<span class="kw">super</span>::interactionmodel::Scene),
-        <span class="doccomment">/// Single static prompt definition.
-        /// Allowed file paths: `custom/prompts/{language}?/{StaticPromptName}.yaml`
-        </span><span class="attr">#[prost(message, tag = <span class="string">"11"</span>)]
-        </span>StaticPrompt(<span class="kw">super</span>::interactionmodel::prompt::StaticPrompt),
-        <span class="doccomment">/// Metadata corresponding to the client secret used in account linking.
-        /// Allowed file path: `settings/accountLinkingSecret.yaml`
-        </span><span class="attr">#[prost(message, tag = <span class="string">"13"</span>)]
-        </span>AccountLinkingSecret(<span class="kw">super</span>::AccountLinkingSecret),
-        <span class="doccomment">/// Single resource bundle, which is a map from a string to a string or list
-        /// of strings. Resource bundles could be used for localizing strings in
-        /// static prompts.
-        /// Allowed file paths: `resources/strings/{language}?/{multiple
-        /// directories}?/{BundleName}.yaml`
-        </span><span class="attr">#[prost(message, tag = <span class="string">"12"</span>)]
-        </span>ResourceBundle(::prost_types::Struct),
-    }
-}
-<span class="doccomment">/// Wrapper for repeated data file. Repeated fields cannot exist in a oneof.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DataFiles {
-    <span class="doccomment">/// Multiple data files.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>data_files: ::prost::alloc::vec::Vec&lt;DataFile&gt;,
-}
-<span class="doccomment">/// Represents a single file which contains unstructured data. Examples include
-/// image files, audio files, and cloud function source code.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DataFile {
-    <span class="doccomment">/// Relative path of the data file from the project root in the SDK file
-    /// structure.
-    /// Allowed file paths:
-    ///      - Images: `resources/images/{multiple
-    ///      directories}?/{ImageName}.{extension}`
-    ///      - Audio: `resources/audio/{multiple
-    ///      directories}?/{AudioFileName}.{extension}`
-    ///      - Inline Cloud Function Code: `webhooks/{WebhookName}.zip`
-    /// Allowed extensions:
-    ///      - Images: `png`, `jpg`, `jpeg`
-    ///      - Audio: `mp3`, `mpeg`
-    ///      - Inline Cloud Functions: `zip`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>file_path: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The content type of this asset. Example: `text/html`. The content
-    /// type must comply with the specification
-    /// (&lt;http://www.w3.org/Protocols/rfc1341/4_Content-Type.html&gt;).
-    /// Cloud functions must be in zip format and the content type should
-    /// be `application/zip;zip_type=cloud_function`. The zip_type parameter
-    /// indicates that the zip is for a cloud function.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>content_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Content of the data file. Examples would be raw bytes of images, audio
-    /// files, or cloud function zip format.
-    /// There is 10 MB strict limit on the payload size.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>payload: ::prost::bytes::Bytes,
-}
-<span class="doccomment">/// Wrapper for a list of files.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Files {
-    <span class="doccomment">/// Only one type of files can be sent to the server at a time, config files or
-    /// data files.
-    </span><span class="attr">#[prost(oneof = <span class="string">"files::FileType"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>file_type: ::core::option::Option&lt;files::FileType&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Files`.
-</span><span class="kw">pub mod </span>files {
-    <span class="doccomment">/// Only one type of files can be sent to the server at a time, config files or
-    /// data files.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>FileType {
-        <span class="doccomment">/// List of config files. This includes manifest, settings, interaction model
-        /// resource bundles and more.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>ConfigFiles(<span class="kw">super</span>::ConfigFiles),
-        <span class="doccomment">/// List of data files. This includes image, audio file, cloud function
-        /// source code.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>DataFiles(<span class="kw">super</span>::DataFiles),
-    }
-}
 <span class="doccomment">/// Definition of release channel resource.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3589,830 +3241,15 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>pending_version: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Wrapper for repeated validation result.
+<span class="doccomment">/// Contains information that's "transportable" i.e. not specific to any given
+/// project and can be moved between projects.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ValidationResults {
-    <span class="doccomment">/// Multiple validation results.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>results: ::prost::alloc::vec::Vec&lt;ValidationResult&gt;,
-}
-<span class="doccomment">/// Represents a validation result associated with the app content.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ValidationResult {
-    <span class="doccomment">/// Holds the validation message.
+</span><span class="kw">pub struct </span>Manifest {
+    <span class="doccomment">/// Version of the file format. The current file format version is 1.0
+    /// Example: "1.0"
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>validation_message: ::prost::alloc::string::String,
-    <span class="doccomment">/// Context to identify the resource the validation message relates to.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>validation_context: ::core::option::Option&lt;validation_result::ValidationContext&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ValidationResult`.
-</span><span class="kw">pub mod </span>validation_result {
-    <span class="doccomment">/// Context to identify the resource the validation message relates to.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ValidationContext {
-        <span class="doccomment">/// Language code of the lozalized resource.
-        /// Empty if the error is for non-localized resource.
-        /// See the list of supported languages in
-        /// &lt;https://developers.google.com/assistant/console/languages-locales&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
-    }
-}
-<span class="doccomment">/// Definition of version resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Version {
-    <span class="doccomment">/// The unique identifier of the version in the following format.
-    /// `projects/{project}/versions/{version}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The current state of the version.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>version_state: ::core::option::Option&lt;version::VersionState&gt;,
-    <span class="doccomment">/// Email of the user who created this version.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>creator: ::prost::alloc::string::String,
-    <span class="doccomment">/// Timestamp of the last change to this version.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Version`.
-</span><span class="kw">pub mod </span>version {
-    <span class="doccomment">/// Represents the current state of the version.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>VersionState {
-        <span class="doccomment">/// The current state of the version.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"version_state::State"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>state: i32,
-        <span class="doccomment">/// User-friendly message for the current state of the version.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Nested message and enum types in `VersionState`.
-    </span><span class="kw">pub mod </span>version_state {
-        <span class="doccomment">/// Enum indicating the states that a Version can take. This enum is not yet
-        /// frozen and values maybe added later.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>State {
-            <span class="doccomment">/// Default value of State.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// The version creation is in progress.
-            </span>CreationInProgress = <span class="number">1</span>,
-            <span class="doccomment">/// The version creation failed.
-            </span>CreationFailed = <span class="number">2</span>,
-            <span class="doccomment">/// The version has been successfully created.
-            </span>Created = <span class="number">3</span>,
-            <span class="doccomment">/// The version is under policy review (aka Approval).
-            </span>ReviewInProgress = <span class="number">4</span>,
-            <span class="doccomment">/// The version has been approved for policy review and can be deployed.
-            </span>Approved = <span class="number">5</span>,
-            <span class="doccomment">/// The version has been conditionally approved but is pending final
-            /// review. It may be rolled back if final review is denied.
-            </span>ConditionallyApproved = <span class="number">6</span>,
-            <span class="doccomment">/// The version has been denied for policy review.
-            </span>Denied = <span class="number">7</span>,
-            <span class="doccomment">/// The version is taken down as entire agent and all versions are taken
-            /// down.
-            </span>UnderTakedown = <span class="number">8</span>,
-            <span class="doccomment">/// The version has been deleted.
-            </span>Deleted = <span class="number">9</span>,
-        }
-        <span class="kw">impl </span>State {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                    State::CreationInProgress =&gt; <span class="string">"CREATION_IN_PROGRESS"</span>,
-                    State::CreationFailed =&gt; <span class="string">"CREATION_FAILED"</span>,
-                    State::Created =&gt; <span class="string">"CREATED"</span>,
-                    State::ReviewInProgress =&gt; <span class="string">"REVIEW_IN_PROGRESS"</span>,
-                    State::Approved =&gt; <span class="string">"APPROVED"</span>,
-                    State::ConditionallyApproved =&gt; <span class="string">"CONDITIONALLY_APPROVED"</span>,
-                    State::Denied =&gt; <span class="string">"DENIED"</span>,
-                    State::UnderTakedown =&gt; <span class="string">"UNDER_TAKEDOWN"</span>,
-                    State::Deleted =&gt; <span class="string">"DELETED"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"CREATION_IN_PROGRESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CreationInProgress),
-                    <span class="string">"CREATION_FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CreationFailed),
-                    <span class="string">"CREATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Created),
-                    <span class="string">"REVIEW_IN_PROGRESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ReviewInProgress),
-                    <span class="string">"APPROVED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Approved),
-                    <span class="string">"CONDITIONALLY_APPROVED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ConditionallyApproved),
-                    <span class="string">"DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Denied),
-                    <span class="string">"UNDER_TAKEDOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnderTakedown),
-                    <span class="string">"DELETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleted),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-}
-<span class="doccomment">/// Streaming RPC request for WriteDraft.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>WriteDraftRequest {
-    <span class="doccomment">/// Required. The parent resource name in the format `projects/{project}`. The
-    /// `{project}` is the cloud project ID associated with the project.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. List of files sent to the server at a time. This is a list of config files
-    /// or data files.
-    /// 1. The first request must be a ConfigFiles.
-    /// 2. The first request must have a ConfigFile with 'settings'.
-    /// 3. The first request must have a ConfigFile with 'manifest'.
-    /// 4. The webhook ConfigFile corresponding to inline cloud function must be
-    ///     streamed before the DataFile corresponding to its source code.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>files: ::core::option::Option&lt;Files&gt;,
-}
-<span class="doccomment">/// Definition of draft resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Draft {
-    <span class="doccomment">/// The unique identifier of the draft in the following format.
-    /// `projects/{project}/draft`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Validation results associated with the project draft content. Note that
-    /// WriteDraft updates the draft despite the warnings as warnings are not draft
-    /// blocking.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>validation_results: ::core::option::Option&lt;ValidationResults&gt;,
-}
-<span class="doccomment">/// Streaming RPC request for WritePreview.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>WritePreviewRequest {
-    <span class="doccomment">/// Required. The parent resource name in the format `projects/{project}`. The
-    /// `{project}` is the cloud project ID associated with the project.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The settings for updating the user's preview.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>preview_settings: ::core::option::Option&lt;write_preview_request::PreviewSettings&gt;,
-    <span class="doccomment">/// Data source used to created the preview.
-    </span><span class="attr">#[prost(oneof = <span class="string">"write_preview_request::Source"</span>, tags = <span class="string">"5, 6, 7"</span>)]
-    </span><span class="kw">pub </span>source: ::core::option::Option&lt;write_preview_request::Source&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `WritePreviewRequest`.
-</span><span class="kw">pub mod </span>write_preview_request {
-    <span class="doccomment">/// Indicates the preview content will be coming from the Draft.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ContentFromDraft {}
-    <span class="doccomment">/// Indicates the preview content will be coming from an exiting version.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ContentFromSubmittedVersion {
-        <span class="doccomment">/// Required. Submitted version of the project to be used to create a preview.
-        /// Format: `projects/{project}/versions/{version}`
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Settings for updating the preview.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>PreviewSettings {
-        <span class="doccomment">/// Indicates whether or not to run certain operations, such as transactions,
-        /// in sandbox mode. By default, preview requests run these operations in
-        /// sandbox mode. In other words, the default value for `sandbox` is `true`.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>sandbox: ::core::option::Option&lt;bool&gt;,
-    }
-    <span class="doccomment">/// Data source used to created the preview.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Source {
-        <span class="doccomment">/// List of files sent to the server at a time. This is a list of config
-        /// files or data files.
-        /// 1. The first request must be a ConfigFiles.
-        /// 2. The first request must have a ConfigFile with 'settings'.
-        /// 3. The first request must have a ConfigFile with 'manifest'.
-        /// 4. The webhook ConfigFile corresponding to inline cloud function must be
-        ///     streamed before the DataFile corresponding to its source code.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>Files(<span class="kw">super</span>::Files),
-        <span class="doccomment">/// Content sourced from the project draft.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>Draft(ContentFromDraft),
-        <span class="doccomment">/// Content sourced from the an exiting version.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
-        </span>SubmittedVersion(ContentFromSubmittedVersion),
-    }
-}
-<span class="doccomment">/// Definition of preview resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Preview {
-    <span class="doccomment">/// The unique identifier of the preview.
-    /// Format: `projects/{project}/preview`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Validation results associated with the user project preview content.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>validation_results: ::core::option::Option&lt;ValidationResults&gt;,
-    <span class="doccomment">/// The simulator URL to test the user preview.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>simulator_url: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Streaming RPC request for CreateVersion.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateVersionRequest {
-    <span class="doccomment">/// Required. The parent resource name in the format `projects/{project}`. The
-    /// `{project}` is the cloud project ID associated with the project.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. List of files sent to the server at a time. This is a list of config files
-    /// or data files.
-    /// 1. The first request must be a ConfigFiles.
-    /// 2. The first request must have a ConfigFile with 'settings'.
-    /// 3. The first request must have a ConfigFile with 'manifest'.
-    /// 4. The webhook ConfigFile corresponding to inline cloud function must be
-    ///     streamed before the DataFile corresponding to its source code.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>files: ::core::option::Option&lt;Files&gt;,
-    <span class="doccomment">/// Optional. The release channel to deploy the version, if specified. The supported
-    /// built in release channels are actions.channels.Production,
-    /// actions.channels.ClosedBeta, actions.channels.Alpha.
-    /// .
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>release_channel: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// RPC request for ReadDraft.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ReadDraftRequest {
-    <span class="doccomment">/// Required. The name of the resource in the format `projects/{project}/draft`. The
-    /// `{project}` is the cloud project ID associated with the project.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The version of the crypto key used to encrypt the account linking OAuth
-    /// client secret. If not specified, the primary key version is used for
-    /// encryption. Only relevant for projects with account linking with client
-    /// secret.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>client_secret_encryption_key_version: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Streaming RPC response for ReadDraft.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ReadDraftResponse {
-    <span class="doccomment">/// List of files sent from the server at a time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>files: ::core::option::Option&lt;Files&gt;,
-}
-<span class="doccomment">/// RPC request for ReadVersion.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ReadVersionRequest {
-    <span class="doccomment">/// Required. The name of the version resource in the format
-    /// `projects/{project}/versions/{version}`. `{project}` is the
-    /// cloud project ID associated with the project, `{version}` is the
-    /// identifier of the version being read.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The version of the crypto key used to encrypt the account linking OAuth
-    /// client secret. If not specified, the primary key version is used for
-    /// encryption. Only relevant for projects with account linking with client
-    /// secret.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>client_secret_encryption_key_version: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Streaming RPC response for ReadVersion.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ReadVersionResponse {
-    <span class="doccomment">/// List of files sent from the server at a time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>files: ::core::option::Option&lt;Files&gt;,
-}
-<span class="doccomment">/// RPC request for EncryptSecret.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EncryptSecretRequest {
-    <span class="doccomment">/// Required. The account linking client secret plaintext.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>client_secret: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// RPC response for EncryptSecret.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EncryptSecretResponse {
-    <span class="doccomment">/// Contains the encrypted account linking client secret and the key version
-    /// used to encrypt the secret.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>account_linking_secret: ::core::option::Option&lt;AccountLinkingSecret&gt;,
-}
-<span class="doccomment">/// RPC request for DecryptSecret.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DecryptSecretRequest {
-    <span class="doccomment">/// Required. The account linking client secret ciphertext.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>encrypted_client_secret: ::prost::bytes::Bytes,
-}
-<span class="doccomment">/// RPC response for DecryptSecret.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DecryptSecretResponse {
-    <span class="doccomment">/// The account linking client secret plaintext.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>client_secret: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// RPC request for ListSampleProjects.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListSampleProjectsRequest {
-    <span class="doccomment">/// Optional. The maximum number of sample projects to return. The service may return
-    /// fewer than this value.
-    /// If unspecified, at most 1000 sample projects will be returned. Values above
-    /// 1000 will be coerced to 1000.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// Optional. A page token, received from a previous 'ListSampleProjects' call.
-    /// Provide this to retrieve the subsequent page.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// RPC response for ListSampleProjects.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListSampleProjectsResponse {
-    <span class="doccomment">/// The list of sample projects supported.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>sample_projects: ::prost::alloc::vec::Vec&lt;SampleProject&gt;,
-    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
-    /// If this field is omitted, there are no subsequent pages.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Definition of sample project resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SampleProject {
-    <span class="doccomment">/// The name of the sample project.
-    /// Format: `sampleProjects/{sample_project}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The URL to the zip file where the sample is hosted.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>hosted_url: ::prost::alloc::string::String,
-    <span class="doccomment">/// The description of the sample project.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// RPC request for listing release channels
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListReleaseChannelsRequest {
-    <span class="doccomment">/// Required. The name of the resource in the format `projects/{project}`. The
-    /// `{project}` is the cloud project ID associated with the project.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of release channels to return. The service may return
-    /// fewer than this value. If unspecified, at most 50 release channels will be
-    /// returned.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A page token, received from a previous `ListReleaseChannels` call.
-    /// Provide this to retrieve the subsequent page.
-    /// When paginating, all other parameters provided to `ListReleaseChannels`
-    /// must match the call that provided the page token.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// RPC response for listing release channels
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListReleaseChannelsResponse {
-    <span class="doccomment">/// List of the release channels for the given project id.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>release_channels: ::prost::alloc::vec::Vec&lt;ReleaseChannel&gt;,
-    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
-    /// If this field is omitted, there are no subsequent pages.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// RPC request for listing versions
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListVersionsRequest {
-    <span class="doccomment">/// Required. The name of the resource in the format `projects/{project}`. The
-    /// `{project}` is the cloud project ID associated with the project.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of versions to return. The service may return
-    /// fewer than this value. If unspecified, at most 50 versions will be
-    /// returned.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A page token, received from a previous `ListVersions` call.
-    /// Provide this to retrieve the subsequent page.
-    /// When paginating, all other parameters provided to `ListVersions`
-    /// must match the call that provided the page token.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// RPC response for listing versions
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListVersionsResponse {
-    <span class="doccomment">/// List of the versions for the given project id.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>versions: ::prost::alloc::vec::Vec&lt;Version&gt;,
-    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
-    /// If this field is omitted, there are no subsequent pages.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>actions_sdk_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Actions SDK API which allows developers to build projects using the SDK.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>ActionsSdkClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; ActionsSdkClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; ActionsSdkClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            ActionsSdkClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Updates the project draft based on the model.
-        </span><span class="kw">pub async fn </span>write_draft(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoStreamingRequest&lt;Message = <span class="kw">super</span>::WriteDraftRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Draft&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.actions.sdk.v2.ActionsSdk/WriteDraft"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_streaming_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"WriteDraft"</span>),
-                );
-            <span class="self">self</span>.inner.client_streaming(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Updates the user's project preview based on the model.
-        </span><span class="kw">pub async fn </span>write_preview(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoStreamingRequest&lt;
-                Message = <span class="kw">super</span>::WritePreviewRequest,
-            &gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Preview&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.actions.sdk.v2.ActionsSdk/WritePreview"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_streaming_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"WritePreview"</span>),
-                );
-            <span class="self">self</span>.inner.client_streaming(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Creates a project version based on the model and triggers deployment to the
-        /// specified release channel, if specified.
-        </span><span class="kw">pub async fn </span>create_version(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoStreamingRequest&lt;
-                Message = <span class="kw">super</span>::CreateVersionRequest,
-            &gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Version&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.actions.sdk.v2.ActionsSdk/CreateVersion"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_streaming_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"CreateVersion"</span>),
-                );
-            <span class="self">self</span>.inner.client_streaming(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Reads the entire content of the project draft.
-        </span><span class="kw">pub async fn </span>read_draft(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ReadDraftRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;tonic::codec::Streaming&lt;<span class="kw">super</span>::ReadDraftResponse&gt;&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.actions.sdk.v2.ActionsSdk/ReadDraft"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"ReadDraft"</span>),
-                );
-            <span class="self">self</span>.inner.server_streaming(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Reads the entire content of a project version.
-        </span><span class="kw">pub async fn </span>read_version(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ReadVersionRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;tonic::codec::Streaming&lt;<span class="kw">super</span>::ReadVersionResponse&gt;&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.actions.sdk.v2.ActionsSdk/ReadVersion"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"ReadVersion"</span>),
-                );
-            <span class="self">self</span>.inner.server_streaming(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Encrypts the OAuth client secret used in account linking flows.
-        /// This can be used to encrypt the client secret for the first time (e.g.
-        /// before the first push or after changing the client secret) or to re-encrypt
-        /// a client secret using the latest primary key version (considering key
-        /// rotation).
-        </span><span class="kw">pub async fn </span>encrypt_secret(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::EncryptSecretRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::EncryptSecretResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.actions.sdk.v2.ActionsSdk/EncryptSecret"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"EncryptSecret"</span>),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Decrypts the OAuth client secret used in account linking flows.
-        /// This can be used to view the client secret (e.g. after pulling a project).
-        </span><span class="kw">pub async fn </span>decrypt_secret(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DecryptSecretRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::DecryptSecretResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.actions.sdk.v2.ActionsSdk/DecryptSecret"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"DecryptSecret"</span>),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Lists all the sample projects supported by the gactions CLI.
-        </span><span class="kw">pub async fn </span>list_sample_projects(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListSampleProjectsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListSampleProjectsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.actions.sdk.v2.ActionsSdk/ListSampleProjects"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.actions.sdk.v2.ActionsSdk"</span>,
-                        <span class="string">"ListSampleProjects"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Lists all release channels and corresponding versions, if any.
-        </span><span class="kw">pub async fn </span>list_release_channels(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListReleaseChannelsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListReleaseChannelsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.actions.sdk.v2.ActionsSdk/ListReleaseChannels"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.actions.sdk.v2.ActionsSdk"</span>,
-                        <span class="string">"ListReleaseChannels"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Lists all versions and their current states.
-        </span><span class="kw">pub async fn </span>list_versions(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListVersionsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListVersionsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.actions.sdk.v2.ActionsSdk/ListVersions"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"ListVersions"</span>),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
+    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Contains information about execution event which happened during processing
 /// Actions Builder conversation request. For an overview of the stages involved
@@ -5123,6 +3960,1169 @@
                         <span class="string">"google.actions.sdk.v2.ActionsTesting"</span>,
                         <span class="string">"SetWebAndAppActivityControl"</span>,
                     ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Represents the list of Actions defined in a project.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Actions {
+    <span class="doccomment">/// Map from intents to custom Actions to configure invocation for the project.
+    /// The invocation intents could either be system or custom intents defined
+    /// in the "custom/intents/" package. All intents defined here (system
+    /// intents &amp; custom intents) must have a corresponding intent file in the
+    /// "custom/global/" package.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>custom: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        actions::CustomAction,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Actions`.
+</span><span class="kw">pub mod </span>actions {
+    <span class="doccomment">/// Defines the engagement mechanisms associated with this action. This
+    /// allows end users to subscribe to push notification and daily update.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Engagement {
+        <span class="doccomment">/// The title of the engagement that will be sent to end users asking for
+        /// their permission to receive updates. The prompt sent to end users for
+        /// daily updates will look like "What time would you like me to send your
+        /// daily {title}" and for push notifications will look like
+        /// "Is it ok if I send push notifications for {title}".
+        /// **This field is localizable.**
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
+        <span class="doccomment">/// Push notification settings that this engagement supports.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>push_notification: ::core::option::Option&lt;engagement::PushNotification&gt;,
+        <span class="doccomment">/// Link config for an action which determines whether sharing links is
+        /// enabled for the action and if so, contains the user friendly display name
+        /// for the link.
+        /// ActionLink is deprecated. Use AssistantLink instead.
+        </span><span class="attr">#[deprecated]
+        #[prost(message, optional, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>action_link: ::core::option::Option&lt;engagement::ActionLink&gt;,
+        <span class="doccomment">/// Link config for an action which determines whether sharing links is
+        /// enabled for the action and if so, contains the user friendly display name
+        /// for the link.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+        </span><span class="kw">pub </span>assistant_link: ::core::option::Option&lt;engagement::AssistantLink&gt;,
+        <span class="doccomment">/// Recurring update settings that this engagement supports.
+        </span><span class="attr">#[prost(oneof = <span class="string">"engagement::RecurringUpdate"</span>, tags = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>recurring_update: ::core::option::Option&lt;engagement::RecurringUpdate&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Engagement`.
+    </span><span class="kw">pub mod </span>engagement {
+        <span class="doccomment">/// Defines push notification settings that this engagement supports.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>PushNotification {}
+        <span class="doccomment">/// Defines daily update settings that this engagement supports.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>DailyUpdate {}
+        <span class="doccomment">/// Indicates whether sharing links is enabled for this action and the
+        /// corresponding settings. Action links are used to deep link a user into a
+        /// specific action.
+        /// ActionLink is deprecated. Use AssistantLink instead.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>ActionLink {
+            <span class="doccomment">/// User friendly display title for the link.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
+        }
+        <span class="doccomment">/// Indicates whether sharing links is enabled for this action and the
+        /// corresponding settings. Assistant links are used to deep link a user into
+        /// a specific action.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>AssistantLink {
+            <span class="doccomment">/// User friendly display title for the link.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
+        }
+        <span class="doccomment">/// Recurring update settings that this engagement supports.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        </span><span class="kw">pub enum </span>RecurringUpdate {
+            <span class="doccomment">/// Daily update settings that this engagement supports.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+            </span>DailyUpdate(DailyUpdate),
+        }
+    }
+    <span class="doccomment">/// Details regarding a custom action.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>CustomAction {
+        <span class="doccomment">/// Engagement mechanisms associated with the action to help end users
+        /// subscribe to push notifications and daily updates.
+        /// Note that the intent name specified in daily updates/push notifications
+        /// slot config needs to match the intent corresponding to this action for
+        /// end users to subscribe to these updates.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>engagement: ::core::option::Option&lt;Engagement&gt;,
+    }
+}
+<span class="doccomment">/// Definition of version resource.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Version {
+    <span class="doccomment">/// The unique identifier of the version in the following format.
+    /// `projects/{project}/versions/{version}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The current state of the version.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>version_state: ::core::option::Option&lt;version::VersionState&gt;,
+    <span class="doccomment">/// Email of the user who created this version.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>creator: ::prost::alloc::string::String,
+    <span class="doccomment">/// Timestamp of the last change to this version.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Version`.
+</span><span class="kw">pub mod </span>version {
+    <span class="doccomment">/// Represents the current state of the version.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>VersionState {
+        <span class="doccomment">/// The current state of the version.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"version_state::State"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>state: i32,
+        <span class="doccomment">/// User-friendly message for the current state of the version.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Nested message and enum types in `VersionState`.
+    </span><span class="kw">pub mod </span>version_state {
+        <span class="doccomment">/// Enum indicating the states that a Version can take. This enum is not yet
+        /// frozen and values maybe added later.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>State {
+            <span class="doccomment">/// Default value of State.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// The version creation is in progress.
+            </span>CreationInProgress = <span class="number">1</span>,
+            <span class="doccomment">/// The version creation failed.
+            </span>CreationFailed = <span class="number">2</span>,
+            <span class="doccomment">/// The version has been successfully created.
+            </span>Created = <span class="number">3</span>,
+            <span class="doccomment">/// The version is under policy review (aka Approval).
+            </span>ReviewInProgress = <span class="number">4</span>,
+            <span class="doccomment">/// The version has been approved for policy review and can be deployed.
+            </span>Approved = <span class="number">5</span>,
+            <span class="doccomment">/// The version has been conditionally approved but is pending final
+            /// review. It may be rolled back if final review is denied.
+            </span>ConditionallyApproved = <span class="number">6</span>,
+            <span class="doccomment">/// The version has been denied for policy review.
+            </span>Denied = <span class="number">7</span>,
+            <span class="doccomment">/// The version is taken down as entire agent and all versions are taken
+            /// down.
+            </span>UnderTakedown = <span class="number">8</span>,
+            <span class="doccomment">/// The version has been deleted.
+            </span>Deleted = <span class="number">9</span>,
+        }
+        <span class="kw">impl </span>State {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                    State::CreationInProgress =&gt; <span class="string">"CREATION_IN_PROGRESS"</span>,
+                    State::CreationFailed =&gt; <span class="string">"CREATION_FAILED"</span>,
+                    State::Created =&gt; <span class="string">"CREATED"</span>,
+                    State::ReviewInProgress =&gt; <span class="string">"REVIEW_IN_PROGRESS"</span>,
+                    State::Approved =&gt; <span class="string">"APPROVED"</span>,
+                    State::ConditionallyApproved =&gt; <span class="string">"CONDITIONALLY_APPROVED"</span>,
+                    State::Denied =&gt; <span class="string">"DENIED"</span>,
+                    State::UnderTakedown =&gt; <span class="string">"UNDER_TAKEDOWN"</span>,
+                    State::Deleted =&gt; <span class="string">"DELETED"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"CREATION_IN_PROGRESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CreationInProgress),
+                    <span class="string">"CREATION_FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CreationFailed),
+                    <span class="string">"CREATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Created),
+                    <span class="string">"REVIEW_IN_PROGRESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ReviewInProgress),
+                    <span class="string">"APPROVED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Approved),
+                    <span class="string">"CONDITIONALLY_APPROVED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ConditionallyApproved),
+                    <span class="string">"DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Denied),
+                    <span class="string">"UNDER_TAKEDOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnderTakedown),
+                    <span class="string">"DELETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleted),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+}
+<span class="doccomment">/// Wrapper for repeated validation result.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ValidationResults {
+    <span class="doccomment">/// Multiple validation results.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>results: ::prost::alloc::vec::Vec&lt;ValidationResult&gt;,
+}
+<span class="doccomment">/// Represents a validation result associated with the app content.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ValidationResult {
+    <span class="doccomment">/// Holds the validation message.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>validation_message: ::prost::alloc::string::String,
+    <span class="doccomment">/// Context to identify the resource the validation message relates to.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>validation_context: ::core::option::Option&lt;validation_result::ValidationContext&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ValidationResult`.
+</span><span class="kw">pub mod </span>validation_result {
+    <span class="doccomment">/// Context to identify the resource the validation message relates to.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ValidationContext {
+        <span class="doccomment">/// Language code of the lozalized resource.
+        /// Empty if the error is for non-localized resource.
+        /// See the list of supported languages in
+        /// &lt;https://developers.google.com/assistant/console/languages-locales&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
+    }
+}
+<span class="doccomment">/// Metadata for different types of webhooks. If you're using
+/// `inlineCloudFunction`, your source code must be in a directory with the same
+/// name as the value for the `executeFunction` key.
+/// For example, a value of `my_webhook` for the`executeFunction` key would have
+/// a code structure like this:
+///   - `/webhooks/my_webhook.yaml`
+///   - `/webhooks/my_webhook/index.js`
+///   - `/webhooks/my_webhook/package.json`
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Webhook {
+    <span class="doccomment">/// List of handlers for this webhook.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>handlers: ::prost::alloc::vec::Vec&lt;webhook::Handler&gt;,
+    <span class="doccomment">/// Only one webhook type is supported.
+    </span><span class="attr">#[prost(oneof = <span class="string">"webhook::WebhookType"</span>, tags = <span class="string">"2, 3"</span>)]
+    </span><span class="kw">pub </span>webhook_type: ::core::option::Option&lt;webhook::WebhookType&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Webhook`.
+</span><span class="kw">pub mod </span>webhook {
+    <span class="doccomment">/// Declares the name of the webhoook handler. A webhook can have
+    /// multiple handlers registered. These handlers can be called from multiple
+    /// places in your Actions project.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Handler {
+        <span class="doccomment">/// Required. Name of the handler. Must be unique across all handlers the Actions
+        /// project. You can check the name of this handler to invoke the correct
+        /// function in your fulfillment source code.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// REST endpoint to notify if you're not using the inline editor.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>HttpsEndpoint {
+        <span class="doccomment">/// The HTTPS base URL for your fulfillment endpoint (HTTP is not supported).
+        /// Handler names are appended to the base URL path after a colon
+        /// (following the style guide in
+        /// &lt;https://cloud.google.com/apis/design/custom_methods&gt;).
+        /// For example a base URL of '&lt;https://gactions.service.com/api'&gt; would
+        /// receive requests with URL '&lt;https://gactions.service.com/api:{method}'.&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>base_url: ::prost::alloc::string::String,
+        <span class="doccomment">/// Map of HTTP parameters to be included in the POST request.
+        </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>http_headers: ::prost::alloc::collections::BTreeMap&lt;
+            ::prost::alloc::string::String,
+            ::prost::alloc::string::String,
+        &gt;,
+        <span class="doccomment">/// Version of the protocol used by the endpoint. This is the protocol shared
+        /// by all fulfillment types and not specific to Google fulfillment type.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>endpoint_api_version: i32,
+    }
+    <span class="doccomment">/// Holds the metadata of an inline Cloud Function deployed from the
+    /// webhooks folder.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>InlineCloudFunction {
+        <span class="doccomment">/// The name of the Cloud Function entry point. The value of this field
+        /// should match the name of the method exported from the source code.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>execute_function: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Only one webhook type is supported.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>WebhookType {
+        <span class="doccomment">/// Custom webhook HTTPS endpoint.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>HttpsEndpoint(HttpsEndpoint),
+        <span class="doccomment">/// Metadata for cloud function deployed from code in the webhooks folder.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>InlineCloudFunction(InlineCloudFunction),
+    }
+}
+<span class="doccomment">/// Wrapper for repeated config files. Repeated fields cannot exist in a oneof.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ConfigFiles {
+    <span class="doccomment">/// Multiple config files.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>config_files: ::prost::alloc::vec::Vec&lt;ConfigFile&gt;,
+}
+<span class="doccomment">/// Represents a single file which contains structured data. Developers can
+/// define most of their project using structured config including Actions,
+/// Settings, Fulfillment.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ConfigFile {
+    <span class="doccomment">/// Relative path of the config file from the project root in the SDK file
+    /// structure. Each file types below have an allowed file path.
+    /// Eg: settings/settings.yaml
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>file_path: ::prost::alloc::string::String,
+    <span class="doccomment">/// Each type of config file should have a corresponding field in the oneof.
+    </span><span class="attr">#[prost(
+        oneof = <span class="string">"config_file::File"</span>,
+        tags = <span class="string">"2, 3, 4, 6, 7, 8, 15, 9, 10, 11, 13, 12"
+    </span>)]
+    </span><span class="kw">pub </span>file: ::core::option::Option&lt;config_file::File&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ConfigFile`.
+</span><span class="kw">pub mod </span>config_file {
+    <span class="doccomment">/// Each type of config file should have a corresponding field in the oneof.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>File {
+        <span class="doccomment">/// Single manifest file.
+        /// Allowed file path: `manifest.yaml`
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>Manifest(<span class="kw">super</span>::Manifest),
+        <span class="doccomment">/// Single actions file with all the actions defined.
+        /// Allowed file paths: `actions/{language}?/actions.yaml`
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>Actions(<span class="kw">super</span>::Actions),
+        <span class="doccomment">/// Single settings config which includes non-localizable settings and
+        /// settings for the project's default locale (if specified).
+        /// For a locale override file, only localized_settings field will be
+        /// populated.
+        /// Allowed file paths: `settings/{language}?/settings.yaml`
+        /// Note that the non-localized settings file `settings/settings.yaml` must
+        /// be present in the write flow requests.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>Settings(<span class="kw">super</span>::Settings),
+        <span class="doccomment">/// Single webhook definition.
+        /// Allowed file path: `webhooks/{WebhookName}.yaml`
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>Webhook(<span class="kw">super</span>::Webhook),
+        <span class="doccomment">/// Single intent definition.
+        /// Allowed file paths: `custom/intents/{language}?/{IntentName}.yaml`
+        </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
+        </span>Intent(<span class="kw">super</span>::interactionmodel::Intent),
+        <span class="doccomment">/// Single type definition.
+        /// Allowed file paths: `custom/types/{language}?/{TypeName}.yaml`
+        </span><span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
+        </span>Type(<span class="kw">super</span>::interactionmodel::r#type::Type),
+        <span class="doccomment">/// Single entity set definition.
+        /// Allowed file paths: `custom/entitySets/{language}?/{EntitySetName}.yaml`
+        </span><span class="attr">#[prost(message, tag = <span class="string">"15"</span>)]
+        </span>EntitySet(<span class="kw">super</span>::interactionmodel::EntitySet),
+        <span class="doccomment">/// Single global intent event definition.
+        /// Allowed file paths: `custom/global/{GlobalIntentEventName}.yaml`
+        /// The file name (GlobalIntentEventName) should be the name of the intent
+        /// that this global intent event corresponds to.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"9"</span>)]
+        </span>GlobalIntentEvent(<span class="kw">super</span>::interactionmodel::GlobalIntentEvent),
+        <span class="doccomment">/// Single scene definition.
+        /// Allowed file paths: `custom/scenes/{SceneName}.yaml`
+        </span><span class="attr">#[prost(message, tag = <span class="string">"10"</span>)]
+        </span>Scene(<span class="kw">super</span>::interactionmodel::Scene),
+        <span class="doccomment">/// Single static prompt definition.
+        /// Allowed file paths: `custom/prompts/{language}?/{StaticPromptName}.yaml`
+        </span><span class="attr">#[prost(message, tag = <span class="string">"11"</span>)]
+        </span>StaticPrompt(<span class="kw">super</span>::interactionmodel::prompt::StaticPrompt),
+        <span class="doccomment">/// Metadata corresponding to the client secret used in account linking.
+        /// Allowed file path: `settings/accountLinkingSecret.yaml`
+        </span><span class="attr">#[prost(message, tag = <span class="string">"13"</span>)]
+        </span>AccountLinkingSecret(<span class="kw">super</span>::AccountLinkingSecret),
+        <span class="doccomment">/// Single resource bundle, which is a map from a string to a string or list
+        /// of strings. Resource bundles could be used for localizing strings in
+        /// static prompts.
+        /// Allowed file paths: `resources/strings/{language}?/{multiple
+        /// directories}?/{BundleName}.yaml`
+        </span><span class="attr">#[prost(message, tag = <span class="string">"12"</span>)]
+        </span>ResourceBundle(::prost_types::Struct),
+    }
+}
+<span class="doccomment">/// Wrapper for repeated data file. Repeated fields cannot exist in a oneof.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DataFiles {
+    <span class="doccomment">/// Multiple data files.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>data_files: ::prost::alloc::vec::Vec&lt;DataFile&gt;,
+}
+<span class="doccomment">/// Represents a single file which contains unstructured data. Examples include
+/// image files, audio files, and cloud function source code.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DataFile {
+    <span class="doccomment">/// Relative path of the data file from the project root in the SDK file
+    /// structure.
+    /// Allowed file paths:
+    ///      - Images: `resources/images/{multiple
+    ///      directories}?/{ImageName}.{extension}`
+    ///      - Audio: `resources/audio/{multiple
+    ///      directories}?/{AudioFileName}.{extension}`
+    ///      - Inline Cloud Function Code: `webhooks/{WebhookName}.zip`
+    /// Allowed extensions:
+    ///      - Images: `png`, `jpg`, `jpeg`
+    ///      - Audio: `mp3`, `mpeg`
+    ///      - Inline Cloud Functions: `zip`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>file_path: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The content type of this asset. Example: `text/html`. The content
+    /// type must comply with the specification
+    /// (&lt;http://www.w3.org/Protocols/rfc1341/4_Content-Type.html&gt;).
+    /// Cloud functions must be in zip format and the content type should
+    /// be `application/zip;zip_type=cloud_function`. The zip_type parameter
+    /// indicates that the zip is for a cloud function.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>content_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Content of the data file. Examples would be raw bytes of images, audio
+    /// files, or cloud function zip format.
+    /// There is 10 MB strict limit on the payload size.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>payload: ::prost::bytes::Bytes,
+}
+<span class="doccomment">/// Wrapper for a list of files.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Files {
+    <span class="doccomment">/// Only one type of files can be sent to the server at a time, config files or
+    /// data files.
+    </span><span class="attr">#[prost(oneof = <span class="string">"files::FileType"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>file_type: ::core::option::Option&lt;files::FileType&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Files`.
+</span><span class="kw">pub mod </span>files {
+    <span class="doccomment">/// Only one type of files can be sent to the server at a time, config files or
+    /// data files.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>FileType {
+        <span class="doccomment">/// List of config files. This includes manifest, settings, interaction model
+        /// resource bundles and more.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>ConfigFiles(<span class="kw">super</span>::ConfigFiles),
+        <span class="doccomment">/// List of data files. This includes image, audio file, cloud function
+        /// source code.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>DataFiles(<span class="kw">super</span>::DataFiles),
+    }
+}
+<span class="doccomment">/// Streaming RPC request for WriteDraft.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>WriteDraftRequest {
+    <span class="doccomment">/// Required. The parent resource name in the format `projects/{project}`. The
+    /// `{project}` is the cloud project ID associated with the project.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. List of files sent to the server at a time. This is a list of config files
+    /// or data files.
+    /// 1. The first request must be a ConfigFiles.
+    /// 2. The first request must have a ConfigFile with 'settings'.
+    /// 3. The first request must have a ConfigFile with 'manifest'.
+    /// 4. The webhook ConfigFile corresponding to inline cloud function must be
+    ///     streamed before the DataFile corresponding to its source code.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>files: ::core::option::Option&lt;Files&gt;,
+}
+<span class="doccomment">/// Definition of draft resource.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Draft {
+    <span class="doccomment">/// The unique identifier of the draft in the following format.
+    /// `projects/{project}/draft`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Validation results associated with the project draft content. Note that
+    /// WriteDraft updates the draft despite the warnings as warnings are not draft
+    /// blocking.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>validation_results: ::core::option::Option&lt;ValidationResults&gt;,
+}
+<span class="doccomment">/// Streaming RPC request for WritePreview.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>WritePreviewRequest {
+    <span class="doccomment">/// Required. The parent resource name in the format `projects/{project}`. The
+    /// `{project}` is the cloud project ID associated with the project.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The settings for updating the user's preview.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>preview_settings: ::core::option::Option&lt;write_preview_request::PreviewSettings&gt;,
+    <span class="doccomment">/// Data source used to created the preview.
+    </span><span class="attr">#[prost(oneof = <span class="string">"write_preview_request::Source"</span>, tags = <span class="string">"5, 6, 7"</span>)]
+    </span><span class="kw">pub </span>source: ::core::option::Option&lt;write_preview_request::Source&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `WritePreviewRequest`.
+</span><span class="kw">pub mod </span>write_preview_request {
+    <span class="doccomment">/// Indicates the preview content will be coming from the Draft.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ContentFromDraft {}
+    <span class="doccomment">/// Indicates the preview content will be coming from an exiting version.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ContentFromSubmittedVersion {
+        <span class="doccomment">/// Required. Submitted version of the project to be used to create a preview.
+        /// Format: `projects/{project}/versions/{version}`
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Settings for updating the preview.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>PreviewSettings {
+        <span class="doccomment">/// Indicates whether or not to run certain operations, such as transactions,
+        /// in sandbox mode. By default, preview requests run these operations in
+        /// sandbox mode. In other words, the default value for `sandbox` is `true`.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>sandbox: ::core::option::Option&lt;bool&gt;,
+    }
+    <span class="doccomment">/// Data source used to created the preview.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Source {
+        <span class="doccomment">/// List of files sent to the server at a time. This is a list of config
+        /// files or data files.
+        /// 1. The first request must be a ConfigFiles.
+        /// 2. The first request must have a ConfigFile with 'settings'.
+        /// 3. The first request must have a ConfigFile with 'manifest'.
+        /// 4. The webhook ConfigFile corresponding to inline cloud function must be
+        ///     streamed before the DataFile corresponding to its source code.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>Files(<span class="kw">super</span>::Files),
+        <span class="doccomment">/// Content sourced from the project draft.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>Draft(ContentFromDraft),
+        <span class="doccomment">/// Content sourced from the an exiting version.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
+        </span>SubmittedVersion(ContentFromSubmittedVersion),
+    }
+}
+<span class="doccomment">/// Definition of preview resource.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Preview {
+    <span class="doccomment">/// The unique identifier of the preview.
+    /// Format: `projects/{project}/preview`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Validation results associated with the user project preview content.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>validation_results: ::core::option::Option&lt;ValidationResults&gt;,
+    <span class="doccomment">/// The simulator URL to test the user preview.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>simulator_url: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Streaming RPC request for CreateVersion.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateVersionRequest {
+    <span class="doccomment">/// Required. The parent resource name in the format `projects/{project}`. The
+    /// `{project}` is the cloud project ID associated with the project.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. List of files sent to the server at a time. This is a list of config files
+    /// or data files.
+    /// 1. The first request must be a ConfigFiles.
+    /// 2. The first request must have a ConfigFile with 'settings'.
+    /// 3. The first request must have a ConfigFile with 'manifest'.
+    /// 4. The webhook ConfigFile corresponding to inline cloud function must be
+    ///     streamed before the DataFile corresponding to its source code.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>files: ::core::option::Option&lt;Files&gt;,
+    <span class="doccomment">/// Optional. The release channel to deploy the version, if specified. The supported
+    /// built in release channels are actions.channels.Production,
+    /// actions.channels.ClosedBeta, actions.channels.Alpha.
+    /// .
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>release_channel: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// RPC request for ReadDraft.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ReadDraftRequest {
+    <span class="doccomment">/// Required. The name of the resource in the format `projects/{project}/draft`. The
+    /// `{project}` is the cloud project ID associated with the project.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The version of the crypto key used to encrypt the account linking OAuth
+    /// client secret. If not specified, the primary key version is used for
+    /// encryption. Only relevant for projects with account linking with client
+    /// secret.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>client_secret_encryption_key_version: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Streaming RPC response for ReadDraft.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ReadDraftResponse {
+    <span class="doccomment">/// List of files sent from the server at a time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>files: ::core::option::Option&lt;Files&gt;,
+}
+<span class="doccomment">/// RPC request for ReadVersion.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ReadVersionRequest {
+    <span class="doccomment">/// Required. The name of the version resource in the format
+    /// `projects/{project}/versions/{version}`. `{project}` is the
+    /// cloud project ID associated with the project, `{version}` is the
+    /// identifier of the version being read.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The version of the crypto key used to encrypt the account linking OAuth
+    /// client secret. If not specified, the primary key version is used for
+    /// encryption. Only relevant for projects with account linking with client
+    /// secret.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>client_secret_encryption_key_version: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Streaming RPC response for ReadVersion.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ReadVersionResponse {
+    <span class="doccomment">/// List of files sent from the server at a time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>files: ::core::option::Option&lt;Files&gt;,
+}
+<span class="doccomment">/// RPC request for EncryptSecret.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>EncryptSecretRequest {
+    <span class="doccomment">/// Required. The account linking client secret plaintext.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>client_secret: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// RPC response for EncryptSecret.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>EncryptSecretResponse {
+    <span class="doccomment">/// Contains the encrypted account linking client secret and the key version
+    /// used to encrypt the secret.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>account_linking_secret: ::core::option::Option&lt;AccountLinkingSecret&gt;,
+}
+<span class="doccomment">/// RPC request for DecryptSecret.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DecryptSecretRequest {
+    <span class="doccomment">/// Required. The account linking client secret ciphertext.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>encrypted_client_secret: ::prost::bytes::Bytes,
+}
+<span class="doccomment">/// RPC response for DecryptSecret.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DecryptSecretResponse {
+    <span class="doccomment">/// The account linking client secret plaintext.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>client_secret: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// RPC request for ListSampleProjects.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListSampleProjectsRequest {
+    <span class="doccomment">/// Optional. The maximum number of sample projects to return. The service may return
+    /// fewer than this value.
+    /// If unspecified, at most 1000 sample projects will be returned. Values above
+    /// 1000 will be coerced to 1000.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// Optional. A page token, received from a previous 'ListSampleProjects' call.
+    /// Provide this to retrieve the subsequent page.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// RPC response for ListSampleProjects.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListSampleProjectsResponse {
+    <span class="doccomment">/// The list of sample projects supported.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>sample_projects: ::prost::alloc::vec::Vec&lt;SampleProject&gt;,
+    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
+    /// If this field is omitted, there are no subsequent pages.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Definition of sample project resource.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SampleProject {
+    <span class="doccomment">/// The name of the sample project.
+    /// Format: `sampleProjects/{sample_project}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The URL to the zip file where the sample is hosted.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>hosted_url: ::prost::alloc::string::String,
+    <span class="doccomment">/// The description of the sample project.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// RPC request for listing release channels
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListReleaseChannelsRequest {
+    <span class="doccomment">/// Required. The name of the resource in the format `projects/{project}`. The
+    /// `{project}` is the cloud project ID associated with the project.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of release channels to return. The service may return
+    /// fewer than this value. If unspecified, at most 50 release channels will be
+    /// returned.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A page token, received from a previous `ListReleaseChannels` call.
+    /// Provide this to retrieve the subsequent page.
+    /// When paginating, all other parameters provided to `ListReleaseChannels`
+    /// must match the call that provided the page token.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// RPC response for listing release channels
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListReleaseChannelsResponse {
+    <span class="doccomment">/// List of the release channels for the given project id.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>release_channels: ::prost::alloc::vec::Vec&lt;ReleaseChannel&gt;,
+    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
+    /// If this field is omitted, there are no subsequent pages.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// RPC request for listing versions
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListVersionsRequest {
+    <span class="doccomment">/// Required. The name of the resource in the format `projects/{project}`. The
+    /// `{project}` is the cloud project ID associated with the project.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of versions to return. The service may return
+    /// fewer than this value. If unspecified, at most 50 versions will be
+    /// returned.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A page token, received from a previous `ListVersions` call.
+    /// Provide this to retrieve the subsequent page.
+    /// When paginating, all other parameters provided to `ListVersions`
+    /// must match the call that provided the page token.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// RPC response for listing versions
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListVersionsResponse {
+    <span class="doccomment">/// List of the versions for the given project id.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>versions: ::prost::alloc::vec::Vec&lt;Version&gt;,
+    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
+    /// If this field is omitted, there are no subsequent pages.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>actions_sdk_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Actions SDK API which allows developers to build projects using the SDK.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>ActionsSdkClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; ActionsSdkClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; ActionsSdkClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            ActionsSdkClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Updates the project draft based on the model.
+        </span><span class="kw">pub async fn </span>write_draft(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoStreamingRequest&lt;Message = <span class="kw">super</span>::WriteDraftRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Draft&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.actions.sdk.v2.ActionsSdk/WriteDraft"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_streaming_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"WriteDraft"</span>),
+                );
+            <span class="self">self</span>.inner.client_streaming(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Updates the user's project preview based on the model.
+        </span><span class="kw">pub async fn </span>write_preview(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoStreamingRequest&lt;
+                Message = <span class="kw">super</span>::WritePreviewRequest,
+            &gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Preview&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.actions.sdk.v2.ActionsSdk/WritePreview"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_streaming_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"WritePreview"</span>),
+                );
+            <span class="self">self</span>.inner.client_streaming(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Creates a project version based on the model and triggers deployment to the
+        /// specified release channel, if specified.
+        </span><span class="kw">pub async fn </span>create_version(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoStreamingRequest&lt;
+                Message = <span class="kw">super</span>::CreateVersionRequest,
+            &gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Version&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.actions.sdk.v2.ActionsSdk/CreateVersion"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_streaming_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"CreateVersion"</span>),
+                );
+            <span class="self">self</span>.inner.client_streaming(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Reads the entire content of the project draft.
+        </span><span class="kw">pub async fn </span>read_draft(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ReadDraftRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;tonic::codec::Streaming&lt;<span class="kw">super</span>::ReadDraftResponse&gt;&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.actions.sdk.v2.ActionsSdk/ReadDraft"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"ReadDraft"</span>),
+                );
+            <span class="self">self</span>.inner.server_streaming(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Reads the entire content of a project version.
+        </span><span class="kw">pub async fn </span>read_version(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ReadVersionRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;tonic::codec::Streaming&lt;<span class="kw">super</span>::ReadVersionResponse&gt;&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.actions.sdk.v2.ActionsSdk/ReadVersion"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"ReadVersion"</span>),
+                );
+            <span class="self">self</span>.inner.server_streaming(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Encrypts the OAuth client secret used in account linking flows.
+        /// This can be used to encrypt the client secret for the first time (e.g.
+        /// before the first push or after changing the client secret) or to re-encrypt
+        /// a client secret using the latest primary key version (considering key
+        /// rotation).
+        </span><span class="kw">pub async fn </span>encrypt_secret(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::EncryptSecretRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::EncryptSecretResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.actions.sdk.v2.ActionsSdk/EncryptSecret"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"EncryptSecret"</span>),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Decrypts the OAuth client secret used in account linking flows.
+        /// This can be used to view the client secret (e.g. after pulling a project).
+        </span><span class="kw">pub async fn </span>decrypt_secret(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DecryptSecretRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::DecryptSecretResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.actions.sdk.v2.ActionsSdk/DecryptSecret"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"DecryptSecret"</span>),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Lists all the sample projects supported by the gactions CLI.
+        </span><span class="kw">pub async fn </span>list_sample_projects(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListSampleProjectsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListSampleProjectsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.actions.sdk.v2.ActionsSdk/ListSampleProjects"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.actions.sdk.v2.ActionsSdk"</span>,
+                        <span class="string">"ListSampleProjects"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Lists all release channels and corresponding versions, if any.
+        </span><span class="kw">pub async fn </span>list_release_channels(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListReleaseChannelsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListReleaseChannelsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.actions.sdk.v2.ActionsSdk/ListReleaseChannels"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.actions.sdk.v2.ActionsSdk"</span>,
+                        <span class="string">"ListReleaseChannels"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Lists all versions and their current states.
+        </span><span class="kw">pub async fn </span>list_versions(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListVersionsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListVersionsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.actions.sdk.v2.ActionsSdk/ListVersions"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(<span class="string">"google.actions.sdk.v2.ActionsSdk"</span>, <span class="string">"ListVersions"</span>),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}

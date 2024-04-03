@@ -3461,6 +3461,45 @@
     </span><span class="attr">#[prost(float, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>z: f32,
 }
+<span class="doccomment">/// Parameters for a celebrity recognition request.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FaceRecognitionParams {
+    <span class="doccomment">/// The resource names for one or more
+    /// [CelebritySet][google.cloud.vision.v1p4beta1.CelebritySet]s. A celebrity
+    /// set is preloaded and can be specified as "builtin/default". If this is
+    /// specified, the algorithm will try to match the faces detected in the input
+    /// image to the Celebrities in the CelebritySets.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>celebrity_set: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// A Celebrity is a group of Faces with an identity.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Celebrity {
+    <span class="doccomment">/// The resource name of the preloaded Celebrity. Has the format
+    /// `builtin/{mid}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The Celebrity's display name.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The Celebrity's description.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Information about a face's identity.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FaceRecognitionResult {
+    <span class="doccomment">/// The [Celebrity][google.cloud.vision.v1p4beta1.Celebrity] that this face was
+    /// matched to.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>celebrity: ::core::option::Option&lt;Celebrity&gt;,
+    <span class="doccomment">/// Recognition confidence. Range \[0, 1\].
+    </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>confidence: f32,
+}
 <span class="doccomment">/// A Product contains ReferenceImages.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4921,248 +4960,6 @@
         </span>}
     }
 }
-<span class="doccomment">/// Parameters for a product search request.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProductSearchParams {
-    <span class="doccomment">/// The bounding polygon around the area of interest in the image.
-    /// If it is not specified, system discretion will be applied.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>bounding_poly: ::core::option::Option&lt;BoundingPoly&gt;,
-    <span class="doccomment">/// The resource name of a
-    /// [ProductSet][google.cloud.vision.v1p4beta1.ProductSet] to be searched for
-    /// similar images.
-    ///
-    /// Format is:
-    /// `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>product_set: ::prost::alloc::string::String,
-    <span class="doccomment">/// The list of product categories to search in. Currently, we only consider
-    /// the first category, and either "homegoods-v2", "apparel-v2", "toys-v2",
-    /// "packagedgoods-v1", or "general-v1" should be specified. The legacy
-    /// categories "homegoods", "apparel", and "toys" are still supported but will
-    /// be deprecated. For new products, please use "homegoods-v2", "apparel-v2",
-    /// or "toys-v2" for better product search accuracy. It is recommended to
-    /// migrate existing products to these categories as well.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>product_categories: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The filtering expression. This can be used to restrict search results based
-    /// on Product labels. We currently support an AND of OR of key-value
-    /// expressions, where each expression within an OR must have the same key. An
-    /// '=' should be used to connect the key and value.
-    ///
-    /// For example, "(color = red OR color = blue) AND brand = Google" is
-    /// acceptable, but "(color = red OR brand = Google)" is not acceptable.
-    /// "color: red" is not acceptable because it uses a ':' instead of an '='.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Results for a product search request.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProductSearchResults {
-    <span class="doccomment">/// Timestamp of the index which provided these results. Products added to the
-    /// product set and products removed from the product set after this time are
-    /// not reflected in the current results.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>index_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// List of results, one for each product match.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>results: ::prost::alloc::vec::Vec&lt;product_search_results::Result&gt;,
-    <span class="doccomment">/// List of results grouped by products detected in the query image. Each entry
-    /// corresponds to one bounding polygon in the query image, and contains the
-    /// matching products specific to that region. There may be duplicate product
-    /// matches in the union of all the per-product results.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>product_grouped_results: ::prost::alloc::vec::Vec&lt;
-        product_search_results::GroupedResult,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ProductSearchResults`.
-</span><span class="kw">pub mod </span>product_search_results {
-    <span class="doccomment">/// Information about a product.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span><span class="prelude-ty">Result </span>{
-        <span class="doccomment">/// The Product.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>product: ::core::option::Option&lt;<span class="kw">super</span>::Product&gt;,
-        <span class="doccomment">/// A confidence level on the match, ranging from 0 (no confidence) to
-        /// 1 (full confidence).
-        </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>score: f32,
-        <span class="doccomment">/// The resource name of the image from the product that is the closest match
-        /// to the query.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>image: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Prediction for what the object in the bounding box is.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ObjectAnnotation {
-        <span class="doccomment">/// Object ID that should align with EntityAnnotation mid.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>mid: ::prost::alloc::string::String,
-        <span class="doccomment">/// The BCP-47 language code, such as "en-US" or "sr-Latn". For more
-        /// information, see
-        /// &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
-        <span class="doccomment">/// Object name, expressed in its `language_code` language.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-        <span class="doccomment">/// Score of the result. Range \[0, 1\].
-        </span><span class="attr">#[prost(float, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>score: f32,
-    }
-    <span class="doccomment">/// Information about the products similar to a single product in a query
-    /// image.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>GroupedResult {
-        <span class="doccomment">/// The bounding polygon around the product detected in the query image.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>bounding_poly: ::core::option::Option&lt;<span class="kw">super</span>::BoundingPoly&gt;,
-        <span class="doccomment">/// List of results, one for each product match.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>results: ::prost::alloc::vec::Vec&lt;<span class="prelude-ty">Result</span>&gt;,
-        <span class="doccomment">/// List of generic predictions for the object in the bounding box.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>object_annotations: ::prost::alloc::vec::Vec&lt;ObjectAnnotation&gt;,
-    }
-}
-<span class="doccomment">/// Relevant information for the image from the Internet.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>WebDetection {
-    <span class="doccomment">/// Deduced entities from similar images on the Internet.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>web_entities: ::prost::alloc::vec::Vec&lt;web_detection::WebEntity&gt;,
-    <span class="doccomment">/// Fully matching images from the Internet.
-    /// Can include resized copies of the query image.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>full_matching_images: ::prost::alloc::vec::Vec&lt;web_detection::WebImage&gt;,
-    <span class="doccomment">/// Partial matching images from the Internet.
-    /// Those images are similar enough to share some key-point features. For
-    /// example an original image will likely have partial matching for its crops.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>partial_matching_images: ::prost::alloc::vec::Vec&lt;web_detection::WebImage&gt;,
-    <span class="doccomment">/// Web pages containing the matching images from the Internet.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>pages_with_matching_images: ::prost::alloc::vec::Vec&lt;web_detection::WebPage&gt;,
-    <span class="doccomment">/// The visually similar image results.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>visually_similar_images: ::prost::alloc::vec::Vec&lt;web_detection::WebImage&gt;,
-    <span class="doccomment">/// The service's best guess as to the topic of the request image.
-    /// Inferred from similar images on the open web.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>best_guess_labels: ::prost::alloc::vec::Vec&lt;web_detection::WebLabel&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `WebDetection`.
-</span><span class="kw">pub mod </span>web_detection {
-    <span class="doccomment">/// Entity deduced from similar images on the Internet.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>WebEntity {
-        <span class="doccomment">/// Opaque entity ID.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>entity_id: ::prost::alloc::string::String,
-        <span class="doccomment">/// Overall relevancy score for the entity.
-        /// Not normalized and not comparable across different image queries.
-        </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>score: f32,
-        <span class="doccomment">/// Canonical description of the entity, in English.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Metadata for online images.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>WebImage {
-        <span class="doccomment">/// The result image URL.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>url: ::prost::alloc::string::String,
-        <span class="doccomment">/// (Deprecated) Overall relevancy score for the image.
-        </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>score: f32,
-    }
-    <span class="doccomment">/// Metadata for web pages.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>WebPage {
-        <span class="doccomment">/// The result web page URL.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>url: ::prost::alloc::string::String,
-        <span class="doccomment">/// (Deprecated) Overall relevancy score for the web page.
-        </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>score: f32,
-        <span class="doccomment">/// Title for the web page, may contain HTML markups.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>page_title: ::prost::alloc::string::String,
-        <span class="doccomment">/// Fully matching images on the page.
-        /// Can include resized copies of the query image.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>full_matching_images: ::prost::alloc::vec::Vec&lt;WebImage&gt;,
-        <span class="doccomment">/// Partial matching images on the page.
-        /// Those images are similar enough to share some key-point features. For
-        /// example an original image will likely have partial matching for its
-        /// crops.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
-        </span><span class="kw">pub </span>partial_matching_images: ::prost::alloc::vec::Vec&lt;WebImage&gt;,
-    }
-    <span class="doccomment">/// Label to provide extra metadata for the web detection.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>WebLabel {
-        <span class="doccomment">/// Label for extra metadata.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>label: ::prost::alloc::string::String,
-        <span class="doccomment">/// The BCP-47 language code for `label`, such as "en-US" or "sr-Latn".
-        /// For more information, see
-        /// &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
-    }
-}
-<span class="doccomment">/// Parameters for a celebrity recognition request.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FaceRecognitionParams {
-    <span class="doccomment">/// The resource names for one or more
-    /// [CelebritySet][google.cloud.vision.v1p4beta1.CelebritySet]s. A celebrity
-    /// set is preloaded and can be specified as "builtin/default". If this is
-    /// specified, the algorithm will try to match the faces detected in the input
-    /// image to the Celebrities in the CelebritySets.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>celebrity_set: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// A Celebrity is a group of Faces with an identity.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Celebrity {
-    <span class="doccomment">/// The resource name of the preloaded Celebrity. Has the format
-    /// `builtin/{mid}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The Celebrity's display name.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The Celebrity's description.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Information about a face's identity.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FaceRecognitionResult {
-    <span class="doccomment">/// The [Celebrity][google.cloud.vision.v1p4beta1.Celebrity] that this face was
-    /// matched to.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>celebrity: ::core::option::Option&lt;Celebrity&gt;,
-    <span class="doccomment">/// Recognition confidence. Range \[0, 1\].
-    </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>confidence: f32,
-}
 <span class="doccomment">/// TextAnnotation contains a structured representation of OCR extracted text.
 /// The hierarchy of an OCR extracted text structure is like this:
 ///      TextAnnotation -&gt; Page -&gt; Block -&gt; Paragraph -&gt; Word -&gt; Symbol
@@ -5490,6 +5287,209 @@
     <span class="doccomment">/// Confidence of the OCR results for the symbol. Range \[0, 1\].
     </span><span class="attr">#[prost(float, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>confidence: f32,
+}
+<span class="doccomment">/// Relevant information for the image from the Internet.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>WebDetection {
+    <span class="doccomment">/// Deduced entities from similar images on the Internet.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>web_entities: ::prost::alloc::vec::Vec&lt;web_detection::WebEntity&gt;,
+    <span class="doccomment">/// Fully matching images from the Internet.
+    /// Can include resized copies of the query image.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>full_matching_images: ::prost::alloc::vec::Vec&lt;web_detection::WebImage&gt;,
+    <span class="doccomment">/// Partial matching images from the Internet.
+    /// Those images are similar enough to share some key-point features. For
+    /// example an original image will likely have partial matching for its crops.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>partial_matching_images: ::prost::alloc::vec::Vec&lt;web_detection::WebImage&gt;,
+    <span class="doccomment">/// Web pages containing the matching images from the Internet.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>pages_with_matching_images: ::prost::alloc::vec::Vec&lt;web_detection::WebPage&gt;,
+    <span class="doccomment">/// The visually similar image results.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>visually_similar_images: ::prost::alloc::vec::Vec&lt;web_detection::WebImage&gt;,
+    <span class="doccomment">/// The service's best guess as to the topic of the request image.
+    /// Inferred from similar images on the open web.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>best_guess_labels: ::prost::alloc::vec::Vec&lt;web_detection::WebLabel&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `WebDetection`.
+</span><span class="kw">pub mod </span>web_detection {
+    <span class="doccomment">/// Entity deduced from similar images on the Internet.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>WebEntity {
+        <span class="doccomment">/// Opaque entity ID.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>entity_id: ::prost::alloc::string::String,
+        <span class="doccomment">/// Overall relevancy score for the entity.
+        /// Not normalized and not comparable across different image queries.
+        </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>score: f32,
+        <span class="doccomment">/// Canonical description of the entity, in English.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Metadata for online images.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>WebImage {
+        <span class="doccomment">/// The result image URL.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>url: ::prost::alloc::string::String,
+        <span class="doccomment">/// (Deprecated) Overall relevancy score for the image.
+        </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>score: f32,
+    }
+    <span class="doccomment">/// Metadata for web pages.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>WebPage {
+        <span class="doccomment">/// The result web page URL.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>url: ::prost::alloc::string::String,
+        <span class="doccomment">/// (Deprecated) Overall relevancy score for the web page.
+        </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>score: f32,
+        <span class="doccomment">/// Title for the web page, may contain HTML markups.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>page_title: ::prost::alloc::string::String,
+        <span class="doccomment">/// Fully matching images on the page.
+        /// Can include resized copies of the query image.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>full_matching_images: ::prost::alloc::vec::Vec&lt;WebImage&gt;,
+        <span class="doccomment">/// Partial matching images on the page.
+        /// Those images are similar enough to share some key-point features. For
+        /// example an original image will likely have partial matching for its
+        /// crops.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>partial_matching_images: ::prost::alloc::vec::Vec&lt;WebImage&gt;,
+    }
+    <span class="doccomment">/// Label to provide extra metadata for the web detection.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>WebLabel {
+        <span class="doccomment">/// Label for extra metadata.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>label: ::prost::alloc::string::String,
+        <span class="doccomment">/// The BCP-47 language code for `label`, such as "en-US" or "sr-Latn".
+        /// For more information, see
+        /// &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
+    }
+}
+<span class="doccomment">/// Parameters for a product search request.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProductSearchParams {
+    <span class="doccomment">/// The bounding polygon around the area of interest in the image.
+    /// If it is not specified, system discretion will be applied.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>bounding_poly: ::core::option::Option&lt;BoundingPoly&gt;,
+    <span class="doccomment">/// The resource name of a
+    /// [ProductSet][google.cloud.vision.v1p4beta1.ProductSet] to be searched for
+    /// similar images.
+    ///
+    /// Format is:
+    /// `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>product_set: ::prost::alloc::string::String,
+    <span class="doccomment">/// The list of product categories to search in. Currently, we only consider
+    /// the first category, and either "homegoods-v2", "apparel-v2", "toys-v2",
+    /// "packagedgoods-v1", or "general-v1" should be specified. The legacy
+    /// categories "homegoods", "apparel", and "toys" are still supported but will
+    /// be deprecated. For new products, please use "homegoods-v2", "apparel-v2",
+    /// or "toys-v2" for better product search accuracy. It is recommended to
+    /// migrate existing products to these categories as well.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>product_categories: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The filtering expression. This can be used to restrict search results based
+    /// on Product labels. We currently support an AND of OR of key-value
+    /// expressions, where each expression within an OR must have the same key. An
+    /// '=' should be used to connect the key and value.
+    ///
+    /// For example, "(color = red OR color = blue) AND brand = Google" is
+    /// acceptable, but "(color = red OR brand = Google)" is not acceptable.
+    /// "color: red" is not acceptable because it uses a ':' instead of an '='.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Results for a product search request.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProductSearchResults {
+    <span class="doccomment">/// Timestamp of the index which provided these results. Products added to the
+    /// product set and products removed from the product set after this time are
+    /// not reflected in the current results.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>index_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// List of results, one for each product match.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>results: ::prost::alloc::vec::Vec&lt;product_search_results::Result&gt;,
+    <span class="doccomment">/// List of results grouped by products detected in the query image. Each entry
+    /// corresponds to one bounding polygon in the query image, and contains the
+    /// matching products specific to that region. There may be duplicate product
+    /// matches in the union of all the per-product results.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>product_grouped_results: ::prost::alloc::vec::Vec&lt;
+        product_search_results::GroupedResult,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ProductSearchResults`.
+</span><span class="kw">pub mod </span>product_search_results {
+    <span class="doccomment">/// Information about a product.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span><span class="prelude-ty">Result </span>{
+        <span class="doccomment">/// The Product.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>product: ::core::option::Option&lt;<span class="kw">super</span>::Product&gt;,
+        <span class="doccomment">/// A confidence level on the match, ranging from 0 (no confidence) to
+        /// 1 (full confidence).
+        </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>score: f32,
+        <span class="doccomment">/// The resource name of the image from the product that is the closest match
+        /// to the query.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>image: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Prediction for what the object in the bounding box is.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ObjectAnnotation {
+        <span class="doccomment">/// Object ID that should align with EntityAnnotation mid.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>mid: ::prost::alloc::string::String,
+        <span class="doccomment">/// The BCP-47 language code, such as "en-US" or "sr-Latn". For more
+        /// information, see
+        /// &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
+        <span class="doccomment">/// Object name, expressed in its `language_code` language.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+        <span class="doccomment">/// Score of the result. Range \[0, 1\].
+        </span><span class="attr">#[prost(float, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>score: f32,
+    }
+    <span class="doccomment">/// Information about the products similar to a single product in a query
+    /// image.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>GroupedResult {
+        <span class="doccomment">/// The bounding polygon around the product detected in the query image.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>bounding_poly: ::core::option::Option&lt;<span class="kw">super</span>::BoundingPoly&gt;,
+        <span class="doccomment">/// List of results, one for each product match.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>results: ::prost::alloc::vec::Vec&lt;<span class="prelude-ty">Result</span>&gt;,
+        <span class="doccomment">/// List of generic predictions for the object in the bounding box.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>object_annotations: ::prost::alloc::vec::Vec&lt;ObjectAnnotation&gt;,
+    }
 }
 <span class="doccomment">/// The type of Google Cloud Vision API detection to perform, and the maximum
 /// number of results to return for that type. Multiple `Feature` objects can

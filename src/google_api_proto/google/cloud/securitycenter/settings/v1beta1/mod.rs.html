@@ -1249,7 +1249,110 @@
 <a href="#1247" id="1247">1247</a>
 <a href="#1248" id="1248">1248</a>
 <a href="#1249" id="1249">1249</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Component Settings for Security Command Center
+</pre></div><pre class="rust"><code><span class="doccomment">/// Sink Settings for Security Command Center
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SinkSettings {
+    <span class="doccomment">/// The resource name of the project to send logs to. This project must be
+    /// part of the same organization where the Security Center API is
+    /// enabled. The format is `projects/{project}`. If it is empty, we do
+    /// not output logs. If a project ID is provided it will be normalized to a
+    /// project number.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>logging_sink_project: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Billing settings
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BillingSettings {
+    <span class="doccomment">/// Output only. Billing tier selected by customer
+    </span><span class="attr">#[prost(enumeration = <span class="string">"BillingTier"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>billing_tier: i32,
+    <span class="doccomment">/// Output only. Type of billing method
+    </span><span class="attr">#[prost(enumeration = <span class="string">"BillingType"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>billing_type: i32,
+    <span class="doccomment">/// Output only. The absolute point in time when the subscription became effective.
+    /// Can be compared to expire_time value to determine full contract duration
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The absolute point in time when the subscription expires.
+    ///
+    /// If this field is populated and billing_tier is STANDARD, this is
+    /// indication of a point in the _past_ when a PREMIUM access ended.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Billing tier options
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>BillingTier {
+    <span class="doccomment">/// Default value. This value is unused.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// The standard billing tier.
+    </span>Standard = <span class="number">1</span>,
+    <span class="doccomment">/// The premium billing tier.
+    </span>Premium = <span class="number">2</span>,
+}
+<span class="kw">impl </span>BillingTier {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            BillingTier::Unspecified =&gt; <span class="string">"BILLING_TIER_UNSPECIFIED"</span>,
+            BillingTier::Standard =&gt; <span class="string">"STANDARD"</span>,
+            BillingTier::Premium =&gt; <span class="string">"PREMIUM"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"BILLING_TIER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"STANDARD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Standard),
+            <span class="string">"PREMIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Premium),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Billing type
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>BillingType {
+    <span class="doccomment">/// Default billing type
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Subscription for Premium billing tier
+    </span>Subscription = <span class="number">1</span>,
+    <span class="doccomment">/// Trial subscription for Premium billing tier
+    </span>TrialSubscription = <span class="number">2</span>,
+    <span class="doccomment">/// Alpha customer for Premium billing tier
+    </span>Alpha = <span class="number">3</span>,
+}
+<span class="kw">impl </span>BillingType {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            BillingType::Unspecified =&gt; <span class="string">"BILLING_TYPE_UNSPECIFIED"</span>,
+            BillingType::Subscription =&gt; <span class="string">"SUBSCRIPTION"</span>,
+            BillingType::TrialSubscription =&gt; <span class="string">"TRIAL_SUBSCRIPTION"</span>,
+            BillingType::Alpha =&gt; <span class="string">"ALPHA"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"BILLING_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"SUBSCRIPTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Subscription),
+            <span class="string">"TRIAL_SUBSCRIPTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrialSubscription),
+            <span class="string">"ALPHA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Alpha),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Component Settings for Security Command Center
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ComponentSettings {
@@ -1428,109 +1531,6 @@
             <span class="string">"DISABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Disable),
             <span class="string">"ENABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Enable),
             <span class="string">"INHERIT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Inherit),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Sink Settings for Security Command Center
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SinkSettings {
-    <span class="doccomment">/// The resource name of the project to send logs to. This project must be
-    /// part of the same organization where the Security Center API is
-    /// enabled. The format is `projects/{project}`. If it is empty, we do
-    /// not output logs. If a project ID is provided it will be normalized to a
-    /// project number.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>logging_sink_project: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Billing settings
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BillingSettings {
-    <span class="doccomment">/// Output only. Billing tier selected by customer
-    </span><span class="attr">#[prost(enumeration = <span class="string">"BillingTier"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>billing_tier: i32,
-    <span class="doccomment">/// Output only. Type of billing method
-    </span><span class="attr">#[prost(enumeration = <span class="string">"BillingType"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>billing_type: i32,
-    <span class="doccomment">/// Output only. The absolute point in time when the subscription became effective.
-    /// Can be compared to expire_time value to determine full contract duration
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The absolute point in time when the subscription expires.
-    ///
-    /// If this field is populated and billing_tier is STANDARD, this is
-    /// indication of a point in the _past_ when a PREMIUM access ended.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Billing tier options
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>BillingTier {
-    <span class="doccomment">/// Default value. This value is unused.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// The standard billing tier.
-    </span>Standard = <span class="number">1</span>,
-    <span class="doccomment">/// The premium billing tier.
-    </span>Premium = <span class="number">2</span>,
-}
-<span class="kw">impl </span>BillingTier {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            BillingTier::Unspecified =&gt; <span class="string">"BILLING_TIER_UNSPECIFIED"</span>,
-            BillingTier::Standard =&gt; <span class="string">"STANDARD"</span>,
-            BillingTier::Premium =&gt; <span class="string">"PREMIUM"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"BILLING_TIER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"STANDARD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Standard),
-            <span class="string">"PREMIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Premium),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Billing type
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>BillingType {
-    <span class="doccomment">/// Default billing type
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Subscription for Premium billing tier
-    </span>Subscription = <span class="number">1</span>,
-    <span class="doccomment">/// Trial subscription for Premium billing tier
-    </span>TrialSubscription = <span class="number">2</span>,
-    <span class="doccomment">/// Alpha customer for Premium billing tier
-    </span>Alpha = <span class="number">3</span>,
-}
-<span class="kw">impl </span>BillingType {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            BillingType::Unspecified =&gt; <span class="string">"BILLING_TYPE_UNSPECIFIED"</span>,
-            BillingType::Subscription =&gt; <span class="string">"SUBSCRIPTION"</span>,
-            BillingType::TrialSubscription =&gt; <span class="string">"TRIAL_SUBSCRIPTION"</span>,
-            BillingType::Alpha =&gt; <span class="string">"ALPHA"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"BILLING_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"SUBSCRIPTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Subscription),
-            <span class="string">"TRIAL_SUBSCRIPTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrialSubscription),
-            <span class="string">"ALPHA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Alpha),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }

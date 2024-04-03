@@ -1068,6 +1068,442 @@
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>normalized_vertices: ::prost::alloc::vec::Vec&lt;NormalizedVertex&gt;,
 }
+<span class="doccomment">/// Request to batch process documents as an asynchronous operation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BatchProcessDocumentsRequest {
+    <span class="doccomment">/// Required. Individual requests for each document.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>requests: ::prost::alloc::vec::Vec&lt;ProcessDocumentRequest&gt;,
+    <span class="doccomment">/// Target project and location to make a call.
+    ///
+    /// Format: `projects/{project-id}/locations/{location-id}`.
+    ///
+    /// If no location is specified, a region will be chosen automatically.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request to process one document.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProcessDocumentRequest {
+    <span class="doccomment">/// Required. Information about the input file.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>input_config: ::core::option::Option&lt;InputConfig&gt;,
+    <span class="doccomment">/// Required. The desired output location.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>output_config: ::core::option::Option&lt;OutputConfig&gt;,
+    <span class="doccomment">/// Specifies a known document type for deeper structure detection. Valid
+    /// values are currently "general" and "invoice". If not provided, "general"\
+    /// is used as default. If any other value is given, the request is rejected.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>document_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Controls table extraction behavior. If not specified, the system will
+    /// decide reasonable defaults.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>table_extraction_params: ::core::option::Option&lt;TableExtractionParams&gt;,
+    <span class="doccomment">/// Controls form extraction behavior. If not specified, the system will
+    /// decide reasonable defaults.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>form_extraction_params: ::core::option::Option&lt;FormExtractionParams&gt;,
+    <span class="doccomment">/// Controls entity extraction behavior. If not specified, the system will
+    /// decide reasonable defaults.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>entity_extraction_params: ::core::option::Option&lt;EntityExtractionParams&gt;,
+    <span class="doccomment">/// Controls OCR behavior. If not specified, the system will decide reasonable
+    /// defaults.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>ocr_params: ::core::option::Option&lt;OcrParams&gt;,
+}
+<span class="doccomment">/// Response to an batch document processing request. This is returned in
+/// the LRO Operation after the operation is complete.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BatchProcessDocumentsResponse {
+    <span class="doccomment">/// Responses for each individual document.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>responses: ::prost::alloc::vec::Vec&lt;ProcessDocumentResponse&gt;,
+}
+<span class="doccomment">/// Response to a single document processing request.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProcessDocumentResponse {
+    <span class="doccomment">/// Information about the input file. This is the same as the corresponding
+    /// input config in the request.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>input_config: ::core::option::Option&lt;InputConfig&gt;,
+    <span class="doccomment">/// The output location of the parsed responses. The responses are written to
+    /// this location as JSON-serialized `Document` objects.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>output_config: ::core::option::Option&lt;OutputConfig&gt;,
+}
+<span class="doccomment">/// Parameters to control Optical Character Recognition (OCR) behavior.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>OcrParams {
+    <span class="doccomment">/// List of languages to use for OCR. In most cases, an empty value
+    /// yields the best results since it enables automatic language detection. For
+    /// languages based on the Latin alphabet, setting `language_hints` is not
+    /// needed. In rare cases, when the language of the text in the image is known,
+    /// setting a hint will help get better results (although it will be a
+    /// significant hindrance if the hint is wrong). Document processing returns an
+    /// error if one or more of the specified languages is not one of the
+    /// supported languages.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>language_hints: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Parameters to control table extraction behavior.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TableExtractionParams {
+    <span class="doccomment">/// Whether to enable table extraction.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>enabled: bool,
+    <span class="doccomment">/// Optional. Table bounding box hints that can be provided to complex cases
+    /// which our algorithm cannot locate the table(s) in.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>table_bound_hints: ::prost::alloc::vec::Vec&lt;TableBoundHint&gt;,
+    <span class="doccomment">/// Optional. Table header hints. The extraction will bias towards producing
+    /// these terms as table headers, which may improve accuracy.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>header_hints: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Model version of the table extraction system. Default is "builtin/stable".
+    /// Specify "builtin/latest" for the latest model.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>model_version: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A hint for a table bounding box on the page for table parsing.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TableBoundHint {
+    <span class="doccomment">/// Optional. Page number for multi-paged inputs this hint applies to. If not
+    /// provided, this hint will apply to all pages by default. This value is
+    /// 1-based.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>page_number: i32,
+    <span class="doccomment">/// Bounding box hint for a table on this page. The coordinates must be
+    /// normalized to \[0,1\] and the bounding box must be an axis-aligned rectangle.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>bounding_box: ::core::option::Option&lt;BoundingPoly&gt;,
+}
+<span class="doccomment">/// Parameters to control form extraction behavior.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FormExtractionParams {
+    <span class="doccomment">/// Whether to enable form extraction.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>enabled: bool,
+    <span class="doccomment">/// User can provide pairs of (key text, value type) to improve the parsing
+    /// result.
+    ///
+    /// For example, if a document has a field called "Date" that holds a date
+    /// value and a field called "Amount" that may hold either a currency value
+    /// (e.g., "$500.00") or a simple number value (e.g., "20"), you could use the
+    /// following hints: \[ {"key": "Date", value_types: [ "DATE"\]}, {"key":
+    /// "Amount", "value_types": \[ "PRICE", "NUMBER" \]} ]
+    ///
+    /// If the value type is unknown, but you want to provide hints for the keys,
+    /// you can leave the value_types field blank. e.g. {"key": "Date",
+    /// "value_types": \[\]}
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>key_value_pair_hints: ::prost::alloc::vec::Vec&lt;KeyValuePairHint&gt;,
+    <span class="doccomment">/// Model version of the form extraction system. Default is
+    /// "builtin/stable". Specify "builtin/latest" for the latest model.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>model_version: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// User-provided hint for key value pair.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>KeyValuePairHint {
+    <span class="doccomment">/// The key text for the hint.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>key: ::prost::alloc::string::String,
+    <span class="doccomment">/// Type of the value. This is case-insensitive, and could be one of:
+    /// ADDRESS, LOCATION, ORGANIZATION, PERSON, PHONE_NUMBER,
+    /// ID, NUMBER, EMAIL, PRICE, TERMS, DATE, NAME. Types not in this list will
+    /// be ignored.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>value_types: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Parameters to control entity extraction behavior.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>EntityExtractionParams {
+    <span class="doccomment">/// Whether to enable entity extraction.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>enabled: bool,
+    <span class="doccomment">/// Model version of the entity extraction. Default is
+    /// "builtin/stable". Specify "builtin/latest" for the latest model.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>model_version: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The desired input location and metadata.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>InputConfig {
+    <span class="doccomment">/// Required. Mimetype of the input. Current supported mimetypes are
+    /// application/pdf, image/tiff, and image/gif.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required.
+    </span><span class="attr">#[prost(oneof = <span class="string">"input_config::Source"</span>, tags = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>source: ::core::option::Option&lt;input_config::Source&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `InputConfig`.
+</span><span class="kw">pub mod </span>input_config {
+    <span class="doccomment">/// Required.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Source {
+        <span class="doccomment">/// The Google Cloud Storage location to read the input from. This must be a
+        /// single file.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>GcsSource(<span class="kw">super</span>::GcsSource),
+    }
+}
+<span class="doccomment">/// The desired output location and metadata.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>OutputConfig {
+    <span class="doccomment">/// The max number of pages to include into each output Document shard JSON on
+    /// Google Cloud Storage.
+    ///
+    /// The valid range is \[1, 100\]. If not specified, the default value is 20.
+    ///
+    /// For example, for one pdf file with 100 pages, 100 parsed pages will be
+    /// produced. If `pages_per_shard` = 20, then 5 Document shard JSON files each
+    /// containing 20 parsed pages will be written under the prefix
+    /// [OutputConfig.gcs_destination.uri][] and suffix pages-x-to-y.json where
+    /// x and y are 1-indexed page numbers.
+    ///
+    /// Example GCS outputs with 157 pages and pages_per_shard = 50:
+    ///
+    /// &lt;prefix&gt;pages-001-to-050.json
+    /// &lt;prefix&gt;pages-051-to-100.json
+    /// &lt;prefix&gt;pages-101-to-150.json
+    /// &lt;prefix&gt;pages-151-to-157.json
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>pages_per_shard: i32,
+    <span class="doccomment">/// Required.
+    </span><span class="attr">#[prost(oneof = <span class="string">"output_config::Destination"</span>, tags = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>destination: ::core::option::Option&lt;output_config::Destination&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `OutputConfig`.
+</span><span class="kw">pub mod </span>output_config {
+    <span class="doccomment">/// Required.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Destination {
+        <span class="doccomment">/// The Google Cloud Storage location to write the output to.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>GcsDestination(<span class="kw">super</span>::GcsDestination),
+    }
+}
+<span class="doccomment">/// The Google Cloud Storage location where the input file will be read from.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GcsSource {
+    <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The Google Cloud Storage location where the output file will be written to.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GcsDestination {
+    <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Contains metadata for the BatchProcessDocuments operation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>OperationMetadata {
+    <span class="doccomment">/// The state of the current batch processing.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"operation_metadata::State"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// A message providing more details about the current state of processing.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>state_message: ::prost::alloc::string::String,
+    <span class="doccomment">/// The creation time of the operation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The last update time of the operation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `OperationMetadata`.
+</span><span class="kw">pub mod </span>operation_metadata {
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// The default value. This value is used if the state is omitted.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Request is received.
+        </span>Accepted = <span class="number">1</span>,
+        <span class="doccomment">/// Request operation is waiting for scheduling.
+        </span>Waiting = <span class="number">2</span>,
+        <span class="doccomment">/// Request is being processed.
+        </span>Running = <span class="number">3</span>,
+        <span class="doccomment">/// The batch processing completed successfully.
+        </span>Succeeded = <span class="number">4</span>,
+        <span class="doccomment">/// The batch processing was cancelled.
+        </span>Cancelled = <span class="number">5</span>,
+        <span class="doccomment">/// The batch processing has failed.
+        </span>Failed = <span class="number">6</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Accepted =&gt; <span class="string">"ACCEPTED"</span>,
+                State::Waiting =&gt; <span class="string">"WAITING"</span>,
+                State::Running =&gt; <span class="string">"RUNNING"</span>,
+                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
+                State::Cancelled =&gt; <span class="string">"CANCELLED"</span>,
+                State::Failed =&gt; <span class="string">"FAILED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"ACCEPTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Accepted),
+                <span class="string">"WAITING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Waiting),
+                <span class="string">"RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Running),
+                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
+                <span class="string">"CANCELLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelled),
+                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>document_understanding_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Service to parse structured information from unstructured or semi-structured
+    /// documents using state-of-the-art Google AI such as natural language,
+    /// computer vision, and translation.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>DocumentUnderstandingServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; DocumentUnderstandingServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; DocumentUnderstandingServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            DocumentUnderstandingServiceClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// LRO endpoint to batch process many documents.
+        </span><span class="kw">pub async fn </span>batch_process_documents(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::BatchProcessDocumentsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.documentai.v1beta1.DocumentUnderstandingService/BatchProcessDocuments"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.documentai.v1beta1.DocumentUnderstandingService"</span>,
+                        <span class="string">"BatchProcessDocuments"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
 <span class="doccomment">/// Document represents the canonical document resource in Document Understanding
 /// AI.
 /// It is an interchange format that provides insights into documents and allows
@@ -1626,442 +2062,6 @@
         /// representation, whereas JSON representations use base64.
         </span><span class="attr">#[prost(bytes, tag = <span class="string">"2"</span>)]
         </span>Content(::prost::bytes::Bytes),
-    }
-}
-<span class="doccomment">/// Request to batch process documents as an asynchronous operation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BatchProcessDocumentsRequest {
-    <span class="doccomment">/// Required. Individual requests for each document.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>requests: ::prost::alloc::vec::Vec&lt;ProcessDocumentRequest&gt;,
-    <span class="doccomment">/// Target project and location to make a call.
-    ///
-    /// Format: `projects/{project-id}/locations/{location-id}`.
-    ///
-    /// If no location is specified, a region will be chosen automatically.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request to process one document.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProcessDocumentRequest {
-    <span class="doccomment">/// Required. Information about the input file.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>input_config: ::core::option::Option&lt;InputConfig&gt;,
-    <span class="doccomment">/// Required. The desired output location.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>output_config: ::core::option::Option&lt;OutputConfig&gt;,
-    <span class="doccomment">/// Specifies a known document type for deeper structure detection. Valid
-    /// values are currently "general" and "invoice". If not provided, "general"\
-    /// is used as default. If any other value is given, the request is rejected.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>document_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Controls table extraction behavior. If not specified, the system will
-    /// decide reasonable defaults.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>table_extraction_params: ::core::option::Option&lt;TableExtractionParams&gt;,
-    <span class="doccomment">/// Controls form extraction behavior. If not specified, the system will
-    /// decide reasonable defaults.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>form_extraction_params: ::core::option::Option&lt;FormExtractionParams&gt;,
-    <span class="doccomment">/// Controls entity extraction behavior. If not specified, the system will
-    /// decide reasonable defaults.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>entity_extraction_params: ::core::option::Option&lt;EntityExtractionParams&gt;,
-    <span class="doccomment">/// Controls OCR behavior. If not specified, the system will decide reasonable
-    /// defaults.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>ocr_params: ::core::option::Option&lt;OcrParams&gt;,
-}
-<span class="doccomment">/// Response to an batch document processing request. This is returned in
-/// the LRO Operation after the operation is complete.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BatchProcessDocumentsResponse {
-    <span class="doccomment">/// Responses for each individual document.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>responses: ::prost::alloc::vec::Vec&lt;ProcessDocumentResponse&gt;,
-}
-<span class="doccomment">/// Response to a single document processing request.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProcessDocumentResponse {
-    <span class="doccomment">/// Information about the input file. This is the same as the corresponding
-    /// input config in the request.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>input_config: ::core::option::Option&lt;InputConfig&gt;,
-    <span class="doccomment">/// The output location of the parsed responses. The responses are written to
-    /// this location as JSON-serialized `Document` objects.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>output_config: ::core::option::Option&lt;OutputConfig&gt;,
-}
-<span class="doccomment">/// Parameters to control Optical Character Recognition (OCR) behavior.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OcrParams {
-    <span class="doccomment">/// List of languages to use for OCR. In most cases, an empty value
-    /// yields the best results since it enables automatic language detection. For
-    /// languages based on the Latin alphabet, setting `language_hints` is not
-    /// needed. In rare cases, when the language of the text in the image is known,
-    /// setting a hint will help get better results (although it will be a
-    /// significant hindrance if the hint is wrong). Document processing returns an
-    /// error if one or more of the specified languages is not one of the
-    /// supported languages.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>language_hints: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Parameters to control table extraction behavior.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TableExtractionParams {
-    <span class="doccomment">/// Whether to enable table extraction.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>enabled: bool,
-    <span class="doccomment">/// Optional. Table bounding box hints that can be provided to complex cases
-    /// which our algorithm cannot locate the table(s) in.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>table_bound_hints: ::prost::alloc::vec::Vec&lt;TableBoundHint&gt;,
-    <span class="doccomment">/// Optional. Table header hints. The extraction will bias towards producing
-    /// these terms as table headers, which may improve accuracy.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>header_hints: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Model version of the table extraction system. Default is "builtin/stable".
-    /// Specify "builtin/latest" for the latest model.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>model_version: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A hint for a table bounding box on the page for table parsing.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TableBoundHint {
-    <span class="doccomment">/// Optional. Page number for multi-paged inputs this hint applies to. If not
-    /// provided, this hint will apply to all pages by default. This value is
-    /// 1-based.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>page_number: i32,
-    <span class="doccomment">/// Bounding box hint for a table on this page. The coordinates must be
-    /// normalized to \[0,1\] and the bounding box must be an axis-aligned rectangle.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>bounding_box: ::core::option::Option&lt;BoundingPoly&gt;,
-}
-<span class="doccomment">/// Parameters to control form extraction behavior.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FormExtractionParams {
-    <span class="doccomment">/// Whether to enable form extraction.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>enabled: bool,
-    <span class="doccomment">/// User can provide pairs of (key text, value type) to improve the parsing
-    /// result.
-    ///
-    /// For example, if a document has a field called "Date" that holds a date
-    /// value and a field called "Amount" that may hold either a currency value
-    /// (e.g., "$500.00") or a simple number value (e.g., "20"), you could use the
-    /// following hints: \[ {"key": "Date", value_types: [ "DATE"\]}, {"key":
-    /// "Amount", "value_types": \[ "PRICE", "NUMBER" \]} ]
-    ///
-    /// If the value type is unknown, but you want to provide hints for the keys,
-    /// you can leave the value_types field blank. e.g. {"key": "Date",
-    /// "value_types": \[\]}
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>key_value_pair_hints: ::prost::alloc::vec::Vec&lt;KeyValuePairHint&gt;,
-    <span class="doccomment">/// Model version of the form extraction system. Default is
-    /// "builtin/stable". Specify "builtin/latest" for the latest model.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>model_version: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// User-provided hint for key value pair.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>KeyValuePairHint {
-    <span class="doccomment">/// The key text for the hint.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>key: ::prost::alloc::string::String,
-    <span class="doccomment">/// Type of the value. This is case-insensitive, and could be one of:
-    /// ADDRESS, LOCATION, ORGANIZATION, PERSON, PHONE_NUMBER,
-    /// ID, NUMBER, EMAIL, PRICE, TERMS, DATE, NAME. Types not in this list will
-    /// be ignored.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>value_types: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Parameters to control entity extraction behavior.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EntityExtractionParams {
-    <span class="doccomment">/// Whether to enable entity extraction.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>enabled: bool,
-    <span class="doccomment">/// Model version of the entity extraction. Default is
-    /// "builtin/stable". Specify "builtin/latest" for the latest model.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>model_version: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The desired input location and metadata.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>InputConfig {
-    <span class="doccomment">/// Required. Mimetype of the input. Current supported mimetypes are
-    /// application/pdf, image/tiff, and image/gif.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required.
-    </span><span class="attr">#[prost(oneof = <span class="string">"input_config::Source"</span>, tags = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>source: ::core::option::Option&lt;input_config::Source&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `InputConfig`.
-</span><span class="kw">pub mod </span>input_config {
-    <span class="doccomment">/// Required.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Source {
-        <span class="doccomment">/// The Google Cloud Storage location to read the input from. This must be a
-        /// single file.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>GcsSource(<span class="kw">super</span>::GcsSource),
-    }
-}
-<span class="doccomment">/// The desired output location and metadata.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OutputConfig {
-    <span class="doccomment">/// The max number of pages to include into each output Document shard JSON on
-    /// Google Cloud Storage.
-    ///
-    /// The valid range is \[1, 100\]. If not specified, the default value is 20.
-    ///
-    /// For example, for one pdf file with 100 pages, 100 parsed pages will be
-    /// produced. If `pages_per_shard` = 20, then 5 Document shard JSON files each
-    /// containing 20 parsed pages will be written under the prefix
-    /// [OutputConfig.gcs_destination.uri][] and suffix pages-x-to-y.json where
-    /// x and y are 1-indexed page numbers.
-    ///
-    /// Example GCS outputs with 157 pages and pages_per_shard = 50:
-    ///
-    /// &lt;prefix&gt;pages-001-to-050.json
-    /// &lt;prefix&gt;pages-051-to-100.json
-    /// &lt;prefix&gt;pages-101-to-150.json
-    /// &lt;prefix&gt;pages-151-to-157.json
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>pages_per_shard: i32,
-    <span class="doccomment">/// Required.
-    </span><span class="attr">#[prost(oneof = <span class="string">"output_config::Destination"</span>, tags = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>destination: ::core::option::Option&lt;output_config::Destination&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `OutputConfig`.
-</span><span class="kw">pub mod </span>output_config {
-    <span class="doccomment">/// Required.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Destination {
-        <span class="doccomment">/// The Google Cloud Storage location to write the output to.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>GcsDestination(<span class="kw">super</span>::GcsDestination),
-    }
-}
-<span class="doccomment">/// The Google Cloud Storage location where the input file will be read from.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GcsSource {
-    <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The Google Cloud Storage location where the output file will be written to.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GcsDestination {
-    <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Contains metadata for the BatchProcessDocuments operation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OperationMetadata {
-    <span class="doccomment">/// The state of the current batch processing.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"operation_metadata::State"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// A message providing more details about the current state of processing.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>state_message: ::prost::alloc::string::String,
-    <span class="doccomment">/// The creation time of the operation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The last update time of the operation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `OperationMetadata`.
-</span><span class="kw">pub mod </span>operation_metadata {
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// The default value. This value is used if the state is omitted.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Request is received.
-        </span>Accepted = <span class="number">1</span>,
-        <span class="doccomment">/// Request operation is waiting for scheduling.
-        </span>Waiting = <span class="number">2</span>,
-        <span class="doccomment">/// Request is being processed.
-        </span>Running = <span class="number">3</span>,
-        <span class="doccomment">/// The batch processing completed successfully.
-        </span>Succeeded = <span class="number">4</span>,
-        <span class="doccomment">/// The batch processing was cancelled.
-        </span>Cancelled = <span class="number">5</span>,
-        <span class="doccomment">/// The batch processing has failed.
-        </span>Failed = <span class="number">6</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Accepted =&gt; <span class="string">"ACCEPTED"</span>,
-                State::Waiting =&gt; <span class="string">"WAITING"</span>,
-                State::Running =&gt; <span class="string">"RUNNING"</span>,
-                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
-                State::Cancelled =&gt; <span class="string">"CANCELLED"</span>,
-                State::Failed =&gt; <span class="string">"FAILED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"ACCEPTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Accepted),
-                <span class="string">"WAITING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Waiting),
-                <span class="string">"RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Running),
-                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
-                <span class="string">"CANCELLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelled),
-                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>document_understanding_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Service to parse structured information from unstructured or semi-structured
-    /// documents using state-of-the-art Google AI such as natural language,
-    /// computer vision, and translation.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>DocumentUnderstandingServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; DocumentUnderstandingServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; DocumentUnderstandingServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            DocumentUnderstandingServiceClient::new(
-                InterceptedService::new(inner, interceptor),
-            )
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// LRO endpoint to batch process many documents.
-        </span><span class="kw">pub async fn </span>batch_process_documents(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::BatchProcessDocumentsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.documentai.v1beta1.DocumentUnderstandingService/BatchProcessDocuments"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.documentai.v1beta1.DocumentUnderstandingService"</span>,
-                        <span class="string">"BatchProcessDocuments"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
     }
 }
 </code></pre></div></section></main></body></html>

@@ -5986,7 +5986,47 @@
 <a href="#5984" id="5984">5984</a>
 <a href="#5985" id="5985">5985</a>
 <a href="#5986" id="5986">5986</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// The [data profile](&lt;https://cloud.google.com/dlp/docs/data-profiles&gt;)
+</pre></div><pre class="rust"><code><span class="doccomment">/// Represents database access information, such as queries. A database may be a
+/// sub-resource of an instance (as in the case of Cloud SQL instances or Cloud
+/// Spanner instances), or the database instance itself. Some database resources
+/// might not have the [full resource
+/// name](&lt;https://google.aip.dev/122#full-resource-names&gt;) populated because these
+/// resource types, such as Cloud SQL databases, are not yet supported by Cloud
+/// Asset Inventory. In these cases only the display name is provided.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Database {
+    <span class="doccomment">/// Some database resources may not have the [full resource
+    /// name](&lt;https://google.aip.dev/122#full-resource-names&gt;) populated because
+    /// these resource types are not yet supported by Cloud Asset Inventory (e.g.
+    /// Cloud SQL databases). In these cases only the display name will be
+    /// provided.
+    /// The [full resource name](&lt;https://google.aip.dev/122#full-resource-names&gt;) of
+    /// the database that the user connected to, if it is supported by Cloud Asset
+    /// Inventory.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The human-readable name of the database that the user connected to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The username used to connect to the database. The username might not be an
+    /// IAM principal and does not have a set format.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>user_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The SQL statement that is associated with the database access.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>query: ::prost::alloc::string::String,
+    <span class="doccomment">/// The target usernames, roles, or groups of an SQL privilege grant, which is
+    /// not an IAM policy change.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>grantees: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The version of the database, for example, POSTGRES_14.
+    /// See [the complete
+    /// list](&lt;https://cloud.google.com/sql/docs/mysql/admin-api/rest/v1/SqlDatabaseVersion&gt;).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The [data profile](&lt;https://cloud.google.com/dlp/docs/data-profiles&gt;)
 /// associated with the finding.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -6045,179 +6085,15 @@
         }
     }
 }
-<span class="doccomment">/// An attack exposure contains the results of an attack path simulation run.
+<span class="doccomment">/// Contains information about the org policies associated with the finding.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AttackExposure {
-    <span class="doccomment">/// A number between 0 (inclusive) and infinity that represents how important
-    /// this finding is to remediate. The higher the score, the more important it
-    /// is to remediate.
-    </span><span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>score: f64,
-    <span class="doccomment">/// The most recent time the attack exposure was updated on this finding.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>latest_calculation_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The resource name of the attack path simulation result that contains the
-    /// details regarding this attack exposure score.
-    /// Example: organizations/123/simulations/456/attackExposureResults/789
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>attack_exposure_result: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. What state this AttackExposure is in. This captures whether or
-    /// not an attack exposure has been calculated or not.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"attack_exposure::State"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// The number of high value resources that are exposed as a result of this
-    /// finding.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>exposed_high_value_resources_count: i32,
-    <span class="doccomment">/// The number of medium value resources that are exposed as a result of this
-    /// finding.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>exposed_medium_value_resources_count: i32,
-    <span class="doccomment">/// The number of high value resources that are exposed as a result of this
-    /// finding.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>exposed_low_value_resources_count: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `AttackExposure`.
-</span><span class="kw">pub mod </span>attack_exposure {
-    <span class="doccomment">/// This enum defines the various states an AttackExposure can be in.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// The state is not specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The attack exposure has been calculated.
-        </span>Calculated = <span class="number">1</span>,
-        <span class="doccomment">/// The attack exposure has not been calculated.
-        </span>NotCalculated = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Calculated =&gt; <span class="string">"CALCULATED"</span>,
-                State::NotCalculated =&gt; <span class="string">"NOT_CALCULATED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CALCULATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Calculated),
-                <span class="string">"NOT_CALCULATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotCalculated),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Represents an access event.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Access {
-    <span class="doccomment">/// Associated email, such as "foo@google.com".
-    ///
-    /// The email address of the authenticated user or a service account acting on
-    /// behalf of a third party principal making the request. For third party
-    /// identity callers, the `principal_subject` field is populated instead of
-    /// this field. For privacy reasons, the principal email address is sometimes
-    /// redacted. For more information, see [Caller identities in audit
-    /// logs](&lt;https://cloud.google.com/logging/docs/audit#user-id&gt;).
+</span><span class="kw">pub struct </span>OrgPolicy {
+    <span class="doccomment">/// The resource name of the org policy.
+    /// Example:
+    /// "organizations/{organization_id}/policies/{constraint_name}"
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>principal_email: ::prost::alloc::string::String,
-    <span class="doccomment">/// Caller's IP address, such as "1.1.1.1".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>caller_ip: ::prost::alloc::string::String,
-    <span class="doccomment">/// The caller IP's geolocation, which identifies where the call came from.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>caller_ip_geo: ::core::option::Option&lt;Geolocation&gt;,
-    <span class="doccomment">/// Type of user agent associated with the finding. For example, an operating
-    /// system shell or an embedded or standalone application.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>user_agent_family: ::prost::alloc::string::String,
-    <span class="doccomment">/// The caller's user agent string associated with the finding.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>user_agent: ::prost::alloc::string::String,
-    <span class="doccomment">/// This is the API service that the service account made a call to, e.g.
-    /// "iam.googleapis.com"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>service_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The method that the service account called, e.g. "SetIamPolicy".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>method_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// A string that represents the principal_subject that is associated with the
-    /// identity. Unlike `principal_email`, `principal_subject` supports principals
-    /// that aren't associated with email addresses, such as third party
-    /// principals. For most identities, the format is
-    /// `principal://iam.googleapis.com/{identity pool name}/subject/{subject}`.
-    /// Some GKE identities, such as GKE_WORKLOAD, FREEFORM, and GKE_HUB_WORKLOAD,
-    /// still use the legacy format `serviceAccount:{identity pool
-    /// name}\[{subject}\]`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>principal_subject: ::prost::alloc::string::String,
-    <span class="doccomment">/// The name of the service account key that was used to create or exchange
-    /// credentials when authenticating the service account that made the request.
-    /// This is a scheme-less URI full resource name. For example:
-    ///
-    /// "//iam.googleapis.com/projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}".
-    ///
-    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>service_account_key_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The identity delegation history of an authenticated service account that
-    /// made the request. The `serviceAccountDelegationInfo\[\]` object contains
-    /// information about the real authorities that try to access Google Cloud
-    /// resources by delegating on a service account. When multiple authorities are
-    /// present, they are guaranteed to be sorted based on the original ordering of
-    /// the identity delegation events.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>service_account_delegation_info: ::prost::alloc::vec::Vec&lt;
-        ServiceAccountDelegationInfo,
-    &gt;,
-    <span class="doccomment">/// A string that represents a username. The username provided depends on the
-    /// type of the finding and is likely not an IAM principal. For example, this
-    /// can be a system username if the finding is related to a virtual machine, or
-    /// it can be an application login username.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>user_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Identity delegation history of an authenticated service account.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ServiceAccountDelegationInfo {
-    <span class="doccomment">/// The email address of a Google account.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>principal_email: ::prost::alloc::string::String,
-    <span class="doccomment">/// A string representing the principal_subject associated with the identity.
-    /// As compared to `principal_email`, supports principals that aren't
-    /// associated with email addresses, such as third party principals. For most
-    /// identities, the format will be `principal://iam.googleapis.com/{identity
-    /// pool name}/subjects/{subject}` except for some GKE identities
-    /// (GKE_WORKLOAD, FREEFORM, GKE_HUB_WORKLOAD) that are still in the legacy
-    /// format `serviceAccount:{identity pool name}\[{subject}\]`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>principal_subject: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Represents a geographical location for a given access.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Geolocation {
-    <span class="doccomment">/// A CLDR.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>region_code: ::prost::alloc::string::String,
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Represents an application associated with a finding.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6231,204 +6107,6 @@
     /// vulnerability. For example, `&lt;http://example.com?p=aMmYgI6H`.&gt;
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>full_uri: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Information related to Google Cloud Backup and DR Service findings.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BackupDisasterRecovery {
-    <span class="doccomment">/// The name of a Backup and DR template which comprises one or more backup
-    /// policies. See the [Backup and DR
-    /// documentation](&lt;https://cloud.google.com/backup-disaster-recovery/docs/concepts/backup-plan#temp&gt;)
-    /// for more information. For example, `snap-ov`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>backup_template: ::prost::alloc::string::String,
-    <span class="doccomment">/// The names of Backup and DR policies that are associated with a template
-    /// and that define when to run a backup, how frequently to run a backup, and
-    /// how long to retain the backup image. For example, `onvaults`.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>policies: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The name of a Backup and DR host, which is managed by the backup and
-    /// recovery appliance and known to the management console. The host can be of
-    /// type Generic (for example, Compute Engine, SQL Server, Oracle DB, SMB file
-    /// system, etc.), vCenter, or an ESX server. See the [Backup and DR
-    /// documentation on
-    /// hosts](&lt;https://cloud.google.com/backup-disaster-recovery/docs/configuration/manage-hosts-and-their-applications&gt;)
-    /// for more information. For example, `centos7-01`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>host: ::prost::alloc::string::String,
-    <span class="doccomment">/// The names of Backup and DR applications. An application is a VM, database,
-    /// or file system on a managed host monitored by a backup and recovery
-    /// appliance. For example, `centos7-01-vol00`, `centos7-01-vol01`,
-    /// `centos7-01-vol02`.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>applications: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The name of the Backup and DR storage pool that the backup and recovery
-    /// appliance is storing data in. The storage pool could be of type Cloud,
-    /// Primary, Snapshot, or OnVault. See the [Backup and DR documentation on
-    /// storage
-    /// pools](&lt;https://cloud.google.com/backup-disaster-recovery/docs/concepts/storage-pools&gt;).
-    /// For example, `DiskPoolOne`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>storage_pool: ::prost::alloc::string::String,
-    <span class="doccomment">/// The names of Backup and DR advanced policy options of a policy applying to
-    /// an application. See the [Backup and DR documentation on policy
-    /// options](&lt;https://cloud.google.com/backup-disaster-recovery/docs/create-plan/policy-settings&gt;).
-    /// For example, `skipofflineappsincongrp, nounmap`.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>policy_options: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The name of the Backup and DR resource profile that specifies the storage
-    /// media for backups of application and VM data. See the [Backup and DR
-    /// documentation on
-    /// profiles](&lt;https://cloud.google.com/backup-disaster-recovery/docs/concepts/backup-plan#profile&gt;).
-    /// For example, `GCP`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>profile: ::prost::alloc::string::String,
-    <span class="doccomment">/// The name of the Backup and DR appliance that captures, moves, and manages
-    /// the lifecycle of backup data. For example, `backup-server-57137`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>appliance: ::prost::alloc::string::String,
-    <span class="doccomment">/// The backup type of the Backup and DR image.
-    /// For example, `Snapshot`, `Remote Snapshot`, `OnVault`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>backup_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// The timestamp at which the Backup and DR backup was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>backup_create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Details about the Cloud Data Loss Prevention (Cloud DLP) [inspection
-/// job](&lt;https://cloud.google.com/dlp/docs/concepts-job-triggers&gt;) that produced
-/// the finding.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CloudDlpInspection {
-    <span class="doccomment">/// Name of the inspection job, for example,
-    /// `projects/123/locations/europe/dlpJobs/i-8383929`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inspect_job: ::prost::alloc::string::String,
-    <span class="doccomment">/// The type of information (or
-    /// *[infoType](&lt;https://cloud.google.com/dlp/docs/infotypes-reference&gt;)*) found,
-    /// for example, `EMAIL_ADDRESS` or `STREET_ADDRESS`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>info_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// The number of times Cloud DLP found this infoType within this job
-    /// and resource.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>info_type_count: i64,
-    <span class="doccomment">/// Whether Cloud DLP scanned the complete resource or a sampled subset.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>full_scan: bool,
-}
-<span class="doccomment">/// Contains compliance information about a security standard indicating unmet
-/// recommendations.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Compliance {
-    <span class="doccomment">/// Industry-wide compliance standards or benchmarks, such as CIS, PCI, and
-    /// OWASP.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>standard: ::prost::alloc::string::String,
-    <span class="doccomment">/// Version of the standard or benchmark, for example, 1.1
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
-    <span class="doccomment">/// Policies within the standard or benchmark, for example, A.12.4.1
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Contains information about the IP connection associated with the finding.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Connection {
-    <span class="doccomment">/// Destination IP address. Not present for sockets that are listening and not
-    /// connected.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>destination_ip: ::prost::alloc::string::String,
-    <span class="doccomment">/// Destination port. Not present for sockets that are listening and not
-    /// connected.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>destination_port: i32,
-    <span class="doccomment">/// Source IP address.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>source_ip: ::prost::alloc::string::String,
-    <span class="doccomment">/// Source port.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>source_port: i32,
-    <span class="doccomment">/// IANA Internet Protocol Number such as TCP(6) and UDP(17).
-    </span><span class="attr">#[prost(enumeration = <span class="string">"connection::Protocol"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>protocol: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `Connection`.
-</span><span class="kw">pub mod </span>connection {
-    <span class="doccomment">/// IANA Internet Protocol Number such as TCP(6) and UDP(17).
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Protocol {
-        <span class="doccomment">/// Unspecified protocol (not HOPOPT).
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Internet Control Message Protocol.
-        </span>Icmp = <span class="number">1</span>,
-        <span class="doccomment">/// Transmission Control Protocol.
-        </span>Tcp = <span class="number">6</span>,
-        <span class="doccomment">/// User Datagram Protocol.
-        </span>Udp = <span class="number">17</span>,
-        <span class="doccomment">/// Generic Routing Encapsulation.
-        </span>Gre = <span class="number">47</span>,
-        <span class="doccomment">/// Encap Security Payload.
-        </span>Esp = <span class="number">50</span>,
-    }
-    <span class="kw">impl </span>Protocol {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Protocol::Unspecified =&gt; <span class="string">"PROTOCOL_UNSPECIFIED"</span>,
-                Protocol::Icmp =&gt; <span class="string">"ICMP"</span>,
-                Protocol::Tcp =&gt; <span class="string">"TCP"</span>,
-                Protocol::Udp =&gt; <span class="string">"UDP"</span>,
-                Protocol::Gre =&gt; <span class="string">"GRE"</span>,
-                Protocol::Esp =&gt; <span class="string">"ESP"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"PROTOCOL_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"ICMP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Icmp),
-                <span class="string">"TCP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Tcp),
-                <span class="string">"UDP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Udp),
-                <span class="string">"GRE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Gre),
-                <span class="string">"ESP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Esp),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Details about specific contacts
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ContactDetails {
-    <span class="doccomment">/// A list of contacts
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>contacts: ::prost::alloc::vec::Vec&lt;Contact&gt;,
-}
-<span class="doccomment">/// The email address of a contact.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Contact {
-    <span class="doccomment">/// An email address. For example, "`person123@company.com`".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Represents a generic name-value label. A label has separate name and value
 /// fields to support filtering with the `contains()` function. For more
@@ -6465,439 +6143,6 @@
     <span class="doccomment">/// The time that the container was created.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Represents database access information, such as queries. A database may be a
-/// sub-resource of an instance (as in the case of Cloud SQL instances or Cloud
-/// Spanner instances), or the database instance itself. Some database resources
-/// might not have the [full resource
-/// name](&lt;https://google.aip.dev/122#full-resource-names&gt;) populated because these
-/// resource types, such as Cloud SQL databases, are not yet supported by Cloud
-/// Asset Inventory. In these cases only the display name is provided.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Database {
-    <span class="doccomment">/// Some database resources may not have the [full resource
-    /// name](&lt;https://google.aip.dev/122#full-resource-names&gt;) populated because
-    /// these resource types are not yet supported by Cloud Asset Inventory (e.g.
-    /// Cloud SQL databases). In these cases only the display name will be
-    /// provided.
-    /// The [full resource name](&lt;https://google.aip.dev/122#full-resource-names&gt;) of
-    /// the database that the user connected to, if it is supported by Cloud Asset
-    /// Inventory.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The human-readable name of the database that the user connected to.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The username used to connect to the database. The username might not be an
-    /// IAM principal and does not have a set format.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>user_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The SQL statement that is associated with the database access.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>query: ::prost::alloc::string::String,
-    <span class="doccomment">/// The target usernames, roles, or groups of an SQL privilege grant, which is
-    /// not an IAM policy change.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>grantees: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The version of the database, for example, POSTGRES_14.
-    /// See [the complete
-    /// list](&lt;https://cloud.google.com/sql/docs/mysql/admin-api/rest/v1/SqlDatabaseVersion&gt;).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Exfiltration represents a data exfiltration attempt from one or more sources
-/// to one or more targets. The `sources` attribute lists the sources of the
-/// exfiltrated data. The `targets` attribute lists the destinations the data was
-/// copied to.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Exfiltration {
-    <span class="doccomment">/// If there are multiple sources, then the data is considered "joined" between
-    /// them. For instance, BigQuery can join multiple tables, and each
-    /// table would be considered a source.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>sources: ::prost::alloc::vec::Vec&lt;ExfilResource&gt;,
-    <span class="doccomment">/// If there are multiple targets, each target would get a complete copy of the
-    /// "joined" source data.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>targets: ::prost::alloc::vec::Vec&lt;ExfilResource&gt;,
-    <span class="doccomment">/// Total exfiltrated bytes processed for the entire job.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>total_exfiltrated_bytes: i64,
-}
-<span class="doccomment">/// Resource where data was exfiltrated from or exfiltrated to.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExfilResource {
-    <span class="doccomment">/// The resource's [full resource
-    /// name](&lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Subcomponents of the asset that was exfiltrated, like URIs used during
-    /// exfiltration, table names, databases, and filenames. For example, multiple
-    /// tables might have been exfiltrated from the same Cloud SQL instance, or
-    /// multiple files might have been exfiltrated from the same Cloud Storage
-    /// bucket.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>components: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Representation of third party SIEM/SOAR fields within SCC.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExternalSystem {
-    <span class="doccomment">/// Full resource name of the external system. The following list
-    /// shows some examples:
-    ///
-    /// + `organizations/1234/sources/5678/findings/123456/externalSystems/jira`
-    /// +
-    /// `organizations/1234/sources/5678/locations/us/findings/123456/externalSystems/jira`
-    /// + `folders/1234/sources/5678/findings/123456/externalSystems/jira`
-    /// +
-    /// `folders/1234/sources/5678/locations/us/findings/123456/externalSystems/jira`
-    /// + `projects/1234/sources/5678/findings/123456/externalSystems/jira`
-    /// +
-    /// `projects/1234/sources/5678/locations/us/findings/123456/externalSystems/jira`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// References primary/secondary etc assignees in the external system.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>assignees: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The identifier that's used to track the finding's corresponding case in the
-    /// external system.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>external_uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// The most recent status of the finding's corresponding case, as reported by
-    /// the external system.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>status: ::prost::alloc::string::String,
-    <span class="doccomment">/// The time when the case was last updated, as reported by the external
-    /// system.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>external_system_update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The link to the finding's corresponding case in the external system.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>case_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// The priority of the finding's corresponding case in the external system.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>case_priority: ::prost::alloc::string::String,
-    <span class="doccomment">/// The SLA of the finding's corresponding case in the external system.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>case_sla: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The time when the case was created, as reported by the external system.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>case_create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The time when the case was closed, as reported by the external system.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>case_close_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Information about the ticket, if any, that is being used to track the
-    /// resolution of the issue that is identified by this finding.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>ticket_info: ::core::option::Option&lt;external_system::TicketInfo&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ExternalSystem`.
-</span><span class="kw">pub mod </span>external_system {
-    <span class="doccomment">/// Information about the ticket, if any, that is being used to track the
-    /// resolution of the issue that is identified by this finding.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>TicketInfo {
-        <span class="doccomment">/// The identifier of the ticket in the ticket system.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-        <span class="doccomment">/// The assignee of the ticket in the ticket system.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>assignee: ::prost::alloc::string::String,
-        <span class="doccomment">/// The description of the ticket in the ticket system.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-        <span class="doccomment">/// The link to the ticket in the ticket system.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
-        <span class="doccomment">/// The latest status of the ticket, as reported by the ticket system.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-        </span><span class="kw">pub </span>status: ::prost::alloc::string::String,
-        <span class="doccomment">/// The time when the ticket was last updated, as reported by the ticket
-        /// system.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-        </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    }
-}
-<span class="doccomment">/// File information about the related binary/library used by an executable, or
-/// the script used by a script interpreter
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>File {
-    <span class="doccomment">/// Absolute path of the file as a JSON encoded string.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>path: ::prost::alloc::string::String,
-    <span class="doccomment">/// Size of the file in bytes.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>size: i64,
-    <span class="doccomment">/// SHA256 hash of the first hashed_size bytes of the file encoded as a
-    /// hex string.  If hashed_size == size, sha256 represents the SHA256 hash
-    /// of the entire file.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>sha256: ::prost::alloc::string::String,
-    <span class="doccomment">/// The length in bytes of the file prefix that was hashed.  If
-    /// hashed_size == size, any hashes reported represent the entire
-    /// file.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>hashed_size: i64,
-    <span class="doccomment">/// True when the hash covers only a prefix of the file.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>partially_hashed: bool,
-    <span class="doccomment">/// Prefix of the file contents as a JSON-encoded string.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>contents: ::prost::alloc::string::String,
-    <span class="doccomment">/// Path of the file in terms of underlying disk/partition identifiers.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>disk_path: ::core::option::Option&lt;file::DiskPath&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `File`.
-</span><span class="kw">pub mod </span>file {
-    <span class="doccomment">/// Path of the file in terms of underlying disk/partition identifiers.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>DiskPath {
-        <span class="doccomment">/// UUID of the partition (format
-        /// &lt;https://wiki.archlinux.org/title/persistent_block_device_naming#by-uuid&gt;)
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>partition_uuid: ::prost::alloc::string::String,
-        <span class="doccomment">/// Relative path of the file in the partition as a JSON encoded string.
-        /// Example: /home/user1/executable_file.sh
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>relative_path: ::prost::alloc::string::String,
-    }
-}
-<span class="doccomment">/// Represents a particular IAM binding, which captures a member's role addition,
-/// removal, or state.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>IamBinding {
-    <span class="doccomment">/// The action that was performed on a Binding.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"iam_binding::Action"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>action: i32,
-    <span class="doccomment">/// Role that is assigned to "members".
-    /// For example, "roles/viewer", "roles/editor", or "roles/owner".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>role: ::prost::alloc::string::String,
-    <span class="doccomment">/// A single identity requesting access for a Cloud Platform resource, for
-    /// example, "foo@google.com".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>member: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `IamBinding`.
-</span><span class="kw">pub mod </span>iam_binding {
-    <span class="doccomment">/// The type of action performed on a Binding in a policy.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Action {
-        <span class="doccomment">/// Unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Addition of a Binding.
-        </span>Add = <span class="number">1</span>,
-        <span class="doccomment">/// Removal of a Binding.
-        </span>Remove = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Action {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Action::Unspecified =&gt; <span class="string">"ACTION_UNSPECIFIED"</span>,
-                Action::Add =&gt; <span class="string">"ADD"</span>,
-                Action::Remove =&gt; <span class="string">"REMOVE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"ACTION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"ADD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Add),
-                <span class="string">"REMOVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Remove),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Represents what's commonly known as an _indicator of compromise_ (IoC) in
-/// computer forensics. This is an artifact observed on a network or in an
-/// operating system that, with high confidence, indicates a computer intrusion.
-/// For more information, see [Indicator of
-/// compromise](&lt;https://en.wikipedia.org/wiki/Indicator_of_compromise&gt;).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Indicator {
-    <span class="doccomment">/// The list of IP addresses that are associated with the finding.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>ip_addresses: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// List of domains associated to the Finding.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>domains: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The list of matched signatures indicating that the given
-    /// process is present in the environment.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>signatures: ::prost::alloc::vec::Vec&lt;indicator::ProcessSignature&gt;,
-    <span class="doccomment">/// The list of URIs associated to the Findings.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>uris: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Indicator`.
-</span><span class="kw">pub mod </span>indicator {
-    <span class="doccomment">/// Indicates what signature matched this process.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ProcessSignature {
-        <span class="doccomment">/// Describes the type of resource associated with the signature.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"process_signature::SignatureType"</span>, tag = <span class="string">"8"</span>)]
-        </span><span class="kw">pub </span>signature_type: i32,
-        <span class="attr">#[prost(oneof = <span class="string">"process_signature::Signature"</span>, tags = <span class="string">"6, 7"</span>)]
-        </span><span class="kw">pub </span>signature: ::core::option::Option&lt;process_signature::Signature&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `ProcessSignature`.
-    </span><span class="kw">pub mod </span>process_signature {
-        <span class="doccomment">/// A signature corresponding to memory page hashes.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>MemoryHashSignature {
-            <span class="doccomment">/// The binary family.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>binary_family: ::prost::alloc::string::String,
-            <span class="doccomment">/// The list of memory hash detections contributing to the binary family
-            /// match.
-            </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-            </span><span class="kw">pub </span>detections: ::prost::alloc::vec::Vec&lt;memory_hash_signature::Detection&gt;,
-        }
-        <span class="doccomment">/// Nested message and enum types in `MemoryHashSignature`.
-        </span><span class="kw">pub mod </span>memory_hash_signature {
-            <span class="doccomment">/// Memory hash detection contributing to the binary family match.
-            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            </span><span class="kw">pub struct </span>Detection {
-                <span class="doccomment">/// The name of the binary associated with the memory hash
-                /// signature detection.
-                </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-                </span><span class="kw">pub </span>binary: ::prost::alloc::string::String,
-                <span class="doccomment">/// The percentage of memory page hashes in the signature
-                /// that were matched.
-                </span><span class="attr">#[prost(double, tag = <span class="string">"3"</span>)]
-                </span><span class="kw">pub </span>percent_pages_matched: f64,
-            }
-        }
-        <span class="doccomment">/// A signature corresponding to a YARA rule.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>YaraRuleSignature {
-            <span class="doccomment">/// The name of the YARA rule.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-            </span><span class="kw">pub </span>yara_rule: ::prost::alloc::string::String,
-        }
-        <span class="doccomment">/// Possible resource types to be associated with a signature.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>SignatureType {
-            <span class="doccomment">/// The default signature type.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Used for signatures concerning processes.
-            </span>Process = <span class="number">1</span>,
-            <span class="doccomment">/// Used for signatures concerning disks.
-            </span>File = <span class="number">2</span>,
-        }
-        <span class="kw">impl </span>SignatureType {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    SignatureType::Unspecified =&gt; <span class="string">"SIGNATURE_TYPE_UNSPECIFIED"</span>,
-                    SignatureType::Process =&gt; <span class="string">"SIGNATURE_TYPE_PROCESS"</span>,
-                    SignatureType::File =&gt; <span class="string">"SIGNATURE_TYPE_FILE"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"SIGNATURE_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"SIGNATURE_TYPE_PROCESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Process),
-                    <span class="string">"SIGNATURE_TYPE_FILE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::File),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-        <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        </span><span class="kw">pub enum </span>Signature {
-            <span class="doccomment">/// Signature indicating that a binary family was matched.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-            </span>MemoryHashSignature(MemoryHashSignature),
-            <span class="doccomment">/// Signature indicating that a YARA rule was matched.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
-            </span>YaraRuleSignature(YaraRuleSignature),
-        }
-    }
-}
-<span class="doccomment">/// Kernel mode rootkit signatures.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>KernelRootkit {
-    <span class="doccomment">/// Rootkit name, when available.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// True if unexpected modifications of kernel code memory are present.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>unexpected_code_modification: bool,
-    <span class="doccomment">/// True if unexpected modifications of kernel read-only data memory are
-    /// present.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>unexpected_read_only_data_modification: bool,
-    <span class="doccomment">/// True if `ftrace` points are present with callbacks pointing to regions
-    /// that are not in the expected kernel or module code range.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>unexpected_ftrace_handler: bool,
-    <span class="doccomment">/// True if `kprobe` points are present with callbacks pointing to regions
-    /// that are not in the expected kernel or module code range.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>unexpected_kprobe_handler: bool,
-    <span class="doccomment">/// True if kernel code pages that are not in the expected kernel or module
-    /// code regions are present.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>unexpected_kernel_code_pages: bool,
-    <span class="doccomment">/// True if system call handlers that are are not in the expected kernel or
-    /// module code regions are present.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>unexpected_system_call_handler: bool,
-    <span class="doccomment">/// True if interrupt handlers that are are not in the expected kernel or
-    /// module code regions are present.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>unexpected_interrupt_handler: bool,
-    <span class="doccomment">/// True if unexpected processes in the scheduler run queue are present. Such
-    /// processes are in the run queue, but not in the process task list.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>unexpected_processes_in_runqueue: bool,
 }
 <span class="doccomment">/// Kubernetes-related attributes.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -7175,6 +6420,884 @@
         <span class="doccomment">/// Pod containers associated with this finding, if any.
         </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
         </span><span class="kw">pub </span>containers: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::Container&gt;,
+    }
+}
+<span class="doccomment">/// A resource that is determined to have value to a user's system
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ValuedResource {
+    <span class="doccomment">/// Valued resource name, for example,
+    ///   e.g.:
+    ///   `organizations/123/simulations/456/valuedResources/789`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The
+    /// [full resource
+    /// name](&lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;)
+    /// of the valued resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>resource: ::prost::alloc::string::String,
+    <span class="doccomment">/// The [resource
+    /// type](&lt;https://cloud.google.com/asset-inventory/docs/supported-asset-types&gt;)
+    /// of the valued resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>resource_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Human-readable name of the valued resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// How valuable this resource is.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"valued_resource::ResourceValue"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>resource_value: i32,
+    <span class="doccomment">/// Exposed score for this valued resource. A value of 0 means no exposure was
+    /// detected exposure.
+    </span><span class="attr">#[prost(double, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>exposed_score: f64,
+    <span class="doccomment">/// List of resource value configurations' metadata used to determine the value
+    /// of this resource. Maximum of 100.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>resource_value_configs_used: ::prost::alloc::vec::Vec&lt;
+        ResourceValueConfigMetadata,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ValuedResource`.
+</span><span class="kw">pub mod </span>valued_resource {
+    <span class="doccomment">/// How valuable the resource is.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ResourceValue {
+        <span class="doccomment">/// The resource value isn't specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// This is a low-value resource.
+        </span>Low = <span class="number">1</span>,
+        <span class="doccomment">/// This is a medium-value resource.
+        </span>Medium = <span class="number">2</span>,
+        <span class="doccomment">/// This is a high-value resource.
+        </span>High = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>ResourceValue {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ResourceValue::Unspecified =&gt; <span class="string">"RESOURCE_VALUE_UNSPECIFIED"</span>,
+                ResourceValue::Low =&gt; <span class="string">"RESOURCE_VALUE_LOW"</span>,
+                ResourceValue::Medium =&gt; <span class="string">"RESOURCE_VALUE_MEDIUM"</span>,
+                ResourceValue::High =&gt; <span class="string">"RESOURCE_VALUE_HIGH"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"RESOURCE_VALUE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"RESOURCE_VALUE_LOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Low),
+                <span class="string">"RESOURCE_VALUE_MEDIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Medium),
+                <span class="string">"RESOURCE_VALUE_HIGH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Metadata about a ResourceValueConfig. For example, id and name.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ResourceValueConfigMetadata {
+    <span class="doccomment">/// Resource value config name
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Attack path simulation
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Simulation {
+    <span class="doccomment">/// Full resource name of the Simulation:
+    /// organizations/123/simulations/456
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Time simulation was created
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Resource value configurations' metadata used in this simulation. Maximum of
+    /// 100.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>resource_value_configs_metadata: ::prost::alloc::vec::Vec&lt;
+        ResourceValueConfigMetadata,
+    &gt;,
+}
+<span class="doccomment">/// Represents a particular IAM binding, which captures a member's role addition,
+/// removal, or state.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>IamBinding {
+    <span class="doccomment">/// The action that was performed on a Binding.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"iam_binding::Action"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>action: i32,
+    <span class="doccomment">/// Role that is assigned to "members".
+    /// For example, "roles/viewer", "roles/editor", or "roles/owner".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>role: ::prost::alloc::string::String,
+    <span class="doccomment">/// A single identity requesting access for a Cloud Platform resource, for
+    /// example, "foo@google.com".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>member: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `IamBinding`.
+</span><span class="kw">pub mod </span>iam_binding {
+    <span class="doccomment">/// The type of action performed on a Binding in a policy.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Action {
+        <span class="doccomment">/// Unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Addition of a Binding.
+        </span>Add = <span class="number">1</span>,
+        <span class="doccomment">/// Removal of a Binding.
+        </span>Remove = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Action {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Action::Unspecified =&gt; <span class="string">"ACTION_UNSPECIFIED"</span>,
+                Action::Add =&gt; <span class="string">"ADD"</span>,
+                Action::Remove =&gt; <span class="string">"REMOVE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"ACTION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"ADD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Add),
+                <span class="string">"REMOVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Remove),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Contains information about the IP connection associated with the finding.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Connection {
+    <span class="doccomment">/// Destination IP address. Not present for sockets that are listening and not
+    /// connected.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>destination_ip: ::prost::alloc::string::String,
+    <span class="doccomment">/// Destination port. Not present for sockets that are listening and not
+    /// connected.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>destination_port: i32,
+    <span class="doccomment">/// Source IP address.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>source_ip: ::prost::alloc::string::String,
+    <span class="doccomment">/// Source port.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>source_port: i32,
+    <span class="doccomment">/// IANA Internet Protocol Number such as TCP(6) and UDP(17).
+    </span><span class="attr">#[prost(enumeration = <span class="string">"connection::Protocol"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>protocol: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `Connection`.
+</span><span class="kw">pub mod </span>connection {
+    <span class="doccomment">/// IANA Internet Protocol Number such as TCP(6) and UDP(17).
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Protocol {
+        <span class="doccomment">/// Unspecified protocol (not HOPOPT).
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Internet Control Message Protocol.
+        </span>Icmp = <span class="number">1</span>,
+        <span class="doccomment">/// Transmission Control Protocol.
+        </span>Tcp = <span class="number">6</span>,
+        <span class="doccomment">/// User Datagram Protocol.
+        </span>Udp = <span class="number">17</span>,
+        <span class="doccomment">/// Generic Routing Encapsulation.
+        </span>Gre = <span class="number">47</span>,
+        <span class="doccomment">/// Encap Security Payload.
+        </span>Esp = <span class="number">50</span>,
+    }
+    <span class="kw">impl </span>Protocol {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Protocol::Unspecified =&gt; <span class="string">"PROTOCOL_UNSPECIFIED"</span>,
+                Protocol::Icmp =&gt; <span class="string">"ICMP"</span>,
+                Protocol::Tcp =&gt; <span class="string">"TCP"</span>,
+                Protocol::Udp =&gt; <span class="string">"UDP"</span>,
+                Protocol::Gre =&gt; <span class="string">"GRE"</span>,
+                Protocol::Esp =&gt; <span class="string">"ESP"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"PROTOCOL_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"ICMP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Icmp),
+                <span class="string">"TCP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Tcp),
+                <span class="string">"UDP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Udp),
+                <span class="string">"GRE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Gre),
+                <span class="string">"ESP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Esp),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Represents what's commonly known as an _indicator of compromise_ (IoC) in
+/// computer forensics. This is an artifact observed on a network or in an
+/// operating system that, with high confidence, indicates a computer intrusion.
+/// For more information, see [Indicator of
+/// compromise](&lt;https://en.wikipedia.org/wiki/Indicator_of_compromise&gt;).
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Indicator {
+    <span class="doccomment">/// The list of IP addresses that are associated with the finding.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>ip_addresses: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// List of domains associated to the Finding.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>domains: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The list of matched signatures indicating that the given
+    /// process is present in the environment.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>signatures: ::prost::alloc::vec::Vec&lt;indicator::ProcessSignature&gt;,
+    <span class="doccomment">/// The list of URIs associated to the Findings.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>uris: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Indicator`.
+</span><span class="kw">pub mod </span>indicator {
+    <span class="doccomment">/// Indicates what signature matched this process.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ProcessSignature {
+        <span class="doccomment">/// Describes the type of resource associated with the signature.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"process_signature::SignatureType"</span>, tag = <span class="string">"8"</span>)]
+        </span><span class="kw">pub </span>signature_type: i32,
+        <span class="attr">#[prost(oneof = <span class="string">"process_signature::Signature"</span>, tags = <span class="string">"6, 7"</span>)]
+        </span><span class="kw">pub </span>signature: ::core::option::Option&lt;process_signature::Signature&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `ProcessSignature`.
+    </span><span class="kw">pub mod </span>process_signature {
+        <span class="doccomment">/// A signature corresponding to memory page hashes.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>MemoryHashSignature {
+            <span class="doccomment">/// The binary family.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>binary_family: ::prost::alloc::string::String,
+            <span class="doccomment">/// The list of memory hash detections contributing to the binary family
+            /// match.
+            </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+            </span><span class="kw">pub </span>detections: ::prost::alloc::vec::Vec&lt;memory_hash_signature::Detection&gt;,
+        }
+        <span class="doccomment">/// Nested message and enum types in `MemoryHashSignature`.
+        </span><span class="kw">pub mod </span>memory_hash_signature {
+            <span class="doccomment">/// Memory hash detection contributing to the binary family match.
+            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            </span><span class="kw">pub struct </span>Detection {
+                <span class="doccomment">/// The name of the binary associated with the memory hash
+                /// signature detection.
+                </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+                </span><span class="kw">pub </span>binary: ::prost::alloc::string::String,
+                <span class="doccomment">/// The percentage of memory page hashes in the signature
+                /// that were matched.
+                </span><span class="attr">#[prost(double, tag = <span class="string">"3"</span>)]
+                </span><span class="kw">pub </span>percent_pages_matched: f64,
+            }
+        }
+        <span class="doccomment">/// A signature corresponding to a YARA rule.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>YaraRuleSignature {
+            <span class="doccomment">/// The name of the YARA rule.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+            </span><span class="kw">pub </span>yara_rule: ::prost::alloc::string::String,
+        }
+        <span class="doccomment">/// Possible resource types to be associated with a signature.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>SignatureType {
+            <span class="doccomment">/// The default signature type.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Used for signatures concerning processes.
+            </span>Process = <span class="number">1</span>,
+            <span class="doccomment">/// Used for signatures concerning disks.
+            </span>File = <span class="number">2</span>,
+        }
+        <span class="kw">impl </span>SignatureType {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    SignatureType::Unspecified =&gt; <span class="string">"SIGNATURE_TYPE_UNSPECIFIED"</span>,
+                    SignatureType::Process =&gt; <span class="string">"SIGNATURE_TYPE_PROCESS"</span>,
+                    SignatureType::File =&gt; <span class="string">"SIGNATURE_TYPE_FILE"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"SIGNATURE_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"SIGNATURE_TYPE_PROCESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Process),
+                    <span class="string">"SIGNATURE_TYPE_FILE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::File),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+        <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        </span><span class="kw">pub enum </span>Signature {
+            <span class="doccomment">/// Signature indicating that a binary family was matched.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+            </span>MemoryHashSignature(MemoryHashSignature),
+            <span class="doccomment">/// Signature indicating that a YARA rule was matched.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
+            </span>YaraRuleSignature(YaraRuleSignature),
+        }
+    }
+}
+<span class="doccomment">/// Kernel mode rootkit signatures.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>KernelRootkit {
+    <span class="doccomment">/// Rootkit name, when available.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// True if unexpected modifications of kernel code memory are present.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>unexpected_code_modification: bool,
+    <span class="doccomment">/// True if unexpected modifications of kernel read-only data memory are
+    /// present.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>unexpected_read_only_data_modification: bool,
+    <span class="doccomment">/// True if `ftrace` points are present with callbacks pointing to regions
+    /// that are not in the expected kernel or module code range.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>unexpected_ftrace_handler: bool,
+    <span class="doccomment">/// True if `kprobe` points are present with callbacks pointing to regions
+    /// that are not in the expected kernel or module code range.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>unexpected_kprobe_handler: bool,
+    <span class="doccomment">/// True if kernel code pages that are not in the expected kernel or module
+    /// code regions are present.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>unexpected_kernel_code_pages: bool,
+    <span class="doccomment">/// True if system call handlers that are are not in the expected kernel or
+    /// module code regions are present.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>unexpected_system_call_handler: bool,
+    <span class="doccomment">/// True if interrupt handlers that are are not in the expected kernel or
+    /// module code regions are present.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>unexpected_interrupt_handler: bool,
+    <span class="doccomment">/// True if unexpected processes in the scheduler run queue are present. Such
+    /// processes are in the run queue, but not in the process task list.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>unexpected_processes_in_runqueue: bool,
+}
+<span class="doccomment">/// Contains compliance information about a security standard indicating unmet
+/// recommendations.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Compliance {
+    <span class="doccomment">/// Industry-wide compliance standards or benchmarks, such as CIS, PCI, and
+    /// OWASP.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>standard: ::prost::alloc::string::String,
+    <span class="doccomment">/// Version of the standard or benchmark, for example, 1.1
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
+    <span class="doccomment">/// Policies within the standard or benchmark, for example, A.12.4.1
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Represents an access event.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Access {
+    <span class="doccomment">/// Associated email, such as "foo@google.com".
+    ///
+    /// The email address of the authenticated user or a service account acting on
+    /// behalf of a third party principal making the request. For third party
+    /// identity callers, the `principal_subject` field is populated instead of
+    /// this field. For privacy reasons, the principal email address is sometimes
+    /// redacted. For more information, see [Caller identities in audit
+    /// logs](&lt;https://cloud.google.com/logging/docs/audit#user-id&gt;).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>principal_email: ::prost::alloc::string::String,
+    <span class="doccomment">/// Caller's IP address, such as "1.1.1.1".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>caller_ip: ::prost::alloc::string::String,
+    <span class="doccomment">/// The caller IP's geolocation, which identifies where the call came from.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>caller_ip_geo: ::core::option::Option&lt;Geolocation&gt;,
+    <span class="doccomment">/// Type of user agent associated with the finding. For example, an operating
+    /// system shell or an embedded or standalone application.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>user_agent_family: ::prost::alloc::string::String,
+    <span class="doccomment">/// The caller's user agent string associated with the finding.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>user_agent: ::prost::alloc::string::String,
+    <span class="doccomment">/// This is the API service that the service account made a call to, e.g.
+    /// "iam.googleapis.com"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>service_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The method that the service account called, e.g. "SetIamPolicy".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>method_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// A string that represents the principal_subject that is associated with the
+    /// identity. Unlike `principal_email`, `principal_subject` supports principals
+    /// that aren't associated with email addresses, such as third party
+    /// principals. For most identities, the format is
+    /// `principal://iam.googleapis.com/{identity pool name}/subject/{subject}`.
+    /// Some GKE identities, such as GKE_WORKLOAD, FREEFORM, and GKE_HUB_WORKLOAD,
+    /// still use the legacy format `serviceAccount:{identity pool
+    /// name}\[{subject}\]`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>principal_subject: ::prost::alloc::string::String,
+    <span class="doccomment">/// The name of the service account key that was used to create or exchange
+    /// credentials when authenticating the service account that made the request.
+    /// This is a scheme-less URI full resource name. For example:
+    ///
+    /// "//iam.googleapis.com/projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}".
+    ///
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>service_account_key_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The identity delegation history of an authenticated service account that
+    /// made the request. The `serviceAccountDelegationInfo\[\]` object contains
+    /// information about the real authorities that try to access Google Cloud
+    /// resources by delegating on a service account. When multiple authorities are
+    /// present, they are guaranteed to be sorted based on the original ordering of
+    /// the identity delegation events.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>service_account_delegation_info: ::prost::alloc::vec::Vec&lt;
+        ServiceAccountDelegationInfo,
+    &gt;,
+    <span class="doccomment">/// A string that represents a username. The username provided depends on the
+    /// type of the finding and is likely not an IAM principal. For example, this
+    /// can be a system username if the finding is related to a virtual machine, or
+    /// it can be an application login username.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>user_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Identity delegation history of an authenticated service account.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ServiceAccountDelegationInfo {
+    <span class="doccomment">/// The email address of a Google account.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>principal_email: ::prost::alloc::string::String,
+    <span class="doccomment">/// A string representing the principal_subject associated with the identity.
+    /// As compared to `principal_email`, supports principals that aren't
+    /// associated with email addresses, such as third party principals. For most
+    /// identities, the format will be `principal://iam.googleapis.com/{identity
+    /// pool name}/subjects/{subject}` except for some GKE identities
+    /// (GKE_WORKLOAD, FREEFORM, GKE_HUB_WORKLOAD) that are still in the legacy
+    /// format `serviceAccount:{identity pool name}\[{subject}\]`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>principal_subject: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Represents a geographical location for a given access.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Geolocation {
+    <span class="doccomment">/// A CLDR.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>region_code: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// An attack exposure contains the results of an attack path simulation run.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AttackExposure {
+    <span class="doccomment">/// A number between 0 (inclusive) and infinity that represents how important
+    /// this finding is to remediate. The higher the score, the more important it
+    /// is to remediate.
+    </span><span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>score: f64,
+    <span class="doccomment">/// The most recent time the attack exposure was updated on this finding.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>latest_calculation_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The resource name of the attack path simulation result that contains the
+    /// details regarding this attack exposure score.
+    /// Example: organizations/123/simulations/456/attackExposureResults/789
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>attack_exposure_result: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. What state this AttackExposure is in. This captures whether or
+    /// not an attack exposure has been calculated or not.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"attack_exposure::State"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// The number of high value resources that are exposed as a result of this
+    /// finding.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>exposed_high_value_resources_count: i32,
+    <span class="doccomment">/// The number of medium value resources that are exposed as a result of this
+    /// finding.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>exposed_medium_value_resources_count: i32,
+    <span class="doccomment">/// The number of high value resources that are exposed as a result of this
+    /// finding.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>exposed_low_value_resources_count: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `AttackExposure`.
+</span><span class="kw">pub mod </span>attack_exposure {
+    <span class="doccomment">/// This enum defines the various states an AttackExposure can be in.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// The state is not specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The attack exposure has been calculated.
+        </span>Calculated = <span class="number">1</span>,
+        <span class="doccomment">/// The attack exposure has not been calculated.
+        </span>NotCalculated = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Calculated =&gt; <span class="string">"CALCULATED"</span>,
+                State::NotCalculated =&gt; <span class="string">"NOT_CALCULATED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CALCULATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Calculated),
+                <span class="string">"NOT_CALCULATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotCalculated),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Information related to Google Cloud Backup and DR Service findings.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BackupDisasterRecovery {
+    <span class="doccomment">/// The name of a Backup and DR template which comprises one or more backup
+    /// policies. See the [Backup and DR
+    /// documentation](&lt;https://cloud.google.com/backup-disaster-recovery/docs/concepts/backup-plan#temp&gt;)
+    /// for more information. For example, `snap-ov`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>backup_template: ::prost::alloc::string::String,
+    <span class="doccomment">/// The names of Backup and DR policies that are associated with a template
+    /// and that define when to run a backup, how frequently to run a backup, and
+    /// how long to retain the backup image. For example, `onvaults`.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>policies: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The name of a Backup and DR host, which is managed by the backup and
+    /// recovery appliance and known to the management console. The host can be of
+    /// type Generic (for example, Compute Engine, SQL Server, Oracle DB, SMB file
+    /// system, etc.), vCenter, or an ESX server. See the [Backup and DR
+    /// documentation on
+    /// hosts](&lt;https://cloud.google.com/backup-disaster-recovery/docs/configuration/manage-hosts-and-their-applications&gt;)
+    /// for more information. For example, `centos7-01`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>host: ::prost::alloc::string::String,
+    <span class="doccomment">/// The names of Backup and DR applications. An application is a VM, database,
+    /// or file system on a managed host monitored by a backup and recovery
+    /// appliance. For example, `centos7-01-vol00`, `centos7-01-vol01`,
+    /// `centos7-01-vol02`.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>applications: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The name of the Backup and DR storage pool that the backup and recovery
+    /// appliance is storing data in. The storage pool could be of type Cloud,
+    /// Primary, Snapshot, or OnVault. See the [Backup and DR documentation on
+    /// storage
+    /// pools](&lt;https://cloud.google.com/backup-disaster-recovery/docs/concepts/storage-pools&gt;).
+    /// For example, `DiskPoolOne`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>storage_pool: ::prost::alloc::string::String,
+    <span class="doccomment">/// The names of Backup and DR advanced policy options of a policy applying to
+    /// an application. See the [Backup and DR documentation on policy
+    /// options](&lt;https://cloud.google.com/backup-disaster-recovery/docs/create-plan/policy-settings&gt;).
+    /// For example, `skipofflineappsincongrp, nounmap`.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>policy_options: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The name of the Backup and DR resource profile that specifies the storage
+    /// media for backups of application and VM data. See the [Backup and DR
+    /// documentation on
+    /// profiles](&lt;https://cloud.google.com/backup-disaster-recovery/docs/concepts/backup-plan#profile&gt;).
+    /// For example, `GCP`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>profile: ::prost::alloc::string::String,
+    <span class="doccomment">/// The name of the Backup and DR appliance that captures, moves, and manages
+    /// the lifecycle of backup data. For example, `backup-server-57137`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>appliance: ::prost::alloc::string::String,
+    <span class="doccomment">/// The backup type of the Backup and DR image.
+    /// For example, `Snapshot`, `Remote Snapshot`, `OnVault`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>backup_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// The timestamp at which the Backup and DR backup was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>backup_create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Details about the Cloud Data Loss Prevention (Cloud DLP) [inspection
+/// job](&lt;https://cloud.google.com/dlp/docs/concepts-job-triggers&gt;) that produced
+/// the finding.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CloudDlpInspection {
+    <span class="doccomment">/// Name of the inspection job, for example,
+    /// `projects/123/locations/europe/dlpJobs/i-8383929`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>inspect_job: ::prost::alloc::string::String,
+    <span class="doccomment">/// The type of information (or
+    /// *[infoType](&lt;https://cloud.google.com/dlp/docs/infotypes-reference&gt;)*) found,
+    /// for example, `EMAIL_ADDRESS` or `STREET_ADDRESS`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>info_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// The number of times Cloud DLP found this infoType within this job
+    /// and resource.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>info_type_count: i64,
+    <span class="doccomment">/// Whether Cloud DLP scanned the complete resource or a sampled subset.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>full_scan: bool,
+}
+<span class="doccomment">/// Details about specific contacts
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ContactDetails {
+    <span class="doccomment">/// A list of contacts
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>contacts: ::prost::alloc::vec::Vec&lt;Contact&gt;,
+}
+<span class="doccomment">/// The email address of a contact.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Contact {
+    <span class="doccomment">/// An email address. For example, "`person123@company.com`".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Exfiltration represents a data exfiltration attempt from one or more sources
+/// to one or more targets. The `sources` attribute lists the sources of the
+/// exfiltrated data. The `targets` attribute lists the destinations the data was
+/// copied to.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Exfiltration {
+    <span class="doccomment">/// If there are multiple sources, then the data is considered "joined" between
+    /// them. For instance, BigQuery can join multiple tables, and each
+    /// table would be considered a source.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>sources: ::prost::alloc::vec::Vec&lt;ExfilResource&gt;,
+    <span class="doccomment">/// If there are multiple targets, each target would get a complete copy of the
+    /// "joined" source data.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>targets: ::prost::alloc::vec::Vec&lt;ExfilResource&gt;,
+    <span class="doccomment">/// Total exfiltrated bytes processed for the entire job.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>total_exfiltrated_bytes: i64,
+}
+<span class="doccomment">/// Resource where data was exfiltrated from or exfiltrated to.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExfilResource {
+    <span class="doccomment">/// The resource's [full resource
+    /// name](&lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Subcomponents of the asset that was exfiltrated, like URIs used during
+    /// exfiltration, table names, databases, and filenames. For example, multiple
+    /// tables might have been exfiltrated from the same Cloud SQL instance, or
+    /// multiple files might have been exfiltrated from the same Cloud Storage
+    /// bucket.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>components: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Representation of third party SIEM/SOAR fields within SCC.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExternalSystem {
+    <span class="doccomment">/// Full resource name of the external system. The following list
+    /// shows some examples:
+    ///
+    /// + `organizations/1234/sources/5678/findings/123456/externalSystems/jira`
+    /// +
+    /// `organizations/1234/sources/5678/locations/us/findings/123456/externalSystems/jira`
+    /// + `folders/1234/sources/5678/findings/123456/externalSystems/jira`
+    /// +
+    /// `folders/1234/sources/5678/locations/us/findings/123456/externalSystems/jira`
+    /// + `projects/1234/sources/5678/findings/123456/externalSystems/jira`
+    /// +
+    /// `projects/1234/sources/5678/locations/us/findings/123456/externalSystems/jira`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// References primary/secondary etc assignees in the external system.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>assignees: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The identifier that's used to track the finding's corresponding case in the
+    /// external system.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>external_uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// The most recent status of the finding's corresponding case, as reported by
+    /// the external system.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>status: ::prost::alloc::string::String,
+    <span class="doccomment">/// The time when the case was last updated, as reported by the external
+    /// system.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>external_system_update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The link to the finding's corresponding case in the external system.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>case_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// The priority of the finding's corresponding case in the external system.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>case_priority: ::prost::alloc::string::String,
+    <span class="doccomment">/// The SLA of the finding's corresponding case in the external system.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>case_sla: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The time when the case was created, as reported by the external system.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>case_create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The time when the case was closed, as reported by the external system.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>case_close_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Information about the ticket, if any, that is being used to track the
+    /// resolution of the issue that is identified by this finding.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>ticket_info: ::core::option::Option&lt;external_system::TicketInfo&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ExternalSystem`.
+</span><span class="kw">pub mod </span>external_system {
+    <span class="doccomment">/// Information about the ticket, if any, that is being used to track the
+    /// resolution of the issue that is identified by this finding.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>TicketInfo {
+        <span class="doccomment">/// The identifier of the ticket in the ticket system.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+        <span class="doccomment">/// The assignee of the ticket in the ticket system.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>assignee: ::prost::alloc::string::String,
+        <span class="doccomment">/// The description of the ticket in the ticket system.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+        <span class="doccomment">/// The link to the ticket in the ticket system.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
+        <span class="doccomment">/// The latest status of the ticket, as reported by the ticket system.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>status: ::prost::alloc::string::String,
+        <span class="doccomment">/// The time when the ticket was last updated, as reported by the ticket
+        /// system.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+        </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    }
+}
+<span class="doccomment">/// File information about the related binary/library used by an executable, or
+/// the script used by a script interpreter
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>File {
+    <span class="doccomment">/// Absolute path of the file as a JSON encoded string.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>path: ::prost::alloc::string::String,
+    <span class="doccomment">/// Size of the file in bytes.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>size: i64,
+    <span class="doccomment">/// SHA256 hash of the first hashed_size bytes of the file encoded as a
+    /// hex string.  If hashed_size == size, sha256 represents the SHA256 hash
+    /// of the entire file.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>sha256: ::prost::alloc::string::String,
+    <span class="doccomment">/// The length in bytes of the file prefix that was hashed.  If
+    /// hashed_size == size, any hashes reported represent the entire
+    /// file.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>hashed_size: i64,
+    <span class="doccomment">/// True when the hash covers only a prefix of the file.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>partially_hashed: bool,
+    <span class="doccomment">/// Prefix of the file contents as a JSON-encoded string.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>contents: ::prost::alloc::string::String,
+    <span class="doccomment">/// Path of the file in terms of underlying disk/partition identifiers.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>disk_path: ::core::option::Option&lt;file::DiskPath&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `File`.
+</span><span class="kw">pub mod </span>file {
+    <span class="doccomment">/// Path of the file in terms of underlying disk/partition identifiers.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>DiskPath {
+        <span class="doccomment">/// UUID of the partition (format
+        /// &lt;https://wiki.archlinux.org/title/persistent_block_device_naming#by-uuid&gt;)
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>partition_uuid: ::prost::alloc::string::String,
+        <span class="doccomment">/// Relative path of the file in the partition as a JSON encoded string.
+        /// Example: /home/user1/executable_file.sh
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>relative_path: ::prost::alloc::string::String,
     }
 }
 <span class="doccomment">/// Contains information related to the load balancer associated with the
@@ -7661,16 +7784,6 @@
             }
         }
     }
-}
-<span class="doccomment">/// Contains information about the org policies associated with the finding.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OrgPolicy {
-    <span class="doccomment">/// The resource name of the org policy.
-    /// Example:
-    /// "organizations/{organization_id}/policies/{constraint_name}"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Represents an operating system process.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -8939,117 +9052,6 @@
         </span>Finding(<span class="kw">super</span>::Finding),
     }
 }
-<span class="doccomment">/// Cloud Security Command Center (Cloud SCC) notification configs.
-///
-/// A notification config is a Cloud SCC resource that contains the configuration
-/// to send notifications for create/update events of findings, assets and etc.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>NotificationConfig {
-    <span class="doccomment">/// The relative resource name of this notification config. See:
-    /// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;
-    /// The following list shows some examples:
-    /// +
-    /// `organizations/{organization_id}/locations/{location_id}/notificationConfigs/notify_public_bucket`
-    /// +
-    /// `folders/{folder_id}/locations/{location_id}/notificationConfigs/notify_public_bucket`
-    /// +
-    /// `projects/{project_id}/locations/{location_id}/notificationConfigs/notify_public_bucket`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The description of the notification config (max of 1024 characters).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// The Pub/Sub topic to send notifications to. Its format is
-    /// "projects/\[project_id\]/topics/\[topic\]".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>pubsub_topic: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The service account that needs "pubsub.topics.publish"
-    /// permission to publish to the Pub/Sub topic.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>service_account: ::prost::alloc::string::String,
-    <span class="doccomment">/// The config for triggering notifications.
-    </span><span class="attr">#[prost(oneof = <span class="string">"notification_config::NotifyConfig"</span>, tags = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>notify_config: ::core::option::Option&lt;notification_config::NotifyConfig&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `NotificationConfig`.
-</span><span class="kw">pub mod </span>notification_config {
-    <span class="doccomment">/// The config for streaming-based notifications, which send each event as soon
-    /// as it is detected.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>StreamingConfig {
-        <span class="doccomment">/// Expression that defines the filter to apply across create/update events
-        /// of assets or findings as specified by the event type. The expression is a
-        /// list of zero or more restrictions combined via logical operators `AND`
-        /// and `OR`. Parentheses are supported, and `OR` has higher precedence than
-        /// `AND`.
-        ///
-        /// Restrictions have the form `&lt;field&gt; &lt;operator&gt; &lt;value&gt;` and may have a
-        /// `-` character in front of them to indicate negation. The fields map to
-        /// those defined in the corresponding resource.
-        ///
-        /// The supported operators are:
-        ///
-        /// * `=` for all value types.
-        /// * `&gt;`, `&lt;`, `&gt;=`, `&lt;=` for integer values.
-        /// * `:`, meaning substring matching, for strings.
-        ///
-        /// The supported value types are:
-        ///
-        /// * string literals in quotes.
-        /// * integer literals without quotes.
-        /// * boolean literals `true` and `false` without quotes.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// The config for triggering notifications.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>NotifyConfig {
-        <span class="doccomment">/// The config for triggering streaming-based notifications.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>StreamingConfig(StreamingConfig),
-    }
-}
-<span class="doccomment">/// Security Command Center finding source. A finding source
-/// is an entity or a mechanism that can produce a finding. A source is like a
-/// container of findings that come from the same scanner, logger, monitor, and
-/// other tools.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Source {
-    <span class="doccomment">/// The relative resource name of this source. See:
-    /// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;
-    /// Example:
-    /// "organizations/{organization_id}/sources/{source_id}"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The source's display name.
-    /// A source's display name must be unique amongst its siblings, for example,
-    /// two sources with the same parent can't share the same display name.
-    /// The display name must have a length between 1 and 64 characters
-    /// (inclusive).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The description of the source (max of 1024 characters).
-    /// Example:
-    /// "Web Security Scanner is a web security scanner for common
-    /// vulnerabilities in App Engine applications. It can automatically
-    /// scan and detect four common vulnerabilities, including cross-site-scripting
-    /// (XSS), Flash injection, mixed content (HTTP in HTTPS), and
-    /// outdated or insecure libraries."
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// The canonical name of the finding source. It's either
-    /// "organizations/{organization_id}/sources/{source_id}",
-    /// "folders/{folder_id}/sources/{source_id}", or
-    /// "projects/{project_number}/sources/{source_id}",
-    /// depending on the closest CRM ancestor of the resource associated with the
-    /// finding.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>canonical_name: ::prost::alloc::string::String,
-}
 <span class="doccomment">/// A path that an attacker could take to reach an exposed resource.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -9376,6 +9378,79 @@
         }
     }
 }
+<span class="doccomment">/// Cloud Security Command Center (Cloud SCC) notification configs.
+///
+/// A notification config is a Cloud SCC resource that contains the configuration
+/// to send notifications for create/update events of findings, assets and etc.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>NotificationConfig {
+    <span class="doccomment">/// The relative resource name of this notification config. See:
+    /// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;
+    /// The following list shows some examples:
+    /// +
+    /// `organizations/{organization_id}/locations/{location_id}/notificationConfigs/notify_public_bucket`
+    /// +
+    /// `folders/{folder_id}/locations/{location_id}/notificationConfigs/notify_public_bucket`
+    /// +
+    /// `projects/{project_id}/locations/{location_id}/notificationConfigs/notify_public_bucket`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The description of the notification config (max of 1024 characters).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// The Pub/Sub topic to send notifications to. Its format is
+    /// "projects/\[project_id\]/topics/\[topic\]".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>pubsub_topic: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The service account that needs "pubsub.topics.publish"
+    /// permission to publish to the Pub/Sub topic.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>service_account: ::prost::alloc::string::String,
+    <span class="doccomment">/// The config for triggering notifications.
+    </span><span class="attr">#[prost(oneof = <span class="string">"notification_config::NotifyConfig"</span>, tags = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>notify_config: ::core::option::Option&lt;notification_config::NotifyConfig&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `NotificationConfig`.
+</span><span class="kw">pub mod </span>notification_config {
+    <span class="doccomment">/// The config for streaming-based notifications, which send each event as soon
+    /// as it is detected.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>StreamingConfig {
+        <span class="doccomment">/// Expression that defines the filter to apply across create/update events
+        /// of assets or findings as specified by the event type. The expression is a
+        /// list of zero or more restrictions combined via logical operators `AND`
+        /// and `OR`. Parentheses are supported, and `OR` has higher precedence than
+        /// `AND`.
+        ///
+        /// Restrictions have the form `&lt;field&gt; &lt;operator&gt; &lt;value&gt;` and may have a
+        /// `-` character in front of them to indicate negation. The fields map to
+        /// those defined in the corresponding resource.
+        ///
+        /// The supported operators are:
+        ///
+        /// * `=` for all value types.
+        /// * `&gt;`, `&lt;`, `&gt;=`, `&lt;=` for integer values.
+        /// * `:`, meaning substring matching, for strings.
+        ///
+        /// The supported value types are:
+        ///
+        /// * string literals in quotes.
+        /// * integer literals without quotes.
+        /// * boolean literals `true` and `false` without quotes.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// The config for triggering notifications.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>NotifyConfig {
+        <span class="doccomment">/// The config for triggering streaming-based notifications.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>StreamingConfig(StreamingConfig),
+    }
+}
 <span class="doccomment">/// A resource value config (RVC) is a mapping configuration of user's resources
 /// to resource values. Used in Attack path simulations.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -9492,118 +9567,43 @@
         }
     }
 }
-<span class="doccomment">/// A resource that is determined to have value to a user's system
+<span class="doccomment">/// Security Command Center finding source. A finding source
+/// is an entity or a mechanism that can produce a finding. A source is like a
+/// container of findings that come from the same scanner, logger, monitor, and
+/// other tools.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ValuedResource {
-    <span class="doccomment">/// Valued resource name, for example,
-    ///   e.g.:
-    ///   `organizations/123/simulations/456/valuedResources/789`
+</span><span class="kw">pub struct </span>Source {
+    <span class="doccomment">/// The relative resource name of this source. See:
+    /// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;
+    /// Example:
+    /// "organizations/{organization_id}/sources/{source_id}"
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The
-    /// [full resource
-    /// name](&lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;)
-    /// of the valued resource.
+    <span class="doccomment">/// The source's display name.
+    /// A source's display name must be unique amongst its siblings, for example,
+    /// two sources with the same parent can't share the same display name.
+    /// The display name must have a length between 1 and 64 characters
+    /// (inclusive).
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>resource: ::prost::alloc::string::String,
-    <span class="doccomment">/// The [resource
-    /// type](&lt;https://cloud.google.com/asset-inventory/docs/supported-asset-types&gt;)
-    /// of the valued resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>resource_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Human-readable name of the valued resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// How valuable this resource is.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"valued_resource::ResourceValue"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>resource_value: i32,
-    <span class="doccomment">/// Exposed score for this valued resource. A value of 0 means no exposure was
-    /// detected exposure.
-    </span><span class="attr">#[prost(double, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>exposed_score: f64,
-    <span class="doccomment">/// List of resource value configurations' metadata used to determine the value
-    /// of this resource. Maximum of 100.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>resource_value_configs_used: ::prost::alloc::vec::Vec&lt;
-        ResourceValueConfigMetadata,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ValuedResource`.
-</span><span class="kw">pub mod </span>valued_resource {
-    <span class="doccomment">/// How valuable the resource is.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ResourceValue {
-        <span class="doccomment">/// The resource value isn't specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// This is a low-value resource.
-        </span>Low = <span class="number">1</span>,
-        <span class="doccomment">/// This is a medium-value resource.
-        </span>Medium = <span class="number">2</span>,
-        <span class="doccomment">/// This is a high-value resource.
-        </span>High = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>ResourceValue {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ResourceValue::Unspecified =&gt; <span class="string">"RESOURCE_VALUE_UNSPECIFIED"</span>,
-                ResourceValue::Low =&gt; <span class="string">"RESOURCE_VALUE_LOW"</span>,
-                ResourceValue::Medium =&gt; <span class="string">"RESOURCE_VALUE_MEDIUM"</span>,
-                ResourceValue::High =&gt; <span class="string">"RESOURCE_VALUE_HIGH"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"RESOURCE_VALUE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"RESOURCE_VALUE_LOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Low),
-                <span class="string">"RESOURCE_VALUE_MEDIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Medium),
-                <span class="string">"RESOURCE_VALUE_HIGH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Metadata about a ResourceValueConfig. For example, id and name.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ResourceValueConfigMetadata {
-    <span class="doccomment">/// Resource value config name
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Attack path simulation
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Simulation {
-    <span class="doccomment">/// Full resource name of the Simulation:
-    /// organizations/123/simulations/456
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Time simulation was created
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Resource value configurations' metadata used in this simulation. Maximum of
-    /// 100.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>resource_value_configs_metadata: ::prost::alloc::vec::Vec&lt;
-        ResourceValueConfigMetadata,
-    &gt;,
+    <span class="doccomment">/// The description of the source (max of 1024 characters).
+    /// Example:
+    /// "Web Security Scanner is a web security scanner for common
+    /// vulnerabilities in App Engine applications. It can automatically
+    /// scan and detect four common vulnerabilities, including cross-site-scripting
+    /// (XSS), Flash injection, mixed content (HTTP in HTTPS), and
+    /// outdated or insecure libraries."
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// The canonical name of the finding source. It's either
+    /// "organizations/{organization_id}/sources/{source_id}",
+    /// "folders/{folder_id}/sources/{source_id}", or
+    /// "projects/{project_number}/sources/{source_id}",
+    /// depending on the closest CRM ancestor of the resource associated with the
+    /// finding.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>canonical_name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Request message to create multiple resource value configs
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
